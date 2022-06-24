@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
+const plugin = require('tailwindcss/plugin') /* eslint-disable-line */
+
 const defaultTheme = require('tailwindcss/defaultTheme'); /* eslint-disable-line */
 
 module.exports = {
@@ -26,8 +28,28 @@ module.exports = {
         primaryVariant: '#3700B3',
         secondary: '#dbdbdb',
         secondaryVariant: '#a8a8a8',
+        complementaryVariant: '#1e1e1e',
+        complementary2: '#373737',
+        complementary3: '#222222',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.no-scroll': {
+          /* IE and Edge */
+          '-ms-overflow-style': 'none',
+
+          /* Firefox */
+          'scrollbar-width': 'none',
+
+          /* Safari and Chrome */
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      });
+    }),
+  ],
 };
