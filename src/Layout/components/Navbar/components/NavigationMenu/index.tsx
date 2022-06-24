@@ -9,7 +9,7 @@ import { IoIosJournal } from 'react-icons/io';
 import MenuLink from './components/MenuLink';
 
 const NavigationMenu: React.FC = () => (
-  <div className="absolute w-full bg-inherit">
+  <div className="absolute w-full bg-inherit z-50">
     <ul className="p-4">
       <MenuLink href="/" text="Films" icon={BsFillCollectionFill} />
       <MenuLink href="/" text="Lists" icon={FaListUl} />
