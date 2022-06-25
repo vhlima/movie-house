@@ -36,7 +36,7 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
   );
 
   return (
-    <div className="w-full bg-complementary3">
+    <div className="w-full">
       <div className="flex flex-col gap-2 p-3">
         {!link ? (
           <div className={headContainerStyles}>{head}</div>
