@@ -4,18 +4,22 @@ import clsx from 'clsx';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
+  background?: boolean;
+  rounded?: boolean;
 }
 
 const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   className,
   children,
+  rounded = true,
+  background = true,
   ...buttonProps
 }) => (
   <button
-    className={clsx(
-      'w-full bg-primary text-complementary rounded-sm p-1',
-      className,
-    )}
+    className={clsx('w-full text-complementary p-1', className, {
+      'bg-primary': background,
+      'rounded-sm': rounded,
+    })}
     type="button"
     {...buttonProps}
   >
