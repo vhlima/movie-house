@@ -10,7 +10,11 @@ import MovieCarousel from '../components/MovieCarousel';
 
 const Home: NextPage = () => (
   <Layout>
-    <Card title="Top choices" description="Movies we think you might like">
+    <Card
+      link={{ href: '/what-to-watch/fan-favorites' }}
+      title="Top choices"
+      description="Movies we think you might like"
+    >
       <MovieCarousel movies={movieList} />
     </Card>
   </Layout>
