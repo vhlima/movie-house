@@ -6,11 +6,11 @@ import { AiFillStar } from 'react-icons/ai';
 
 import { FiX } from 'react-icons/fi';
 
-import { MovieProps } from '../../hooks/useMovie';
+import { MovieProps } from '../../../../hooks/useMovie';
 
-import Modal from '../Modal';
+import Modal from '../../../Modal';
 
-import Button from '../Button';
+import Button from '../../../Button';
 
 import Stars from './components/Stars';
 
