@@ -43,7 +43,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
         </button>
       </div>
 
-      <Link href="/" className="py-2 hover:underline">
+      <Link
+        href={{
+          pathname: '/movies/[movieId]',
+          query: { movieId: movie.id },
+        }}
+        className="py-2 hover:underline"
+      >
         {movie.name}
       </Link>
 
