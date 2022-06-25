@@ -6,11 +6,11 @@ import { AiOutlinePlus, AiOutlineStar, AiFillStar } from 'react-icons/ai';
 
 import Image from 'next/image';
 
-import { MovieProps } from '../../hooks/useMovie';
+import { MovieProps } from '../../../../hooks/useMovie';
 
-import Link from '../Link';
+import Link from '../../../Link';
 
-import Button from '../Button';
+import Button from '../../../Button';
 
 interface MovieCardProps {
   movie: MovieProps;
@@ -23,7 +23,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
       <Image layout="fill" objectFit="cover" src={movie.coverUrl} />
     </div>
 
-    <div className="flex flex-col flex-grow gap-2 p-2 rounded-b-md bg-complementaryVariant text-secondary">
+    <div className="flex flex-col flex-grow p-2 rounded-b-md bg-complementaryVariant text-secondary">
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
           <AiFillStar className="text-yellow-500" size={20} />
@@ -48,16 +48,24 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
       </Link>
 
       <div className="flex flex-col gap-2 mt-auto">
-        <Button className="flex items-center gap-1 w-full">
-          <AiOutlinePlus size={20} />
+        <Button
+          className="flex items-center gap-2 w-full rounded-md hover:bg-complementary2"
+          background={false}
+          rounded={false}
+        >
+          <AiOutlinePlus className="text-secondaryVariant" size={20} />
 
-          <span>Watchlist</span>
+          <span className="text-secondary font-semibold">Add to watchlist</span>
         </Button>
 
-        <Button className="flex items-center gap-1 w-full">
-          <FaPlay size={20} />
+        <Button
+          className="flex items-center gap-2 w-full rounded-md hover:bg-complementary2"
+          background={false}
+          rounded={false}
+        >
+          <FaPlay className="text-secondaryVariant" size={18} />
 
-          <span>Trailer</span>
+          <span className="text-secondary font-semibold">Trailer</span>
         </Button>
       </div>
     </div>
