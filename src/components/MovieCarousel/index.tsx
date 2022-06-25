@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
+import { AnimatePresence } from 'framer-motion';
+
 import { MovieProps } from '../../hooks/useMovie';
 
 import Carousel from '../Carousel';
 
-import MovieCard from './components/MovieCard';
+import MovieCard from '../MovieCard';
 
-import MovieRatingModal from './components/MovieRatingModal';
+import MovieRatingModal from '../MovieRatingModal';
 
 interface MovieCarouselProps {
   movies: MovieProps[];
@@ -17,12 +19,14 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
 
   return (
     <>
-      {ratingMovie && (
-        <MovieRatingModal
-          movie={ratingMovie}
-          onClose={() => setRatingMovie(undefined)}
-        />
-      )}
+      <AnimatePresence>
+        {ratingMovie && (
+          <MovieRatingModal
+            movie={ratingMovie}
+            onClose={() => setRatingMovie(undefined)}
+          />
+        )}
+      </AnimatePresence>
 
       <Carousel>
         {movies.map(movie => (

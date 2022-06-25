@@ -6,11 +6,11 @@ import { AiOutlinePlus, AiOutlineStar, AiFillStar } from 'react-icons/ai';
 
 import Image from 'next/image';
 
-import { MovieProps } from '../../../../hooks/useMovie';
+import { MovieProps } from '../../hooks/useMovie';
 
-import Link from '../../../Link';
+import Link from '../Link';
 
-import Button from '../../../Button';
+import Button from '../Button';
 
 interface MovieCardProps {
   movie: MovieProps;
