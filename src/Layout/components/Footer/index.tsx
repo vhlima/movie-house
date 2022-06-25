@@ -4,30 +4,44 @@ import { FaGithub } from 'react-icons/fa';
 
 import Link from '../../../components/Link';
 
-const Footer: React.FC = () => (
-  <div className="flex flex-col items-center gap-4 p-4 mt-auto bg-complementary text-secondary">
-    <div className="flex justify-center gap-2 font-semibold">
-      <Link href="/">About</Link>
-      <Link href="/">News</Link>
-      <Link href="/">Help</Link>
-      <Link href="/">Terms</Link>
-      <Link href="/">Contact</Link>
-    </div>
+const Footer: React.FC = () => {
+  const linkStyles = 'hover:text-primary';
 
-    <p className="text-center">
-      © Movie House 2022
-      <br />
-      Made by Victor Almeida
-      <br />
-      All film data comes from TMDb
-    </p>
+  return (
+    <footer className="flex flex-col items-center gap-4 p-4 mt-auto bg-complementary text-secondary">
+      <div className="flex justify-center gap-2 font-semibold">
+        <Link className={linkStyles} href="/">
+          About
+        </Link>
+        <Link className={linkStyles} href="/">
+          News
+        </Link>
+        <Link className={linkStyles} href="/">
+          Help
+        </Link>
+        <Link className={linkStyles} href="/">
+          Terms
+        </Link>
+        <Link className={linkStyles} href="/">
+          Contact
+        </Link>
+      </div>
 
-    <div>
-      <Link href="https://github.com/vhlima">
-        <FaGithub size={28} />
-      </Link>
-    </div>
-  </div>
-);
+      <p className="text-center">
+        © Movie House 2022
+        <br />
+        Made by Victor Almeida
+        <br />
+        All film data comes from TMDb
+      </p>
+
+      <div>
+        <Link className="hover:text-primary" href="https://github.com/vhlima">
+          <FaGithub size={28} />
+        </Link>
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;

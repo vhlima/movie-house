@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
         <AuthenticationModal onSubmit={() => setAuthModalOpen(false)} />
       )}
 
-      <div className="relative bg-complementary text-primary">
+      <nav className="relative bg-complementary text-primary">
         <div className="flex items-center gap-2 p-4">
           <Link className="flex items-center gap-2 select-none" href="/">
             <BsHouse size={22} strokeWidth={1} />
@@ -71,7 +71,7 @@ const Navbar: React.FC = () => {
         {isMenuOpen && <NavigationMenu />}
 
         {isSearchBarOpen && <SearchBar />}
-      </div>
+      </nav>
     </>
   );
 };

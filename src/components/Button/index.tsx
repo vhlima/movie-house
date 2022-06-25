@@ -12,7 +12,10 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   ...buttonProps
 }) => (
   <button
-    className={clsx('bg-primary text-complementary rounded-sm p-1', className)}
+    className={clsx(
+      'w-full bg-primary text-complementary rounded-sm p-1',
+      className,
+    )}
     type="button"
     {...buttonProps}
   >
