@@ -40,7 +40,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
           <div className="flex gap-1">
             <span className="text-gray-200">Forgot your password?</span>
 
-            <span className="text-movieHouse-dark cursor-pointer">
+            <span className="text-movieHouse-mid cursor-pointer">
               Reset here
             </span>
           </div>
@@ -48,7 +48,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
           <div className="flex gap-1">
             <span className="text-gray-200">Dont have an account?</span>
 
-            <span className="text-movieHouse-dark cursor-pointer">
+            <span className="text-movieHouse-mid cursor-pointer">
               Register now
             </span>
           </div>
