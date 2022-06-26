@@ -7,7 +7,7 @@ type ButtonStyleType = 'primary' | 'secondary' | 'tertiary' | 'danger';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   buttonStyle?: ButtonStyleType;
-  buttonSize?: 'lg' | 'md' | 'sm' | 'xsm';
+  buttonSize?: 'lg' | 'md' | 'sm' | 'xs';
   full?: boolean;
 }
 
@@ -65,7 +65,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
           'p-3': buttonSize === 'lg',
           'p-2': buttonSize === 'md',
           'px-1 py-2': buttonSize === 'sm',
-          'p-0.5': buttonSize === 'xsm',
+          'p-0.5': buttonSize === 'xs',
         },
       )}
       type="button"
