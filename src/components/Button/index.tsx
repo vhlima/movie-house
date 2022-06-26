@@ -16,8 +16,8 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   ...buttonProps
 }) => (
   <button
-    className={clsx('w-full text-grey-200 p-1', className, {
-      'bg-primary': background,
+    className={clsx('w-full text-white p-1', className, {
+      'bg-movieHouse-dark': background,
       'rounded-sm': rounded,
     })}
     type="button"
