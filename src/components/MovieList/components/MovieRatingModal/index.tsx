@@ -13,6 +13,7 @@ import Modal from '../../../Modal';
 import Button from '../../../Button';
 
 import Stars from './components/Stars';
+import Backdrop from '../../../Backdrop';
 
 interface MovieRatingModalProps {
   movie: MovieProps;
@@ -24,6 +25,10 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
   onClose,
 }) => {
   const [userRating, setUserRating] = useState<number>(0);
+
+  const handleSubmit = () => {
+    onClose();
+  };
 
   const modalAnimation: MotionProps = useMemo(
     () => ({
@@ -51,9 +56,10 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
 
   return (
     <Modal portalId="modalPortal">
-      <div className="flex absolute w-screen h-screen bg-black bg-opacity-50 z-50">
+      <Backdrop onClick={onClose}>
         <motion.div
-          className="relative w-full mt-auto rounded-t-md bg-grey-800"
+          className="absolute bottom-0 w-full rounded-t-md bg-grey-800 z-50"
+          onClick={e => e.stopPropagation()}
           {...modalAnimation}
         >
           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
@@ -84,10 +90,12 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
               onChange={rating => setUserRating(rating)}
             />
 
-            <Button disabled={userRating === 0}>Rate</Button>
+            <Button disabled={userRating === 0} onClick={handleSubmit}>
+              Rate
+            </Button>
           </div>
         </motion.div>
-      </div>
+      </Backdrop>
     </Modal>
   );
 };
