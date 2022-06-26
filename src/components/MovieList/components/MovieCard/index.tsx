@@ -54,24 +54,16 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
       </Link>
 
       <div className="flex flex-col gap-2 mt-auto">
-        <Button
-          className="flex items-center gap-2 w-full rounded-md hover:bg-grey-600"
-          background={false}
-          rounded={false}
-        >
+        <Button buttonStyle="secondary" className="gap-2">
           <AiOutlinePlus className="text-grey-500" size={20} />
 
-          <span className="text-grey-200 font-semibold">Add to watchlist</span>
+          <span>Add to watchlist</span>
         </Button>
 
-        <Button
-          className="flex items-center gap-2 w-full rounded-md hover:bg-grey-600"
-          background={false}
-          rounded={false}
-        >
+        <Button buttonStyle="tertiary" className="gap-2">
           <FaPlay className="text-grey-500" size={18} />
 
-          <span className="text-grey-200 font-semibold">Trailer</span>
+          <span>Trailer</span>
         </Button>
       </div>
     </div>
