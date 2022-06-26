@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { AnimatePresence } from 'framer-motion';
+
 import { FaSearch, FaUserAlt } from 'react-icons/fa';
 
 import { BsHouse } from 'react-icons/bs';
@@ -74,7 +76,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {isMenuOpen && <NavigationMenu />}
+        <AnimatePresence>{isMenuOpen && <NavigationMenu />}</AnimatePresence>
 
         {isSearchBarOpen && <SearchBar />}
       </nav>
