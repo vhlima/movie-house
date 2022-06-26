@@ -1,3 +1,5 @@
+import { ActorProps } from '../data/fakeData';
+
 export interface MovieCategory {
   id: string;
   name: string;
@@ -27,10 +29,7 @@ export interface MovieProps {
     year: string;
   };
   categories: MovieCategory[];
-  cast: Array<{
-    id: string;
-    role: string;
-  }>;
+  cast: Array<ActorProps & { role: string }>;
 }
 
 interface MovieHookProps {

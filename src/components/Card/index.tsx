@@ -1,19 +1,25 @@
 import React, { PropsWithChildren } from 'react';
 
+import clsx from 'clsx';
+
 import { FaChevronRight } from 'react-icons/fa';
 
 import Link, { LinkProps } from '../Link';
 
 interface CardProps {
+  className?: string;
   title: string;
   description?: string;
   link?: LinkProps;
+  noPadding?: boolean;
 }
 
 const Card: React.FC<PropsWithChildren<CardProps>> = ({
+  className,
   title,
   description,
   link,
+  noPadding,
   children,
 }) => {
   const headContainerStyles = 'group';
@@ -25,10 +31,12 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
 
         <h1 className="font-bold text-xl">{title}</h1>
 
-        <FaChevronRight
-          className="group-hover:text-movieHouse-dark"
-          size={20}
-        />
+        {link && (
+          <FaChevronRight
+            className="group-hover:text-movieHouse-dark"
+            size={20}
+          />
+        )}
       </div>
 
       {description && <p className="text-grey-300">{description}</p>}
@@ -36,8 +44,8 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
   );
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col gap-2 p-3">
+    <div className={clsx('w-full', className)}>
+      <div className={clsx('flex flex-col gap-2', { 'p-3': !noPadding })}>
         {!link ? (
           <div className={headContainerStyles}>{head}</div>
         ) : (
