@@ -6,8 +6,6 @@ import React, {
   useEffect,
 } from 'react';
 
-import clsx from 'clsx';
-
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 interface CarouselProps {
@@ -61,9 +59,6 @@ const Carousel: React.FC<PropsWithChildren> = ({ children }) => {
     fetchCarouselProps();
   }, [fetchCarouselProps]);
 
-  const buttonStyles =
-    'absolute top-1/2 -translate-y-1/2 py-4 px-2 group border border-white bg-opacity-40 bg-black rounded-md z-50';
-
   return (
     <div className="relative w-full">
       <div
@@ -72,28 +67,29 @@ const Carousel: React.FC<PropsWithChildren> = ({ children }) => {
       >
         {children}
 
-        {/* <div className="absolute top-1/3 transform translate-y-1/2 flex justify-between max-w-full w-full"> */}
-        <button
-          className={clsx(buttonStyles, 'left-0')}
-          type="button"
-          onClick={handleLeft}
-        >
-          <FaChevronLeft
-            className="text-white group-hover:text-yellow-500"
-            size={24}
-          />
-        </button>
+        <div className="absolute top-1/3 transform translate-y-1/2 flex justify-between max-w-full w-full">
+          <button
+            className="translate-x-3 py-4 px-2 group border border-white bg-opacity-40 bg-black rounded-md z-50"
+            type="button"
+            onClick={handleLeft}
+          >
+            <FaChevronLeft
+              className="text-white group-hover:text-yellow-500"
+              size={24}
+            />
+          </button>
 
-        <button
-          className={clsx(buttonStyles, 'right-0')}
-          type="button"
-          onClick={handleRight}
-        >
-          <FaChevronRight
-            className="text-white group-hover:text-yellow-500"
-            size={24}
-          />
-        </button>
+          <button
+            className="-translate-x-3 py-4 px-2 group border border-white bg-opacity-40 bg-black rounded-md z-50"
+            type="button"
+            onClick={handleRight}
+          >
+            <FaChevronRight
+              className="text-white group-hover:text-yellow-500"
+              size={24}
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

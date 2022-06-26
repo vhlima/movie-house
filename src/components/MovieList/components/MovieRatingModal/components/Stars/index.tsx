@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import Star from '../../../../../Star';
 
 interface StarsProps {
   userRating: number;
@@ -12,6 +11,8 @@ const Stars: React.FC<StarsProps> = ({ userRating, onChange }) => {
   const [starsRating, setStarsRating] = useState<number>(0);
 
   const [isHoveringStars, setHoveringStars] = useState<boolean>(false);
+
+  const iconSize = 24;
 
   const handleMouseEnter = (rating: number) => {
     setStarsRating(rating);
@@ -39,7 +40,11 @@ const Stars: React.FC<StarsProps> = ({ userRating, onChange }) => {
             onMouseEnter={() => handleMouseEnter(st)}
             onMouseLeave={handleMouseLeave}
           >
-            <Star isChecked={isChecked} />
+            {!isChecked ? (
+              <AiOutlineStar className="text-grey-300" size={iconSize} />
+            ) : (
+              <AiFillStar className="text-blue-500" size={iconSize} />
+            )}
           </button>
         );
       })}

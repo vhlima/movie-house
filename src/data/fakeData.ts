@@ -2,7 +2,7 @@ import { MovieCategory, MovieCrewProps, MovieProps } from '../hooks/useMovie';
 
 /* eslint-disable import/prefer-default-export */
 
-export interface ActorProps {
+interface ActorProps {
   id: string;
   name: string;
   photoUrl: string;
@@ -20,10 +20,6 @@ const movieCategories: MovieCategory[] = [
   {
     id: '19210e59-71e9-4a7c-a5fe-4274bb8cbe91',
     name: 'Fantasy',
-  },
-  {
-    id: 'sci-fi',
-    name: 'Sci-Fi',
   },
 ];
 
@@ -78,18 +74,6 @@ export const actorList: ActorProps[] = [
   },
 ];
 
-const movieActorRole = [
-  'Stephen Strange / Doctor Strange',
-  'Karl Mordo',
-  'Dr. Christine Palmer',
-  'Wong',
-  'Kaecilius',
-  'The Ancient One',
-  'Dr. Nicodemus West',
-  'Jonathan Pangborn',
-  'Lucian / Strong Zealot',
-];
-
 const copyPasta = {
   duration: '1h 55m',
   backgroundUrl:
@@ -103,10 +87,7 @@ const copyPasta = {
     year: '2016',
   },
   categories: movieCategories,
-  cast: actorList.map((actor, index) => ({
-    role: movieActorRole[index],
-    ...actor,
-  })),
+  cast: actorList.map(actor => ({ id: actor.id, role: actor.name })),
   crew: [
     {
       id: '576f60b3-c5c2-4b23-b52c-d03dc29342c1',

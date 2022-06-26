@@ -2,9 +2,7 @@ import React from 'react';
 
 import { FaPlay } from 'react-icons/fa';
 
-import { BsPlusLg } from 'react-icons/bs';
-
-import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import { AiOutlinePlus, AiOutlineStar, AiFillStar } from 'react-icons/ai';
 
 import Image from 'next/image';
 
@@ -57,7 +55,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
 
       <div className="flex flex-col gap-2 mt-auto">
         <Button buttonStyle="secondary" className="gap-2">
-          <BsPlusLg className="text-grey-500" size={18} />
+          <AiOutlinePlus className="text-grey-500" size={20} />
 
           <span>Add to watchlist</span>
         </Button>
