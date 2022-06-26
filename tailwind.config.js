@@ -21,18 +21,53 @@ module.exports = {
       },
       colors: {
         ...defaultTheme.colors,
-        background: '#121212',
-        surface: '#121212',
-        complementary: '#000',
-        primary: '#BB86FC',
-        primaryVariant: '#3700B3',
-        secondary: '#cfcfcf',
-        secondaryVariant: '#a8a8a8',
-        complementaryVariant: '#1e1e1e',
-        complementary2: '#373737',
-        complementary3: '#222222',
-        complementary4: '#545354',
-        complementary5: '#848484',
+        movieHouse: {
+          light: '#996DFF',
+          mid: '#8257E5',
+          dark: '#633BBC',
+        },
+        error: {
+          light: '#FC4737',
+          mid: '#D73628',
+          dark: '#AD1E12',
+          low: '#42110D',
+        },
+        success: {
+          light: '#04D361',
+          base: '#1B873F',
+          low: '#051B0D',
+        },
+        danger: {
+          light: '#F75A68',
+          base: '#CC2937',
+          low: '#2D090C',
+        },
+        warning: {
+          light: '#FBA94C',
+          base: '#EB8A1D',
+          low: '#2E1B06',
+        },
+        grey: {
+          /* Text Title */
+          100: '#E1E1E6',
+          /* Text Base */
+          200: '#C4C4CC',
+          /* Text Support */
+          300: '#8D8D99',
+          /* Placeholder */
+          400: '#7C7C8A',
+          /* Input Icons */
+          500: '#505059',
+          /* Shape Tertiary */
+          600: '#323238',
+          /* Shape Secondary */
+          700: '#29292E',
+          /* Shape Primary */
+          800: '#202024',
+          /* Background */
+          900: '#121214',
+          950: '#09090A',
+        },
       },
     },
   },
