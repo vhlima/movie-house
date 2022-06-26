@@ -23,16 +23,16 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
       <Image layout="fill" objectFit="cover" src={movie.coverUrl} />
     </div>
 
-    <div className="flex flex-col flex-grow p-2 rounded-b-md bg-complementaryVariant text-secondary">
+    <div className="flex flex-col flex-grow p-2 rounded-b-md bg-grey-800 text-grey-200">
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
           <AiFillStar className="text-yellow-500" size={20} />
 
-          <span className="text-secondary">{movie.rating}</span>
+          <span>{movie.rating}</span>
         </div>
 
         <button
-          className="p-2 rounded-md group hover:bg-complementary2"
+          className="p-2 rounded-md group hover:bg-grey-600"
           type="button"
           onClick={openRatingModal}
         >
@@ -55,23 +55,23 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
 
       <div className="flex flex-col gap-2 mt-auto">
         <Button
-          className="flex items-center gap-2 w-full rounded-md hover:bg-complementary2"
+          className="flex items-center gap-2 w-full rounded-md hover:bg-grey-600"
           background={false}
           rounded={false}
         >
-          <AiOutlinePlus className="text-secondaryVariant" size={20} />
+          <AiOutlinePlus className="text-grey-500" size={20} />
 
-          <span className="text-secondary font-semibold">Add to watchlist</span>
+          <span className="text-grey-200 font-semibold">Add to watchlist</span>
         </Button>
 
         <Button
-          className="flex items-center gap-2 w-full rounded-md hover:bg-complementary2"
+          className="flex items-center gap-2 w-full rounded-md hover:bg-grey-600"
           background={false}
           rounded={false}
         >
-          <FaPlay className="text-secondaryVariant" size={18} />
+          <FaPlay className="text-grey-500" size={18} />
 
-          <span className="text-secondary font-semibold">Trailer</span>
+          <span className="text-grey-200 font-semibold">Trailer</span>
         </Button>
       </div>
     </div>

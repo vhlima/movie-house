@@ -28,18 +28,18 @@ const Movie: NextPage = () => {
       <div className="w-full h-44 absolute z-0">
         <Image layout="fill" objectFit="fill" src={movie.backgroundUrl} />
 
-        <div className="absolute bottom-0 h-20 w-full z-10 bg-gradient-to-b from-complementary3 rotate-180" />
+        <div className="absolute bottom-0 h-20 w-full z-10 bg-gradient-to-t from-grey-900" />
       </div>
 
       <div className="p-3 mt-32">
         <div className="flex gap-4">
           <div className="flex flex-col gap-2 z-10">
-            <h1 className="text-secondary text-2xl font-semibold">
+            <h1 className="text-grey-200 text-2xl font-semibold">
               {movie.name}
             </h1>
 
             <div>
-              <div className="flex items-center gap-2 text-secondaryVariant">
+              <div className="flex items-center gap-2 text-grey-300">
                 <span className="text-sm">
                   {movie.releaseDate.day}/{movie.releaseDate.month}/
                   {movie.releaseDate.year}
@@ -50,12 +50,12 @@ const Movie: NextPage = () => {
                 <span className="text-sm uppercase">Directed by</span>
               </div>
 
-              <span className="text-secondary text-sm font-semibold">
+              <span className="text-grey-200 text-sm font-semibold">
                 {movie.crew.find(c => c.role.includes('Director'))?.name || ''}
               </span>
             </div>
 
-            <div className="flex gap-2 text-secondaryVariant mt-auto">
+            <div className="flex gap-2 text-grey-300 mt-auto">
               <button className="flex" type="button">
                 Watch trailer
               </button>
@@ -64,12 +64,12 @@ const Movie: NextPage = () => {
             </div>
           </div>
 
-          <div className="w-24 h-32 relative rounded-md border border-complementary2 overflow-hidden">
+          <div className="w-24 h-32 relative rounded-md border border-grey-600 overflow-hidden">
             <Image layout="fill" objectFit="fill" src={movie.coverUrl} />
           </div>
         </div>
 
-        <p className="text-secondaryVariant mt-4">{movie.spoiler}</p>
+        <p className="text-grey-300 mt-4">{movie.spoiler}</p>
       </div>
     </Layout>
   );

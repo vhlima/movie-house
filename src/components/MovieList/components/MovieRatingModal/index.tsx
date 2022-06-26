@@ -53,7 +53,7 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
     <Modal portalId="modalPortal">
       <div className="flex absolute w-screen h-screen bg-black bg-opacity-50 z-50">
         <motion.div
-          className="relative w-full mt-auto rounded-t-md bg-complementaryVariant"
+          className="relative w-full mt-auto rounded-t-md bg-grey-800"
           {...modalAnimation}
         >
           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
@@ -68,16 +68,16 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
             </span>
           </div>
 
-          <div className="flex flex-col items-center gap-4 p-4 mb-14">
+          <div className="flex flex-col items-center gap-4 p-4 mb-14 text-grey-200">
             <button className="ml-auto" type="button" onClick={onClose}>
-              <FiX className="text-secondary" size={28} />
+              <FiX size={28} />
             </button>
 
             <span className="text-yellow-500 text-sm font-semibold font-mono uppercase">
               Rate this
             </span>
 
-            <h1 className="text-secondary text-2xl">{movie.name}</h1>
+            <h1 className="text-2xl">{movie.name}</h1>
 
             <Stars
               userRating={userRating}

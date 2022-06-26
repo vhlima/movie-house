@@ -14,7 +14,7 @@ const FieldLabel: React.FC<PropsWithChildren<FieldLabelProps>> = ({
   htmlFor,
   children,
 }) => {
-  const labelStyles = 'text-secondary font-semibold';
+  const labelStyles = 'text-grey-200 font-semibold';
 
   return (
     <div className={clsx('flex flex-col gap-1', className)}>

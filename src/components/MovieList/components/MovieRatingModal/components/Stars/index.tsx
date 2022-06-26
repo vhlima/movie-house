@@ -41,10 +41,7 @@ const Stars: React.FC<StarsProps> = ({ userRating, onChange }) => {
             onMouseLeave={handleMouseLeave}
           >
             {!isChecked ? (
-              <AiOutlineStar
-                className="text-secondaryVariant"
-                size={iconSize}
-              />
+              <AiOutlineStar className="text-grey-300" size={iconSize} />
             ) : (
               <AiFillStar className="text-blue-500" size={iconSize} />
             )}

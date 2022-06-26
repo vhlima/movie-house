@@ -27,15 +27,21 @@ const Navbar: React.FC = () => {
         <AuthenticationModal onSubmit={() => setAuthModalOpen(false)} />
       )}
 
-      <nav className="relative bg-complementary text-primary">
+      <nav className="relative bg-grey-800">
         <div className="flex items-center gap-2 p-4">
           <Link className="flex items-center gap-2 select-none" href="/">
-            <BsHouse size={22} strokeWidth={1} />
+            <BsHouse
+              className="text-movieHouse-dark"
+              size={22}
+              strokeWidth={1}
+            />
 
-            <h1 className="font-mono font-semibold text-2xl">MovieHouse</h1>
+            <h1 className="text-grey-100 font-mono font-semibold text-2xl">
+              MovieHouse
+            </h1>
           </Link>
 
-          <div className="flex items-center ml-auto text-secondaryVariant">
+          <div className="flex items-center ml-auto text-grey-300">
             {!isLogged ? (
               <button
                 type="button"

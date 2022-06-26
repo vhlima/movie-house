@@ -20,18 +20,18 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
 
   const head = (
     <>
-      <div className="flex gap-2 items-center">
-        <span className="block w-1 h-6 rounded-lg bg-primary" />
+      <div className="flex gap-2 items-center text-grey-200">
+        <span className="block w-1 h-6 rounded-lg bg-movieHouse-dark" />
 
-        <h1 className="text-secondary font-bold text-xl">{title}</h1>
+        <h1 className="font-bold text-xl">{title}</h1>
 
         <FaChevronRight
-          className="text-secondary group-hover:text-primary"
+          className="group-hover:text-movieHouse-dark"
           size={20}
         />
       </div>
 
-      {description && <p className="text-secondaryVariant">{description}</p>}
+      {description && <p className="text-grey-300">{description}</p>}
     </>
   );
 
