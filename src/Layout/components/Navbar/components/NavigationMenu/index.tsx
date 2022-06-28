@@ -4,13 +4,17 @@ import { MotionProps, motion } from 'framer-motion';
 
 import { BsFillCollectionFill } from 'react-icons/bs';
 
-import { FaListUl, FaUsers } from 'react-icons/fa';
+import { FaListUl, FaRegUserCircle, FaUsers } from 'react-icons/fa';
 
 import { IoIosJournal } from 'react-icons/io';
+
+import { useAuth } from '../../../../../hooks/useAuth';
 
 import MenuLink from './components/MenuLink';
 
 const NavigationMenu: React.FC = () => {
+  const { user } = useAuth();
+
   const menuAnimation: MotionProps = useMemo(
     () => ({
       initial: 'hidden',
@@ -38,6 +42,17 @@ const NavigationMenu: React.FC = () => {
   return (
     <motion.div className="absolute w-full bg-inherit z-40" {...menuAnimation}>
       <ul className="p-4">
+        {user && (
+          <MenuLink
+            href={{
+              pathname: '/users/[userId]',
+              query: { userId: user.id },
+            }}
+            text="My Profile"
+            icon={FaRegUserCircle}
+          />
+        )}
+
         <MenuLink href="/" text="Films" icon={BsFillCollectionFill} />
         <MenuLink href="/" text="Lists" icon={FaListUl} />
         <MenuLink href="/" text="Members" icon={FaUsers} />

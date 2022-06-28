@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 
@@ -9,7 +9,7 @@ import Star from '../Star';
 import LikeAndComment from '../LikeAndComment';
 
 const MovieReview: React.FC = () => {
-  const hasUserLike = false;
+  const [hasUserLike, setUserLike] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col gap-2 py-4 border-b border-b-grey-300 first:pt-0 last:pb-0 last:border-0">
@@ -46,7 +46,12 @@ const MovieReview: React.FC = () => {
         story.
       </p>
 
-      <LikeAndComment likes={2928} commentaries={2928} liked={hasUserLike} />
+      <LikeAndComment
+        likes={2928}
+        commentaries={2928}
+        liked={hasUserLike}
+        onLike={() => setUserLike(prev => !prev)}
+      />
     </div>
   );
 };

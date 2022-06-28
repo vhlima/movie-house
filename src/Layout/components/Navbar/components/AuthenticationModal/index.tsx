@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Formik, Form } from 'formik';
 
+import { useAuth } from '../../../../../hooks/useAuth';
+
 import Input from '../../../../../components/Input';
 import Button from '../../../../../components/Button';
 import FieldLabel from '../../../../../components/FieldLabel';
@@ -13,7 +15,15 @@ interface AuthenticationModalProps {
 const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
   onSubmit,
 }) => {
+  const { user, signIn, signOut } = useAuth();
+
   const handleSubmit = () => {
+    if (!user) {
+      signIn({ login: 'abc', password: 'abc' });
+    } else {
+      signOut();
+    }
+
     onSubmit();
   };
 

@@ -10,6 +10,8 @@ import { FiX } from 'react-icons/fi';
 
 import { HiMenu } from 'react-icons/hi';
 
+import { useAuth } from '../../../hooks/useAuth';
+
 import Link from '../../../components/Link';
 
 import SearchBar from './components/SearchBar';
@@ -17,15 +19,15 @@ import NavigationMenu from './components/NavigationMenu';
 import AuthenticationModal from './components/AuthenticationModal';
 
 const Navbar: React.FC = () => {
+  const { user } = useAuth();
+
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
   const [isAuthModalOpen, setAuthModalOpen] = useState<boolean>(false);
 
-  const isLogged = false;
-
   return (
     <>
-      {!isLogged && isAuthModalOpen && (
+      {!user && isAuthModalOpen && (
         <AuthenticationModal onSubmit={() => setAuthModalOpen(false)} />
       )}
 
@@ -44,7 +46,7 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className="flex items-center ml-auto text-grey-300">
-            {!isLogged ? (
+            {!user && (
               <button
                 type="button"
                 className="p-2"
@@ -52,10 +54,6 @@ const Navbar: React.FC = () => {
               >
                 <FaUserAlt size={18} />
               </button>
-            ) : (
-              <Link href="/">
-                <FaUserAlt size={18} />
-              </Link>
             )}
 
             <button
