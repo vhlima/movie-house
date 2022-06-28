@@ -21,8 +21,13 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
   <div className="flex flex-col w-44 flex-shrink-0">
-    <div className="h-72 relative cursor-pointer transition-transform hover:scale-105">
-      <Image layout="fill" objectFit="cover" src={movie.coverUrl} />
+    <div className="h-72 relative rounded-t-md overflow-hidden cursor-pointer">
+      <Image
+        className="transition-transform hover:scale-105"
+        layout="fill"
+        objectFit="cover"
+        src={movie.coverUrl}
+      />
     </div>
 
     <div className="flex flex-col flex-grow p-2 rounded-b-md bg-grey-800 text-grey-200">
