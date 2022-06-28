@@ -26,14 +26,14 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
 
   const head = (
     <>
-      <div className="flex gap-2 items-center text-grey-200">
+      <div className="flex gap-2 items-center text-grey-100">
         <span className="block w-1 h-6 rounded-lg bg-movieHouse-dark" />
 
         <h1 className="font-bold text-xl">{title}</h1>
 
         {link && (
           <FaChevronRight
-            className="group-hover:text-movieHouse-dark"
+            className="text-grey-200 group-hover:text-movieHouse-dark"
             size={20}
           />
         )}
