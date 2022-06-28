@@ -1,3 +1,4 @@
+import { UserProps } from '../hooks/useAuth';
 import { MovieCategory, MovieCrewProps, MovieProps } from '../hooks/useMovie';
 
 /* eslint-disable import/prefer-default-export */
@@ -126,6 +127,24 @@ const copyPasta = {
   ] as MovieCrewProps[],
 };
 
+export const fakeUser: UserProps = {
+  id: 'abc',
+  username: 'karsten',
+  fullName: 'Rahim Kadeer',
+  profilePictureUrl:
+    'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6',
+};
+
+export const fakeUser2: UserProps = {
+  id: 'abc2',
+  username: 'mohamad81',
+  fullName: 'Mohamad Mustaf',
+  profilePictureUrl:
+    'https://secure.gravatar.com/avatar/0e98d92a3b02658ea0807bf590fd3592?rating=PG&size=220&border=&default=https%3A%2F%2Fs.ltrbxd.com%2Fstatic%2Fimg%2Favatar220.1dea069d.png',
+};
+
+export const fakeUsers = [fakeUser, fakeUser2];
+
 export const movieList: MovieProps[] = [
   {
     id: '6e943d50-4b1e-48b1-b6aa-32223ffb136f',
@@ -157,6 +176,14 @@ export const movieList: MovieProps[] = [
     rating: 4.9,
     coverUrl:
       'https://image.tmdb.org/t/p/w600_and_h900_bestv2/sOIQ8YlLzOeBXtiXhrZwt7nrdi4.jpg',
+    ...copyPasta,
+  },
+  {
+    id: 'movie',
+    name: 'Animais Fantásticos: Os Segredos de Dumbledore',
+    rating: 6.8,
+    coverUrl:
+      'https://image.tmdb.org/t/p/w600_and_h900_bestv2/gopGghuMtmdMviBcl9G0JfVB2RZ.jpg',
     ...copyPasta,
   },
 ];

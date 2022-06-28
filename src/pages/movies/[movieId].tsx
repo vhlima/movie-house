@@ -2,8 +2,6 @@ import type { NextPage } from 'next';
 
 import Image from 'next/image';
 
-import { MdMovie } from 'react-icons/md';
-
 import { useRouter } from 'next/router';
 
 import { movieList } from '../../data/fakeData';
@@ -16,9 +14,9 @@ import Carousel from '../../components/Carousel';
 import MovieReview from '../../components/MovieReview';
 
 import Layout from '../../Layout';
-import MovieCarousel from '../../components/MovieCarousel';
-import MovieCardList from '../../components/MovieCardList';
-import LikeAndComment from '../../components/LikeAndComment';
+
+import UserListPreview from '../../components/UserListPreview';
+import MovieCoverImage from '../../components/MovieCoverImage';
 
 const Movie: NextPage = () => {
   const router = useRouter();
@@ -76,9 +74,7 @@ const Movie: NextPage = () => {
             </div>
           </div>
 
-          <div className="w-24 h-32 relative rounded-md border border-grey-600 overflow-hidden">
-            <Image layout="fill" objectFit="fill" src={movie.coverUrl} />
-          </div>
+          <MovieCoverImage src={movie.coverUrl} />
         </div>
 
         <div className="flex flex-col gap-4">
@@ -165,45 +161,7 @@ const Movie: NextPage = () => {
           </Card>
 
           <Card title="Popular lists" noPadding>
-            <div>
-              <MovieCardList movies={movieList} />
-
-              <h1 className="text-grey-100 font-semibold mt-2">
-                what is reality?
-              </h1>
-
-              <div className="flex items-center">
-                <div className="relative w-5 h-5 border border-grey-700 rounded-full overflow-hidden">
-                  <Image
-                    layout="fill"
-                    objectFit="cover"
-                    src="https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6"
-                  />
-                </div>
-
-                <Link className="group" href="/">
-                  <span className="ml-1 text-gray-100 font-semibold group-hover:text-grey-200">
-                    karsten
-                  </span>
-                </Link>
-
-                <div className="flex items-center ml-auto">
-                  <span className="mr-0.5 text-grey-200 font-semibold">
-                    1,327
-                  </span>
-
-                  <MdMovie className="text-grey-300" size={22} />
-                </div>
-              </div>
-
-              <p className="text-grey-200">
-                meditations, ruminations, and explorations on the nature of
-                reality and existence. comprised most of projects ive watched,
-                and some watchlist entries. organized by color. ฅ^•ﻌ•^ฅ
-              </p>
-
-              <LikeAndComment likes={14758} commentaries={138} />
-            </div>
+            <UserListPreview />
           </Card>
         </div>
       </div>

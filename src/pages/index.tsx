@@ -7,6 +7,7 @@ import Layout from '../Layout';
 import Card from '../components/Card';
 
 import MovieCarousel from '../components/MovieCarousel';
+import MovieReview from '../components/MovieReview';
 
 const Home: NextPage = () => (
   <Layout>
@@ -16,6 +17,12 @@ const Home: NextPage = () => (
       description="Movies we think you might like"
     >
       <MovieCarousel movies={movieList} />
+    </Card>
+
+    <Card title="Popular reviews this week">
+      <MovieReview />
+      <MovieReview />
+      <MovieReview />
     </Card>
   </Layout>
 );
