@@ -12,35 +12,15 @@ import { useAuth } from '../../../../../hooks/useAuth';
 
 import MenuLink from './components/MenuLink';
 
-const NavigationMenu: React.FC = () => {
+interface NavigationMenuProps {
+  animation: MotionProps;
+}
+
+const NavigationMenu: React.FC<NavigationMenuProps> = ({ animation }) => {
   const { user } = useAuth();
 
-  const menuAnimation: MotionProps = useMemo(
-    () => ({
-      initial: 'hidden',
-      animate: 'visible',
-      exit: {
-        y: '-10%',
-        transition: {
-          duration: 0.2,
-        },
-      },
-      variants: {
-        hidden: { opacity: 0, y: '-20%' },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.2,
-          },
-        },
-      },
-    }),
-    [],
-  );
-
   return (
-    <motion.div className="absolute w-full bg-inherit z-40" {...menuAnimation}>
+    <motion.div className="absolute w-full bg-inherit z-40" {...animation}>
       <ul className="p-4">
         {user && (
           <MenuLink
