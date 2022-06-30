@@ -9,7 +9,7 @@ const Backdrop: React.FC<PropsWithChildren<BackdropProps>> = ({
   children,
 }) => (
   <div
-    className="absolute w-screen h-screen bg-black bg-opacity-50 z-30"
+    className="absolute w-screen h-screen overflow-hidden bg-black bg-opacity-50 z-40"
     role="presentation"
     onClick={onClick}
     onKeyDown={onClick}
