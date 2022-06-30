@@ -14,9 +14,11 @@ import LikeAndComment from '../LikeAndComment';
 
 const UserListPreview: React.FC = () => (
   <div className="flex flex-col gap-2">
-    <MovieCardList movies={movieList} />
+    <Link href="/">
+      <MovieCardList movies={movieList} />
 
-    <h1 className="text-grey-100 font-semibold ">what is reality?</h1>
+      <h1 className="text-grey-100 font-semibold ">what is reality?</h1>
+    </Link>
 
     <div className="flex items-center">
       <div className="relative w-5 h-5 border border-grey-700 rounded-full overflow-hidden">
