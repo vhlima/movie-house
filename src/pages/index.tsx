@@ -1,13 +1,15 @@
 import type { NextPage } from 'next';
 
-import { movieList } from '../data/fakeData';
+import { MovieData } from '../types';
+
+import * as fakeData from '../data/fake.json';
 
 import Layout from '../Layout';
 
 import Card from '../components/Card';
 
 import MovieCarousel from '../components/MovieCarousel';
-import MovieReview from '../components/MovieReview';
+import UserMovieReview from '../components/UserMovieReview';
 
 const Home: NextPage = () => (
   <Layout>
@@ -16,13 +18,14 @@ const Home: NextPage = () => (
       title="Top choices"
       description="Movies we think you might like"
     >
-      <MovieCarousel movies={movieList} />
+      <MovieCarousel movies={fakeData.movies as MovieData[]} />
     </Card>
 
     <Card title="Popular reviews this week">
-      <MovieReview />
-      <MovieReview />
-      <MovieReview />
+      <UserMovieReview preview />
+      <UserMovieReview preview />
+      <UserMovieReview preview />
+      <UserMovieReview preview />
     </Card>
   </Layout>
 );
