@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, MotionProps } from 'framer-motion';
 
 import { FaSearch, FaUserAlt } from 'react-icons/fa';
 
-import { BsHouse } from 'react-icons/bs';
+import { BsHouse, BsFillBellFill } from 'react-icons/bs';
 
 import { FiX } from 'react-icons/fi';
 
@@ -17,6 +17,7 @@ import Link from '../../../components/Link';
 import SearchBar from './components/SearchBar';
 import NavigationMenu from './components/NavigationMenu';
 import AuthenticationModal from './components/AuthenticationModal';
+import NotificationsModal from './components/NotificationsModal';
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
@@ -24,11 +25,40 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
   const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
   const [isAuthModalOpen, setAuthModalOpen] = useState<boolean>(false);
+  const [isNotificationModalOpen, setNotificationModalOpen] =
+    useState<boolean>(false);
+
+  const dropdownAnimation: MotionProps = useMemo(
+    () => ({
+      initial: 'hidden',
+      animate: 'visible',
+      exit: {
+        y: '-10%',
+        transition: {
+          duration: 0.2,
+        },
+      },
+      variants: {
+        hidden: { opacity: 0, y: '-20%' },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.2,
+          },
+        },
+      },
+    }),
+    [],
+  );
 
   return (
     <>
       {!user && isAuthModalOpen && (
-        <AuthenticationModal onSubmit={() => setAuthModalOpen(false)} />
+        <AuthenticationModal
+          onSubmit={() => setAuthModalOpen(false)}
+          onClose={() => setAuthModalOpen(false)}
+        />
       )}
 
       <nav className="relative bg-grey-800">
@@ -46,13 +76,21 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className="flex items-center ml-auto text-grey-300">
-            {!user && (
+            {!user ? (
               <button
-                type="button"
                 className="p-2"
+                type="button"
                 onClick={() => setAuthModalOpen(prev => !prev)}
               >
                 <FaUserAlt size={18} />
+              </button>
+            ) : (
+              <button
+                className="p-2"
+                type="button"
+                onClick={() => setNotificationModalOpen(prev => !prev)}
+              >
+                <BsFillBellFill size={18} />
               </button>
             )}
 
@@ -74,7 +112,15 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        <AnimatePresence>{isMenuOpen && <NavigationMenu />}</AnimatePresence>
+        <AnimatePresence>
+          {user && isNotificationModalOpen && (
+            <NotificationsModal animation={dropdownAnimation} />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {isMenuOpen && <NavigationMenu animation={dropdownAnimation} />}
+        </AnimatePresence>
 
         {isSearchBarOpen && <SearchBar />}
       </nav>
