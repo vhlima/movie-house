@@ -6,7 +6,7 @@ const MovieCoverImage: React.FC<PropsWithChildren<ImageProps>> = ({
   children,
   ...imageProps
 }) => (
-  <div className="w-24 h-32 relative rounded-md border border-grey-700 overflow-hidden">
+  <div className="w-24 h-32 flex-shrink-0 relative rounded-md border border-grey-700 overflow-hidden">
     <Image layout="fill" objectFit="fill" {...imageProps} />
 
     {children}
