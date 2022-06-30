@@ -7,7 +7,9 @@ import React, {
   useMemo,
 } from 'react';
 
-import { fakeUser } from '../data/fakeData';
+import { UserData } from '../types';
+
+import { fetcher } from '../utils';
 
 interface SignInCredentials {
   login: string;
@@ -19,10 +21,14 @@ export interface UserProps {
   username: string;
   fullName: string;
   profilePictureUrl: string;
+  followers: string[];
+  following: string[];
 }
 
 interface AuthContextData {
   user: UserProps;
+  followUser: (userId: string) => Promise<void>;
+  unfollowUser: (userId: string) => Promise<void>;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
@@ -32,8 +38,22 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<UserProps>();
 
+  const followUser = async (userId: string) => {
+    if (!user) return;
+
+    const a = '1';
+  };
+
+  const unfollowUser = async (userId: string) => {
+    if (!user) return;
+
+    const b = '2';
+  };
+
   const signIn = useCallback(async () => {
-    setUser(fakeUser);
+    const fetchUser = await fetcher<UserData[]>(`/api/users/`);
+
+    setUser(fetchUser[0]);
   }, [setUser]);
 
   const signOut = useCallback(() => {
@@ -44,6 +64,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () =>
       ({
         user,
+        followUser,
+        unfollowUser,
         signIn,
         signOut,
       } as AuthContextData),
