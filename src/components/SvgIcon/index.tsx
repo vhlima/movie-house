@@ -28,7 +28,7 @@ import { MdMovie } from 'react-icons/md';
 
 import { FiX } from 'react-icons/fi';
 
-import { HiMenu } from 'react-icons/hi';
+import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
 
 import { IoIosJournal } from 'react-icons/io';
 
@@ -40,8 +40,8 @@ export type SvgIconType =
   | 'FaSearch'
   | 'FaGithub'
   | 'FaListUl'
-  | 'FaPlay'
   | 'FaUsers'
+  | 'FaPlay'
   | 'FiX'
   | 'AiFillHeart'
   | 'AiFillStar'
@@ -53,6 +53,8 @@ export type SvgIconType =
   | 'BsHouse'
   | 'MdMovie'
   | 'HiMenu'
+  | 'HiMail'
+  | 'HiLockClosed'
   | 'IoIosJournal';
 
 export interface SvgIconProps extends IconBaseProps {
@@ -89,6 +91,8 @@ const icons: SvgIconsType = {
   MdMovie,
 
   HiMenu,
+  HiMail,
+  HiLockClosed,
 
   IoIosJournal,
 };
