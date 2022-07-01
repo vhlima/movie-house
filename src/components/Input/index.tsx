@@ -4,27 +4,92 @@ import clsx from 'clsx';
 
 import { useField } from 'formik';
 
+import SvgIcon, { SvgIconType } from '../SvgIcon';
+
+type InputStyleType = 'primary' | 'secondary';
+
 interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
+  inputStyle?: InputStyleType;
+  inputSize?: 'lg' | 'md' | 'sm';
+  rightIcon?: SvgIconType;
+  leftIcon?: SvgIconType;
 }
 
 interface InputProps extends SimpleInputProps {
   formik?: boolean;
 }
 
+interface InputStyleProps {
+  container: string;
+  input: string;
+}
+
+const inputStyles: {
+  [key in InputStyleType]: InputStyleProps;
+} = {
+  primary: {
+    container: 'bg-grey-900 border-grey-900',
+    input: 'text-white placeholder-grey-400',
+  },
+  secondary: {
+    container: 'bg-grey-900 border-grey-900',
+    input: 'text-white placeholder-grey-400',
+  },
+};
+
 const SimpleInput: React.FC<SimpleInputProps> = ({
   className,
   name,
+  inputStyle = 'primary',
+  inputSize = 'lg',
+  rightIcon,
+  leftIcon,
+  disabled,
   ...rest
-}) => (
-  <div className="w-full rounded-sm border border-gray-300 overflow-hidden">
-    <input
-      className={clsx('w-full p-2 bg-white outline-none', className)}
-      id={name}
-      {...rest}
-    />
-  </div>
-);
+}) => {
+  const inputStyleProps = inputStyles[inputStyle];
+
+  return (
+    <div
+      className={clsx(
+        'flex items-center rounded-md focus-within:outline-none focus-within:border-movieHouse-mid',
+        {
+          [inputStyleProps.container]: !disabled,
+          'bg-grey-900 border-grey-900 bg-opacity-60': disabled,
+          'w-full border-2': inputSize === 'lg',
+        },
+      )}
+    >
+      {leftIcon && (
+        <div className="p-2 pr-0">
+          <SvgIcon className="text-grey-500" iconType={leftIcon} size={20} />
+        </div>
+      )}
+
+      <input
+        className={clsx(
+          'w-full bg-transparent outline-none',
+          className,
+          inputStyleProps.input,
+          {
+            'cursor-not-allowed': disabled,
+            'p-2': inputSize === 'lg',
+          },
+        )}
+        id={name}
+        disabled={disabled}
+        {...rest}
+      />
+
+      {rightIcon && (
+        <div className="p-2 pl-0">
+          <SvgIcon className="text-grey-500" iconType={rightIcon} size={20} />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const FormikInput: React.FC<SimpleInputProps> = ({ name, ...rest }) => {
   const [field] = useField(name);
