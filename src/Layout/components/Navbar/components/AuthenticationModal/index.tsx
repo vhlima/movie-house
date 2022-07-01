@@ -69,17 +69,17 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
             </FieldLabel>
 
             <div className="flex gap-1">
-              <span className="text-gray-200">Forgot your password?</span>
+              <span className="text-grey-200">Forgot your password?</span>
 
-              <span className="text-movieHouse-mid cursor-pointer">
+              <span className="text-grey-100 cursor-pointer hover:text-grey-200">
                 Reset here
               </span>
             </div>
 
             <div className="flex gap-1">
-              <span className="text-gray-200">Dont have an account?</span>
+              <span className="text-grey-200">Dont have an account?</span>
 
-              <span className="text-movieHouse-mid cursor-pointer">
+              <span className="text-grey-100 cursor-pointer hover:text-grey-200">
                 Register now
               </span>
             </div>
