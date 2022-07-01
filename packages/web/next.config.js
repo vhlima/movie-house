@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  typescript: {
+    tsconfigPath: '../../tsconfig.json',
+  },
+
   images: {
     domains: [
       'image.tmdb.org',
