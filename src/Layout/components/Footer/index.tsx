@@ -1,33 +1,47 @@
 import React from 'react';
 
-import { FaGithub } from 'react-icons/fa';
-
 import Link from '../../../components/Link';
 
-const Footer: React.FC = () => (
-  <div className="flex flex-col items-center gap-4 p-4 mt-auto bg-complementary text-secondary">
-    <div className="flex justify-center gap-2 font-semibold">
-      <Link href="/">About</Link>
-      <Link href="/">News</Link>
-      <Link href="/">Help</Link>
-      <Link href="/">Terms</Link>
-      <Link href="/">Contact</Link>
-    </div>
+import SvgIcon from '../../../components/SvgIcon';
 
-    <p className="text-center">
-      © Movie House 2022
-      <br />
-      Made by Victor Almeida
-      <br />
-      All film data comes from TMDb
-    </p>
+const Footer: React.FC = () => {
+  const hoverStyle = 'hover:text-movieHouse-dark';
 
-    <div>
-      <Link href="https://github.com/vhlima">
-        <FaGithub size={28} />
-      </Link>
-    </div>
-  </div>
-);
+  return (
+    <footer className="flex flex-col items-center gap-4 p-4 mt-auto bg-grey-800 text-grey-200">
+      <div className="flex justify-center gap-2 font-semibold">
+        <Link className={hoverStyle} href="/">
+          About
+        </Link>
+        <Link className={hoverStyle} href="/">
+          News
+        </Link>
+        <Link className={hoverStyle} href="/">
+          Help
+        </Link>
+        <Link className={hoverStyle} href="/">
+          Terms
+        </Link>
+        <Link className={hoverStyle} href="/">
+          Contact
+        </Link>
+      </div>
+
+      <p className="text-center">
+        © Movie House 2022
+        <br />
+        Made by Victor Almeida
+        <br />
+        All film data comes from TMDb
+      </p>
+
+      <div>
+        <Link className={hoverStyle} href="https://github.com/vhlima">
+          <SvgIcon iconType="FaGithub" size={28} />
+        </Link>
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;

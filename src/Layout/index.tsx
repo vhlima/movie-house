@@ -5,13 +5,17 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => (
-  <div className="flex flex-col w-screen h-screen font-sans bg-background">
-    <Navbar />
+  <>
+    <div id="modalPortal" />
 
-    <div>{children}</div>
+    <div className="flex flex-col relative w-screen h-screen overflow-x-hidden overflow-y-auto font-sans bg-grey-900">
+      <Navbar />
 
-    <Footer />
-  </div>
+      <div className="relative flex-grow mb-20">{children}</div>
+
+      <Footer />
+    </div>
+  </>
 );
 
 export default Layout;
