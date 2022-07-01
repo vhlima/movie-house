@@ -12,7 +12,6 @@ const Backdrop: React.FC<PropsWithChildren<BackdropProps>> = ({
     className="absolute w-screen h-screen overflow-hidden bg-black bg-opacity-50 z-40"
     role="presentation"
     onClick={onClick}
-    onKeyDown={onClick}
   >
     {children}
   </div>
