@@ -49,7 +49,13 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
         >
           <Form className="flex flex-col gap-3 p-4">
             <FieldLabel label="Email" htmlFor="email">
-              <Input formik type="email" name="email" placeholder="Email" />
+              <Input
+                formik
+                type="email"
+                name="email"
+                placeholder="Email"
+                leftIcon="HiMail"
+              />
             </FieldLabel>
 
             <FieldLabel label="Password" htmlFor="password">
@@ -58,6 +64,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
                 type="password"
                 name="password"
                 placeholder="Password"
+                leftIcon="HiLockClosed"
               />
             </FieldLabel>
 
