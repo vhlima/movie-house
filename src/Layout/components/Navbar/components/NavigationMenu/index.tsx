@@ -1,12 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { MotionProps, motion } from 'framer-motion';
-
-import { BsFillCollectionFill } from 'react-icons/bs';
-
-import { FaListUl, FaRegUserCircle, FaUsers } from 'react-icons/fa';
-
-import { IoIosJournal } from 'react-icons/io';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -29,14 +23,14 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({ animation }) => {
               query: { userId: user.id },
             }}
             text="My Profile"
-            icon={FaRegUserCircle}
+            icon="FaRegUserCircle"
           />
         )}
 
-        <MenuLink href="/" text="Films" icon={BsFillCollectionFill} />
-        <MenuLink href="/" text="Lists" icon={FaListUl} />
-        <MenuLink href="/" text="Members" icon={FaUsers} />
-        <MenuLink href="/" text="Journal" icon={IoIosJournal} />
+        <MenuLink href="/" text="Films" icon="BsFillCollectionFill" />
+        <MenuLink href="/" text="Lists" icon="FaListUl" />
+        <MenuLink href="/" text="Members" icon="FaUsers" />
+        <MenuLink href="/" text="Journal" icon="IoIosJournal" />
       </ul>
     </motion.div>
   );

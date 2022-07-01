@@ -1,11 +1,5 @@
 import React from 'react';
 
-import { FaPlay } from 'react-icons/fa';
-
-import { BsPlusLg } from 'react-icons/bs';
-
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-
 import Image from 'next/image';
 
 import { MovieProps } from '../../../../hooks/useMovie';
@@ -13,6 +7,7 @@ import { MovieProps } from '../../../../hooks/useMovie';
 import Link from '../../../Link';
 
 import Button from '../../../Button';
+import SvgIcon from '../../../SvgIcon';
 
 interface MovieCardProps {
   movie: MovieProps;
@@ -33,7 +28,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
     <div className="flex flex-col flex-grow p-2 rounded-b-md bg-grey-800 text-grey-200">
       <div className="flex justify-between">
         <div className="flex items-center gap-1">
-          <AiFillStar className="text-yellow-500" size={20} />
+          <SvgIcon
+            className="text-yellow-500"
+            iconType="AiFillStar"
+            size={20}
+          />
 
           <span>{movie.rating}</span>
         </div>
@@ -43,8 +42,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
           type="button"
           onClick={openRatingModal}
         >
-          <AiOutlineStar
+          <SvgIcon
             className="text-blue-500 group-hover:text-white"
+            iconType="AiOutlineStar"
             size={20}
           />
         </button>
@@ -62,13 +62,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
 
       <div className="flex flex-col gap-2 mt-auto">
         <Button buttonStyle="secondary" className="gap-2">
-          <BsPlusLg className="text-grey-500" size={18} />
+          <SvgIcon className="text-grey-500" iconType="BsPlusLg" size={18} />
 
           <span>Add to watchlist</span>
         </Button>
 
         <Button buttonStyle="tertiary" className="gap-2">
-          <FaPlay className="text-grey-500" size={18} />
+          <SvgIcon className="text-grey-500" iconType="FaPlay" size={18} />
 
           <span>Trailer</span>
         </Button>

@@ -2,8 +2,6 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { MdMovie } from 'react-icons/md';
-
 import { movieList } from '../../data/fakeData';
 
 import Link from '../Link';
@@ -11,6 +9,7 @@ import Link from '../Link';
 import MovieCardList from '../MovieCardList';
 
 import LikeAndComment from '../LikeAndComment';
+import SvgIcon from '../SvgIcon';
 
 const UserListPreview: React.FC = () => (
   <div className="flex flex-col gap-2">
@@ -38,7 +37,7 @@ const UserListPreview: React.FC = () => (
       <div className="flex items-center ml-auto">
         <span className="mr-0.5 text-grey-200 font-semibold">1,327</span>
 
-        <MdMovie className="text-grey-300" size={22} />
+        <SvgIcon className="text-grey-300" iconType="MdMovie" size={22} />
       </div>
     </div>
 

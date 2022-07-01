@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import SvgIcon from '../SvgIcon';
 
 interface StarProps {
   isChecked?: boolean;
@@ -10,13 +10,13 @@ interface StarProps {
 
 const Star: React.FC<StarProps> = ({ isChecked, half, size = 24 }) => {
   const starChecked = !half ? (
-    <AiFillStar className="text-blue-500" size={size} />
+    <SvgIcon className="text-blue-500" iconType="AiFillStar" size={size} />
   ) : (
-    <AiFillStar className="text-blue-500 before:[\f089]" size={size} />
+    <SvgIcon className="text-blue-500" iconType="AiFillStar" size={size} />
   );
 
   return !isChecked ? (
-    <AiOutlineStar className="text-grey-300" size={size} />
+    <SvgIcon className="text-grey-300" iconType="AiOutlineStar" size={size} />
   ) : (
     starChecked
   );

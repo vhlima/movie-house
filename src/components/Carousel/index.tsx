@@ -8,7 +8,7 @@ import React, {
 
 import clsx from 'clsx';
 
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import SvgIcon from '../SvgIcon';
 
 interface CarouselProps {
   width: number;
@@ -78,8 +78,9 @@ const Carousel: React.FC<PropsWithChildren> = ({ children }) => {
           type="button"
           onClick={handleLeft}
         >
-          <FaChevronLeft
+          <SvgIcon
             className="text-white group-hover:text-yellow-500"
+            iconType="FaChevronLeft"
             size={24}
           />
         </button>
@@ -89,8 +90,9 @@ const Carousel: React.FC<PropsWithChildren> = ({ children }) => {
           type="button"
           onClick={handleRight}
         >
-          <FaChevronRight
+          <SvgIcon
             className="text-white group-hover:text-yellow-500"
+            iconType="FaChevronRight"
             size={24}
           />
         </button>

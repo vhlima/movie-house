@@ -2,10 +2,6 @@ import React, { useMemo, useState } from 'react';
 
 import { MotionProps, motion } from 'framer-motion';
 
-import { AiFillStar } from 'react-icons/ai';
-
-import { FiX } from 'react-icons/fi';
-
 import { MovieProps } from '../../../../hooks/useMovie';
 
 import Modal from '../../../Modal';
@@ -14,6 +10,7 @@ import Button from '../../../Button';
 
 import Stars from './components/Stars';
 import Backdrop from '../../../Backdrop';
+import SvgIcon from '../../../SvgIcon';
 
 interface MovieRatingModalProps {
   movie: MovieProps;
@@ -63,8 +60,9 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
           {...modalAnimation}
         >
           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-            <AiFillStar
+            <SvgIcon
               className="text-blue-500 transition-transform ease-out"
+              iconType="AiFillStar"
               style={{ transform: `scale(${userRating * 0.05 + 1})` }}
               size={90}
             />
@@ -76,7 +74,7 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
 
           <div className="flex flex-col items-center gap-4 p-4 mb-14 text-grey-200">
             <button className="ml-auto" type="button" onClick={onClose}>
-              <FiX size={28} />
+              <SvgIcon iconType="FiX" size={28} />
             </button>
 
             <span className="text-yellow-500 text-sm font-semibold font-mono uppercase">

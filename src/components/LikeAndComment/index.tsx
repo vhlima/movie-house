@@ -1,12 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import clsx from 'clsx';
 
 import { MotionProps, motion } from 'framer-motion';
-
-import { AiFillHeart } from 'react-icons/ai';
-
-import { BsFillChatLeftFill } from 'react-icons/bs';
+import SvgIcon from '../SvgIcon';
 
 interface LikeAndCommentProps {
   likes: number;
@@ -41,11 +38,12 @@ const LikeAndComment: React.FC<LikeAndCommentProps> = ({
     <div className="flex gap-2">
       <div className="flex items-center gap-1">
         <motion.button type="button" onClick={onLike} {...tst}>
-          <AiFillHeart
+          <SvgIcon
             className={clsx({
               'text-grey-300 group-hover:text-grey-400': !liked,
               'text-danger-base group-hover:text-danger-light': liked,
             })}
+            iconType="AiFillHeart"
             size={24}
           />
         </motion.button>
@@ -57,8 +55,9 @@ const LikeAndComment: React.FC<LikeAndCommentProps> = ({
 
       {!reply ? (
         <div className="flex items-center gap-1 cursor-pointer group">
-          <BsFillChatLeftFill
+          <SvgIcon
             className="text-grey-300 group-hover:text-grey-400 mt-0.5"
+            iconType="BsFillChatLeftFill"
             size={20}
           />
 

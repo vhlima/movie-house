@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { FaGithub } from 'react-icons/fa';
-
 import Link from '../../../components/Link';
+
+import SvgIcon from '../../../components/SvgIcon';
 
 const Footer: React.FC = () => {
   const hoverStyle = 'hover:text-movieHouse-dark';
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
 
       <div>
         <Link className={hoverStyle} href="https://github.com/vhlima">
-          <FaGithub size={28} />
+          <SvgIcon iconType="FaGithub" size={28} />
         </Link>
       </div>
     </footer>

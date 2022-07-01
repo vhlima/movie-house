@@ -2,14 +2,6 @@ import React, { useMemo, useState } from 'react';
 
 import { AnimatePresence, MotionProps } from 'framer-motion';
 
-import { FaSearch, FaUserAlt } from 'react-icons/fa';
-
-import { BsHouse, BsFillBellFill } from 'react-icons/bs';
-
-import { FiX } from 'react-icons/fi';
-
-import { HiMenu } from 'react-icons/hi';
-
 import { useAuth } from '../../../hooks/useAuth';
 
 import Link from '../../../components/Link';
@@ -18,6 +10,7 @@ import SearchBar from './components/SearchBar';
 import NavigationMenu from './components/NavigationMenu';
 import AuthenticationModal from './components/AuthenticationModal';
 import NotificationsModal from './components/NotificationsModal';
+import SvgIcon from '../../../components/SvgIcon';
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
@@ -64,8 +57,9 @@ const Navbar: React.FC = () => {
       <nav className="relative bg-grey-800">
         <div className="flex items-center gap-2 p-4">
           <Link className="flex items-center gap-2 select-none" href="/">
-            <BsHouse
+            <SvgIcon
               className="text-movieHouse-dark"
+              iconType="BsHouse"
               size={22}
               strokeWidth={1}
             />
@@ -82,7 +76,7 @@ const Navbar: React.FC = () => {
                 type="button"
                 onClick={() => setAuthModalOpen(prev => !prev)}
               >
-                <FaUserAlt size={18} />
+                <SvgIcon iconType="FaUserAlt" size={18} />
               </button>
             ) : (
               <button
@@ -90,7 +84,7 @@ const Navbar: React.FC = () => {
                 type="button"
                 onClick={() => setNotificationModalOpen(prev => !prev)}
               >
-                <BsFillBellFill size={18} />
+                <SvgIcon iconType="BsFillBellFill" size={18} />
               </button>
             )}
 
@@ -99,7 +93,7 @@ const Navbar: React.FC = () => {
               className="p-2"
               onClick={() => setSearchBarOpen(prev => !prev)}
             >
-              <FaSearch size={18} />
+              <SvgIcon iconType="FaSearch" size={18} />
             </button>
 
             <button
@@ -107,7 +101,11 @@ const Navbar: React.FC = () => {
               type="button"
               onClick={() => setMenuOpen(prev => !prev)}
             >
-              {!isMenuOpen ? <HiMenu size={26} /> : <FiX size={26} />}
+              {!isMenuOpen ? (
+                <SvgIcon iconType="HiMenu" size={26} />
+              ) : (
+                <SvgIcon iconType="FiX" size={26} />
+              )}
             </button>
           </div>
         </div>

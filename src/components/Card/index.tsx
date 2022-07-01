@@ -2,9 +2,9 @@ import React, { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
 
-import { FaChevronRight } from 'react-icons/fa';
-
 import Link, { LinkProps } from '../Link';
+
+import SvgIcon from '../SvgIcon';
 
 interface CardProps {
   className?: string;
@@ -32,8 +32,9 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
         <h1 className="font-bold text-xl">{title}</h1>
 
         {link && (
-          <FaChevronRight
+          <SvgIcon
             className="text-grey-200 group-hover:text-movieHouse-dark"
+            iconType="FaChevronRight"
             size={20}
           />
         )}
