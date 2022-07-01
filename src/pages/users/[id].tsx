@@ -12,7 +12,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 import { fetcher } from '../../utils';
 
-import UserReviewPreview from '../../components/UserReviewPreview';
+import UserMovieReview from '../../components/UserMovieReview';
 
 import UserProfileNumber from '../../pageComponents/users/components/UserProfileNumber';
 
@@ -166,15 +166,15 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
           </Card>
 
           <Card title="Pinned reviews" noPadding>
-            <UserReviewPreview />
+            <UserMovieReview preview />
           </Card>
 
           <Card title="Recent reviews" noPadding>
-            <UserReviewPreview />
+            <UserMovieReview preview />
           </Card>
 
           <Card title="Popular reviews" noPadding>
-            <UserReviewPreview />
+            <UserMovieReview preview />
           </Card>
         </div>
       </div>
