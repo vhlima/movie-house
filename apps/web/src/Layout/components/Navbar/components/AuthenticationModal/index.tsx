@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikHelpers } from 'formik';
 
 import { populateJSON } from '../../../../../data/populate';
 
@@ -11,26 +11,35 @@ import Button from '../../../../../components/Button';
 import FieldLabel from '../../../../../components/FieldLabel';
 import Backdrop from '../../../../../components/Backdrop';
 import Modal from '../../../../../components/Modal';
+import { SignInCredentials } from '../../../../../types';
 
 interface AuthenticationModalProps {
-  onSubmit: () => void;
   onClose: () => void;
 }
 
 const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
-  onSubmit,
   onClose,
 }) => {
-  const { user, signIn, signOut } = useAuth();
+  const { user, signIn } = useAuth();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (
+    values: SignInCredentials,
+    { setFieldError, setSubmitting }: FormikHelpers<SignInCredentials>,
+  ) => {
     if (!user) {
-      await signIn({ login: 'abc', password: 'abc' });
-    } else {
-      await signOut();
-    }
+      try {
+        const result = await signIn(values);
 
-    onSubmit();
+        if (!result.errors) {
+          onClose();
+          return;
+        }
+      } catch (err) {
+        setFieldError('username', err);
+      }
+
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -45,22 +54,18 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
             Populate database
           </Button>
 
-          <Formik
-            initialValues={{ email: '', password: '' }}
-            onSubmit={handleSubmit}
-          >
+          <Formik initialValues={{ username: '' }} onSubmit={handleSubmit}>
             <Form className="flex flex-col gap-3 p-4">
-              <FieldLabel label="Email" htmlFor="email">
+              <FieldLabel label="Username" htmlFor="username">
                 <Input
                   formik
-                  type="email"
-                  name="email"
-                  placeholder="Email"
+                  name="username"
+                  placeholder="Username"
                   leftIcon="HiMail"
                 />
               </FieldLabel>
 
-              <FieldLabel label="Password" htmlFor="password">
+              {/* <FieldLabel label="Password" htmlFor="password">
                 <Input
                   formik
                   type="password"
@@ -68,7 +73,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
                   placeholder="Password"
                   leftIcon="HiLockClosed"
                 />
-              </FieldLabel>
+              </FieldLabel> */}
 
               <div className="flex gap-1">
                 <span className="text-grey-200">Forgot your password?</span>

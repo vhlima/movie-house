@@ -2,15 +2,13 @@ import type { GetStaticPaths, NextPage } from 'next';
 
 import Image from 'next/image';
 
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetStaticProps } from 'next';
 
-import { useRouter } from 'next/router';
+import client from '../../api';
 
 import { UserData } from '../../types';
 
 import { useAuth } from '../../hooks/useAuth';
-
-import { fetcher } from '../../utils';
 
 import UserMovieReview from '../../components/UserMovieReview';
 
@@ -21,6 +19,7 @@ import Button from '../../components/Button';
 
 import Layout from '../../Layout';
 import UserProfilePicture from '../../components/UserProfilePicture';
+import { USER, ALL_USERS_ID } from '../../graphql/user';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params) {
@@ -28,13 +27,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     if (id) {
       try {
-        const user = await fetcher<UserData>(`/api/users/${id}`);
-
-        console.log(`fetch user props? ${id}`);
+        const usersResult = await client.query<{ users: UserData[] }>({
+          query: USER,
+        });
 
         return {
           props: {
-            targetUser: user,
+            targetUser: usersResult.data.users.find(u => u._id === id),
           },
         };
       } catch (err) {
@@ -43,13 +42,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   }
 
-  return { props: { user: undefined } };
+  return { props: { targetUser: undefined } };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const users = await fetcher<UserData[]>('/api/users/');
+  const usersResult = await client.query<{ users: UserData[] }>({
+    query: ALL_USERS_ID,
+  });
 
-  const paths = users.map(m => ({ params: { id: m.id } }));
+  const paths = usersResult.data.users.map(u => ({ params: { id: u._id } }));
 
   return {
     paths,
@@ -85,7 +86,7 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
           <div className="flex items-center gap-2">
             <UserProfilePicture
               imageSize="lg"
-              src={targetUser.profilePictureUrl}
+              src={targetUser.profilePicture}
             />
 
             <div className="flex flex-grow flex-wrap items-center gap-x-2">
@@ -100,11 +101,11 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
           </div>
 
           <div className="flex gap-2">
-            {!user || !user.following.includes(targetUser.id) ? (
+            {!user || !user.following.includes(targetUser._id) ? (
               <Button
                 buttonStyle="secondary"
                 buttonSize="xs"
-                onClick={() => user && followUser(targetUser.id)}
+                onClick={() => user && followUser(targetUser._id)}
               >
                 Follow
               </Button>
@@ -112,7 +113,7 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
               <Button
                 buttonStyle="secondary"
                 buttonSize="xs"
-                onClick={() => user && unfollowUser(targetUser.id)}
+                onClick={() => user && unfollowUser(targetUser._id)}
               >
                 Unfollow
               </Button>

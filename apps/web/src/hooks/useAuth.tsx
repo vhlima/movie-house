@@ -7,36 +7,28 @@ import React, {
   useMemo,
 } from 'react';
 
-import { UserData } from '../types';
+import { FetchResult, useMutation } from '@apollo/client';
 
-import { fetcher } from '../utils';
+import { SignInCredentials, UserData } from '../types';
 
-interface SignInCredentials {
-  login: string;
-  password: string;
-}
+import { SIGN_IN } from '../graphql/user';
 
-export interface UserProps {
-  id: string;
-  username: string;
-  fullName: string;
-  profilePictureUrl: string;
-  followers: string[];
-  following: string[];
-}
+type SignInResponse = { userLogin: UserData };
 
 interface AuthContextData {
-  user: UserProps;
+  user: UserData;
   followUser: (userId: string) => Promise<void>;
   unfollowUser: (userId: string) => Promise<void>;
-  signIn(credentials: SignInCredentials): Promise<void>;
+  signIn(credentials: SignInCredentials): Promise<FetchResult<SignInResponse>>;
   signOut(): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<UserProps>();
+  const [user, setUser] = useState<UserData>();
+
+  const [mutationSignIn] = useMutation<SignInResponse>(SIGN_IN);
 
   const followUser = async (userId: string) => {
     if (!user) return;
@@ -50,11 +42,22 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const b = '2';
   };
 
-  const signIn = useCallback(async () => {
-    const fetchUser = await fetcher<UserData[]>(`/api/users/`);
+  const signIn = useCallback(
+    async ({ username }: SignInCredentials) => {
+      const fetchUser = await mutationSignIn({
+        variables: { username },
+      });
 
-    setUser(fetchUser[0]);
-  }, [setUser]);
+      if (fetchUser.data) {
+        setUser(fetchUser.data.userLogin);
+      }
+
+      // const fetchUser = await fetcher<UserData[]>(`/api/users/`);
+
+      return fetchUser;
+    },
+    [setUser],
+  );
 
   const signOut = useCallback(() => {
     setUser(undefined);
