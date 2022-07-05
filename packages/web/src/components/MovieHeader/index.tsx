@@ -16,13 +16,13 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
   children,
 }) => (
   <>
-    <div className="w-full h-44 absolute z-0">
+    <div className="w-full h-48 absolute z-0">
       <Image layout="fill" objectFit="fill" src={movie.backgroundUrl} />
 
-      <div className="absolute bottom-0 h-20 w-full z-10 bg-gradient-to-t from-grey-900" />
+      <div className="absolute bottom-0 h-1/2 w-full z-10 bg-gradient-to-t from-grey-900" />
     </div>
 
-    <div className="p-3 mt-32">
+    <div className="p-3 mt-40">
       <div className="flex justify-between">
         <div className="flex flex-col z-10">
           <h1 className="text-grey-100 text-2xl font-semibold">{movie.name}</h1>
