@@ -6,6 +6,8 @@ import {
   FaRegUserCircle,
   FaChevronRight,
   FaChevronLeft,
+  FaChevronDown,
+  FaChevronUp,
   FaPlay,
   FaGithub,
   FaSearch,
@@ -36,6 +38,8 @@ export type SvgIconType =
   | 'FaRegUserCircle'
   | 'FaChevronRight'
   | 'FaChevronLeft'
+  | 'FaChevronDown'
+  | 'FaChevronUp'
   | 'FaUserAlt'
   | 'FaSearch'
   | 'FaGithub'
@@ -69,6 +73,8 @@ const icons: SvgIconsType = {
   FaRegUserCircle,
   FaChevronRight,
   FaChevronLeft,
+  FaChevronDown,
+  FaChevronUp,
   FaUserAlt,
   FaSearch,
   FaGithub,
