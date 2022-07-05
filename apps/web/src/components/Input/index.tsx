@@ -10,6 +10,7 @@ type InputStyleType = 'primary' | 'secondary';
 
 interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
+  error?: string;
   inputStyle?: InputStyleType;
   inputSize?: 'lg' | 'md' | 'sm';
   rightIcon?: SvgIconType;
@@ -41,6 +42,7 @@ const inputStyles: {
 const SimpleInput: React.FC<SimpleInputProps> = ({
   className,
   name,
+  error,
   inputStyle = 'primary',
   inputSize = 'lg',
   rightIcon,
@@ -51,50 +53,56 @@ const SimpleInput: React.FC<SimpleInputProps> = ({
   const inputStyleProps = inputStyles[inputStyle];
 
   return (
-    <div
-      className={clsx(
-        'flex items-center rounded-md focus-within:outline-none focus-within:border-movieHouse-mid',
-        {
-          [inputStyleProps.container]: !disabled,
-          'bg-grey-900 border-grey-900 bg-opacity-60': disabled,
-          'w-full border-2': inputSize === 'lg',
-        },
-      )}
-    >
-      {leftIcon && (
-        <div className="p-2 pr-0">
-          <SvgIcon className="text-grey-500" iconType={leftIcon} size={20} />
-        </div>
-      )}
-
-      <input
+    <>
+      <div
         className={clsx(
-          'w-full bg-transparent outline-none',
-          className,
-          inputStyleProps.input,
+          'flex items-center rounded-md focus-within:outline-none',
           {
-            'cursor-not-allowed': disabled,
-            'p-2': inputSize === 'lg',
+            [inputStyleProps.container]: !disabled,
+            'focus-within:border-movieHouse-mid': !error,
+            'border-danger-base': error,
+            'bg-grey-900 border-grey-900 bg-opacity-60': disabled,
+            'w-full border-2': inputSize === 'lg',
           },
         )}
-        id={name}
-        disabled={disabled}
-        {...rest}
-      />
+      >
+        {leftIcon && (
+          <div className="p-2 pr-0">
+            <SvgIcon className="text-grey-500" iconType={leftIcon} size={20} />
+          </div>
+        )}
 
-      {rightIcon && (
-        <div className="p-2 pl-0">
-          <SvgIcon className="text-grey-500" iconType={rightIcon} size={20} />
-        </div>
-      )}
-    </div>
+        <input
+          className={clsx(
+            'w-full bg-transparent outline-none',
+            className,
+            inputStyleProps.input,
+            {
+              'cursor-not-allowed': disabled,
+              'p-2': inputSize === 'lg',
+            },
+          )}
+          id={name}
+          disabled={disabled}
+          {...rest}
+        />
+
+        {rightIcon && (
+          <div className="p-2 pl-0">
+            <SvgIcon className="text-grey-500" iconType={rightIcon} size={20} />
+          </div>
+        )}
+      </div>
+
+      {error && <span className="text-danger-base">{`${error}`}</span>}
+    </>
   );
 };
 
 export const FormikInput: React.FC<SimpleInputProps> = ({ name, ...rest }) => {
-  const [field] = useField(name);
+  const [field, meta] = useField(name);
 
-  return <SimpleInput {...rest} {...field} />;
+  return <SimpleInput error={meta.error} {...rest} {...field} />;
 };
 
 const Input: React.FC<InputProps> = ({ formik, ...rest }) =>
