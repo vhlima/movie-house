@@ -10,6 +10,7 @@ import Input from '../../../../../components/Input';
 import Button from '../../../../../components/Button';
 import FieldLabel from '../../../../../components/FieldLabel';
 import Backdrop from '../../../../../components/Backdrop';
+import Modal from '../../../../../components/Modal';
 
 interface AuthenticationModalProps {
   onSubmit: () => void;
@@ -33,62 +34,64 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
   };
 
   return (
-    <Backdrop onClick={onClose}>
-      <div
-        className="fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 bg-grey-800 rounded-md z-50"
-        role="presentation"
-        onClick={e => e.stopPropagation()}
-      >
-        <Button buttonStyle="tertiary" onClick={() => populateJSON()}>
-          Populate database
-        </Button>
-
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          onSubmit={handleSubmit}
+    <Modal portalId="modalPortal">
+      <Backdrop onClick={onClose}>
+        <div
+          className="fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 bg-grey-800 rounded-md z-50"
+          role="presentation"
+          onClick={e => e.stopPropagation()}
         >
-          <Form className="flex flex-col gap-3 p-4">
-            <FieldLabel label="Email" htmlFor="email">
-              <Input
-                formik
-                type="email"
-                name="email"
-                placeholder="Email"
-                leftIcon="HiMail"
-              />
-            </FieldLabel>
+          <Button buttonStyle="tertiary" onClick={() => populateJSON()}>
+            Populate database
+          </Button>
 
-            <FieldLabel label="Password" htmlFor="password">
-              <Input
-                formik
-                type="password"
-                name="password"
-                placeholder="Password"
-                leftIcon="HiLockClosed"
-              />
-            </FieldLabel>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            onSubmit={handleSubmit}
+          >
+            <Form className="flex flex-col gap-3 p-4">
+              <FieldLabel label="Email" htmlFor="email">
+                <Input
+                  formik
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  leftIcon="HiMail"
+                />
+              </FieldLabel>
 
-            <div className="flex gap-1">
-              <span className="text-grey-200">Forgot your password?</span>
+              <FieldLabel label="Password" htmlFor="password">
+                <Input
+                  formik
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  leftIcon="HiLockClosed"
+                />
+              </FieldLabel>
 
-              <span className="text-grey-100 cursor-pointer hover:text-grey-200">
-                Reset here
-              </span>
-            </div>
+              <div className="flex gap-1">
+                <span className="text-grey-200">Forgot your password?</span>
 
-            <div className="flex gap-1">
-              <span className="text-grey-200">Dont have an account?</span>
+                <span className="text-grey-100 cursor-pointer hover:text-grey-200">
+                  Reset here
+                </span>
+              </div>
 
-              <span className="text-grey-100 cursor-pointer hover:text-grey-200">
-                Register now
-              </span>
-            </div>
+              <div className="flex gap-1">
+                <span className="text-grey-200">Dont have an account?</span>
 
-            <Button type="submit">Submit</Button>
-          </Form>
-        </Formik>
-      </div>
-    </Backdrop>
+                <span className="text-grey-100 cursor-pointer hover:text-grey-200">
+                  Register now
+                </span>
+              </div>
+
+              <Button type="submit">Submit</Button>
+            </Form>
+          </Formik>
+        </div>
+      </Backdrop>
+    </Modal>
   );
 };
 
