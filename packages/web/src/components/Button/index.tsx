@@ -7,13 +7,15 @@ type ButtonStyleType = 'primary' | 'secondary' | 'tertiary' | 'danger';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   buttonStyle?: ButtonStyleType;
-  buttonSize?: 'lg' | 'md' | 'sm' | 'xs';
+  buttonSize?: 'lg' | 'md' | 'sm' | 'xs' | 'none';
   full?: boolean;
+  flex?: boolean;
 }
 
 const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   className,
   full = true,
+  flex = true,
   buttonStyle = 'primary',
   buttonSize = 'sm',
   disabled,
@@ -53,12 +55,13 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   return (
     <button
       className={clsx(
-        'flex items-center justify-center rounded-md font-semibold',
+        'rounded-md font-semibold',
         buttonStyleProps.bg,
         buttonStyleProps.text,
         className,
         {
           'w-full': full,
+          'flex items-center justify-center': flex,
           'cursor-not-allowed': disabled,
           [`transition-colors duration-300 hover:${buttonStyleProps.hover}`]:
             !disabled,
