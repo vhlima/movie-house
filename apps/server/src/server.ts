@@ -6,13 +6,13 @@ import { ApolloServer } from 'apollo-server';
 
 import { buildSchema } from 'type-graphql';
 
-import UserResolver from './resolvers/UserResolver';
+import { userResolver, reviewResolver } from './resolvers/user';
 
 import database from './database';
 
 const main = async () => {
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [userResolver, reviewResolver],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
   });
 
