@@ -7,6 +7,7 @@ import Star from '../Star';
 import LikeAndComment from '../LikeAndComment';
 
 import UserProfilePicture from '../UserProfilePicture';
+import { TextShorter } from '../TextShorter';
 
 interface UserMovieReviewProps {
   preview?: boolean;
@@ -53,7 +54,7 @@ const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
             </Link>
 
             {!preview ? (
-              <span className="text-grey-200">watched Aug 28, 2019</span>
+              <span className="text-grey-200">reviewed in Aug 28, 2019</span>
             ) : (
               <div className="flex items-center ml-auto">
                 <span className="mr-0.5 text-grey-200 font-semibold">3.5</span>
@@ -63,20 +64,24 @@ const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
             )}
           </div>
 
-          <p className="text-grey-200">
-            Pretty similar to how I feel about the Brockhampton documentary. As
-            a Travis Scott fan, I dug it, but thats only really because Im
-            familiar with him, his performances, his music, and this is just a
-            closer look at all of that. If youre going into this knowing
-            nothing, youll come away knowing about the same and probably even a
-            little turned off by how up his own ass Travis comes across through
-            this. Unlike Brockhamptons doc, this had barely any structure to it
-            and doesnt really give you anything to get hooked on. Which sucks
-            because it makes it pretty clear that Travis is a pretty interesting
-            guy with an interesting story but it just kinda...doesnt do anything
-            with that. Cant believe I just wrote a serious review for a Travis
-            Scott Netflix documentary lol.
-          </p>
+          <TextShorter
+            className="text-grey-200"
+            maxCharacters={120}
+            text="
+              Pretty similar to how I feel about the Brockhampton documentary. As
+              a Travis Scott fan, I dug it, but thats only really because Im
+              familiar with him, his performances, his music, and this is just a
+              closer look at all of that. If youre going into this knowing
+              nothing, youll come away knowing about the same and probably even a
+              little turned off by how up his own ass Travis comes across through
+              this. Unlike Brockhamptons doc, this had barely any structure to it
+              and doesnt really give you anything to get hooked on. Which sucks
+              because it makes it pretty clear that Travis is a pretty interesting
+              guy with an interesting story but it just kinda...doesnt do anything
+              with that. Cant believe I just wrote a serious review for a Travis
+              Scott Netflix documentary lol.
+            "
+          />
 
           <LikeAndComment
             likes={2928}
