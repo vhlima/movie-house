@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { useRouter } from 'next/router';
 
 import { MotionProps, motion } from 'framer-motion';
 
@@ -8,10 +10,24 @@ import MenuLink from './components/MenuLink';
 
 interface NavigationMenuProps {
   animation: MotionProps;
+  onClose: () => void;
 }
 
-const NavigationMenu: React.FC<NavigationMenuProps> = ({ animation }) => {
+const NavigationMenu: React.FC<NavigationMenuProps> = ({
+  animation,
+  onClose,
+}) => {
   const { user } = useAuth();
+
+  const { events } = useRouter();
+
+  useEffect(() => {
+    events.on('routeChangeStart', onClose);
+
+    return () => {
+      events.off('routeChangeStart', onClose);
+    };
+  }, [events, onClose]);
 
   return (
     <motion.div className="absolute w-full bg-inherit z-40" {...animation}>

@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
-import { AnimatePresence, MotionProps } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 import { useAuth } from '../../../hooks/useAuth';
+
+import { dropdownAnimation } from './animations';
 
 import Link from '../../../components/Link';
 
@@ -12,43 +14,23 @@ import AuthenticationModal from './components/AuthenticationModal';
 import NotificationsModal from './components/NotificationsModal';
 import SvgIcon from '../../../components/SvgIcon';
 
+import NavButton from '../NavButton';
+
+type NavWindowType = 'auth' | 'menu' | 'search' | 'notifications' | '';
+
 const Navbar: React.FC = () => {
   const { user } = useAuth();
 
-  const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
-  const [isSearchBarOpen, setSearchBarOpen] = useState<boolean>(false);
-  const [isAuthModalOpen, setAuthModalOpen] = useState<boolean>(false);
-  const [isNotificationModalOpen, setNotificationModalOpen] =
-    useState<boolean>(false);
+  const [currentWindow, setCurrentWindow] = useState<NavWindowType>('');
 
-  const dropdownAnimation: MotionProps = useMemo(
-    () => ({
-      initial: 'hidden',
-      animate: 'visible',
-      exit: {
-        y: '-10%',
-        transition: {
-          duration: 0.2,
-        },
-      },
-      variants: {
-        hidden: { opacity: 0, y: '-20%' },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.2,
-          },
-        },
-      },
-    }),
-    [],
-  );
+  const openWindow = (window: NavWindowType) => {
+    setCurrentWindow(prev => (prev !== window ? window : ''));
+  };
 
   return (
     <>
-      {!user && isAuthModalOpen && (
-        <AuthenticationModal onClose={() => setAuthModalOpen(false)} />
+      {!user && currentWindow === 'auth' && (
+        <AuthenticationModal onClose={() => setCurrentWindow('')} />
       )}
 
       <nav className="relative bg-grey-800">
@@ -67,57 +49,42 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className="flex items-center ml-auto text-grey-300">
-            {!user ? (
-              <button
-                className="p-2"
-                type="button"
-                onClick={() => setAuthModalOpen(prev => !prev)}
-              >
-                <SvgIcon iconType="FaUserAlt" size={18} />
-              </button>
-            ) : (
-              <button
-                className="p-2"
-                type="button"
-                onClick={() => setNotificationModalOpen(prev => !prev)}
-              >
-                <SvgIcon iconType="BsFillBellFill" size={18} />
-              </button>
-            )}
+            <NavButton
+              iconType={!user ? 'FaUserAlt' : 'BsFillBellFill'}
+              size={18}
+              onClick={() => openWindow(!user ? 'auth' : 'notifications')}
+            />
 
-            <button
-              type="button"
-              className="p-2"
-              onClick={() => setSearchBarOpen(prev => !prev)}
-            >
-              <SvgIcon iconType="FaSearch" size={18} />
-            </button>
+            <NavButton
+              iconType="FaSearch"
+              size={18}
+              onClick={() => openWindow('search')}
+            />
 
-            <button
-              className="p-2"
-              type="button"
-              onClick={() => setMenuOpen(prev => !prev)}
-            >
-              {!isMenuOpen ? (
-                <SvgIcon iconType="HiMenu" size={26} />
-              ) : (
-                <SvgIcon iconType="FiX" size={26} />
-              )}
-            </button>
+            <NavButton
+              iconType={currentWindow !== 'menu' ? 'HiMenu' : 'FiX'}
+              size={26}
+              onClick={() => openWindow('menu')}
+            />
           </div>
         </div>
 
         <AnimatePresence>
-          {user && isNotificationModalOpen && (
+          {user && currentWindow === 'notifications' && (
             <NotificationsModal animation={dropdownAnimation} />
           )}
         </AnimatePresence>
 
         <AnimatePresence>
-          {isMenuOpen && <NavigationMenu animation={dropdownAnimation} />}
+          {currentWindow === 'menu' && (
+            <NavigationMenu
+              animation={dropdownAnimation}
+              onClose={() => setCurrentWindow('')}
+            />
+          )}
         </AnimatePresence>
 
-        {isSearchBarOpen && <SearchBar />}
+        {currentWindow === 'search' && <SearchBar />}
       </nav>
     </>
   );
