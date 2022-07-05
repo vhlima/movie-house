@@ -19,8 +19,8 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({ animation }) => {
         {user && (
           <MenuLink
             href={{
-              pathname: '/users/[userId]',
-              query: { userId: user.id },
+              pathname: '/users/[id]',
+              query: { id: user._id },
             }}
             text="My Profile"
             icon="FaRegUserCircle"
