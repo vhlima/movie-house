@@ -16,7 +16,7 @@ interface UserMovieReviewProps {
 const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
   const [hasUserLike, setUserLike] = useState<boolean>(false);
 
-  const rating = Math.floor(Math.random() * 10);
+  const rating = 10;
 
   const userProfilePictureUrl =
     'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6';
