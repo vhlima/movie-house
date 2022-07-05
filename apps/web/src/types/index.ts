@@ -1,9 +1,9 @@
 /* User */
 export interface UserData {
-  id: string;
+  _id: string;
   username: string;
-  fullName: string;
-  profilePictureUrl: string;
+  realName: string;
+  profilePicture: string;
   followers: string[];
   following: string[];
 }
@@ -46,4 +46,9 @@ export interface MovieData {
   };
   categories: MovieCategory[];
   cast: Array<ActorProps & { role: string }>;
+}
+
+/* Authentication */
+export interface SignInCredentials {
+  username: string;
 }
