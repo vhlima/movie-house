@@ -48,10 +48,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       {!user && isAuthModalOpen && (
-        <AuthenticationModal
-          onSubmit={() => setAuthModalOpen(false)}
-          onClose={() => setAuthModalOpen(false)}
-        />
+        <AuthenticationModal onClose={() => setAuthModalOpen(false)} />
       )}
 
       <nav className="relative bg-grey-800">
