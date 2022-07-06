@@ -10,12 +10,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonSize?: 'lg' | 'md' | 'sm' | 'xs' | 'none';
   full?: boolean;
   flex?: boolean;
+  rounded?: boolean;
 }
 
 const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   className,
   full = true,
   flex = true,
+  rounded = true,
   buttonStyle = 'primary',
   buttonSize = 'sm',
   disabled,
@@ -23,28 +25,37 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   ...buttonProps
 }) => {
   const buttonStyles: {
-    [key in ButtonStyleType]: { bg: string; text: string; hover: string };
+    [key in ButtonStyleType]: {
+      bg: string;
+      text: string;
+      hover: string;
+      outline: string;
+    };
   } = useMemo(
     () => ({
       primary: {
         bg: 'bg-movieHouse-mid',
         text: 'text-white',
         hover: 'bg-movieHouse-light',
+        outline: 'focus:border-white',
       },
       secondary: {
         bg: 'bg-grey-700',
         text: 'text-grey-100',
         hover: 'bg-grey-600',
+        outline: 'focus:border-white',
       },
       tertiary: {
         bg: 'bg-transparent',
         text: 'text-grey-100',
         hover: 'bg-grey-600',
+        outline: 'focus:border-white',
       },
       danger: {
         bg: 'bg-grey-700',
         text: 'text-danger-light',
         hover: 'bg-grey-600',
+        outline: 'focus:border-white',
       },
     }),
     [],
@@ -55,12 +66,14 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   return (
     <button
       className={clsx(
-        'rounded-md font-semibold',
+        'border-2 border-transparent font-semibold outline-none',
         buttonStyleProps.bg,
         buttonStyleProps.text,
+        buttonStyleProps.outline,
         className,
         {
-          'w-full': full,
+          'w-full h-fit': full,
+          'rounded-md': rounded,
           'flex items-center justify-center': flex,
           'cursor-not-allowed': disabled,
           [`transition-colors duration-300 hover:${buttonStyleProps.hover}`]:
