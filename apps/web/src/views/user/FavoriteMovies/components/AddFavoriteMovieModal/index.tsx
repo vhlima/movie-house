@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { MovieData } from '../../../../types';
+import { MovieData } from '../../../../../types';
 
-import { movieList } from '../../../../data/fakeData';
+import { movieList } from '../../../../../data/fakeData';
 
-import Modal from '../../../../components/Modal';
+import Modal from '../../../../../components/Modal';
 
-import Input from '../../../../components/Input';
+import Input from '../../../../../components/Input';
 
-import Button from '../../../../components/Button';
+import Button from '../../../../../components/Button';
 
 interface AddFavoriteMovieModalProps {
   onSelect: (movie: MovieData) => void;
