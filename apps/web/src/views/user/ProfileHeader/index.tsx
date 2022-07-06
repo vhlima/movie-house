@@ -11,6 +11,7 @@ import UserProfilePicture from '../../../components/UserProfilePicture';
 import Button from '../../../components/Button';
 import { useAuth } from '../../../hooks/useAuth';
 import UserProfileNumber from './components/UserProfileNumber';
+import BackgroundImage from '../../../components/BackgroundImage';
 
 interface ProfileHeaderProps {
   user: UserData;
@@ -31,15 +32,7 @@ const ProfileHeader: React.FC<PropsWithChildren<ProfileHeaderProps>> = ({
 
   return (
     <div className="flex">
-      <div className="w-full h-44 absolute z-0">
-        <Image
-          layout="fill"
-          objectFit="fill"
-          src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg"
-        />
-
-        <div className="absolute bottom-0 h-20 w-full z-10 bg-gradient-to-t from-grey-900" />
-      </div>
+      <BackgroundImage src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg" />
 
       <div className="flex flex-col gap-4 px-3 mt-32 z-10">
         <div className="flex items-center gap-2">
