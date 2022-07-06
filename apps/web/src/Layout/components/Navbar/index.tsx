@@ -10,9 +10,9 @@ import SearchBar from './components/SearchBar';
 import NavigationMenu from './components/NavigationMenu';
 import AuthenticationModal from './components/AuthenticationModal';
 import Notifications from './components/Notifications';
-import SvgIcon from '../../../components/SvgIcon';
 
 import NavButton from '../NavButton';
+import Logo from '../../../components/Logo';
 
 type NavWindowType = 'auth' | 'menu' | 'search' | 'notifications' | '';
 
@@ -37,17 +37,8 @@ const Navbar: React.FC = () => {
 
       <nav className="relative bg-grey-800">
         <div className="flex items-center gap-2 p-3">
-          <Link className="flex items-center gap-2 select-none" href="/">
-            <SvgIcon
-              className="text-movieHouse-dark"
-              iconType="BsHouse"
-              size={22}
-              strokeWidth={1}
-            />
-
-            <h1 className="text-grey-100 font-mono font-semibold text-2xl">
-              MovieHouse
-            </h1>
+          <Link href="/">
+            <Logo showText />
           </Link>
 
           <div className="flex items-center ml-auto text-grey-300">
