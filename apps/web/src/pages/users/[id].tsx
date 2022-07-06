@@ -4,9 +4,11 @@ import Image from 'next/image';
 
 import { GetStaticProps } from 'next';
 
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import client from '../../api';
 
-import { UserData } from '../../types';
+import { MovieData, UserData } from '../../types';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -20,6 +22,9 @@ import Button from '../../components/Button';
 import Layout from '../../Layout';
 import UserProfilePicture from '../../components/UserProfilePicture';
 import { USER, ALL_USERS_ID } from '../../graphql/user';
+import AddFavoriteMovieModal from '../../pageComponents/users/components/AddFavoriteMovieModal';
+import SvgIcon from '../../components/SvgIcon';
+import MovieCard from '../../components/MovieCard2';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params) {
@@ -58,8 +63,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+const MAX_FAVORITE_MOVIES = 4;
+
 const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
   const { user, followUser, unfollowUser } = useAuth();
+
+  // TODO change that
+  const { push } = useRouter();
+
+  const [favoriteMovies, setFavoriteMovies] = useState<MovieData[]>([]);
+
+  const [isAddingFavoriteMovie, setAddingFavoriteMovie] =
+    useState<boolean>(false);
+
+  const handleAddFavoriteMovie = (movie: MovieData) => {
+    setFavoriteMovies(prev => {
+      if (prev.length >= MAX_FAVORITE_MOVIES) {
+        return prev;
+      }
+
+      return [...prev, movie];
+    });
+
+    setAddingFavoriteMovie(false);
+  };
 
   if (!targetUser) {
     return (
@@ -69,8 +96,19 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
     );
   }
 
+  const isOwnProfile = user && user._id === targetUser._id;
+
+  const isFollowing = user && user.following.includes(targetUser._id);
+
   return (
     <Layout>
+      {isAddingFavoriteMovie && (
+        <AddFavoriteMovieModal
+          onSelect={handleAddFavoriteMovie}
+          onClose={() => setAddingFavoriteMovie(false)}
+        />
+      )}
+
       <div className="flex">
         <div className="w-full h-44 absolute z-0">
           <Image
@@ -101,27 +139,33 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
           </div>
 
           <div className="flex gap-2">
-            {!user || !user.following.includes(targetUser._id) ? (
-              <Button
-                buttonStyle="secondary"
-                buttonSize="xs"
-                onClick={() => user && followUser(targetUser._id)}
-              >
-                Follow
-              </Button>
+            {!isOwnProfile ? (
+              <>
+                <Button
+                  buttonStyle="secondary"
+                  buttonSize="xs"
+                  onClick={() =>
+                    !isFollowing
+                      ? followUser(targetUser._id)
+                      : unfollowUser(targetUser._id)
+                  }
+                >
+                  {!isFollowing ? 'Follow' : 'Unfollow'}
+                </Button>
+
+                <Button buttonStyle="secondary" buttonSize="xs">
+                  Message
+                </Button>
+              </>
             ) : (
               <Button
                 buttonStyle="secondary"
                 buttonSize="xs"
-                onClick={() => user && unfollowUser(targetUser._id)}
+                onClick={() => push('/settings')}
               >
-                Unfollow
+                Profile settings
               </Button>
             )}
-
-            <Button buttonStyle="secondary" buttonSize="xs">
-              Message
-            </Button>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2">
@@ -164,6 +208,50 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
               top 4 favorites are not actual top favorites, just films Im really
               into each month.
             </p>
+          </Card>
+
+          <Card title="Favorite movies" noPadding>
+            <div className="flex gap-2 h-28">
+              {favoriteMovies.map(movie => (
+                <MovieCard
+                  key={movie.id}
+                  movieCoverUrl={movie.coverUrl}
+                  cardSize="full"
+                />
+              ))}
+
+              {Array.from(
+                {
+                  length: MAX_FAVORITE_MOVIES - favoriteMovies.length,
+                },
+                (v, k) => k,
+              ).map(l =>
+                !isOwnProfile ? (
+                  <div className="w-full rounded-md border-2 border-grey-800" />
+                ) : (
+                  <button
+                    className="flex w-full rounded-md border-2 border-grey-800 overflow-hidden outline-none hover:border-movieHouse-mid focus:border-movieHouse-mid"
+                    key={l}
+                    type="button"
+                    onClick={() => setAddingFavoriteMovie(true)}
+                  >
+                    <div className="flex items-center justify-center w-full p-2">
+                      <SvgIcon
+                        className="text-grey-500"
+                        iconType="AiOutlinePlusCircle"
+                        size={30}
+                      />
+                    </div>
+                  </button>
+                ),
+              )}
+            </div>
+
+            {JSON.stringify(favoriteMovies) !== JSON.stringify([]) && (
+              <Button type="submit" buttonSize="sm">
+                Save changes
+              </Button>
+            )}
           </Card>
 
           <Card title="Pinned reviews" noPadding>
