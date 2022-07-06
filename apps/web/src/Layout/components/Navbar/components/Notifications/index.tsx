@@ -1,22 +1,16 @@
 import React from 'react';
 
-import { MotionProps, motion } from 'framer-motion';
-
 import { fakeUser } from '../../../../../data/fakeData';
 
 import Notification from './components/Notification';
 
-interface NotificationsModalProps {
-  animation: MotionProps;
-}
+import Dropdown, { DropdownProps } from '../Dropdown';
 
-const NotificationsModal: React.FC<NotificationsModalProps> = ({
-  animation,
-}) => {
+const Notifications: React.FC<DropdownProps> = ({ onClose }) => {
   const notificationUser = fakeUser();
 
   return (
-    <motion.div className="absolute w-full bg-inherit z-40" {...animation}>
+    <Dropdown onClose={onClose}>
       <ul className="p-4">
         <Notification imageUrl={notificationUser.profilePicture}>
           <span className="text-grey-100">{notificationUser.username}</span>
@@ -44,8 +38,8 @@ const NotificationsModal: React.FC<NotificationsModalProps> = ({
           <span className="text-grey-200 ml-0.5">followed you</span>
         </Notification>
       </ul>
-    </motion.div>
+    </Dropdown>
   );
 };
 
-export default NotificationsModal;
+export default Notifications;
