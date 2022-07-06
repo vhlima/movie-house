@@ -4,14 +4,12 @@ import { AnimatePresence } from 'framer-motion';
 
 import { useAuth } from '../../../hooks/useAuth';
 
-import { dropdownAnimation } from './animations';
-
 import Link from '../../../components/Link';
 
 import SearchBar from './components/SearchBar';
 import NavigationMenu from './components/NavigationMenu';
 import AuthenticationModal from './components/AuthenticationModal';
-import NotificationsModal from './components/NotificationsModal';
+import Notifications from './components/Notifications';
 import SvgIcon from '../../../components/SvgIcon';
 
 import NavButton from '../NavButton';
@@ -27,14 +25,18 @@ const Navbar: React.FC = () => {
     setCurrentWindow(prev => (prev !== window ? window : ''));
   };
 
+  const closeWindow = () => {
+    setCurrentWindow('');
+  };
+
   return (
     <>
       {!user && currentWindow === 'auth' && (
-        <AuthenticationModal onClose={() => setCurrentWindow('')} />
+        <AuthenticationModal onClose={closeWindow} />
       )}
 
       <nav className="relative bg-grey-800">
-        <div className="flex items-center gap-2 p-4">
+        <div className="flex items-center gap-2 p-3">
           <Link className="flex items-center gap-2 select-none" href="/">
             <SvgIcon
               className="text-movieHouse-dark"
@@ -71,20 +73,15 @@ const Navbar: React.FC = () => {
 
         <AnimatePresence>
           {user && currentWindow === 'notifications' && (
-            <NotificationsModal animation={dropdownAnimation} />
+            <Notifications onClose={closeWindow} />
           )}
         </AnimatePresence>
 
         <AnimatePresence>
-          {currentWindow === 'menu' && (
-            <NavigationMenu
-              animation={dropdownAnimation}
-              onClose={() => setCurrentWindow('')}
-            />
-          )}
+          {currentWindow === 'menu' && <NavigationMenu onClose={closeWindow} />}
         </AnimatePresence>
 
-        {currentWindow === 'search' && <SearchBar />}
+        {currentWindow === 'search' && <SearchBar onClose={closeWindow} />}
       </nav>
     </>
   );
