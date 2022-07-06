@@ -2,10 +2,10 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { MovieProps } from '../../hooks/useMovie';
+import { MovieData } from '../../types';
 
 interface MovieCardListProps {
-  movies: MovieProps[];
+  movies: MovieData[];
 }
 
 const MovieCardList: React.FC<MovieCardListProps> = ({ movies }) => (

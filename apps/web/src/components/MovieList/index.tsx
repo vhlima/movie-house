@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { MovieProps } from '../../hooks/useMovie';
+import { MovieData } from '../../types';
 
 import MovieCard from './components/MovieCard';
 
 import MovieRatingModal from './components/MovieRatingModal';
 
 interface MovieListProps {
-  movies: MovieProps[];
+  movies: MovieData[];
 }
 
 const MovieList: React.FC<MovieListProps> = ({ movies }) => {
-  const [ratingMovie, setRatingMovie] = useState<MovieProps>();
+  const [ratingMovie, setRatingMovie] = useState<MovieData>();
 
   return (
     <>

@@ -1,6 +1,7 @@
 /* User */
 export interface UserData {
   _id: string;
+  email: string;
   username: string;
   realName: string;
   profilePicture: string;
@@ -23,7 +24,7 @@ export interface MovieCategory {
   name: string;
 }
 
-export interface MovieCrewProps {
+export interface MovieCrewData {
   id: string;
   name: string;
   role: CrewRole[];
@@ -38,7 +39,7 @@ export interface MovieData {
   coverUrl: string;
   backgroundUrl: string;
   ageRestriction: number;
-  crew: MovieCrewProps[];
+  crew: MovieCrewData[];
   releaseDate: {
     day: string;
     month: string;

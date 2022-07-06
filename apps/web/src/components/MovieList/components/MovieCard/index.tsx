@@ -2,7 +2,7 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { MovieProps } from '../../../../hooks/useMovie';
+import { MovieData } from '../../../../types';
 
 import Link from '../../../Link';
 
@@ -10,7 +10,7 @@ import Button from '../../../Button';
 import SvgIcon from '../../../SvgIcon';
 
 interface MovieCardProps {
-  movie: MovieProps;
+  movie: MovieData;
   openRatingModal: () => void;
 }
 
