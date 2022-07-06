@@ -21,6 +21,7 @@ import {
   AiFillStar,
   AiOutlineStar,
   AiOutlinePlusCircle,
+  AiOutlineCalendar,
 } from 'react-icons/ai';
 
 import {
@@ -39,6 +40,8 @@ import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
 
 import { IoIosJournal } from 'react-icons/io';
 
+import { IoEye, IoList } from 'react-icons/io5';
+
 export type SvgIconType =
   | 'FaRegUserCircle'
   | 'FaChevronRight'
@@ -56,6 +59,7 @@ export type SvgIconType =
   | 'AiFillStar'
   | 'AiOutlineStar'
   | 'AiOutlinePlusCircle'
+  | 'AiOutlineCalendar'
   | 'BsFillCollectionFill'
   | 'BsFillChatLeftFill'
   | 'BsFillBellFill'
@@ -65,7 +69,9 @@ export type SvgIconType =
   | 'HiMenu'
   | 'HiMail'
   | 'HiLockClosed'
-  | 'IoIosJournal';
+  | 'IoIosJournal'
+  | 'IoEye'
+  | 'IoList';
 
 export interface SvgIconProps extends IconBaseProps {
   iconType: SvgIconType;
@@ -94,6 +100,7 @@ const icons: SvgIconsType = {
   AiFillStar,
   AiOutlineStar,
   AiOutlinePlusCircle,
+  AiOutlineCalendar,
 
   BsFillCollectionFill,
   BsFillChatLeftFill,
@@ -108,6 +115,9 @@ const icons: SvgIconsType = {
   HiLockClosed,
 
   IoIosJournal,
+
+  IoEye,
+  IoList,
 };
 
 const SvgIcon: React.FC<SvgIconProps> = ({ iconType, size, ...rest }) => {
