@@ -18,7 +18,7 @@ const UserProfilePicture: React.FC<UserProfilePictureProps> = ({
       {
         'w-6 h-6': imageSize === 'sm',
         'w-9 h-9': imageSize === 'md',
-        'w-16 h-16': imageSize === 'lg',
+        'w-20 h-20': imageSize === 'lg',
       },
     )}
   >
