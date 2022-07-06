@@ -1,54 +1,51 @@
-import React, { useEffect } from 'react';
-
-import { useRouter } from 'next/router';
-
-import { MotionProps, motion } from 'framer-motion';
+import React from 'react';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
-import MenuLink from './components/MenuLink';
+import MenuItem from './components/MenuItem';
 
-interface NavigationMenuProps {
-  animation: MotionProps;
-  onClose: () => void;
-}
+import Dropdown, { DropdownProps } from '../Dropdown';
 
-const NavigationMenu: React.FC<NavigationMenuProps> = ({
-  animation,
-  onClose,
-}) => {
-  const { user } = useAuth();
-
-  const { events } = useRouter();
-
-  useEffect(() => {
-    events.on('routeChangeStart', onClose);
-
-    return () => {
-      events.off('routeChangeStart', onClose);
-    };
-  }, [events, onClose]);
+const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
+  const { user, signOut } = useAuth();
 
   return (
-    <motion.div className="absolute w-full bg-inherit z-40" {...animation}>
+    <Dropdown onClose={onClose}>
       <ul className="p-4">
         {user && (
-          <MenuLink
-            href={{
-              pathname: '/users/[id]',
-              query: { id: user._id },
+          <MenuItem
+            itemProps={{
+              href: {
+                pathname: '/users/[id]',
+                query: { id: user._id },
+              },
             }}
             text="My Profile"
             icon="FaRegUserCircle"
           />
         )}
 
-        <MenuLink href="/" text="Films" icon="BsFillCollectionFill" />
-        <MenuLink href="/" text="Lists" icon="FaListUl" />
-        <MenuLink href="/" text="Members" icon="FaUsers" />
-        <MenuLink href="/" text="Journal" icon="IoIosJournal" />
+        <MenuItem
+          itemProps={{ href: '/' }}
+          text="Films"
+          icon="BsFillCollectionFill"
+        />
+
+        <MenuItem itemProps={{ href: '/' }} text="Lists" icon="FaListUl" />
+
+        <MenuItem itemProps={{ href: '/' }} text="Members" icon="FaUsers" />
+
+        <MenuItem
+          itemProps={{ href: '/' }}
+          text="Journal"
+          icon="IoIosJournal"
+        />
+
+        {user && (
+          <MenuItem itemProps={{ onClick: signOut }} text="Logout" icon="FiX" />
+        )}
       </ul>
-    </motion.div>
+    </Dropdown>
   );
 };
 
