@@ -10,7 +10,7 @@ interface TextShorterProps {
   maxCharacters: number;
 }
 
-export const TextShorter: React.FC<TextShorterProps> = ({
+const TextShorter: React.FC<TextShorterProps> = ({
   className,
   text,
   maxCharacters,
@@ -44,3 +44,5 @@ export const TextShorter: React.FC<TextShorterProps> = ({
     </p>
   );
 };
+
+export default TextShorter;

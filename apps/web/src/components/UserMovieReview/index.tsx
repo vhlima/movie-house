@@ -7,7 +7,7 @@ import Star from '../Star';
 import LikeAndComment from '../LikeAndComment';
 
 import UserProfilePicture from '../UserProfilePicture';
-import { TextShorter } from '../TextShorter';
+import TextShorter from '../TextShorter';
 
 interface UserMovieReviewProps {
   preview?: boolean;
