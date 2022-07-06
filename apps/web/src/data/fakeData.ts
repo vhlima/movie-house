@@ -1,9 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { faker } from '@faker-js/faker';
 
-import { UserProps } from '../hooks/useAuth';
-
-import { MovieCategory, MovieCrewProps, MovieProps } from '../hooks/useMovie';
+import { UserData, MovieCategory, MovieCrewData, MovieData } from '../types';
 
 /* eslint-disable import/prefer-default-export */
 
@@ -128,20 +126,21 @@ const copyPasta = {
       name: 'C. Robert Cargill',
       role: ['Writer'],
     },
-  ] as MovieCrewProps[],
+  ] as MovieCrewData[],
 };
 
-export const fakeUser = (): UserProps => ({
-  id: faker.datatype.uuid(),
+export const fakeUser = (): UserData => ({
+  _id: faker.datatype.uuid(),
+  email: faker.internet.email(),
   username: faker.internet.userName(),
-  fullName: faker.name.findName(),
+  realName: faker.name.findName(),
   followers: [],
   following: [],
-  profilePictureUrl:
+  profilePicture:
     'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6',
 });
 
-export const fakeUsers: UserProps[] = [
+export const fakeUsers: UserData[] = [
   fakeUser(),
   fakeUser(),
   fakeUser(),
@@ -149,7 +148,7 @@ export const fakeUsers: UserProps[] = [
   fakeUser(),
 ];
 
-export const movieList: MovieProps[] = [
+export const movieList: MovieData[] = [
   {
     id: '6e943d50-4b1e-48b1-b6aa-32223ffb136f',
     name: 'Doctor Strange',
