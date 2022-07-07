@@ -15,7 +15,7 @@ const inputStyles: {
   [key in InputStyleType]: InputStyleProps;
 } = {
   primary: {
-    container: 'bg-grey-900 border-grey-900',
+    container: 'bg-grey-800 border-grey-800',
     input: 'text-white placeholder-grey-400',
   },
   secondary: {
