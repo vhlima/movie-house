@@ -45,6 +45,13 @@ const FavoriteMovies: React.FC<ProfileHeaderProps> = ({ user }) => {
 
   const isOwnProfile = currentUser && currentUser._id === user._id;
 
+  const freeSlots = Array.from(
+    {
+      length: MAX_FAVORITE_MOVIES - favoriteMovies.length,
+    },
+    (v, k) => k,
+  );
+
   const movieCardStyle =
     'flex items-center justify-center w-full rounded-md border-2 border-grey-800 text-grey-500';
 
@@ -58,7 +65,7 @@ const FavoriteMovies: React.FC<ProfileHeaderProps> = ({ user }) => {
       )}
 
       <Card title="Favorite movies" noPadding>
-        <div className="flex gap-2 h-28">
+        <div className="grid grid-cols-4 gap-2 h-28">
           {favoriteMovies.map(movie => (
             <MovieCover
               key={movie.id}
@@ -67,14 +74,9 @@ const FavoriteMovies: React.FC<ProfileHeaderProps> = ({ user }) => {
             />
           ))}
 
-          {Array.from(
-            {
-              length: MAX_FAVORITE_MOVIES - favoriteMovies.length,
-            },
-            (v, k) => k,
-          ).map(l =>
+          {freeSlots.map(l =>
             !isOwnProfile ? (
-              <div className={movieCardStyle}>
+              <div className={movieCardStyle} key={l}>
                 <h1 className="text-3xl">?</h1>
               </div>
             ) : (
