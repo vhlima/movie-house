@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import Star from '../../../../../Star';
+import { MovieRatingStar } from '../../../../../MovieRatingStar';
 
 interface StarsProps {
   userRating: number;
@@ -38,7 +37,11 @@ const Stars: React.FC<StarsProps> = ({ userRating, onChange }) => {
             onMouseEnter={() => handleMouseEnter(st)}
             onMouseLeave={handleMouseLeave}
           >
-            <Star isChecked={isChecked} />
+            <MovieRatingStar
+              color={!isChecked ? 'grey' : 'blue'}
+              checked={isChecked}
+              size={24}
+            />
           </button>
         );
       })}

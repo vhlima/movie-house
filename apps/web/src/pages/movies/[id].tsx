@@ -6,7 +6,6 @@ import { movieList } from '../../data/fakeData';
 
 import Card from '../../components/Card';
 import Link from '../../components/Link';
-import Star from '../../components/Star';
 import Carousel from '../../components/Carouselv2';
 
 import Layout from '../../Layout';
@@ -69,7 +68,7 @@ const Movie: NextPage<{ movie: MovieData }> = ({ movie }) => {
           <p className="text-grey-200 mt-4">{movie.spoiler}</p>
 
           <div className="flex">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => {
+            {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => {
               const { rating } = movie;
 
               return (
@@ -79,7 +78,7 @@ const Movie: NextPage<{ movie: MovieData }> = ({ movie }) => {
                   half={rating - Math.floor(rating) !== 0}
                 />
               );
-            })}
+            })} */}
           </div>
 
           <div className="flex gap-2 flex-wrap">
