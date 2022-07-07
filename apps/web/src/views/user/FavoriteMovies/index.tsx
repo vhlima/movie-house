@@ -21,6 +21,12 @@ interface ProfileHeaderProps {
 
 const MAX_FAVORITE_MOVIES = 4;
 
+/*
+  This component shows user's favorite movies inside his profile.
+  If current profile being shown is from current user, we show him buttons to add
+  new movies to his profile.
+*/
+
 const FavoriteMovies: React.FC<ProfileHeaderProps> = ({ user }) => {
   const { user: currentUser } = useAuth();
 

@@ -8,6 +8,10 @@ interface UserProfilePictureProps extends ImageProps {
   imageSize: 'lg' | 'md' | 'sm';
 }
 
+/* 
+  This component is used in any case we need to show any user profile picture. 
+*/
+
 const UserProfilePicture: React.FC<UserProfilePictureProps> = ({
   imageSize,
   ...imageProps

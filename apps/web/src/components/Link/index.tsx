@@ -8,6 +8,11 @@ interface LinkInternalProps extends LinkProps {
   className?: string;
 }
 
+/* 
+   This component represents all links inside our aplication. 
+   It will automatically put an anchor tag inside our NextJS link.
+*/
+
 const Link: React.FC<PropsWithChildren<LinkInternalProps>> = ({
   className,
   children,

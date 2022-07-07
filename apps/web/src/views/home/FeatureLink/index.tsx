@@ -12,6 +12,10 @@ interface FeatureLinkProps extends LinkProps {
   color: 'purple' | 'orange' | 'green';
 }
 
+/*
+  This component represents home page website features with links to their respective page
+*/
+
 const FeatureLink: React.FC<FeatureLinkProps> = ({
   iconType,
   text,
