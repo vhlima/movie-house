@@ -6,13 +6,17 @@ import { useAuth } from '../../../hooks/useAuth';
 
 import Link from '../../../components/Link';
 
+import Logo from '../../../components/Logo';
+
 import SearchBar from './components/SearchBar';
-import NavigationMenu from './components/NavigationMenu';
-import AuthenticationModal from './components/AuthenticationModal';
+
 import Notifications from './components/Notifications';
 
-import NavButton from '../NavButton';
-import Logo from '../../../components/Logo';
+import NavigationMenu from './components/NavigationMenu';
+
+import AuthenticationModal from './components/AuthenticationModal';
+
+import NavButton from './components/NavButton';
 
 type NavWindowType = 'auth' | 'menu' | 'search' | 'notifications' | '';
 
