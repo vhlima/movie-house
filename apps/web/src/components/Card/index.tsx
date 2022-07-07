@@ -12,6 +12,7 @@ interface CardProps {
   description?: string;
   link?: LinkProps;
   noPadding?: boolean;
+  gap?: boolean;
 }
 
 const Card: React.FC<PropsWithChildren<CardProps>> = ({
@@ -20,6 +21,7 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
   description,
   link,
   noPadding,
+  gap = true,
   children,
 }) => {
   const headContainerStyles = 'group';
@@ -45,16 +47,16 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
   );
 
   return (
-    <div className={clsx('w-full', className)}>
-      <div className={clsx('flex flex-col gap-2', { 'p-3': !noPadding })}>
-        {!link ? (
-          <div className={headContainerStyles}>{head}</div>
-        ) : (
-          <Link className={headContainerStyles} {...link}>
-            {head}
-          </Link>
-        )}
+    <div className={clsx('w-full', className, { 'p-3': !noPadding })}>
+      {!link ? (
+        <div className={headContainerStyles}>{head}</div>
+      ) : (
+        <Link className={headContainerStyles} {...link}>
+          {head}
+        </Link>
+      )}
 
+      <div className={clsx('flex flex-col mt-2', { 'gap-2': gap })}>
         {children}
       </div>
     </div>
