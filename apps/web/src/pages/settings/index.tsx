@@ -40,7 +40,7 @@ const ProfileSettings: NextPage = () => {
   }
 
   return (
-    <Card className="bg-grey-800" title="Personal settings">
+    <Card title="Personal settings">
       <Formik
         initialValues={{ ...user, email: '', biography: '' }}
         onSubmit={handleSubmit}
