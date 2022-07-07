@@ -16,8 +16,6 @@ import ProfileHeader from '../../views/user/ProfileHeader';
 
 import FavoriteMovies from '../../views/user/FavoriteMovies';
 
-import Layout from '../../Layout';
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params) {
     const { id } = params;
@@ -57,43 +55,37 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
   if (!targetUser) {
-    return (
-      <Layout>
-        <h1 className="text-red-500">User not found</h1>
-      </Layout>
-    );
+    return <h1 className="text-red-500">User not found</h1>;
   }
 
   return (
-    <Layout>
-      <ProfileHeader user={targetUser}>
-        <Card title="About me" noPadding>
-          <p className="text-grey-200">
-            guy on youtube (karsten runquist) // guy on podcast (karstcast)
-            <br />
-            •
-            <br />
-            <br />
-            top 4 favorites are not actual top favorites, just films Im really
-            into each month.
-          </p>
-        </Card>
+    <ProfileHeader user={targetUser}>
+      <Card title="About me" noPadding>
+        <p className="text-grey-200">
+          guy on youtube (karsten runquist) // guy on podcast (karstcast)
+          <br />
+          •
+          <br />
+          <br />
+          top 4 favorites are not actual top favorites, just films Im really
+          into each month.
+        </p>
+      </Card>
 
-        <FavoriteMovies user={targetUser} />
+      <FavoriteMovies user={targetUser} />
 
-        <Card title="Pinned reviews" noPadding>
-          <UserMovieReview preview />
-        </Card>
+      <Card title="Pinned reviews" noPadding>
+        <UserMovieReview preview />
+      </Card>
 
-        <Card title="Recent reviews" noPadding>
-          <UserMovieReview preview />
-        </Card>
+      <Card title="Recent reviews" noPadding>
+        <UserMovieReview preview />
+      </Card>
 
-        <Card title="Popular reviews" noPadding>
-          <UserMovieReview preview />
-        </Card>
-      </ProfileHeader>
-    </Layout>
+      <Card title="Popular reviews" noPadding>
+        <UserMovieReview preview />
+      </Card>
+    </ProfileHeader>
   );
 };
 
