@@ -10,9 +10,14 @@ import MovieCardList from '../MovieCardList';
 
 import LikeAndComment from '../LikeAndComment';
 import SvgIcon from '../SvgIcon';
+import ListItem from '../ListItem';
 
-const UserListPreview: React.FC = () => (
-  <div className="flex flex-col gap-2">
+interface UserListProps {
+  preview?: boolean;
+}
+
+const UserListPreview: React.FC<UserListProps> = ({ preview = true }) => (
+  <ListItem multiple={preview}>
     <Link href="/">
       <MovieCardList movies={movieList} />
 
@@ -48,7 +53,7 @@ const UserListPreview: React.FC = () => (
     </p>
 
     <LikeAndComment likes={14758} commentaries={138} onLike={() => ({})} />
-  </div>
+  </ListItem>
 );
 
 export default UserListPreview;

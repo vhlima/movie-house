@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-import clsx from 'clsx';
 import Link from '../Link';
-import Star from '../Star';
 
 import LikeAndComment from '../LikeAndComment';
 
 import UserProfilePicture from '../UserProfilePicture';
 import TextShorter from '../TextShorter';
+import MovieCard from '../MovieCard2';
+import { movieList } from '../../data/fakeData';
+import ListItem from '../ListItem';
+import { MovieRatingStar } from '../MovieRatingStar';
 
 interface UserMovieReviewProps {
   preview?: boolean;
@@ -16,6 +18,8 @@ interface UserMovieReviewProps {
 const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
   const [hasUserLike, setUserLike] = useState<boolean>(false);
 
+  const movie = movieList[0];
+
   const rating = 10;
 
   const userProfilePictureUrl =
@@ -23,20 +27,43 @@ const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
 
   return (
     <>
-      <div
-        className={clsx('py-4 border-b border-b-grey-300 first:pt-0', {
-          'mt-4': !preview,
-          'last:border-0 last:pb-0': preview,
-        })}
-      >
+      <ListItem multiple={preview}>
+        {preview && (
+          <div className="flex gap-2">
+            <MovieCard movieCoverUrl={movie.coverUrl} />
+
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1">
+                <Link
+                  className="text-grey-100 text-xl font-semibold hover:text-grey-300"
+                  href="/"
+                >
+                  {movie.name}
+                </Link>
+
+                <span className="text-grey-200">
+                  ({movie.releaseDate.year})
+                </span>
+              </div>
+
+              <MovieRatingStar color="yellow" rating={movie.rating} checked />
+            </div>
+          </div>
+        )}
+
         <div className="flex flex-col gap-2">
-          {!preview && (
+          {/* {!preview && (
             <div className="flex mb-2">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(st => (
-                <Star key={st} isChecked={rating >= st} />
+                <MovieRatingStar
+                  key={st}
+                  color={rating >= st ? 'blue' : 'grey'}
+                  checked={rating >= st}
+                  size={24}
+                />
               ))}
             </div>
-          )}
+          )} */}
 
           <div className="flex items-center gap-1">
             <UserProfilePicture imageSize="sm" src={userProfilePictureUrl} />
@@ -56,11 +83,13 @@ const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
             {!preview ? (
               <span className="text-grey-200">reviewed in Aug 28, 2019</span>
             ) : (
-              <div className="flex items-center ml-auto">
-                <span className="mr-0.5 text-grey-200 font-semibold">3.5</span>
-
-                <Star size={20} isChecked />
-              </div>
+              <MovieRatingStar
+                color="blue"
+                rating={3.5}
+                marginAuto
+                reverse
+                checked
+              />
             )}
           </div>
 
@@ -90,7 +119,7 @@ const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
             onLike={() => setUserLike(prev => !prev)}
           />
         </div>
-      </div>
+      </ListItem>
 
       {!preview && (
         <div className="flex flex-col gap-2 py-4">
