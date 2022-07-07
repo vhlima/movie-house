@@ -5,6 +5,7 @@ import React, {
   useState,
   useContext,
   useMemo,
+  useEffect,
 } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
@@ -16,31 +17,19 @@ import { SIGN_IN } from '../graphql/user';
 type SignInResponse = { userLogin: UserData };
 
 interface AuthContextData {
-  user: UserData;
-  followUser: (userId: string) => Promise<void>;
-  unfollowUser: (userId: string) => Promise<void>;
-  signIn(credentials: SignInCredentials): Promise<FetchResult<SignInResponse>>;
+  user: UserData | undefined;
+  signIn(
+    credentials: SignInCredentials,
+  ): Promise<FetchResult<SignInResponse> | null>;
   signOut(): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<UserData>();
+  const [user, setUser] = useState<UserData | undefined>();
 
   const [mutationSignIn] = useMutation<SignInResponse>(SIGN_IN);
-
-  const followUser = async (userId: string) => {
-    if (!user) return;
-
-    const a = '1';
-  };
-
-  const unfollowUser = async (userId: string) => {
-    if (!user) return;
-
-    const b = '2';
-  };
 
   const signIn = useCallback(
     async ({ username }: SignInCredentials) => {
@@ -49,10 +38,12 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       });
 
       if (fetchUser.data) {
-        setUser(fetchUser.data.userLogin);
-      }
+        const userData = fetchUser.data.userLogin;
 
-      // const fetchUser = await fetcher<UserData[]>(`/api/users/`);
+        localStorage.setItem('@MovieHouse:user', JSON.stringify(userData));
+
+        setUser(userData);
+      }
 
       return fetchUser;
     },
@@ -63,12 +54,18 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setUser(undefined);
   }, [setUser]);
 
+  useEffect(() => {
+    const localStorageUser = localStorage.getItem('@MovieHouse:user');
+
+    if (localStorageUser) {
+      setUser(JSON.parse(localStorageUser));
+    }
+  }, []);
+
   const value = useMemo(
     () =>
       ({
         user,
-        followUser,
-        unfollowUser,
         signIn,
         signOut,
       } as AuthContextData),
