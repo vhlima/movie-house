@@ -51,6 +51,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   const signOut = useCallback(() => {
+    localStorage.removeItem('@MovieHouse:user');
     setUser(undefined);
   }, [setUser]);
 
