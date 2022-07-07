@@ -9,6 +9,11 @@ import FeatureLink from '../views/home/FeatureLink';
 import BackgroundImage from '../components/BackgroundImage';
 
 import Layout from '../Layout';
+import Link from '../components/Link';
+import UserMovieReview from '../components/UserMovieReview';
+import UserListPreview from '../components/UserListPreview';
+import { movieList } from '../data/fakeData';
+import MovieCarousel from '../components/MovieCarousel';
 
 const Home: NextPage = () => (
   <Layout>
@@ -30,7 +35,7 @@ const Home: NextPage = () => (
           </span>
         </div>
 
-        <div>
+        <div className="flex flex-col gap-4">
           <Card title="Features you will love" noPadding>
             <FeatureLink
               href="/"
@@ -74,22 +79,61 @@ const Home: NextPage = () => (
               text="Compile and share lists of films on any topic and keep a watchlist of films to see"
             />
           </Card>
+
+          <Card
+            title="Top choices"
+            description="Movies we think you might like"
+            link={{ href: '/what-to-watch/fan-favorites' }}
+            noPadding
+          >
+            <MovieCarousel movies={movieList} />
+          </Card>
+
+          <div>
+            <p className="text-grey-200 text-xl text-center mb-2">
+              Write and share reviews. <br />
+              Compile your own lists. <br />
+              Share your life in film.
+            </p>
+
+            <span className="text-grey-300 text-center">
+              Below are some popular reviews and lists from this week.
+              <Link className="text-grey-100 mx-1" href="/">
+                Sign up
+              </Link>
+              to create your own.
+            </span>
+          </div>
+
+          <Card
+            title="Popular reviews this week"
+            link={{ href: '/' }}
+            gap={false}
+            noPadding
+          >
+            {[1, 2, 3, 4, 5].map(r => (
+              <UserMovieReview key={r} preview />
+            ))}
+          </Card>
+
+          <Card
+            title="Popular lists"
+            link={{ href: '/' }}
+            gap={false}
+            noPadding
+          >
+            {[1, 2, 3, 4, 5].map(r => (
+              <UserListPreview key={r} />
+            ))}
+          </Card>
         </div>
 
-        {/* <Card
-          title="Top choices"
-          description="Movies we think you might like"
-          link={{ href: '/what-to-watch/fan-favorites' }}
-        >
-          <MovieCarousel movies={fakeData.movies as MovieData[]} />
-        </Card>
-
-        <Card title="Popular reviews this week">
+        {/* <Card title="Popular reviews this week">
           <UserMovieReview preview />
           <UserMovieReview preview />
           <UserMovieReview preview />
           <UserMovieReview preview />
-        </Card> */}
+        </Card>  */}
       </div>
     </div>
   </Layout>
