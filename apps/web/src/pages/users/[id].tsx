@@ -10,11 +10,11 @@ import client from '../../api';
 
 import Card from '../../components/Card';
 
-import UserMovieReview from '../../components/UserMovieReview';
+import UserMovieReview from '../../views/users/reviews';
 
-import ProfileHeader from '../../views/user/ProfileHeader';
+import ProfileHeader from '../../views/users/ProfileHeader';
 
-import FavoriteMovies from '../../views/user/FavoriteMovies';
+import FavoriteMovies from '../../views/users/FavoriteMovies';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params) {

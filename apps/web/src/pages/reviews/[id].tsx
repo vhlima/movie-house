@@ -4,9 +4,9 @@ import { MovieData } from '../../types';
 
 import * as fakeData from '../../data/fake.json';
 
-import MovieHeader from '../../components/MovieHeader';
+import MovieHeader from '../../views/movies/Header';
 
-import UserMovieReview from '../../components/UserMovieReview';
+import UserMovieReview from '../../views/users/reviews';
 
 const Reviews: NextPage = () => {
   const movie = fakeData.movies[0] as MovieData;

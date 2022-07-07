@@ -2,7 +2,7 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import SvgIcon from '../SvgIcon';
+import SvgIcon from '../../../../components/SvgIcon';
 
 interface MovieRatingStarProps {
   className?: string;
@@ -18,7 +18,7 @@ interface MovieRatingStarProps {
   This component is used in any case we need to use rating stars. 
 */
 
-export const MovieRatingStar: React.FC<MovieRatingStarProps> = ({
+const MovieRatingStar: React.FC<MovieRatingStarProps> = ({
   className,
   color,
   size = 20,
@@ -54,3 +54,5 @@ export const MovieRatingStar: React.FC<MovieRatingStarProps> = ({
     </div>
   );
 };
+
+export default MovieRatingStar;

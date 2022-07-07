@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 
-import Link from '../Link';
+import { movieList } from '../../../data/fakeData';
 
-import LikeAndComment from '../LikeAndComment';
+import Link from '../../../components/Link';
 
-import UserProfilePicture from '../UserProfilePicture';
-import TextShorter from '../TextShorter';
-import MovieCard from '../MovieCard2';
-import { movieList } from '../../data/fakeData';
-import ListItem from '../ListItem';
-import { MovieRatingStar } from '../MovieRatingStar';
+import ListItem from '../../../components/ListItem';
+
+import TextShorter from '../../../components/TextShorter';
+
+import LikeAndComment from '../../../components/LikeAndComment';
+
+import UserProfilePicture from '../components/ProfilePicture';
+
+import MovieCover from '../../movies/components/Cover';
+
+import MovieRatingStar from '../../movies/components/RatingStar';
 
 interface UserMovieReviewProps {
   preview?: boolean;
@@ -20,8 +25,6 @@ const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
 
   const movie = movieList[0];
 
-  const rating = 10;
-
   const userProfilePictureUrl =
     'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6';
 
@@ -30,7 +33,7 @@ const UserMovieReview: React.FC<UserMovieReviewProps> = ({ preview }) => {
       <ListItem multiple={preview}>
         {preview && (
           <div className="flex gap-2">
-            <MovieCard movieCoverUrl={movie.coverUrl} />
+            <MovieCover coverUrl={movie.coverUrl} />
 
             <div className="flex flex-col">
               <div className="flex items-center gap-1">

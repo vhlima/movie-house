@@ -2,24 +2,37 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { movieList } from '../../data/fakeData';
+import { movieList } from '../../../data/fakeData';
 
-import Link from '../Link';
+import Link from '../../../components/Link';
 
-import MovieCardList from '../MovieCardList';
+import SvgIcon from '../../../components/SvgIcon';
 
-import LikeAndComment from '../LikeAndComment';
-import SvgIcon from '../SvgIcon';
-import ListItem from '../ListItem';
+import ListItem from '../../../components/ListItem';
 
-interface UserListProps {
+import LikeAndComment from '../../../components/LikeAndComment';
+
+interface UserMovieListProps {
   preview?: boolean;
 }
 
-const UserListPreview: React.FC<UserListProps> = ({ preview = true }) => (
+const UserMovieList: React.FC<UserMovieListProps> = ({ preview = true }) => (
   <ListItem multiple={preview}>
     <Link href="/">
-      <MovieCardList movies={movieList} />
+      <ul className="flex relative w-full h-40">
+        {movieList.map((movie, index) => (
+          <li
+            className="relative min-w-0 flex-grow basis-1/3 rounded-lg float-left border border-grey-700 overflow-hidden"
+            key={movie.id}
+            style={{
+              zIndex: 999 - index,
+              marginRight: `-12.5%`,
+            }}
+          >
+            <Image layout="fill" objectFit="fill" src={movie.coverUrl} />
+          </li>
+        ))}
+      </ul>
 
       <h1 className="text-grey-100 font-semibold ">what is reality?</h1>
     </Link>
@@ -56,4 +69,4 @@ const UserListPreview: React.FC<UserListProps> = ({ preview = true }) => (
   </ListItem>
 );
 
-export default UserListPreview;
+export default UserMovieList;

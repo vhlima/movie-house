@@ -2,13 +2,13 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { MovieData } from '../../../../types';
+import { MovieData } from '../../../../../../types';
 
-import Link from '../../../Link';
+import Link from '../../../../../../components/Link';
 
-import Button from '../../../Button';
-import SvgIcon from '../../../SvgIcon';
-import { MovieRatingStar } from '../../../MovieRatingStar';
+import SvgIcon from '../../../../../../components/SvgIcon';
+
+import MovieRatingStar from '../../../RatingStar';
 
 interface MovieCardProps {
   movie: MovieData;

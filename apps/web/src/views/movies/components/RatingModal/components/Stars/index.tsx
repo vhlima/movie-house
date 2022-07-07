@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { MovieRatingStar } from '../../../../../MovieRatingStar';
+
+import MovieRatingStar from '../../../RatingStar';
 
 interface StarsProps {
   userRating: number;

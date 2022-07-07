@@ -11,7 +11,7 @@ import Button from '../../../components/Button';
 
 import SvgIcon from '../../../components/SvgIcon';
 
-import MovieCard from '../../../components/MovieCard2';
+import MovieCover from '../../movies/components/Cover';
 
 import AddFavoriteMovieModal from './components/AddFavoriteMovieModal';
 
@@ -60,10 +60,10 @@ const FavoriteMovies: React.FC<ProfileHeaderProps> = ({ user }) => {
       <Card title="Favorite movies" noPadding>
         <div className="flex gap-2 h-28">
           {favoriteMovies.map(movie => (
-            <MovieCard
+            <MovieCover
               key={movie.id}
-              movieCoverUrl={movie.coverUrl}
-              cardSize="full"
+              coverUrl={movie.coverUrl}
+              coverSize="full"
             />
           ))}
 

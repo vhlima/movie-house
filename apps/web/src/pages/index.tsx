@@ -8,13 +8,13 @@ import Logo from '../components/Logo';
 
 import FeatureLink from '../views/home/FeatureLink';
 
-import BackgroundImage from '../components/BackgroundImage';
+import BackgroundImage from '../views/movies/components/BackgroundImage';
 
-import UserMovieReview from '../components/UserMovieReview';
+import UserMovieList from '../views/users/lists';
 
-import UserListPreview from '../components/UserListPreview';
+import UserMovieReview from '../views/users/reviews';
 
-import MovieCarousel from '../components/MovieCarousel';
+import MovieCarousel from '../views/movies/components/Carousel';
 
 import Link from '../components/Link';
 
@@ -120,7 +120,7 @@ const Home: NextPage = () => (
 
         <Card title="Popular lists" link={{ href: '/' }} gap={false} noPadding>
           {[1, 2, 3, 4, 5].map(r => (
-            <UserListPreview key={r} />
+            <UserMovieList key={r} />
           ))}
         </Card>
       </div>

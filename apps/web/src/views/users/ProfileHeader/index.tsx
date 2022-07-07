@@ -6,12 +6,12 @@ import { useRouter } from 'next/router';
 
 import { UserData } from '../../../types';
 
-import UserProfilePicture from '../../../components/UserProfilePicture';
+import UserProfilePicture from '../components/ProfilePicture';
 
 import Button from '../../../components/Button';
 import { useAuth } from '../../../hooks/useAuth';
 import UserProfileNumber from './components/UserProfileNumber';
-import BackgroundImage from '../../../components/BackgroundImage';
+import BackgroundImage from '../../movies/components/BackgroundImage';
 
 interface ProfileHeaderProps {
   user: UserData;

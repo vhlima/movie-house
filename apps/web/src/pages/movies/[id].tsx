@@ -9,14 +9,18 @@ import { movieList } from '../../data/fakeData';
 import { fetcher } from '../../utils';
 
 import Card from '../../components/Card';
+
 import Link from '../../components/Link';
-import Carousel from '../../components/Carouselv2';
 
-import UserListPreview from '../../components/UserListPreview';
-import MovieCoverImage from '../../components/MovieCoverImage';
+import Carousel from '../../components/Carousel';
 
-import MovieHeader from '../../components/MovieHeader';
-import UserMovieReview from '../../components/UserMovieReview';
+import UserMovieList from '../../views/users/lists';
+
+import UserMovieReview from '../../views/users/reviews';
+
+import MovieCover from '../../views/movies/components/Cover';
+
+import MovieHeader from '../../views/movies/Header';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params) {
@@ -143,14 +147,14 @@ const Movie: NextPage<{ movie: MovieData }> = ({ movie }) => {
           <div className="flex gap-2">
             {movieList.map(m => (
               <Link key={m.id} className="hover:opacity-60" href="/">
-                <MovieCoverImage src={m.coverUrl} />
+                <MovieCover coverUrl={m.coverUrl} />
               </Link>
             ))}
           </div>
         </Card>
 
         <Card title="Popular lists" noPadding>
-          <UserListPreview />
+          <UserMovieList />
         </Card>
       </div>
     </MovieHeader>

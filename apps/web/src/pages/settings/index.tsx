@@ -12,7 +12,7 @@ import Input from '../../components/Input';
 
 import Button from '../../components/Button';
 
-import UserProfilePicture from '../../components/UserProfilePicture';
+import UserProfilePicture from '../../views/users/components/ProfilePicture';
 
 const ProfileSettings: NextPage = () => {
   const { user } = useAuth();

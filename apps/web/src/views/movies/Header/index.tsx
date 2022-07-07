@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 
-import Image from 'next/image';
-import { MovieData } from '../../types';
+import { MovieData } from '../../../types';
 
-import MovieCoverImage from '../MovieCoverImage';
+import MovieCover from '../components/Cover';
 
-import Button from '../Button';
-import BackgroundImage from '../BackgroundImage';
+import BackgroundImage from '../components/BackgroundImage';
+
+import Button from '../../../components/Button';
 
 interface MovieHeaderProps {
   movie: MovieData;
@@ -54,7 +54,7 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
           </div>
         </div>
 
-        <MovieCoverImage src={movie.coverUrl} />
+        <MovieCover coverUrl={movie.coverUrl} />
       </div>
 
       {children}

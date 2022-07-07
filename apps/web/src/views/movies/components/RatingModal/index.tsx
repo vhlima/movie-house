@@ -4,13 +4,15 @@ import { MotionProps } from 'framer-motion';
 
 import { MovieData } from '../../../../types';
 
-import Modal from '../../../Modal';
+import Modal from '../../../../components/Modal';
 
-import Button from '../../../Button';
+import Button from '../../../../components/Button';
+
+import SvgIcon from '../../../../components/SvgIcon';
 
 import Stars from './components/Stars';
 
-import SvgIcon from '../../../SvgIcon';
+// import Stars from './components/Stars';
 
 interface MovieRatingModalProps {
   movie: MovieData;

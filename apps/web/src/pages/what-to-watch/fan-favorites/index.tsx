@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 
 import { movieList } from '../../../data/fakeData';
 
-import MovieCarousel from '../../../components/MovieCarousel';
+import MovieCarousel from '../../../views/movies/components/Carousel';
 
 const FanFavorites: NextPage = () => <MovieCarousel movies={movieList} />;
 
