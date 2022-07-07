@@ -12,7 +12,7 @@ import BackgroundImage from '../views/movies/components/BackgroundImage';
 
 import UserMovieList from '../views/users/lists';
 
-import UserMovieReview from '../views/users/reviews';
+import UserMovieReviewBody from '../views/users/reviews/components/Body';
 
 import MovieCarousel from '../views/movies/components/Carousel';
 
@@ -114,7 +114,7 @@ const Home: NextPage = () => (
           noPadding
         >
           {[1, 2, 3, 4, 5].map(r => (
-            <UserMovieReview key={r} preview />
+            <UserMovieReviewBody key={r} preview />
           ))}
         </Card>
 
@@ -124,13 +124,6 @@ const Home: NextPage = () => (
           ))}
         </Card>
       </div>
-
-      {/* <Card title="Popular reviews this week">
-          <UserMovieReview preview />
-          <UserMovieReview preview />
-          <UserMovieReview preview />
-          <UserMovieReview preview />
-        </Card>  */}
     </div>
   </div>
 );

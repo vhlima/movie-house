@@ -10,7 +10,7 @@ import client from '../../api';
 
 import Card from '../../components/Card';
 
-import UserMovieReview from '../../views/users/reviews';
+import UserMovieReviewBody from '../../views/users/reviews/components/Body';
 
 import ProfileHeader from '../../views/users/ProfileHeader';
 
@@ -75,15 +75,15 @@ const UserProfile: NextPage<{ targetUser: UserData }> = ({ targetUser }) => {
       <FavoriteMovies user={targetUser} />
 
       <Card title="Pinned reviews" noPadding>
-        <UserMovieReview preview />
+        <UserMovieReviewBody preview />
       </Card>
 
       <Card title="Recent reviews" noPadding>
-        <UserMovieReview preview />
+        <UserMovieReviewBody preview />
       </Card>
 
       <Card title="Popular reviews" noPadding>
-        <UserMovieReview preview />
+        <UserMovieReviewBody preview />
       </Card>
     </ProfileHeader>
   );
