@@ -53,3 +53,9 @@ export interface MovieData {
 export interface SignInCredentials {
   username: string;
 }
+
+/* Commentary */
+export interface CommentaryProps {
+  _id: string;
+  message: string;
+}
