@@ -10,15 +10,11 @@ import SvgIcon from '../../../components/SvgIcon';
 
 import ListItem from '../../../components/ListItem';
 
-import LikeAndComment from '../../../components/LikeAndComment';
+import Post from '../components/Post';
 
-interface UserMovieListProps {
-  preview?: boolean;
-}
-
-const UserMovieList: React.FC<UserMovieListProps> = ({ preview = true }) => (
-  <ListItem multiple={preview}>
-    <Link href="/">
+const UserMovieList: React.FC = () => (
+  <ListItem>
+    <Link href="/lists/abc">
       <ul className="flex relative w-full h-40">
         {movieList.map((movie, index) => (
           <li
@@ -34,18 +30,17 @@ const UserMovieList: React.FC<UserMovieListProps> = ({ preview = true }) => (
         ))}
       </ul>
 
-      <h1 className="text-grey-100 font-semibold ">what is reality?</h1>
+      <h1 className="text-grey-100 font-semibold text-lg my-2 hover:text-grey-200">
+        what is reality?
+      </h1>
     </Link>
 
-    <div className="flex items-center">
-      <div className="relative w-5 h-5 border border-grey-700 rounded-full overflow-hidden">
-        <Image
-          layout="fill"
-          objectFit="cover"
-          src="https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6"
-        />
-      </div>
-
+    <Post
+      text="meditations, ruminations, and explorations on the nature of reality and
+      existence. comprised most of projects ive watched, and some watchlist
+      entries. organized by color. ฅ^•ﻌ•^ฅ"
+      textShort
+    >
       <Link className="group" href="/">
         <span className="ml-1 text-gray-100 font-semibold group-hover:text-grey-200">
           karsten
@@ -57,15 +52,7 @@ const UserMovieList: React.FC<UserMovieListProps> = ({ preview = true }) => (
 
         <SvgIcon className="text-grey-300" iconType="MdMovie" size={22} />
       </div>
-    </div>
-
-    <p className="text-grey-200">
-      meditations, ruminations, and explorations on the nature of reality and
-      existence. comprised most of projects ive watched, and some watchlist
-      entries. organized by color. ฅ^•ﻌ•^ฅ
-    </p>
-
-    <LikeAndComment likes={14758} commentaries={138} onLike={() => ({})} />
+    </Post>
   </ListItem>
 );
 
