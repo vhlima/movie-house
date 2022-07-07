@@ -30,7 +30,7 @@ export const useLogic = ({
         try {
           const result = await signIn(values);
 
-          if (!result.errors) {
+          if (!result || !result.errors) {
             onClose();
             return;
           }
