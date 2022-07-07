@@ -4,7 +4,6 @@ import clsx from 'clsx';
 
 interface ListItemProps {
   className?: string;
-  multiple?: boolean;
 }
 
 /* 
@@ -14,17 +13,12 @@ interface ListItemProps {
 
 const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
   className,
-  multiple,
   children,
 }) => (
   <div
     className={clsx(
-      'flex gap-2 py-4 border-b border-b-grey-300 first:pt-0',
+      'py-4 first-of-type:pt-0 last-of-type:pb-0 border-b border-b-grey-300 last-of-type:border-b-0',
       className,
-      {
-        'mt-4': !multiple,
-        'flex-col last:border-0 last:pb-0': multiple,
-      },
     )}
   >
     {children}
