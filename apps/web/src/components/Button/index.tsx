@@ -69,7 +69,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
         'border-2 border-transparent font-semibold outline-none',
         buttonStyleProps.bg,
         buttonStyleProps.text,
-        buttonStyleProps.outline,
+        // buttonStyleProps.outline,
         className,
         {
           'w-full h-fit': full,
