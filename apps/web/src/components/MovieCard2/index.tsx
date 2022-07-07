@@ -14,7 +14,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
 }) => (
   <div
     className={clsx(
-      'relative rounded-lg border border-grey-700 overflow-hidden',
+      'relative rounded-lg border border-grey-700 overflow-hidden flex-shrink-0',
       {
         'w-20 h-28': cardSize === 'sm',
         'w-full h-full': cardSize === 'full',
