@@ -24,7 +24,7 @@ const ProfileHeader: React.FC<PropsWithChildren<ProfileHeaderProps>> = ({
   // TODO change that
   const { push } = useRouter();
 
-  const { user: currentUser, followUser, unfollowUser } = useAuth();
+  const { user: currentUser } = useAuth();
 
   const isOwnProfile = currentUser && currentUser._id === user._id;
 
@@ -55,9 +55,7 @@ const ProfileHeader: React.FC<PropsWithChildren<ProfileHeaderProps>> = ({
               <Button
                 buttonStyle="secondary"
                 buttonSize="xs"
-                onClick={() =>
-                  !isFollowing ? followUser(user._id) : unfollowUser(user._id)
-                }
+                // onClick={() => !isFollowing ? followUser(user._id) : unfollowUser(user._id)}
               >
                 {!isFollowing ? 'Follow' : 'Unfollow'}
               </Button>
