@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Formik, Form } from 'formik';
 
-import Input from '../../../../../components/Input';
-import Button from '../../../../../components/Button';
-import FieldLabel from '../../../../../components/FieldLabel';
-import Backdrop from '../../../../../components/Backdrop';
 import Modal from '../../../../../components/Modal';
+
+import Input from '../../../../../components/Input';
+
+import Button from '../../../../../components/Button';
 
 import { useLogic } from './logic';
 
@@ -31,6 +31,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
             name="username"
             placeholder="Username"
             leftIcon="HiMail"
+            inputStyle="secondary"
             label={{ text: 'Username', htmlFor: true }}
           />
 
