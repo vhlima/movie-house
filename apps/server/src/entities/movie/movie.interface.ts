@@ -26,8 +26,8 @@ export default class Movie {
   @prop()
   readonly overview: string;
 
-  @Field()
-  @prop({ type: () => Float })
+  @Field(() => Float)
+  @prop()
   readonly popularity: number;
 
   @Field()
