@@ -11,9 +11,9 @@ export default class TmdbAPI extends RESTDataSource {
     this.baseURL = 'https://api.themoviedb.org/3/';
   }
 
-  async getMovies() {
+  async getMovie(id: string) {
     const response = await this.get(
-      'movie/76341',
+      `movie/${id}`,
       {},
       {
         headers: {

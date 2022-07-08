@@ -11,7 +11,7 @@ class MovieResolver {
     @Arg('movieId') id: string,
     @Ctx() context: DatasourceContext,
   ) {
-    const movie = await context.dataSources.tmdb.getMovies();
+    const movie = await context.dataSources.tmdb.getMovie(id);
 
     if (!movie) {
       throw new Error('Movie not found');
