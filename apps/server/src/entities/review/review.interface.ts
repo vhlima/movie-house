@@ -6,6 +6,8 @@ import { prop, Ref } from '@typegoose/typegoose';
 
 import User from '../user/user.interface';
 
+import Movie from '../movie/movie.interface';
+
 @ObjectType()
 export default class Review {
   @Field(() => ID)
@@ -22,9 +24,9 @@ export default class Review {
   })
   readonly user: Ref<User>;
 
-  @Field()
-  @prop({ required: true })
-  readonly movieId: string;
+  @Field(() => Movie)
+  @prop({ type: () => Movie, required: true })
+  readonly movie: Movie;
 
   @Field()
   @prop({ required: true })

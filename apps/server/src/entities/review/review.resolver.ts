@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Query } from 'type-graphql';
+import { Resolver, Mutation, Arg, Query, Ctx } from 'type-graphql';
 
 import { CallbackError, isValidObjectId } from 'mongoose';
 
@@ -10,6 +10,7 @@ import { UserModel, ReviewModel } from '../user/user.models';
 import Review from './index';
 
 import ReviewInput from './review.input';
+import { DatasourceContext } from '../../api';
 
 const ReviewResolverBase = createCrudResolver(
   'Review',
@@ -47,6 +48,7 @@ class ReviewResolver extends ReviewResolverBase {
     @Arg('userId') id: string,
     @Arg('movieId') movieId: string,
     @Arg('body') body: string,
+    @Ctx() context: DatasourceContext,
   ) {
     if (!isValidObjectId(id)) {
       throw new Error('User not found');
@@ -58,24 +60,16 @@ class ReviewResolver extends ReviewResolverBase {
       throw new Error('User not found');
     }
 
-    const review = await ReviewModel.create({ user, movieId, body });
+    const movie = await context.dataSources.tmdb.getMovie(movieId);
+
+    if (!movie) {
+      throw new Error('Movie not found');
+    }
+
+    const review = await ReviewModel.create({ user, movie, body });
 
     return review;
   }
-
-  // @Mutation(() => Review)
-  // async updateReview(
-  //   @Arg('reviewId') id: string,
-  //   @Arg('data') data: ReviewInput,
-  // ) {
-  //   const review = await ReviewModel.findByIdAndUpdate(id, data);
-
-  //   if (!review) {
-  //     throw new Error('Review not found');
-  //   }
-
-  //   return review;
-  // }
 
   @Mutation(() => String)
   async deleteReview(@Arg('reviewId') id: string) {
