@@ -6,18 +6,33 @@ import { ApolloServer } from 'apollo-server';
 
 import { buildSchema } from 'type-graphql';
 
-import { userResolver, reviewResolver } from './resolvers/user';
+import {
+  userResolver,
+  movieResolver,
+  reviewResolver,
+  favoriteMovieResolver,
+} from './entities';
 
 import database from './database';
 
+import TmdbAPI from './api/tmdb';
+
 const main = async () => {
   const schema = await buildSchema({
-    resolvers: [userResolver, reviewResolver],
+    resolvers: [
+      userResolver,
+      movieResolver,
+      reviewResolver,
+      favoriteMovieResolver,
+    ],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
   });
 
   const server = new ApolloServer({
     schema,
+    dataSources: () => ({
+      tmdb: new TmdbAPI(),
+    }),
   });
 
   const { url } = await server.listen();
