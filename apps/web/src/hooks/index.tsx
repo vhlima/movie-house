@@ -1,10 +1,10 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
 
-import client from '../api';
-
 import { AuthProvider } from './useAuth';
+
+import client from '../api';
 
 const Hooks: React.FC<PropsWithChildren> = ({ children }) => (
   <ApolloProvider client={client}>
