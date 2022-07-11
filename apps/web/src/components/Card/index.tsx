@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import Link, { LinkProps } from '../Link';
 
-import SvgIcon from '../SvgIcon';
+import SvgIcon, { SvgIconType } from '../SvgIcon';
 
 interface CardProps {
   className?: string;
@@ -13,6 +13,10 @@ interface CardProps {
   link?: LinkProps;
   noPadding?: boolean;
   gap?: boolean;
+  rightIcon?: {
+    iconType: SvgIconType;
+    onClick: () => void;
+  };
 }
 
 const Card: React.FC<PropsWithChildren<CardProps>> = ({
@@ -22,6 +26,7 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
   link,
   noPadding,
   gap = true,
+  rightIcon,
   children,
 }) => {
   const headContainerStyles = 'group';
@@ -35,10 +40,20 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
 
         {link && (
           <SvgIcon
-            className="text-grey-200 group-hover:text-movieHouse-dark"
+            className="text-grey-200 group-hover:text-movieHouse-mid"
             iconType="FaChevronRight"
             size={20}
           />
+        )}
+
+        {rightIcon && (
+          <button
+            className="ml-auto p-1"
+            type="button"
+            onClick={rightIcon.onClick}
+          >
+            <SvgIcon className="text-grey-200" iconType={rightIcon.iconType} />
+          </button>
         )}
       </div>
 
