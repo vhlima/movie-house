@@ -1,12 +1,17 @@
 import { gql } from '@apollo/client';
 
 export const USER = gql`
-  query Users {
-    users {
+  query ($userId: String!) {
+    user(UserId: $userId) {
       _id
       username
       realName
       profilePicture
+      favoriteMovies {
+        id
+        original_title
+        posterUrl
+      }
       followers {
         _id
       }
@@ -18,12 +23,17 @@ export const USER = gql`
 `;
 
 export const ALL_USERS = gql`
-  query Users {
+  query users {
     users {
       _id
       username
       realName
       profilePicture
+      favoriteMovies {
+        id
+        original_title
+        posterUrl
+      }
       followers {
         _id
       }
@@ -35,7 +45,7 @@ export const ALL_USERS = gql`
 `;
 
 export const ALL_USERS_ID = gql`
-  query Users {
+  query users {
     users {
       _id
     }
@@ -49,6 +59,55 @@ export const SIGN_IN = gql`
       username
       realName
       profilePicture
+      favoriteMovies {
+        id
+        original_title
+        posterUrl
+      }
+      followers {
+        _id
+      }
+      following {
+        _id
+      }
+    }
+  }
+`;
+
+export const ADD_FAVORITE_MOVIE = gql`
+  mutation ($movieId: String!, $userId: String!) {
+    userAddFavoriteMovie(movieId: $movieId, userId: $userId) {
+      _id
+      username
+      realName
+      profilePicture
+      favoriteMovies {
+        id
+        original_title
+        posterUrl
+      }
+      followers {
+        _id
+      }
+      following {
+        _id
+      }
+    }
+  }
+`;
+
+export const REMOVE_FAVORITE_MOVIE = gql`
+  mutation ($movieId: String!, $userId: String!) {
+    userRemoveFavoriteMovie(movieId: $movieId, userId: $userId) {
+      _id
+      username
+      realName
+      profilePicture
+      favoriteMovies {
+        id
+        original_title
+        posterUrl
+      }
       followers {
         _id
       }
