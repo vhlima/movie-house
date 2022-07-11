@@ -10,7 +10,7 @@ import { UserModel, ReviewModel } from '../user/user.models';
 import Review from './index';
 
 import ReviewInput from './review.input';
-import { DatasourceContext } from '../../api';
+import type { DatasourceContext } from '../../api';
 
 const ReviewResolverBase = createCrudResolver(
   'Review',

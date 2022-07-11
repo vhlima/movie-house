@@ -4,7 +4,7 @@ import { UserModel } from '../user.models';
 
 import User from '../user.interface';
 
-import { DatasourceContext } from '../../../api';
+import type { DatasourceContext } from '../../../api';
 
 @Resolver()
 class FavoriteMovieResolver {
@@ -52,7 +52,7 @@ class FavoriteMovieResolver {
 
     const oldLength = user.favoriteMovies.length;
 
-    user.favoriteMovies = user.favoriteMovies.filter(fm => fm.id === movieId);
+    user.favoriteMovies = user.favoriteMovies.filter(fm => fm.id !== movieId);
 
     if (user.favoriteMovies.length === oldLength) {
       throw new Error('User dont have this favorite movie');
