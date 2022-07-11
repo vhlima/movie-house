@@ -16,14 +16,14 @@ export const createCrudResolver = <
 
   @Resolver({ isAbstract: true })
   abstract class BaseResolver {
-    @Query(() => [objectTypeCls], { name: `get${suffix}s` })
+    @Query(() => [objectTypeCls], { name: `${cammelSuffix}s` })
     async all(): Promise<T[]> {
       const all = await entityTypeCls.find();
 
       return all;
     }
 
-    @Query(() => objectTypeCls, { name: `get${suffix}` })
+    @Query(() => objectTypeCls, { name: cammelSuffix })
     async get(@Arg(`${suffix}Id`) id: string): Promise<T> {
       const result = await entityTypeCls.findById(id);
 
