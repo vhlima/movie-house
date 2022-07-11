@@ -47,7 +47,7 @@ const Dropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
   }, [events, onClose]);
 
   return (
-    <motion.div className="absolute w-full bg-inherit z-40" {...animation}>
+    <motion.div className="absolute w-full bg-inherit z-20" {...animation}>
       {children}
     </motion.div>
   );

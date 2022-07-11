@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
         <AuthenticationModal onClose={closeWindow} />
       )}
 
-      <nav className="relative bg-grey-800">
+      <nav className="relative bg-grey-800 z-30">
         <div className="flex items-center gap-2 p-3">
           <Link href="/">
             <Logo showText />
