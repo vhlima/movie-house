@@ -1,5 +1,4 @@
-import React, {
-  PropsWithChildren,
+import {
   createContext,
   useCallback,
   useState,
@@ -8,28 +7,41 @@ import React, {
   useEffect,
 } from 'react';
 
-import { FetchResult, useMutation } from '@apollo/client';
+import type { PropsWithChildren, Dispatch, SetStateAction } from 'react';
 
-import { SignInCredentials, UserData } from '../types';
+import { useLazyQuery, useMutation } from '@apollo/client';
 
-import { SIGN_IN } from '../graphql/user';
+import type { FetchResult } from '@apollo/client';
 
-type SignInResponse = { userLogin: UserData };
+import type { SignInCredentials } from '../types';
+
+import type { UserResponse } from '../types/user';
+
+import { SIGN_IN, USER } from '../graphql/user';
+
+type SignInResponse = { userLogin: UserResponse };
 
 interface AuthContextData {
-  user: UserData | undefined;
-  signIn(
+  user?: UserResponse;
+  setUser: Dispatch<SetStateAction<UserResponse>>;
+
+  signIn: (
     credentials: SignInCredentials,
-  ): Promise<FetchResult<SignInResponse> | null>;
-  signOut(): void;
+  ) => Promise<FetchResult<SignInResponse> | null>;
+  signOut: () => void;
+  updateUser: () => void;
+
+  removeFavoriteMovie: (movieId: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<UserData | undefined>();
+  const [user, setUser] = useState<UserResponse>();
 
   const [mutationSignIn] = useMutation<SignInResponse>(SIGN_IN);
+
+  const [findUser] = useLazyQuery<{ user: UserResponse }>(USER);
 
   const signIn = useCallback(
     async ({ username }: SignInCredentials) => {
@@ -40,7 +52,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       if (fetchUser.data) {
         const userData = fetchUser.data.userLogin;
 
-        localStorage.setItem('@MovieHouse:user', JSON.stringify(userData));
+        localStorage.setItem('@MovieHouse:token', userData._id);
 
         setUser(userData);
       }
@@ -51,26 +63,36 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@MovieHouse:user');
+    localStorage.removeItem('@MovieHouse:token');
     setUser(undefined);
   }, [setUser]);
 
   useEffect(() => {
-    const localStorageUser = localStorage.getItem('@MovieHouse:user');
+    const fetchUser = async () => {
+      const localStorageToken = localStorage.getItem('@MovieHouse:token');
 
-    if (localStorageUser) {
-      setUser(JSON.parse(localStorageUser));
-    }
+      if (localStorageToken) {
+        const userResponse = await findUser({
+          variables: { userId: localStorageToken },
+        });
+
+        setUser(userResponse.data.user);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   const value = useMemo(
     () =>
       ({
         user,
+        setUser,
+
         signIn,
         signOut,
       } as AuthContextData),
-    [user, signIn, signOut],
+    [user, setUser, signIn, signOut],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
