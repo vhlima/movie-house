@@ -8,6 +8,7 @@ import {
   FaChevronLeft,
   FaChevronDown,
   FaChevronUp,
+  FaPencilAlt,
   FaPlay,
   FaGithub,
   FaSearch,
@@ -50,6 +51,7 @@ export type SvgIconType =
   | 'FaChevronLeft'
   | 'FaChevronDown'
   | 'FaChevronUp'
+  | 'FaPencilAlt'
   | 'FaUserAlt'
   | 'FaSearch'
   | 'FaGithub'
@@ -90,6 +92,7 @@ const icons: SvgIconsType = {
   FaChevronLeft,
   FaChevronDown,
   FaChevronUp,
+  FaPencilAlt,
   FaUserAlt,
   FaSearch,
   FaGithub,
