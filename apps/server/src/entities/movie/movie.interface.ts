@@ -1,6 +1,17 @@
-import { Field, Float, ObjectType, Root } from 'type-graphql';
+import {
+  Field,
+  FieldResolver,
+  Float,
+  Int,
+  ObjectType,
+  Root,
+} from 'type-graphql';
 
 import { prop } from '@typegoose/typegoose';
+
+import MovieGenre from './genre/genre.interface';
+import MovieCompany from './company/company.interface';
+import MovieLanguage from './language/language.interface';
 
 /* eslint-disable camelcase */
 
@@ -26,9 +37,13 @@ export default class Movie {
   @prop()
   readonly overview: string;
 
+  @Field(() => Int)
+  @prop()
+  readonly runtime: number;
+
   @Field(() => Float)
   @prop()
-  readonly popularity: number;
+  readonly vote_average: number;
 
   @Field()
   @prop()
@@ -42,13 +57,25 @@ export default class Movie {
   @prop({ type: () => Date })
   readonly release_date: Date;
 
+  @Field(() => [MovieGenre])
+  @prop({ type: () => MovieGenre })
+  readonly genres: MovieGenre[];
+
+  @Field(() => [MovieCompany])
+  @prop({ type: () => MovieCompany })
+  readonly production_companies: MovieCompany[];
+
+  @Field(() => [MovieLanguage])
+  @prop({ type: () => MovieLanguage })
+  readonly spoken_languages: MovieLanguage[];
+
   @Field()
   posterUrl(@Root() movie: Movie): string {
-    return `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+    return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
   }
 
   @Field()
   backdropUrl(@Root() movie: Movie): string {
-    return `https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`;
+    return `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
   }
 }
