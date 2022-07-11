@@ -12,6 +12,7 @@ interface ModalProps {
   className?: string;
   portalId?: string;
   animation?: MotionProps;
+  center?: boolean;
   onClickBackdrop?: () => void;
 }
 
@@ -20,12 +21,16 @@ const PORTAL_ID = 'modalPortal';
 const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
   className,
   animation,
+  center,
   onClickBackdrop,
   children,
 }) => {
   const body = (
     <motion.div
-      className={clsx('p-4 bg-grey-800 z-50', className)}
+      className={clsx('p-4 bg-grey-800 z-50', className, {
+        'fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md':
+          center,
+      })}
       role="presentation"
       onClick={e => e.stopPropagation()}
       {...animation}
