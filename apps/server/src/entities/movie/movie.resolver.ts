@@ -1,6 +1,6 @@
 import { Resolver, Query, Arg, Ctx } from 'type-graphql';
 
-import { DatasourceContext } from '../../api';
+import type { DatasourceContext } from '../../api';
 
 import Movie from './movie.interface';
 
