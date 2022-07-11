@@ -4,7 +4,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 
 import { prop, Ref } from '@typegoose/typegoose';
 
-import Movie from '../movie/movie.interface';
+import FavoriteMovie from './favorites/favorites.interface';
 
 @ObjectType()
 export default class User {
@@ -31,13 +31,13 @@ export default class User {
   })
   profilePicture?: string;
 
-  @Field(() => [Movie])
+  @Field(() => [FavoriteMovie])
   @prop({
-    type: () => Movie,
+    type: () => FavoriteMovie,
     required: true,
     default: [],
   })
-  favoriteMovies: Movie[];
+  favoriteMovies: FavoriteMovie[];
 
   @Field(() => [User])
   @prop({
