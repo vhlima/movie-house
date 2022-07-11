@@ -11,6 +11,7 @@ import {
   movieResolver,
   reviewResolver,
   favoriteMovieResolver,
+  movieCreditsResolver,
 } from './entities';
 
 import database from './database';
@@ -24,6 +25,7 @@ const main = async () => {
       movieResolver,
       reviewResolver,
       favoriteMovieResolver,
+      movieCreditsResolver,
     ],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
   });
