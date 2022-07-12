@@ -12,6 +12,10 @@ class UserInput {
   @prop({ required: false })
   realName?: string;
 
+  @Field({ nullable: true, defaultValue: '' })
+  @prop({ required: false })
+  biography?: string;
+
   @Field({ nullable: true })
   @prop({
     required: false,
