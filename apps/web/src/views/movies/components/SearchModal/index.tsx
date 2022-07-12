@@ -1,26 +1,35 @@
-import type { AddFavoriteMovieModalLogicProps } from './logic';
+import type { MovieResponse } from '../../../../types/movie';
 
 import { useLogic } from './logic';
 
-import Modal from '../../../../../../components/Modal';
+import Modal from '../../../../components/Modal';
 
-import Input from '../../../../../../components/Input';
+import Input from '../../../../components/Input';
 
-import Button from '../../../../../../components/Button';
+import Button from '../../../../components/Button';
 
-const AddFavoriteMovieModal: React.FC<AddFavoriteMovieModalLogicProps> = ({
+interface MovieSearchModalProps {
+  title: string;
+  description?: string;
+  onSelect: (movie: MovieResponse) => void;
+  onClose: () => void;
+}
+
+const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
+  title,
+  description,
+  onSelect,
   onClose,
 }) => {
-  const { searchResults, resetSearchResults, setSearchTerm, addFavoriteMovie } =
-    useLogic({ onClose });
+  const { searchResults, resetSearchResults, setSearchTerm } = useLogic();
 
   return (
     <Modal center onClickBackdrop={onClose}>
-      <h1 className="text-grey-100 text-lg">Pick a favorite movie</h1>
+      <div className="mb-4">
+        <h1 className="text-grey-100 text-lg">{title}</h1>
 
-      <p className="text-grey-200 mb-4">
-        Select one of your favorite movies to display on your profile
-      </p>
+        {description && <p className="text-grey-200">{description}</p>}
+      </div>
 
       <Input
         name="searchMovie"
@@ -41,7 +50,7 @@ const AddFavoriteMovieModal: React.FC<AddFavoriteMovieModalLogicProps> = ({
                 buttonStyle="secondary"
                 buttonSize="xs"
                 rounded={false}
-                onClick={() => addFavoriteMovie(movie.id)}
+                onClick={() => onSelect(movie)}
               >
                 <span className="text-grey-100">
                   {movie.original_title} (
@@ -56,4 +65,4 @@ const AddFavoriteMovieModal: React.FC<AddFavoriteMovieModalLogicProps> = ({
   );
 };
 
-export default AddFavoriteMovieModal;
+export default MovieSearchModal;
