@@ -18,11 +18,13 @@ import {
 } from 'react-icons/fa';
 
 import {
+  AiOutlineHeart,
   AiFillHeart,
   AiFillStar,
   AiOutlineStar,
   AiOutlinePlusCircle,
   AiOutlineCalendar,
+  AiOutlineClockCircle,
 } from 'react-icons/ai';
 
 import {
@@ -61,6 +63,8 @@ export type SvgIconType =
   | 'FiX'
   | 'AiFillHeart'
   | 'AiFillStar'
+  | 'AiOutlineHeart'
+  | 'AiOutlineClockCircle'
   | 'AiOutlineStar'
   | 'AiOutlinePlusCircle'
   | 'AiOutlineCalendar'
@@ -104,9 +108,11 @@ const icons: SvgIconsType = {
 
   AiFillHeart,
   AiFillStar,
+  AiOutlineHeart,
   AiOutlineStar,
   AiOutlinePlusCircle,
   AiOutlineCalendar,
+  AiOutlineClockCircle,
 
   BsFillCollectionFill,
   BsFillChatLeftFill,
