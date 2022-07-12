@@ -5,8 +5,8 @@ import { prop } from '@typegoose/typegoose';
 @InputType()
 class ReviewInput {
   @Field()
-  @prop()
-  body?: string;
+  @prop({ required: true })
+  body: string;
 }
 
 export default ReviewInput;
