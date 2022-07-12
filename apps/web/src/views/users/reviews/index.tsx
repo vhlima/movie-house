@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { CommentaryProps } from '../../../types';
+import type { CommentaryProps } from '../../../types';
+
+import type { ReviewResponse } from '../../../types/user';
 
 import { useAuth } from '../../../hooks/useAuth';
 
@@ -10,7 +12,11 @@ import UserMovieReviewBody from './components/Body';
 
 import CommentaryForm from './components/CommentaryForm';
 
-const UserMovieReview: React.FC = () => {
+export interface UserMovieReviewProps {
+  review: ReviewResponse;
+}
+
+const UserMovieReview: React.FC<UserMovieReviewProps> = ({ review }) => {
   const { user } = useAuth();
 
   const [commentaries, setCommentaries] = useState<CommentaryProps[]>([]);
@@ -21,16 +27,16 @@ const UserMovieReview: React.FC = () => {
 
   return (
     <>
-      <UserMovieReviewBody preview={false} />
+      <UserMovieReviewBody review={review} preview={false} />
 
       <div className="mt-4">
-        {commentaries.map(comm => (
-          <Commentary key={comm._id} />
-        ))}
-
         {user && (
           <CommentaryForm onSubmit={values => handleComment(values.message)} />
         )}
+
+        {commentaries.map(comm => (
+          <Commentary key={comm._id} />
+        ))}
       </div>
     </>
   );

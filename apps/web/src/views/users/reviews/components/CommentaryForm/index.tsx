@@ -51,7 +51,6 @@ const CommentaryForm: React.FC<CommentaryFormProps> = ({ onSubmit }) => {
           formik
           textarea
           name="message"
-          inputStyle="secondary"
           label={{ text: 'Post a commentary', htmlFor: true }}
         />
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import type { ReviewResponse } from '../../../../../types/user';
 
-import { movieList } from '../../../../../data/fakeData';
+import type { UserMovieReviewProps } from '../..';
 
 import Link from '../../../../../components/Link';
 
@@ -12,7 +12,8 @@ import MovieRatingStar from '../../../../movies/components/RatingStar';
 
 import Post from '../../../components/Post';
 
-interface UserMovieReviewBodyProps {
+interface UserMovieReviewBodyProps extends UserMovieReviewProps {
+  review: ReviewResponse;
   preview?: boolean;
 }
 
@@ -21,15 +22,18 @@ interface UserMovieReviewBodyProps {
 */
 
 const UserMovieReviewBody: React.FC<UserMovieReviewBodyProps> = ({
+  review,
   preview,
 }) => {
-  const movie = movieList[0];
+  const { movie } = review;
+
+  // TODO return directly from database release_date formated as { day: 1, month: 1, year: 1 }
 
   return (
     <ListItem>
       {preview && (
         <div className="flex gap-2 mb-2">
-          <MovieCover coverUrl={movie.coverUrl} />
+          <MovieCover coverUrl={movie.posterUrl} />
 
           <div className="flex flex-col">
             <div className="flex items-center gap-1">
@@ -37,13 +41,15 @@ const UserMovieReviewBody: React.FC<UserMovieReviewBodyProps> = ({
                 className="text-grey-100 text-xl font-semibold hover:text-grey-300"
                 href="/"
               >
-                {movie.name}
+                {movie.original_title}
               </Link>
 
-              <span className="text-grey-200">({movie.releaseDate.year})</span>
+              <span className="text-grey-200">
+                ({new Date(movie.release_date).getFullYear()})
+              </span>
             </div>
 
-            <MovieRatingStar color="yellow" rating={movie.rating} checked />
+            <MovieRatingStar color="yellow" rating={5.5} checked />
           </div>
         </div>
       )}
