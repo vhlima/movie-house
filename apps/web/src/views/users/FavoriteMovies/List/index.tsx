@@ -1,22 +1,17 @@
-import clsx from 'clsx';
-
 import type { UserResponse } from '../../../../types/user';
 
 import Card from '../../../../components/Card';
 
-import SvgIcon from '../../../../components/SvgIcon';
-
 import MovieCover from '../../../movies/components/Cover';
-import EmptyMovieCard from '../Personal/components/EmptyCard';
 
-interface FavoriteMoviesBaseProps {
+interface FavoriteMoviesListProps {
   user: UserResponse;
   maxFavorite: number;
   isOwnProfile?: boolean;
   onClickEdit?: () => void;
 }
 
-const FavoriteMoviesBase: React.FC<FavoriteMoviesBaseProps> = ({
+const FavoriteMoviesList: React.FC<FavoriteMoviesListProps> = ({
   user,
   maxFavorite,
   isOwnProfile,
@@ -37,7 +32,7 @@ const FavoriteMoviesBase: React.FC<FavoriteMoviesBaseProps> = ({
       }
       noPadding
     >
-      <div className="grid grid-cols-4 gap-2 h-28">
+      <div className="grid grid-cols-4 gap-2">
         {user.favoriteMovies.map(movie => (
           <MovieCover
             key={movie.id}
@@ -47,11 +42,11 @@ const FavoriteMoviesBase: React.FC<FavoriteMoviesBaseProps> = ({
         ))}
 
         {freeSlotsArray.map(slot => (
-          <EmptyMovieCard key={slot} />
+          <MovieCover key={slot} coverSize="full" />
         ))}
       </div>
     </Card>
   );
 };
 
-export default FavoriteMoviesBase;
+export default FavoriteMoviesList;

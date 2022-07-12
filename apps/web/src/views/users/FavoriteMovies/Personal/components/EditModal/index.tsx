@@ -1,7 +1,6 @@
-import { useState } from 'react';
-
-import { useMutation } from '@apollo/client';
 import { useAuth } from '../../../../../../hooks/useAuth';
+
+import { useLogic } from './logic';
 
 import Modal from '../../../../../../components/Modal';
 
@@ -11,45 +10,37 @@ import SvgIcon from '../../../../../../components/SvgIcon';
 
 import MovieCover from '../../../../../movies/components/Cover';
 
-import EmptyMovieCard from '../EmptyCard';
-import AddFavoriteMovieModal from '../AddModal';
-import { UserResponse } from '../../../../../../types/user';
-import { REMOVE_FAVORITE_MOVIE } from '../../../../../../graphql/user';
+import MovieSearchModal from '../../../../../movies/components/SearchModal';
 
 interface EditFavoriteMoviesModalProps {
+  // TODO workaround this prop to use it only in one place, no need to prop drill
+  maxFavorite: number;
   onClose: () => void;
 }
 
-const MAX_FAVORITE_MOVIES = 4;
-
 const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
+  maxFavorite,
   onClose,
 }) => {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
-  const [isAdding, setAdding] = useState<boolean>(false);
+  const {
+    freeSlots,
 
-  const [mutationRemoveFavoriteMovie] = useMutation<{
-    userRemoveFavoriteMovie: UserResponse;
-  }>(REMOVE_FAVORITE_MOVIE);
+    isAdding,
+    setAdding,
 
-  const removeFavoriteMovie = async (movieId: string) => {
-    const userResponse = await mutationRemoveFavoriteMovie({
-      variables: { userId: user._id, movieId },
-    });
-
-    setUser(userResponse.data.userRemoveFavoriteMovie);
-  };
-
-  const freeSlotsArray = Array.from(
-    {
-      length: MAX_FAVORITE_MOVIES - user.favoriteMovies.length - 1,
-    },
-    (v, k) => k,
-  );
+    addFavoriteMovie,
+    removeFavoriteMovie,
+  } = useLogic({ maxFavorite });
 
   return isAdding ? (
-    <AddFavoriteMovieModal onClose={() => setAdding(false)} />
+    <MovieSearchModal
+      title="Pick a favorite movie"
+      description="Select one of your favorite movies to display on your profile"
+      onSelect={movie => addFavoriteMovie(movie.id)}
+      onClose={() => setAdding(false)}
+    />
   ) : (
     <Modal center onClickBackdrop={onClose}>
       <h1 className="text-grey-100 text-lg mb-2">Edit your favorite movies</h1>
@@ -57,9 +48,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
       <div className="grid grid-cols-4 gap-2">
         {user.favoriteMovies.map(movie => (
           <div className="flex flex-col gap-2" key={movie.id}>
-            <div className="h-28">
-              <MovieCover coverUrl={movie.posterUrl} coverSize="full" />
-            </div>
+            <MovieCover coverUrl={movie.posterUrl} coverSize="full" />
 
             <Button
               buttonStyle="danger"
@@ -71,12 +60,16 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
           </div>
         ))}
 
-        <EmptyMovieCard cardStyle="secondary" onClick={() => setAdding(true)}>
+        <MovieCover
+          coverStyle="secondary"
+          coverSize="full"
+          onClick={() => setAdding(true)}
+        >
           <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
-        </EmptyMovieCard>
+        </MovieCover>
 
-        {freeSlotsArray.map(slot => (
-          <EmptyMovieCard key={slot} cardStyle="secondary" />
+        {freeSlots.map(slot => (
+          <MovieCover key={slot} coverStyle="secondary" coverSize="full" />
         ))}
       </div>
     </Modal>

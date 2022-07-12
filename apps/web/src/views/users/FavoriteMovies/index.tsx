@@ -2,7 +2,7 @@ import type { UserResponse } from '../../../types/user';
 
 import { useAuth } from '../../../hooks/useAuth';
 
-import FavoriteMoviesBase from './Base';
+import FavoriteMoviesList from './List';
 
 import FavoriteMoviesPersonal from './Personal';
 
@@ -18,7 +18,7 @@ const FavoriteMovies: React.FC<FavoriteMoviesProps> = ({ user }) => {
   const isOwnProfile = currentUser && currentUser._id === user._id;
 
   return !isOwnProfile ? (
-    <FavoriteMoviesBase user={user} maxFavorite={MAX_FAVORITE_MOVIES} />
+    <FavoriteMoviesList user={user} maxFavorite={MAX_FAVORITE_MOVIES} />
   ) : (
     <FavoriteMoviesPersonal maxFavorite={MAX_FAVORITE_MOVIES} />
   );
