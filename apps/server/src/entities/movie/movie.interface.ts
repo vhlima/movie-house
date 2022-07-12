@@ -70,12 +70,12 @@ export default class Movie {
   readonly spoken_languages: MovieLanguage[];
 
   @Field()
-  posterUrl(@Root() movie: Movie): string {
-    return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  posterUrl(@Root('poster_path') posterPath: string): string {
+    return `https://image.tmdb.org/t/p/w500${posterPath}`;
   }
 
   @Field()
-  backdropUrl(@Root() movie: Movie): string {
-    return `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
+  backdropUrl(@Root('backdrop_path') backdropPath: string): string {
+    return `https://image.tmdb.org/t/p/w500${backdropPath}`;
   }
 }
