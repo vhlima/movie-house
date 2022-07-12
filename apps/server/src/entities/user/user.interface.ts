@@ -6,6 +6,8 @@ import { prop, Ref } from '@typegoose/typegoose';
 
 import FavoriteMovie from './favorites/favorites.interface';
 
+import MovieInfo from './movieinfo/movieinfo.interface';
+
 @ObjectType()
 export default class User {
   @Field(() => ID)
@@ -16,12 +18,16 @@ export default class User {
   readonly _id: string;
 
   @Field()
-  @prop({ required: true })
+  @prop()
   username: string;
 
   @Field()
-  @prop({ required: true })
+  @prop()
   realName: string;
+
+  @Field({ nullable: true })
+  @prop({ required: false, default: '' })
+  biography: string;
 
   @Field({ nullable: true })
   @prop({
@@ -38,6 +44,18 @@ export default class User {
     default: [],
   })
   favoriteMovies: FavoriteMovie[];
+
+  // @Field(() => [Review])
+  // @prop({
+  //   type: () => Review,
+  //   required: true,
+  //   default: [],
+  // })
+  // reviews: Review[];
+
+  @Field(() => [MovieInfo])
+  @prop({ type: () => MovieInfo, required: true, default: [] })
+  moviesInfo: MovieInfo[];
 
   @Field(() => [User])
   @prop({
