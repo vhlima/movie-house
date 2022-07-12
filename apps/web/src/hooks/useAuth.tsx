@@ -76,7 +76,9 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
           variables: { userId: localStorageToken },
         });
 
-        setUser(userResponse.data.user);
+        if (userResponse.data) {
+          setUser(userResponse.data.user);
+        }
       }
     };
 
