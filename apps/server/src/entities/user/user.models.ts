@@ -1,8 +1,8 @@
 import { getModelForClass } from '@typegoose/typegoose';
 
-import Review from '../review/review.interface';
-
 import User from './user.interface';
+
+import Review from './review/review.interface';
 
 export const UserModel = getModelForClass(User);
 
