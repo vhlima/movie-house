@@ -14,15 +14,15 @@ export default class MovieInfoInput {
   @prop({ required: false })
   movieId: string;
 
-  @Field(() => Float, { nullable: true, defaultValue: 0 })
+  @Field(() => Float, { nullable: true })
   @prop({ required: false })
   rating?: number;
 
-  @Field({ nullable: true, defaultValue: false })
+  @Field({ nullable: true })
   @prop({ required: false })
   liked?: boolean;
 
-  @Field({ nullable: true, defaultValue: false })
+  @Field({ nullable: true })
   @prop({ required: false })
   watched?: boolean;
 
