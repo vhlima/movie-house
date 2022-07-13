@@ -1,10 +1,10 @@
 import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
 
+import type { DatasourceContext } from '../../../api';
+
 import { UserModel } from '../user.models';
 
 import User from '../user.interface';
-
-import type { DatasourceContext } from '../../../api';
 
 @Resolver()
 class FavoriteMovieResolver {
