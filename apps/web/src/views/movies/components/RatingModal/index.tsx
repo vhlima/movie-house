@@ -1,8 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { MotionProps } from 'framer-motion';
 
-import { MovieData } from '../../../../types';
+import { useMutation } from '@apollo/client';
+
+import type { MovieResponse } from '../../../../types/movie';
+
+import type { UserResponse } from '../../../../types/user';
+
+import { ADD_MOVIE_INFO } from '../../../../graphql/user';
+
+import { useAuth } from '../../../../hooks/useAuth';
 
 import Modal from '../../../../components/Modal';
 
@@ -12,10 +20,8 @@ import SvgIcon from '../../../../components/SvgIcon';
 
 import Stars from './components/Stars';
 
-// import Stars from './components/Stars';
-
 interface MovieRatingModalProps {
-  movie: MovieData;
+  movie: MovieResponse;
   onClose: () => void;
 }
 
@@ -23,9 +29,41 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
   movie,
   onClose,
 }) => {
-  const [userRating, setUserRating] = useState<number>(0);
+  const { user, setUser } = useAuth();
 
-  const handleSubmit = () => {
+  const [userRating, setUserRating] = useState<number>(() => {
+    const movieInfo = user?.moviesInfo.find(mi => mi.movie.id === movie.id);
+
+    if (movieInfo) {
+      return movieInfo.rating;
+    }
+
+    return 0;
+  });
+
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
+  const [addUserMovieInfo] = useMutation<{ userAddMovieInfo: UserResponse }>(
+    ADD_MOVIE_INFO,
+  );
+
+  const handleSubmit = async () => {
+    if (!user || isSubmitting) return;
+
+    setSubmitting(true);
+
+    const userResponse = await addUserMovieInfo({
+      variables: {
+        data: { userId: user._id, movieId: movie.id, rating: userRating },
+      },
+    });
+
+    if (userResponse.data) {
+      setUser(userResponse.data.userAddMovieInfo);
+    }
+
+    setSubmitting(false);
+
     onClose();
   };
 
@@ -81,14 +119,21 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
           Rate this
         </span>
 
-        <h1 className="text-2xl">{movie.name}</h1>
+        <h1 className="text-2xl">{movie.original_title}</h1>
 
         <Stars
           userRating={userRating}
           onChange={rating => setUserRating(rating)}
         />
 
-        <Button disabled={userRating === 0} onClick={handleSubmit}>
+        <Button
+          disabled={
+            userRating ===
+              user?.moviesInfo.find(mi => mi.movie.id === movie.id).rating ||
+            isSubmitting
+          }
+          onClick={handleSubmit}
+        >
           Rate
         </Button>
       </div>
