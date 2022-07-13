@@ -7,6 +7,7 @@ import MovieCover from '../../components/Cover';
 import BackgroundImage from '../../components/BackgroundImage';
 
 import Button from '../../../../components/Button';
+import MovieRatingStar from '../../components/RatingStar';
 
 interface MovieHeaderProps {
   movie: MovieResponse;
@@ -41,6 +42,8 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
               {movie.original_title}
             </h1>
 
+            <MovieRatingStar color="yellow" rating={8.3} checked />
+
             <div className="text-grey-200 mb-2">
               <div className="flex items-center gap-1">
                 <span className="text-sm">
@@ -55,6 +58,7 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
 
               <span className="text-sm font-semibold">
                 {/* {movie.crew.find(c => c.role.includes('Director'))?.name || ''} */}
+                Steven Spielberg
               </span>
             </div>
 
