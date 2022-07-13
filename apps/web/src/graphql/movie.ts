@@ -44,6 +44,7 @@ export const GET_MOVIE_CREDITS = gql`
   query ($movieId: String!) {
     getMovieCredits(movieId: $movieId) {
       cast {
+        id
         character
         order
         original_name
