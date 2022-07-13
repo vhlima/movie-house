@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { movieList } from '../../../data/fakeData';
@@ -21,7 +19,7 @@ const UserMovieList: React.FC = () => (
             className="relative min-w-0 flex-grow basis-1/3 rounded-lg float-left border border-grey-700 overflow-hidden"
             key={movie.id}
             style={{
-              zIndex: 999 - index,
+              zIndex: 20 - index,
               marginRight: `-12.5%`,
             }}
           >
