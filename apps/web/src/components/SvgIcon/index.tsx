@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { IconType, IconBaseProps } from 'react-icons';
 
 import {
@@ -43,7 +41,7 @@ import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
 
 import { IoIosJournal } from 'react-icons/io';
 
-import { IoEye, IoList } from 'react-icons/io5';
+import { IoEye, IoList, IoEyeOutline } from 'react-icons/io5';
 
 import { CgSpinner } from 'react-icons/cg';
 
@@ -80,6 +78,7 @@ export type SvgIconType =
   | 'IoIosJournal'
   | 'IoEye'
   | 'IoList'
+  | 'IoEyeOutline'
   | 'CgSpinner';
 
 export interface SvgIconProps extends IconBaseProps {
@@ -130,6 +129,7 @@ const icons: SvgIconsType = {
 
   IoEye,
   IoList,
+  IoEyeOutline,
 
   CgSpinner,
 };
