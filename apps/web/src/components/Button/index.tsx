@@ -30,6 +30,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
       text: string;
       hover: string;
       outline: string;
+      disabled: string;
     };
   } = useMemo(
     () => ({
@@ -38,24 +39,28 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
         text: 'text-white',
         hover: 'bg-movieHouse-light',
         outline: 'focus:border-white',
+        disabled: 'border-movieHouse-mid',
       },
       secondary: {
         bg: 'bg-grey-700',
         text: 'text-grey-100',
         hover: 'bg-grey-600',
         outline: 'focus:border-white',
+        disabled: 'border-grey-700',
       },
       tertiary: {
         bg: 'bg-transparent',
         text: 'text-grey-100',
         hover: 'bg-grey-600',
         outline: 'focus:border-white',
+        disabled: 'border-transparent',
       },
       danger: {
         bg: 'bg-grey-700',
         text: 'text-danger-light',
         hover: 'bg-grey-600',
         outline: 'focus:border-white',
+        disabled: 'border-grey-700',
       },
     }),
     [],
@@ -67,7 +72,6 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
     <button
       className={clsx(
         'border-2 border-transparent font-semibold outline-none',
-        buttonStyleProps.bg,
         buttonStyleProps.text,
         // buttonStyleProps.outline,
         className,
@@ -78,6 +82,8 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
           'cursor-not-allowed': disabled,
           [`transition-colors duration-300 hover:${buttonStyleProps.hover}`]:
             !disabled,
+          [buttonStyleProps.disabled]: disabled,
+          [buttonStyleProps.bg]: !disabled,
           'p-3': buttonSize === 'lg',
           'p-2': buttonSize === 'md',
           'px-1 py-2': buttonSize === 'sm',
