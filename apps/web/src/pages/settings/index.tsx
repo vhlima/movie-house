@@ -1,10 +1,18 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+
+import type { ChangeEvent } from 'react';
 
 import { NextPage } from 'next';
 
 import { Form, Formik } from 'formik';
 
+import { useMutation } from '@apollo/client';
+
+import type { UserResponse } from '../../types/user';
+
 import { useAuth } from '../../hooks/useAuth';
+
+import { UPDATE_USER } from '../../graphql/user';
 
 import Card from '../../components/Card';
 
@@ -14,16 +22,42 @@ import Button from '../../components/Button';
 
 import UserProfilePicture from '../../views/users/components/ProfilePicture';
 
+interface ProfileSettingsProps {
+  username: string;
+  realName: string;
+  biography: string;
+}
+
 const ProfileSettings: NextPage = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
+  const [updateUserMutation] = useMutation<{ updateUser: UserResponse }>(
+    UPDATE_USER,
+  );
 
   const [uploadedProfilePictureUrl, setUploadedProfilePictureUrl] =
     useState<string>('');
 
   const profilePictureInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSubmit = () => {
-    console.log(`submit`);
+  // TODO error handling
+
+  const handleSubmit = async (values: ProfileSettingsProps) => {
+    if (!user || isSubmitting) return;
+
+    setSubmitting(true);
+
+    const userResponse = await updateUserMutation({
+      variables: { userId: user._id, data: values },
+    });
+
+    if (userResponse.data) {
+      setUser(userResponse.data.updateUser);
+    }
+
+    setSubmitting(false);
   };
 
   const handleProfilePictureAdd = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +76,12 @@ const ProfileSettings: NextPage = () => {
   return (
     <Card title="Personal settings">
       <Formik
-        initialValues={{ ...user, email: '', biography: '' }}
+        initialValues={{
+          username: user.username,
+          realName: user.realName,
+          biography: user.biography,
+          email: user.email,
+        }}
         onSubmit={handleSubmit}
       >
         <Form className="flex flex-col gap-2">
@@ -106,7 +145,9 @@ const ProfileSettings: NextPage = () => {
             label={{ text: 'Bio', htmlFor: true }}
           />
 
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            Save changes
+          </Button>
         </Form>
       </Formik>
     </Card>
