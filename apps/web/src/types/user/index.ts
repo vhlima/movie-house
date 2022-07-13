@@ -29,6 +29,7 @@ export interface UserResponse {
   email: string;
   username: string;
   realName: string;
+  biography: string;
   profilePicture: string;
   followers: string[];
   following: string[];

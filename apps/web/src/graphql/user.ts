@@ -11,6 +11,7 @@ const UserFields = gql`
     _id
     username
     realName
+    biography
     profilePicture
     favoriteMovies {
       id
@@ -117,6 +118,14 @@ export const GET_REVIEW = gql`
 export const ADD_MOVIE_INFO = userFieldsFragmentBuilder(gql`
   mutation ($data: MovieInfoInput!) {
     userAddMovieInfo(data: $data) {
+      ...UserFields
+    }
+  }
+`);
+
+export const UPDATE_USER = userFieldsFragmentBuilder(gql`
+  mutation ($data: UserInput!, $userId: String!) {
+    updateUser(data: $data, userId: $userId) {
       ...UserFields
     }
   }
