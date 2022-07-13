@@ -2,13 +2,9 @@ import { useRouter } from 'next/router';
 
 import type { MovieCreditsResponse, MovieResponse } from '../../../types/movie';
 
-import { useAuth } from '../../../hooks/useAuth';
-
 import MovieHeader from './Header';
 
 import MovieBody from './Body';
-
-import UserMovieInfo from './UserInfo';
 
 import MovieViewSkeleton from './Skeleton';
 
@@ -22,8 +18,6 @@ interface MovieViewProps {
 }
 
 const MovieView: React.FC<MovieViewProps> = ({ movie, credits }) => {
-  const { user } = useAuth();
-
   const { isFallback } = useRouter();
 
   if (isFallback) {
@@ -35,12 +29,6 @@ const MovieView: React.FC<MovieViewProps> = ({ movie, credits }) => {
   return (
     <MovieHeader movie={movie}>
       <MovieBody movie={movie} credits={credits}>
-        {user && (
-          <Card title="Rate this movie" noPadding>
-            <UserMovieInfo movie={movie} />
-          </Card>
-        )}
-
         <Card title="Popular reviews" link={{ href: '/' }} noPadding>
           <div>
             {/* <UserMovieReviewBody preview /> */}

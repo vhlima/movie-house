@@ -2,14 +2,14 @@ import type { ButtonHTMLAttributes } from 'react';
 
 import clsx from 'clsx';
 
-import SvgIcon from '../../../../../../components/SvgIcon';
+import SvgIcon from '../../../../../../../../components/SvgIcon';
 
-import type { SvgIconType } from '../../../../../../components/SvgIcon';
+import type { SvgIconType } from '../../../../../../../../components/SvgIcon';
 
 interface InfoButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   iconType: SvgIconType;
-  iconColor?: 'blue' | 'red' | 'green';
+  iconColor?: 'blue' | 'red' | 'orange' | 'green';
 }
 
 const InfoButton: React.FC<InfoButtonProps> = ({
@@ -28,6 +28,7 @@ const InfoButton: React.FC<InfoButtonProps> = ({
     <SvgIcon
       className={clsx(
         iconColor && {
+          'text-warning-base': iconColor === 'orange',
           'text-success-base': iconColor === 'green',
           'text-error-dark': iconColor === 'red',
           'text-blue-500': iconColor === 'blue',
