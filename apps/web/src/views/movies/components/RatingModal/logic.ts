@@ -2,12 +2,13 @@ import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 
-import type { UserResponse } from '../../../../../../types/user';
+import type { MovieResponse } from '../../../../types/movie';
 
-import { useAuth } from '../../../../../../hooks/useAuth';
+import type { UserResponse } from '../../../../types/user';
 
-import { ADD_MOVIE_INFO } from '../../../../../../graphql/user';
-import { MovieResponse } from '../../../../../../types/movie';
+import { useAuth } from '../../../../hooks/useAuth';
+
+import { ADD_MOVIE_INFO } from '../../../../graphql/user';
 
 // TODO another class requiring movie while it could be gathered via context
 

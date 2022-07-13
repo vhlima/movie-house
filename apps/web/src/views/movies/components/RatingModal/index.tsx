@@ -1,71 +1,45 @@
 import { useMemo, useState } from 'react';
 
-import { MotionProps } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
-import { useMutation } from '@apollo/client';
-
-import type { MovieResponse } from '../../../../types/movie';
-
-import type { UserResponse } from '../../../../types/user';
-
-import { ADD_MOVIE_INFO } from '../../../../graphql/user';
+import type { MotionProps } from 'framer-motion';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
+import { useLogic } from './logic';
+
+import type { MovieResponse } from '../../../../types/movie';
+
+import type { ModalHandles } from '../../../../components/Modal';
+
 import Modal from '../../../../components/Modal';
+
+import InfoButton from './components/InfoButton';
+
+import MovieRateModal from './RateModal';
 
 import Button from '../../../../components/Button';
 
-import SvgIcon from '../../../../components/SvgIcon';
-
-import Stars from './components/Stars';
-
-interface MovieRatingModalProps {
+interface MovieRatingModalProps extends ModalHandles {
   movie: MovieResponse;
-  onClose: () => void;
 }
 
 const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
   movie,
   onClose,
 }) => {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
-  const [userRating, setUserRating] = useState<number>(() => {
-    const movieInfo = user?.moviesInfo.find(mi => mi.movie.id === movie.id);
+  // TODO prop drilling
 
-    if (movieInfo) {
-      return movieInfo.rating;
-    }
+  const { handleClick } = useLogic({ movie });
 
-    return 0;
-  });
+  const [isRating, setRating] = useState<boolean>(false);
 
-  const [isSubmitting, setSubmitting] = useState<boolean>(false);
-
-  const [addUserMovieInfo] = useMutation<{ userAddMovieInfo: UserResponse }>(
-    ADD_MOVIE_INFO,
+  const movieInfo = useMemo(
+    () => user.moviesInfo.find(mi => mi.movie.id === movie.id),
+    [user, movie],
   );
-
-  const handleSubmit = async () => {
-    if (!user || isSubmitting) return;
-
-    setSubmitting(true);
-
-    const userResponse = await addUserMovieInfo({
-      variables: {
-        data: { userId: user._id, movieId: movie.id, rating: userRating },
-      },
-    });
-
-    if (userResponse.data) {
-      setUser(userResponse.data.userAddMovieInfo);
-    }
-
-    setSubmitting(false);
-
-    onClose();
-  };
 
   const modalAnimation: MotionProps = useMemo(
     () => ({
@@ -91,51 +65,52 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
     [],
   );
 
-  return (
-    <Modal
-      className="absolute bottom-0 w-full rounded-t-md"
-      animation={modalAnimation}
-      onClickBackdrop={onClose}
-    >
-      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-        <SvgIcon
-          className="text-blue-500 transition-transform ease-out"
-          iconType="AiFillStar"
-          style={{ transform: `scale(${userRating * 0.05 + 1})` }}
-          size={90}
-        />
+  return isRating ? (
+    <AnimatePresence>
+      <MovieRateModal
+        movie={movie}
+        animation={modalAnimation}
+        onClose={() => setRating(false)}
+      />
+    </AnimatePresence>
+  ) : (
+    <Modal bottom backdrop animation={modalAnimation} onClose={onClose}>
+      <div className="flex flex-col gap-4 items-center">
+        <div className="flex gap-8 text-grey-300">
+          <InfoButton
+            text="Rate"
+            iconType={movieInfo?.rating > 0 ? 'AiFillStar' : 'AiOutlineStar'}
+            iconColor={movieInfo?.rating > 0 ? 'blue' : undefined}
+            onClick={() => setRating(true)}
+          />
 
-        <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold select-none">
-          {userRating > 0 ? userRating : '?'}
-        </span>
-      </div>
+          <InfoButton
+            text="Watch"
+            iconType={movieInfo?.watched ? 'IoEye' : 'IoEyeOutline'}
+            iconColor={movieInfo?.watched ? 'green' : undefined}
+            onClick={() => handleClick('watch')}
+          />
 
-      <div className="flex flex-col items-center gap-4 mb-14 text-grey-200">
-        <button className="ml-auto" type="button" onClick={onClose}>
-          <SvgIcon iconType="FiX" size={28} />
-        </button>
+          <InfoButton
+            text="Like"
+            iconType={movieInfo?.liked ? 'AiFillHeart' : 'AiOutlineHeart'}
+            iconColor={movieInfo?.liked ? 'red' : undefined}
+            onClick={() => handleClick('like')}
+          />
 
-        <span className="text-yellow-500 text-sm font-semibold font-mono uppercase">
-          Rate this
-        </span>
+          <InfoButton
+            text="Watchlist"
+            iconType="AiOutlineClockCircle"
+            // iconColor={movieInfo?.watched ? 'blue' : undefined}
+            // onClick={() => handleClick('watch')}
+          />
+        </div>
 
-        <h1 className="text-2xl">{movie.original_title}</h1>
-
-        <Stars
-          userRating={userRating}
-          onChange={rating => setUserRating(rating)}
-        />
-
-        <Button
-          disabled={
-            userRating ===
-              user?.moviesInfo.find(mi => mi.movie.id === movie.id).rating ||
-            isSubmitting
-          }
-          onClick={handleSubmit}
-        >
-          Rate
-        </Button>
+        <div className="flex flex-col gap-2 w-full">
+          <Button buttonStyle="secondary">Review</Button>
+          <Button buttonStyle="secondary">Add to list</Button>
+          <Button buttonStyle="secondary">Share</Button>
+        </div>
       </div>
     </Modal>
   );
