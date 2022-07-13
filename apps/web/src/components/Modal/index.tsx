@@ -1,28 +1,40 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
 
 import { createPortal } from 'react-dom';
 
-import { MotionProps, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
+
+import type { MotionProps } from 'framer-motion';
 
 import Backdrop from '../Backdrop';
 
-interface ModalProps {
+export interface ModalProps {
+  animation?: MotionProps;
+}
+
+export interface ModalHandles {
+  onClose?: () => void;
+}
+
+interface ModalInternalProps extends ModalProps, ModalHandles {
   className?: string;
   portalId?: string;
-  animation?: MotionProps;
   center?: boolean;
-  onClickBackdrop?: () => void;
+  bottom?: boolean;
+  backdrop?: boolean;
 }
 
 const PORTAL_ID = 'modalPortal';
 
-const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
+const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
   className,
   animation,
   center,
-  onClickBackdrop,
+  bottom,
+  backdrop,
+  onClose,
   children,
 }) => {
   const body = (
@@ -30,6 +42,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
       className={clsx('p-4 bg-grey-800 z-50', className, {
         'fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md':
           center,
+        'absolute bottom-0 w-full rounded-t-md': bottom,
       })}
       role="presentation"
       onClick={e => e.stopPropagation()}
@@ -39,10 +52,10 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
     </motion.div>
   );
 
-  const modal = !onClickBackdrop ? (
+  const modal = !backdrop ? (
     body
   ) : (
-    <Backdrop onClick={onClickBackdrop}>{body}</Backdrop>
+    <Backdrop onClick={onClose}>{body}</Backdrop>
   );
 
   // fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md

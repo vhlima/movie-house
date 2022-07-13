@@ -2,6 +2,8 @@ import { useAuth } from '../../../../../../hooks/useAuth';
 
 import { useLogic } from './logic';
 
+import type { ModalHandles } from '../../../../../../components/Modal';
+
 import Modal from '../../../../../../components/Modal';
 
 import Button from '../../../../../../components/Button';
@@ -12,10 +14,8 @@ import MovieCover from '../../../../../movies/components/Cover';
 
 import MovieSearchModal from '../../../../../movies/components/SearchModal';
 
-interface EditFavoriteMoviesModalProps {
-  // TODO workaround this prop to use it only in one place, no need to prop drill
+interface EditFavoriteMoviesModalProps extends ModalHandles {
   maxFavorite: number;
-  onClose: () => void;
 }
 
 const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
@@ -42,7 +42,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
       onClose={() => setAdding(false)}
     />
   ) : (
-    <Modal center onClickBackdrop={onClose}>
+    <Modal center backdrop onClose={onClose}>
       <h1 className="text-grey-100 text-lg mb-2">Edit your favorite movies</h1>
 
       <div className="grid grid-cols-4 gap-2">

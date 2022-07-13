@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Formik, Form } from 'formik';
 
+import type { ModalHandles } from '../../../../../components/Modal';
+
 import Modal from '../../../../../components/Modal';
 
 import Input from '../../../../../components/Input';
@@ -10,19 +12,14 @@ import Button from '../../../../../components/Button';
 
 import { useLogic } from './logic';
 
-interface AuthenticationModalProps {
-  onClose: () => void;
-}
-
-const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
-  onClose,
-}) => {
+const AuthenticationModal: React.FC<ModalHandles> = ({ onClose }) => {
   const { handleSubmit } = useLogic({ onClose });
 
   return (
     <Modal
       className="fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md"
-      onClickBackdrop={onClose}
+      backdrop
+      onClose={onClose}
     >
       <Formik initialValues={{ username: '' }} onSubmit={handleSubmit}>
         <Form className="flex flex-col gap-2">

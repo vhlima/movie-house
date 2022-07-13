@@ -2,17 +2,18 @@ import type { MovieResponse } from '../../../../types/movie';
 
 import { useLogic } from './logic';
 
+import type { ModalHandles } from '../../../../components/Modal';
+
 import Modal from '../../../../components/Modal';
 
 import Input from '../../../../components/Input';
 
 import Button from '../../../../components/Button';
 
-interface MovieSearchModalProps {
+interface MovieSearchModalProps extends ModalHandles {
   title: string;
   description?: string;
   onSelect: (movie: MovieResponse) => void;
-  onClose: () => void;
 }
 
 const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
@@ -24,7 +25,7 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
   const { searchResults, resetSearchResults, setSearchTerm } = useLogic();
 
   return (
-    <Modal center onClickBackdrop={onClose}>
+    <Modal center backdrop onClose={onClose}>
       <div className="mb-4">
         <h1 className="text-grey-100 text-lg">{title}</h1>
 
