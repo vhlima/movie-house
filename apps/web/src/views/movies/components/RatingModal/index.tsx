@@ -28,16 +28,18 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
   movie,
   onClose,
 }) => {
+  // TODO user required to use this modal
+
   const { user } = useAuth();
 
   // TODO prop drilling
 
-  const { handleClick } = useLogic({ movie });
+  const { handleClick, handleWatchlist } = useLogic({ movie });
 
   const [isRating, setRating] = useState<boolean>(false);
 
-  const movieInfo = useMemo(
-    () => user.moviesInfo.find(mi => mi.movie.id === movie.id),
+  const userRate = useMemo(
+    () => user.ratings.find(r => r.movie.id === movie.id),
     [user, movie],
   );
 
@@ -79,30 +81,34 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
         <div className="flex gap-8 text-grey-300">
           <InfoButton
             text="Rate"
-            iconType={movieInfo?.rating > 0 ? 'AiFillStar' : 'AiOutlineStar'}
-            iconColor={movieInfo?.rating > 0 ? 'blue' : undefined}
+            iconType={userRate?.rating > 0 ? 'AiFillStar' : 'AiOutlineStar'}
+            iconColor={userRate?.rating > 0 ? 'blue' : undefined}
             onClick={() => setRating(true)}
           />
 
           <InfoButton
             text="Watch"
-            iconType={movieInfo?.watched ? 'IoEye' : 'IoEyeOutline'}
-            iconColor={movieInfo?.watched ? 'green' : undefined}
+            iconType={userRate?.watched ? 'IoEye' : 'IoEyeOutline'}
+            iconColor={userRate?.watched ? 'green' : undefined}
             onClick={() => handleClick('watch')}
           />
 
           <InfoButton
             text="Like"
-            iconType={movieInfo?.liked ? 'AiFillHeart' : 'AiOutlineHeart'}
-            iconColor={movieInfo?.liked ? 'red' : undefined}
+            iconType={userRate?.liked ? 'AiFillHeart' : 'AiOutlineHeart'}
+            iconColor={userRate?.liked ? 'red' : undefined}
             onClick={() => handleClick('like')}
           />
 
           <InfoButton
             text="Watchlist"
             iconType="AiOutlineClockCircle"
-            // iconColor={movieInfo?.watched ? 'blue' : undefined}
-            // onClick={() => handleClick('watch')}
+            iconColor={
+              user.watchlist.findIndex(m => m.id === movie.id) > 0
+                ? 'blue'
+                : undefined
+            }
+            onClick={handleWatchlist}
           />
         </div>
 
