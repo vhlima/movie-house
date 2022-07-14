@@ -19,7 +19,7 @@ import type { UserResponse } from '../types/user';
 
 import { SIGN_IN, USER } from '../graphql/user';
 
-type SignInResponse = { userLogin: UserResponse };
+type SignInResponse = { login: UserResponse };
 
 interface AuthContextData {
   user?: UserResponse;
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       });
 
       if (fetchUser.data) {
-        const userData = fetchUser.data.userLogin;
+        const userData = fetchUser.data.login;
 
         localStorage.setItem('@MovieHouse:token', userData._id);
 

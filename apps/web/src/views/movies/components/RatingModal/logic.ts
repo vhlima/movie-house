@@ -8,40 +8,82 @@ import type { UserResponse } from '../../../../types/user';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
-import { ADD_MOVIE_INFO } from '../../../../graphql/user';
+import {
+  ADD_MOVIE_TO_WATCHLIST,
+  RATE_MOVIE,
+  REMOVE_MOVIE_FROM_WATCHLIST,
+} from '../../../../graphql/user';
+
+// TODO maybe use only one rating mutation for both rating types
 
 // TODO another class requiring movie while it could be gathered via context
 
-interface UserMovieInfoLogicProps {
+interface UserRatingLogicProps {
   movie: MovieResponse;
 }
 
-interface UserMovieInfoLogicHandles {
-  handleClick: (action: 'watch' | 'like') => void;
+interface UserRatingLogicHandles {
+  handleWatchlist: () => Promise<void>;
+  handleClick: (action: 'watch' | 'like') => Promise<void>;
 }
 
 export const useLogic = ({
   movie,
-}: UserMovieInfoLogicProps): UserMovieInfoLogicHandles => {
+}: UserRatingLogicProps): UserRatingLogicHandles => {
   const { user, setUser } = useAuth();
 
-  const [isSubmitting, setSubmitting] = useState<boolean>(false);
-
-  const [addUserMovieInfo] = useMutation<{ userAddMovieInfo: UserResponse }>(
-    ADD_MOVIE_INFO,
+  const [addUserRating] = useMutation<{ userAddRate: UserResponse }>(
+    RATE_MOVIE,
   );
 
+  // TODO change this method to ADD or REMOVE from watchlist
+
+  const [addToWatchlist] = useMutation<{ addMovieToWatchlist: UserResponse }>(
+    ADD_MOVIE_TO_WATCHLIST,
+  );
+
+  const [removeFromWatchlist] = useMutation<{
+    removeMovieFromWatchlist: UserResponse;
+  }>(REMOVE_MOVIE_FROM_WATCHLIST);
+
+  const handleWatchlist = async () => {
+    const movieExists = user.watchlist.find(m => m.id === movie.id);
+
+    const variables = {
+      userId: user._id,
+      movieId: movie.id,
+    };
+
+    if (movieExists) {
+      const { data } = await removeFromWatchlist({
+        variables,
+      });
+
+      if (data) {
+        setUser(data.removeMovieFromWatchlist);
+      }
+
+      return;
+    }
+
+    const { data } = await addToWatchlist({
+      variables,
+    });
+
+    if (data) {
+      setUser(data.addMovieToWatchlist);
+    }
+  };
+
   const handleClick = async (action: string) => {
-    if (isSubmitting) return;
+    const ratingInfo = user.ratings.find(r => r.movie.id === movie.id);
 
     const fieldsToUpdate = {};
-
-    const movieInfo = user.moviesInfo.find(mi => mi.movie.id === movie.id);
 
     switch (action) {
       case 'watch': {
         Object.assign(fieldsToUpdate, {
-          watched: !movieInfo ? true : !movieInfo.watched,
+          watched: !ratingInfo ? true : !ratingInfo.watched,
         });
 
         break;
@@ -49,7 +91,7 @@ export const useLogic = ({
 
       case 'like': {
         Object.assign(fieldsToUpdate, {
-          liked: !movieInfo ? true : !movieInfo.liked,
+          liked: !ratingInfo ? true : !ratingInfo.liked,
         });
 
         break;
@@ -60,23 +102,22 @@ export const useLogic = ({
     }
 
     if (Object.keys(fieldsToUpdate).length > 0) {
-      setSubmitting(true);
-
-      const userResponse = await addUserMovieInfo({
+      const { data } = await addUserRating({
         variables: {
-          data: { userId: user._id, movieId: movie.id, ...fieldsToUpdate },
+          userId: user._id,
+          movieId: movie.id,
+          data: fieldsToUpdate,
         },
       });
 
-      if (userResponse.data) {
-        setUser(userResponse.data.userAddMovieInfo);
+      if (data) {
+        setUser(data.userAddRate);
       }
-
-      setSubmitting(false);
     }
   };
 
   return {
+    handleWatchlist,
     handleClick,
   };
 };

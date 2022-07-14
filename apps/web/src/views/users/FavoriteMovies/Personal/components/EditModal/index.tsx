@@ -27,17 +27,28 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
   const {
     freeSlots,
 
+    addFavoriteMovie,
+    addFavoriteResult,
+
+    removeFavoriteMovie,
+    removeFavoriteResult,
+
     isAdding,
     setAdding,
-
-    addFavoriteMovie,
-    removeFavoriteMovie,
   } = useLogic({ maxFavorite });
+
+  const error =
+    addFavoriteResult?.error || removeFavoriteResult?.error || undefined;
 
   return isAdding ? (
     <MovieSearchModal
       title="Pick a favorite movie"
       description="Select one of your favorite movies to display on your profile"
+      errors={error && [error.message]}
+      onFocus={() => {
+        addFavoriteResult.reset();
+        removeFavoriteResult.reset();
+      }}
       onSelect={movie => addFavoriteMovie(movie.id)}
       onClose={() => setAdding(false)}
     />
@@ -53,6 +64,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
             <Button
               buttonStyle="danger"
               buttonSize="xs"
+              disabled={removeFavoriteResult.loading}
               onClick={() => removeFavoriteMovie(movie.id)}
             >
               X

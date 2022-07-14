@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { Dispatch, SetStateAction } from 'react';
 
-import { useMutation } from '@apollo/client';
+import { MutationResult, useMutation } from '@apollo/client';
 
 import type { UserResponse } from '../../../../../../types/user';
 
@@ -17,11 +17,24 @@ interface EditModalLogicProps {
   maxFavorite: number;
 }
 
+interface AddFavoriteResponse {
+  addFavoriteMovie: UserResponse;
+}
+
+interface RemoveFavoriteResponse {
+  removeFavoriteMovie: UserResponse;
+}
+
 interface EditModalLogicHandles {
   isAdding: boolean;
   setAdding: Dispatch<SetStateAction<boolean>>;
 
   freeSlots: number[];
+
+  addFavoriteResult: MutationResult<AddFavoriteResponse>;
+  removeFavoriteResult: MutationResult<RemoveFavoriteResponse>;
+
+  clearErrors: () => void;
 
   addFavoriteMovie: (movieId: string) => Promise<void>;
   removeFavoriteMovie: (movieId: string) => Promise<void>;
@@ -34,31 +47,52 @@ export const useLogic = ({
 
   const [isAdding, setAdding] = useState<boolean>(false);
 
-  const [mutationAddFavoriteMovie] = useMutation<{
-    userAddFavoriteMovie: UserResponse;
-  }>(ADD_FAVORITE_MOVIE);
+  const [mutationAddFavoriteMovie, addFavoriteResult] =
+    useMutation<AddFavoriteResponse>(ADD_FAVORITE_MOVIE);
 
-  const [mutationRemoveFavoriteMovie] = useMutation<{
-    userRemoveFavoriteMovie: UserResponse;
-  }>(REMOVE_FAVORITE_MOVIE);
+  const [mutationRemoveFavoriteMovie, removeFavoriteResult] =
+    useMutation<RemoveFavoriteResponse>(REMOVE_FAVORITE_MOVIE);
+
+  const clearErrors = () => {
+    addFavoriteResult.reset();
+    removeFavoriteResult.reset();
+  };
 
   const addFavoriteMovie = async (movieId: string) => {
-    const userResponse = await mutationAddFavoriteMovie({
-      variables: { userId: user._id, movieId },
-    });
+    try {
+      const { data } = await mutationAddFavoriteMovie({
+        variables: { userId: user._id, movieId },
+      });
 
-    setUser(userResponse.data.userAddFavoriteMovie);
+      if (data) {
+        setUser(data.addFavoriteMovie);
 
-    setAdding(false);
+        setAdding(false);
+      }
+    } catch (err) {
+      console.error('Unexpected error occurred');
+    }
   };
 
   const removeFavoriteMovie = async (movieId: string) => {
-    const userResponse = await mutationRemoveFavoriteMovie({
-      variables: { userId: user._id, movieId },
-    });
+    try {
+      const { data } = await mutationRemoveFavoriteMovie({
+        variables: { userId: user._id, movieId },
+      });
 
-    setUser(userResponse.data.userRemoveFavoriteMovie);
+      if (data) {
+        setUser(data.removeFavoriteMovie);
+      }
+    } catch (err) {
+      console.error('Unexpected error occurred');
+    }
   };
+
+  useEffect(() => {
+    if (isAdding) {
+      clearErrors();
+    }
+  }, [isAdding]);
 
   const freeSlots = Array.from(
     {
@@ -69,6 +103,11 @@ export const useLogic = ({
 
   return {
     freeSlots,
+
+    addFavoriteResult,
+    removeFavoriteResult,
+
+    clearErrors,
 
     isAdding,
     setAdding,

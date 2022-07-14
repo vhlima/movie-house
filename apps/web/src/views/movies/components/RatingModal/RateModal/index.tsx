@@ -1,6 +1,4 @@
-import { useMemo, useState } from 'react';
-
-import { MotionProps } from 'framer-motion';
+import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 
@@ -8,7 +6,7 @@ import type { MovieResponse } from '../../../../../types/movie';
 
 import type { UserResponse } from '../../../../../types/user';
 
-import { ADD_MOVIE_INFO } from '../../../../../graphql/user';
+import { RATE_MOVIE } from '../../../../../graphql/user';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -35,37 +33,31 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
   const { user, setUser } = useAuth();
 
   const [userRating, setUserRating] = useState<number>(() => {
-    const movieInfo = user?.moviesInfo.find(mi => mi.movie.id === movie.id);
+    const rate = user?.ratings.find(r => r.movie.id === movie.id);
 
-    if (movieInfo) {
-      return movieInfo.rating;
-    }
-
-    return 0;
+    return rate ? rate.rating : 0;
   });
 
-  const [isSubmitting, setSubmitting] = useState<boolean>(false);
-
-  const [addUserMovieInfo] = useMutation<{ userAddMovieInfo: UserResponse }>(
-    ADD_MOVIE_INFO,
-  );
+  const [userAddRateMutation, { loading }] = useMutation<{
+    userAddRate: UserResponse;
+  }>(RATE_MOVIE);
 
   const handleSubmit = async () => {
-    if (!user || isSubmitting) return;
+    if (!user) return;
 
-    setSubmitting(true);
-
-    const userResponse = await addUserMovieInfo({
+    const { data } = await userAddRateMutation({
       variables: {
-        data: { userId: user._id, movieId: movie.id, rating: userRating },
+        userId: user._id,
+        movieId: movie.id,
+        data: {
+          rating: userRating,
+        },
       },
     });
 
-    if (userResponse.data) {
-      setUser(userResponse.data.userAddMovieInfo);
+    if (data) {
+      setUser(data.userAddRate);
     }
-
-    setSubmitting(false);
 
     onClose();
   };
@@ -104,8 +96,7 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
         <Button
           disabled={
             userRating ===
-              user?.moviesInfo.find(mi => mi.movie.id === movie.id).rating ||
-            isSubmitting
+              user?.ratings.find(r => r.movie.id === movie.id).rating || loading
           }
           onClick={handleSubmit}
         >
