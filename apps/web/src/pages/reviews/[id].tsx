@@ -1,10 +1,8 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
-import type { MovieData } from '../../types';
-
 import type { ReviewResponse } from '../../types/user';
 
-import { GET_REVIEW } from '../../graphql/user';
+import { REVIEW } from '../../graphql/review';
 
 import client from '../../api';
 
@@ -21,7 +19,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   try {
     const reviewResponse = await client.query<{ getReview: ReviewResponse }>({
-      query: GET_REVIEW,
+      query: REVIEW,
       variables: { reviewId: id },
     });
 

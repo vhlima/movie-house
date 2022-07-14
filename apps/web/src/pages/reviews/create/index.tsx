@@ -14,7 +14,7 @@ import type { MovieResponse } from '../../../types/movie';
 
 import { useAuth } from '../../../hooks/useAuth';
 
-import { CREATE_REVIEW } from '../../../graphql/user';
+import { CREATE_REVIEW } from '../../../graphql/review';
 
 import Card from '../../../components/Card';
 
@@ -48,7 +48,7 @@ const CreateReviewPage: NextPage = () => {
       variables: {
         userId: user._id,
         movieId: selectedMovie.id,
-        ...values,
+        data: values,
       },
     });
 
