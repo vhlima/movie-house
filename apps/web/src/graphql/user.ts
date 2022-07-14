@@ -13,18 +13,18 @@ const USER_FIELDS = appendGql(
       realName
       biography
       profilePicture
+      watchlist {
+        ...MovieFields
+      }
       favoriteMovies {
         id
         original_title
         posterUrl
       }
-      moviesInfo {
+      ratings {
         watched
         rating
         liked
-        review {
-          body
-        }
         movie {
           ...MovieFields
         }
@@ -43,37 +43,18 @@ export const USER = appendGql(
   USER_FIELDS,
   gql`
     query ($userId: String!) {
-      user(UserId: $userId) {
+      user(userId: $userId) {
         ...UserFields
       }
     }
   `,
 );
-
-export const ALL_USERS = appendGql(
-  USER_FIELDS,
-  gql`
-    query users {
-      users {
-        ...UserFields
-      }
-    }
-  `,
-);
-
-export const ALL_USERS_ID = gql`
-  query users {
-    users {
-      _id
-    }
-  }
-`;
 
 export const SIGN_IN = appendGql(
   USER_FIELDS,
   gql`
     mutation ($username: String!) {
-      userLogin(username: $username) {
+      login(username: $username) {
         ...UserFields
       }
     }
@@ -102,11 +83,11 @@ export const REMOVE_FAVORITE_MOVIE = appendGql(
   `,
 );
 
-export const ADD_MOVIE_INFO = appendGql(
+export const RATE_MOVIE = appendGql(
   USER_FIELDS,
   gql`
-    mutation ($data: MovieInfoInput!) {
-      userAddMovieInfo(data: $data) {
+    mutation ($data: RateInput!, $movieId: String!, $userId: String!) {
+      userAddRate(data: $data, movieId: $movieId, userId: $userId) {
         ...UserFields
       }
     }
@@ -117,7 +98,29 @@ export const UPDATE_USER = appendGql(
   USER_FIELDS,
   gql`
     mutation ($data: UserInput!, $userId: String!) {
-      updateUser(data: $data, userId: $userId) {
+      userUpdate(data: $data, userId: $userId) {
+        ...UserFields
+      }
+    }
+  `,
+);
+
+export const ADD_MOVIE_TO_WATCHLIST = appendGql(
+  USER_FIELDS,
+  gql`
+    mutation ($movieId: String!, $userId: String!) {
+      addMovieToWatchlist(movieId: $movieId, userId: $userId) {
+        ...UserFields
+      }
+    }
+  `,
+);
+
+export const REMOVE_MOVIE_FROM_WATCHLIST = appendGql(
+  USER_FIELDS,
+  gql`
+    mutation ($movieId: String!, $userId: String!) {
+      removeMovieFromWatchlist(movieId: $movieId, userId: $userId) {
         ...UserFields
       }
     }
