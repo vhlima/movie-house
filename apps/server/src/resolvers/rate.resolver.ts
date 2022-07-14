@@ -2,7 +2,9 @@ import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
 
 import type { DatasourceContext } from '../api';
 
-import { UserModel } from '../models';
+import { findUserById } from '../controllers/user.controller';
+
+import { findMovieById } from '../controllers/movie.controller';
 
 import User from '../entities/user.interface';
 
@@ -13,28 +15,20 @@ import RateInput from '../entities/types/rate.input';
 @Resolver(() => Rate)
 class RateResolver {
   @Mutation(() => User)
-  async userAddMovieInfo(
+  async userAddRate(
     @Ctx() context: DatasourceContext,
     @Arg('userId') userId: string,
     @Arg('movieId') movieId: string,
     @Arg('data')
     data: RateInput,
   ) {
-    const user = await UserModel.findById(userId);
+    const user = await findUserById(userId);
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+    const movie = await findMovieById(context, movieId);
 
-    const movie = await context.dataSources.tmdb.getMovieById(movieId);
+    const rateExists = user.ratings.find(m => m.movie.id === movieId);
 
-    if (!movie) {
-      throw new Error('Movie not found');
-    }
-
-    const movieInfoExists = user.ratings.find(m => m.movie.id === movieId);
-
-    if (!movieInfoExists) {
+    if (!rateExists) {
       user.ratings.push({
         movie,
         rating: 0,
@@ -43,8 +37,8 @@ class RateResolver {
         ...data,
       });
     } else {
-      user.ratings[user.ratings.indexOf(movieInfoExists)] = Object.assign(
-        movieInfoExists,
+      user.ratings[user.ratings.indexOf(rateExists)] = Object.assign(
+        rateExists,
         data,
       );
     }

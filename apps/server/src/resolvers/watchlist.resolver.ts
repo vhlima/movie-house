@@ -4,6 +4,8 @@ import type { DatasourceContext } from '../api';
 
 import { findUserById } from '../controllers/user.controller';
 
+import { findMovieById } from '../controllers/movie.controller';
+
 import User from '../entities/user.interface';
 
 import WatchlistItem from '../entities/watchlist.interface';
@@ -24,10 +26,7 @@ class WatchlistItemResolver {
       throw new Error('This movie is already in your watchlist');
     }
 
-    const movie = await context.dataSources.tmdb.getMovieById(movieId);
-    if (!movie) {
-      throw new Error('Movie not found');
-    }
+    const movie = await findMovieById(context, movieId);
 
     user.watchlist.push(movie);
 

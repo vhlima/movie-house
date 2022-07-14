@@ -2,13 +2,15 @@ import { Resolver, Mutation, Arg, Ctx, Query } from 'type-graphql';
 
 import type { DatasourceContext } from '../api';
 
-import { findUserAndMovie } from '../controllers/user.controller';
+import { findMovieById } from '../controllers/movie.controller';
+
+import { findUserById } from '../controllers/user.controller';
+
+import { ReviewModel } from '../models';
 
 import Review from '../entities/review.interface';
 
 import ReviewInput from '../entities/types/review.input';
-
-import { UserModel, ReviewModel } from '../models';
 
 @Resolver(() => Review)
 class ReviewResolver {
@@ -37,7 +39,9 @@ class ReviewResolver {
     @Arg('movieId') movieId: string,
     @Arg('data') data: ReviewInput,
   ) {
-    const [user, movie] = await findUserAndMovie(context, userId, movieId);
+    const user = await findUserById(userId);
+
+    const movie = await findMovieById(context, movieId);
 
     const reviewExists = user.reviews.find(
       r => (r as Review).movie.id === movieId,
@@ -79,23 +83,15 @@ class ReviewResolver {
       throw new Error('Review not found');
     }
 
-    const user = await UserModel.findById(review.user);
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    // TODO only delete after checking if that user has made the review
+    const user = await findUserById(review.user as string);
 
     const userReviewIndex = user.reviews.findIndex(r => r === reviewId);
 
-    if (userReviewIndex < 0) {
-      throw new Error('User didnt reviewed this movie');
+    if (userReviewIndex >= 0) {
+      user.reviews.splice(userReviewIndex, 1);
+
+      await user.save();
     }
-
-    user.reviews.splice(userReviewIndex, 1);
-
-    await user.save();
 
     return 'Deleted with success';
   }
