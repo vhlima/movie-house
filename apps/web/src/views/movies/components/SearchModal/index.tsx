@@ -13,16 +13,22 @@ import Button from '../../../../components/Button';
 interface MovieSearchModalProps extends ModalHandles {
   title: string;
   description?: string;
+  errors?: string[];
+  onFocus?: () => void;
   onSelect: (movie: MovieResponse) => void;
 }
 
 const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
   title,
+  errors,
   description,
   onSelect,
+  onFocus,
   onClose,
 }) => {
   const { searchResults, resetSearchResults, setSearchTerm } = useLogic();
+
+  // TODO bug: when submit request has an error, it starts searching again for the same result even if user didnt typed anything
 
   return (
     <Modal center backdrop onClose={onClose}>
@@ -32,11 +38,13 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
         {description && <p className="text-grey-200">{description}</p>}
       </div>
 
+      {errors && <span className="text-danger-base">{errors.join('')}</span>}
+
       <Input
         name="searchMovie"
         inputStyle="secondary"
-        // error={errors.join('')}
         label={{ text: "Enter the movie's name", htmlFor: true }}
+        onFocus={() => onFocus()}
         onChange={e => {
           setSearchTerm(e.target.value);
           resetSearchResults();
