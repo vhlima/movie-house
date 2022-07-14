@@ -8,6 +8,8 @@ import User from '../entities/user.interface';
 
 import UserArgs from '../entities/types/args/user.args';
 
+import UserInput from '../entities/types/user.input';
+
 @Resolver(() => User)
 class UserResolver {
   @Query(() => [User])
@@ -20,6 +22,20 @@ class UserResolver {
   @Query(() => User)
   async user(@Arg(`userId`) userId: string): Promise<User> {
     const user = await findUserById(userId);
+
+    return user;
+  }
+
+  @Mutation(() => User)
+  async userUpdate(
+    @Arg('userId') userId: string,
+    @Arg('data') data: UserInput,
+  ) {
+    const user = await UserModel.findByIdAndUpdate(userId, { ...data });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
 
     return user;
   }
