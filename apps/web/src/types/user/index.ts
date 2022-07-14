@@ -12,16 +12,11 @@ export interface ReviewData {
   body: string;
 }
 
-interface Review {
-  body: string;
-}
-
-export interface UserMovieInfo {
+export interface UserRatings {
   movie: MovieResponse;
   rating: number;
   liked: boolean;
   watched: boolean;
-  review?: Review;
 }
 
 export interface UserResponse {
@@ -33,7 +28,8 @@ export interface UserResponse {
   profilePicture: string;
   followers: string[];
   following: string[];
+  watchlist: MovieResponse[];
   favoriteMovies: MovieResponse[];
   // reviews: ReviewResponse;
-  moviesInfo: UserMovieInfo[];
+  ratings: UserRatings[];
 }
