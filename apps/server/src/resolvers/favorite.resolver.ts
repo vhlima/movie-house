@@ -15,7 +15,7 @@ import FavoriteMovieArgs from '../entities/types/args/favorite.args';
 @Resolver(() => FavoriteMovie)
 class FavoriteResolver {
   @Mutation(() => User)
-  async userAddFavoriteMovie(
+  async addFavoriteMovie(
     @Ctx() context: DatasourceContext,
     @Args() { userId, movieId }: FavoriteMovieArgs,
   ) {
@@ -37,9 +37,7 @@ class FavoriteResolver {
   }
 
   @Mutation(() => User)
-  async userRemoveFavoriteMovie(
-    @Args() { userId, movieId }: FavoriteMovieArgs,
-  ) {
+  async removeFavoriteMovie(@Args() { userId, movieId }: FavoriteMovieArgs) {
     const user = await findUserById(userId);
 
     const favoriteMovieIndex = user.favoriteMovies.findIndex(
