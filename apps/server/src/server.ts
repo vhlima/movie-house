@@ -9,27 +9,27 @@ import { buildSchema } from 'type-graphql';
 import { GraphQLError } from 'graphql';
 
 import {
-  userResolver,
-  movieResolver,
-  reviewResolver,
-  movieInfoResolver,
-  favoriteMovieResolver,
-  movieCreditsResolver,
-} from './entities';
+  UserResolver,
+  MovieResolver,
+  ReviewResolver,
+  RateResolver,
+  FavoriteResolver,
+  CreditsResolver,
+} from './resolvers';
+
+import { TmdbAPI } from './api';
 
 import database from './database';
-
-import TmdbAPI from './api/tmdb';
 
 const main = async () => {
   const schema = await buildSchema({
     resolvers: [
-      userResolver,
-      movieResolver,
-      reviewResolver,
-      movieInfoResolver,
-      favoriteMovieResolver,
-      movieCreditsResolver,
+      UserResolver,
+      MovieResolver,
+      ReviewResolver,
+      RateResolver,
+      FavoriteResolver,
+      CreditsResolver,
     ],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
   });

@@ -11,7 +11,7 @@ export default class TmdbAPI extends RESTDataSource {
     this.baseURL = 'https://api.themoviedb.org/3/';
   }
 
-  async getMovie(movieId: string) {
+  async getMovieById(movieId: string) {
     const response = await this.get(
       `movie/${movieId}`,
       {},
@@ -26,24 +26,9 @@ export default class TmdbAPI extends RESTDataSource {
     return response;
   }
 
-  async getMovieCredits(movieId: string) {
+  async getCreditsByMovieId(movieId: string) {
     const response = await this.get(
       `movie/${movieId}/credits`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${API_KEY_V4}`,
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      },
-    );
-
-    return response;
-  }
-
-  async getPersonPicture(personId: string) {
-    const response = await this.get(
-      `person/${personId}/images`,
       {},
       {
         headers: {
