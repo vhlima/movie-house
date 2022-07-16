@@ -1,16 +1,8 @@
 import type { MovieResponse } from '../movie';
 
+import type { ReviewResponse } from '../review';
+
 /* eslint-disable camelcase */
-
-export interface ReviewResponse {
-  _id: string;
-  movie: MovieResponse;
-  body: string;
-}
-
-export interface ReviewData {
-  body: string;
-}
 
 export interface UserRatings {
   movie: MovieResponse;
@@ -30,6 +22,6 @@ export interface UserResponse {
   following: string[];
   watchlist: MovieResponse[];
   favoriteMovies: MovieResponse[];
-  // reviews: ReviewResponse;
+  reviews: ReviewResponse[];
   ratings: UserRatings[];
 }

@@ -4,7 +4,7 @@ import { appendGql } from '../utils';
 
 import { MOVIE_FIELDS } from './movie';
 
-const USER_FIELDS = appendGql(
+export const USER_FIELDS = appendGql(
   MOVIE_FIELDS,
   gql`
     fragment UserFields on User {

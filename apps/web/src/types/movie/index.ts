@@ -42,6 +42,7 @@ interface MoviePerson {
   gender: number;
   known_for_department: string;
   profilePictureUrl: string;
+  // TODO maybe name is never used
   name: string;
   original_name: string;
   popularity: number;
@@ -64,4 +65,9 @@ export interface MovieCreditsResponse {
   id: string;
   cast: MovieCast[];
   crew: MovieCrew[];
+}
+
+export interface MovieSearchResponse {
+  page: number;
+  results: MovieResponse[];
 }

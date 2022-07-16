@@ -34,7 +34,7 @@ export const GET_MOVIE = gql`
   ${MOVIE_FIELDS}
 
   query GetMovie($movieId: String!) {
-    getMovie(movieId: $movieId) {
+    movie(movieId: $movieId) {
       ...MovieFields
     }
   }
@@ -49,6 +49,20 @@ export const GET_MOVIE_CREDITS = gql`
         order
         original_name
         profilePictureUrl
+      }
+    }
+  }
+`;
+
+export const SEARCH_MOVIE = gql`
+  query ($searchTerm: String!) {
+    searchMovie(searchTerm: $searchTerm) {
+      page
+      results {
+        id
+        original_title
+        release_date
+        posterUrl
       }
     }
   }
