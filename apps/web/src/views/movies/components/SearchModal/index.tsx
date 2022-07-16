@@ -44,7 +44,7 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
         name="searchMovie"
         inputStyle="secondary"
         label={{ text: "Enter the movie's name", htmlFor: true }}
-        onFocus={() => onFocus()}
+        onFocus={onFocus}
         onChange={e => {
           setSearchTerm(e.target.value);
           resetSearchResults();

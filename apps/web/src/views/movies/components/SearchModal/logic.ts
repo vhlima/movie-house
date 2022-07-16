@@ -4,9 +4,12 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { useLazyQuery } from '@apollo/client';
 
-import type { MovieResponse } from '../../../../types/movie';
+import type {
+  MovieResponse,
+  MovieSearchResponse,
+} from '../../../../types/movie';
 
-import { GET_MOVIE } from '../../../../graphql/movie';
+import { SEARCH_MOVIE } from '../../../../graphql/movie';
 
 interface MovieSearchModalLogicHandles {
   searchResults: MovieResponse[];
@@ -20,7 +23,9 @@ export const useLogic = (): MovieSearchModalLogicHandles => {
 
   const [searchResults, setSearchResults] = useState<MovieResponse[]>([]);
 
-  const [getMovie] = useLazyQuery<{ getMovie: MovieResponse }>(GET_MOVIE);
+  const [searchMovie] = useLazyQuery<{ searchMovie: MovieSearchResponse }>(
+    SEARCH_MOVIE,
+  );
 
   const resetSearchResults = () => {
     setSearchResults([]);
@@ -30,18 +35,21 @@ export const useLogic = (): MovieSearchModalLogicHandles => {
     const fetchMovie = async () => {
       if (!searchTerm) return;
 
-      const result = await getMovie({
-        variables: { movieId: '1359' },
-      });
+      try {
+        const { data } = await searchMovie({
+          variables: { searchTerm },
+        });
 
-      if (!result.data) return;
+        if (!data) return;
 
-      setSearchResults([result.data.getMovie]);
+        setSearchResults(data.searchMovie.results);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     const delayDebounceFn = setTimeout(async () => {
-      // TODO dont search on first render
-      if (searchTerm) {
+      if (searchTerm && searchTerm.length >= 4) {
         await fetchMovie();
       }
     }, 3000);
