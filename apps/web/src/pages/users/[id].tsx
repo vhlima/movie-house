@@ -54,7 +54,9 @@ const UserProfile: NextPage<{ targetUser: UserResponse }> = ({
   return (
     <ProfileHeader user={targetUser}>
       <Card title="About me" noPadding>
-        <p className="text-grey-200">{targetUser.biography}</p>
+        <p className="text-grey-200 whitespace-pre-wrap">
+          {targetUser.biography}
+        </p>
       </Card>
 
       <FavoriteMovies user={targetUser} />
