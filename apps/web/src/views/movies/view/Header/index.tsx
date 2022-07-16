@@ -8,6 +8,7 @@ import BackgroundImage from '../../components/BackgroundImage';
 
 import Button from '../../../../components/Button';
 import MovieRatingStar from '../../components/RatingStar';
+import PageBody from '../../../../components/PageBody';
 
 interface MovieHeaderProps {
   movie: MovieResponse;
@@ -35,31 +36,34 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
     <>
       <BackgroundImage src={movie.backdropUrl} />
 
-      <div className="p-3 mt-40">
-        <div className="flex justify-between">
+      <PageBody className="mt-40">
+        <div className="flex justify-between gap-2">
           <div className="flex flex-col z-10">
             <h1 className="text-grey-100 text-2xl font-semibold">
               {movie.original_title}
             </h1>
 
-            <MovieRatingStar color="yellow" rating={8.3} checked />
-
             <div className="text-grey-200 mb-2">
               <div className="flex items-center gap-1">
+                <MovieRatingStar color="yellow" rating={8.3} checked />
+
+                <span>•</span>
+
                 <span className="text-sm">
-                  {movieDate.getDay()}/{movieDate.getMonth()}/
+                  {movieDate.getMonth()}/{movieDate.getDay()}/
                   {movieDate.getFullYear()}
                 </span>
 
                 <span>•</span>
 
-                <span className="text-sm uppercase">Directed by</span>
+                <span className="text-sm">
+                  {toHoursAndMinutes(movie.runtime)}
+                </span>
               </div>
 
-              <span className="text-sm font-semibold">
-                {/* {movie.crew.find(c => c.role.includes('Director'))?.name || ''} */}
-                Steven Spielberg
-              </span>
+              <span className="text-sm uppercase mr-1">Directed by</span>
+
+              <span className="text-sm font-semibold">Steven Spielberg</span>
             </div>
 
             <div className="flex items-center gap-1 text-grey-200 mt-auto">
@@ -70,8 +74,6 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
               <div className="rounded-md border border-grey-700 px-1 bg-opacity-60">
                 <span>18</span>
               </div>
-
-              <span>{toHoursAndMinutes(movie.runtime)}</span>
             </div>
           </div>
 
@@ -79,7 +81,7 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
         </div>
 
         {children}
-      </div>
+      </PageBody>
     </>
   );
 };
