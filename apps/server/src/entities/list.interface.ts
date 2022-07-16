@@ -6,9 +6,20 @@ import Movie from './movie.interface';
 
 import Post from './post.interface';
 
+// TODO maybe one separate document for movies
+
+/*
+  one movie per document
+
+  {
+    listId: id;
+    movie: Movie;
+  }
+*/
+
 @ObjectType()
-export default class Review extends Post {
-  @Field(() => Movie)
+export default class List extends Post {
+  @Field(() => [Movie])
   @prop({ type: () => Movie })
-  readonly movie: Movie;
+  movies: Movie[];
 }

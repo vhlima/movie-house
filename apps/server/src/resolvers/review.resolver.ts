@@ -1,4 +1,14 @@
-import { Resolver, Mutation, Arg, Ctx, Query } from 'type-graphql';
+import {
+  Resolver,
+  Mutation,
+  Arg,
+  Ctx,
+  Query,
+  Int,
+  FieldResolver,
+  Root,
+  ResolverInterface,
+} from 'type-graphql';
 
 import type { DatasourceContext } from '../api';
 
@@ -6,14 +16,34 @@ import { findMovieById } from '../controllers/movie.controller';
 
 import { findUserById } from '../controllers/user.controller';
 
-import { ReviewModel } from '../models';
+import { CommentaryModel, LikeModel, ReviewModel } from '../models';
+
+import PostType from '../enum/post.enum';
 
 import Review from '../entities/review.interface';
 
 import ReviewInput from '../entities/types/review.input';
 
+import Commentary from '../entities/commentary.interface';
+
 @Resolver(() => Review)
-class ReviewResolver {
+class ReviewResolver implements ResolverInterface<Review> {
+  @FieldResolver(() => Int)
+  async likeCount(@Root('_doc') review: Review) {
+    const likes = await LikeModel.find({ referenceId: review._id });
+
+    return likes.length;
+  }
+
+  @FieldResolver(() => [Commentary])
+  async commentaries(@Root('_doc') review: Review) {
+    const allCommentaries = await CommentaryModel.find({
+      referenceId: review._id,
+    }).populate('user');
+
+    return allCommentaries;
+  }
+
   @Query(() => Review)
   async reviews() {
     const reviews = await ReviewModel.find();
@@ -23,7 +53,9 @@ class ReviewResolver {
 
   @Query(() => Review)
   async review(@Arg('reviewId') reviewId: string) {
-    const reviewExists = await ReviewModel.findById(reviewId);
+    const reviewExists = await ReviewModel.findById(reviewId).populate(
+      'author',
+    );
 
     if (!reviewExists) {
       throw new Error('Review not found');
@@ -41,6 +73,8 @@ class ReviewResolver {
   ) {
     const user = await findUserById(userId);
 
+    await user.populate('reviews');
+
     const movie = await findMovieById(context, movieId);
 
     const reviewExists = user.reviews.find(
@@ -51,7 +85,12 @@ class ReviewResolver {
       throw new Error('User already made a review about this movie');
     }
 
-    const review = await ReviewModel.create({ user, movie, ...data });
+    const review = await ReviewModel.create({
+      postType: PostType.REVIEW,
+      author: user,
+      movie,
+      ...data,
+    });
 
     user.reviews.push(review);
 
@@ -83,7 +122,7 @@ class ReviewResolver {
       throw new Error('Review not found');
     }
 
-    const user = await findUserById(review.user as string);
+    const user = await findUserById(review.author as string);
 
     const userReviewIndex = user.reviews.findIndex(r => r === reviewId);
 
