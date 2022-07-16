@@ -4,6 +4,8 @@ import { AnimatePresence } from 'framer-motion';
 
 import type { MotionProps } from 'framer-motion';
 
+import { useRouter } from 'next/router';
+
 import { useAuth } from '../../../../hooks/useAuth';
 
 import { useLogic } from './logic';
@@ -28,6 +30,8 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
   movie,
   onClose,
 }) => {
+  const { push } = useRouter();
+
   // TODO user required to use this modal
 
   const { user } = useAuth();
@@ -42,6 +46,13 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
     () => user.ratings.find(r => r.movie.id === movie.id),
     [user, movie],
   );
+
+  const redirectReview = () => {
+    push({
+      pathname: '/reviews/create',
+      query: { movie: movie.id },
+    });
+  };
 
   const modalAnimation: MotionProps = useMemo(
     () => ({
@@ -113,7 +124,9 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <Button buttonStyle="secondary">Review</Button>
+          <Button buttonStyle="secondary" onClick={redirectReview}>
+            Review
+          </Button>
           <Button buttonStyle="secondary">Add to list</Button>
           <Button buttonStyle="secondary">Share</Button>
         </div>
