@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import type { CommentaryProps } from '../../../types';
+import type { ReviewResponse } from '../../../types/review';
 
-import type { ReviewResponse } from '../../../types/user';
+import type { CommentaryResponse } from '../../../types/commentary';
 
 import { useAuth } from '../../../hooks/useAuth';
 
@@ -19,24 +19,44 @@ export interface UserMovieReviewProps {
 const UserMovieReview: React.FC<UserMovieReviewProps> = ({ review }) => {
   const { user } = useAuth();
 
-  const [commentaries, setCommentaries] = useState<CommentaryProps[]>([]);
+  const [commentaries, setCommentaries] = useState<CommentaryResponse[]>([]);
 
-  const handleComment = (message: string) => {
-    setCommentaries(prev => [...prev, { _id: 'abc', message }]);
+  const [likes, setLikes] = useState<string[]>([]);
+
+  const handleComment = (commentary: CommentaryResponse) => {
+    setCommentaries(prev => [...prev, commentary]);
   };
+
+  // TODO move commentary form to top
+
+  useEffect(() => {
+    setCommentaries(review.commentaries);
+  }, [review, setCommentaries]);
 
   return (
     <>
       <UserMovieReviewBody review={review} preview={false} />
 
       <div className="mt-4">
-        {user && (
-          <CommentaryForm onSubmit={values => handleComment(values.message)} />
-        )}
-
-        {commentaries.map(comm => (
-          <Commentary key={comm._id} />
+        {commentaries.map(commentary => (
+          <Commentary
+            key={commentary._id}
+            commentary={commentary}
+            liked={likes.includes(commentary._id)}
+            onLike={lod =>
+              !lod
+                ? setLikes(prev => prev.filter(c => c !== commentary._id))
+                : setLikes(prev => [...prev, commentary._id])
+            }
+          />
         ))}
+
+        {user && (
+          <CommentaryForm
+            referenceId={review._id}
+            onComment={commentary => handleComment(commentary)}
+          />
+        )}
       </div>
     </>
   );
