@@ -14,11 +14,13 @@ interface InputInternalProps {
 
 type InputProps = InputInternalProps & RawInputProps;
 
-export const FormikInput: React.FC<InputProps> = ({ name, ...rest }) => {
+export const FormikInput: React.FC<InputProps> = ({ name, error, ...rest }) => {
   const [field, meta] = useField(name);
 
-  return <RawInput error={meta.error} {...rest} {...field} />;
+  return <RawInput error={meta.error || error} {...rest} {...field} />;
 };
+
+// TODO change error to be first element
 
 const Input: React.FC<InputProps> = ({ formik, label, name, ...rest }) => {
   const rawInput = !formik ? (
