@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Form, Formik, FormikHelpers } from 'formik';
 
-import { CommentaryProps } from '../../../../../types';
+import { useMutation } from '@apollo/client';
+
+import { useAuth } from '../../../../../hooks/useAuth';
+
+import type {
+  CommentaryInput,
+  CommentaryResponse,
+} from '../../../../../types/commentary';
+
+import { COMMENT } from '../../../../../graphql/commentary';
 
 import Input from '../../../../../components/Input';
 
@@ -10,10 +19,9 @@ import Button from '../../../../../components/Button';
 
 import SvgIcon from '../../../../../components/SvgIcon';
 
-type CommentaryPropsWithoutId = Omit<CommentaryProps, '_id'>;
-
 interface CommentaryFormProps {
-  onSubmit: (values: CommentaryPropsWithoutId) => void;
+  referenceId: string;
+  onComment: (commenary: CommentaryResponse) => void;
 }
 
 /*
@@ -21,41 +29,54 @@ interface CommentaryFormProps {
   main component on every form submit.
 */
 
-const CommentaryForm: React.FC<CommentaryFormProps> = ({ onSubmit }) => {
-  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+const CommentaryForm: React.FC<CommentaryFormProps> = ({
+  referenceId,
+  onComment,
+}) => {
+  const { user } = useAuth();
+
+  // TODO user required
+
+  const [commentMutation, { loading }] = useMutation<{
+    comment: CommentaryResponse;
+  }>(COMMENT);
 
   const handleComment = async (
-    values: CommentaryPropsWithoutId,
-    helpers: FormikHelpers<{ message: string }>,
+    { body }: CommentaryInput,
+    helpers: FormikHelpers<CommentaryInput>,
   ) => {
-    if (isSubmitting) return;
+    if (loading) return;
 
-    setSubmitting(true);
+    const { data } = await commentMutation({
+      variables: {
+        userId: user._id,
+        referenceId,
+        body,
+      },
+    });
 
-    setTimeout(() => {
-      onSubmit(values);
+    if (data) {
+      onComment(data.comment);
+    }
 
-      helpers.resetForm();
-
-      setSubmitting(false);
-    }, 2000);
+    helpers.resetForm();
   };
 
   return (
     <Formik
-      initialValues={{ message: '' }}
+      initialValues={{ body: '' }}
       onSubmit={(values, helpers) => handleComment(values, helpers)}
     >
       <Form className="mt-4">
         <Input
+          className="min-h-fit"
           formik
-          textarea
-          name="message"
+          name="body"
           label={{ text: 'Post a commentary', htmlFor: true }}
         />
 
-        <Button className="mt-2" type="submit" disabled={isSubmitting}>
-          {!isSubmitting ? (
+        <Button className="mt-2" type="submit" disabled={loading}>
+          {!loading ? (
             <span>Comment</span>
           ) : (
             <div className="flex items-center gap-2">
