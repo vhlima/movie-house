@@ -70,6 +70,8 @@ const RawInput: React.FC<RawInputProps> = ({
 
   return (
     <>
+      {error && <span className="text-danger-base">{`${error}`}</span>}
+
       <div
         className={clsx(
           'flex items-center rounded-md focus-within:outline-none',
@@ -111,8 +113,6 @@ const RawInput: React.FC<RawInputProps> = ({
           </div>
         )}
       </div>
-
-      {error && <span className="text-danger-base">{`${error}`}</span>}
     </>
   );
 };
