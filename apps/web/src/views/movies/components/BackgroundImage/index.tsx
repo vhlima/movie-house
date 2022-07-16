@@ -9,7 +9,7 @@ const BackgroundImage: React.FC<ImageProps> = ({ ...imageProps }) => (
       style={{
         imageRendering: 'pixelated',
         backgroundImage:
-          'linear-gradient(to bottom, transparent, rgba(37, 37, 37, 0.61), #121214)',
+          'linear-gradient(to bottom, transparent, rgba(18, 18, 20, 0.60), #121214)',
       }}
     />
   </div>
