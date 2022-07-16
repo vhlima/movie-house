@@ -12,6 +12,12 @@ import Rate from '../entities/rate.interface';
 
 import RateInput from '../entities/types/rate.input';
 
+const defaultProps = {
+  rating: 0,
+  watched: false,
+  liked: false,
+};
+
 @Resolver(() => Rate)
 class RateResolver {
   @Mutation(() => User)
@@ -31,16 +37,21 @@ class RateResolver {
     if (!rateExists) {
       user.ratings.push({
         movie,
-        rating: 0,
-        watched: false,
-        liked: false,
+        ...defaultProps,
         ...data,
       });
     } else {
-      user.ratings[user.ratings.indexOf(rateExists)] = Object.assign(
-        rateExists,
-        data,
-      );
+      const updatedRate = Object.assign(rateExists, data);
+
+      const rateIndex = user.ratings.indexOf(rateExists);
+
+      // TODO test that
+
+      if (JSON.stringify(updatedRate) !== JSON.stringify(defaultProps)) {
+        user.ratings[rateIndex] = updatedRate;
+      } else {
+        user.ratings.splice(rateIndex, 1);
+      }
     }
 
     await user.save();
