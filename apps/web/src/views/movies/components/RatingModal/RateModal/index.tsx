@@ -96,7 +96,7 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
         <Button
           disabled={
             userRating ===
-              user?.ratings.find(r => r.movie.id === movie.id).rating || loading
+              user.ratings.find(r => r.movie.id === movie.id)?.rating || loading
           }
           onClick={handleSubmit}
         >
