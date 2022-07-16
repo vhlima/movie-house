@@ -11,3 +11,7 @@ export { default as RateResolver } from './rate.resolver';
 export { default as CreditsResolver } from './credits.resolver';
 
 export { default as WatchlistResolver } from './watchlist.resolver';
+
+export { default as LikeResolver } from './like.resolver';
+
+export { default as CommentaryResolver } from './commentary.resolver';
