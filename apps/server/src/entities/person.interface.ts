@@ -40,6 +40,8 @@ export default class Person {
 
   @Field()
   profilePictureUrl(@Root('profile_path') profilePath: string): string {
+    if (!profilePath) return '';
+
     return `https://image.tmdb.org/t/p/w500/${profilePath}`;
   }
 }
