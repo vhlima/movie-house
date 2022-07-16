@@ -8,13 +8,17 @@ export const findMovieById = async (
   context: DatasourceContext,
   movieId: string,
 ): Promise<DocumentType<Movie>> => {
-  const movie = await context.dataSources.tmdb.getMovieById(movieId);
+  try {
+    const movie = await context.dataSources.tmdb.getMovieById(movieId);
 
-  if (!movie) {
+    if (!movie) {
+      throw new Error('Movie not found');
+    }
+
+    return movie;
+  } catch (err) {
     throw new Error('Movie not found');
   }
-
-  return movie;
 };
 
 export const findCreditsByMovieId = async (
