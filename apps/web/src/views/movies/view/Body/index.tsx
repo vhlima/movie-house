@@ -18,6 +18,7 @@ import Button from '../../../../components/Button';
 import MovieRatingModal from '../../components/RatingModal';
 
 import Carousel from '../../../../components/Carousel';
+import TextShorter from '../../../../components/TextShorter';
 
 interface MovieBodyProps {
   movie: MovieResponse;
@@ -40,7 +41,11 @@ const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
       )}
 
       <div className="flex flex-col gap-4">
-        <p className="text-grey-200 mt-4">{movie.overview}</p>
+        <TextShorter
+          className="text-grey-200 mt-4"
+          text={movie.overview}
+          maxCharacters={200}
+        />
 
         <div className="flex gap-2 flex-wrap">
           {movie.genres.map(genre => (
