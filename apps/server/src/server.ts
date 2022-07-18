@@ -18,6 +18,7 @@ import {
   WatchlistResolver,
   LikeResolver,
   CommentaryResolver,
+  ReplyResolver,
 } from './resolvers';
 
 import { TmdbAPI } from './api';
@@ -36,6 +37,7 @@ const main = async () => {
       WatchlistResolver,
       LikeResolver,
       CommentaryResolver,
+      ReplyResolver,
     ],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
   });

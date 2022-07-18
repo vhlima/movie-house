@@ -15,3 +15,5 @@ export { default as WatchlistResolver } from './watchlist.resolver';
 export { default as LikeResolver } from './like.resolver';
 
 export { default as CommentaryResolver } from './commentary.resolver';
+
+export { default as ReplyResolver } from './reply.resolver';
