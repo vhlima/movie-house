@@ -4,12 +4,10 @@ import { Field, ID, Int, ObjectType } from 'type-graphql';
 
 import { prop, Ref } from '@typegoose/typegoose';
 
-import User from './user.interface';
-
-import CommentaryType from '../enum/commentary.enum';
+import User from '../user.interface';
 
 @ObjectType()
-export default class Commentary {
+export default class CommentaryBase {
   @Field(() => ID)
   @prop({
     type: () => mongoose.Schema.Types.ObjectId,
@@ -17,13 +15,9 @@ export default class Commentary {
   })
   readonly _id: string;
 
-  @Field(() => CommentaryType)
-  @prop({ type: String })
-  readonly commentaryType: CommentaryType;
-
   @Field(() => ID)
   @prop({ type: () => mongoose.Schema.Types.ObjectId })
-  readonly referenceId: string;
+  readonly postId: string;
 
   @Field(() => User)
   @prop({ ref: () => User })
@@ -36,8 +30,4 @@ export default class Commentary {
   @Field(() => Int)
   @prop()
   likeCount: number;
-
-  @Field(() => Int)
-  @prop()
-  repliesCount: number;
 }

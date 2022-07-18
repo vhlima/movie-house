@@ -2,22 +2,19 @@ import {
   Resolver,
   Query,
   Mutation,
-  Args,
   Arg,
   ResolverInterface,
   FieldResolver,
   Root,
   Int,
+  ID,
 } from 'type-graphql';
+
 import { findUserById } from '../controllers/user.controller';
 
-import Commentary from '../entities/commentary.interface';
+import { CommentaryModel, LikeModel, ReplyModel } from '../models';
 
-import CommentaryArgs from '../entities/types/args/commentary.args';
-
-import CommentaryType from '../enum/commentary.enum';
-
-import { CommentaryModel, LikeModel } from '../models';
+import Commentary from '../entities/commentary/commentary.interface';
 
 @Resolver(() => Commentary)
 export default class CommentaryResolver
@@ -27,52 +24,45 @@ export default class CommentaryResolver
 
   @FieldResolver(() => Int)
   async likeCount(@Root('_doc') commentary: Commentary) {
-    const likes = await LikeModel.find({ referenceId: commentary._id });
+    const count = await LikeModel.count({
+      postId: commentary.postId,
+      referenceId: commentary._id,
+    });
 
-    return likes.length;
+    return count;
   }
 
   @FieldResolver(() => Int)
-  async repliesCount(@Root('_doc') commentary: Commentary) {
-    if (commentary.commentaryType === CommentaryType.REPLY) return 0;
-
-    const replies = await CommentaryModel.find({
-      commentaryType: CommentaryType.REPLY,
-      referenceId: commentary,
+  async replyCount(@Root('_doc') commentary: Commentary) {
+    const count = await ReplyModel.count({
+      commentaryId: commentary._id,
     });
 
-    return replies.length;
+    return count;
   }
 
   @Query(() => [Commentary])
-  async commentaries(@Arg('referenceId') referenceId: string) {
-    const commentaries = await CommentaryModel.find({ referenceId }).populate(
-      'user',
-    );
+  async commentaries(@Arg('postId', () => ID) postId: string) {
+    const commentaries = await CommentaryModel.find({
+      postId,
+    }).populate('user');
 
     return commentaries;
   }
 
   @Mutation(() => Commentary)
-  async comment(@Args() { userId, referenceId, body }: CommentaryArgs) {
+  async comment(
+    @Arg('userId', () => ID) userId: string,
+    @Arg('postId', () => ID) postId: string,
+    @Arg('body') body: string,
+  ) {
     const user = await findUserById(userId);
 
+    // TODO check if postId exists
+
     const commentary = await CommentaryModel.create({
-      commentaryType: CommentaryType.ROOT,
       user,
-      referenceId,
-      body,
-    });
-
-    return commentary;
-  }
-
-  @Mutation(() => Commentary)
-  async reply(@Args() { userId, referenceId, body }: CommentaryArgs) {
-    const commentary = await CommentaryModel.create({
-      commentaryType: CommentaryType.REPLY,
-      user: userId,
-      referenceId,
+      postId,
       body,
     });
 

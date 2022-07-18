@@ -4,9 +4,6 @@ import {
   Arg,
   Ctx,
   Query,
-  Int,
-  FieldResolver,
-  Root,
   ResolverInterface,
 } from 'type-graphql';
 
@@ -16,35 +13,19 @@ import { findMovieById } from '../controllers/movie.controller';
 
 import { findUserById } from '../controllers/user.controller';
 
-import { CommentaryModel, LikeModel, ReviewModel } from '../models';
+import { createPostResolver } from './post.resolver';
 
-import PostType from '../enum/post.enum';
+import { ReviewModel } from '../models';
 
 import Review from '../entities/review.interface';
 
 import ReviewInput from '../entities/types/review.input';
 
-import Commentary from '../entities/commentary.interface';
+const PostResolver = createPostResolver<Review>();
 
 @Resolver(() => Review)
-class ReviewResolver implements ResolverInterface<Review> {
-  @FieldResolver(() => Int)
-  async likeCount(@Root('_doc') review: Review) {
-    const likes = await LikeModel.find({ referenceId: review._id });
-
-    return likes.length;
-  }
-
-  @FieldResolver(() => [Commentary])
-  async commentaries(@Root('_doc') review: Review) {
-    const allCommentaries = await CommentaryModel.find({
-      referenceId: review._id,
-    }).populate('user');
-
-    return allCommentaries;
-  }
-
-  @Query(() => Review)
+class ReviewResolver extends PostResolver implements ResolverInterface<Review> {
+  @Query(() => [Review])
   async reviews() {
     const reviews = await ReviewModel.find();
 
@@ -86,7 +67,6 @@ class ReviewResolver implements ResolverInterface<Review> {
     }
 
     const review = await ReviewModel.create({
-      postType: PostType.REVIEW,
       author: user,
       movie,
       ...data,

@@ -6,8 +6,7 @@ import { prop, Ref } from '@typegoose/typegoose';
 
 import User from './user.interface';
 
-import PostType from '../enum/post.enum';
-import Commentary from './commentary.interface';
+import Commentary from './commentary/commentary.interface';
 
 /* This class is extended by Review and List */
 
@@ -19,10 +18,6 @@ export default abstract class Post {
     auto: true,
   })
   readonly _id: string;
-
-  @Field(() => PostType)
-  @prop({ type: () => String })
-  readonly postType: PostType;
 
   @Field(() => User)
   @prop({ ref: () => User })
