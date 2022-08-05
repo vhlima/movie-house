@@ -6,8 +6,10 @@ import { prop, Ref } from '@typegoose/typegoose';
 
 import User from '../user.interface';
 
+import Timestamps from '../timestamps.interface';
+
 @ObjectType()
-export default class CommentaryBase {
+export default class CommentaryBase extends Timestamps {
   @Field(() => ID)
   @prop({
     type: () => mongoose.Schema.Types.ObjectId,

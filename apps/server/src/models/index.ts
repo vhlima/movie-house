@@ -10,12 +10,22 @@ import Reply from '../entities/commentary/reply.interface';
 
 import Commentary from '../entities/commentary/commentary.interface';
 
-export const UserModel = getModelForClass(User);
+export const UserModel = getModelForClass(User, {
+  schemaOptions: { timestamps: true },
+});
 
-export const ReviewModel = getModelForClass(Review);
+export const ReviewModel = getModelForClass(Review, {
+  schemaOptions: { timestamps: true },
+});
 
-export const LikeModel = getModelForClass(Like);
+export const LikeModel = getModelForClass(Like, {
+  schemaOptions: { timestamps: true },
+});
 
-export const CommentaryModel = getModelForClass(Commentary);
+export const CommentaryModel = getModelForClass(Commentary, {
+  schemaOptions: { timestamps: true },
+});
 
-export const ReplyModel = getModelForClass(Reply);
+export const ReplyModel = getModelForClass(Reply, {
+  schemaOptions: { timestamps: true },
+});
