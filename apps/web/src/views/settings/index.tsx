@@ -100,6 +100,7 @@ const ProfileSettingsView: React.FC = () => {
           />
 
           <Input
+            className="h-36"
             formik
             textarea
             name="biography"
