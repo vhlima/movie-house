@@ -1,28 +1,24 @@
-import React, { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
-
 import clsx from 'clsx';
 
-import SvgIcon, { SvgIconType } from '../../SvgIcon';
+import { forwardRef } from 'react';
+
+import type {
+  InputHTMLAttributes,
+  PropsWithChildren,
+  TextareaHTMLAttributes,
+} from 'react';
+
+import InputIcon from '../Icon';
+
+import type { InputIconProps } from '../Icon';
 
 type InputStyleType = 'primary' | 'secondary';
 
 interface InputStyleProps {
   container: string;
+  border: string;
   input: string;
 }
-
-const inputStyles: {
-  [key in InputStyleType]: InputStyleProps;
-} = {
-  primary: {
-    container: 'bg-grey-800 border-grey-800',
-    input: 'text-white placeholder-grey-400',
-  },
-  secondary: {
-    container: 'bg-grey-900 border-grey-900',
-    input: 'text-white placeholder-grey-400',
-  },
-};
 
 type InputAttributes = InputHTMLAttributes<HTMLInputElement>;
 
@@ -30,91 +26,127 @@ type TextareaAttributes = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 type AnyAttribute = InputAttributes | TextareaAttributes;
 
+// TODO recheck all these props
+
 interface RawInputInternalProps {
   name: string;
   hidden?: boolean;
   textarea?: boolean;
   error?: string;
+  showError?: boolean;
+  border?: boolean;
+  borderFocus?: boolean;
+  rounded?: boolean;
   inputStyle?: InputStyleType;
   inputSize?: 'lg' | 'md' | 'sm';
-  rightIcon?: SvgIconType;
-  leftIcon?: SvgIconType;
+  rightIcon?: InputIconProps;
+  leftIcon?: InputIconProps;
 }
 
-export type RawInputProps = RawInputInternalProps & AnyAttribute;
+export type RawInputProps = PropsWithChildren<
+  RawInputInternalProps & AnyAttribute
+>;
 
-const RawInput: React.FC<RawInputProps> = ({
-  className,
-  name,
-  textarea,
-  inputStyle = 'primary',
-  inputSize = 'lg',
-  rightIcon,
-  leftIcon,
-  disabled,
-  hidden,
-  error,
-  ...rest
-}) => {
-  const inputStyleProps = inputStyles[inputStyle];
+// TODO remove border from input styles
 
-  const inputClassnames = clsx(
-    'w-full bg-transparent outline-none',
-    className,
-    inputStyleProps.input,
+const inputStyles: {
+  [key in InputStyleType]: InputStyleProps;
+} = {
+  primary: {
+    container: 'bg-grey-800 border-grey-800',
+    border: 'border-grey-800',
+    input: 'text-white placeholder-grey-400',
+  },
+  secondary: {
+    container: 'bg-grey-900',
+    border: 'border-grey-900',
+    input: 'text-white placeholder-grey-400',
+  },
+};
+
+// TODO multiple forward refs, ref drilling
+
+const RawInput = forwardRef<HTMLInputElement, RawInputProps>(
+  (
     {
-      'cursor-not-allowed': disabled,
-      'p-2': inputSize === 'lg',
+      className,
+      name,
+      textarea,
+      inputStyle = 'primary',
+      inputSize = 'lg',
+      rightIcon,
+      leftIcon,
+      disabled,
+      hidden,
+      error,
+      showError = true,
+      rounded = true,
+      border = true,
+      borderFocus = true,
+      children,
+      ...rest
     },
-  );
+    ref,
+  ) => {
+    const inputStyleProps = inputStyles[inputStyle];
 
-  return (
-    <>
-      {error && <span className="text-danger-base">{`${error}`}</span>}
+    const inputClassnames = clsx(
+      'w-full bg-transparent outline-none',
+      className,
+      inputStyleProps.input,
+      {
+        'cursor-not-allowed': disabled,
+        'p-2': inputSize === 'lg',
+      },
+    );
 
-      <div
-        className={clsx(
-          'flex items-center rounded-md focus-within:outline-none',
-          {
+    return (
+      <>
+        {showError && error && (
+          <span className="text-danger-base">{`${error}`}</span>
+        )}
+
+        <div
+          className={clsx('flex items-center focus-within:outline-none', {
             hidden,
             [inputStyleProps.container]: !disabled,
-            'focus-within:border-movieHouse-mid': !error,
-            'border-danger-base': error,
+            [inputStyleProps.border]: !disabled && border,
+            'border-none': !border,
+            'rounded-md': rounded,
+            'focus-within:border-movieHouse-mid':
+              border && borderFocus && !error,
+            'border-danger-base': showError && error,
             'bg-grey-900 border-grey-900 bg-opacity-60': disabled,
             'w-full border-2': inputSize === 'lg',
-          },
-        )}
-      >
-        {leftIcon && (
-          <div className="p-2 pr-0">
-            <SvgIcon className="text-grey-500" iconType={leftIcon} size={20} />
-          </div>
-        )}
+          })}
+        >
+          {children}
 
-        {!textarea ? (
-          <input
-            className={inputClassnames}
-            id={name}
-            disabled={disabled}
-            {...(rest as InputAttributes)}
-          />
-        ) : (
-          <textarea
-            className={clsx(inputClassnames, 'resize-none')}
-            id={name}
-            disabled={disabled}
-            {...(rest as TextareaAttributes)}
-          />
-        )}
+          {leftIcon && <InputIcon icon={leftIcon} />}
 
-        {rightIcon && (
-          <div className="p-2 pl-0">
-            <SvgIcon className="text-grey-500" iconType={rightIcon} size={20} />
-          </div>
-        )}
-      </div>
-    </>
-  );
-};
+          {!textarea ? (
+            <input
+              className={inputClassnames}
+              ref={ref}
+              id={name}
+              disabled={disabled}
+              {...(rest as InputAttributes)}
+            />
+          ) : (
+            <textarea
+              className={clsx(inputClassnames, 'resize-none')}
+              // ref={ref}
+              id={name}
+              disabled={disabled}
+              {...(rest as TextareaAttributes)}
+            />
+          )}
+
+          {rightIcon && <InputIcon icon={rightIcon} />}
+        </div>
+      </>
+    );
+  },
+);
 
 export default RawInput;

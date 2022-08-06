@@ -1,10 +1,13 @@
-import React from 'react';
-
 import { useField } from 'formik';
 
-import RawInput, { RawInputProps } from './Raw';
+import type { RefObject, PropsWithChildren } from 'react';
+
+import RawInput from './Raw';
+
+import type { RawInputProps } from './Raw';
 
 interface InputInternalProps {
+  reference?: RefObject<HTMLInputElement>;
   formik?: boolean;
   label?: {
     text: string;
@@ -14,19 +17,37 @@ interface InputInternalProps {
 
 type InputProps = InputInternalProps & RawInputProps;
 
-export const FormikInput: React.FC<InputProps> = ({ name, error, ...rest }) => {
+export const FormikInput: React.FC<InputProps> = ({
+  name,
+  error,
+  reference,
+  ...rest
+}) => {
   const [field, meta] = useField(name);
 
-  return <RawInput error={meta.error || error} {...rest} {...field} />;
+  return (
+    <RawInput
+      ref={reference}
+      error={meta.error || error}
+      {...rest}
+      {...field}
+    />
+  );
 };
 
 // TODO change error to be first element
 
-const Input: React.FC<InputProps> = ({ formik, label, name, ...rest }) => {
+const Input: React.FC<PropsWithChildren<InputProps>> = ({
+  formik,
+  label,
+  name,
+  reference,
+  ...rest
+}) => {
   const rawInput = !formik ? (
-    <RawInput name={name} {...rest} />
+    <RawInput ref={reference} name={name} {...rest} />
   ) : (
-    <FormikInput name={name} {...rest} />
+    <FormikInput name={name} reference={reference} {...rest} />
   );
 
   return !label ? (
