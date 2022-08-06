@@ -1,4 +1,4 @@
-import { IconType, IconBaseProps } from 'react-icons';
+import type { IconType, IconBaseProps } from 'react-icons';
 
 import {
   FaRegUserCircle,
@@ -31,6 +31,7 @@ import {
   BsHouse,
   BsFillBellFill,
   BsFillCollectionFill,
+  BsFlagFill,
 } from 'react-icons/bs';
 
 import { MdMovie } from 'react-icons/md';
@@ -39,7 +40,7 @@ import { FiX } from 'react-icons/fi';
 
 import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
 
-import { IoIosJournal } from 'react-icons/io';
+import { IoIosJournal, IoIosSend } from 'react-icons/io';
 
 import { IoEye, IoList, IoEyeOutline } from 'react-icons/io5';
 
@@ -68,6 +69,7 @@ export type SvgIconType =
   | 'AiOutlineCalendar'
   | 'BsFillCollectionFill'
   | 'BsFillChatLeftFill'
+  | 'BsFlagFill'
   | 'BsFillBellFill'
   | 'BsPlusLg'
   | 'BsHouse'
@@ -76,6 +78,7 @@ export type SvgIconType =
   | 'HiMail'
   | 'HiLockClosed'
   | 'IoIosJournal'
+  | 'IoIosSend'
   | 'IoEye'
   | 'IoList'
   | 'IoEyeOutline'
@@ -116,6 +119,7 @@ const icons: SvgIconsType = {
   BsFillCollectionFill,
   BsFillChatLeftFill,
   BsFillBellFill,
+  BsFlagFill,
   BsPlusLg,
   BsHouse,
 
@@ -126,6 +130,7 @@ const icons: SvgIconsType = {
   HiLockClosed,
 
   IoIosJournal,
+  IoIosSend,
 
   IoEye,
   IoList,
