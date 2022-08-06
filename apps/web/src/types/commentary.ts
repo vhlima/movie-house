@@ -2,21 +2,20 @@
 
 import type { UserResponse } from './user';
 
-enum CommentaryType {
-  ROOT = 'ROOT',
-  REPLY = 'REPLY',
-}
+import type { CreatedAndUpdatedAt } from './timestamps';
 
-export interface CommentaryResponse {
+export interface CommentaryBaseResponse extends CreatedAndUpdatedAt {
   _id: string;
+  postId: string;
   user: UserResponse;
   body: string;
-  referenceId: string;
-  commentaryType: CommentaryType;
   likeCount: number;
-  repliesCount: number;
 }
 
-export interface CommentaryInput {
-  body: string;
+export interface CommentaryResponse extends CommentaryBaseResponse {
+  replyCount: number;
+}
+
+export interface CommentaryCacheData {
+  commentaries: CommentaryResponse[];
 }

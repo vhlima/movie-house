@@ -5,11 +5,12 @@ import { appendGql } from '../utils';
 export const COMMENTARY_FIELDS = gql`
   fragment CommentaryFields on Commentary {
     _id
+    postId
     body
-    commentaryType
+    replyCount
     likeCount
-    referenceId
-    repliesCount
+    createdAt
+    updatedAt
     user {
       _id
       username
@@ -21,8 +22,8 @@ export const COMMENTARY_FIELDS = gql`
 export const COMMENTARIES = appendGql(
   COMMENTARY_FIELDS,
   gql`
-    query ($referenceId: String!) {
-      commentaries(referenceId: $referenceId) {
+    query ($postId: ID!) {
+      commentaries(postId: $postId) {
         ...CommentaryFields
       }
     }
@@ -32,10 +33,16 @@ export const COMMENTARIES = appendGql(
 export const COMMENT = appendGql(
   COMMENTARY_FIELDS,
   gql`
-    mutation ($userId: String!, $referenceId: String!, $body: String!) {
-      comment(userId: $userId, referenceId: $referenceId, body: $body) {
+    mutation ($body: String!, $postId: ID!, $userId: ID!) {
+      comment(body: $body, postId: $postId, userId: $userId) {
         ...CommentaryFields
       }
     }
   `,
 );
+
+export const DELETE_COMMENTARY = gql`
+  mutation ($commentaryId: String!) {
+    deleteCommentary(commentaryId: $commentaryId)
+  }
+`;

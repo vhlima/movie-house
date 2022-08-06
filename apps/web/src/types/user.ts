@@ -1,6 +1,6 @@
-import type { MovieResponse } from '../movie';
+import type { MovieResponse } from './movie';
 
-import type { ReviewResponse } from '../review';
+import type { ReviewResponse } from './review';
 
 /* eslint-disable camelcase */
 
@@ -13,8 +13,8 @@ export interface UserRatings {
 
 export interface UserResponse {
   _id: string;
-  email: string;
   username: string;
+  email: string;
   realName: string;
   biography: string;
   profilePicture: string;

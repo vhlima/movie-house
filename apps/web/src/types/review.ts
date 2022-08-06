@@ -4,11 +4,13 @@ import type { UserResponse } from './user';
 
 import type { CommentaryResponse } from './commentary';
 
+import type { CreatedAndUpdatedAt } from './date';
+
 export interface ReviewInput {
   body: string;
 }
 
-export interface ReviewResponse {
+export interface ReviewResponse extends CreatedAndUpdatedAt {
   _id: string;
   author: UserResponse;
   movie: MovieResponse;
