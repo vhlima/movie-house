@@ -1,15 +1,15 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 import { useRouter } from 'next/router';
+
 import type { ReviewResponse } from '../../types/review';
 
 import { REVIEW } from '../../graphql/review';
 
 import client from '../../api';
 
-import MovieHeader from '../../views/movies/view/Header';
-
 import UserMovieReview from '../../views/users/reviews';
+
 import MovieHeaderSkeleton from '../../views/movies/view/Header/Skeleton';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -55,11 +55,7 @@ const Reviews: NextPage<{ review: ReviewResponse }> = ({ review }) => {
     return <h1>Review not found</h1>;
   }
 
-  return (
-    <MovieHeader movie={review.movie}>
-      <UserMovieReview review={review} />
-    </MovieHeader>
-  );
+  return <UserMovieReview review={review} />;
 };
 
 export default Reviews;
