@@ -68,4 +68,15 @@ export default class CommentaryResolver
 
     return commentary;
   }
+
+  @Mutation(() => String)
+  async deleteCommentary(@Arg('commentaryId') commentaryId: string) {
+    const commentary = await CommentaryModel.findByIdAndDelete(commentaryId);
+
+    if (!commentary) {
+      throw new Error('Commentary not found');
+    }
+
+    return 'Deleted with success';
+  }
 }
