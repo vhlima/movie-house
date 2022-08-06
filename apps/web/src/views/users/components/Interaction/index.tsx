@@ -1,24 +1,20 @@
-import React, { PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
-import { UserData } from '../../../../types';
-
+import clsx from 'clsx';
 import { useAuth } from '../../../../hooks/useAuth';
-
-import Link from '../../../../components/Link';
 
 import UserProfilePicture from '../ProfilePicture';
 
 import TextShorter from '../../../../components/TextShorter';
 
-import LikeAndComment from '../../../../components/LikeAndComment';
-
+// TODO check if that is being used
 export interface InteractionProps {
   text: string;
   textShort?: boolean;
 }
 
 interface InteractionInternalProps extends InteractionProps {
-  // user: UserData;
+  className?: string;
   header?: ReactNode;
 }
 
@@ -27,6 +23,7 @@ interface InteractionInternalProps extends InteractionProps {
 */
 
 const Interaction: React.FC<PropsWithChildren<InteractionInternalProps>> = ({
+  className,
   text,
   textShort,
   header,
@@ -37,7 +34,12 @@ const Interaction: React.FC<PropsWithChildren<InteractionInternalProps>> = ({
   if (!user) return <h1>user not found</h1>;
 
   return (
-    <div className="flex flex-col gap-2 text-grey-200">
+    <div
+      className={clsx(
+        'flex flex-col gap-2 text-grey-200',
+        className && className,
+      )}
+    >
       <div className="flex items-center gap-1">
         <UserProfilePicture imageSize="sm" src={user.profilePicture} />
 
