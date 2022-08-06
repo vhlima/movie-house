@@ -17,6 +17,9 @@ interface ProfileHeaderProps {
   user: UserData;
 }
 
+// TODO maybe theres a bug when you change your username, it updates the db
+// but the profile page doesnt seem to have updated
+
 const ProfileHeader: React.FC<PropsWithChildren<ProfileHeaderProps>> = ({
   user,
   children,
