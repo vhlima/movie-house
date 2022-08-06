@@ -8,7 +8,7 @@ import BackgroundImage from '../../components/BackgroundImage';
 
 import Button from '../../../../components/Button';
 import MovieRatingStar from '../../components/RatingStar';
-import PageBody from '../../../../components/PageBody';
+import PageContent from '../../../../components/PageContent';
 
 interface MovieHeaderProps {
   movie: MovieResponse;
@@ -36,7 +36,7 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
     <>
       <BackgroundImage src={movie.backdropUrl} />
 
-      <PageBody className="mt-40">
+      <PageContent className="mt-40">
         <div className="flex justify-between gap-2">
           <div className="flex flex-col z-10">
             <h1 className="text-grey-100 text-2xl font-semibold">
@@ -81,7 +81,7 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
         </div>
 
         {children}
-      </PageBody>
+      </PageContent>
     </>
   );
 };
