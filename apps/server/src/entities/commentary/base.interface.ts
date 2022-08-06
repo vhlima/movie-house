@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 
 import { Field, ID, Int, ObjectType } from 'type-graphql';
 
-import { prop, Ref } from '@typegoose/typegoose';
+import { prop } from '@typegoose/typegoose';
+
+import type { Ref } from '@typegoose/typegoose';
 
 import User from '../user.interface';
 

@@ -5,10 +5,10 @@ import LikeType from '../../../enum/like.enum';
 @ArgsType()
 export default class LikeArgs {
   @Field()
-  postId: string;
+  userId: string;
 
   @Field({ nullable: true })
-  commentaryId?: string;
+  referenceId: string;
 
   @Field(() => LikeType)
   likeType: LikeType;
