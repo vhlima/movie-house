@@ -15,15 +15,16 @@ export interface ModalProps {
 }
 
 export interface ModalHandles {
-  onClose?: () => void;
+  onClose: () => void;
 }
 
-interface ModalInternalProps extends ModalProps, ModalHandles {
+interface ModalInternalProps extends ModalProps, Partial<ModalHandles> {
   className?: string;
   portalId?: string;
   center?: boolean;
   bottom?: boolean;
   backdrop?: boolean;
+  autoStyle?: boolean;
 }
 
 const PORTAL_ID = 'modalPortal';
@@ -34,12 +35,14 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
   center,
   bottom,
   backdrop,
+  autoStyle = true,
   onClose,
   children,
 }) => {
   const body = (
     <motion.div
-      className={clsx('p-4 bg-grey-800 z-50', className, {
+      className={clsx('z-50', className, {
+        'p-4 bg-grey-800': autoStyle,
         'fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md':
           center,
         'absolute bottom-0 w-full rounded-t-md': bottom,
