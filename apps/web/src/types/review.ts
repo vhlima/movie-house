@@ -4,7 +4,7 @@ import type { UserResponse } from './user';
 
 import type { CommentaryResponse } from './commentary';
 
-import type { CreatedAndUpdatedAt } from './date';
+import type { CreatedAndUpdatedAt } from './timestamps';
 
 export interface ReviewInput {
   body: string;
