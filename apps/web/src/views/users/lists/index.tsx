@@ -33,7 +33,7 @@ const UserMovieList: React.FC = () => (
       </h1>
     </Link>
 
-    <Post
+    {/* <Post
       text="meditations, ruminations, and explorations on the nature of reality and
       existence. comprised most of projects ive watched, and some watchlist
       entries. organized by color. ฅ^•ﻌ•^ฅ"
@@ -50,7 +50,7 @@ const UserMovieList: React.FC = () => (
 
         <SvgIcon className="text-grey-300" iconType="MdMovie" size={22} />
       </div>
-    </Post>
+    </Post> */}
   </ListItem>
 );
 
