@@ -1,14 +1,13 @@
 import clsx from 'clsx';
-
 import type { PropsWithChildren } from 'react';
 
-interface PageBodyProps {
+interface PageContentProps {
   className?: string;
 }
 
-const PageBody: React.FC<PropsWithChildren<PageBodyProps>> = ({
+const PageContent: React.FC<PropsWithChildren<PageContentProps>> = ({
   className,
   children,
 }) => <div className={clsx('p-3', className && className)}>{children}</div>;
 
-export default PageBody;
+export default PageContent;
