@@ -11,7 +11,7 @@ import { COMMENTARIES, DELETE_COMMENTARY } from '../../../graphql/commentary';
 
 import Commentary from './components/Commentary';
 
-interface CommentariesProps extends CommentaryHandles {
+interface CommentariesProps extends Omit<CommentaryHandles, 'onClickDelete'> {
   postId: string;
 }
 
