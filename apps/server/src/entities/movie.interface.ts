@@ -66,11 +66,15 @@ export default class Movie {
 
   @Field()
   posterUrl(@Root('poster_path') posterPath: string): string {
+    if (!posterPath) return '';
+
     return `https://image.tmdb.org/t/p/w500${posterPath}`;
   }
 
   @Field()
   backdropUrl(@Root('backdrop_path') backdropPath: string): string {
+    if (!backdropPath) return '';
+
     return `https://image.tmdb.org/t/p/w500${backdropPath}`;
   }
 }
