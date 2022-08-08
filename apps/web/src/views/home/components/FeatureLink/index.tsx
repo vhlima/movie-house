@@ -1,20 +1,14 @@
-import React from 'react';
-
 import clsx from 'clsx';
 
-import Link, { LinkProps } from '../../../components/Link';
+import Link, { LinkProps } from '../../../../components/Link';
 
-import SvgIcon, { SvgIconType } from '../../../components/SvgIcon';
+import SvgIcon, { SvgIconType } from '../../../../components/SvgIcon';
 
 interface FeatureLinkProps extends LinkProps {
   iconType: SvgIconType;
   text: string;
   color: 'purple' | 'orange' | 'green';
 }
-
-/*
-  This component represents home page website features with links to their respective page
-*/
 
 const FeatureLink: React.FC<FeatureLinkProps> = ({
   iconType,
