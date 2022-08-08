@@ -1,10 +1,19 @@
-import React, { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
 
-import Link, { LinkProps } from '../Link';
+import type { LinkProps } from '../Link';
 
-import SvgIcon, { SvgIconType } from '../SvgIcon';
+import type { SvgIconType } from '../SvgIcon';
+
+import Link from '../Link';
+
+import SvgIcon from '../SvgIcon';
+
+export interface CardIconProps {
+  iconType: SvgIconType;
+  onClick: () => void;
+}
 
 interface CardProps {
   className?: string;
@@ -13,10 +22,7 @@ interface CardProps {
   link?: LinkProps;
   noPadding?: boolean;
   gap?: boolean;
-  rightIcon?: {
-    iconType: SvgIconType;
-    onClick: () => void;
-  };
+  rightIcon?: CardIconProps;
 }
 
 const Card: React.FC<PropsWithChildren<CardProps>> = ({
