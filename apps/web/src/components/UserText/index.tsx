@@ -8,7 +8,7 @@ import Link from '../Link';
 
 import TextShorter from '../TextShorter';
 
-import UserProfilePicture from '../../views/users/components/ProfilePicture';
+import ProfilePicture from '../ProfilePicture';
 
 interface UserTextProps {
   text: string;
@@ -28,6 +28,8 @@ interface UserTextInternalProps extends UserTextProps {
   A user text is an abstract component to handle Movie Review, Movie List and Commentary
 */
 
+// TODO change that user text short
+
 const UserText: React.FC<PropsWithChildren<UserTextInternalProps>> = ({
   className,
   user,
@@ -44,7 +46,7 @@ const UserText: React.FC<PropsWithChildren<UserTextInternalProps>> = ({
     )}
   >
     <div className="flex items-center gap-1">
-      <UserProfilePicture imageSize="sm" src={user.profilePicture} />
+      <ProfilePicture imageSize="sm" src={user.profilePicture} />
 
       {preHeader}
 
@@ -63,7 +65,7 @@ const UserText: React.FC<PropsWithChildren<UserTextInternalProps>> = ({
       {header}
     </div>
 
-    {!textShort ? (
+    {!textShort || text.length <= 120 ? (
       <p>{text}</p>
     ) : (
       <TextShorter maxCharacters={120} text={text} />

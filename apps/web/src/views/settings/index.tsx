@@ -12,7 +12,7 @@ import Input from '../../components/Input';
 
 import Button from '../../components/Button';
 
-import UserProfilePicture from '../users/components/ProfilePicture';
+import ProfilePicture from '../../components/ProfilePicture';
 
 const ProfileSettingsView: React.FC = () => {
   const { user } = useAuth();
@@ -47,7 +47,7 @@ const ProfileSettingsView: React.FC = () => {
       >
         <Form className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <UserProfilePicture
+            <ProfilePicture
               imageSize="lg"
               src={uploadedProfilePictureUrl || user.profilePicture}
             />
