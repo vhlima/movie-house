@@ -4,7 +4,7 @@ import type { MovieResponse } from '../../../../types/movie';
 
 import MovieCover from '../../components/Cover';
 
-import BackgroundImage from '../../components/BackgroundImage';
+import BackgroundImage from '../../../../components/BackgroundImage';
 
 import Button from '../../../../components/Button';
 import MovieRatingStar from '../../components/RatingStar';
@@ -61,13 +61,18 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
                 </span>
               </div>
 
-              <span className="text-sm uppercase mr-1">Directed by</span>
+              <span className="text-sm mr-1">Directed by</span>
 
               <span className="text-sm font-semibold">Steven Spielberg</span>
             </div>
 
             <div className="flex items-center gap-1 text-grey-200 mt-auto">
-              <Button buttonStyle="secondary" buttonSize="xs" full={false}>
+              <Button
+                className="text-sm"
+                buttonStyle="secondary"
+                buttonSize="xs"
+                full={false}
+              >
                 Watch trailer
               </Button>
 

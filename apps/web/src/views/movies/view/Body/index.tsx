@@ -34,6 +34,8 @@ const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
 
   const [isRating, setRating] = useState<boolean>(false);
 
+  // TODO remove rating modal from body
+
   return (
     <>
       {user && isRating && (

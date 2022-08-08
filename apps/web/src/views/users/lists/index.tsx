@@ -8,7 +8,7 @@ import SvgIcon from '../../../components/SvgIcon';
 
 import ListItem from '../../../components/ListItem';
 
-import Post from '../components/Post';
+// import Post from '../components/Post';
 
 const UserMovieList: React.FC = () => (
   <ListItem>
