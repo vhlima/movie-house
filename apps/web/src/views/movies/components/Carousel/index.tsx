@@ -19,14 +19,14 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
 
   return (
     <>
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {ratingMovie && (
           <MovieRatingModal
             movie={ratingMovie}
             onClose={() => setRatingMovie(undefined)}
           />
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
       <Carousel spaceBetween={12}>
         {movies.map(movie => (
