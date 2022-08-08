@@ -15,6 +15,7 @@ import { findUserById } from '../controllers/user.controller';
 import { CommentaryModel, LikeModel, ReplyModel } from '../models';
 
 import Commentary from '../entities/commentary/commentary.interface';
+import CommentariesPaginated from '../entities/pagination/commentaries';
 
 @Resolver(() => Commentary)
 export default class CommentaryResolver
@@ -41,13 +42,25 @@ export default class CommentaryResolver
     return count;
   }
 
-  @Query(() => [Commentary])
-  async commentaries(@Arg('postId', () => ID) postId: string) {
+  @Query(() => CommentariesPaginated)
+  async commentaries(
+    @Arg('postId', () => ID) postId: string,
+    @Arg('page', () => Int) page: number,
+  ) {
+    const commentaryCount = await CommentaryModel.count({ postId });
+
     const commentaries = await CommentaryModel.find({
       postId,
-    }).populate('user');
+    })
+      .skip(page === 1 ? 0 : page * 10)
+      .limit(10)
+      .populate('user');
 
-    return commentaries;
+    return {
+      commentaries,
+      currentPage: page,
+      hasNextPage: page + 1 <= Math.ceil(commentaryCount / 10),
+    };
   }
 
   @Mutation(() => Commentary)
