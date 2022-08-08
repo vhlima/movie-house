@@ -1,18 +1,14 @@
-import React from 'react';
+import Link from '../../../../../../../components/Link';
 
-import Link, { LinkProps } from '../../../../../components/Link';
+import type { LinkProps } from '../../../../../../../components/Link';
 
-interface UserProfileNumberProps {
-  number: number;
+interface StatsProps {
   text: string;
+  number: number;
   link: LinkProps;
 }
 
-const UserProfileNumber: React.FC<UserProfileNumberProps> = ({
-  number,
-  text,
-  link,
-}) => (
+const Stats: React.FC<StatsProps> = ({ number, text, link }) => (
   <Link
     className="flex flex-col items-center border-r border-grey-700 px-2 first-of-type:pl-0 last-of-type:pr-0 last-of-type:border-0"
     {...link}
@@ -22,4 +18,4 @@ const UserProfileNumber: React.FC<UserProfileNumberProps> = ({
   </Link>
 );
 
-export default UserProfileNumber;
+export default Stats;

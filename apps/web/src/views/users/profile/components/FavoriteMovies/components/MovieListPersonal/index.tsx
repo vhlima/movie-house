@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '../../../../../../../hooks/useAuth';
 
 import EditFavoriteMoviesModal from './components/EditModal';
 
-import FavoriteMoviesList from '../List';
+import MovieList from '../MovieList';
 
-interface FavoriteMoviesPersonalProps {
+interface MovieListPersonalProps {
   maxFavorite: number;
 }
 
-const FavoriteMoviesPersonal: React.FC<FavoriteMoviesPersonalProps> = ({
+const MovieListPersonal: React.FC<MovieListPersonalProps> = ({
   maxFavorite,
 }) => {
   const { user } = useAuth();
@@ -26,14 +26,13 @@ const FavoriteMoviesPersonal: React.FC<FavoriteMoviesPersonalProps> = ({
         />
       )}
 
-      <FavoriteMoviesList
-        isOwnProfile
+      <MovieList
         user={user}
         maxFavorite={maxFavorite}
-        onClickEdit={() => setEdit(true)}
+        rightIcon={{ iconType: 'FaPencilAlt', onClick: () => setEdit(true) }}
       />
     </>
   );
 };
 
-export default FavoriteMoviesPersonal;
+export default MovieListPersonal;

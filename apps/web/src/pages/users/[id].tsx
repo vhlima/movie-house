@@ -1,6 +1,4 @@
-import type { GetStaticPaths, NextPage } from 'next';
-
-import { GetStaticProps } from 'next';
+import type { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 
 import type { UserResponse } from '../../types/user';
 
@@ -8,14 +6,10 @@ import { USER } from '../../graphql/user';
 
 import client from '../../api';
 
-import Card from '../../components/Card';
-
-import ProfileHeader from '../../views/users/ProfileHeader';
-
-import FavoriteMovies from '../../views/users/FavoriteMovies';
+import UserProfileView from '../../views/users/profile';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const defaultProps = { props: { targetUser: undefined } };
+  const defaultProps = { props: { user: undefined } };
 
   const { id } = params;
 
@@ -29,7 +23,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     return {
       props: {
-        targetUser: data.user,
+        user: data.user,
       },
     };
   } catch (err) {
@@ -44,36 +38,12 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const UserProfile: NextPage<{ targetUser: UserResponse }> = ({
-  targetUser,
-}) => {
-  if (!targetUser) {
+const UserProfile: NextPage<{ user: UserResponse }> = ({ user }) => {
+  if (!user) {
     return <h1 className="text-red-500">User not found</h1>;
   }
 
-  return (
-    <ProfileHeader user={targetUser}>
-      <Card title="About me" noPadding>
-        <p className="text-grey-200 whitespace-pre-wrap">
-          {targetUser.biography}
-        </p>
-      </Card>
-
-      <FavoriteMovies user={targetUser} />
-
-      <Card title="Pinned reviews" noPadding>
-        {/* <UserMovieReviewBody preview />-['] */}
-      </Card>
-
-      <Card title="Recent reviews" noPadding>
-        {/* <UserMovieReviewBody preview /> */}
-      </Card>
-
-      <Card title="Popular reviews" noPadding>
-        {/* <UserMovieReviewBody preview /> */}
-      </Card>
-    </ProfileHeader>
-  );
+  return <UserProfileView user={user} />;
 };
 
 export default UserProfile;

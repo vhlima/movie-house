@@ -1,0 +1,80 @@
+import { useMemo } from 'react';
+
+import type { UserResponse } from '../../../types/user';
+
+import type { ProfileContextData } from './hooks/useProfile';
+
+import { ProfileContext } from './hooks/useProfile';
+
+import Card from '../../../components/Card';
+
+import FavoriteMovies from './components/FavoriteMovies';
+
+import ProfileStats from './components/ProfileStats';
+
+import ProfileButtons from './components/ProfileButtons';
+
+import ProfilePicture from '../../../components/ProfilePicture';
+
+import BackgroundImage from '../../../components/BackgroundImage';
+
+interface UserProfileViewProps {
+  user: UserResponse;
+}
+
+const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
+  const contextProviderValue = useMemo(
+    () => ({ user } as ProfileContextData),
+    [user],
+  );
+
+  return (
+    <ProfileContext.Provider value={contextProviderValue}>
+      <div className="flex">
+        <BackgroundImage src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg" />
+
+        <div className="flex flex-col gap-4 px-3 mt-32 z-10">
+          <div className="flex items-center gap-2">
+            <ProfilePicture imageSize="lg" src={user.profilePicture} />
+
+            <div className="flex flex-grow flex-wrap items-center gap-x-2">
+              <h1 className="text-grey-100 text-2xl font-semibold">
+                {user.username}
+              </h1>
+
+              <div className="bg-movieHouse-mid rounded-md px-1">
+                <span className="text-white text-sm">Patron</span>
+              </div>
+            </div>
+          </div>
+
+          <ProfileButtons />
+
+          <ProfileStats />
+
+          <Card title="About me" noPadding>
+            <p className="text-grey-200 whitespace-pre-wrap">
+              {user.biography}
+            </p>
+          </Card>
+
+          <FavoriteMovies />
+
+          <Card title="Pinned reviews" noPadding>
+            {/* <UserMovieReviewBody preview />-['] */}
+          </Card>
+
+          <Card title="Recent reviews" noPadding>
+            {/* <UserMovieReviewBody preview /> */}
+          </Card>
+
+          <Card title="Popular reviews" noPadding>
+            {/* <UserMovieReviewBody preview /> */}
+          </Card>
+        </div>
+      </div>
+    </ProfileContext.Provider>
+  );
+};
+
+export default UserProfileView;

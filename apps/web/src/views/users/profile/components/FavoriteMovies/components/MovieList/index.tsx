@@ -1,21 +1,21 @@
-import type { UserResponse } from '../../../../types/user';
+import type { UserResponse } from '../../../../../../../types/user';
 
-import Card from '../../../../components/Card';
+import type { CardIconProps } from '../../../../../../../components/Card';
 
-import MovieCover from '../../../movies/components/Cover';
+import Card from '../../../../../../../components/Card';
 
-interface FavoriteMoviesListProps {
+import MovieCover from '../../../../../../movies/components/Cover';
+
+interface MovieListProps {
   user: UserResponse;
   maxFavorite: number;
-  isOwnProfile?: boolean;
-  onClickEdit?: () => void;
+  rightIcon?: CardIconProps;
 }
 
-const FavoriteMoviesList: React.FC<FavoriteMoviesListProps> = ({
+const MovieList: React.FC<MovieListProps> = ({
   user,
   maxFavorite,
-  isOwnProfile,
-  onClickEdit,
+  rightIcon,
 }) => {
   const freeSlotsArray = Array.from(
     {
@@ -25,13 +25,7 @@ const FavoriteMoviesList: React.FC<FavoriteMoviesListProps> = ({
   );
 
   return (
-    <Card
-      title="Favorite movies"
-      rightIcon={
-        isOwnProfile && { iconType: 'FaPencilAlt', onClick: onClickEdit }
-      }
-      noPadding
-    >
+    <Card title="Favorite movies" rightIcon={rightIcon} noPadding>
       <div className="grid grid-cols-4 gap-2">
         {user.favoriteMovies.map(movie => (
           <MovieCover
@@ -49,4 +43,4 @@ const FavoriteMoviesList: React.FC<FavoriteMoviesListProps> = ({
   );
 };
 
-export default FavoriteMoviesList;
+export default MovieList;

@@ -1,18 +1,18 @@
-import { useAuth } from '../../../../../../hooks/useAuth';
+import { useAuth } from '../../../../../../../../../hooks/useAuth';
 
 import { useLogic } from './logic';
 
-import type { ModalHandles } from '../../../../../../components/Modal';
+import type { ModalHandles } from '../../../../../../../../../components/Modal';
 
-import Modal from '../../../../../../components/Modal';
+import Modal from '../../../../../../../../../components/Modal';
 
-import Button from '../../../../../../components/Button';
+import Button from '../../../../../../../../../components/Button';
 
-import SvgIcon from '../../../../../../components/SvgIcon';
+import SvgIcon from '../../../../../../../../../components/SvgIcon';
 
-import MovieCover from '../../../../../movies/components/Cover';
+import MovieCover from '../../../../../../../../movies/components/Cover';
 
-import MovieSearchModal from '../../../../../movies/components/SearchModal';
+import MovieSearchModal from '../../../../../../../../movies/components/SearchModal';
 
 interface EditFavoriteMoviesModalProps extends ModalHandles {
   maxFavorite: number;

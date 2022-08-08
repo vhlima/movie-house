@@ -1,11 +1,12 @@
-import { PropsWithChildren, ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 import clsx from 'clsx';
+
 import { useAuth } from '../../../../hooks/useAuth';
 
-import UserProfilePicture from '../ProfilePicture';
-
 import TextShorter from '../../../../components/TextShorter';
+
+import ProfilePicture from '../../../../components/ProfilePicture';
 
 // TODO check if that is being used
 export interface InteractionProps {
@@ -41,7 +42,7 @@ const Interaction: React.FC<PropsWithChildren<InteractionInternalProps>> = ({
       )}
     >
       <div className="flex items-center gap-1">
-        <UserProfilePicture imageSize="sm" src={user.profilePicture} />
+        <ProfilePicture imageSize="sm" src={user.profilePicture} />
 
         {header}
       </div>

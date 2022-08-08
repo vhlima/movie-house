@@ -4,14 +4,14 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { MutationResult, useMutation } from '@apollo/client';
 
-import type { UserResponse } from '../../../../../../types/user';
+import type { UserResponse } from '../../../../../../../../../types/user';
 
 import {
   ADD_FAVORITE_MOVIE,
   REMOVE_FAVORITE_MOVIE,
-} from '../../../../../../graphql/user';
+} from '../../../../../../../../../graphql/user';
 
-import { useAuth } from '../../../../../../hooks/useAuth';
+import { useAuth } from '../../../../../../../../../hooks/useAuth';
 
 interface EditModalLogicProps {
   maxFavorite: number;
