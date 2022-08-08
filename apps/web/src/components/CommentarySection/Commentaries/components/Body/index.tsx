@@ -40,6 +40,7 @@ const CommentaryBody: React.FC<PropsWithChildren<CommentaryBodyProps>> = ({
         profilePicture: user.profilePicture,
       }}
       text={body}
+      textShort
     >
       {children}
     </UserText>

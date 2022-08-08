@@ -17,5 +17,20 @@ export interface CommentaryResponse extends CommentaryBaseResponse {
 }
 
 export interface CommentaryCacheData {
-  commentaries: CommentaryResponse[];
+  commentaries: {
+    currentPage: number;
+    hasNextPage: boolean;
+
+    commentaries: CommentaryResponse[];
+  };
+}
+
+// TODO change that
+export interface CommentariesPaginatedResponse {
+  commentaries: {
+    currentPage: number;
+    hasNextPage: boolean;
+
+    commentaries: CommentaryResponse[];
+  };
 }

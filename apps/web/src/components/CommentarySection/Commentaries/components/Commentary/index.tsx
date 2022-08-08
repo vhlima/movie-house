@@ -15,7 +15,6 @@ import CommentaryBody from '../Body';
 import Replies from '../../Replies';
 
 export interface CommentaryHandles {
-  // TODO maybe commentaryId not needed
   onClickDelete: (commentaryId: string) => void;
   onClickReply: (commentaryId: string) => void;
 }
@@ -62,26 +61,27 @@ const Commentary: React.FC<CommentaryProps> = ({
           Reply
         </Button>
 
-        {!user || user._id !== author._id ? (
-          <Button
-            className="ml-auto"
-            buttonStyle="secondary"
-            buttonSize="xs"
-            full={false}
-          >
-            <SvgIcon className="text-grey-300" iconType="BsFlagFill" />
-          </Button>
-        ) : (
-          <Button
-            className="ml-auto"
-            buttonStyle="danger"
-            buttonSize="xs"
-            full={false}
-            onClick={() => onClickDelete(commentaryId)}
-          >
-            <SvgIcon iconType="FiX" />
-          </Button>
-        )}
+        {user &&
+          (user._id !== author._id ? (
+            <Button
+              className="ml-auto"
+              buttonStyle="secondary"
+              buttonSize="xs"
+              full={false}
+            >
+              <SvgIcon className="text-grey-300" iconType="BsFlagFill" />
+            </Button>
+          ) : (
+            <Button
+              className="ml-auto"
+              buttonStyle="danger"
+              buttonSize="xs"
+              full={false}
+              onClick={() => onClickDelete(commentaryId)}
+            >
+              <SvgIcon iconType="FiX" />
+            </Button>
+          ))}
       </div>
 
       {replyCount > 0 && (

@@ -22,9 +22,13 @@ export const COMMENTARY_FIELDS = gql`
 export const COMMENTARIES = appendGql(
   COMMENTARY_FIELDS,
   gql`
-    query ($postId: ID!) {
-      commentaries(postId: $postId) {
-        ...CommentaryFields
+    query ($page: Int!, $postId: ID!) {
+      commentaries(page: $page, postId: $postId) {
+        currentPage
+        hasNextPage
+        commentaries {
+          ...CommentaryFields
+        }
       }
     }
   `,

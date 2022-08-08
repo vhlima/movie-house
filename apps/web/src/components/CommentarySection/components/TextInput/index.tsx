@@ -6,7 +6,7 @@ import type { InputIconButtonProps } from '../../../Input/Icon';
 
 import Input from '../../../Input';
 
-import UserProfilePicture from '../../../../views/users/components/ProfilePicture';
+import ProfilePicture from '../../../ProfilePicture';
 
 export type TextInputReference = RefObject<HTMLInputElement>;
 
@@ -58,7 +58,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       rightIcon={formik && rightIcon}
     >
       <div className="px-3">
-        <UserProfilePicture imageSize="sm" src={user.profilePicture} />
+        <ProfilePicture imageSize="sm" src={user.profilePicture} />
       </div>
     </Input>
   );

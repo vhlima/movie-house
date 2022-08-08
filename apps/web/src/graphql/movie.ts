@@ -9,8 +9,6 @@ export const MOVIE_FIELDS = gql`
     overview
     runtime
     vote_average
-    poster_path
-    backdrop_path
     release_date
     posterUrl
     backdropUrl

@@ -20,6 +20,8 @@ interface ReplyFormProps extends GenericFormHandles {
 const ReplyForm: React.FC<ReplyFormProps> = ({ commentaryId, onSubmit }) => {
   const { user } = useAuth();
 
+  // TODO theres a bug when you submit a reply and the commentary dont have any reply yet. it only appears if you refresh the page
+
   const [addReply, { loading }] = useMutation<{ reply: ReplyResponse }>(REPLY, {
     update: (cache, { data }) => {
       const repliesData = cache.readQuery<ReplyCacheData>({

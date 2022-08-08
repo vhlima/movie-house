@@ -1,84 +1,73 @@
-import { useMutation, useQuery } from '@apollo/client';
-
-import type {
-  CommentaryCacheData,
-  CommentaryResponse,
-} from '../../../types/commentary';
+import { NetworkStatus } from '@apollo/client';
+import type { CommentariesLogicProps } from './logic';
 
 import type { CommentaryHandles } from './components/Commentary';
 
-import { COMMENTARIES, DELETE_COMMENTARY } from '../../../graphql/commentary';
+import { useLogic } from './logic';
 
 import Commentary from './components/Commentary';
 
-interface CommentariesProps extends Omit<CommentaryHandles, 'onClickDelete'> {
-  postId: string;
-}
+import SvgIcon from '../../SvgIcon';
+import Observer from '../../Observer';
+
+type CommentariesProps = CommentariesLogicProps &
+  Omit<CommentaryHandles, 'onClickDelete'>;
 
 const Commentaries: React.FC<CommentariesProps> = ({
   postId,
   onClickReply,
 }) => {
-  // TODO lazy load comments
+  const {
+    // loadingRef,
+    commentariesResponse,
+    networkStatus,
 
-  const { loading, error, data } = useQuery<{
-    commentaries: CommentaryResponse[];
-  }>(COMMENTARIES, {
-    variables: { postId },
+    handleScroll,
+    handleDelete,
+  } = useLogic({
+    postId,
   });
 
-  const [deleteComment, deleteCommentResponse] = useMutation<
-    string,
-    { commentaryId: string }
-  >(DELETE_COMMENTARY, {
-    update: (cache, _, context) => {
-      const commentariesData = cache.readQuery<CommentaryCacheData>({
-        query: COMMENTARIES,
-        variables: { postId },
-      });
-
-      cache.writeQuery<CommentaryCacheData>({
-        query: COMMENTARIES,
-        variables: { postId },
-        data: {
-          commentaries: (commentariesData.commentaries || []).filter(
-            commentary => commentary._id !== context?.variables?.commentaryId,
-          ),
-        },
-      });
-    },
-  });
-
-  const handleDelete = async (commentaryId: string) => {
-    if (deleteCommentResponse.loading) return;
-
-    await deleteComment({ variables: { commentaryId } });
-
-    deleteCommentResponse.reset();
-  };
-
-  if (loading) {
+  if (networkStatus === NetworkStatus.loading) {
     return <h1>Loading commentaries...</h1>;
   }
 
-  if (error) {
+  if (networkStatus === NetworkStatus.error) {
     return <h1>error loading commentaries</h1>;
   }
 
-  if (!data || !data.commentaries) {
+  if (
+    !commentariesResponse ||
+    commentariesResponse.commentaries.commentaries.length <= 0
+  ) {
     return null;
   }
 
   return (
     <>
-      {data.commentaries.map(commentary => (
-        <Commentary
-          key={commentary._id}
-          commentary={commentary}
-          onClickReply={onClickReply}
-          onClickDelete={handleDelete}
-        />
-      ))}
+      <div>
+        {commentariesResponse.commentaries.commentaries.map(commentary => (
+          <Commentary
+            key={commentary._id}
+            commentary={commentary}
+            onClickReply={onClickReply}
+            onClickDelete={handleDelete}
+          />
+        ))}
+      </div>
+
+      {commentariesResponse.commentaries.hasNextPage && (
+        <Observer
+          className="flex justify-center mt-2"
+          onIntersect={handleScroll}
+        >
+          <SvgIcon
+            className="text-grey-300 animate-spin"
+            iconType="CgSpinner"
+            size={36}
+          />
+        </Observer>
+      )}
     </>
   );
 };
