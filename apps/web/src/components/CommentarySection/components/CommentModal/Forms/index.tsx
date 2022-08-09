@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { Formik, Form } from 'formik';
 
@@ -34,11 +34,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
     body: Yup.string().required('Body is required'),
   });
 
-  const inputRef = useRef<HTMLInputElement>();
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [inputRef.current]);
+  const textAreaRef = useRef<HTMLTextAreaElement>();
 
   return (
     <Formik
@@ -48,12 +44,21 @@ const GenericForm: React.FC<GenericFormProps> = ({
       validateOnChange={false}
       onSubmit={onSubmit}
     >
-      <Form>
+      <Form className="w-full">
         <TextInput
           formik
           loading={loading}
           isReply={isReply}
-          reference={inputRef}
+          reference={textAreaRef}
+          onKeyUp={() => {
+            const { current } = textAreaRef;
+
+            if (!current) return;
+
+            textAreaRef.current.style.height = !current.value
+              ? 'auto'
+              : `${current.scrollHeight}px`;
+          }}
         />
       </Form>
     </Formik>
