@@ -53,7 +53,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       textarea
       formik={formik}
       rounded={false}
-      roundedTop
+      roundedTop={formik}
       border={false}
       showError={false}
       onFocus={onFocus}
