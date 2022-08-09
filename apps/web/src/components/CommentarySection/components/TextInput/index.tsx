@@ -1,4 +1,4 @@
-import type { KeyboardEvent, RefObject } from 'react';
+import type { RefObject } from 'react';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
@@ -49,8 +49,9 @@ const TextInput: React.FC<TextInputInternalProps> = ({
   return (
     <Input
       name="body"
-      rows={1}
-      textarea
+      // rows={1}
+      // textarea
+      autoGrow={{ maxHeight: 250 }}
       formik={formik}
       rounded={false}
       roundedTop={formik}
@@ -60,7 +61,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       reference={reference}
       borderFocus={!formik}
       onKeyUp={onKeyUp}
-      style={formik && { maxHeight: '200px', overflowY: 'auto' }}
+      // style={formik && { maxHeight: '200px', overflowY: 'auto' }}
       autoFocus={formik}
       placeholder={!isReply ? 'Add a commentary...' : 'Add a reply...'}
       rightIcon={formik && rightIcon}

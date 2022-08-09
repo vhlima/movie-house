@@ -50,15 +50,6 @@ const GenericForm: React.FC<GenericFormProps> = ({
           loading={loading}
           isReply={isReply}
           reference={textAreaRef}
-          onKeyUp={() => {
-            const { current } = textAreaRef;
-
-            if (!current) return;
-
-            textAreaRef.current.style.height = !current.value
-              ? 'auto'
-              : `${current.scrollHeight}px`;
-          }}
         />
       </Form>
     </Formik>

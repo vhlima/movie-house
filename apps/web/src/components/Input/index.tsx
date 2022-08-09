@@ -9,6 +9,9 @@ import type { RawInputProps, InputReferenceType } from './Raw';
 interface InputInternalProps {
   reference?: RefObject<InputReferenceType>;
   formik?: boolean;
+  autoGrow?: {
+    maxHeight: number;
+  };
   label?: {
     text: string;
     htmlFor?: boolean;
@@ -21,6 +24,9 @@ export const FormikInput: React.FC<InputProps> = ({
   name,
   error,
   reference,
+  textarea,
+  autoGrow,
+  onKeyUp,
   ...rest
 }) => {
   const [field, meta] = useField(name);
@@ -29,6 +35,25 @@ export const FormikInput: React.FC<InputProps> = ({
     <RawInput
       ref={reference}
       error={meta.error || error}
+      rows={autoGrow && 1}
+      textarea={!autoGrow ? textarea : true}
+      style={autoGrow && { maxHeight: autoGrow.maxHeight, overflowY: 'auto' }}
+      onKeyUp={e => {
+        if (autoGrow) {
+          const { current } = reference;
+
+          if (!current) return;
+
+          /* eslint-disable no-param-reassign */
+          reference.current.style.height = !current.value
+            ? 'auto'
+            : `${current.scrollHeight}px`;
+        }
+
+        if (onKeyUp) {
+          onKeyUp(e);
+        }
+      }}
       {...rest}
       {...field}
     />
@@ -47,7 +72,7 @@ const Input: React.FC<PropsWithChildren<InputProps>> = ({
   const rawInput = !formik ? (
     <RawInput ref={reference} name={name} {...rest} />
   ) : (
-    <FormikInput name={name} reference={reference} {...rest} />
+    <FormikInput reference={reference} name={name} {...rest} />
   );
 
   return !label ? (
