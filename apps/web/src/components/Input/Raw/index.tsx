@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { forwardRef } from 'react';
+import { forwardRef, RefObject } from 'react';
 
 import type {
   InputHTMLAttributes,
@@ -26,6 +26,8 @@ type TextareaAttributes = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 type AnyAttribute = InputAttributes | TextareaAttributes;
 
+export type InputReferenceType = HTMLInputElement | HTMLTextAreaElement;
+
 // TODO recheck all these props
 
 interface RawInputInternalProps {
@@ -37,6 +39,7 @@ interface RawInputInternalProps {
   border?: boolean;
   borderFocus?: boolean;
   rounded?: boolean;
+  roundedTop?: boolean; // TODO remove that
   inputStyle?: InputStyleType;
   inputSize?: 'lg' | 'md' | 'sm';
   rightIcon?: InputIconProps;
@@ -66,7 +69,7 @@ const inputStyles: {
 
 // TODO multiple forward refs, ref drilling
 
-const RawInput = forwardRef<HTMLInputElement, RawInputProps>(
+const RawInput = forwardRef<InputReferenceType, RawInputProps>(
   (
     {
       className,
@@ -83,6 +86,7 @@ const RawInput = forwardRef<HTMLInputElement, RawInputProps>(
       rounded = true,
       border = true,
       borderFocus = true,
+      roundedTop,
       children,
       ...rest
     },
@@ -118,6 +122,7 @@ const RawInput = forwardRef<HTMLInputElement, RawInputProps>(
             'border-danger-base': showError && error,
             'bg-grey-900 border-grey-900 bg-opacity-60': disabled,
             'w-full border-2': inputSize === 'lg',
+            'rounded-t-md': roundedTop,
           })}
         >
           {children}
@@ -127,7 +132,7 @@ const RawInput = forwardRef<HTMLInputElement, RawInputProps>(
           {!textarea ? (
             <input
               className={inputClassnames}
-              ref={ref}
+              ref={ref as RefObject<HTMLInputElement>}
               id={name}
               disabled={disabled}
               {...(rest as InputAttributes)}
@@ -135,7 +140,7 @@ const RawInput = forwardRef<HTMLInputElement, RawInputProps>(
           ) : (
             <textarea
               className={clsx(inputClassnames, 'resize-none')}
-              // ref={ref}
+              ref={ref as RefObject<HTMLTextAreaElement>}
               id={name}
               disabled={disabled}
               {...(rest as TextareaAttributes)}

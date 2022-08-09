@@ -4,10 +4,10 @@ import type { RefObject, PropsWithChildren } from 'react';
 
 import RawInput from './Raw';
 
-import type { RawInputProps } from './Raw';
+import type { RawInputProps, InputReferenceType } from './Raw';
 
 interface InputInternalProps {
-  reference?: RefObject<HTMLInputElement>;
+  reference?: RefObject<InputReferenceType>;
   formik?: boolean;
   label?: {
     text: string;
