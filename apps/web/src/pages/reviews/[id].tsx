@@ -8,7 +8,7 @@ import { REVIEW } from '../../graphql/review';
 
 import client from '../../api';
 
-import UserMovieReview from '../../views/users/reviews';
+import MovieReview from '../../views/reviews/root';
 
 import MovieHeaderSkeleton from '../../views/movies/view/Header/Skeleton';
 
@@ -55,7 +55,7 @@ const Reviews: NextPage<{ review: ReviewResponse }> = ({ review }) => {
     return <h1>Review not found</h1>;
   }
 
-  return <UserMovieReview review={review} />;
+  return <MovieReview review={review} />;
 };
 
 export default Reviews;

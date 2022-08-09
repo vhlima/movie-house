@@ -2,22 +2,22 @@ import type { ReviewResponse } from '../../../types/review';
 
 import MovieHeader from '../../movies/view/Header';
 
-import UserMovieReviewBody from './components/Body';
+import ReviewBody from './components/ReviewBody';
 
 import CommentarySection from '../../../components/CommentarySection';
 
-export interface UserMovieReviewProps {
+export interface MovieReviewProps {
   review: ReviewResponse;
 }
 
-const UserMovieReview: React.FC<UserMovieReviewProps> = ({ review }) => (
+const MovieReview: React.FC<MovieReviewProps> = ({ review }) => (
   <>
     <MovieHeader movie={review.movie}>
-      <UserMovieReviewBody review={review} preview={false} />
+      <ReviewBody review={review} preview={false} />
     </MovieHeader>
 
     <CommentarySection postId={review._id} />
   </>
 );
 
-export default UserMovieReview;
+export default MovieReview;

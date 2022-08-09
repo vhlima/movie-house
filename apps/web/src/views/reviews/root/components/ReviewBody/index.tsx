@@ -1,7 +1,5 @@
 import type { ReviewResponse } from '../../../../../types/review';
 
-import type { UserMovieReviewProps } from '../..';
-
 import Link from '../../../../../components/Link';
 
 import ListItem from '../../../../../components/ListItem';
@@ -13,7 +11,7 @@ import UserText from '../../../../../components/UserText';
 
 // import Post from '../../../components/Post';
 
-interface UserMovieReviewBodyProps extends UserMovieReviewProps {
+interface ReviewBodyProps {
   review: ReviewResponse;
   preview?: boolean;
 }
@@ -22,10 +20,7 @@ interface UserMovieReviewBodyProps extends UserMovieReviewProps {
   Review body can be used to compose both review page and review preview 
 */
 
-const UserMovieReviewBody: React.FC<UserMovieReviewBodyProps> = ({
-  review,
-  preview,
-}) => {
+const ReviewBody: React.FC<ReviewBodyProps> = ({ review, preview }) => {
   const { movie } = review;
 
   // TODO post here was basically <Interaction> with like and comment buttons
@@ -106,4 +101,4 @@ const UserMovieReviewBody: React.FC<UserMovieReviewBodyProps> = ({
   );
 };
 
-export default UserMovieReviewBody;
+export default ReviewBody;
