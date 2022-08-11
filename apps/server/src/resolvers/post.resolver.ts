@@ -1,28 +1,51 @@
-import { FieldResolver, Root, Resolver, Int } from 'type-graphql';
+import {
+  FieldResolver,
+  Root,
+  Resolver,
+  Int,
+  ResolverInterface,
+} from 'type-graphql';
 
-import Post from '../entities/post.interface';
+import { LikeRepository, UserRepository } from '../repositories';
 
-import Commentary from '../entities/commentary/commentary.interface';
+import Post from '../entities/mongo/post.interface';
 
-import { CommentaryModel, LikeModel } from '../models';
+import User from '../entities/postgres/user.interface';
 
-export const createPostResolver = <T extends Post>() => {
+import UserNotFoundError from '../errors/UserNotFound';
+
+export const createPostResolver = () => {
   @Resolver(() => Post, { isAbstract: true })
-  abstract class PostResolver {
-    @FieldResolver(() => Int)
-    async likeCount(@Root('_doc') post: T) {
-      const likes = await LikeModel.find({ postId: post._id });
+  abstract class PostResolver implements ResolverInterface<Post> {
+    @FieldResolver(() => User)
+    async author(@Root() post: Post) {
+      const user = await UserRepository.findOne({
+        where: { id: post.authorId },
+      });
 
-      return likes.length;
+      if (!user) {
+        throw new UserNotFoundError();
+      }
+
+      return user;
     }
 
-    @FieldResolver(() => [Commentary])
-    async commentaries(@Root('_doc') post: T) {
-      const rootCommentaries = await CommentaryModel.find({
-        postId: post._id,
-      }).populate('user');
+    @FieldResolver(() => Int)
+    async likeCount(@Root() post: Post) {
+      const count = await LikeRepository.count({
+        where: { id: post.id },
+      });
 
-      return rootCommentaries;
+      return count;
+    }
+
+    @FieldResolver(() => Int)
+    async commentaryCount(@Root() post: Post) {
+      const count = await LikeRepository.count({
+        where: { id: post.id },
+      });
+
+      return count;
     }
   }
 

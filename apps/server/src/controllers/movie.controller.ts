@@ -1,13 +1,11 @@
-import type { DocumentType } from '@typegoose/typegoose';
-
 import type { DatasourceContext } from '../api';
 
-import Movie from '../entities/movie.interface';
+import Movie from '../entities/movie';
 
 export const findMovieById = async (
   context: DatasourceContext,
   movieId: string,
-): Promise<DocumentType<Movie>> => {
+): Promise<Movie> => {
   try {
     const movie = await context.dataSources.tmdb.getMovieById(movieId);
 
@@ -24,7 +22,7 @@ export const findMovieById = async (
 export const findCreditsByMovieId = async (
   context: DatasourceContext,
   movieId: string,
-): Promise<DocumentType<Movie>> => {
+): Promise<Movie> => {
   const movieCredits = await context.dataSources.tmdb.getCreditsByMovieId(
     movieId,
   );

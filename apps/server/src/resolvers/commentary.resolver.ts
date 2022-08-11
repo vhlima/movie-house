@@ -8,14 +8,18 @@ import {
   Root,
   Int,
   ID,
+  Args,
 } from 'type-graphql';
 
-import { findUserById } from '../controllers/user.controller';
+import { FindOptionsWhere, MoreThan } from 'typeorm';
 
-import { CommentaryModel, LikeModel, ReplyModel } from '../models';
+import Commentary from '../entities/postgres/comment/commentary.interface';
 
-import Commentary from '../entities/commentary/commentary.interface';
-import CommentariesPaginated from '../entities/pagination/commentaries';
+import PaginationArgs from '../entities/types/args/pagination.args';
+
+import Commentaries from '../entities/pagination/entities/commentaries.interface';
+
+import { CommentaryRepository, UserRepository } from '../repositories';
 
 @Resolver(() => Commentary)
 export default class CommentaryResolver
@@ -25,41 +29,81 @@ export default class CommentaryResolver
 
   @FieldResolver(() => Int)
   async likeCount(@Root('_doc') commentary: Commentary) {
-    const count = await LikeModel.count({
-      postId: commentary.postId,
-      referenceId: commentary._id,
-    });
+    // const count = await LikeModel.count({
+    //   postId: commentary.postId,
+    //   referenceId: commentary.id,
+    // });
 
-    return count;
+    // return count;
+
+    return 0;
   }
 
   @FieldResolver(() => Int)
   async replyCount(@Root('_doc') commentary: Commentary) {
-    const count = await ReplyModel.count({
-      commentaryId: commentary._id,
-    });
+    console.log(`run resolver`);
 
-    return count;
+    // const count = await ReplyModel.count({
+    //   commentaryId: commentary.id,
+    // });
+
+    // return count;
+
+    return 0;
   }
 
-  @Query(() => CommentariesPaginated)
+  async findCommentaries(
+    postId: string,
+    first: number,
+    cursor?: Date | string,
+  ): Promise<Commentary[]> {
+    const whereParams = { postId } as FindOptionsWhere<Commentary>;
+
+    if (cursor) {
+      Object.assign(whereParams, {
+        createdAt: MoreThan(
+          typeof cursor === 'string' ? new Date(cursor) : cursor,
+        ),
+      } as FindOptionsWhere<Commentary>);
+    }
+
+    const commentaries = await CommentaryRepository.find({
+      where: whereParams,
+      take: first,
+      skip: !cursor ? 0 : 1,
+    });
+
+    return commentaries;
+  }
+
+  @Query(() => Commentaries)
   async commentaries(
     @Arg('postId', () => ID) postId: string,
-    @Arg('page', () => Int) page: number,
+    @Args(() => PaginationArgs) { first, after }: PaginationArgs,
   ) {
-    const commentaryCount = await CommentaryModel.count({ postId });
+    const commentaries = await this.findCommentaries(postId, first, after);
 
-    const commentaries = await CommentaryModel.find({
+    if (commentaries.length <= 0) {
+      return { edges: [], pageInfo: { hasNextPage: false } };
+    }
+
+    const endCursor = commentaries[commentaries.length - 1].createdAt;
+
+    const nextCommentaries = await this.findCommentaries(
       postId,
-    })
-      .skip(page === 1 ? 0 : page * 10)
-      .limit(10)
-      .populate('user');
+      first,
+      endCursor,
+    );
 
     return {
-      commentaries,
-      currentPage: page,
-      hasNextPage: page + 1 <= Math.ceil(commentaryCount / 10),
+      edges: commentaries.map(commentary => ({
+        cursor: commentary.createdAt.toISOString(),
+        node: commentary,
+      })),
+      pageInfo: {
+        endCursor: endCursor.toISOString(),
+        hasNextPage: nextCommentaries.length >= first,
+      },
     };
   }
 
@@ -69,27 +113,37 @@ export default class CommentaryResolver
     @Arg('postId', () => ID) postId: string,
     @Arg('body') body: string,
   ) {
-    const user = await findUserById(userId);
+    const user = await UserRepository.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
 
     // TODO check if postId exists
 
-    const commentary = await CommentaryModel.create({
-      user,
+    const commentary = CommentaryRepository.create({
+      userId: user.id,
       postId,
       body,
     });
+
+    await CommentaryRepository.save(commentary);
 
     return commentary;
   }
 
   @Mutation(() => String)
   async deleteCommentary(@Arg('commentaryId') commentaryId: string) {
-    const commentary = await CommentaryModel.findByIdAndDelete(commentaryId);
+    const commentaryExists = await CommentaryRepository.findOneBy({
+      id: commentaryId,
+    });
 
-    if (!commentary) {
+    if (!commentaryExists) {
       throw new Error('Commentary not found');
     }
 
-    return 'Deleted with success';
+    await CommentaryRepository.delete({ id: commentaryExists.id });
+
+    return 'Deleted with sucess';
   }
 }

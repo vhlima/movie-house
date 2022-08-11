@@ -1,13 +1,9 @@
-import type { DocumentType } from '@typegoose/typegoose';
+import User from '../entities/postgres/user.interface';
 
-import User from '../entities/user.interface';
+import { UserRepository } from '../repositories';
 
-import { UserModel } from '../models';
-
-export const findUserById = async (
-  userId: string,
-): Promise<DocumentType<User>> => {
-  const user = await UserModel.findById(userId);
+export const findUserById = async (userId: string): Promise<User> => {
+  const user = await UserRepository.findOneBy({ id: userId });
 
   if (!user) {
     throw new Error('User not found');

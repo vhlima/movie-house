@@ -6,9 +6,9 @@ import { findUserById } from '../controllers/user.controller';
 
 import { findMovieById } from '../controllers/movie.controller';
 
-import User from '../entities/user.interface';
+import User from '../entities/postgres/user.interface';
 
-import WatchlistItem from '../entities/watchlist.interface';
+import WatchlistItem from '../entities/mongo/watchlist.interface';
 
 @Resolver(() => WatchlistItem)
 class WatchlistItemResolver {
@@ -18,21 +18,15 @@ class WatchlistItemResolver {
     @Arg('userId') userId: string,
     @Arg('movieId') movieId: string,
   ) {
-    const user = await findUserById(userId);
-
-    const movieExists = user.watchlist.find(m => m.id === movieId);
-
-    if (movieExists) {
-      throw new Error('This movie is already in your watchlist');
-    }
-
-    const movie = await findMovieById(context, movieId);
-
-    user.watchlist.push(movie);
-
-    await user.save();
-
-    return user;
+    // const user = await findUserById(userId);
+    // const movieExists = user.watchlist.find(m => m.id === movieId);
+    // if (movieExists) {
+    //   throw new Error('This movie is already in your watchlist');
+    // }
+    // const movie = await findMovieById(context, movieId);
+    // user.watchlist.push(movie);
+    // await user.save();
+    // return user;
   }
 
   @Mutation(() => User)
@@ -41,19 +35,14 @@ class WatchlistItemResolver {
     @Arg('userId') userId: string,
     @Arg('movieId') movieId: string,
   ) {
-    const user = await findUserById(userId);
-
-    const movieExistsIndex = user.watchlist.findIndex(m => m.id === movieId);
-
-    if (movieExistsIndex < 0) {
-      throw new Error('This movie is not in your watchlist');
-    }
-
-    user.watchlist.splice(movieExistsIndex, 1);
-
-    await user.save();
-
-    return user;
+    // const user = await findUserById(userId);
+    // const movieExistsIndex = user.watchlist.findIndex(m => m.id === movieId);
+    // if (movieExistsIndex < 0) {
+    //   throw new Error('This movie is not in your watchlist');
+    // }
+    // user.watchlist.splice(movieExistsIndex, 1);
+    // await user.save();
+    // return user;
   }
 }
 

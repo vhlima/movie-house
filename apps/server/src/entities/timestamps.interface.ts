@@ -1,14 +1,14 @@
 import { Field, ObjectType } from 'type-graphql';
 
-import { prop } from '@typegoose/typegoose';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 export default abstract class Timestamps {
   @Field(() => Date)
-  @prop({ type: Date, required: false })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @Field(() => Date)
-  @prop({ type: Date, required: false })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }

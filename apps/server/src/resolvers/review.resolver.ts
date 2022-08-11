@@ -1,45 +1,31 @@
-import {
-  Resolver,
-  Mutation,
-  Arg,
-  Ctx,
-  Query,
-  ResolverInterface,
-} from 'type-graphql';
+import { Resolver, Mutation, Arg, Ctx, Query } from 'type-graphql';
 
 import type { DatasourceContext } from '../api';
 
-import { findMovieById } from '../controllers/movie.controller';
-
-import { findUserById } from '../controllers/user.controller';
+import type { ServerContext } from '../types';
 
 import { createPostResolver } from './post.resolver';
 
-import { ReviewModel } from '../models';
+import { ReviewRepository } from '../repositories';
 
-import Review from '../entities/review.interface';
+import Review from '../entities/mongo/review.interface';
 
-import ReviewInput from '../entities/types/review.input';
+import AuthenticationError from '../errors/Authentication';
 
-const PostResolver = createPostResolver<Review>();
+import AlreadyExistsError from '../errors/AlreadyExists';
+
+import NotFoundError from '../errors/NotFound';
+
+const PostResolver = createPostResolver();
 
 @Resolver(() => Review)
-class ReviewResolver extends PostResolver implements ResolverInterface<Review> {
-  @Query(() => [Review])
-  async reviews() {
-    const reviews = await ReviewModel.find();
-
-    return reviews;
-  }
-
+class ReviewResolver extends PostResolver {
   @Query(() => Review)
   async review(@Arg('reviewId') reviewId: string) {
-    const reviewExists = await ReviewModel.findById(reviewId).populate(
-      'author',
-    );
+    const reviewExists = await ReviewRepository.findOneBy(reviewId);
 
     if (!reviewExists) {
-      throw new Error('Review not found');
+      throw new NotFoundError('Review not found');
     }
 
     return reviewExists;
@@ -47,34 +33,39 @@ class ReviewResolver extends PostResolver implements ResolverInterface<Review> {
 
   @Mutation(() => Review)
   async createReview(
-    @Ctx() context: DatasourceContext,
-    @Arg('userId') userId: string,
-    @Arg('movieId') movieId: string,
-    @Arg('data') data: ReviewInput,
+    @Ctx() context: ServerContext,
+    @Arg('movieId') movieId: number,
+    @Arg('body') body: string,
   ) {
-    const user = await findUserById(userId);
-
-    await user.populate('reviews');
-
-    const movie = await findMovieById(context, movieId);
-
-    const reviewExists = user.reviews.find(
-      r => (r as Review).movie.id === movieId,
-    );
-
-    if (reviewExists) {
-      throw new Error('User already made a review about this movie');
+    if (!context.user) {
+      throw new AuthenticationError();
     }
 
-    const review = await ReviewModel.create({
-      author: user,
-      movie,
-      ...data,
+    const reviewExists = await ReviewRepository.findOneBy({
+      authorId: context.user.id,
+      movieId,
     });
 
-    user.reviews.push(review);
+    if (reviewExists) {
+      throw new AlreadyExistsError(
+        'You already created a review about this movie',
+      );
+    }
 
-    await user.save();
+    const movie = await context.dataSources.tmdb.getMovieById(String(movieId));
+
+    if (!movie) {
+      throw new NotFoundError('Movie not found');
+    }
+
+    const review = ReviewRepository.create({
+      authorId: context.user.id,
+      movieId: movie.id,
+      movie,
+      body,
+    });
+
+    await ReviewRepository.save(review);
 
     return review;
   }
@@ -83,12 +74,15 @@ class ReviewResolver extends PostResolver implements ResolverInterface<Review> {
   async updateReview(
     @Ctx() context: DatasourceContext,
     @Arg('reviewId') reviewId: string,
-    @Arg('data') data: ReviewInput,
+    @Arg('body') body: string,
   ) {
-    const review = await ReviewModel.findByIdAndUpdate(reviewId, data);
+    const review = await ReviewRepository.findOneAndUpdate(
+      { id: reviewId },
+      { body },
+    );
 
     if (!review) {
-      throw new Error('Review not found');
+      throw new NotFoundError('Review not found');
     }
 
     return review;
@@ -96,23 +90,15 @@ class ReviewResolver extends PostResolver implements ResolverInterface<Review> {
 
   @Mutation(() => String)
   async deleteReview(@Arg('reviewId') reviewId: string) {
-    const review = await ReviewModel.findByIdAndDelete(reviewId);
+    const review = await ReviewRepository.findOneBy(reviewId);
 
     if (!review) {
-      throw new Error('Review not found');
+      throw new NotFoundError('Review not found');
     }
 
-    const user = await findUserById(review.author as string);
+    await ReviewRepository.delete(reviewId);
 
-    const userReviewIndex = user.reviews.findIndex(r => r === reviewId);
-
-    if (userReviewIndex >= 0) {
-      user.reviews.splice(userReviewIndex, 1);
-
-      await user.save();
-    }
-
-    return 'Deleted with success';
+    return 'Review deleted';
   }
 }
 

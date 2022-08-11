@@ -2,7 +2,7 @@ import { Resolver, Query, Arg, Ctx } from 'type-graphql';
 
 import type { DatasourceContext } from '../api';
 
-import Movie from '../entities/movie.interface';
+import Movie from '../entities/movie';
 
 import MovieSearch from '../entities/movieSearch.interface';
 
@@ -38,7 +38,7 @@ class MovieResolver {
 
     const results = searchResponse.results.map(m => ({
       ...m,
-      release_date: m.release_date ? new Date(m.release_date) : new Date(),
+      releaseDate: m.releaseDate ? new Date(m.releaseDate) : new Date(),
     }));
 
     return {

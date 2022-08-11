@@ -1,6 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
-import Movie from '../entities/movie.interface';
+import Movie from '../entities/movie';
 
 const API_KEY = '2b632ec34dffd121ca57d8a8596d0c27';
 

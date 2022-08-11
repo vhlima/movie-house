@@ -4,11 +4,11 @@ import type { DatasourceContext } from '../api';
 
 import { findCreditsByMovieId } from '../controllers/movie.controller';
 
-import Credits from '../entities/credits.interface';
+import MovieCredits from '../entities/movie/credits';
 
-@Resolver(() => Credits)
-class CreditsResolver {
-  @Query(() => Credits)
+@Resolver(() => MovieCredits)
+class MovieCreditsResolver {
+  @Query(() => MovieCredits)
   async getMovieCredits(
     @Ctx() context: DatasourceContext,
     @Arg('movieId') movieId: string,
@@ -19,4 +19,4 @@ class CreditsResolver {
   }
 }
 
-export default CreditsResolver;
+export default MovieCreditsResolver;

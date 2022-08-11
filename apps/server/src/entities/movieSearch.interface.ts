@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 
-import Movie from './movie.interface';
+import Movie from './movie';
 
 @ObjectType()
 export default class MovieSearch {
