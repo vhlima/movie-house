@@ -5,17 +5,19 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
-    "start": "ts-node src/server.ts"
+    "start": "ts-node src/server.ts",
+    "typeorm": "typeorm-ts-node-esm",
+    "migration:run": "typeorm-ts-node-esm migration:run -d src/database/postgres/index.ts"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^9.9.0",
     "apollo-datasource-rest": "^3.6.1",
     "apollo-server": "^3.9.0",
     "class-validator": "^0.13.2",
     "graphql": "^15.3.0",
-    "mongoose": "^6.4.1",
+    "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
+    "typeorm": "^0.3.7",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
