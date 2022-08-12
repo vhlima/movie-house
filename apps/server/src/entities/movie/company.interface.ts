@@ -2,6 +2,8 @@ import { Field, ObjectType } from 'type-graphql';
 
 import { Column } from 'typeorm';
 
+/* eslint-disable camelcase */
+
 @ObjectType()
 export default class Company {
   @Field()
@@ -12,11 +14,11 @@ export default class Company {
   @Column()
   readonly name: string;
 
-  @Field({ nullable: true })
-  @Column({ name: 'logo_path', nullable: true })
-  readonly logoPath?: string;
+  @Field({ name: 'logoPath', nullable: true })
+  @Column({ nullable: true })
+  readonly logo_path?: string;
 
-  @Field()
-  @Column({ name: 'origin_country' })
-  readonly originCountry: string;
+  @Field({ name: 'originCountry' })
+  @Column()
+  readonly origin_country: string;
 }

@@ -9,40 +9,40 @@ import {
   Int,
   ID,
   Args,
+  Ctx,
 } from 'type-graphql';
 
 import { FindOptionsWhere, MoreThan } from 'typeorm';
 
-import Commentary from '../entities/postgres/comment/commentary.interface';
+import { CommentaryRepository, LikeRepository } from '../repositories';
+
+import type { ServerContext } from '../types';
 
 import PaginationArgs from '../entities/types/args/pagination.args';
 
+import Commentary from '../entities/postgres/comment/commentary.interface';
+
 import Commentaries from '../entities/pagination/entities/commentaries.interface';
 
-import { CommentaryRepository, UserRepository } from '../repositories';
+import AuthenticationError from '../errors/Authentication';
+import NotFoundError from '../errors/NotFound';
 
 @Resolver(() => Commentary)
 export default class CommentaryResolver
   implements ResolverInterface<Commentary>
 {
-  // TODO really dont know how to find root object without specifiyng _doc
-
   @FieldResolver(() => Int)
-  async likeCount(@Root('_doc') commentary: Commentary) {
-    // const count = await LikeModel.count({
-    //   postId: commentary.postId,
-    //   referenceId: commentary.id,
-    // });
+  async likeCount(@Root() commentary: Commentary) {
+    const count = await LikeRepository.count({
+      rootId: commentary.postId,
+      referenceId: commentary.id,
+    });
 
-    // return count;
-
-    return 0;
+    return count;
   }
 
   @FieldResolver(() => Int)
-  async replyCount(@Root('_doc') commentary: Commentary) {
-    console.log(`run resolver`);
-
+  async replyCount(@Root() commentary: Commentary) {
     // const count = await ReplyModel.count({
     //   commentaryId: commentary.id,
     // });
@@ -109,14 +109,12 @@ export default class CommentaryResolver
 
   @Mutation(() => Commentary)
   async comment(
-    @Arg('userId', () => ID) userId: string,
+    @Ctx() { user }: ServerContext,
     @Arg('postId', () => ID) postId: string,
     @Arg('body') body: string,
   ) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
     if (!user) {
-      throw new Error('User not found');
+      throw new AuthenticationError();
     }
 
     // TODO check if postId exists
@@ -139,7 +137,7 @@ export default class CommentaryResolver
     });
 
     if (!commentaryExists) {
-      throw new Error('Commentary not found');
+      throw new NotFoundError('Commentary not found');
     }
 
     await CommentaryRepository.delete({ id: commentaryExists.id });

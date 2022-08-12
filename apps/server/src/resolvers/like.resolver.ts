@@ -1,47 +1,41 @@
-import { Resolver, Mutation, Arg, Args, Query } from 'type-graphql';
+import { Resolver, Mutation, Args, Ctx } from 'type-graphql';
 
-import { findUserById } from '../controllers/user.controller';
+import type { ServerContext } from '../types';
 
-import Like from '../entities/postgres/like.interface';
+import { LikeRepository } from '../repositories';
+
+import Like from '../entities/mongo/like.interface';
 
 import LikeArgs from '../entities/types/args/like.args';
 
-// TODO change all resolver classes to export default
+import AuthenticationError from '../errors/Authentication';
 
 @Resolver(() => Like)
 export default class LikeResolver {
-  @Query(() => Like, { nullable: true })
-  async findLike(@Args() { userId, referenceId, likeType }: LikeArgs) {
-    // const like = await LikeModel.findOne({
-    //   user: userId,
-    //   referenceId,
-    //   likeType,
-    // });
-    // return like;
-  }
-
   @Mutation(() => Boolean)
-  async likeOrDislike(@Args() { userId, ...args }: LikeArgs) {
-    // const user = await findUserById(userId);
-    // // if(likeType === LikeType.COMMENTARY) {}
-    // // TODO check if is valid commentary, movie or post to like
-    // const likeExists = await LikeModel.findOne({ user: userId, ...args });
-    // if (likeExists) {
-    //   await LikeModel.deleteOne({ user: userId, ...args });
-    //   return false;
-    // }
-    // await LikeModel.create({ user, ...args });
-    // // user.likes.push(like)
-    // // await user.save();
-    // return true;
-  }
+  async like(
+    @Ctx() { user }: ServerContext,
+    @Args() { rootId, referenceId }: LikeArgs,
+  ) {
+    if (!user) {
+      throw new AuthenticationError();
+    }
 
-  @Mutation(() => String)
-  async dislike(@Arg('likeId') likeId: string) {
-    // const like = await LikeModel.findByIdAndDelete(likeId);
-    // if (!like) {
-    //   throw new Error('User didnt liked that');
-    // }
-    // return 'Dislike with success';
+    const likeExists = await LikeRepository.findOneBy({ rootId, referenceId });
+
+    if (likeExists) {
+      await LikeRepository.delete({ userId: user.id, rootId, referenceId });
+      return false;
+    }
+
+    const like = LikeRepository.create({
+      userId: user.id,
+      rootId,
+      referenceId,
+    });
+
+    await LikeRepository.save(like);
+
+    return true;
   }
 }

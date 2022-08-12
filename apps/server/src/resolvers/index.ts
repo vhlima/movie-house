@@ -8,8 +8,6 @@ export { default as FavoriteResolver } from './favorite.resolver';
 
 export { default as RateResolver } from './rate.resolver';
 
-export { default as CreditsResolver } from './credits.resolver';
-
 export { default as WatchlistResolver } from './watchlist.resolver';
 
 export { default as LikeResolver } from './like.resolver';

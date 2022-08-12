@@ -1,14 +1,6 @@
-import { Field, ObjectType } from 'type-graphql';
+import { ObjectType } from 'type-graphql';
 
-import { Column } from 'typeorm';
-
-import Movie from '../movie';
-
-import Timestamps from '../timestamps.interface';
+import MovieList from './movieList.interface';
 
 @ObjectType()
-export default class WatchlistItem extends Timestamps {
-  @Field(() => Movie)
-  @Column(() => Movie)
-  movie: Movie;
-}
+export default class WatchlistItem extends MovieList {}

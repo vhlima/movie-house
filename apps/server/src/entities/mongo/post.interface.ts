@@ -1,6 +1,6 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql';
 
-import { Column, ObjectIdColumn } from 'typeorm';
+import { Column, ObjectID, ObjectIdColumn } from 'typeorm';
 
 import User from '../postgres/user.interface';
 
@@ -10,7 +10,7 @@ import User from '../postgres/user.interface';
 export default abstract class Post {
   @Field(() => ID)
   @ObjectIdColumn({ name: '_id' })
-  readonly id: string;
+  readonly id: ObjectID;
 
   @Column()
   authorId: string;

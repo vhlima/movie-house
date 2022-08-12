@@ -14,7 +14,6 @@ import {
   ReviewResolver,
   RateResolver,
   FavoriteResolver,
-  CreditsResolver,
   WatchlistResolver,
   LikeResolver,
   CommentaryResolver,
@@ -30,13 +29,13 @@ const main = async () => {
   const schema = await buildSchema({
     resolvers: [
       UserResolver,
-      // MovieResolver,
+      MovieResolver,
       ReviewResolver,
       // RateResolver,
-      // FavoriteResolver,
+      FavoriteResolver,
       // CreditsResolver,
       // WatchlistResolver,
-      // LikeResolver,
+      LikeResolver,
       CommentaryResolver,
       // ReplyResolver,
     ],
@@ -84,11 +83,15 @@ const main = async () => {
 
       // Try to retrieve a user with the token
 
-      const user = await UserRepository.findOne({ where: { username: 'vtr' } });
+      try {
+        const user = await UserRepository.findOne({
+          where: { username: 'vtr' },
+        });
 
-      // Add the user to the context
-
-      return { user };
+        return { user };
+      } catch (error) {
+        return { user: null };
+      }
     },
   });
 

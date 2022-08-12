@@ -3,15 +3,17 @@ import { Column } from 'typeorm';
 
 import Person from './person.interface';
 
+/* eslint-disable camelcase */
+
 @ObjectType()
 export default class Cast extends Person {
-  @Field(() => Int)
-  @Column({ name: 'cast_id' })
-  castId: number;
+  @Field(() => Int, { name: 'castId' })
+  @Column()
+  cast_id: number;
 
-  @Field()
-  @Column({ name: 'credit_id' })
-  creditId: string;
+  @Field({ name: 'creditId' })
+  @Column()
+  credit_id: string;
 
   @Field()
   @Column()

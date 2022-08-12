@@ -1,33 +1,32 @@
-import { Resolver, Query, Arg, Ctx } from 'type-graphql';
+import { Resolver, Query, Arg, Ctx, Int } from 'type-graphql';
 
-import type { DatasourceContext } from '../api';
+import type { ServerContext } from '../types';
 
 import Movie from '../entities/movie';
 
 import MovieSearch from '../entities/movieSearch.interface';
 
+import NotFoundError from '../errors/NotFound';
+
 @Resolver(() => Movie)
 class MovieResolver {
   @Query(() => Movie)
   async movie(
-    @Ctx() context: DatasourceContext,
-    @Arg('movieId') movieId: string,
+    @Ctx() context: ServerContext,
+    @Arg('movieId', () => Int) movieId: number,
   ) {
     const movie = await context.dataSources.tmdb.getMovieById(movieId);
 
     if (!movie) {
-      throw new Error('Movie not found');
+      throw new NotFoundError('Movie not found');
     }
 
-    return {
-      ...movie,
-      release_date: new Date(movie.release_date),
-    };
+    return movie;
   }
 
   @Query(() => MovieSearch)
   async searchMovie(
-    @Ctx() context: DatasourceContext,
+    @Ctx() context: ServerContext,
     @Arg('searchTerm') searchTerm: string,
   ) {
     const searchResponse = await context.dataSources.tmdb.searchMovie(
@@ -38,7 +37,7 @@ class MovieResolver {
 
     const results = searchResponse.results.map(m => ({
       ...m,
-      releaseDate: m.releaseDate ? new Date(m.releaseDate) : new Date(),
+      // releaseDate: m.releaseDate ? new Date(m.releaseDate) : new Date(),
     }));
 
     return {

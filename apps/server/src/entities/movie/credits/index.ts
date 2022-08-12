@@ -7,7 +7,7 @@ import Cast from './cast.interface';
 import Crew from './crew.interface';
 
 @ObjectType()
-export default class Credits {
+export default class MovieCredits {
   @Field()
   @Column()
   readonly id: string;

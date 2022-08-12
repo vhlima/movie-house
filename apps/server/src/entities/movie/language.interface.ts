@@ -2,15 +2,17 @@ import { Field, ObjectType } from 'type-graphql';
 
 import { Column } from 'typeorm';
 
+/* eslint-disable camelcase */
+
 @ObjectType()
 export default class Language {
   @Field()
   @Column()
   readonly name: string;
 
-  @Field()
-  @Column({ name: 'english_name' })
-  readonly englishName: string;
+  @Field({ name: 'englishName' })
+  @Column()
+  readonly english_name: string;
 
   @Field()
   @Column()

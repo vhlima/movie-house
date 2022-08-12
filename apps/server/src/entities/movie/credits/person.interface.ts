@@ -2,6 +2,8 @@ import { Field, Float, Int, ObjectType, Root } from 'type-graphql';
 
 import { Column } from 'typeorm';
 
+/* eslint-disable camelcase */
+
 @ObjectType()
 export default class Person {
   @Field(() => Int)
@@ -16,21 +18,21 @@ export default class Person {
   @Column({ nullable: true, default: 0 })
   gender: number;
 
-  @Field()
-  @Column({ name: 'known_for_department' })
-  knownForDepartment: string;
+  @Field({ name: 'knownForDepartment' })
+  @Column()
+  known_for_department: string;
 
-  @Field({ nullable: true })
-  @Column({ name: 'profile_path', nullable: true })
-  profilePath?: string;
+  @Field({ name: 'profilePath', nullable: true })
+  @Column({ nullable: true })
+  profile_path?: string;
 
   @Field()
   @Column()
   name: string;
 
-  @Field()
-  @Column({ name: 'original_name' })
-  originalName: string;
+  @Field({ name: 'originalName' })
+  @Column()
+  original_name: string;
 
   @Field(() => Float)
   @Column()

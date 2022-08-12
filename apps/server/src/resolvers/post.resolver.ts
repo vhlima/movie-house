@@ -6,7 +6,11 @@ import {
   ResolverInterface,
 } from 'type-graphql';
 
-import { LikeRepository, UserRepository } from '../repositories';
+import {
+  CommentaryRepository,
+  LikeRepository,
+  UserRepository,
+} from '../repositories';
 
 import Post from '../entities/mongo/post.interface';
 
@@ -33,7 +37,8 @@ export const createPostResolver = () => {
     @FieldResolver(() => Int)
     async likeCount(@Root() post: Post) {
       const count = await LikeRepository.count({
-        where: { id: post.id },
+        rootId: post.id.toString(),
+        referenceId: null,
       });
 
       return count;
@@ -41,8 +46,8 @@ export const createPostResolver = () => {
 
     @FieldResolver(() => Int)
     async commentaryCount(@Root() post: Post) {
-      const count = await LikeRepository.count({
-        where: { id: post.id },
+      const count = await CommentaryRepository.countBy({
+        postId: post.id.toString(),
       });
 
       return count;

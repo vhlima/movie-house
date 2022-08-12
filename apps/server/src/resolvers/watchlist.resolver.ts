@@ -1,49 +1,23 @@
-import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
+import { Resolver } from 'type-graphql';
 
-import type { DatasourceContext } from '../api';
+import { WatchlistRepository } from '../repositories';
 
-import { findUserById } from '../controllers/user.controller';
+import WatchlistItem from '../entities/mongo/favorite.interface';
 
-import { findMovieById } from '../controllers/movie.controller';
+import { createMovieListResolver } from './movieList.resolver';
 
-import User from '../entities/postgres/user.interface';
-
-import WatchlistItem from '../entities/mongo/watchlist.interface';
+const MovieListResolver = createMovieListResolver<WatchlistItem>(
+  () => WatchlistItem,
+  WatchlistRepository,
+  {
+    findName: 'watchlist',
+    findOneName: 'watchlistItem',
+    addName: 'addMovieToWatchlist',
+    removeName: 'removeMovieFromWatchlist',
+  },
+);
 
 @Resolver(() => WatchlistItem)
-class WatchlistItemResolver {
-  @Mutation(() => User)
-  async addMovieToWatchlist(
-    @Ctx() context: DatasourceContext,
-    @Arg('userId') userId: string,
-    @Arg('movieId') movieId: string,
-  ) {
-    // const user = await findUserById(userId);
-    // const movieExists = user.watchlist.find(m => m.id === movieId);
-    // if (movieExists) {
-    //   throw new Error('This movie is already in your watchlist');
-    // }
-    // const movie = await findMovieById(context, movieId);
-    // user.watchlist.push(movie);
-    // await user.save();
-    // return user;
-  }
+class WatchlistResolver extends MovieListResolver {}
 
-  @Mutation(() => User)
-  async removeMovieFromWatchlist(
-    @Ctx() context: DatasourceContext,
-    @Arg('userId') userId: string,
-    @Arg('movieId') movieId: string,
-  ) {
-    // const user = await findUserById(userId);
-    // const movieExistsIndex = user.watchlist.findIndex(m => m.id === movieId);
-    // if (movieExistsIndex < 0) {
-    //   throw new Error('This movie is not in your watchlist');
-    // }
-    // user.watchlist.splice(movieExistsIndex, 1);
-    // await user.save();
-    // return user;
-  }
-}
-
-export default WatchlistItemResolver;
+export default WatchlistResolver;

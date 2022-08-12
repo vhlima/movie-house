@@ -1,6 +1,10 @@
-import { Field, Float, Int, ObjectType, Root } from 'type-graphql';
+import { Field, Float, Int, ObjectType, Root, Ctx } from 'type-graphql';
 
 import { Column } from 'typeorm';
+
+import type { ServerContext } from '../../types';
+
+import MovieCredits from './credits';
 
 import Genre from './genre.interface';
 
@@ -8,23 +12,27 @@ import Company from './company.interface';
 
 import Language from './language.interface';
 
+import NotFoundError from '../../errors/NotFound';
+
+/* eslint-disable camelcase */
+
 @ObjectType()
 export default class Movie {
   @Field()
   @Column()
   readonly id: string;
 
-  @Field()
-  @Column({ name: 'imdb_id' })
-  readonly imdbId: string;
+  @Field({ name: 'imdbId' })
+  @Column()
+  readonly imdb_id: string;
 
-  @Field()
-  @Column({ name: 'original_language' })
-  readonly originalLanguage: string;
+  @Field({ name: 'originalLanguage' })
+  @Column()
+  readonly original_language: string;
 
-  @Field()
-  @Column({ name: 'original_title' })
-  readonly originalTitle: string;
+  @Field({ name: 'originalTitle' })
+  @Column()
+  readonly original_title: string;
 
   @Field()
   @Column()
@@ -34,33 +42,46 @@ export default class Movie {
   @Column()
   readonly runtime: number;
 
-  @Field(() => Float)
-  @Column({ name: 'vote_average' })
-  readonly voteAverage: number;
+  @Field(() => Float, { name: 'voteAverage' })
+  @Column()
+  readonly vote_average: number;
 
-  @Field()
-  @Column({ name: 'poster_path' })
-  readonly posterPath: string;
+  @Column()
+  readonly poster_path: string;
 
-  @Field()
-  @Column({ name: 'backdrop_path' })
-  readonly backdropPath: string;
+  @Column()
+  readonly backdrop_path: string;
 
-  @Field(() => Date)
-  @Column({ name: 'release_date' })
-  readonly releaseDate: Date;
+  @Field(() => Date, { name: 'releaseDate' })
+  @Column()
+  readonly release_date: Date;
 
   @Field(() => [Genre])
   @Column()
   readonly genres: Genre[];
 
-  @Field(() => [Company])
-  @Column({ name: 'production_companies' })
-  readonly productionCompanies: Company[];
+  @Field(() => [Company], { name: 'productionCompanies' })
+  @Column()
+  readonly production_companies: Company[];
 
-  @Field(() => [Language])
-  @Column({ name: 'spoken_languages' })
-  readonly spokenLanguages: Language[];
+  @Field(() => [Language], { name: 'spokenLanguages' })
+  @Column()
+  readonly spoken_languages: Language[];
+
+  @Field(() => MovieCredits)
+  async credits(@Ctx() context: ServerContext, @Root('id') movieId: string) {
+    const movieCredits = await context.dataSources.tmdb.getCreditsByMovieId(
+      movieId,
+    );
+
+    if (!movieCredits) {
+      throw new NotFoundError(
+        `Credits for movie with id [${movieId}] not found`,
+      );
+    }
+
+    return movieCredits;
+  }
 
   @Field()
   posterUrl(@Root('poster_path') posterPath: string): string {

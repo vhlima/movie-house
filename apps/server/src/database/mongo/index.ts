@@ -1,5 +1,8 @@
 import { DataSource } from 'typeorm';
 
+import FavoriteMovie from '../../entities/mongo/favorite.interface';
+import Like from '../../entities/mongo/like.interface';
+
 import Review from '../../entities/mongo/review.interface';
 
 export const MongoDataSource = new DataSource({
@@ -11,7 +14,7 @@ export const MongoDataSource = new DataSource({
   database: 'test',
   synchronize: false, // TODO on production, remove that
   logging: false, // TODO production, remove that
-  entities: [Review],
+  entities: [Review, FavoriteMovie, Like],
 });
 
 export const connectMongo = async () => {

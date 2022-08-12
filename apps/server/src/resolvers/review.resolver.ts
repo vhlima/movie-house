@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Ctx, Query } from 'type-graphql';
+import { Resolver, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 
 import type { DatasourceContext } from '../api';
 
@@ -34,7 +34,7 @@ class ReviewResolver extends PostResolver {
   @Mutation(() => Review)
   async createReview(
     @Ctx() context: ServerContext,
-    @Arg('movieId') movieId: number,
+    @Arg('movieId', () => Int) movieId: number,
     @Arg('body') body: string,
   ) {
     if (!context.user) {
