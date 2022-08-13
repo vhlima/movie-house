@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
-import Image from 'next/image';
-
 import type { ImageProps } from 'next/image';
+
+import Image from '../Image';
 
 interface ProfilePictureProps extends ImageProps {
   imageSize: 'lg' | 'md' | 'sm';

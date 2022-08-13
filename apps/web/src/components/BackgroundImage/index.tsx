@@ -1,4 +1,6 @@
-import Image, { ImageProps } from 'next/image';
+import type { ImageProps } from 'next/image';
+
+import Image from '../Image';
 
 const BackgroundImage: React.FC<ImageProps> = ({ ...imageProps }) => (
   <div className="w-full h-48 absolute z-0">
