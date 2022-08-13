@@ -18,7 +18,7 @@ const ProfileSettingsView: React.FC = () => {
   const { user } = useAuth();
 
   const {
-    updateUserResult,
+    // updateUserResult,
 
     uploadedProfilePictureUrl,
     clearUploadedProfilePictureUrl,
@@ -49,7 +49,7 @@ const ProfileSettingsView: React.FC = () => {
           <div className="flex items-center gap-2">
             <ProfilePicture
               imageSize="lg"
-              src={uploadedProfilePictureUrl || user.profilePicture}
+              src={uploadedProfilePictureUrl || user.profilePictureUrl}
             />
 
             <input
@@ -107,9 +107,9 @@ const ProfileSettingsView: React.FC = () => {
             label={{ text: 'Bio', htmlFor: true }}
           />
 
-          <Button type="submit" disabled={updateUserResult.loading}>
+          {/* <Button type="submit" disabled={updateUserResult.loading}>
             Save changes
-          </Button>
+          </Button> */}
         </Form>
       </Formik>
     </Card>

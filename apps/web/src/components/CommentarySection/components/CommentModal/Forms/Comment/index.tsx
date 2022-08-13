@@ -1,15 +1,18 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import type {
-  CommentaryCacheData,
-  CommentaryResponse,
-} from '../../../../../../types/commentary';
+  AddCommentaryResponse,
+  AddCommentaryInput,
+  FindCommentariesResponse,
+  FindCommentariesInput,
+} from '../../../../../../graphql/Commentary/types';
+
+import {
+  ADD_COMMENTARY,
+  FIND_COMMENTARIES,
+} from '../../../../../../graphql/Commentary';
 
 import type { GenericFormHandles } from '../index';
-
-import { COMMENT, COMMENTARIES } from '../../../../../../graphql/commentary';
-
-import { useAuth } from '../../../../../../hooks/useAuth';
 
 import GenericForm from '../index';
 
@@ -18,85 +21,31 @@ interface CommentProps extends GenericFormHandles {
 }
 
 const CommentForm: React.FC<CommentProps> = ({ postId, onSubmit }) => {
-  const { user } = useAuth();
-
-  const [addComment, { loading }] = useMutation<
-    {
-      comment: CommentaryResponse;
-    },
-    unknown,
-    CommentaryCacheData
-  >(COMMENT, {
+  const [addComment, { loading, error }] = useMutation<
+    AddCommentaryResponse,
+    AddCommentaryInput,
+    FindCommentariesResponse
+  >(ADD_COMMENTARY, {
     update: (cache, { data }) => {
-      // cache.updateQuery<CommentaryCacheData>(
-      //   {
-      //     query: gql`
-      //       query FindCommentaries {
-      //         commentaries {
-      //           currentPage
-      //           hasNextPage
-      //           commentaries {
-      //             _id
-      //             postId
-      //             body
-      //             replyCount
-      //             likeCount
-      //             createdAt
-      //             updatedAt
-      //             user {
-      //               _id
-      //               username
-      //               profilePicture
-      //             }
-      //           }
-      //         }
-      //       }
-      //     `,
-      //     // variables: { commentaryId: data.comment._id },
-      //   },
-      //   cacheData => {
-      //     console.log(`cache data? ${JSON.stringify(cacheData || {})}`);
+      if (!data) return;
 
-      //     return {
-      //       commentaries: {
-      //         currentPage: cacheData?.commentaries?.currentPage || 1,
-      //         hasNextPage: cacheData?.commentaries?.hasNextPage || false,
-      //         commentaries: [
-      //           ...(cacheData?.commentaries?.commentaries || []),
-      //           data.comment,
-      //         ],
-      //       },
-      //     };
-      //   },
-      // );
-
-      const commentariesData = cache.readQuery<CommentaryCacheData>({
-        query: COMMENTARIES,
-        variables: { postId },
-      });
-
-      console.log(
-        `commentaries data? ${JSON.stringify(commentariesData || {})}`,
+      cache.updateQuery<FindCommentariesResponse, FindCommentariesInput>(
+        {
+          query: FIND_COMMENTARIES,
+        },
+        cacheData => ({
+          commentaries: {
+            pageInfo: cacheData.commentaries.pageInfo,
+            edges: [
+              ...cacheData.commentaries.edges,
+              {
+                cursor: data.comment.createdAt,
+                node: data.comment,
+              },
+            ],
+          },
+        }),
       );
-
-      // cache.writeQuery<CommentaryCacheData>({
-      //   query: COMMENTARIES,
-      //   variables: { postId },
-      //   data: {
-      //     // commentaries: [
-      //     //   ...(commentariesData?.commentaries || []),
-      //     //   data.comment,
-      //     // ],
-      //     commentaries: {
-      //       currentPage: ctx.context?.commentaries?.currentPage || 1,
-      //       hasNextPage: ctx.context?.commentaries?.hasNextPage || false,
-      //       commentaries: [
-      //         ...(ctx.context?.commentaries.commentaries || []),
-      //         data.comment,
-      //       ],
-      //     },
-      //   },
-      // });
     },
   });
 
@@ -104,16 +53,18 @@ const CommentForm: React.FC<CommentProps> = ({ postId, onSubmit }) => {
     <GenericForm
       loading={loading}
       initialValues={{ body: '' }}
+      error={error}
       onSubmit={async values => {
-        addComment({
+        const { errors } = await addComment({
           variables: {
-            userId: user._id,
             postId,
             body: values.body,
           },
         });
 
-        onSubmit();
+        if (!errors) {
+          onSubmit();
+        }
       }}
     />
   );

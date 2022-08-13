@@ -2,11 +2,7 @@ import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 
-import type { MovieResponse } from '../../../../../types/movie';
-
-import type { UserResponse } from '../../../../../types/user';
-
-import { RATE_MOVIE } from '../../../../../graphql/user';
+import type { MovieData } from '../../../../../graphql/Movie/types';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -21,7 +17,7 @@ import SvgIcon from '../../../../../components/SvgIcon';
 import Stars from './components/Stars';
 
 interface MovieRateModalProps extends Required<ModalProps & ModalHandles> {
-  movie: MovieResponse;
+  movie: MovieData;
   // TODO these props can be extended from modal
 }
 
@@ -32,35 +28,35 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
 }) => {
   const { user, setUser } = useAuth();
 
-  const [userRating, setUserRating] = useState<number>(() => {
-    const rate = user?.ratings.find(r => r.movie.id === movie.id);
+  // const [userRating, setUserRating] = useState<number>(() => {
+  //   const rate = user?.ratings.find(r => r.movie.id === movie.id);
 
-    return rate ? rate.rating : 0;
-  });
+  //   return rate ? rate.rating : 0;
+  // });
 
-  const [userAddRateMutation, { loading }] = useMutation<{
-    userAddRate: UserResponse;
-  }>(RATE_MOVIE);
+  // const [userAddRateMutation, { loading }] = useMutation<{
+  //   userAddRate: UserResponse;
+  // }>(RATE_MOVIE);
 
-  const handleSubmit = async () => {
-    if (!user) return;
+  // const handleSubmit = async () => {
+  //   if (!user) return;
 
-    const { data } = await userAddRateMutation({
-      variables: {
-        userId: user._id,
-        movieId: movie.id,
-        data: {
-          rating: userRating,
-        },
-      },
-    });
+  //   const { data } = await userAddRateMutation({
+  //     variables: {
+  //       userId: user._id,
+  //       movieId: movie.id,
+  //       data: {
+  //         rating: userRating,
+  //       },
+  //     },
+  //   });
 
-    if (data) {
-      setUser(data.userAddRate);
-    }
+  //   if (data) {
+  //     setUser(data.userAddRate);
+  //   }
 
-    onClose();
-  };
+  //   onClose();
+  // };
 
   return (
     <Modal bottom backdrop animation={animation} onClose={onClose}>
@@ -68,12 +64,12 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
         <SvgIcon
           className="text-blue-500 transition-transform ease-out"
           iconType="AiFillStar"
-          style={{ transform: `scale(${userRating * 0.05 + 1})` }}
+          // style={{ transform: `scale(${userRating * 0.05 + 1})` }}
           size={90}
         />
 
         <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold select-none">
-          {userRating > 0 ? userRating : '?'}
+          {/* {userRating > 0 ? userRating : '?'} */}
         </span>
       </div>
 
@@ -86,13 +82,13 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
           Rate this
         </span>
 
-        <h1 className="text-2xl">{movie.original_title}</h1>
+        <h1 className="text-2xl">{movie.originalTitle}</h1>
 
-        <Stars
+        {/* <Stars
           userRating={userRating}
           onChange={rating => setUserRating(rating)}
-        />
-
+        /> */}
+        {/* 
         <Button
           disabled={
             userRating ===
@@ -101,7 +97,7 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
           onClick={handleSubmit}
         >
           Rate
-        </Button>
+        </Button> */}
       </div>
     </Modal>
   );

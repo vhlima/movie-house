@@ -17,3 +17,7 @@ export interface UserData extends CreatedAndUpdatedAt {
   biography: string;
   profilePictureUrl: string;
 }
+
+export interface UserResponse {
+  user: UserData;
+}

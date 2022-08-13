@@ -1,4 +1,4 @@
-import type { ReviewResponse } from '../../../types/review';
+import type { ReviewData } from '../../../graphql/Review/types';
 
 import MovieHeader from '../../movies/view/Header';
 
@@ -7,7 +7,7 @@ import ReviewBody from './components/ReviewBody';
 import CommentarySection from '../../../components/CommentarySection';
 
 export interface MovieReviewProps {
-  review: ReviewResponse;
+  review: ReviewData;
 }
 
 const MovieReview: React.FC<MovieReviewProps> = ({ review }) => (
@@ -16,7 +16,7 @@ const MovieReview: React.FC<MovieReviewProps> = ({ review }) => (
       <ReviewBody review={review} preview={false} />
     </MovieHeader>
 
-    <CommentarySection postId={review._id} />
+    <CommentarySection postId={review.id} />
   </>
 );
 

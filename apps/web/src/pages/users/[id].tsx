@@ -1,8 +1,8 @@
 import type { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 
-import type { UserResponse } from '../../types/user';
+import type { UserResponse } from '../../graphql/User/types';
 
-import { USER } from '../../graphql/user';
+import { FIND_USER } from '../../graphql/User';
 
 import client from '../../api';
 
@@ -16,8 +16,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (!id) return defaultProps;
 
   try {
-    const { data } = await client.query<{ user: UserResponse }>({
-      query: USER,
+    const { data } = await client.query<UserResponse>({
+      query: FIND_USER,
       variables: { userId: id },
     });
 
@@ -38,7 +38,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const UserProfile: NextPage<{ user: UserResponse }> = ({ user }) => {
+const UserProfile: NextPage<UserResponse> = ({ user }) => {
   if (!user) {
     return <h1 className="text-red-500">User not found</h1>;
   }

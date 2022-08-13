@@ -1,4 +1,5 @@
 import { NetworkStatus } from '@apollo/client';
+
 import type { CommentariesLogicProps } from './logic';
 
 import type { CommentaryHandles } from './components/Commentary';
@@ -8,7 +9,10 @@ import { useLogic } from './logic';
 import Commentary from './components/Commentary';
 
 import SvgIcon from '../../SvgIcon';
+
 import Observer from '../../Observer';
+
+import ErrorText from '../../ErrorText';
 
 type CommentariesProps = CommentariesLogicProps &
   Omit<CommentaryHandles, 'onClickDelete'>;
@@ -19,7 +23,7 @@ const Commentaries: React.FC<CommentariesProps> = ({
 }) => {
   const {
     // loadingRef,
-    commentariesResponse,
+    commentaries,
     networkStatus,
 
     handleScroll,
@@ -33,30 +37,27 @@ const Commentaries: React.FC<CommentariesProps> = ({
   }
 
   if (networkStatus === NetworkStatus.error) {
-    return <h1>error loading commentaries</h1>;
+    return <ErrorText text="Error loading commentaries" />;
   }
 
-  if (
-    !commentariesResponse ||
-    commentariesResponse.commentaries.commentaries.length <= 0
-  ) {
+  if (!commentaries || commentaries.commentaries.edges.length <= 0) {
     return null;
   }
 
   return (
     <>
       <div>
-        {commentariesResponse.commentaries.commentaries.map(commentary => (
+        {commentaries.commentaries.edges.map(commentary => (
           <Commentary
-            key={commentary._id}
-            commentary={commentary}
+            key={commentary.node.id}
+            commentary={commentary.node}
             onClickReply={onClickReply}
             onClickDelete={handleDelete}
           />
         ))}
       </div>
 
-      {commentariesResponse.commentaries.hasNextPage && (
+      {commentaries.commentaries.pageInfo.hasNextPage && (
         <Observer
           className="flex justify-center mt-2"
           onIntersect={handleScroll}

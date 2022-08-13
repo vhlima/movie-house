@@ -2,15 +2,17 @@ import { useEffect } from 'react';
 
 import { useLazyQuery } from '@apollo/client';
 
-import type { ReplyResponse } from '../../../../types/reply';
+import type { ReplyData, ReplyResponse } from '../../../../graphql/Reply/types';
 
-import { REPLIES } from '../../../../graphql/reply';
+// import type { ReplyResponse } from '../../../../types/reply';
+
+// import { REPLIES } from '../../../../graphql/reply';
 
 import CommentaryBody from '../components/Body';
 
-export interface ReplyHandles {
-  addReply: (reply: ReplyResponse) => void;
-}
+// interface ReplyHandles {
+//   addReply: (reply: ReplyResponse) => void;
+// }
 
 interface RepliesProps {
   commentaryId: string;
@@ -18,33 +20,33 @@ interface RepliesProps {
 }
 
 const Replies: React.FC<RepliesProps> = ({ commentaryId, load }) => {
-  const [loadReplies, { called, loading, data, error }] = useLazyQuery<{
-    replies: ReplyResponse[];
-  }>(REPLIES, {
-    variables: { commentaryId },
-  });
+  // const [loadReplies, { called, loading, data, error }] = useLazyQuery<ReplyResponse>(FIND_REPLIES, {
+  //   variables: { commentaryId },
+  // });
 
-  useEffect(() => {
-    if (!data && load) {
-      loadReplies();
-    }
-  }, [data, load]);
+  // useEffect(() => {
+  //   if (!data && load) {
+  //     loadReplies();
+  //   }
+  // }, [data, load]);
 
-  if (called && loading) {
-    return <h1>Loading replies..</h1>;
-  }
+  // if (called && loading) {
+  //   return <h1>Loading replies..</h1>;
+  // }
 
-  if (error) {
-    return <h1 className="text-danger-base">Error loading replies</h1>;
-  }
+  // if (error) {
+  //   return <h1 className="text-danger-base">Error loading replies</h1>;
+  // }
 
-  if (!load || !called || !data || data.replies.length <= 0) {
-    return null;
-  }
+  // if (!load || !called || !data || data.replies.length <= 0) {
+  //   return null;
+  // }
+
+  const a = 1;
 
   return (
     <div>
-      {data.replies.map(reply => (
+      {/* {data.replies.map(reply => (
         <CommentaryBody
           key={reply._id}
           user={reply.user}
@@ -52,7 +54,7 @@ const Replies: React.FC<RepliesProps> = ({ commentaryId, load }) => {
           createdAt={reply.createdAt}
           isReply
         />
-      ))}
+      ))} */}
     </div>
   );
 };

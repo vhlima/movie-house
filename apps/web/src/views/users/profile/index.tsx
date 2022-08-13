@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import type { UserResponse } from '../../../types/user';
+import type { UserData } from '../../../graphql/User/types';
 
 import type { ProfileContextData } from './hooks/useProfile';
 
@@ -19,7 +19,7 @@ import ProfilePicture from '../../../components/ProfilePicture';
 import BackgroundImage from '../../../components/BackgroundImage';
 
 interface UserProfileViewProps {
-  user: UserResponse;
+  user: UserData;
 }
 
 const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
@@ -35,7 +35,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
 
         <div className="flex flex-col gap-4 px-3 mt-32 z-10">
           <div className="flex items-center gap-2">
-            <ProfilePicture imageSize="lg" src={user.profilePicture} />
+            <ProfilePicture imageSize="lg" src={user.profilePictureUrl} />
 
             <div className="flex flex-grow flex-wrap items-center gap-x-2">
               <h1 className="text-grey-100 text-2xl font-semibold">

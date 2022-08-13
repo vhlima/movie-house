@@ -1,13 +1,17 @@
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 
 import { NetworkStatus, useMutation, useQuery } from '@apollo/client';
 
 import type {
-  CommentariesPaginatedResponse,
-  CommentaryCacheData,
-} from '../../../types/commentary';
+  FindCommentariesResponse,
+  FindCommentariesInput,
+  DeleteCommentaryInput,
+} from '../../../graphql/Commentary/types';
 
-import { COMMENTARIES, DELETE_COMMENTARY } from '../../../graphql/commentary';
+import {
+  FIND_COMMENTARIES,
+  DELETE_COMMENTARY,
+} from '../../../graphql/Commentary';
 
 export interface CommentariesLogicProps {
   postId: string;
@@ -16,7 +20,7 @@ export interface CommentariesLogicProps {
 type DeleteHandles = (commentaryId: string) => Promise<void>;
 
 interface CommentariesLogicHandles {
-  commentariesResponse: CommentariesPaginatedResponse;
+  commentaries: FindCommentariesResponse;
   networkStatus: NetworkStatus;
 
   handleDelete: DeleteHandles;
@@ -27,47 +31,48 @@ interface CommentariesLogicHandles {
 export const useLogic = ({
   postId,
 }: CommentariesLogicProps): CommentariesLogicHandles => {
-  const pageRef = useRef<number>(1);
-
   const {
     data: commentariesResponse,
     networkStatus,
     fetchMore,
-  } = useQuery<CommentariesPaginatedResponse>(COMMENTARIES, {
-    variables: { postId, page: 1 },
-    notifyOnNetworkStatusChange: true,
-  });
+  } = useQuery<FindCommentariesResponse, FindCommentariesInput>(
+    FIND_COMMENTARIES,
+    {
+      variables: { postId, first: 10 },
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
   const [deleteComment, deleteCommentResponse] = useMutation<
-    string,
-    { commentaryId: string }
+    unknown,
+    DeleteCommentaryInput
   >(DELETE_COMMENTARY, {
     update: (cache, _, context) => {
-      // const commentariesData = cache.readQuery<CommentaryCacheData>({
-      //   query: COMMENTARIES, // todo check that
-      //   variables: { postId },
-      // });
-      // cache.writeQuery<CommentaryCacheData>({
-      //   query: COMMENTARIES,
-      //   variables: { postId },
-      //   data: {
-      //     commentaries: {
-      //       ...commentariesData.commentaries,
-      //       commentaries: (
-      //         commentariesData.commentaries.commentaries || []
-      //       ).filter(
-      //         commentary => commentary._id !== context?.variables?.commentaryId,
-      //       ),
-      //     },
-      //   },
-      // });
+      cache.updateQuery<FindCommentariesResponse>(
+        {
+          query: FIND_COMMENTARIES,
+        },
+        cacheData => ({
+          commentaries: {
+            pageInfo: cacheData.commentaries.pageInfo,
+            edges: cacheData.commentaries.edges.filter(
+              commentary =>
+                commentary.node.id !== context.variables.commentaryId,
+            ),
+          },
+        }),
+      );
     },
   });
 
   const handleDelete: DeleteHandles = async commentaryId => {
     if (deleteCommentResponse.loading) return;
 
-    await deleteComment({ variables: { commentaryId } });
+    try {
+      await deleteComment({ variables: { commentaryId } });
+    } catch (err) {
+      console.error(err);
+    }
 
     deleteCommentResponse.reset();
   };
@@ -75,31 +80,27 @@ export const useLogic = ({
   const handleScroll = useCallback(async () => {
     if (networkStatus !== NetworkStatus.ready) return;
 
-    pageRef.current += 1;
-
-    await fetchMore<CommentaryCacheData>({
+    await fetchMore<FindCommentariesResponse, FindCommentariesInput>({
       variables: {
         postId,
-        page: pageRef.current,
+        first: 10,
+        after: commentariesResponse.commentaries.pageInfo.endCursor,
       },
-      updateQuery: (previousQueryResult, { fetchMoreResult }) => {
-        const updatedCache = {
+      updateQuery: (
+        { commentaries: previousQueryResult },
+        { fetchMoreResult: { commentaries: fetchMoreResult } },
+      ) =>
+        ({
           commentaries: {
-            ...fetchMoreResult.commentaries,
-            commentaries: [
-              ...previousQueryResult.commentaries.commentaries,
-              ...fetchMoreResult.commentaries.commentaries,
-            ],
+            pageInfo: fetchMoreResult.pageInfo,
+            edges: [...previousQueryResult.edges, ...fetchMoreResult.edges],
           },
-        } as CommentaryCacheData;
-
-        return updatedCache;
-      },
+        } as FindCommentariesResponse),
     });
   }, [networkStatus, fetchMore]);
 
   return {
-    commentariesResponse,
+    commentaries: commentariesResponse,
     networkStatus,
 
     handleDelete,

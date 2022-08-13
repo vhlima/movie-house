@@ -4,12 +4,12 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { MutationResult, useMutation } from '@apollo/client';
 
-import type { UserResponse } from '../../../../../../../../../types/user';
+import type { UserData } from '../../../../../../../../../graphql/User/types';
 
-import {
-  ADD_FAVORITE_MOVIE,
-  REMOVE_FAVORITE_MOVIE,
-} from '../../../../../../../../../graphql/user';
+// import {
+//   ADD_FAVORITE_MOVIE,
+//   REMOVE_FAVORITE_MOVIE,
+// } from '../../../../../../../../../graphql/user';
 
 import { useAuth } from '../../../../../../../../../hooks/useAuth';
 
@@ -18,21 +18,21 @@ interface EditModalLogicProps {
 }
 
 interface AddFavoriteResponse {
-  addFavoriteMovie: UserResponse;
+  addFavoriteMovie: UserData;
 }
 
 interface RemoveFavoriteResponse {
-  removeFavoriteMovie: UserResponse;
+  removeFavoriteMovie: UserData;
 }
 
 interface EditModalLogicHandles {
   isAdding: boolean;
   setAdding: Dispatch<SetStateAction<boolean>>;
 
-  freeSlots: number[];
+  // freeSlots: number[];
 
-  addFavoriteResult: MutationResult<AddFavoriteResponse>;
-  removeFavoriteResult: MutationResult<RemoveFavoriteResponse>;
+  // addFavoriteResult: MutationResult<AddFavoriteResponse>;
+  // removeFavoriteResult: MutationResult<RemoveFavoriteResponse>;
 
   clearErrors: () => void;
 
@@ -47,28 +47,26 @@ export const useLogic = ({
 
   const [isAdding, setAdding] = useState<boolean>(false);
 
-  const [mutationAddFavoriteMovie, addFavoriteResult] =
-    useMutation<AddFavoriteResponse>(ADD_FAVORITE_MOVIE);
+  // const [mutationAddFavoriteMovie, addFavoriteResult] =
+  //   useMutation<AddFavoriteResponse>(ADD_FAVORITE_MOVIE);
 
-  const [mutationRemoveFavoriteMovie, removeFavoriteResult] =
-    useMutation<RemoveFavoriteResponse>(REMOVE_FAVORITE_MOVIE);
+  // const [mutationRemoveFavoriteMovie, removeFavoriteResult] =
+  //   useMutation<RemoveFavoriteResponse>(REMOVE_FAVORITE_MOVIE);
 
   const clearErrors = () => {
-    addFavoriteResult.reset();
-    removeFavoriteResult.reset();
+    // addFavoriteResult.reset();
+    // removeFavoriteResult.reset();
   };
 
   const addFavoriteMovie = async (movieId: string) => {
     try {
-      const { data } = await mutationAddFavoriteMovie({
-        variables: { userId: user._id, movieId },
-      });
-
-      if (data) {
-        setUser(data.addFavoriteMovie);
-
-        setAdding(false);
-      }
+      // const { data } = await mutationAddFavoriteMovie({
+      //   variables: { userId: user._id, movieId },
+      // });
+      // if (data) {
+      //   setUser(data.addFavoriteMovie);
+      //   setAdding(false);
+      // }
     } catch (err) {
       console.error('Unexpected error occurred');
     }
@@ -76,13 +74,12 @@ export const useLogic = ({
 
   const removeFavoriteMovie = async (movieId: string) => {
     try {
-      const { data } = await mutationRemoveFavoriteMovie({
-        variables: { userId: user._id, movieId },
-      });
-
-      if (data) {
-        setUser(data.removeFavoriteMovie);
-      }
+      // const { data } = await mutationRemoveFavoriteMovie({
+      //   variables: { userId: user._id, movieId },
+      // });
+      // if (data) {
+      //   setUser(data.removeFavoriteMovie);
+      // }
     } catch (err) {
       console.error('Unexpected error occurred');
     }
@@ -94,18 +91,18 @@ export const useLogic = ({
     }
   }, [isAdding]);
 
-  const freeSlots = Array.from(
-    {
-      length: maxFavorite - user.favoriteMovies.length - 1,
-    },
-    (v, k) => k,
-  );
+  // const freeSlots = Array.from(
+  //   {
+  //     length: maxFavorite - user.favoriteMovies.length - 1,
+  //   },
+  //   (v, k) => k,
+  // );
 
   return {
-    freeSlots,
+    // freeSlots,
 
-    addFavoriteResult,
-    removeFavoriteResult,
+    // addFavoriteResult,
+    // removeFavoriteResult,
 
     clearErrors,
 

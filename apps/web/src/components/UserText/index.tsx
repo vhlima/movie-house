@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import type { UserResponse } from '../../types/user';
+import type { UserData } from '../../graphql/User/types';
 
 import Link from '../Link';
 
@@ -17,7 +17,7 @@ interface UserTextProps {
 
 interface UserTextInternalProps extends UserTextProps {
   className?: string;
-  user: Pick<UserResponse, '_id' | 'profilePicture' | 'username'>;
+  user: UserData;
   text: string;
   textShort?: boolean;
   preHeader?: ReactNode;
@@ -46,7 +46,7 @@ const UserText: React.FC<PropsWithChildren<UserTextInternalProps>> = ({
     )}
   >
     <div className="flex items-center gap-1">
-      <ProfilePicture imageSize="sm" src={user.profilePicture} />
+      <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
 
       {preHeader}
 
@@ -54,7 +54,7 @@ const UserText: React.FC<PropsWithChildren<UserTextInternalProps>> = ({
         className="group"
         href={{
           pathname: '/users/[id]',
-          query: { id: user._id },
+          query: { id: user.id },
         }}
       >
         <span className="text-gray-100 font-semibold group-hover:text-grey-200">

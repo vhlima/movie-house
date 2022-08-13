@@ -21,3 +21,7 @@ export interface ReviewData extends CreatedAndUpdatedAt {
 export interface ReviewResponse {
   review: ReviewData;
 }
+
+export interface CreateReviewResponse {
+  createReview: ReviewResponse;
+}

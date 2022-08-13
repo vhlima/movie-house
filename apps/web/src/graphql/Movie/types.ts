@@ -68,8 +68,13 @@ export interface MovieResponse {
   movie: MovieData;
 }
 
-// TODO Change that response
 export interface MovieSearchResponse {
-  page: number;
-  results: MovieData[];
+  searchMovie: {
+    page: number;
+    results: MovieData[];
+  };
+}
+
+export interface MovieSearchInput {
+  searchTerm: string;
 }

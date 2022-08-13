@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import type { MovieCreditsResponse, MovieResponse } from '../../../types/movie';
+import type { MovieData } from '../../../graphql/Movie/types';
 
 import MovieHeader from './Header';
 
@@ -13,22 +13,25 @@ import Card from '../../../components/Card';
 import UserMovieList from '../../users/lists';
 
 interface MovieViewProps {
-  movie: MovieResponse;
-  credits: MovieCreditsResponse;
+  movie: MovieData;
 }
 
-const MovieView: React.FC<MovieViewProps> = ({ movie, credits }) => {
+const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <MovieViewSkeleton />;
   }
 
+  if (!movie) {
+    return <h1 className="text-danger-base">Movie not found</h1>;
+  }
+
   // TODO create hook to pass movie without prop drilling
 
   return (
     <MovieHeader movie={movie}>
-      <MovieBody movie={movie} credits={credits}>
+      <MovieBody movie={movie}>
         <Card title="Popular reviews" link={{ href: '/' }} noPadding>
           <div>
             {/* <UserMovieReviewBody preview /> */}

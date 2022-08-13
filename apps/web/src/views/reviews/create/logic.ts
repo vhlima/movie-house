@@ -10,31 +10,33 @@ import type { MutationResult } from '@apollo/client';
 
 import type { SchemaOf } from 'yup';
 
-import type { MovieResponse } from '../../../types/movie';
+import type {
+  ReviewInput,
+  CreateReviewResponse,
+} from '../../../graphql/Review/types';
 
-import type { ReviewInput, ReviewResponse } from '../../../types/review';
+import type { MovieData } from '../../../graphql/Movie/types';
+
+import { CREATE_REVIEW } from '../../../graphql/Review';
 
 import type { CreateReviewPageProps } from '../../../pages/reviews/create';
 
 import { useAuth } from '../../../hooks/useAuth';
 
-import { CREATE_REVIEW } from '../../../graphql/review';
+type ReviewFormikInput = Omit<ReviewInput, 'movieId'>;
 
-type SelectHandles = (movie: MovieResponse) => void;
+type SelectHandles = (movie: MovieData) => void;
 
-type SubmitHandles = (values: ReviewInput) => Promise<void>;
+type SubmitHandles = (values: ReviewFormikInput) => Promise<void>;
 
-interface CreateReviewMutation {
-  createReview: ReviewResponse;
-}
-
-type ValidationSchemaType = SchemaOf<ReviewInput>;
+type ValidationSchemaType = SchemaOf<ReviewFormikInput>;
 
 interface CreateReviewLogicHandles {
   validationSchema: ValidationSchemaType;
-  reviewMutationResult: MutationResult<CreateReviewMutation>;
 
-  selectedMovie: MovieResponse;
+  reviewMutationResult: MutationResult<CreateReviewResponse>;
+
+  selectedMovie: MovieData;
 
   isSearch: boolean;
   openSearch: () => void;
@@ -52,9 +54,9 @@ export const useLogic = ({
   const { push } = useRouter();
 
   const [createReviewMutation, reviewMutationResult] =
-    useMutation<CreateReviewMutation>(CREATE_REVIEW);
+    useMutation<CreateReviewResponse>(CREATE_REVIEW);
 
-  const [selectedMovie, setSelectedMovie] = useState<MovieResponse>(movie);
+  const [selectedMovie, setSelectedMovie] = useState<MovieData>(movie);
 
   const [isSearch, setSearch] = useState<boolean>(false);
 
@@ -73,7 +75,6 @@ export const useLogic = ({
 
     const { data } = await createReviewMutation({
       variables: {
-        userId: user._id,
         movieId: selectedMovie.id,
         data: values,
       },
@@ -82,7 +83,7 @@ export const useLogic = ({
     if (data) {
       push({
         pathname: '/reviews/[id]',
-        query: { id: data.createReview._id },
+        query: { id: data.createReview.review.id },
       });
     }
   };

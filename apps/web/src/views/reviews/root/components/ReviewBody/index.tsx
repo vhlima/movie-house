@@ -1,4 +1,4 @@
-import type { ReviewResponse } from '../../../../../types/review';
+import type { ReviewData } from '../../../../../graphql/Review/types';
 
 import Link from '../../../../../components/Link';
 
@@ -12,7 +12,7 @@ import UserText from '../../../../../components/UserText';
 // import Post from '../../../components/Post';
 
 interface ReviewBodyProps {
-  review: ReviewResponse;
+  review: ReviewData;
   preview?: boolean;
 }
 
@@ -39,11 +39,11 @@ const ReviewBody: React.FC<ReviewBodyProps> = ({ review, preview }) => {
                 className="text-grey-100 text-xl font-semibold hover:text-grey-300"
                 href="/"
               >
-                {movie.original_title}
+                {movie.originalTitle}
               </Link>
 
               <span className="text-grey-200">
-                ({new Date(movie.release_date).getFullYear()})
+                ({new Date(movie.releaseDate).getFullYear()})
               </span>
             </div>
 
@@ -64,11 +64,11 @@ const ReviewBody: React.FC<ReviewBodyProps> = ({ review, preview }) => {
                 preview
                   ? {
                       pathname: '/reviews/[id]',
-                      query: { id: review._id },
+                      query: { id: review.id },
                     }
                   : {
                       pathname: '/users/[id]',
-                      query: { id: review.author._id },
+                      query: { id: review.author.id },
                     }
               }
             >

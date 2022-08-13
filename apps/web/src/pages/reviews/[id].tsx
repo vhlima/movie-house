@@ -2,9 +2,9 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 import { useRouter } from 'next/router';
 
-import type { ReviewResponse } from '../../types/review';
+import type { ReviewResponse } from '../../graphql/Review/types';
 
-import { REVIEW } from '../../graphql/review';
+import { FIND_REVIEW } from '../../graphql/Review';
 
 import client from '../../api';
 
@@ -20,23 +20,20 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (!id) return defaultProps;
 
   try {
-    const { data } = await client.query<{ review: ReviewResponse }>({
-      query: REVIEW,
+    const { data } = await client.query<ReviewResponse>({
+      query: FIND_REVIEW,
       variables: { reviewId: id },
     });
 
-    if (data) {
-      return {
-        props: {
-          review: data.review,
-        },
-      };
-    }
+    return {
+      props: {
+        review: data.review,
+      },
+    };
   } catch (err) {
     console.log(err);
+    return defaultProps;
   }
-
-  return defaultProps;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => ({
@@ -44,7 +41,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const Reviews: NextPage<{ review: ReviewResponse }> = ({ review }) => {
+const Reviews: NextPage<ReviewResponse> = ({ review }) => {
   const { isFallback } = useRouter();
 
   if (isFallback) {

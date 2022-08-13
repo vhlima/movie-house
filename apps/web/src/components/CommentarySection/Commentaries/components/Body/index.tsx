@@ -4,14 +4,14 @@ import { formatDistance } from 'date-fns';
 
 import type { PropsWithChildren } from 'react';
 
-import type { CommentaryResponse } from '../../../../../types/commentary';
+import type { CommentaryData } from '../../../../../graphql/Commentary/types';
 
 import UserText from '../../../../UserText';
 
 import PageContent from '../../../../PageContent';
 
 interface CommentaryBodyProps
-  extends Pick<CommentaryResponse, 'user' | 'body' | 'createdAt'> {
+  extends Pick<CommentaryData, 'user' | 'body' | 'createdAt'> {
   isReply?: boolean;
 }
 
@@ -34,11 +34,7 @@ const CommentaryBody: React.FC<PropsWithChildren<CommentaryBodyProps>> = ({
           {formatDistance(new Date(createdAt), Date.now(), { addSuffix: true })}
         </span>
       }
-      user={{
-        _id: user._id,
-        username: user.username,
-        profilePicture: user.profilePicture,
-      }}
+      user={user}
       text={body}
       textShort
     >

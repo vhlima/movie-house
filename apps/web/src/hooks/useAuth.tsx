@@ -15,15 +15,15 @@ import type { FetchResult } from '@apollo/client';
 
 import type { SignInCredentials } from '../types';
 
-import type { UserResponse } from '../types/user';
+import type { UserData } from '../graphql/User/types';
 
-import { SIGN_IN, USER } from '../graphql/user';
+import { FIND_USER, SIGN_IN } from '../graphql/User';
 
-type SignInResponse = { login: UserResponse };
+type SignInResponse = { login: UserData };
 
 interface AuthContextData {
-  user?: UserResponse;
-  setUser: Dispatch<SetStateAction<UserResponse>>;
+  user?: UserData;
+  setUser: Dispatch<SetStateAction<UserData>>;
 
   signIn: (
     credentials: SignInCredentials,
@@ -37,11 +37,11 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<UserResponse>();
+  const [user, setUser] = useState<UserData>();
 
   const [mutationSignIn] = useMutation<SignInResponse>(SIGN_IN);
 
-  const [findUser] = useLazyQuery<{ user: UserResponse }>(USER);
+  const [findUser] = useLazyQuery<{ user: UserData }>(FIND_USER);
 
   const signIn = useCallback(
     async ({ username }: SignInCredentials) => {
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       if (fetchUser.data) {
         const userData = fetchUser.data.login;
 
-        localStorage.setItem('@MovieHouse:token', userData._id);
+        localStorage.setItem('@MovieHouse:token', userData.id);
 
         setUser(userData);
       }

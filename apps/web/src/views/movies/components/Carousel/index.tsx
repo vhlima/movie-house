@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { MovieData } from '../../../../types';
+import type { MovieData } from '../../../../graphql/Movie/types';
 
 import Carousel from '../../../../components/Carousel';
 

@@ -1,4 +1,4 @@
-import type { MovieResponse } from '../../../../types/movie';
+import type { MovieData } from '../../../../graphql/Movie/types';
 
 import { useLogic } from './logic';
 
@@ -15,7 +15,7 @@ interface MovieSearchModalProps extends ModalHandles {
   description?: string;
   errors?: string[];
   onFocus?: () => void;
-  onSelect: (movie: MovieResponse) => void;
+  onSelect: (movie: MovieData) => void;
 }
 
 const MovieSearchModal: React.FC<MovieSearchModalProps> = ({

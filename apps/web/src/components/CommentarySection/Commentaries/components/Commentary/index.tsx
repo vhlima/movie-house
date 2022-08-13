@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { CommentaryResponse } from '../../../../../types/commentary';
+import type { CommentaryData } from '../../../../../graphql/Commentary/types';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -20,13 +20,14 @@ export interface CommentaryHandles {
 }
 
 interface CommentaryProps extends CommentaryHandles {
-  commentary: CommentaryResponse;
+  commentary: CommentaryData;
 }
 
 const Commentary: React.FC<CommentaryProps> = ({
   commentary: {
-    _id: commentaryId,
+    id: commentaryId,
     user: author,
+    postId,
     body,
     replyCount,
     likeCount,
@@ -45,6 +46,7 @@ const Commentary: React.FC<CommentaryProps> = ({
     <CommentaryBody user={author} body={body} createdAt={createdAt}>
       <div className="flex gap-2">
         <LikeButton
+          rootId={postId}
           referenceId={commentaryId}
           likes={likeCount + (liked ? 1 : 0)}
           liked={liked}
@@ -62,7 +64,7 @@ const Commentary: React.FC<CommentaryProps> = ({
         </Button>
 
         {user &&
-          (user._id !== author._id ? (
+          (user.id !== author.id ? (
             <Button
               className="ml-auto"
               buttonStyle="secondary"

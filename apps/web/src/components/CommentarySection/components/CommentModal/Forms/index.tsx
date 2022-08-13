@@ -1,12 +1,17 @@
 import { useRef } from 'react';
 
+import { ApolloError } from '@apollo/client';
+
 import { Formik, Form } from 'formik';
+
+import type { FormikHelpers } from 'formik';
 
 import * as Yup from 'yup';
 
 import type { SchemaOf } from 'yup';
 
 import TextInput from '../../TextInput';
+import ErrorText from '../../../../ErrorText';
 
 interface FormInput {
   body: string;
@@ -18,14 +23,20 @@ export interface GenericFormHandles {
 
 interface GenericFormProps {
   isReply?: boolean;
-  loading?: boolean;
 
   initialValues: FormInput;
-  onSubmit: (values: FormInput) => void;
+  loading?: boolean;
+  error: ApolloError;
+
+  onSubmit: (
+    values: FormInput,
+    formikHelpers: FormikHelpers<FormInput>,
+  ) => void;
 }
 
 const GenericForm: React.FC<GenericFormProps> = ({
   initialValues,
+  error,
   isReply,
   loading,
   onSubmit,
@@ -45,6 +56,8 @@ const GenericForm: React.FC<GenericFormProps> = ({
       onSubmit={onSubmit}
     >
       <Form className="w-full">
+        {error && <ErrorText text={error.message} />}
+
         <TextInput
           formik
           loading={loading}

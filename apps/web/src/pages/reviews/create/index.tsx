@@ -1,15 +1,15 @@
 import type { GetServerSideProps, NextPage } from 'next';
 
-import type { MovieResponse } from '../../../types/movie';
+import type { MovieResponse, MovieData } from '../../../graphql/Movie/types';
 
-import { GET_MOVIE } from '../../../graphql/movie';
+import { FIND_MOVIE } from '../../../graphql/Movie';
 
 import CreateReviewView from '../../../views/reviews/create';
 
 import client from '../../../api';
 
 export interface CreateReviewPageProps {
-  movie?: MovieResponse;
+  movie?: MovieData;
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
@@ -21,11 +21,12 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   const { movie: movieId } = query;
 
+  // TODO change that to number
   if (!movieId || typeof movieId !== 'string') return defaultProps;
 
   try {
-    const { data } = await client.query<{ movie: MovieResponse }>({
-      query: GET_MOVIE,
+    const { data } = await client.query<MovieResponse>({
+      query: FIND_MOVIE,
       variables: { movieId },
     });
 

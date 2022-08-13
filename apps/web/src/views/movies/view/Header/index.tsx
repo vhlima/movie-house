@@ -1,17 +1,19 @@
 import type { PropsWithChildren } from 'react';
 
-import type { MovieResponse } from '../../../../types/movie';
+import type { MovieData } from '../../../../graphql/Movie/types';
 
 import MovieCover from '../../components/Cover';
 
-import BackgroundImage from '../../../../components/BackgroundImage';
-
 import Button from '../../../../components/Button';
+
 import MovieRatingStar from '../../components/RatingStar';
+
 import PageContent from '../../../../components/PageContent';
 
+import BackgroundImage from '../../../../components/BackgroundImage';
+
 interface MovieHeaderProps {
-  movie: MovieResponse;
+  movie: MovieData;
 }
 
 const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
@@ -30,7 +32,7 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
     return `${hours}h ${minutes}m`;
   }
 
-  const movieDate = new Date(movie.release_date);
+  const movieDate = new Date(movie.releaseDate);
 
   return (
     <>
@@ -40,7 +42,7 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
         <div className="flex justify-between gap-2">
           <div className="flex flex-col z-10">
             <h1 className="text-grey-100 text-2xl font-semibold">
-              {movie.original_title}
+              {movie.originalTitle}
             </h1>
 
             <div className="text-grey-200 mb-2">

@@ -1,8 +1,8 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
-import type { MovieCreditsResponse, MovieResponse } from '../../types/movie';
+import type { MovieResponse } from '../../graphql/Movie/types';
 
-import { GET_MOVIE, GET_MOVIE_CREDITS } from '../../graphql/movie';
+import { FIND_MOVIE } from '../../graphql/Movie';
 
 import MovieView from '../../views/movies/view';
 
@@ -16,15 +16,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (!id) return defaultProps;
 
   try {
-    const { data: movieData } = await client.query<{ movie: MovieResponse }>({
-      query: GET_MOVIE,
-      variables: { movieId: id },
-    });
-
-    const { data: creditsData } = await client.query<{
-      getMovieCredits: MovieCreditsResponse;
-    }>({
-      query: GET_MOVIE_CREDITS,
+    const { data: movieData } = await client.query<MovieResponse>({
+      query: FIND_MOVIE,
       variables: { movieId: id },
     });
 
@@ -33,7 +26,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         movie: movieData.movie,
-        credits: creditsData.getMovieCredits,
       },
     };
   } catch (err) {
@@ -48,9 +40,8 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const Movie: NextPage<{
-  movie: MovieResponse;
-  credits: MovieCreditsResponse;
-}> = ({ movie, credits }) => <MovieView movie={movie} credits={credits} />;
+const Movie: NextPage<MovieResponse> = ({ movie }) => (
+  <MovieView movie={movie} />
+);
 
 export default Movie;

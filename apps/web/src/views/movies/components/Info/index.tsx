@@ -1,4 +1,4 @@
-import type { MovieResponse } from '../../../../types/movie';
+import type { MovieData } from '../../../../graphql/Movie/types';
 
 import Link from '../../../../components/Link';
 
@@ -7,7 +7,7 @@ import MovieCover from '../Cover';
 import MovieRatingStar from '../RatingStar';
 
 interface MovieInfoProps {
-  movie: MovieResponse;
+  movie: MovieData;
 }
 
 const MovieInfo: React.FC<MovieInfoProps> = ({ movie }) => (
@@ -20,11 +20,11 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movie }) => (
           className="text-grey-100 text-xl font-semibold hover:text-grey-300"
           href="/"
         >
-          {movie.original_title}
+          {movie.originalTitle}
         </Link>
 
         <span className="text-grey-200">
-          ({new Date(movie.release_date).getFullYear()})
+          ({new Date(movie.releaseDate).getFullYear()})
         </span>
       </div>
 

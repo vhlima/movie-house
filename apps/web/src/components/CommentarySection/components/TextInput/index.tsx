@@ -67,7 +67,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       rightIcon={formik && rightIcon}
     >
       <div className="p-3 mt-auto">
-        <ProfilePicture imageSize="sm" src={user.profilePicture} />
+        <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
       </div>
     </Input>
   );

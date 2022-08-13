@@ -1,8 +1,6 @@
-import React from 'react';
-
 import Image from 'next/image';
 
-import { MovieData } from '../../../../../../types';
+import type { MovieData } from '../../../../../../graphql/Movie/types';
 
 import Link from '../../../../../../components/Link';
 
@@ -22,7 +20,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
         className="transition-transform hover:scale-105"
         layout="fill"
         objectFit="cover"
-        src={movie.coverUrl}
+        src={movie.backdropUrl}
       />
     </div>
 
@@ -35,7 +33,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
             size={20}
           />
 
-          <span>{movie.rating}</span>
+          <span>5.2</span>
         </div>
 
         <button
@@ -54,7 +52,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, openRatingModal }) => (
         }}
         className="py-2 hover:underline"
       >
-        {movie.name}
+        {movie.originalTitle}
       </Link>
 
       {/* <div className="flex flex-col gap-2 mt-auto">

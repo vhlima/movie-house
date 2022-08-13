@@ -5,14 +5,15 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useLazyQuery } from '@apollo/client';
 
 import type {
-  MovieResponse,
+  MovieData,
+  MovieSearchInput,
   MovieSearchResponse,
-} from '../../../../types/movie';
+} from '../../../../graphql/Movie/types';
 
-import { SEARCH_MOVIE } from '../../../../graphql/movie';
+import { SEARCH_MOVIE } from '../../../../graphql/Movie';
 
 interface MovieSearchModalLogicHandles {
-  searchResults: MovieResponse[];
+  searchResults: MovieData[];
   resetSearchResults: () => void;
 
   setSearchTerm: Dispatch<SetStateAction<string>>;
@@ -21,9 +22,9 @@ interface MovieSearchModalLogicHandles {
 export const useLogic = (): MovieSearchModalLogicHandles => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const [searchResults, setSearchResults] = useState<MovieResponse[]>([]);
+  const [searchResults, setSearchResults] = useState<MovieData[]>([]);
 
-  const [searchMovie] = useLazyQuery<{ searchMovie: MovieSearchResponse }>(
+  const [searchMovie] = useLazyQuery<MovieSearchResponse, MovieSearchInput>(
     SEARCH_MOVIE,
   );
 

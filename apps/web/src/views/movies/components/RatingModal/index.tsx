@@ -6,11 +6,11 @@ import type { MotionProps } from 'framer-motion';
 
 import { useRouter } from 'next/router';
 
+import type { MovieData } from '../../../../graphql/Movie/types';
+
 import { useAuth } from '../../../../hooks/useAuth';
 
 import { useLogic } from './logic';
-
-import type { MovieResponse } from '../../../../types/movie';
 
 import type { ModalHandles } from '../../../../components/Modal';
 
@@ -23,7 +23,7 @@ import MovieRateModal from './RateModal';
 import Button from '../../../../components/Button';
 
 interface MovieRatingModalProps extends ModalHandles {
-  movie: MovieResponse;
+  movie: MovieData;
 }
 
 const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
@@ -38,14 +38,14 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
 
   // TODO prop drilling
 
-  const { handleClick, handleWatchlist } = useLogic({ movie });
+  // const { handleClick, handleWatchlist } = useLogic({ movie });
 
   const [isRating, setRating] = useState<boolean>(false);
 
-  const userRate = useMemo(
-    () => user.ratings.find(r => r.movie.id === movie.id),
-    [user, movie],
-  );
+  // const userRate = useMemo(
+  //   () => user.ratings.find(r => r.movie.id === movie.id),
+  //   [user, movie],
+  // );
 
   const redirectReview = () => {
     push({
@@ -90,7 +90,7 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
     <Modal bottom backdrop animation={modalAnimation} onClose={onClose}>
       <div className="flex flex-col gap-4 items-center">
         <div className="flex gap-8 text-grey-300">
-          <InfoButton
+          {/* <InfoButton
             text="Rate"
             iconType={userRate?.rating > 0 ? 'AiFillStar' : 'AiOutlineStar'}
             iconColor={userRate?.rating > 0 ? 'blue' : undefined}
@@ -120,7 +120,7 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
                 : undefined
             }
             onClick={handleWatchlist}
-          />
+          /> */}
         </div>
 
         <div className="flex flex-col gap-2 w-full">

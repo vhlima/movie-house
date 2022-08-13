@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react';
 
-import type { UserResponse } from '../../../../types/user';
+import type { UserData } from '../../../../graphql/User/types';
 
 export interface ProfileContextData {
-  user: UserResponse;
+  user: UserData;
 }
 
 export const ProfileContext = createContext<ProfileContextData>(

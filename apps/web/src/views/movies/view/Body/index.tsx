@@ -2,10 +2,7 @@ import { PropsWithChildren, useState } from 'react';
 
 import Image from 'next/image';
 
-import type {
-  MovieCreditsResponse,
-  MovieResponse,
-} from '../../../../types/movie';
+import type { MovieData } from '../../../../graphql/Movie/types';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
@@ -21,13 +18,11 @@ import Carousel from '../../../../components/Carousel';
 import TextShorter from '../../../../components/TextShorter';
 
 interface MovieBodyProps {
-  movie: MovieResponse;
-  credits: MovieCreditsResponse;
+  movie: MovieData;
 }
 
 const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
   movie,
-  credits,
   children,
 }) => {
   const { user } = useAuth();
@@ -72,7 +67,7 @@ const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
 
         <Card title="Main cast" link={{ href: '/' }} noPadding>
           <Carousel spaceBetween={12}>
-            {credits.cast.slice(0, 10).map(actor => (
+            {movie.credits.cast.slice(0, 10).map(actor => (
               <div
                 className="flex flex-col gap-1 w-24 flex-shrink-0"
                 key={`actor-${actor.id}`}
@@ -96,7 +91,7 @@ const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
                   </div>
 
                   <h1 className="text-grey-100 font-semibold text-center group-hover:underline">
-                    {actor.original_name}
+                    {actor.originalName}
                   </h1>
                 </Link>
 
