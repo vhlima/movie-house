@@ -1,48 +1,21 @@
 import { gql } from '@apollo/client';
 
-import { appendGql } from '../utils';
+import { appendGql } from '../../utils';
 
-import { MOVIE_FIELDS } from './movie';
+export const USER_FIELDS = gql`
+  fragment UserFields on User {
+    id
+    username
+    realName
+    biography
+    profilePictureUrl
+  }
+`;
 
-export const USER_FIELDS = appendGql(
-  MOVIE_FIELDS,
-  gql`
-    fragment UserFields on User {
-      _id
-      username
-      realName
-      biography
-      profilePicture
-      watchlist {
-        ...MovieFields
-      }
-      favoriteMovies {
-        id
-        original_title
-        posterUrl
-      }
-      ratings {
-        watched
-        rating
-        liked
-        movie {
-          ...MovieFields
-        }
-      }
-      followers {
-        _id
-      }
-      following {
-        _id
-      }
-    }
-  `,
-);
-
-export const USER = appendGql(
+export const FIND_USER = appendGql(
   USER_FIELDS,
   gql`
-    query ($userId: String!) {
+    query FindUser($userId: String!) {
       user(userId: $userId) {
         ...UserFields
       }
