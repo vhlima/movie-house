@@ -66,13 +66,19 @@ const Input: React.FC<PropsWithChildren<InputProps>> = ({
   formik,
   label,
   name,
+  autoGrow,
   reference,
   ...rest
 }) => {
   const rawInput = !formik ? (
     <RawInput ref={reference} name={name} {...rest} />
   ) : (
-    <FormikInput reference={reference} name={name} {...rest} />
+    <FormikInput
+      reference={reference}
+      name={name}
+      autoGrow={autoGrow}
+      {...rest}
+    />
   );
 
   return !label ? (
