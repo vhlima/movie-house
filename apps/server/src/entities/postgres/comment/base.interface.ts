@@ -33,5 +33,7 @@ export default abstract class BaseCommentary extends Timestamps {
   body: string;
 
   @Field(() => Int)
-  likeCount: number;
+  async likeCount() {
+    return 0;
+  }
 }

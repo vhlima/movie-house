@@ -28,7 +28,7 @@ export class CreateCommentaries1660164283319 implements MigrationInterface {
           },
           {
             name: 'user_id',
-            type: 'varchar',
+            type: 'uuid',
           },
           {
             name: 'body',

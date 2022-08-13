@@ -8,5 +8,7 @@ import BaseCommentary from './base.interface';
 @Entity('commentaries')
 export default class Commentary extends BaseCommentary {
   @Field(() => Int)
-  replyCount: number;
+  async replyCount() {
+    return 0;
+  }
 }

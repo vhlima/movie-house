@@ -1,20 +1,10 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Arg,
-  ResolverInterface,
-  FieldResolver,
-  Root,
-  Int,
-  ID,
-  Args,
-  Ctx,
-} from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, ID, Args, Ctx } from 'type-graphql';
+
+import { ObjectId } from 'mongodb';
 
 import { FindOptionsWhere, MoreThan } from 'typeorm';
 
-import { CommentaryRepository, LikeRepository } from '../repositories';
+import { CommentaryRepository, ReviewRepository } from '../repositories';
 
 import type { ServerContext } from '../types';
 
@@ -28,36 +18,15 @@ import AuthenticationError from '../errors/Authentication';
 import NotFoundError from '../errors/NotFound';
 
 @Resolver(() => Commentary)
-export default class CommentaryResolver
-  implements ResolverInterface<Commentary>
-{
-  @FieldResolver(() => Int)
-  async likeCount(@Root() commentary: Commentary) {
-    const count = await LikeRepository.count({
-      rootId: commentary.postId,
-      referenceId: commentary.id,
-    });
-
-    return count;
-  }
-
-  @FieldResolver(() => Int)
-  async replyCount(@Root() commentary: Commentary) {
-    // const count = await ReplyModel.count({
-    //   commentaryId: commentary.id,
-    // });
-
-    // return count;
-
-    return 0;
-  }
-
+export default class CommentaryResolver {
   async findCommentaries(
     postId: string,
     first: number,
     cursor?: Date | string,
   ): Promise<Commentary[]> {
-    const whereParams = { postId } as FindOptionsWhere<Commentary>;
+    const whereParams = {
+      postId,
+    } as FindOptionsWhere<Commentary>;
 
     if (cursor) {
       Object.assign(whereParams, {
@@ -71,6 +40,10 @@ export default class CommentaryResolver
       where: whereParams,
       take: first,
       skip: !cursor ? 0 : 1,
+      relations: ['user'],
+      order: {
+        createdAt: 'ASC',
+      },
     });
 
     return commentaries;
@@ -78,10 +51,28 @@ export default class CommentaryResolver
 
   @Query(() => Commentaries)
   async commentaries(
-    @Arg('postId', () => ID) postId: string,
+    @Arg('postId', () => ID) postIdString: string,
     @Args(() => PaginationArgs) { first, after }: PaginationArgs,
   ) {
-    const commentaries = await this.findCommentaries(postId, first, after);
+    if (!ObjectId.isValid(postIdString)) {
+      throw new NotFoundError('Post not found');
+    }
+
+    const postId = new ObjectId(postIdString);
+
+    const postExists = await ReviewRepository.findOneBy({
+      _id: new ObjectId(postId),
+    });
+
+    if (!postExists) {
+      throw new NotFoundError('Post not found');
+    }
+
+    const commentaries = await this.findCommentaries(
+      postIdString,
+      first,
+      after,
+    );
 
     if (commentaries.length <= 0) {
       return { edges: [], pageInfo: { hasNextPage: false } };
@@ -90,8 +81,8 @@ export default class CommentaryResolver
     const endCursor = commentaries[commentaries.length - 1].createdAt;
 
     const nextCommentaries = await this.findCommentaries(
-      postId,
-      first,
+      postIdString,
+      1,
       endCursor,
     );
 
@@ -102,7 +93,7 @@ export default class CommentaryResolver
       })),
       pageInfo: {
         endCursor: endCursor.toISOString(),
-        hasNextPage: nextCommentaries.length >= first,
+        hasNextPage: nextCommentaries.length > 0,
       },
     };
   }
@@ -126,6 +117,10 @@ export default class CommentaryResolver
     });
 
     await CommentaryRepository.save(commentary);
+
+    // TODO find way to fix that
+
+    commentary.user = user;
 
     return commentary;
   }
