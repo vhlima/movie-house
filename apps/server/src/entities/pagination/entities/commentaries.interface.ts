@@ -5,4 +5,7 @@ import Pagination from '..';
 import Commentary from '../../postgres/comment/commentary.interface';
 
 @ObjectType()
-export default class Commentaries extends Pagination<Commentary>(Commentary) {}
+export default class Commentaries extends Pagination<Commentary>(
+  Commentary,
+  'Commentaries',
+) {}
