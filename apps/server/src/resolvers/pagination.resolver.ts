@@ -22,6 +22,7 @@ interface PaginationProps<Entity extends EntityPaginationProp> {
 
 interface PaginationResult<Entity extends EntityPaginationProp> {
   pageInfo: {
+    maxItems: number;
     endCursor?: string;
     hasNextPage: boolean;
   };
@@ -44,7 +45,7 @@ const findPageContent = async <Entity extends EntityPaginationProp>({
   cursor,
   findOptions,
 }: PaginationProps<Entity>): Promise<Entity[]> => {
-  const whereParams = findOptions?.where || {};
+  const whereParams = { ...findOptions?.where };
 
   if (cursor) {
     Object.assign(whereParams, {
@@ -85,7 +86,7 @@ export const findWithPagination = async <Entity extends EntityPaginationProp>({
   });
 
   if (paginationResult.length <= 0) {
-    return { edges: [], pageInfo: { hasNextPage: false } };
+    return { edges: [], pageInfo: { maxItems: 0, hasNextPage: false } };
   }
 
   const endCursor = paginationResult[paginationResult.length - 1].createdAt;
@@ -97,6 +98,8 @@ export const findWithPagination = async <Entity extends EntityPaginationProp>({
     findOptions,
   });
 
+  const maxItems = await repository.countBy({ ...findOptions?.where });
+
   const hasNextPage = nextPaginationResult.length > 0;
 
   return {
@@ -105,6 +108,7 @@ export const findWithPagination = async <Entity extends EntityPaginationProp>({
       node: entity,
     })),
     pageInfo: {
+      maxItems,
       endCursor: hasNextPage ? endCursor.toISOString() : undefined,
       hasNextPage,
     },

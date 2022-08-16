@@ -1,12 +1,15 @@
 /* eslint-disable max-classes-per-file */
 
-import { ClassType, Field, ObjectType } from 'type-graphql';
+import { ClassType, Field, Int, ObjectType } from 'type-graphql';
 
 export default function Pagination<T>(ItemClass: ClassType<T>, prefix: string) {
   @ObjectType(`${prefix}PaginationInfo`)
   class PaginationInfo {
     @Field({ nullable: true })
     endCursor?: string;
+
+    @Field(() => Int)
+    maxItems: number;
 
     @Field()
     hasNextPage: boolean;
