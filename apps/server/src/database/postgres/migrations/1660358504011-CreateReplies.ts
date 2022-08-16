@@ -12,14 +12,33 @@ import {
 
 import { timestamps } from '../fields/timestamps';
 
-const TABLE_NAME = 'commentaries';
+const TABLE_NAME = 'replies';
 
-export class CreateCommentaries1660164283319 implements MigrationInterface {
+export class CreateReplies1660358504011 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: TABLE_NAME,
-        columns: [...commentaryBaseFields, ...timestamps],
+        columns: [
+          ...commentaryBaseFields,
+          {
+            name: 'commentary_id',
+            type: 'uuid',
+          },
+          ...timestamps,
+        ],
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      TABLE_NAME,
+      new TableForeignKey({
+        name: 'CommentaryId',
+        columnNames: ['commentary_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'commentaries',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
@@ -31,6 +50,8 @@ export class CreateCommentaries1660164283319 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey(TABLE_NAME, 'CommentaryId');
+
     const foreignKeysPromise = commentaryBaseForeingKeys.map(async foreignKey =>
       queryRunner.dropForeignKey(TABLE_NAME, foreignKey.name || ''),
     );
