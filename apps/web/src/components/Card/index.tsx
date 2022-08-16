@@ -77,7 +77,7 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
         </Link>
       )}
 
-      <div className={clsx('flex flex-col mt-2', { 'gap-2': gap })}>
+      <div className={clsx('flex flex-col flex-grow mt-2', { 'gap-2': gap })}>
         {children}
       </div>
     </div>
