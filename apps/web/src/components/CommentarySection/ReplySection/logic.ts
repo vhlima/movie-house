@@ -60,14 +60,14 @@ export const useLogic = ({
   };
 
   useEffect(() => {
-    if (!called && isViewingReplies) {
+    if (!called) {
       const firstFetch = async () => {
         await fetch();
       };
 
       firstFetch();
     }
-  }, [isViewingReplies, called]);
+  }, [called]);
 
   return {
     networkStatus,

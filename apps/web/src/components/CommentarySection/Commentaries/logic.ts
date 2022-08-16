@@ -51,6 +51,8 @@ export const useLogic = ({
     DeleteCommentaryInput
   >(DELETE_COMMENTARY, {
     update: (cache, _, context) => {
+      // TODO delete replies from cache on commentary delete
+
       cache.updateQuery<FindCommentariesResponse>(
         {
           query: FIND_COMMENTARIES,

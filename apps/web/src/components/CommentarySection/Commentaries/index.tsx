@@ -2,11 +2,9 @@ import { NetworkStatus } from '@apollo/client';
 
 import type { CommentariesLogicProps } from './logic';
 
-import type { CommentaryHandles } from './components/Commentary';
+import type { CommentHandles } from '../components/Comment';
 
 import { useLogic } from './logic';
-
-import Commentary from './components/Commentary';
 
 import Observer from '../../Observer';
 
@@ -15,10 +13,10 @@ import ErrorText from '../../ErrorText';
 import LoadingSpinner from '../../LoadingSpinner';
 
 import ReplySection from '../ReplySection';
+
 import Comment from '../components/Comment';
 
-type CommentariesProps = CommentariesLogicProps &
-  Omit<CommentaryHandles, 'onClickDelete'>;
+type CommentariesProps = CommentariesLogicProps & Required<CommentHandles>;
 
 const Commentaries: React.FC<CommentariesProps> = ({
   postId,
@@ -59,9 +57,7 @@ const Commentaries: React.FC<CommentariesProps> = ({
             onClickReply={onClickReply}
             onClickDelete={handleDelete}
           >
-            {commentary.replyCount > 0 && (
-              <ReplySection commentary={commentary} />
-            )}
+            <ReplySection commentary={commentary} />
           </Comment>
         ))}
       </div>

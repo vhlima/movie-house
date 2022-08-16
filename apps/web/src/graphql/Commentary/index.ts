@@ -26,6 +26,7 @@ export const FIND_COMMENTARIES = appendGql(
       commentaries(first: $first, postId: $postId, after: $after)
         @connection(key: "commentaries") {
         pageInfo {
+          maxItems
           hasNextPage
           endCursor
         }

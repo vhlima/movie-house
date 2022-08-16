@@ -5,6 +5,7 @@ export interface PaginationInput {
 
 export default interface Pagination<T> {
   pageInfo: {
+    maxItems: number;
     endCursor?: string;
     hasNextPage: boolean;
   };

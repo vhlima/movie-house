@@ -24,6 +24,7 @@ export const FIND_REPLIES = appendGql(
       replies(first: $first, commentaryId: $commentaryId, after: $after)
         @connection(key: "replies", filter: ["commentaryId"]) {
         pageInfo {
+          maxItems
           endCursor
           hasNextPage
         }

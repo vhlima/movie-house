@@ -9,14 +9,7 @@ import type {
   FindRepliesResponse,
 } from '../../../../../../graphql/Reply/types';
 
-import type {
-  FindCommentariesInput,
-  FindCommentariesResponse,
-} from '../../../../../../graphql/Commentary/types';
-
 import { ADD_REPLY, FIND_REPLIES } from '../../../../../../graphql/Reply';
-
-import { FIND_COMMENTARIES } from '../../../../../../graphql/Commentary';
 
 import GenericForm from '../index';
 
@@ -41,8 +34,12 @@ const ReplyForm: React.FC<ReplyFormProps> = ({ commentaryId, onSubmit }) => {
         cacheData => ({
           replies: {
             pageInfo: cacheData
-              ? cacheData.replies.pageInfo
+              ? {
+                  ...cacheData.replies.pageInfo,
+                  maxItems: cacheData.replies.pageInfo.maxItems + 1,
+                }
               : {
+                  maxItems: 1,
                   endCursor: null,
                   hasNextPage: false,
                 },
@@ -56,37 +53,6 @@ const ReplyForm: React.FC<ReplyFormProps> = ({ commentaryId, onSubmit }) => {
           },
         }),
       );
-
-      // TODO find a better way to handle that
-      //   cache.updateQuery<FindCommentariesResponse, FindCommentariesInput>(
-      //     {
-      //       query: FIND_COMMENTARIES,
-      //     },
-      //     cacheData => {
-      //       if (!cacheData) return null;
-
-      //       const commentaryIndex = cacheData.commentaries.edges.findIndex(
-      //         edg => edg.node.id === commentaryId,
-      //       );
-
-      //       if (commentaryIndex < 0) return null;
-
-      //       const commentary = cacheData.commentaries.edges[commentaryIndex];
-
-      //       commentary.node.replyCount += 1;
-
-      //       const modifiedEdges = [...cacheData.commentaries.edges];
-
-      //       modifiedEdges[commentaryIndex] = commentary;
-
-      //       return {
-      //         commentaries: {
-      //           pageInfo: cacheData.commentaries.pageInfo,
-      //           edges: modifiedEdges,
-      //         },
-      //       };
-      //     },
-      //   );
     },
   });
 
@@ -97,6 +63,8 @@ const ReplyForm: React.FC<ReplyFormProps> = ({ commentaryId, onSubmit }) => {
       error={undefined}
       initialValues={{ body: '' }}
       onSubmit={async values => {
+        if (loading) return;
+
         const { errors } = await addReply({
           variables: {
             commentaryId,

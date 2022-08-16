@@ -15,7 +15,7 @@ interface RepliesProps {
 }
 
 const ReplySection: React.FC<RepliesProps> = ({
-  commentary: { id: commentaryId, replyCount },
+  commentary: { id: commentaryId },
 }) => {
   const {
     networkStatus,
@@ -26,6 +26,12 @@ const ReplySection: React.FC<RepliesProps> = ({
   } = useLogic({
     commentaryId,
   });
+
+  if (!repliesResponse || repliesResponse.replies.edges.length <= 0) {
+    return null;
+  }
+
+  const replyCount = repliesResponse.replies.pageInfo.maxItems;
 
   return (
     <>
