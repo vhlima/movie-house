@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from 'react';
 
-import Skeleton from '../../../../../Skeleton';
+import Skeleton from '../../../../Skeleton';
 
-import PageContent from '../../../../../PageContent';
+import PageContent from '../../../../PageContent';
 
 const CommentaryBodySkeleton: React.FC<PropsWithChildren> = ({ children }) => (
   <PageContent className="flex flex-col gap-2 animate-pulse">

@@ -8,11 +8,14 @@ import { useLogic } from './logic';
 
 import Commentary from './components/Commentary';
 
-import SvgIcon from '../../SvgIcon';
-
 import Observer from '../../Observer';
 
 import ErrorText from '../../ErrorText';
+
+import LoadingSpinner from '../../LoadingSpinner';
+
+import ReplySection from '../ReplySection';
+import Comment from '../components/Comment';
 
 type CommentariesProps = CommentariesLogicProps &
   Omit<CommentaryHandles, 'onClickDelete'>;
@@ -22,7 +25,6 @@ const Commentaries: React.FC<CommentariesProps> = ({
   onClickReply,
 }) => {
   const {
-    // loadingRef,
     commentaries,
     networkStatus,
 
@@ -32,8 +34,10 @@ const Commentaries: React.FC<CommentariesProps> = ({
     postId,
   });
 
+  const spinnerContainerStyle = 'flex justify-center mt-4';
+
   if (networkStatus === NetworkStatus.loading) {
-    return <h1>Loading commentaries...</h1>;
+    return <LoadingSpinner className={spinnerContainerStyle} />;
   }
 
   if (networkStatus === NetworkStatus.error) {
@@ -47,26 +51,24 @@ const Commentaries: React.FC<CommentariesProps> = ({
   return (
     <>
       <div>
-        {commentaries.commentaries.edges.map(commentary => (
-          <Commentary
-            key={commentary.node.id}
-            commentary={commentary.node}
+        {commentaries.commentaries.edges.map(({ node: commentary }) => (
+          <Comment
+            key={commentary.id}
+            comment={commentary}
+            onClickReport={() => ({})}
             onClickReply={onClickReply}
             onClickDelete={handleDelete}
-          />
+          >
+            {commentary.replyCount > 0 && (
+              <ReplySection commentary={commentary} />
+            )}
+          </Comment>
         ))}
       </div>
 
       {commentaries.commentaries.pageInfo.hasNextPage && (
-        <Observer
-          className="flex justify-center mt-2"
-          onIntersect={handleScroll}
-        >
-          <SvgIcon
-            className="text-grey-300 animate-spin"
-            iconType="CgSpinner"
-            size={36}
-          />
+        <Observer className={spinnerContainerStyle} onIntersect={handleScroll}>
+          <LoadingSpinner />
         </Observer>
       )}
     </>

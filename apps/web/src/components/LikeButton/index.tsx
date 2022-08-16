@@ -4,26 +4,27 @@ import { useMutation } from '@apollo/client';
 
 import { motion } from 'framer-motion';
 
-// import type { MotionProps } from 'framer-motion';
+import type { LikeResponse, LikeInput } from '../../graphql/Like/types';
 
-import { LikeType } from '../../types/likes';
-
-import type { LikeInput, LikeResponse } from '../../types/likes';
-
-import { LIKE_OR_DISLIKE } from '../../graphql/like';
-
-import SvgIcon from '../SvgIcon';
 import { useAuth } from '../../hooks/useAuth';
 
+import { LIKE_CONTENT } from '../../graphql/Like';
+
+// import type { MotionProps } from 'framer-motion';
+
+import SvgIcon from '../SvgIcon';
+
 export interface LikeButtonProps {
-  // Reference id means wich content the user is going to like ex: any post id or commentary
-  referenceId: string;
+  // Root id means wich content the user is going to like ex: any post id or commentary
+  rootId: string;
+  referenceId?: string;
   liked?: boolean;
   likes: number;
   onLike: (likeOrDislike: boolean) => void;
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({
+  rootId,
   referenceId,
   likes,
   liked,
@@ -48,20 +49,19 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   const [likeOrDislikeMutation, { loading }] = useMutation<
     LikeResponse,
     LikeInput
-  >(LIKE_OR_DISLIKE);
+  >(LIKE_CONTENT);
 
   const handleLike = async () => {
     if (!user) return;
 
     const { data } = await likeOrDislikeMutation({
       variables: {
-        likeType: LikeType.POST,
-        userId: user._id,
+        rootId,
         referenceId,
       },
     });
 
-    onLike(data.likeOrDislike);
+    onLike(data);
   };
 
   return (

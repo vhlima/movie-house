@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import type { PropsWithChildren } from 'react';
+
 import type { CommentaryData } from '../../../../../graphql/Commentary/types';
 
 import { useAuth } from '../../../../../hooks/useAuth';
@@ -10,9 +12,7 @@ import SvgIcon from '../../../../SvgIcon';
 
 import LikeButton from '../../../../LikeButton';
 
-import CommentaryBody from '../Body';
-
-import Replies from '../../Replies';
+import Comment from '../../../components/Comment';
 
 export interface CommentaryHandles {
   onClickDelete: (commentaryId: string) => void;
@@ -23,16 +23,9 @@ interface CommentaryProps extends CommentaryHandles {
   commentary: CommentaryData;
 }
 
-const Commentary: React.FC<CommentaryProps> = ({
-  commentary: {
-    id: commentaryId,
-    user: author,
-    postId,
-    body,
-    replyCount,
-    likeCount,
-    createdAt,
-  },
+const Commentary: React.FC<PropsWithChildren<CommentaryProps>> = ({
+  commentary,
+  children,
   onClickDelete,
   onClickReply,
 }) => {
@@ -40,15 +33,13 @@ const Commentary: React.FC<CommentaryProps> = ({
 
   const [liked, setLiked] = useState<boolean>(false);
 
-  const [isViewingReplies, setViewingReplies] = useState<boolean>(false);
-
   return (
-    <CommentaryBody user={author} body={body} createdAt={createdAt}>
+    <Comment comment={commentary}>
       <div className="flex gap-2">
         <LikeButton
-          rootId={postId}
-          referenceId={commentaryId}
-          likes={likeCount + (liked ? 1 : 0)}
+          rootId={commentary.postId}
+          referenceId={commentary.id}
+          likes={commentary.likeCount + (liked ? 1 : 0)}
           liked={liked}
           onLike={() => setLiked(prev => !prev)}
         />
@@ -58,13 +49,13 @@ const Commentary: React.FC<CommentaryProps> = ({
           buttonStyle="tertiary"
           buttonSize="xs"
           full={false}
-          onClick={() => onClickReply(commentaryId)}
+          onClick={() => onClickReply(commentary.id)}
         >
           Reply
         </Button>
 
         {user &&
-          (user.id !== author.id ? (
+          (user.id !== commentary.user.id ? (
             <Button
               className="ml-auto"
               buttonStyle="secondary"
@@ -79,38 +70,15 @@ const Commentary: React.FC<CommentaryProps> = ({
               buttonStyle="danger"
               buttonSize="xs"
               full={false}
-              onClick={() => onClickDelete(commentaryId)}
+              onClick={() => onClickDelete(commentary.id)}
             >
               <SvgIcon iconType="FiX" />
             </Button>
           ))}
       </div>
 
-      {replyCount > 0 && (
-        <Button
-          buttonStyle="tertiary"
-          buttonSize="none"
-          full={false}
-          onClick={() => setViewingReplies(prev => !prev)}
-        >
-          <SvgIcon
-            className="mr-2"
-            size={18}
-            iconType={!isViewingReplies ? 'FaChevronDown' : 'FaChevronUp'}
-          />
-
-          <span className="text-grey-200">
-            {!isViewingReplies
-              ? `View ${replyCount} more ${
-                  replyCount > 0 ? 'replies' : 'reply'
-                }`
-              : `Hide ${replyCount} ${replyCount > 0 ? 'replies' : 'reply'}`}
-          </span>
-        </Button>
-      )}
-
-      <Replies commentaryId={commentaryId} load={isViewingReplies} />
-    </CommentaryBody>
+      {children}
+    </Comment>
   );
 };
 

@@ -2,14 +2,21 @@ import { useMutation } from '@apollo/client';
 
 import type { GenericFormHandles } from '../index';
 
-// import type {
-//   ReplyResponse,
-//   ReplyCacheData,
-// } from '../../../../../../types/reply';
+import type {
+  AddReplyInput,
+  AddReplyResponse,
+  FindRepliesCacheInput,
+  FindRepliesResponse,
+} from '../../../../../../graphql/Reply/types';
 
-// import { REPLIES, REPLY } from '../../../../../../graphql/reply';
+import type {
+  FindCommentariesInput,
+  FindCommentariesResponse,
+} from '../../../../../../graphql/Commentary/types';
 
-import { useAuth } from '../../../../../../hooks/useAuth';
+import { ADD_REPLY, FIND_REPLIES } from '../../../../../../graphql/Reply';
+
+import { FIND_COMMENTARIES } from '../../../../../../graphql/Commentary';
 
 import GenericForm from '../index';
 
@@ -18,32 +25,70 @@ interface ReplyFormProps extends GenericFormHandles {
 }
 
 const ReplyForm: React.FC<ReplyFormProps> = ({ commentaryId, onSubmit }) => {
-  const { user } = useAuth();
+  const [addReply, { loading }] = useMutation<
+    AddReplyResponse,
+    AddReplyInput,
+    FindRepliesResponse
+  >(ADD_REPLY, {
+    update: (cache, { data }) => {
+      if (!data) return;
 
-  // TODO theres a bug when you submit a reply and the commentary dont have any reply yet. it only appears if you refresh the page
+      cache.updateQuery<FindRepliesResponse, FindRepliesCacheInput>(
+        {
+          query: FIND_REPLIES,
+          variables: { commentaryId },
+        },
+        cacheData => ({
+          replies: {
+            pageInfo: cacheData
+              ? cacheData.replies.pageInfo
+              : {
+                  endCursor: null,
+                  hasNextPage: false,
+                },
+            edges: [
+              ...(cacheData ? cacheData.replies.edges : []),
+              {
+                cursor: data.reply.createdAt,
+                node: data.reply,
+              },
+            ],
+          },
+        }),
+      );
 
-  // const [addReply, { loading }] = useMutation<{ reply: ReplyResponse }>(REPLY, {
-  //   update: (cache, { data }) => {
-  //     const repliesData = cache.readQuery<ReplyCacheData>({
-  //       query: REPLIES,
-  //       variables: { commentaryId },
-  //     });
+      // TODO find a better way to handle that
+      //   cache.updateQuery<FindCommentariesResponse, FindCommentariesInput>(
+      //     {
+      //       query: FIND_COMMENTARIES,
+      //     },
+      //     cacheData => {
+      //       if (!cacheData) return null;
 
-  //     cache.writeQuery<ReplyCacheData>({
-  //       query: REPLIES,
-  //       variables: { commentaryId },
-  //       data: {
-  //         replies: [...(repliesData?.replies || []), data.reply],
-  //       },
-  //     });
-  //   },
-  // });
+      //       const commentaryIndex = cacheData.commentaries.edges.findIndex(
+      //         edg => edg.node.id === commentaryId,
+      //       );
 
-  const loading = false;
+      //       if (commentaryIndex < 0) return null;
 
-  const addReply = async ({ variables: any }) => {
-    const a = 1;
-  };
+      //       const commentary = cacheData.commentaries.edges[commentaryIndex];
+
+      //       commentary.node.replyCount += 1;
+
+      //       const modifiedEdges = [...cacheData.commentaries.edges];
+
+      //       modifiedEdges[commentaryIndex] = commentary;
+
+      //       return {
+      //         commentaries: {
+      //           pageInfo: cacheData.commentaries.pageInfo,
+      //           edges: modifiedEdges,
+      //         },
+      //       };
+      //     },
+      //   );
+    },
+  });
 
   return (
     <GenericForm
@@ -52,11 +97,16 @@ const ReplyForm: React.FC<ReplyFormProps> = ({ commentaryId, onSubmit }) => {
       error={undefined}
       initialValues={{ body: '' }}
       onSubmit={async values => {
-        await addReply({
-          variables: { userId: user.id, commentaryId, body: values.body },
+        const { errors } = await addReply({
+          variables: {
+            commentaryId,
+            body: values.body,
+          },
         });
 
-        onSubmit();
+        if (!errors) {
+          onSubmit();
+        }
       }}
     />
   );

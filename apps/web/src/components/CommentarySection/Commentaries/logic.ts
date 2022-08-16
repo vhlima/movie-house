@@ -28,17 +28,20 @@ interface CommentariesLogicHandles {
   handleScroll: () => Promise<void>;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 export const useLogic = ({
   postId,
 }: CommentariesLogicProps): CommentariesLogicHandles => {
   const {
     data: commentariesResponse,
     networkStatus,
+    error,
     fetchMore,
   } = useQuery<FindCommentariesResponse, FindCommentariesInput>(
     FIND_COMMENTARIES,
     {
-      variables: { postId, first: 10 },
+      variables: { postId, first: ITEMS_PER_PAGE },
       notifyOnNetworkStatusChange: true,
     },
   );
@@ -83,19 +86,18 @@ export const useLogic = ({
     await fetchMore<FindCommentariesResponse, FindCommentariesInput>({
       variables: {
         postId,
-        first: 10,
+        first: ITEMS_PER_PAGE,
         after: commentariesResponse.commentaries.pageInfo.endCursor,
       },
       updateQuery: (
         { commentaries: previousQueryResult },
         { fetchMoreResult: { commentaries: fetchMoreResult } },
-      ) =>
-        ({
-          commentaries: {
-            pageInfo: fetchMoreResult.pageInfo,
-            edges: [...previousQueryResult.edges, ...fetchMoreResult.edges],
-          },
-        } as FindCommentariesResponse),
+      ) => ({
+        commentaries: {
+          pageInfo: fetchMoreResult.pageInfo,
+          edges: [...previousQueryResult.edges, ...fetchMoreResult.edges],
+        },
+      }),
     });
   }, [networkStatus, fetchMore]);
 

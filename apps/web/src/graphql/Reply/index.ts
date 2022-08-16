@@ -4,37 +4,53 @@ import { appendGql } from '../../utils';
 
 const REPLY_FIELDS = gql`
   fragment ReplyFields on Reply {
-    _id
+    id
     body
     likeCount
     createdAt
     updatedAt
     user {
-      _id
+      id
       username
-      profilePicture
+      profilePictureUrl
     }
   }
 `;
 
-// export const FIND_REPLIES = appendGql(
-//   REPLY_FIELDS,
-//   gql`
-//     query ($commentaryId: ID!) {
-//       replies(commentaryId: $commentaryId) {
-//         ...ReplyFields
-//       }
-//     }
-//   `,
-// );
+export const FIND_REPLIES = appendGql(
+  REPLY_FIELDS,
+  gql`
+    query FindReplies($first: Int!, $commentaryId: String!, $after: String) {
+      replies(first: $first, commentaryId: $commentaryId, after: $after)
+        @connection(key: "replies", filter: ["commentaryId"]) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
 
-// export const REPLY = appendGql(
-//   REPLY_FIELDS,
-//   gql`
-//     mutation ($body: String!, $commentaryId: ID!, $userId: ID!) {
-//       reply(body: $body, commentaryId: $commentaryId, userId: $userId) {
-//         ...ReplyFields
-//       }
-//     }
-//   `,
-// );
+        edges {
+          node {
+            ...ReplyFields
+          }
+        }
+      }
+    }
+  `,
+);
+
+export const ADD_REPLY = appendGql(
+  REPLY_FIELDS,
+  gql`
+    mutation AddReply($body: String!, $commentaryId: String!) {
+      reply(body: $body, commentaryId: $commentaryId) {
+        ...ReplyFields
+      }
+    }
+  `,
+);
+
+export const DELETE_REPLY = gql`
+  mutation DeleteReply($replyId: String!) {
+    deleteReply(replyId: $replyId)
+  }
+`;
