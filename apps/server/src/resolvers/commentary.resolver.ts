@@ -16,49 +16,18 @@ import Commentaries from '../entities/pagination/entities/commentaries.interface
 
 import AuthenticationError from '../errors/Authentication';
 import NotFoundError from '../errors/NotFound';
+import { findWithPagination } from './pagination.resolver';
 
 @Resolver(() => Commentary)
 export default class CommentaryResolver {
-  async findCommentaries(
-    postId: string,
-    first: number,
-    cursor?: Date | string,
-  ): Promise<Commentary[]> {
-    const whereParams = {
-      postId,
-    } as FindOptionsWhere<Commentary>;
-
-    if (cursor) {
-      Object.assign(whereParams, {
-        createdAt: MoreThan(
-          typeof cursor === 'string' ? new Date(cursor) : cursor,
-        ),
-      } as FindOptionsWhere<Commentary>);
-    }
-
-    const commentaries = await CommentaryRepository.find({
-      where: whereParams,
-      take: first,
-      skip: !cursor ? 0 : 1,
-      relations: ['user'],
-      order: {
-        createdAt: 'ASC',
-      },
-    });
-
-    return commentaries;
-  }
-
   @Query(() => Commentaries)
   async commentaries(
-    @Arg('postId', () => ID) postIdString: string,
+    @Arg('postId') postId: string,
     @Args(() => PaginationArgs) { first, after }: PaginationArgs,
   ) {
-    if (!ObjectId.isValid(postIdString)) {
+    if (!ObjectId.isValid(postId)) {
       throw new NotFoundError('Post not found');
     }
-
-    const postId = new ObjectId(postIdString);
 
     const postExists = await ReviewRepository.findOneBy({
       _id: new ObjectId(postId),
@@ -68,40 +37,20 @@ export default class CommentaryResolver {
       throw new NotFoundError('Post not found');
     }
 
-    const commentaries = await this.findCommentaries(
-      postIdString,
+    const commentaries = await findWithPagination<Commentary>({
       first,
-      after,
-    );
+      cursor: after,
+      repository: CommentaryRepository,
+      findOptions: { where: { postId }, relations: ['user'] },
+    });
 
-    if (commentaries.length <= 0) {
-      return { edges: [], pageInfo: { hasNextPage: false } };
-    }
-
-    const endCursor = commentaries[commentaries.length - 1].createdAt;
-
-    const nextCommentaries = await this.findCommentaries(
-      postIdString,
-      1,
-      endCursor,
-    );
-
-    return {
-      edges: commentaries.map(commentary => ({
-        cursor: commentary.createdAt.toISOString(),
-        node: commentary,
-      })),
-      pageInfo: {
-        endCursor: endCursor.toISOString(),
-        hasNextPage: nextCommentaries.length > 0,
-      },
-    };
+    return commentaries;
   }
 
   @Mutation(() => Commentary)
   async comment(
     @Ctx() { user }: ServerContext,
-    @Arg('postId', () => ID) postId: string,
+    @Arg('postId') postId: string,
     @Arg('body') body: string,
   ) {
     if (!user) {
