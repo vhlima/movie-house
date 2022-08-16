@@ -2,8 +2,8 @@
 
 import { ClassType, Field, ObjectType } from 'type-graphql';
 
-export default function Pagination<T>(ItemClass: ClassType<T>) {
-  @ObjectType()
+export default function Pagination<T>(ItemClass: ClassType<T>, prefix: string) {
+  @ObjectType(`${prefix}PaginationInfo`)
   class PaginationInfo {
     @Field({ nullable: true })
     endCursor?: string;
@@ -12,7 +12,7 @@ export default function Pagination<T>(ItemClass: ClassType<T>) {
     hasNextPage: boolean;
   }
 
-  @ObjectType()
+  @ObjectType(`${prefix}PaginationEdge`)
   abstract class PaginationEdge {
     @Field()
     cursor: string;
@@ -21,7 +21,7 @@ export default function Pagination<T>(ItemClass: ClassType<T>) {
     node: T;
   }
 
-  @ObjectType({ isAbstract: true })
+  @ObjectType(`${prefix}Pagination`, { isAbstract: true })
   abstract class PaginationClass {
     @Field(() => [PaginationEdge])
     edges: PaginationEdge;
