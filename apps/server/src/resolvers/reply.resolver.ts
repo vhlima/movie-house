@@ -1,56 +1,97 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Arg,
-  ResolverInterface,
-  FieldResolver,
-  Root,
-  Int,
-  ID,
-} from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, ID, Ctx, Args } from 'type-graphql';
+
+import type { ServerContext } from '../types';
+
+import { CommentaryRepository, ReplyRepository } from '../repositories';
+
+import { findWithPagination } from './pagination.resolver';
+
+import PaginationArgs from '../entities/types/args/pagination.args';
 
 import Reply from '../entities/postgres/comment/reply.interface';
+import Replies from '../entities/pagination/entities/replies.interface';
+
+import NotFoundError from '../errors/NotFound';
+import AuthenticationError from '../errors/Authentication';
 
 @Resolver(() => Reply)
-export default class ReplyResolver implements ResolverInterface<Reply> {
-  // TODO really dont know how to find root object without specifiyng _doc
+export default class ReplyResolver {
+  @Query(() => Replies)
+  async replies(
+    @Arg('commentaryId') commentaryId: string,
+    @Args(() => PaginationArgs) { first, after }: PaginationArgs,
+  ) {
+    const commentaryExists = await CommentaryRepository.findOneBy({
+      id: commentaryId,
+    });
 
-  @FieldResolver(() => Int)
-  async likeCount(@Root('_doc') { id, postId }: Reply) {
-    // const count = await LikeModel.count({ postId, referenceId: _id });
+    if (!commentaryExists) {
+      throw new NotFoundError('Commentary not found');
+    }
 
-    // return count;
-    return 0;
-  }
+    const replies = await findWithPagination<Reply>({
+      first,
+      cursor: after,
+      repository: ReplyRepository,
+      findOptions: { where: { commentaryId }, relations: ['user'] },
+    });
 
-  @Query(() => [Reply])
-  async replies(@Arg('commentaryId', () => ID) commentaryId: string) {
-    // const replies = await ReplyModel.find({
-    //   commentaryId,
-    // }).populate('user');
-
-    // return replies;
-
-    return [];
+    return replies;
   }
 
   @Mutation(() => Reply)
   async reply(
-    @Arg('userId', () => ID) userId: string,
-    @Arg('commentaryId', () => ID) commentaryId: string,
+    @Ctx() { user }: ServerContext,
+    @Arg('commentaryId') commentaryId: string,
     @Arg('body') body: string,
   ) {
-    // const user = await findUserById(userId);
-    // const commentaryExists = await CommentaryModel.findById(commentaryId);
-    // if (!commentaryExists) {
-    //   throw new Error('Commentary not found');
-    // }
-    // const reply = await ReplyModel.create({
-    //   user,
-    //   commentaryId,
-    //   body,
-    // });
-    // return reply;
+    if (!user) {
+      throw new AuthenticationError();
+    }
+
+    const commentaryExists = await CommentaryRepository.findOneBy({
+      id: commentaryId,
+    });
+
+    if (!commentaryExists) {
+      throw new NotFoundError('Commentary not found');
+    }
+
+    const reply = ReplyRepository.create({
+      userId: user.id,
+      postId: commentaryExists.postId,
+      commentaryId,
+      body,
+    });
+
+    await ReplyRepository.save(reply);
+
+    // TODO find way of returning user without specifying, more detailed objects can be massive
+
+    reply.user = user;
+
+    return reply;
+  }
+
+  @Mutation(() => String)
+  async deleteReply(
+    @Ctx() { user }: ServerContext,
+    @Arg('replyId') replyId: string,
+  ) {
+    if (!user) {
+      throw new AuthenticationError();
+    }
+
+    const replyExists = await ReplyRepository.findOneBy({
+      id: replyId,
+    });
+
+    if (!replyExists) {
+      throw new NotFoundError('Reply not found');
+    }
+
+    await ReplyRepository.delete({ id: replyExists.id });
+
+    return 'Deleted with sucess';
   }
 }

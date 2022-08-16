@@ -12,6 +12,8 @@ import FavoriteMovie from '../entities/mongo/favorite.interface';
 
 import WatchlistItem from '../entities/mongo/watchlist.interface';
 
+import Reply from '../entities/postgres/comment/reply.interface';
+
 import Commentary from '../entities/postgres/comment/commentary.interface';
 
 /* Postgres */
@@ -20,6 +22,8 @@ export const UserRepository = PostgresDataSource.getRepository(User);
 
 export const CommentaryRepository =
   PostgresDataSource.getRepository(Commentary);
+
+export const ReplyRepository = PostgresDataSource.getRepository(Reply);
 
 /* Mongo */
 

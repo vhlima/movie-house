@@ -37,7 +37,7 @@ const main = async () => {
       // WatchlistResolver,
       LikeResolver,
       CommentaryResolver,
-      // ReplyResolver,
+      ReplyResolver,
     ],
     // resolvers: [path.resolve(__dirname, 'src/resolvers/*.ts')],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
