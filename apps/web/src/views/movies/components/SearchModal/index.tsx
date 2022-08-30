@@ -1,3 +1,5 @@
+import { parseISO } from 'date-fns';
+
 import type { MovieData } from '../../../../graphql/Movie/types';
 
 import { useLogic } from './logic';
@@ -20,13 +22,18 @@ interface MovieSearchModalProps extends ModalHandles {
 
 const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
   title,
-  errors,
+  errors = [],
   description,
   onSelect,
   onFocus,
   onClose,
 }) => {
-  const { searchResults, resetSearchResults, setSearchTerm } = useLogic();
+  const { searchResults, error, resetSearchResults, setSearchTerm } =
+    useLogic();
+
+  if (error) {
+    errors.push(error.message);
+  }
 
   // TODO bug: when submit request has an error, it starts searching again for the same result even if user didnt typed anything
 
@@ -37,8 +44,6 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
 
         {description && <p className="text-grey-200">{description}</p>}
       </div>
-
-      {errors && <span className="text-danger-base">{errors.join('')}</span>}
 
       <Input
         name="searchMovie"
@@ -51,6 +56,10 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
         }}
       />
 
+      {errors.length > 0 && (
+        <span className="text-danger-base">{errors.join('')}</span>
+      )}
+
       {searchResults.length > 0 && (
         <ul className="flex flex-col rounded-md border border-grey-900 max-h-40 overflow-x-hidden overflow-y-scroll">
           {searchResults.map(movie => (
@@ -62,8 +71,10 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
                 onClick={() => onSelect(movie)}
               >
                 <span className="text-grey-100">
-                  {movie.original_title} (
-                  {new Date(movie.release_date).getFullYear()})
+                  {movie.originalTitle}
+
+                  {movie.releaseDate &&
+                    ` (${new Date(movie.releaseDate).getFullYear()})`}
                 </span>
               </Button>
             </li>

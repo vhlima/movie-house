@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import type { Dispatch, SetStateAction } from 'react';
 
-import { useLazyQuery } from '@apollo/client';
+import { ApolloError, useLazyQuery } from '@apollo/client';
 
 import type {
   MovieData,
@@ -14,6 +14,8 @@ import { SEARCH_MOVIE } from '../../../../graphql/Movie';
 
 interface MovieSearchModalLogicHandles {
   searchResults: MovieData[];
+  error: ApolloError;
+
   resetSearchResults: () => void;
 
   setSearchTerm: Dispatch<SetStateAction<string>>;
@@ -24,9 +26,10 @@ export const useLogic = (): MovieSearchModalLogicHandles => {
 
   const [searchResults, setSearchResults] = useState<MovieData[]>([]);
 
-  const [searchMovie] = useLazyQuery<MovieSearchResponse, MovieSearchInput>(
-    SEARCH_MOVIE,
-  );
+  const [searchMovie, { error }] = useLazyQuery<
+    MovieSearchResponse,
+    MovieSearchInput
+  >(SEARCH_MOVIE);
 
   const resetSearchResults = () => {
     setSearchResults([]);
@@ -60,6 +63,7 @@ export const useLogic = (): MovieSearchModalLogicHandles => {
 
   return {
     searchResults,
+    error,
     resetSearchResults,
 
     setSearchTerm,
