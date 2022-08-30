@@ -35,10 +35,17 @@ class MovieResolver {
 
     // TODO bug: Invalid time value
 
-    const results = searchResponse.results.map(m => ({
-      ...m,
-      // releaseDate: m.releaseDate ? new Date(m.releaseDate) : new Date(),
-    }));
+    const results = searchResponse.results.map(movie => {
+      const releaseDate = movie.release_date && new Date(movie.release_date);
+
+      return {
+        ...movie,
+        release_date:
+          releaseDate && typeof releaseDate.getDate() === 'number'
+            ? releaseDate
+            : undefined,
+      };
+    });
 
     return {
       ...searchResponse,
