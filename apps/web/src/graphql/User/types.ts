@@ -14,7 +14,7 @@ export interface UserData extends CreatedAndUpdatedAt {
   username: string;
   email: string;
   realName: string;
-  biography: string;
+  biography?: string;
   profilePictureUrl: string;
 }
 

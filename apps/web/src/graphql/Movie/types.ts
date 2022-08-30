@@ -48,14 +48,14 @@ export interface MovieCredits {
 }
 
 export interface MovieData {
-  id: string;
+  id: number;
   imdbId: string;
   originalLanguage: string;
   originalTitle: string;
   overview: string;
   runtime: number;
   voteAverage: number;
-  releaseDate: string;
+  releaseDate?: string;
   genres: MovieGenre[];
   productionCompanies: MovieCompany[];
   spokenLanguages: MovieLanguage[];
@@ -68,6 +68,14 @@ export interface MovieResponse {
   movie: MovieData;
 }
 
+export interface FindMovieResponse {
+  movie: MovieData;
+}
+
+export interface FindMovieInput {
+  movieId: number;
+}
+
 export interface MovieSearchResponse {
   searchMovie: {
     page: number;
@@ -77,4 +85,10 @@ export interface MovieSearchResponse {
 
 export interface MovieSearchInput {
   searchTerm: string;
+}
+
+export interface PopularMoviesResponse {
+  popularMovies: {
+    movies: MovieData[];
+  };
 }
