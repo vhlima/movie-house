@@ -13,27 +13,30 @@ import MovieReview from '../../views/reviews/root';
 import MovieHeaderSkeleton from '../../views/movies/view/Header/Skeleton';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const defaultProps = { props: { movie: undefined } };
+  const defaultProps = { props: {} };
 
   const { id } = params;
 
-  if (!id) return defaultProps;
+  if (id) {
+    try {
+      const { data } = await client.query<ReviewResponse>({
+        query: FIND_REVIEW,
+        variables: { reviewId: id },
+      });
 
-  try {
-    const { data } = await client.query<ReviewResponse>({
-      query: FIND_REVIEW,
-      variables: { reviewId: id },
-    });
+      if (!data) return defaultProps;
 
-    return {
-      props: {
-        review: data.review,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-    return defaultProps;
+      return {
+        props: {
+          review: data.review,
+        },
+      };
+    } catch (err) {
+      return defaultProps;
+    }
   }
+
+  return defaultProps;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => ({
@@ -42,14 +45,18 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 });
 
 const Reviews: NextPage<ReviewResponse> = ({ review }) => {
-  const { isFallback } = useRouter();
+  const { isFallback, push } = useRouter();
 
   if (isFallback) {
     return <MovieHeaderSkeleton />;
   }
 
   if (!review) {
-    return <h1>Review not found</h1>;
+    if (typeof window !== 'undefined') {
+      push('/404');
+    }
+
+    return null;
   }
 
   return <MovieReview review={review} />;
