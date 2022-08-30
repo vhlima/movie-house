@@ -40,16 +40,16 @@ export const FIND_MOVIE = appendGql(
   `,
 );
 
-export const SEARCH_MOVIE = appendGql(
-  MOVIE_FIELDS,
-  gql`
-    query SearchMovie($searchTerm: String!) {
-      searchMovie(searchTerm: $searchTerm) {
-        page
-        results {
-          ...MovieFields
-        }
+export const SEARCH_MOVIE = gql`
+  query SearchMovie($searchTerm: String!) {
+    searchMovie(searchTerm: $searchTerm) {
+      page
+      results {
+        id
+        posterUrl
+        originalTitle
+        releaseDate
       }
     }
-  `,
-);
+  }
+`;

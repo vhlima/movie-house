@@ -1,8 +1,19 @@
-import { useAuth } from '../../../../../../../../../hooks/useAuth';
+import { v4 as uuid } from 'uuid';
 
-import { useLogic } from './logic';
+import { useMutation } from '@apollo/client';
 
 import type { ModalHandles } from '../../../../../../../../../components/Modal';
+
+import type {
+  FavoriteMovieData,
+  FindFavoriteMoviesResponse,
+  RemoveFavoriteMovieInput,
+} from '../../../../../../../../../graphql/FavoriteMovie/types';
+
+import {
+  FIND_FAVORITE_MOVIES,
+  REMOVE_FAVORITE_MOVIE,
+} from '../../../../../../../../../graphql/FavoriteMovie';
 
 import Modal from '../../../../../../../../../components/Modal';
 
@@ -12,77 +23,89 @@ import SvgIcon from '../../../../../../../../../components/SvgIcon';
 
 import MovieCover from '../../../../../../../../movies/components/Cover';
 
-import MovieSearchModal from '../../../../../../../../movies/components/SearchModal';
+import ErrorText from '../../../../../../../../../components/ErrorText';
 
 interface EditFavoriteMoviesModalProps extends ModalHandles {
-  maxFavorite: number;
+  favoriteMovies: FavoriteMovieData[];
+  onClickAdd: () => void;
 }
 
 const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
-  maxFavorite,
+  favoriteMovies,
+  onClickAdd,
   onClose,
 }) => {
-  const { user } = useAuth();
+  const [removeFavoriteMovie, { loading, error }] = useMutation<
+    string,
+    RemoveFavoriteMovieInput
+  >(REMOVE_FAVORITE_MOVIE, {
+    errorPolicy: 'all',
+    update: (cache, { data }, context) => {
+      if (!data) return;
 
-  const {
-    freeSlots,
+      cache.updateQuery<FindFavoriteMoviesResponse>(
+        {
+          query: FIND_FAVORITE_MOVIES,
+        },
+        cacheData => ({
+          favoriteMovies: (cacheData.favoriteMovies || []).filter(
+            favoriteMovie =>
+              favoriteMovie.movie.id !== context.variables.movieId,
+          ),
+        }),
+      );
+    },
+  });
 
-    addFavoriteMovie,
-    addFavoriteResult,
+  const handleRemove = async (movieId: number) => {
+    if (loading) return;
 
-    removeFavoriteMovie,
-    removeFavoriteResult,
+    await removeFavoriteMovie({ variables: { movieId } });
+  };
 
-    isAdding,
-    setAdding,
-  } = useLogic({ maxFavorite });
+  const emptySlots = favoriteMovies.filter(favoriteMovie => !favoriteMovie);
 
-  const error =
-    addFavoriteResult?.error || removeFavoriteResult?.error || undefined;
-
-  return isAdding ? (
-    <MovieSearchModal
-      title="Pick a favorite movie"
-      description="Select one of your favorite movies to display on your profile"
-      errors={error && [error.message]}
-      onFocus={() => {
-        addFavoriteResult.reset();
-        removeFavoriteResult.reset();
-      }}
-      onSelect={movie => addFavoriteMovie(movie.id)}
-      onClose={() => setAdding(false)}
-    />
-  ) : (
+  return (
     <Modal center backdrop onClose={onClose}>
       <h1 className="text-grey-100 text-lg mb-2">Edit your favorite movies</h1>
 
+      {error && <ErrorText text={error.message} />}
+
       <div className="grid grid-cols-4 gap-2">
-        {user.favoriteMovies.map(movie => (
-          <div className="flex flex-col gap-2" key={movie.id}>
-            <MovieCover coverUrl={movie.posterUrl} coverSize="full" />
+        {favoriteMovies
+          .filter(favoriteMovie => !!favoriteMovie)
+          .map(favoriteMovie => (
+            <div className="flex flex-col gap-2" key={favoriteMovie.id}>
+              <MovieCover
+                coverUrl={favoriteMovie.movie.posterUrl}
+                coverSize="full"
+              />
 
-            <Button
-              buttonStyle="danger"
-              buttonSize="xs"
-              disabled={removeFavoriteResult.loading}
-              onClick={() => removeFavoriteMovie(movie.id)}
+              <Button
+                buttonStyle="danger"
+                buttonSize="xs"
+                disabled={loading}
+                onClick={() => handleRemove(favoriteMovie.movie.id)}
+              >
+                X
+              </Button>
+            </div>
+          ))}
+
+        {emptySlots.map((_, index) =>
+          index === 0 ? (
+            <MovieCover
+              key={uuid()}
+              coverStyle="secondary"
+              coverSize="full"
+              onClick={onClickAdd}
             >
-              X
-            </Button>
-          </div>
-        ))}
-
-        <MovieCover
-          coverStyle="secondary"
-          coverSize="full"
-          onClick={() => setAdding(true)}
-        >
-          <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
-        </MovieCover>
-
-        {freeSlots.map(slot => (
-          <MovieCover key={slot} coverStyle="secondary" coverSize="full" />
-        ))}
+              <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
+            </MovieCover>
+          ) : (
+            <MovieCover key={uuid()} coverStyle="secondary" coverSize="full" />
+          ),
+        )}
       </div>
     </Modal>
   );

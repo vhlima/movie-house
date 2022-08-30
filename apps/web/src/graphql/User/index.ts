@@ -34,28 +34,6 @@ export const SIGN_IN = appendGql(
   `,
 );
 
-export const ADD_FAVORITE_MOVIE = appendGql(
-  USER_FIELDS,
-  gql`
-    mutation ($movieId: String!, $userId: String!) {
-      addFavoriteMovie(movieId: $movieId, userId: $userId) {
-        ...UserFields
-      }
-    }
-  `,
-);
-
-export const REMOVE_FAVORITE_MOVIE = appendGql(
-  USER_FIELDS,
-  gql`
-    mutation ($movieId: String!, $userId: String!) {
-      removeFavoriteMovie(movieId: $movieId, userId: $userId) {
-        ...UserFields
-      }
-    }
-  `,
-);
-
 export const RATE_MOVIE = appendGql(
   USER_FIELDS,
   gql`

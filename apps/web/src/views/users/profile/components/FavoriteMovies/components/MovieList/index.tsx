@@ -1,4 +1,8 @@
-import type { UserData } from '../../../../../../../graphql/User/types';
+import { v4 as uuid } from 'uuid';
+
+import type { PropsWithChildren } from 'react';
+
+import type { FavoriteMovieData } from '../../../../../../../graphql/FavoriteMovie/types';
 
 import type { CardIconProps } from '../../../../../../../components/Card';
 
@@ -7,42 +11,30 @@ import Card from '../../../../../../../components/Card';
 import MovieCover from '../../../../../../movies/components/Cover';
 
 interface MovieListProps {
-  user: UserData;
-  maxFavorite: number;
+  favoriteMovies: FavoriteMovieData[];
   rightIcon?: CardIconProps;
 }
 
-const MovieList: React.FC<MovieListProps> = ({
-  user,
-  maxFavorite,
+const MovieList: React.FC<PropsWithChildren<MovieListProps>> = ({
+  favoriteMovies,
   rightIcon,
-}) => {
-  // const freeSlotsArray = Array.from(
-  //   {
-  //     length: maxFavorite - user.favoriteMovies.length,
-  //   },
-  //   (v, k) => k,
-  // );
-
-  const a = 1;
-
-  return (
-    <Card title="Favorite movies" rightIcon={rightIcon} noPadding>
+  children,
+}) => (
+  <Card title="Favorite movies" rightIcon={rightIcon} noPadding>
+    {favoriteMovies.length > 0 && (
       <div className="grid grid-cols-4 gap-2">
-        {/* {user.favoriteMovies.map(movie => (
+        {favoriteMovies.map(favoriteMovie => (
           <MovieCover
-            key={movie.id}
-            coverUrl={movie.posterUrl}
+            key={favoriteMovie ? favoriteMovie.id : uuid()}
+            coverUrl={favoriteMovie?.movie?.posterUrl}
             coverSize="full"
           />
-        ))} */}
-
-        {/* {freeSlotsArray.map(slot => (
-          <MovieCover key={slot} coverSize="full" />
-        ))} */}
+        ))}
       </div>
-    </Card>
-  );
-};
+    )}
+
+    {children}
+  </Card>
+);
 
 export default MovieList;
