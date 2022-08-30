@@ -103,7 +103,7 @@ export const createMovieListResolver = <T extends MovieList>(
         userId: user.id,
         movieId: movie.id,
         movie,
-      } as any);
+      } as T);
 
       await repository.save(favoriteMovie);
 
