@@ -18,9 +18,9 @@ import NotFoundError from '../../errors/NotFound';
 
 @ObjectType()
 export default class Movie {
-  @Field()
+  @Field(() => Int)
   @Column()
-  readonly id: string;
+  readonly id: number;
 
   @Field({ name: 'imdbId' })
   @Column()
@@ -52,9 +52,9 @@ export default class Movie {
   @Column()
   readonly backdrop_path: string;
 
-  @Field(() => Date, { name: 'releaseDate' })
-  @Column()
-  readonly release_date: Date;
+  @Field(() => Date, { name: 'releaseDate', nullable: true })
+  @Column({ nullable: true })
+  readonly release_date?: Date;
 
   @Field(() => [Genre])
   @Column()
