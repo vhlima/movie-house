@@ -52,10 +52,12 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
 
           <ProfileStats />
 
-          <Card title="About me" noPadding>
-            <p className="text-grey-200 whitespace-pre-wrap">
-              {user.biography}
-            </p>
+          <Card className="text-grey-200" title="About me" noPadding>
+            {!user.biography ? (
+              <p>{user.username} hasn&apos;t told us anything about him yet.</p>
+            ) : (
+              <p className="whitespace-pre-wrap">{user.biography}</p>
+            )}
           </Card>
 
           <FavoriteMovies />
