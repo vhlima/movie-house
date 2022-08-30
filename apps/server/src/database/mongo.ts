@@ -1,9 +1,10 @@
 import { DataSource } from 'typeorm';
 
-import FavoriteMovie from '../../entities/mongo/favorite.interface';
-import Like from '../../entities/mongo/like.interface';
+import Like from '../entities/mongo/like.interface';
 
-import Review from '../../entities/mongo/review.interface';
+import Review from '../entities/mongo/review.interface';
+
+import FavoriteMovie from '../entities/mongo/favorite.interface';
 
 export const MongoDataSource = new DataSource({
   type: 'mongodb',
