@@ -1,6 +1,6 @@
-import React from 'react';
+import type { DropdownProps } from '../Dropdown';
 
-import Dropdown, { DropdownProps } from '../Dropdown';
+import Dropdown from '../Dropdown';
 
 const SearchBar: React.FC<DropdownProps> = ({ onClose }) => (
   <Dropdown onClose={onClose}>

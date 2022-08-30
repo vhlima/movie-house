@@ -1,10 +1,10 @@
-import React from 'react';
+import type { DropdownProps } from '../Dropdown';
 
 import { fakeUser } from '../../../../../data/fakeData';
 
 import Notification from './components/Notification';
 
-import Dropdown, { DropdownProps } from '../Dropdown';
+import Dropdown from '../Dropdown';
 
 const Notifications: React.FC<DropdownProps> = ({ onClose }) => {
   const notificationUser = fakeUser();

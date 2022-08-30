@@ -1,4 +1,6 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+
+import type { PropsWithChildren } from 'react';
 
 import { useRouter } from 'next/router';
 

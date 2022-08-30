@@ -1,6 +1,6 @@
-import React from 'react';
+import SvgIcon from '../../../../../components/SvgIcon';
 
-import SvgIcon, { SvgIconProps } from '../../../../../components/SvgIcon';
+import type { SvgIconProps } from '../../../../../components/SvgIcon';
 
 interface NavButtonProps extends SvgIconProps {
   onClick: () => void;

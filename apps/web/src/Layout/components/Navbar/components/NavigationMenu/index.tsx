@@ -1,10 +1,10 @@
-import React from 'react';
+import type { DropdownProps } from '../Dropdown';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
 import MenuItem from './components/MenuItem';
 
-import Dropdown, { DropdownProps } from '../Dropdown';
+import Dropdown from '../Dropdown';
 
 const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
   const { user, signOut } = useAuth();
@@ -17,7 +17,7 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
             itemProps={{
               href: {
                 pathname: '/users/[id]',
-                query: { id: user._id },
+                query: { id: user.id },
               },
             }}
             text="My Profile"

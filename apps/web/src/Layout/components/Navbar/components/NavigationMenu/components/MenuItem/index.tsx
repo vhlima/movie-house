@@ -1,8 +1,10 @@
-import React from 'react';
+import Link from '../../../../../../../components/Link';
 
-import Link, { LinkProps } from '../../../../../../../components/Link';
+import type { LinkProps } from '../../../../../../../components/Link';
 
-import SvgIcon, { SvgIconType } from '../../../../../../../components/SvgIcon';
+import SvgIcon from '../../../../../../../components/SvgIcon';
+
+import type { SvgIconType } from '../../../../../../../components/SvgIcon';
 
 interface MenuItemButtonProps {
   onClick: () => void;
