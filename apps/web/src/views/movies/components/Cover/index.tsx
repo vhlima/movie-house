@@ -1,8 +1,7 @@
 import type { PropsWithChildren } from 'react';
 
-import Image from 'next/image';
-
 import clsx from 'clsx';
+import Image from '../../../../components/Image';
 
 interface MovieCoverProps {
   coverUrl?: string;
@@ -36,6 +35,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
       'flex items-center justify-center text-grey-500 select-none': !coverUrl,
 
       'w-20 h-28': coverSize === 'sm',
+      'w-20 h-40': coverSize === 'lg',
       'w-full h-28': coverSize === 'full',
 
       'border-grey-800': coverStyle === 'primary',
