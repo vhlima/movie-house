@@ -16,8 +16,6 @@ import MovieCover from '../../movies/components/Cover';
 
 import MovieSearchModal from '../../movies/components/SearchModal';
 
-// TODO add yup
-
 const CreateReviewView: React.FC<CreateReviewPageProps> = ({ movie }) => {
   const {
     validationSchema,
