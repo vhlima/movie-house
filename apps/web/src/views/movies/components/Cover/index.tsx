@@ -36,7 +36,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
 
       'w-20 h-28': coverSize === 'sm',
       'w-20 h-40': coverSize === 'lg',
-      'w-full h-28': coverSize === 'full',
+      'w-full h-32 sm:h-44 sm:w-32': coverSize === 'full',
 
       'border-grey-800': coverStyle === 'primary',
       'border-grey-500': coverStyle === 'secondary',
