@@ -12,12 +12,14 @@ import FavoriteMovies from './components/FavoriteMovies';
 
 import ProfileStats from './components/ProfileStats';
 
+import RecentReviews from './components/RecentReviews';
+
 import ProfileButtons from './components/ProfileButtons';
 
 import ProfilePicture from '../../../components/ProfilePicture';
 
 import BackgroundImage from '../../../components/BackgroundImage';
-import RecentReviews from './components/RecentReviews';
+import ReviewCards from './components/ReviewCards';
 
 interface UserProfileViewProps {
   user: UserData;
@@ -63,17 +65,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
 
           <FavoriteMovies />
 
-          <Card title="Pinned reviews" noPadding>
-            {/* <UserMovieReviewBody preview />-['] */}
-          </Card>
-
-          <Card title="Recent reviews" noPadding>
-            <RecentReviews />
-          </Card>
-
-          <Card title="Popular reviews" noPadding>
-            {/* <UserMovieReviewBody preview /> */}
-          </Card>
+          <ReviewCards />
         </div>
       </div>
     </ProfileContext.Provider>
