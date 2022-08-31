@@ -40,6 +40,25 @@ export const FIND_MOVIE = appendGql(
   `,
 );
 
+export const FIND_FULL_MOVIE = appendGql(
+  MOVIE_FIELDS,
+  gql`
+    query FindMovie($movieId: Int!) {
+      movie(movieId: $movieId) {
+        ...MovieFields
+        credits {
+          cast {
+            id
+            character
+            originalName
+            profilePictureUrl
+          }
+        }
+      }
+    }
+  `,
+);
+
 export const SEARCH_MOVIE = gql`
   query SearchMovie($searchTerm: String!) {
     searchMovie(searchTerm: $searchTerm) {

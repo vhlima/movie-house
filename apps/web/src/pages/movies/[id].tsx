@@ -2,7 +2,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 import type { MovieResponse } from '../../graphql/Movie/types';
 
-import { FIND_MOVIE } from '../../graphql/Movie';
+import { FIND_FULL_MOVIE } from '../../graphql/Movie';
 
 import MovieView from '../../views/movies/view';
 
@@ -13,12 +13,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { id } = params;
 
-  if (!id) return defaultProps;
+  if (!id && typeof id !== 'string') return defaultProps;
+
+  const movieId = parseInt(id as string, 10);
+
+  if (typeof movieId !== 'number') return defaultProps;
 
   try {
     const { data: movieData } = await client.query<MovieResponse>({
-      query: FIND_MOVIE,
-      variables: { movieId: id },
+      query: FIND_FULL_MOVIE,
+      variables: { movieId },
     });
 
     // TODO if dont find movie return 404
