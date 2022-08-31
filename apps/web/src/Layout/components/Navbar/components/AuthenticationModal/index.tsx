@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Formik, Form } from 'formik';
 
 import type { ModalHandles } from '../../../../../components/Modal';
@@ -16,18 +14,14 @@ const AuthenticationModal: React.FC<ModalHandles> = ({ onClose }) => {
   const { handleSubmit } = useLogic({ onClose });
 
   return (
-    <Modal
-      className="fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md"
-      backdrop
-      onClose={onClose}
-    >
+    <Modal className="w-11/12 rounded-md" center backdrop onClose={onClose}>
       <Formik initialValues={{ username: '' }} onSubmit={handleSubmit}>
         <Form className="flex flex-col gap-2">
           <Input
             formik
             name="username"
             placeholder="Username"
-            leftIcon="HiMail"
+            leftIcon={{ className: 'p-2', icon: 'HiMail' }}
             inputStyle="secondary"
             label={{ text: 'Username', htmlFor: true }}
           />
@@ -48,7 +42,7 @@ const AuthenticationModal: React.FC<ModalHandles> = ({ onClose }) => {
             </span>
           </div>
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Login</Button>
         </Form>
       </Formik>
     </Modal>
