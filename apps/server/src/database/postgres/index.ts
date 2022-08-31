@@ -2,13 +2,13 @@ import { DataSource } from 'typeorm';
 
 export const PostgresDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: '123',
-  database: 'MovieHouse',
-  synchronize: true, // TODO on production, remove that
-  logging: false, // TODO production, remove that
+  host: process.env.POSTGRES_HOST,
+  port: parseInt(process.env.POSTGRES_PORT as string, 10),
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DATABASE,
+  synchronize: process.env.NODE_ENV === 'development',
+  logging: process.env.NODE_ENV === 'development',
   entities: ['./src/entities/postgres/**/*.ts'],
   subscribers: [],
   migrations: ['./src/database/postgres/migrations/*.ts'],

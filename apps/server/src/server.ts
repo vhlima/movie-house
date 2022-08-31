@@ -2,6 +2,11 @@ import 'reflect-metadata';
 
 import path from 'path';
 
+import dotenv from 'dotenv';
+
+/* eslint-disable import/first */
+dotenv.config();
+
 import { ApolloError, ApolloServer } from 'apollo-server';
 
 import { buildSchema } from 'type-graphql';
@@ -22,8 +27,9 @@ import {
 
 import { TmdbAPI } from './api';
 
-import database from './database';
 import { UserRepository } from './repositories';
+
+import { connectDatabase } from './database';
 
 const main = async () => {
   const schema = await buildSchema({
@@ -75,10 +81,12 @@ const main = async () => {
 
       // Get the user token from the headers.
 
+      const defaultProps = { user: null };
+
       const token = req.headers.authorization || '';
 
       if (!token) {
-        return { user: null };
+        return defaultProps;
       }
 
       // Try to retrieve a user with the token
@@ -90,14 +98,14 @@ const main = async () => {
 
         return { user };
       } catch (error) {
-        return { user: null };
+        return defaultProps;
       }
     },
   });
 
   const { url } = await server.listen();
 
-  database();
+  await connectDatabase();
 
   console.log(`[Movie House] Server running on ${url}`);
 };

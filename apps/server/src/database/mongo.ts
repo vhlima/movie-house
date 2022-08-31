@@ -8,13 +8,13 @@ import FavoriteMovie from '../entities/mongo/favorite.interface';
 
 export const MongoDataSource = new DataSource({
   type: 'mongodb',
-  url: 'mongodb+srv://vtr:master123@cluster0.smeez.mongodb.net/?retryWrites=true&w=majority',
+  url: process.env.MONGO_HOST,
   useNewUrlParser: true, // Needed for mongo
   ssl: true,
-  port: 27017,
-  database: 'test',
-  synchronize: false, // TODO on production, remove that
-  logging: false, // TODO production, remove that
+  port: parseInt(process.env.MONGO_PORT as string, 10),
+  database: process.env.MONGO_DATABASE,
+  synchronize: process.env.NODE_ENV === 'development',
+  logging: process.env.NODE_ENV === 'development',
   entities: [Review, FavoriteMovie, Like],
 });
 
