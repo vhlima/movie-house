@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 import type { ReviewData } from '../../../../graphql/Review/types';
 
 import ProfilePicture from '../../../ProfilePicture';
@@ -14,7 +16,7 @@ interface ReviewTextProps {
 }
 
 const ReviewText: React.FC<ReviewTextProps> = ({
-  review: { id: reviewId, author, body },
+  review: { id: reviewId, author, body, createdAt },
   preview,
 }) => (
   <div className="flex flex-col gap-2 mb-2">
@@ -44,10 +46,16 @@ const ReviewText: React.FC<ReviewTextProps> = ({
         </span>
       </Link>
 
-      <span className="text-grey-200">in Aug 28, 2019</span>
+      <span className="text-grey-200">
+        in {format(new Date(createdAt), 'MMM dd, yyyy')}
+      </span>
     </div>
 
-    <TextShorter className="text-grey-200" maxCharacters={120} text={body} />
+    <TextShorter
+      className="text-grey-200"
+      maxCharacters={preview ? 100 : 200}
+      text={body}
+    />
 
     <LikeButton rootId={reviewId} likes={0} onLike={() => ({})} />
   </div>
