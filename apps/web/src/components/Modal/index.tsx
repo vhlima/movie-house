@@ -8,6 +8,8 @@ import { motion } from 'framer-motion';
 
 import type { MotionProps } from 'framer-motion';
 
+import SvgIcon from '../SvgIcon';
+
 import Backdrop from '../Backdrop';
 
 export interface ModalProps {
@@ -25,6 +27,7 @@ interface ModalInternalProps extends ModalProps, Partial<ModalHandles> {
   bottom?: boolean;
   backdrop?: boolean;
   autoStyle?: boolean;
+  showX?: boolean;
 }
 
 const PORTAL_ID = 'modalPortal';
@@ -35,6 +38,7 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
   center,
   bottom,
   backdrop,
+  showX = true,
   autoStyle = true,
   onClose,
   children,
@@ -51,6 +55,12 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
       onClick={e => e.stopPropagation()}
       {...animation}
     >
+      {showX && (
+        <button className="absolute right-4" type="button" onClick={onClose}>
+          <SvgIcon className="text-danger-light" iconType="FiX" size={28} />
+        </button>
+      )}
+
       {children}
     </motion.div>
   );
@@ -60,9 +70,6 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
   ) : (
     <Backdrop onClick={onClose}>{body}</Backdrop>
   );
-
-  // fixed top-1/4 left-1/2 transform -translate-x-1/2 w-11/12 rounded-md
-  // absolute bottom-0 w-full rounded-t-md z-50
 
   return createPortal(
     modal,
