@@ -10,10 +10,10 @@ import User from '../postgres/user.interface';
 
 import UserNotFoundError from '../../errors/UserNotFound';
 
-import Timestamps from '../timestamps.interface';
+import MongoTimestamps from './timestamps.interface';
 
 @ObjectType({ isAbstract: true })
-export default abstract class MovieList extends Timestamps {
+export default abstract class MovieList extends MongoTimestamps {
   @Field(() => ID)
   @ObjectIdColumn({ name: '_id' })
   readonly id: string;
