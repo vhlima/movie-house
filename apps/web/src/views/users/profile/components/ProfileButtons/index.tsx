@@ -13,12 +13,14 @@ const ProfileButtons: React.FC = () => {
 
   const { push } = useRouter();
 
-  const isOwnProfile = authUser && authUser._id === user._id;
+  const isOwnProfile = authUser && authUser.id === user.id;
 
-  const isFollowing = authUser && authUser.following.includes(user._id);
+  // const isFollowing = authUser && authUser.following.includes(user.id);
+
+  const isFollowing = false;
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 justify-center">
       {!isOwnProfile ? (
         <>
           <Button
