@@ -24,6 +24,7 @@ const AddFavoriteMovieModal: React.FC<AddFavoriteMovieModalProps> = ({
     AddFavoriteMovieResponse,
     AddFavoriteMovieInput
   >(ADD_FAVORITE_MOVIE, {
+    errorPolicy: 'all',
     update: (cache, { data }) => {
       if (!data) return;
 
