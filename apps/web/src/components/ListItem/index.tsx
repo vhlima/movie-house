@@ -17,13 +17,13 @@ const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
   border = true,
   children,
 }) => (
-  <div
+  <li
     className={clsx('py-4 first-of-type:pt-0 last-of-type:pb-0', className, {
       'border-b border-b-grey-300 last-of-type:border-b-0': border,
     })}
   >
     {children}
-  </div>
+  </li>
 );
 
 export default ListItem;
