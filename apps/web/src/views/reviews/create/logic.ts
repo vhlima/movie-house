@@ -21,8 +21,6 @@ import { CREATE_REVIEW } from '../../../graphql/Review';
 
 import type { CreateReviewPageProps } from '../../../pages/reviews/create';
 
-import { useAuth } from '../../../hooks/useAuth';
-
 type ReviewFormikInput = Omit<ReviewInput, 'movieId'>;
 
 type SelectHandles = (movie: MovieData) => void;
@@ -49,8 +47,6 @@ interface CreateReviewLogicHandles {
 export const useLogic = ({
   movie,
 }: CreateReviewPageProps): CreateReviewLogicHandles => {
-  const { user } = useAuth();
-
   const { push } = useRouter();
 
   const [createReviewMutation, reviewMutationResult] =
@@ -71,17 +67,18 @@ export const useLogic = ({
   );
 
   const handleSubmit: SubmitHandles = async values => {
-    if (!user || !selectedMovie) return;
+    if (!selectedMovie) return;
 
-    const { data } = await createReviewMutation({
+    const { data, errors } = await createReviewMutation({
       variables: {
         movieId: selectedMovie.id,
-        data: values,
+        body: values.body,
       },
     });
 
-    if (data) {
-      push({
+    if (!errors && data) {
+      // TODO fix that push
+      await push({
         pathname: '/reviews/[id]',
         query: { id: data.createReview.review.id },
       });
