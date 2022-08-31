@@ -14,10 +14,12 @@ import BackgroundImage from '../../../../components/BackgroundImage';
 
 interface MovieHeaderProps {
   movie: MovieData;
+  basicInfo?: boolean;
 }
 
 const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
   movie,
+  basicInfo,
   children,
 }) => {
   function toHoursAndMinutes(totalMinutes: number) {
@@ -47,9 +49,13 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
 
             <div className="text-grey-200 mb-2">
               <div className="flex items-center gap-1">
-                <MovieRatingStar color="yellow" rating={8.3} checked />
+                {!basicInfo && (
+                  <>
+                    <MovieRatingStar color="yellow" rating={8.3} checked />
 
-                <span>•</span>
+                    <span>•</span>
+                  </>
+                )}
 
                 <span className="text-sm">
                   {movieDate.getMonth()}/{movieDate.getDay()}/
@@ -68,26 +74,28 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
               <span className="text-sm font-semibold">Steven Spielberg</span>
             </div>
 
-            <div className="flex items-center gap-1 text-grey-200 mt-auto">
-              <Button
-                className="text-sm"
-                buttonStyle="secondary"
-                buttonSize="xs"
-                full={false}
-              >
-                Watch trailer
-              </Button>
+            {!basicInfo && (
+              <div className="flex items-center gap-1 text-grey-200 mt-auto">
+                <Button
+                  className="text-sm"
+                  buttonStyle="secondary"
+                  buttonSize="xs"
+                  full={false}
+                >
+                  Watch trailer
+                </Button>
 
-              <div className="rounded-md border border-grey-700 px-1 bg-opacity-60">
-                <span>18</span>
+                <div className="rounded-md border border-grey-700 px-1 bg-opacity-60">
+                  <span>18</span>
+                </div>
               </div>
-            </div>
+            )}
+
+            {children}
           </div>
 
           <MovieCover coverUrl={movie.posterUrl} />
         </div>
-
-        {children}
       </PageContent>
     </>
   );
