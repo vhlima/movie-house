@@ -16,7 +16,7 @@ const CommentModal: React.FC<CommentModalProps> = ({
   isReply,
   onClose,
 }) => (
-  <Modal backdrop bottom autoStyle={false} onClose={onClose}>
+  <Modal backdrop bottom autoStyle={false} showX={false} onClose={onClose}>
     {!isReply ? (
       <CommentForm postId={referenceId} onSubmit={onClose} />
     ) : (
