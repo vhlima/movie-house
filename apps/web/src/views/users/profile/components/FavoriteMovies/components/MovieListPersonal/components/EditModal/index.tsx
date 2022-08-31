@@ -67,7 +67,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
 
   return (
     <Modal center backdrop onClose={onClose}>
-      <h1 className="text-grey-100 text-lg mb-2">Edit your favorite movies</h1>
+      <h1 className="text-grey-100 text-lg mb-4">Edit your favorite movies</h1>
 
       {error && <ErrorText text={error.message} />}
 

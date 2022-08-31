@@ -8,6 +8,8 @@ import type { CardIconProps } from '../../../../../../../components/Card';
 
 import Card from '../../../../../../../components/Card';
 
+import Link from '../../../../../../../components/Link';
+
 import MovieCover from '../../../../../../movies/components/Cover';
 
 interface MovieListProps {
@@ -22,15 +24,29 @@ const MovieList: React.FC<PropsWithChildren<MovieListProps>> = ({
 }) => (
   <Card title="Favorite movies" rightIcon={rightIcon} noPadding>
     {favoriteMovies.length > 0 && (
-      <div className="grid grid-cols-4 gap-2">
-        {favoriteMovies.map(favoriteMovie => (
-          <MovieCover
-            key={favoriteMovie ? favoriteMovie.id : uuid()}
-            coverUrl={favoriteMovie?.movie?.posterUrl}
-            coverSize="full"
-          />
-        ))}
-      </div>
+      <ul className="grid grid-cols-4 gap-2">
+        {favoriteMovies.map(favoriteMovie =>
+          !favoriteMovie ? (
+            <li key={uuid()}>
+              <MovieCover coverSize="full" />
+            </li>
+          ) : (
+            <li key={favoriteMovie.id}>
+              <Link
+                href={{
+                  pathname: '/movies/[id]',
+                  query: { id: favoriteMovie.movie.id },
+                }}
+              >
+                <MovieCover
+                  coverUrl={favoriteMovie.movie?.posterUrl}
+                  coverSize="full"
+                />
+              </Link>
+            </li>
+          ),
+        )}
+      </ul>
     )}
 
     {children}
