@@ -56,7 +56,11 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
       {...animation}
     >
       {showX && (
-        <button className="absolute right-4" type="button" onClick={onClose}>
+        <button
+          className="absolute right-2 top-2"
+          type="button"
+          onClick={onClose}
+        >
           <SvgIcon className="text-danger-light" iconType="FiX" size={28} />
         </button>
       )}
