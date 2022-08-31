@@ -25,3 +25,11 @@ export interface ReviewResponse {
 export interface CreateReviewResponse {
   createReview: ReviewResponse;
 }
+
+export interface FindLatestReviewsResponse {
+  latestReviews: ReviewData[];
+}
+
+export interface FindLatestReviewsInput {
+  userId: string;
+}
