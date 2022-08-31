@@ -15,4 +15,8 @@ export default class Review extends Post {
   @Field(() => Movie)
   @Column()
   movie: Movie;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  pinned?: boolean;
 }
