@@ -6,7 +6,7 @@ import type { ServerContext } from '../types';
 
 import { createPostResolver } from './post.resolver';
 
-import { ReviewRepository } from '../repositories';
+import { ReviewRepository, UserRepository } from '../repositories';
 
 import Review from '../entities/mongo/review.interface';
 
@@ -14,7 +14,11 @@ import AuthenticationError from '../errors/Authentication';
 
 import AlreadyExistsError from '../errors/AlreadyExists';
 
+import UserNotFoundError from '../errors/UserNotFound';
+
 import NotFoundError from '../errors/NotFound';
+
+const MAX_LATEST_REVIEWS = 3;
 
 const PostResolver = createPostResolver();
 
@@ -29,6 +33,36 @@ class ReviewResolver extends PostResolver {
     }
 
     return reviewExists;
+  }
+
+  @Query(() => [Review])
+  async reviews(@Arg('userId') userId: string) {
+    const user = await UserRepository.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    const reviews = await ReviewRepository.findBy({ authorId: userId });
+
+    return reviews;
+  }
+
+  @Query(() => [Review])
+  async latestReviews(@Arg('userId') userId: string) {
+    const user = await UserRepository.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    const reviews = await ReviewRepository.find({
+      where: { authorId: userId },
+      take: MAX_LATEST_REVIEWS,
+      order: { createdAt: 'DESC' },
+    });
+
+    return reviews;
   }
 
   @Mutation(() => Review)
