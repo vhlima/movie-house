@@ -6,12 +6,14 @@ const ProfileStats: React.FC = () => {
   const { user } = useProfile();
 
   return (
-    <div className="flex flex-wrap justify-center gap-y-2">
-      <Stats link={{ href: '/' }} number={1595} text="Movies" />
+    <div className="flex flex-col items-center gap-2">
+      <div className="flex">
+        <Stats link={{ href: '/' }} number={1595} text="Movies" />
 
-      <Stats link={{ href: '/' }} number={118} text="This year" />
+        <Stats link={{ href: '/' }} number={118} text="This year" />
 
-      <Stats link={{ href: '/' }} number={48} text="Lists" />
+        <Stats link={{ href: '/' }} number={48} text="Lists" />
+      </div>
 
       <div className="flex">
         <Stats link={{ href: '/' }} number={138} text="Following" />
