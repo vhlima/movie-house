@@ -2,11 +2,11 @@ import { Field, ID, ObjectType } from 'type-graphql';
 
 import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 
-import Timestamps from '../timestamps.interface';
+import PostgresTimestamps from './timestamps.interface';
 
 @ObjectType()
 @Entity('users')
-export default class User extends Timestamps {
+export default class User extends PostgresTimestamps {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;

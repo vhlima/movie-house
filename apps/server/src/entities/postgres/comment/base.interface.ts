@@ -4,10 +4,10 @@ import { PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
 
 import User from '../user.interface';
 
-import Timestamps from '../../timestamps.interface';
+import PostgresTimestamps from '../timestamps.interface';
 
 @ObjectType({ isAbstract: true })
-export default abstract class BaseCommentary extends Timestamps {
+export default abstract class BaseCommentary extends PostgresTimestamps {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
