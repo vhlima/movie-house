@@ -100,7 +100,11 @@ const RawInput = forwardRef<InputReferenceType, RawInputProps>(
       inputStyleProps.input,
       {
         'cursor-not-allowed': disabled,
-        'p-2': inputSize === 'lg',
+        'py-2': inputSize === 'lg',
+      },
+      inputSize === 'lg' && {
+        'pr-2': !rightIcon,
+        'pl-2': !leftIcon,
       },
     );
 
