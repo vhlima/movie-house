@@ -17,6 +17,7 @@ import ProfileButtons from './components/ProfileButtons';
 import ProfilePicture from '../../../components/ProfilePicture';
 
 import BackgroundImage from '../../../components/BackgroundImage';
+import RecentReviews from './components/RecentReviews';
 
 interface UserProfileViewProps {
   user: UserData;
@@ -33,7 +34,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
       <div className="flex">
         <BackgroundImage src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg" />
 
-        <div className="flex flex-col gap-4 px-3 mt-32 z-10">
+        <div className="flex flex-col justify-center gap-4 w-full px-3 mt-32 z-10">
           <div className="flex items-center gap-2">
             <ProfilePicture imageSize="lg" src={user.profilePictureUrl} />
 
@@ -67,7 +68,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
           </Card>
 
           <Card title="Recent reviews" noPadding>
-            {/* <UserMovieReviewBody preview /> */}
+            <RecentReviews />
           </Card>
 
           <Card title="Popular reviews" noPadding>
