@@ -16,7 +16,8 @@ import ReplySection from '../ReplySection';
 
 import Comment from '../components/Comment';
 
-type CommentariesProps = CommentariesLogicProps & Required<CommentHandles>;
+type CommentariesProps = CommentariesLogicProps &
+  Pick<CommentHandles, 'onClickReply'>;
 
 const Commentaries: React.FC<CommentariesProps> = ({
   postId,
@@ -42,27 +43,24 @@ const Commentaries: React.FC<CommentariesProps> = ({
     return <ErrorText text="Error loading commentaries" />;
   }
 
-  if (!commentaries || commentaries.commentaries.edges.length <= 0) {
-    return null;
-  }
-
   return (
     <>
-      <div>
-        {commentaries.commentaries.edges.map(({ node: commentary }) => (
-          <Comment
-            key={commentary.id}
-            comment={commentary}
-            onClickReport={() => ({})}
-            onClickReply={onClickReply}
-            onClickDelete={handleDelete}
-          >
-            <ReplySection commentary={commentary} />
-          </Comment>
-        ))}
+      <div className="mt-2 mb-8">
+        {commentaries &&
+          commentaries.commentaries.edges.map(({ node: commentary }) => (
+            <Comment
+              key={commentary.id}
+              comment={commentary}
+              onClickReport={() => ({})}
+              onClickReply={onClickReply}
+              onClickDelete={handleDelete}
+            >
+              <ReplySection commentary={commentary} />
+            </Comment>
+          ))}
       </div>
 
-      {commentaries.commentaries.pageInfo.hasNextPage && (
+      {commentaries && commentaries.commentaries.pageInfo.hasNextPage && (
         <Observer className={spinnerContainerStyle} onIntersect={handleScroll}>
           <LoadingSpinner />
         </Observer>
