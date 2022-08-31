@@ -39,7 +39,7 @@ export default class Person {
   popularity: number;
 
   @Field()
-  profilePictureUrl(@Root('profilePath') profilePath: string): string {
+  profilePictureUrl(@Root('profile_path') profilePath: string): string {
     if (!profilePath) return '';
 
     return `https://image.tmdb.org/t/p/w500/${profilePath}`;
