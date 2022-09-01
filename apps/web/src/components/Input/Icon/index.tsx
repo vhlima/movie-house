@@ -18,17 +18,14 @@ interface InputIconInternalProps {
 const InputIcon: React.FC<InputIconInternalProps> = ({ icon }) => {
   const isObject = typeof icon === 'object';
 
-  const iconStyles = 'text-grey-500';
-
-  const iconSize = 20;
+  const { style, size } = {
+    style: 'text-grey-500',
+    size: 20,
+  };
 
   if (!isObject) {
     return (
-      <SvgIcon
-        className={iconStyles}
-        iconType={icon as SvgIconType}
-        size={iconSize}
-      />
+      <SvgIcon className={style} iconType={icon as SvgIconType} size={size} />
     );
   }
 
@@ -39,13 +36,13 @@ const InputIcon: React.FC<InputIconInternalProps> = ({ icon }) => {
   return (
     <button type="button" {...buttonProps}>
       <SvgIcon
-        className={iconStyles}
+        className={style}
         iconType={
           !isIconTypeObject
             ? (buttonIcon as SvgIconType)
             : (buttonIcon as SvgIconProps).iconType
         }
-        size={iconSize}
+        size={size}
         {...(!isIconTypeObject ? {} : (buttonIcon as SvgIconProps))}
       />
     </button>

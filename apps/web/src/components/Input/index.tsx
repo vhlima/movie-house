@@ -1,84 +1,35 @@
-import { useField } from 'formik';
+import type { PropsWithChildren } from 'react';
 
-import type { RefObject, PropsWithChildren } from 'react';
+import type { BaseInputProps } from './components/BaseInput';
 
-import RawInput from './Raw';
+import type { FormikInputProps } from './components/FormikInput';
 
-import type { RawInputProps, InputReferenceType } from './Raw';
+import BaseInput from './components/BaseInput';
+
+import FormikInput from './components/FormikInput';
 
 interface InputInternalProps {
-  reference?: RefObject<InputReferenceType>;
   formik?: boolean;
-  autoGrow?: {
-    maxHeight: number;
-  };
   label?: {
     text: string;
     htmlFor?: boolean;
   };
 }
 
-type InputProps = InputInternalProps & RawInputProps;
+type InputProps = BaseInputProps;
 
-export const FormikInput: React.FC<InputProps> = ({
-  name,
-  error,
-  reference,
-  textarea,
-  autoGrow,
-  onKeyUp,
-  ...rest
-}) => {
-  const [field, meta] = useField(name);
+type AnyInputProps = InputInternalProps & (InputProps | FormikInputProps);
 
-  return (
-    <RawInput
-      ref={reference}
-      error={meta.error || error}
-      rows={autoGrow && 1}
-      textarea={!autoGrow ? textarea : true}
-      style={autoGrow && { maxHeight: autoGrow.maxHeight, overflowY: 'auto' }}
-      onKeyUp={e => {
-        if (autoGrow) {
-          const { current } = reference;
-
-          if (!current) return;
-
-          /* eslint-disable no-param-reassign */
-          reference.current.style.height = !current.value
-            ? 'auto'
-            : `${current.scrollHeight}px`;
-        }
-
-        if (onKeyUp) {
-          onKeyUp(e);
-        }
-      }}
-      {...rest}
-      {...field}
-    />
-  );
-};
-
-// TODO change error to be first element
-
-const Input: React.FC<PropsWithChildren<InputProps>> = ({
+const Input: React.FC<PropsWithChildren<AnyInputProps>> = ({
   formik,
   label,
   name,
-  autoGrow,
-  reference,
   ...rest
 }) => {
   const rawInput = !formik ? (
-    <RawInput ref={reference} name={name} {...rest} />
+    <BaseInput name={name} {...rest} />
   ) : (
-    <FormikInput
-      reference={reference}
-      name={name}
-      autoGrow={autoGrow}
-      {...rest}
-    />
+    <FormikInput name={name} {...rest} />
   );
 
   return !label ? (
