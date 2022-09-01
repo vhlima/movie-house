@@ -2,11 +2,9 @@ import { useMemo, useState } from 'react';
 
 import * as Yup from 'yup';
 
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 
 import { useRouter } from 'next/router';
-
-import type { MutationResult } from '@apollo/client';
 
 import type { SchemaOf } from 'yup';
 
@@ -32,7 +30,8 @@ type ValidationSchemaType = SchemaOf<ReviewFormikInput>;
 interface CreateReviewLogicHandles {
   validationSchema: ValidationSchemaType;
 
-  reviewMutationResult: MutationResult<CreateReviewResponse>;
+  loading: boolean;
+  error?: ApolloError;
 
   selectedMovie: MovieData;
 
@@ -49,7 +48,7 @@ export const useLogic = ({
 }: CreateReviewPageProps): CreateReviewLogicHandles => {
   const { push } = useRouter();
 
-  const [createReviewMutation, reviewMutationResult] =
+  const [createReviewMutation, reviewResult] =
     useMutation<CreateReviewResponse>(CREATE_REVIEW);
 
   const [selectedMovie, setSelectedMovie] = useState<MovieData>(movie);
@@ -86,7 +85,7 @@ export const useLogic = ({
   };
 
   const handleSelect: SelectHandles = mov => {
-    reviewMutationResult.reset();
+    reviewResult.reset();
 
     setSelectedMovie(mov);
     setSearch(false);
@@ -102,7 +101,9 @@ export const useLogic = ({
 
   return {
     validationSchema,
-    reviewMutationResult,
+
+    loading: reviewResult.loading,
+    error: reviewResult.error,
 
     selectedMovie,
 
