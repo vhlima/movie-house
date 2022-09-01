@@ -1,40 +1,33 @@
-import { Formik, Form } from 'formik';
+import { useState } from 'react';
 
-import type { CreateReviewPageProps } from '../../../pages/reviews/create';
-
-import { useLogic } from './logic';
+import { useCreateReview } from './hooks/useReviewCreate';
 
 import Link from '../../../components/Link';
 
 import Card from '../../../components/Card';
 
-import Input from '../../../components/Input';
-
 import Button from '../../../components/Button';
-
-import ErrorText from '../../../components/ErrorText';
 
 import MovieCover from '../../movies/components/Cover';
 
-import TextShorter from '../../../components/TextShorter';
-
 import MovieSearchModal from '../../movies/components/SearchModal';
 
-const CreateReviewView: React.FC<CreateReviewPageProps> = ({ movie }) => {
-  const {
-    loading,
-    error,
+import Rating from './components/Rating';
 
-    validationSchema,
-    handleSubmit,
+import ReviewCreateForm from './components/Form';
 
-    selectedMovie,
-    handleSelect,
+const CreateReviewView: React.FC = () => {
+  const { selectedMovie, setSelectedMovie, setUserRating } = useCreateReview();
 
-    isSearch,
-    openSearch,
-    closeSearch,
-  } = useLogic({ movie });
+  const [isSearch, setSearch] = useState<boolean>(false);
+
+  const handleSelect = mov => {
+    // reviewResult.reset();
+    setUserRating(0);
+
+    setSelectedMovie(mov);
+    setSearch(false);
+  };
 
   return (
     <>
@@ -42,7 +35,7 @@ const CreateReviewView: React.FC<CreateReviewPageProps> = ({ movie }) => {
         <MovieSearchModal
           title="Search a movie to review"
           onSelect={handleSelect}
-          onClose={closeSearch}
+          onClose={() => setSearch(false)}
         />
       )}
 
@@ -62,7 +55,7 @@ const CreateReviewView: React.FC<CreateReviewPageProps> = ({ movie }) => {
                 </p>
               </div>
             ) : (
-              <div>
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-x-1 flex-wrap">
                   <Link
                     className="text-grey-100 text-xl font-semibold hover:text-grey-300"
@@ -76,47 +69,21 @@ const CreateReviewView: React.FC<CreateReviewPageProps> = ({ movie }) => {
                   </span>
                 </div>
 
-                <TextShorter
-                  className="text-grey-200"
-                  text={selectedMovie.overview}
-                  maxCharacters={100}
-                />
+                <Rating movie={selectedMovie} />
               </div>
             )}
-
-            <Button
-              className="mt-auto"
-              buttonStyle="secondary"
-              onClick={openSearch}
-            >
-              {!selectedMovie ? 'Select movie' : 'Change movie'}
-            </Button>
           </div>
         </div>
 
-        <Formik
-          initialValues={{ body: '' }}
-          validationSchema={validationSchema}
-          validateOnChange={false}
-          validateOnBlur={false}
-          onSubmit={handleSubmit}
+        <Button
+          className="mt-auto"
+          buttonStyle="secondary"
+          onClick={() => setSearch(true)}
         >
-          <Form className="flex flex-col gap-2">
-            {error && <ErrorText text={error.message} />}
+          {!selectedMovie ? 'Select movie' : 'Change movie'}
+        </Button>
 
-            <Input
-              formik
-              name="body"
-              rows={4}
-              autoGrow={{ maxHeight: 250 }}
-              label={{ text: 'Your review:', htmlFor: true }}
-            />
-
-            <Button type="submit" disabled={!selectedMovie || loading}>
-              Post review
-            </Button>
-          </Form>
-        </Formik>
+        <ReviewCreateForm />
       </Card>
     </>
   );

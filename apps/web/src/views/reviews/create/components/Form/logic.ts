@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import * as Yup from 'yup';
 
@@ -11,17 +11,13 @@ import type { SchemaOf } from 'yup';
 import type {
   ReviewInput,
   CreateReviewResponse,
-} from '../../../graphql/Review/types';
+} from '../../../../../graphql/Review/types';
 
-import type { MovieData } from '../../../graphql/Movie/types';
+import { CREATE_REVIEW } from '../../../../../graphql/Review';
 
-import { CREATE_REVIEW } from '../../../graphql/Review';
-
-import type { CreateReviewPageProps } from '../../../pages/reviews/create';
+import { useCreateReview } from '../../hooks/useReviewCreate';
 
 type ReviewFormikInput = Omit<ReviewInput, 'movieId'>;
-
-type SelectHandles = (movie: MovieData) => void;
 
 type SubmitHandles = (values: ReviewFormikInput) => Promise<void>;
 
@@ -33,27 +29,16 @@ interface CreateReviewLogicHandles {
   loading: boolean;
   error?: ApolloError;
 
-  selectedMovie: MovieData;
-
-  isSearch: boolean;
-  openSearch: () => void;
-  closeSearch: () => void;
-
-  handleSelect: SelectHandles;
   handleSubmit: SubmitHandles;
 }
 
-export const useLogic = ({
-  movie,
-}: CreateReviewPageProps): CreateReviewLogicHandles => {
+export const useLogic = (): CreateReviewLogicHandles => {
+  const { selectedMovie } = useCreateReview();
+
   const { push } = useRouter();
 
   const [createReviewMutation, reviewResult] =
     useMutation<CreateReviewResponse>(CREATE_REVIEW);
-
-  const [selectedMovie, setSelectedMovie] = useState<MovieData>(movie);
-
-  const [isSearch, setSearch] = useState<boolean>(false);
 
   const validationSchema: ValidationSchemaType = useMemo(
     () =>
@@ -84,34 +69,12 @@ export const useLogic = ({
     }
   };
 
-  const handleSelect: SelectHandles = mov => {
-    reviewResult.reset();
-
-    setSelectedMovie(mov);
-    setSearch(false);
-  };
-
-  const openSearch = () => {
-    setSearch(true);
-  };
-
-  const closeSearch = () => {
-    setSearch(false);
-  };
-
   return {
     validationSchema,
 
     loading: reviewResult.loading,
     error: reviewResult.error,
 
-    selectedMovie,
-
-    isSearch,
-    openSearch,
-    closeSearch,
-
-    handleSelect,
     handleSubmit,
   };
 };
