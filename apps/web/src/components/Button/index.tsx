@@ -89,7 +89,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
           [buttonStyleProps.disabled]: disabled,
           'p-3': buttonSize === 'lg',
           'p-2': buttonSize === 'md',
-          'px-1 py-2': buttonSize === 'sm',
+          'p-1': buttonSize === 'sm',
           'px-1': buttonSize === 'xs',
         },
       )}
