@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-
 import { ApolloError } from '@apollo/client';
 
 import { Formik, Form } from 'formik';
@@ -45,8 +43,6 @@ const GenericForm: React.FC<GenericFormProps> = ({
     body: Yup.string().required('Body is required'),
   });
 
-  const textAreaRef = useRef<HTMLTextAreaElement>();
-
   return (
     <Formik
       initialValues={initialValues}
@@ -58,12 +54,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
       <Form className="w-full">
         {error && <ErrorText text={error.message} />}
 
-        <TextInput
-          formik
-          loading={loading}
-          isReply={isReply}
-          reference={textAreaRef}
-        />
+        <TextInput formik loading={loading} isReply={isReply} />
       </Form>
     </Formik>
   );

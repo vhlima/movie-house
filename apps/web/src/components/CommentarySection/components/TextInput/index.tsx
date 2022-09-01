@@ -2,8 +2,6 @@ import type { RefObject } from 'react';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
-import type { InputIconButtonProps } from '../../../Input/Icon';
-
 import Input from '../../../Input';
 
 import ProfilePicture from '../../../ProfilePicture';
@@ -16,7 +14,6 @@ interface TextInputHandles {
 }
 
 export interface TextInputProps {
-  reference?: TextInputReference;
   formik?: boolean;
   isReply?: boolean;
   loading?: boolean;
@@ -25,7 +22,6 @@ export interface TextInputProps {
 type TextInputInternalProps = TextInputProps & TextInputHandles;
 
 const TextInput: React.FC<TextInputInternalProps> = ({
-  reference,
   formik,
   isReply,
   loading,
@@ -34,37 +30,37 @@ const TextInput: React.FC<TextInputInternalProps> = ({
 }) => {
   const { user } = useAuth();
 
-  // TODO user required
-
-  const rightIcon: InputIconButtonProps = {
-    className: 'p-3 mt-auto text-grey-300',
-    type: 'submit',
-    icon: {
-      className: loading && 'animate-spin',
-      iconType: !loading ? 'IoIosSend' : 'CgSpinner',
-      size: 24,
-    },
-  };
+  if (!user) {
+    return null;
+  }
 
   return (
     <Input
       name="body"
-      // rows={1}
-      // textarea
-      autoGrow={{ maxHeight: 250 }}
       formik={formik}
-      rounded={false}
-      roundedTop={formik}
-      border={false}
-      showError={false}
-      onFocus={onFocus}
-      reference={reference}
-      borderFocus={!formik}
-      onKeyUp={onKeyUp}
-      // style={formik && { maxHeight: '200px', overflowY: 'auto' }}
       autoFocus={formik}
+      autoGrow={{ maxHeight: 250 }}
       placeholder={!isReply ? 'Add a commentary...' : 'Add a reply...'}
-      rightIcon={formik && rightIcon}
+      rightIcon={
+        formik && {
+          className: 'p-3 mt-auto text-grey-300',
+          type: 'submit',
+          icon: {
+            className: loading && 'animate-spin',
+            iconType: !loading ? 'IoIosSend' : 'CgSpinner',
+            size: 24,
+          },
+        }
+      }
+      styleProps={{
+        showError: false,
+        border: false,
+        borderFocus: false,
+        rounded: false,
+        roundedTop: formik,
+      }}
+      onFocus={onFocus}
+      onKeyUp={onKeyUp}
     >
       <div className="p-3 mt-auto">
         <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
