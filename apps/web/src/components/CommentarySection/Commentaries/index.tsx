@@ -45,7 +45,7 @@ const Commentaries: React.FC<CommentariesProps> = ({
 
   return (
     <>
-      <div className="mt-2 mb-8">
+      <section className="mt-2 mb-8">
         {commentaries &&
           commentaries.commentaries.edges.map(({ node: commentary }) => (
             <Comment
@@ -58,7 +58,7 @@ const Commentaries: React.FC<CommentariesProps> = ({
               <ReplySection commentary={commentary} />
             </Comment>
           ))}
-      </div>
+      </section>
 
       {commentaries && commentaries.commentaries.pageInfo.hasNextPage && (
         <Observer className={spinnerContainerStyle} onIntersect={handleScroll}>
