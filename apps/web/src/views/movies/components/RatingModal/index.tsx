@@ -8,11 +8,13 @@ import { useRouter } from 'next/router';
 
 import type { MovieData } from '../../../../graphql/Movie/types';
 
+import type { ModalHandles } from '../../../../components/Modal';
+
 import { useAuth } from '../../../../hooks/useAuth';
 
 import { useLogic } from './logic';
 
-import type { ModalHandles } from '../../../../components/Modal';
+import { modalBottom } from '../../../../animations';
 
 import Modal from '../../../../components/Modal';
 
@@ -54,40 +56,12 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
     });
   };
 
-  const modalAnimation: MotionProps = useMemo(
-    () => ({
-      initial: 'hidden',
-      animate: 'visible',
-      exit: {
-        y: '80%',
-        transition: {
-          duration: 0.2,
-        },
-      },
-      variants: {
-        hidden: { opacity: 0, y: '80%' },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.2,
-          },
-        },
-      },
-    }),
-    [],
-  );
-
   return isRating ? (
     <AnimatePresence>
-      <MovieRateModal
-        movie={movie}
-        animation={modalAnimation}
-        onClose={() => setRating(false)}
-      />
+      <MovieRateModal movie={movie} onClose={() => setRating(false)} />
     </AnimatePresence>
   ) : (
-    <Modal bottom backdrop animation={modalAnimation} onClose={onClose}>
+    <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
       <div className="flex flex-col gap-4 items-center">
         <div className="flex gap-8 text-grey-300">
           {/* <InfoButton

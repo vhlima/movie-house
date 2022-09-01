@@ -4,9 +4,9 @@ import { useMutation } from '@apollo/client';
 
 import type { MovieData } from '../../../../../graphql/Movie/types';
 
-import { useAuth } from '../../../../../hooks/useAuth';
+import type { ModalHandles } from '../../../../../components/Modal';
 
-import type { ModalHandles, ModalProps } from '../../../../../components/Modal';
+import { modalBottom } from '../../../../../animations';
 
 import Modal from '../../../../../components/Modal';
 
@@ -16,88 +16,68 @@ import SvgIcon from '../../../../../components/SvgIcon';
 
 import Stars from './components/Stars';
 
-interface MovieRateModalProps extends Required<ModalProps & ModalHandles> {
+interface MovieRateModalProps extends Required<ModalHandles> {
   movie: MovieData;
-  // TODO these props can be extended from modal
+  onRate?: (userRating: number) => void;
 }
 
 const MovieRateModal: React.FC<MovieRateModalProps> = ({
   movie,
-  animation,
   onClose,
+  onRate,
 }) => {
-  const { user, setUser } = useAuth();
-
-  // const [userRating, setUserRating] = useState<number>(() => {
-  //   const rate = user?.ratings.find(r => r.movie.id === movie.id);
-
-  //   return rate ? rate.rating : 0;
-  // });
+  const [userRating, setUserRating] = useState<number>(0);
 
   // const [userAddRateMutation, { loading }] = useMutation<{
   //   userAddRate: UserResponse;
   // }>(RATE_MOVIE);
 
-  // const handleSubmit = async () => {
-  //   if (!user) return;
+  const handleSubmit = async () => {
+    // const { data } = await userAddRateMutation({
+    //   variables: {
+    //     userId: user._id,
+    //     movieId: movie.id,
+    //     data: {
+    //       rating: userRating,
+    //     },
+    //   },
+    // });
 
-  //   const { data } = await userAddRateMutation({
-  //     variables: {
-  //       userId: user._id,
-  //       movieId: movie.id,
-  //       data: {
-  //         rating: userRating,
-  //       },
-  //     },
-  //   });
+    if (onRate) {
+      onRate(userRating);
+    }
 
-  //   if (data) {
-  //     setUser(data.userAddRate);
-  //   }
-
-  //   onClose();
-  // };
+    onClose();
+  };
 
   return (
-    <Modal bottom backdrop animation={animation} onClose={onClose}>
+    <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
       <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
         <SvgIcon
           className="text-blue-500 transition-transform ease-out"
           iconType="AiFillStar"
-          // style={{ transform: `scale(${userRating * 0.05 + 1})` }}
+          style={{ transform: `scale(${userRating * 0.05 + 1})` }}
           size={90}
         />
 
         <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold select-none">
-          {/* {userRating > 0 ? userRating : '?'} */}
+          {userRating > 0 ? userRating : '?'}
         </span>
       </div>
 
-      <div className="flex flex-col items-center gap-4 mb-14 text-grey-200">
-        <button className="ml-auto" type="button" onClick={onClose}>
-          <SvgIcon iconType="FiX" size={28} />
-        </button>
-
+      <div className="flex flex-col items-center gap-4 mt-8 mb-14 text-grey-200">
         <span className="text-yellow-500 text-sm font-semibold font-mono uppercase">
           Rate this
         </span>
 
         <h1 className="text-2xl">{movie.originalTitle}</h1>
 
-        {/* <Stars
+        <Stars
           userRating={userRating}
           onChange={rating => setUserRating(rating)}
-        /> */}
-        {/* 
-        <Button
-          disabled={
-            userRating ===
-              user.ratings.find(r => r.movie.id === movie.id)?.rating || loading
-          }
-          onClick={handleSubmit}
-        >
-          Rate
-        </Button> */}
+        />
+
+        <Button onClick={handleSubmit}>Rate</Button>
       </div>
     </Modal>
   );
