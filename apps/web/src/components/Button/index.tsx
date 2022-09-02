@@ -52,7 +52,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
       },
       tertiary: {
         bg: 'bg-transparent',
-        text: 'text-grey-100',
+        text: 'text-grey-200',
         hover: 'bg-grey-600',
         outline: 'focus:border-white',
         disabled: 'border-transparent',
