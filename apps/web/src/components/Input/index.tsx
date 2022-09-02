@@ -26,10 +26,12 @@ const Input: React.FC<PropsWithChildren<AnyInputProps>> = ({
   name,
   ...rest
 }) => {
+  const { autoGrow, ...inputProps } = rest as FormikInputProps;
+
   const rawInput = !formik ? (
-    <BaseInput name={name} {...rest} />
+    <BaseInput name={name} {...inputProps} />
   ) : (
-    <FormikInput name={name} {...rest} />
+    <FormikInput name={name} autoGrow={autoGrow} {...inputProps} />
   );
 
   return !label ? (

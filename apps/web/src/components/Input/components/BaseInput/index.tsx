@@ -65,13 +65,21 @@ const BaseInput = forwardRef<
       disabled,
       hidden,
       error,
-      styleProps,
+      styleProps = {},
       children,
       ...rest
     },
     ref,
   ) => {
     const { containerClasses, inputClasses } = useMemo(() => {
+      const {
+        rounded = true,
+        border = true,
+        borderFocus = true,
+        showError = true,
+        roundedTop,
+      } = styleProps;
+
       const styles = inputStyles[inputStyle];
 
       return {
@@ -81,24 +89,23 @@ const BaseInput = forwardRef<
           {
             hidden,
 
-            'rounded-t-md': styleProps?.roundedTop,
-            'border-none': !styleProps?.border,
-            'rounded-md': styleProps?.rounded,
+            'rounded-t-md': roundedTop,
+            'border-none': !border,
+            'rounded-md': rounded,
 
             'w-full border-2': inputSize === 'lg',
           },
           !error
             ? {
-                'focus-within:border-movieHouse-mid':
-                  styleProps?.border && styleProps?.borderFocus,
+                'focus-within:border-movieHouse-mid': border && borderFocus,
               }
             : {
-                'border-danger-base': styleProps?.showError,
+                'border-danger-base': showError,
               },
           !disabled
             ? {
                 [styles.container]: true,
-                [styles.border]: styleProps?.border,
+                [styles.border]: border,
               }
             : 'bg-grey-900 border-grey-900 bg-opacity-60',
         ),
