@@ -39,7 +39,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       name="body"
       formik={formik}
       autoFocus={formik}
-      autoGrow={{ maxHeight: 250 }}
+      autoGrow={formik && { maxHeight: 250 }}
       placeholder={!isReply ? 'Add a commentary...' : 'Add a reply...'}
       rightIcon={
         formik && {
@@ -60,7 +60,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
         roundedTop: formik,
       }}
       onFocus={onFocus}
-      onKeyUp={onKeyUp}
+      onKeyUp={formik && onKeyUp}
     >
       <div className="p-3 mt-auto">
         <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />

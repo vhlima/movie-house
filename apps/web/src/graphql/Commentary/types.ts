@@ -11,8 +11,8 @@ export interface CommentaryData extends CreatedAndUpdatedAt {
   postId: string;
   user: UserData;
   body: string;
-  likeCount: number;
   replyCount: number;
+  likes: UserData[];
 }
 
 export interface AddCommentaryInput {

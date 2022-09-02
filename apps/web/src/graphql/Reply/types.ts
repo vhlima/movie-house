@@ -10,7 +10,7 @@ export interface ReplyData extends CreatedAndUpdatedAt {
   commentaryId: string;
   user: UserData;
   body: string;
-  likeCount: number;
+  likes: UserData[];
 }
 
 export interface AddReplyResponse {

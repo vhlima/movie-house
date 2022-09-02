@@ -8,13 +8,17 @@ export const COMMENTARY_FIELDS = gql`
     postId
     body
     replyCount
-    likeCount
     createdAt
     updatedAt
     user {
       id
       username
       profilePictureUrl
+    }
+    likes {
+      user {
+        id
+      }
     }
   }
 `;

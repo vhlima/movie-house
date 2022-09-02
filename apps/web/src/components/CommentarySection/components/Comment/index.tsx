@@ -4,17 +4,21 @@ import { formatDistance } from 'date-fns';
 
 import type { PropsWithChildren } from 'react';
 
+import { useAuth } from '../../../../hooks/useAuth';
+
 import type { CommentaryData } from '../../../../graphql/Commentary/types';
 
 import type { ReplyData } from '../../../../graphql/Reply/types';
 
+import Button from '../../../Button';
+
+import SvgIcon from '../../../SvgIcon';
+
 import UserText from '../../../UserText';
 
-import PageContent from '../../../PageContent';
+import LikeButton from '../../../LikeButton';
 
-import CommentButtons from './components/Buttons';
-
-export interface CommentHandles {
+interface CommentHandles {
   onClickDelete: (commentId: string) => void;
   onClickReport: (commentId: string) => void;
   onClickReply?: (commentId: string) => void;
@@ -28,32 +32,83 @@ interface CommentProps extends CommentHandles {
 const Comment: React.FC<PropsWithChildren<CommentProps>> = ({
   isReply,
   comment,
+  onClickReply,
+  onClickReport,
+  onClickDelete,
   children,
-  ...commentHandles
-}) => (
-  <PageContent
-    className={clsx('flex flex-col gap-2', {
-      'border-b border-grey-700 last-of-type:border-b-0': !isReply,
-      'pt-0 pr-0 pb-3 pl-6 last-of-type:pb-0': isReply,
-    })}
-  >
-    <UserText
-      header={
-        <span className="text-grey-200 text-sm ml-auto">
-          {formatDistance(new Date(comment.createdAt), Date.now(), {
-            addSuffix: true,
-          })}
-        </span>
-      }
-      user={comment.user}
-      text={comment.body}
-      textShort
-    />
+}) => {
+  const { user } = useAuth();
 
-    <CommentButtons comment={comment} {...commentHandles} />
+  return (
+    <div
+      className={clsx('flex flex-col gap-2 p-3', {
+        'border-b border-grey-700 last-of-type:border-b-0': !isReply,
+        'pt-0 pr-0 pb-3 pl-6 last-of-type:pb-0': isReply,
+      })}
+    >
+      <UserText
+        header={
+          <span className="text-grey-200 text-sm ml-auto">
+            {formatDistance(Date.now(), new Date(`${comment.createdAt}`), {
+              addSuffix: true,
+            })}
+          </span>
+        }
+        user={comment.user}
+        text={comment.body}
+        textShort
+      />
 
-    {children}
-  </PageContent>
-);
+      {user && (
+        <div className="flex gap-2">
+          <LikeButton
+            rootId={comment.postId}
+            referenceId={comment.id}
+            likeCount={comment.likes.length}
+            hasLiked={
+              comment.likes.filter(usr => usr.id !== user.id).length > 0
+            }
+          />
+
+          {onClickReply && (
+            <Button
+              className="uppercase"
+              buttonStyle="tertiary"
+              buttonSize="xs"
+              full={false}
+              onClick={() => onClickReply(comment.id)}
+            >
+              Reply
+            </Button>
+          )}
+
+          {user.id !== comment.user.id ? (
+            <Button
+              className="ml-auto"
+              buttonStyle="secondary"
+              buttonSize="xs"
+              full={false}
+              onClick={() => onClickReport(comment.id)}
+            >
+              <SvgIcon className="text-grey-300" iconType="BsFlagFill" />
+            </Button>
+          ) : (
+            <Button
+              className="ml-auto"
+              buttonStyle="danger"
+              buttonSize="xs"
+              full={false}
+              onClick={() => onClickDelete(comment.id)}
+            >
+              <SvgIcon iconType="FiX" />
+            </Button>
+          )}
+        </div>
+      )}
+
+      {children}
+    </div>
+  );
+};
 
 export default Comment;

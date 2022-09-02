@@ -8,7 +8,7 @@ import TextInput from './components/TextInput';
 
 import CommentModal from './components/CommentModal';
 
-interface CommentaryInteraction {
+export interface CommentaryInteraction {
   type: 'commentary' | 'reply';
   referenceId: string;
 }

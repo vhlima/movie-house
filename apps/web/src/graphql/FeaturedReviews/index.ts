@@ -6,7 +6,13 @@ const FEATURED_REVIEWS_FIELDS = gql`
   fragment FeaturedReviewsFields on Review {
     id
     body
+    commentaryCount
     createdAt
+    likes {
+      user {
+        id
+      }
+    }
     author {
       username
       profilePictureUrl

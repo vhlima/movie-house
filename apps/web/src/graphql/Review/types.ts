@@ -14,8 +14,8 @@ export interface ReviewData extends CreatedAndUpdatedAt {
   author: UserData;
   movie: MovieData;
   body: string;
-  likeCount: number;
   commentaryCount: number;
+  likes: UserData[];
 }
 
 export interface ReviewResponse {

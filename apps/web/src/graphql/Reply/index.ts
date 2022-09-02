@@ -6,13 +6,18 @@ const REPLY_FIELDS = gql`
   fragment ReplyFields on Reply {
     id
     body
-    likeCount
+    postId
     createdAt
     updatedAt
     user {
       id
       username
       profilePictureUrl
+    }
+    likes {
+      user {
+        id
+      }
     }
   }
 `;

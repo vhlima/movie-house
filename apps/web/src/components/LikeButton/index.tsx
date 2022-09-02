@@ -1,50 +1,35 @@
-import clsx from 'clsx';
+import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 
-import { motion } from 'framer-motion';
+import clsx from 'clsx';
 
 import type { LikeResponse, LikeInput } from '../../graphql/Like/types';
 
-import { useAuth } from '../../hooks/useAuth';
-
 import { LIKE_CONTENT } from '../../graphql/Like';
 
-// import type { MotionProps } from 'framer-motion';
+import { useAuth } from '../../hooks/useAuth';
 
 import SvgIcon from '../SvgIcon';
 
 export interface LikeButtonProps {
+  likeCount: number;
   // Root id means wich content the user is going to like ex: any post id or commentary
   rootId: string;
+  // Reference id means where the content id to be liked ex: commentary.id or reply.id
   referenceId?: string;
-  liked?: boolean;
-  likes: number;
-  onLike: (likeOrDislike: boolean) => void;
+  hasLiked?: boolean;
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({
   rootId,
   referenceId,
-  likes,
-  liked,
-  onLike,
+  likeCount,
+  hasLiked,
 }) => {
-  // const tst: MotionProps = {
-  //   initial: liked ? 'checked' : 'checked',
-  //   animate: liked ? 'checked' : 'unchecked',
-  //   variants: {
-  //     checked: { scale: 2, transition: { duration: 0.5 } },
-  //     unchecked: {
-  //       y: [0, -10, 0],
-  //       transition: { duration: 0.5 },
-  //     },
-  //   },
-  // };
-
-  // TODO user required
-
   const { user } = useAuth();
+
+  const [liked, setLiked] = useState<boolean>(hasLiked);
 
   const [likeOrDislikeMutation, { loading }] = useMutation<
     LikeResponse,
@@ -61,12 +46,12 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       },
     });
 
-    onLike(data);
+    setLiked(data.like);
   };
 
   return (
     <div className="flex items-center gap-1">
-      <motion.button type="button" onClick={handleLike} disabled={loading}>
+      <button type="button" onClick={handleLike} disabled={loading}>
         <SvgIcon
           className={clsx({
             'text-grey-300 group-hover:text-grey-400': !liked,
@@ -75,10 +60,12 @@ const LikeButton: React.FC<LikeButtonProps> = ({
           iconType="AiFillHeart"
           size={24}
         />
-      </motion.button>
+      </button>
 
       <span className="text-grey-200 font-semibold group-hover:text-grey-300">
-        {likes}
+        {likeCount +
+          (!hasLiked && liked ? 1 : 0) -
+          (hasLiked && !liked ? 1 : 0)}
       </span>
     </div>
   );

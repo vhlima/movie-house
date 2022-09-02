@@ -10,9 +10,13 @@ const REVIEW_FIELDS = gql`
   fragment ReviewFields on Review {
     id
     body
-    likeCount
     commentaryCount
     createdAt
+    likes {
+      user {
+        id
+      }
+    }
   }
 `;
 

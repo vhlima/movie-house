@@ -3,4 +3,6 @@ export interface LikeInput {
   referenceId?: string;
 }
 
-export type LikeResponse = boolean;
+export interface LikeResponse {
+  like: boolean;
+}

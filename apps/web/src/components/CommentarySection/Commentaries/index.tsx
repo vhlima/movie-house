@@ -2,8 +2,6 @@ import { NetworkStatus } from '@apollo/client';
 
 import type { CommentariesLogicProps } from './logic';
 
-import type { CommentHandles } from '../components/Comment';
-
 import { useLogic } from './logic';
 
 import Observer from '../../Observer';
@@ -16,8 +14,9 @@ import ReplySection from '../ReplySection';
 
 import Comment from '../components/Comment';
 
-type CommentariesProps = CommentariesLogicProps &
-  Pick<CommentHandles, 'onClickReply'>;
+type CommentariesProps = CommentariesLogicProps & {
+  onClickReply: (commentId: string) => void;
+};
 
 const Commentaries: React.FC<CommentariesProps> = ({
   postId,
@@ -45,7 +44,7 @@ const Commentaries: React.FC<CommentariesProps> = ({
 
   return (
     <>
-      <section className="mt-2 mb-8">
+      <section className="mb-8">
         {commentaries &&
           commentaries.commentaries.edges.map(({ node: commentary }) => (
             <Comment
