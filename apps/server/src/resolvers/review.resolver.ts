@@ -1,6 +1,7 @@
 import { Resolver, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 
 import { ApolloError } from 'apollo-server';
+
 import type { ServerContext } from '../types';
 
 import { createPostResolver } from './post.resolver';
@@ -224,7 +225,7 @@ class ReviewResolver extends PostResolver {
     return {
       pinnedReviews: reviews.filter(review => review.pinned),
       popularReviews: reviews
-        .sort((r1, r2) => r1.likeCount - r2.likeCount)
+        .sort((r1, r2) => r1.likes.length - r2.likes.length)
         .slice(0, MAX_POPULAR_REVIEWS + 1),
       recentReviews: reviews
         .sort((r1, r2) => r2.createdAt.getTime() - r1.createdAt.getTime())

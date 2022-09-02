@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 
 import { PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
 
@@ -31,9 +31,4 @@ export default abstract class BaseCommentary extends PostgresTimestamps {
   @Field()
   @Column()
   body: string;
-
-  @Field(() => Int)
-  async likeCount() {
-    return 0;
-  }
 }

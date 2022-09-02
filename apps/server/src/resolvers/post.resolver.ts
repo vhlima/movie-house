@@ -17,6 +17,7 @@ import Post from '../entities/mongo/post.interface';
 import User from '../entities/postgres/user.interface';
 
 import UserNotFoundError from '../errors/UserNotFound';
+import Like from '../entities/mongo/like.interface';
 
 export const createPostResolver = () => {
   @Resolver(() => Post, { isAbstract: true })
@@ -34,14 +35,13 @@ export const createPostResolver = () => {
       return user;
     }
 
-    @FieldResolver(() => Int)
-    async likeCount(@Root() post: Post) {
-      const count = await LikeRepository.count({
+    @FieldResolver(() => [Like])
+    async likes(@Root() post: Post) {
+      const likes = await LikeRepository.findBy({
         rootId: post.id.toString(),
-        referenceId: null,
       });
 
-      return count;
+      return likes;
     }
 
     @FieldResolver(() => Int)

@@ -1,8 +1,10 @@
 import { ObjectId } from 'mongodb';
 
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { Field, ID, Int, ObjectType, Root } from 'type-graphql';
 
 import { Column, ObjectIdColumn } from 'typeorm';
+
+import Like from './like.interface';
 
 import User from '../postgres/user.interface';
 
@@ -26,8 +28,8 @@ export default abstract class Post extends MongoTimestamps {
   @Column()
   body: string;
 
-  @Field(() => Int)
-  likeCount: number;
+  @Field(() => [Like])
+  likes: Like[];
 
   @Field(() => Int)
   commentaryCount: number;
