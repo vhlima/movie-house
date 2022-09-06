@@ -6,7 +6,7 @@ import type { PropsWithChildren, ButtonHTMLAttributes } from 'react';
 
 type ButtonStyleType = 'primary' | 'secondary' | 'tertiary' | 'danger';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   buttonStyle?: ButtonStyleType;
   buttonSize?: 'lg' | 'md' | 'sm' | 'xs' | 'none';
