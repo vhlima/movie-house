@@ -24,14 +24,17 @@ export class CreateUsers1660164273196 implements MigrationInterface {
           {
             name: 'real_name',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'biography',
             type: 'text',
+            isNullable: true,
           },
           {
             name: 'profile_picture_url',
             type: 'varchar',
+            isNullable: true,
           },
           ...timestamps,
         ],
