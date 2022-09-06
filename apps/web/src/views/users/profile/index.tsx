@@ -12,8 +12,6 @@ import FavoriteMovies from './components/FavoriteMovies';
 
 import ProfileStats from './components/ProfileStats';
 
-import RecentReviews from './components/RecentReviews';
-
 import ProfileButtons from './components/ProfileButtons';
 
 import ProfilePicture from '../../../components/ProfilePicture';
@@ -51,7 +49,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
             </div>
           </div>
 
-          <ProfileButtons />
+          {/* <ProfileButtons /> */}
 
           <ProfileStats />
 
