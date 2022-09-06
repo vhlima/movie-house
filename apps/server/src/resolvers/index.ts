@@ -15,3 +15,7 @@ export { default as LikeResolver } from './like.resolver';
 export { default as CommentaryResolver } from './commentary.resolver';
 
 export { default as ReplyResolver } from './reply.resolver';
+
+export { default as FollowResolver } from './follow.resolver';
+
+export { default as ProfileResolver } from './profile.resolver';

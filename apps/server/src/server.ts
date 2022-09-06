@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
-import path from 'path';
-
 import dotenv from 'dotenv';
 
 /* eslint-disable import/first */
 dotenv.config();
+
+import path from 'path';
 
 import { ApolloError, ApolloServer } from 'apollo-server';
 
@@ -20,6 +20,8 @@ import {
   RateResolver,
   FavoriteResolver,
   WatchlistResolver,
+  ProfileResolver,
+  FollowResolver,
   LikeResolver,
   CommentaryResolver,
   ReplyResolver,
@@ -41,6 +43,8 @@ const main = async () => {
       FavoriteResolver,
       // CreditsResolver,
       // WatchlistResolver,
+      ProfileResolver,
+      FollowResolver,
       LikeResolver,
       CommentaryResolver,
       ReplyResolver,

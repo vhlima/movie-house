@@ -15,6 +15,7 @@ import WatchlistItem from '../entities/mongo/watchlist.interface';
 import Reply from '../entities/postgres/comment/reply.interface';
 
 import Commentary from '../entities/postgres/comment/commentary.interface';
+import Follow from '../entities/postgres/follow.interface';
 
 /* Postgres */
 
@@ -24,6 +25,8 @@ export const CommentaryRepository =
   PostgresDataSource.getRepository(Commentary);
 
 export const ReplyRepository = PostgresDataSource.getRepository(Reply);
+
+export const FollowRepository = PostgresDataSource.getRepository(Follow);
 
 /* Mongo */
 
