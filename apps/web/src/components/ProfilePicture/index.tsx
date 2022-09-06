@@ -21,7 +21,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
       'relative flex-shrink-0 border border-grey-700 rounded-full overflow-hidden',
       {
         'w-6 h-6': imageSize === 'sm',
-        'w-9 h-9': imageSize === 'md',
+        'w-12 h-12': imageSize === 'md',
         'w-16 h-16': imageSize === 'lg',
       },
     )}
