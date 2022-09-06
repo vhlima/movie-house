@@ -23,14 +23,14 @@ export default class User extends PostgresTimestamps {
   @Column({ nullable: true })
   biography?: string;
 
-  @Field({ nullable: true })
-  @Column({
-    name: 'profile_picture_url',
-    default:
-      'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6',
+  @Field({
     nullable: true,
   })
-  profilePictureUrl: string;
+  @Column({
+    name: 'profile_picture_url',
+    nullable: true,
+  })
+  profilePictureUrl?: string;
 
   // @Field(() => [FavoriteMovie])
   // @prop({
