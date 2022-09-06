@@ -66,6 +66,9 @@ class UserResolver {
       username,
     });
 
+    user.profilePictureUrl =
+      'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6';
+
     await UserRepository.save(user);
 
     return user;

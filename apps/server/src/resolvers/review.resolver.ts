@@ -222,6 +222,11 @@ class ReviewResolver extends PostResolver {
 
     const reviews = await ReviewRepository.findBy({ authorId: userId });
 
+    reviews.forEach(review => {
+      /* eslint-disable no-param-reassign */
+      review.likes = [];
+    });
+
     return {
       pinnedReviews: reviews.filter(review => review.pinned),
       popularReviews: reviews
