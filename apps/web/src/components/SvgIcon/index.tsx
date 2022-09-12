@@ -31,6 +31,7 @@ import {
   BsHouse,
   BsFillBellFill,
   BsFillCollectionFill,
+  BsFillPinFill,
   BsFlagFill,
 } from 'react-icons/bs';
 
@@ -71,6 +72,7 @@ export type SvgIconType =
   | 'BsFillChatLeftFill'
   | 'BsFlagFill'
   | 'BsFillBellFill'
+  | 'BsFillPinFill'
   | 'BsPlusLg'
   | 'BsHouse'
   | 'MdMovie'
@@ -119,6 +121,7 @@ const icons: SvgIconsType = {
   BsFillCollectionFill,
   BsFillChatLeftFill,
   BsFillBellFill,
+  BsFillPinFill,
   BsFlagFill,
   BsPlusLg,
   BsHouse,
