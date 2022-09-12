@@ -7,7 +7,7 @@ interface MovieCoverProps {
   coverUrl?: string;
 
   coverStyle?: 'primary' | 'secondary';
-  coverSize?: 'lg' | 'md' | 'sm' | 'full';
+  coverSize?: 'lg' | 'md' | 'sm' | 'xs' | 'full';
 
   onClick?: () => void;
 }
@@ -34,6 +34,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
     {
       'flex items-center justify-center text-grey-500 select-none': !coverUrl,
 
+      'w-14 h-16': coverSize === 'xs',
       'w-20 h-28': coverSize === 'sm',
       'w-20 h-40': coverSize === 'lg',
       'w-full h-32 sm:h-44 sm:w-32': coverSize === 'full',
