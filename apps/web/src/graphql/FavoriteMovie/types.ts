@@ -2,7 +2,7 @@ import type { MovieData } from '../Movie/types';
 
 export interface FavoriteMovieData {
   id: string;
-  movie: Pick<MovieData, 'id' | 'originalTitle' | 'posterUrl'>;
+  movie: MovieData;
 }
 
 export interface FindFavoriteMoviesResponse {

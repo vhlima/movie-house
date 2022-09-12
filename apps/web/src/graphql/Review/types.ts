@@ -14,6 +14,7 @@ export interface ReviewData extends CreatedAndUpdatedAt {
   author: UserData;
   movie: MovieData;
   body: string;
+  pinned?: boolean;
   commentaryCount: number;
   likes: UserData[];
 }
@@ -31,5 +32,33 @@ export interface FindLatestReviewsResponse {
 }
 
 export interface FindLatestReviewsInput {
+  userId: string;
+}
+
+export interface FindPinnedReviewsResponse {
+  pinnedReviews: ReviewData[];
+}
+
+export interface FindPinnedReviewsInput {
+  userId: string;
+}
+
+export interface PinReviewResponse {
+  pinReview: boolean;
+}
+
+export interface UnpinReviewResponse {
+  pinReview: boolean;
+}
+
+export interface PinReviewInput {
+  reviewId: string;
+}
+
+export interface FindReviewsResponse {
+  reviews: ReviewData[];
+}
+
+export interface FindReviewsInput {
   userId: string;
 }

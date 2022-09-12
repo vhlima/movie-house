@@ -1,7 +1,5 @@
 export interface FindUserProfileResponse {
   userProfile: {
-    isFollowing: boolean;
-
     followerCount: number;
     followingCount: number;
 

@@ -47,6 +47,34 @@ export const FIND_REVIEW = appendGql(
   `,
 );
 
+export const FIND_REVIEWS = gql`
+  query FindReviews($userId: String!) {
+    reviews(userId: $userId) {
+      id
+      body
+      pinned
+      commentaryCount
+      createdAt
+      likes {
+        user {
+          id
+        }
+      }
+      author {
+        id
+        username
+        profilePictureUrl
+      }
+      movie {
+        id
+        originalTitle
+        posterUrl
+        releaseDate
+      }
+    }
+  }
+`;
+
 export const FIND_LATEST_REVIEWS = appendGql(
   REVIEW_FIELDS,
   USER_FIELDS,
@@ -65,3 +93,58 @@ export const FIND_LATEST_REVIEWS = appendGql(
     }
   `,
 );
+
+export const FIND_PINNED_REVIEWS = gql`
+  query FindPinnedReviews($userId: String!) {
+    pinnedReviews(userId: $userId) @connection(key: "pinnedReviews") {
+      id
+      body
+      commentaryCount
+      createdAt
+      likes {
+        user {
+          id
+        }
+      }
+      author {
+        id
+        username
+        profilePictureUrl
+      }
+      movie {
+        id
+        originalTitle
+        posterUrl
+        releaseDate
+      }
+    }
+  }
+`;
+
+export const PIN_REVIEW = gql`
+  mutation PinReview($reviewId: String!) {
+    pinReview(reviewId: $reviewId) {
+      id
+      movie {
+        id
+        originalTitle
+        posterUrl
+        releaseDate
+      }
+    }
+  }
+`;
+
+export const UNPIN_REVIEW = gql`
+  mutation UnpinReview($reviewId: String!) {
+    unpinReview(reviewId: $reviewId) {
+      id
+      movie {
+        id
+        originalTitle
+        posterUrl
+        releaseDate
+      }
+    }
+  }
+`;
