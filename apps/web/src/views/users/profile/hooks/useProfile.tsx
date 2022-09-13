@@ -19,21 +19,3 @@ export function useProfile(): ProfileContextData {
 
   return context;
 }
-
-// export const ProfileProvider: React.FC<
-//   PropsWithChildren<ProfileContextProps>
-// > = ({ children }) => {
-//   const [user, setUser] = useState<UserResponse>();
-
-//   const value = useMemo(
-//     () =>
-//       ({
-//         user,
-//       } as ProfileContextProps),
-//     [user],
-//   );
-
-//   return (
-//     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
-//   );
-// };

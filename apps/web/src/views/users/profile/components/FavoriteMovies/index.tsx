@@ -1,9 +1,8 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 
 import { useQuery } from '@apollo/client';
 
 import {
-  FavoriteMovieData,
   FindFavoriteMoviesInput,
   FindFavoriteMoviesResponse,
 } from '../../../../../graphql/FavoriteMovie/types';
@@ -14,60 +13,69 @@ import { useAuth } from '../../../../../hooks/useAuth';
 
 import { useProfile } from '../../hooks/useProfile';
 
-import MovieList from './components/MovieList';
+import MovieCardList from '../MovieCardList';
 
-import MovieListPersonal from './components/MovieListPersonal';
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
+import Card from '../../../../../components/Card';
+
 import ErrorText from '../../../../../components/ErrorText';
+
+import LoadingSpinner from '../../../../../components/LoadingSpinner';
+
+import EditFavoriteMoviesModal from './components/EditFavoriteModal';
 
 /* Max number of movies a user can have as favorite */
 const MAX_FAVORITE_MOVIES = 4;
 
 const FavoriteMovies: React.FC = () => {
-  const { user } = useAuth();
+  const { user: currentUser } = useAuth();
 
-  const { user: currentUser } = useProfile();
+  const { user } = useProfile();
+
+  /* When set to true, edit modal will be shown */
+  const [isEditing, setEditing] = useState<boolean>(false);
 
   /* Fetch currentUser favorite movies */
   const { data, loading, error } = useQuery<
     FindFavoriteMoviesResponse,
     FindFavoriteMoviesInput
-  >(FIND_FAVORITE_MOVIES, { variables: { userId: currentUser.id } });
+  >(FIND_FAVORITE_MOVIES, { variables: { userId: user.id } });
 
-  /* 
-    Insert on empty array slots an undefined object.
-    We use this to specify how many covers we will show at the interface.
-  */
-  const favoriteMovies = useMemo<Array<FavoriteMovieData | undefined>>(() => {
-    const favoriteMoviesCopy = data ? [...data.favoriteMovies] : [];
+  return (
+    <>
+      {isEditing && (
+        <EditFavoriteMoviesModal
+          favoriteMovies={data?.favoriteMovies || []}
+          onClose={() => setEditing(false)}
+        />
+      )}
 
-    if (favoriteMoviesCopy.length < MAX_FAVORITE_MOVIES) {
-      for (let i = favoriteMoviesCopy.length; i < MAX_FAVORITE_MOVIES; i += 1) {
-        favoriteMoviesCopy.push(undefined);
-      }
-    }
+      <Card
+        title="Favorite movies"
+        rightIcon={
+          currentUser &&
+          currentUser.id === user.id && {
+            iconType: 'FaPencilAlt',
+            onClick: () => setEditing(true),
+          }
+        }
+        noPadding
+      >
+        {error || loading ? (
+          <>
+            {loading && <LoadingSpinner center />}
 
-    return favoriteMoviesCopy;
-  }, [data]);
-
-  if (error) {
-    return <ErrorText text="Error loading favorite movies" />;
-  }
-
-  if (loading) {
-    return (
-      <MovieList favoriteMovies={[]}>
-        <LoadingSpinner center />
-      </MovieList>
-    );
-  }
-
-  const isOwnProfile = user && user.id === currentUser.id;
-
-  return !isOwnProfile ? (
-    <MovieList favoriteMovies={favoriteMovies} />
-  ) : (
-    <MovieListPersonal favoriteMovies={favoriteMovies} />
+            {error && <ErrorText text="Error loading favorite movies" />}
+          </>
+        ) : (
+          <MovieCardList
+            movies={(data?.favoriteMovies || []).map(
+              favoriteMovie => favoriteMovie.movie,
+            )}
+            maxMovies={MAX_FAVORITE_MOVIES}
+          />
+        )}
+      </Card>
+    </>
   );
 };
 
