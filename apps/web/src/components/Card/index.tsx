@@ -15,13 +15,17 @@ export interface CardIconProps {
   onClick: () => void;
 }
 
-interface CardProps {
+export interface CardProps {
   className?: string;
+
   title: string;
   description?: string;
+
   link?: LinkProps;
+
   noPadding?: boolean;
   gap?: boolean;
+
   rightIcon?: CardIconProps;
 }
 
