@@ -27,11 +27,11 @@ export interface CreateReviewResponse {
   createReview: ReviewResponse;
 }
 
-export interface FindLatestReviewsResponse {
-  latestReviews: ReviewData[];
+export interface FindRecentReviewsResponse {
+  recentReviews: ReviewData[];
 }
 
-export interface FindLatestReviewsInput {
+export interface FindRecentReviewsInput {
   userId: string;
 }
 
@@ -41,18 +41,6 @@ export interface FindPinnedReviewsResponse {
 
 export interface FindPinnedReviewsInput {
   userId: string;
-}
-
-export interface PinReviewResponse {
-  pinReview: boolean;
-}
-
-export interface UnpinReviewResponse {
-  pinReview: boolean;
-}
-
-export interface PinReviewInput {
-  reviewId: string;
 }
 
 export interface FindReviewsResponse {

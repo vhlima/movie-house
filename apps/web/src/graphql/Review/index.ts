@@ -75,13 +75,13 @@ export const FIND_REVIEWS = gql`
   }
 `;
 
-export const FIND_LATEST_REVIEWS = appendGql(
+export const FIND_RECENT_REVIEWS = appendGql(
   REVIEW_FIELDS,
   USER_FIELDS,
   MOVIE_FIELDS,
   gql`
-    query FindLatestReviews($userId: String!) {
-      latestReviews(userId: $userId) {
+    query FindRecentReviews($userId: String!) {
+      recentReviews(userId: $userId) {
         ...ReviewFields
         author {
           ...UserFields
@@ -99,6 +99,7 @@ export const FIND_PINNED_REVIEWS = gql`
     pinnedReviews(userId: $userId) @connection(key: "pinnedReviews") {
       id
       body
+      pinned
       commentaryCount
       createdAt
       likes {
@@ -111,34 +112,6 @@ export const FIND_PINNED_REVIEWS = gql`
         username
         profilePictureUrl
       }
-      movie {
-        id
-        originalTitle
-        posterUrl
-        releaseDate
-      }
-    }
-  }
-`;
-
-export const PIN_REVIEW = gql`
-  mutation PinReview($reviewId: String!) {
-    pinReview(reviewId: $reviewId) {
-      id
-      movie {
-        id
-        originalTitle
-        posterUrl
-        releaseDate
-      }
-    }
-  }
-`;
-
-export const UNPIN_REVIEW = gql`
-  mutation UnpinReview($reviewId: String!) {
-    unpinReview(reviewId: $reviewId) {
-      id
       movie {
         id
         originalTitle
