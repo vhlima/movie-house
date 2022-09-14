@@ -2,9 +2,9 @@ import { Resolver, Query, Arg, Ctx, Int } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
-import Movie from '../entities/movie';
+import Movie from '../entities/mongo-entities/movie';
 
-import MovieSearch from '../entities/movieSearch.interface';
+import MovieSearch from '../entities/movie-search.interface';
 
 import NotFoundError from '../errors/NotFound';
 

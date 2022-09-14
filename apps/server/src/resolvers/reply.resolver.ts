@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg, ID, Ctx, Args } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Ctx, Args } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
@@ -8,10 +8,12 @@ import { findWithPagination } from './pagination.resolver';
 
 import PaginationArgs from '../entities/types/args/pagination.args';
 
-import Reply from '../entities/postgres/comment/reply.interface';
-import Replies from '../entities/pagination/entities/replies.interface';
+import Reply from '../entities/pg-entities/comment/reply.interface';
+
+import Replies from '../entities/pg-entities/pagination/entities/replies.interface';
 
 import NotFoundError from '../errors/NotFound';
+
 import AuthenticationError from '../errors/Authentication';
 
 @Resolver(() => Reply)

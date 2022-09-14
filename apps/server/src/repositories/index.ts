@@ -2,22 +2,28 @@ import { PostgresDataSource } from '../database/postgres';
 
 import { MongoDataSource } from '../database/mongo';
 
-import User from '../entities/postgres/user.interface';
+/* Postgres Imports */
 
-import Review from '../entities/mongo/review.interface';
+import User from '../entities/pg-entities/user.interface';
 
-import Like from '../entities/mongo/like.interface';
+import Follow from '../entities/pg-entities/follow.interface';
 
-import FavoriteMovie from '../entities/mongo/favorite.interface';
+import Reply from '../entities/pg-entities/comment/reply.interface';
 
-import WatchlistItem from '../entities/mongo/watchlist.interface';
+import Commentary from '../entities/pg-entities/comment/commentary.interface';
 
-import Reply from '../entities/postgres/comment/reply.interface';
+/* Mongo Imports */
 
-import Commentary from '../entities/postgres/comment/commentary.interface';
-import Follow from '../entities/postgres/follow.interface';
+import Review from '../entities/mongo-entities/review.interface';
 
-/* Postgres */
+import Like from '../entities/mongo-entities/like.interface';
+
+import UserListCustom from '../entities/mongo-entities/user-list-custom.interface';
+
+import UserListPremadeMovie from '../entities/mongo-entities/user-list-premade-movie.interface';
+import UserListCustomMovie from '../entities/mongo-entities/user-list-custom-movie.interface';
+
+/* Postgres Repositories */
 
 export const UserRepository = PostgresDataSource.getRepository(User);
 
@@ -28,14 +34,17 @@ export const ReplyRepository = PostgresDataSource.getRepository(Reply);
 
 export const FollowRepository = PostgresDataSource.getRepository(Follow);
 
-/* Mongo */
+/* Mongo Repositories */
 
 export const ReviewRepository = MongoDataSource.getMongoRepository(Review);
 
-export const FavoriteMovieRepository =
-  MongoDataSource.getMongoRepository(FavoriteMovie);
-
-export const WatchlistRepository =
-  MongoDataSource.getMongoRepository(WatchlistItem);
-
 export const LikeRepository = MongoDataSource.getMongoRepository(Like);
+
+export const UserListCustomMovieRepository =
+  MongoDataSource.getMongoRepository(UserListCustomMovie);
+
+export const UserListCustomRepository =
+  MongoDataSource.getMongoRepository(UserListCustom);
+
+export const UserListPremadeMovieRepository =
+  MongoDataSource.getMongoRepository(UserListPremadeMovie);

@@ -2,7 +2,7 @@ import { Resolver, Mutation, Arg, Query, Args } from 'type-graphql';
 
 import { UserRepository } from '../repositories';
 
-import User from '../entities/postgres/user.interface';
+import User from '../entities/pg-entities/user.interface';
 
 import UserArgs from '../entities/types/args/user.args';
 

@@ -17,14 +17,13 @@ import {
   UserResolver,
   MovieResolver,
   ReviewResolver,
-  RateResolver,
-  FavoriteResolver,
-  WatchlistResolver,
   ProfileResolver,
   FollowResolver,
   LikeResolver,
   CommentaryResolver,
   ReplyResolver,
+  UserListPremadeResolver,
+  UserListCustomResolver,
 } from './resolvers';
 
 import { TmdbAPI } from './api';
@@ -39,15 +38,13 @@ const main = async () => {
       UserResolver,
       MovieResolver,
       ReviewResolver,
-      // RateResolver,
-      FavoriteResolver,
-      // CreditsResolver,
-      // WatchlistResolver,
+      UserListPremadeResolver,
       ProfileResolver,
       FollowResolver,
       LikeResolver,
       CommentaryResolver,
       ReplyResolver,
+      UserListCustomResolver,
     ],
     // resolvers: [path.resolve(__dirname, 'src/resolvers/*.ts')],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
@@ -96,10 +93,13 @@ const main = async () => {
       // Try to retrieve a user with the token
 
       try {
+        console.log(`run context`);
+
         const user = await UserRepository.findOne({
           where: { username: 'vtr' },
         });
 
+        console.log(`end context`);
         return { user };
       } catch (error) {
         return defaultProps;

@@ -1,6 +1,4 @@
-import { Arg, Args, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
-
-import { ApolloError } from 'apollo-server';
+import { Arg, Args, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
@@ -8,11 +6,11 @@ import { findWithPagination } from './pagination.resolver';
 
 import { FollowRepository, UserRepository } from '../repositories';
 
-import Follow from '../entities/postgres/follow.interface';
+import Follow from '../entities/pg-entities/follow.interface';
 
 import PaginationArgs from '../entities/types/args/pagination.args';
 
-import Followers from '../entities/pagination/entities/follow.interface';
+import Followers from '../entities/pg-entities/pagination/entities/follow.interface';
 
 import UserNotFoundError from '../errors/UserNotFound';
 

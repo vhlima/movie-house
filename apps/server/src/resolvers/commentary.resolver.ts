@@ -2,21 +2,21 @@ import { Resolver, Query, Mutation, Arg, ID, Args, Ctx } from 'type-graphql';
 
 import { ObjectId } from 'mongodb';
 
-import { FindOptionsWhere, MoreThan } from 'typeorm';
-
 import { CommentaryRepository, ReviewRepository } from '../repositories';
 
 import type { ServerContext } from '../types';
 
+import { findWithPagination } from './pagination.resolver';
+
 import PaginationArgs from '../entities/types/args/pagination.args';
 
-import Commentary from '../entities/postgres/comment/commentary.interface';
+import Commentary from '../entities/pg-entities/comment/commentary.interface';
 
-import Commentaries from '../entities/pagination/entities/commentaries.interface';
+import Commentaries from '../entities/pg-entities/pagination/entities/commentaries.interface';
+
+import NotFoundError from '../errors/NotFound';
 
 import AuthenticationError from '../errors/Authentication';
-import NotFoundError from '../errors/NotFound';
-import { findWithPagination } from './pagination.resolver';
 
 @Resolver(() => Commentary)
 export default class CommentaryResolver {

@@ -12,12 +12,13 @@ import {
   UserRepository,
 } from '../repositories';
 
-import Post from '../entities/mongo/post.interface';
+import Post from '../entities/mongo-entities/post.interface';
 
-import User from '../entities/postgres/user.interface';
+import User from '../entities/pg-entities/user.interface';
+
+import Like from '../entities/mongo-entities/like.interface';
 
 import UserNotFoundError from '../errors/UserNotFound';
-import Like from '../entities/mongo/like.interface';
 
 export const createPostResolver = () => {
   @Resolver(() => Post, { isAbstract: true })

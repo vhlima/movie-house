@@ -14,13 +14,14 @@ import type { ServerContext } from '../types';
 
 import UserProfile from '../entities/profile.interface';
 
-import Review from '../entities/mongo/review.interface';
-
-import FeaturedReviews from '../entities/featuredReviews.interface';
+import Review from '../entities/mongo-entities/review.interface';
 
 import NotFoundError from '../errors/NotFound';
+
 import UserNotFoundError from '../errors/UserNotFound';
+
 import AuthorizationError from '../errors/Authorization';
+
 import AuthenticationError from '../errors/Authentication';
 
 const MAX_LATEST_REVIEWS = 3;
@@ -150,6 +151,7 @@ class ProfileResolver {
 
     const reviews = await ReviewRepository.find({
       where: { authorId: userId },
+      take: MAX_POPULAR_REVIEWS,
     });
 
     return reviews;
@@ -170,32 +172,6 @@ class ProfileResolver {
     });
 
     return reviews;
-  }
-
-  @Query(() => FeaturedReviews)
-  async featuredReviews(@Arg('userId') userId: string) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const reviews = await ReviewRepository.findBy({ authorId: userId });
-
-    reviews.forEach(review => {
-      /* eslint-disable no-param-reassign */
-      review.likes = [];
-    });
-
-    return {
-      pinnedReviews: reviews.filter(review => review.pinned),
-      popularReviews: reviews
-        .sort((r1, r2) => r1.likes.length - r2.likes.length)
-        .slice(0, MAX_POPULAR_REVIEWS + 1),
-      recentReviews: reviews
-        .sort((r1, r2) => r2.createdAt.getTime() - r1.createdAt.getTime())
-        .slice(0, MAX_LATEST_REVIEWS + 1),
-    } as FeaturedReviews;
   }
 }
 

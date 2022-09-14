@@ -1,11 +1,5 @@
 import { DataSource } from 'typeorm';
 
-import Like from '../entities/mongo/like.interface';
-
-import Review from '../entities/mongo/review.interface';
-
-import FavoriteMovie from '../entities/mongo/favorite.interface';
-
 export const MongoDataSource = new DataSource({
   type: 'mongodb',
   url: process.env.MONGO_HOST,
@@ -15,7 +9,7 @@ export const MongoDataSource = new DataSource({
   database: process.env.MONGO_DATABASE,
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
-  entities: [Review, FavoriteMovie, Like],
+  entities: ['./src/entities/mongo-entities/**/*.ts'],
 });
 
 export const connectMongo = async () => {

@@ -6,7 +6,7 @@ import { createPostResolver } from './post.resolver';
 
 import { ReviewRepository, UserRepository } from '../repositories';
 
-import Review from '../entities/mongo/review.interface';
+import Review from '../entities/mongo-entities/review.interface';
 
 import AuthenticationError from '../errors/Authentication';
 

@@ -4,7 +4,7 @@ import type { ServerContext } from '../types';
 
 import { LikeRepository } from '../repositories';
 
-import Like from '../entities/mongo/like.interface';
+import Like from '../entities/mongo-entities/like.interface';
 
 import LikeArgs from '../entities/types/args/like.args';
 

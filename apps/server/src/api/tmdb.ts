@@ -1,6 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
-import Movie from '../entities/movie';
+import Movie from '../entities/mongo-entities/movie';
 
 interface MovieSearchResponse {
   page: number;
@@ -40,28 +40,12 @@ export default class TmdbAPI extends RESTDataSource {
       },
     );
 
+    // TODO throw error here on movie not found
+
     return {
       ...response,
       release_date: new Date(response.release_date),
     };
-  }
-
-  async getMovieWithCustomResponseById(
-    movieId: string,
-    appendToResponse: ['credits', 'videos'],
-  ) {
-    const response = await this.get(
-      `movie/${movieId}`,
-      { append_to_response: appendToResponse },
-      {
-        headers: {
-          Authorization: `Bearer $${process.env.TMDB_API_KEY}`,
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      },
-    );
-
-    return response;
   }
 
   async searchMovie(query: string): Promise<MovieSearchResponse> {
