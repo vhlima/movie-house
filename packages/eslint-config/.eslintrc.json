@@ -31,8 +31,9 @@
                 "endOfLine": "auto"
             }
         ],
-
         "@next/next/no-document-import-in-page": "off",
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/generated.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/vite.config.ts"]}],
+        "no-useless-constructor": "off",
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
         "react/jsx-props-no-spreading": "off",
