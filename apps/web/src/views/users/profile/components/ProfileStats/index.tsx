@@ -37,7 +37,7 @@ const ProfileStats: React.FC = () => {
   return (
     <>
       <div className="flex gap-2 justify-center">
-        {isOwnProfile ? (
+        {!isOwnProfile ? (
           <>
             <FollowButton
               buttonSize="xs"
