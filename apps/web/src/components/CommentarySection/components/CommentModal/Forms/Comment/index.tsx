@@ -1,16 +1,12 @@
-import { useMutation } from '@apollo/client';
-
 import type {
-  AddCommentaryResponse,
-  AddCommentaryInput,
-  FindCommentariesResponse,
-  FindCommentariesInput,
-} from '../../../../../../graphql/Commentary/types';
+  FindCommentariesQuery,
+  FindCommentariesQueryVariables,
+} from '../../../../../../graphql';
 
 import {
-  ADD_COMMENTARY,
-  FIND_COMMENTARIES,
-} from '../../../../../../graphql/Commentary';
+  FindCommentariesDocument,
+  useAddCommentaryMutation,
+} from '../../../../../../graphql';
 
 import type { GenericFormHandles } from '../index';
 
@@ -21,17 +17,13 @@ interface CommentProps extends GenericFormHandles {
 }
 
 const CommentForm: React.FC<CommentProps> = ({ postId, onSubmit }) => {
-  const [addComment, { loading, error }] = useMutation<
-    AddCommentaryResponse,
-    AddCommentaryInput,
-    FindCommentariesResponse
-  >(ADD_COMMENTARY, {
+  const [addComment, { loading, error }] = useAddCommentaryMutation({
     update: (cache, { data }) => {
       if (!data) return;
 
-      cache.updateQuery<FindCommentariesResponse, FindCommentariesInput>(
+      cache.updateQuery<FindCommentariesQuery, FindCommentariesQueryVariables>(
         {
-          query: FIND_COMMENTARIES,
+          query: FindCommentariesDocument,
         },
         cacheData => ({
           commentaries: {

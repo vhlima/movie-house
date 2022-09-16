@@ -41,7 +41,6 @@ const ProfileSettingsView: React.FC = () => {
           username: user.username,
           realName: user.realName,
           biography: user.biography,
-          email: user.email,
         }}
         onSubmit={handleSubmit}
       >

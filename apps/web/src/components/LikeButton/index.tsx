@@ -1,12 +1,8 @@
 import { useState } from 'react';
 
-import { useMutation } from '@apollo/client';
-
 import clsx from 'clsx';
 
-import type { LikeResponse, LikeInput } from '../../graphql/Like/types';
-
-import { LIKE_CONTENT } from '../../graphql/Like';
+import { useLikeContentMutation } from '../../graphql';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -31,10 +27,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   const [liked, setLiked] = useState<boolean>(hasLiked);
 
-  const [likeOrDislikeMutation, { loading }] = useMutation<
-    LikeResponse,
-    LikeInput
-  >(LIKE_CONTENT);
+  const [likeOrDislikeMutation, { loading }] = useLikeContentMutation();
 
   const handleLike = async () => {
     if (!user) return;

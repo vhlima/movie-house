@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import type { MovieData } from '../../../../graphql/Movie/types';
+import type { Movie } from '../../../../graphql';
 
 import Carousel from '../../../../components/Carousel';
 
@@ -11,11 +11,11 @@ import MovieRatingModal from '../RatingModal';
 import MovieCard from './components/Card';
 
 interface MovieCarouselProps {
-  movies: MovieData[];
+  movies: Movie[];
 }
 
 const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
-  const [ratingMovie, setRatingMovie] = useState<MovieData>();
+  const [ratingMovie, setRatingMovie] = useState<Movie>();
 
   return (
     <>

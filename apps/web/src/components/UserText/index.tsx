@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import type { UserData } from '../../graphql/User/types';
+import type { User } from '../../graphql';
 
 import Link from '../Link';
 
@@ -17,7 +17,7 @@ interface UserTextProps {
 
 interface UserTextInternalProps extends UserTextProps {
   className?: string;
-  user: UserData;
+  user: User;
   text: string;
   textShort?: boolean;
   preHeader?: ReactNode;

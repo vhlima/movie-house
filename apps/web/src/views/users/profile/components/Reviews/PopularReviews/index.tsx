@@ -1,11 +1,6 @@
-import { useQuery } from '@apollo/client';
+import type { Review } from '../../../../../../graphql';
 
-import type {
-  FindRecentReviewsInput,
-  FindRecentReviewsResponse,
-} from '../../../../../../graphql/Review/types';
-
-import { FIND_RECENT_REVIEWS } from '../../../../../../graphql/Review';
+import { useFindUserPopularReviewsQuery } from '../../../../../../graphql';
 
 import { useProfile } from '../../../hooks/useProfile';
 
@@ -14,17 +9,14 @@ import ReviewCard from '../components/ReviewCard';
 const PopularReviews: React.FC = () => {
   const { user } = useProfile();
 
-  const { data, loading, error } = useQuery<
-    FindRecentReviewsResponse,
-    FindRecentReviewsInput
-  >(FIND_RECENT_REVIEWS, {
+  const { data, loading, error } = useFindUserPopularReviewsQuery({
     variables: { userId: user.id },
   });
 
   return (
     <ReviewCard
       title="Popular reviews"
-      reviews={data?.recentReviews}
+      reviews={data?.popularReviews as Review[]}
       loading={loading}
       error={error}
     />

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import type { MovieData } from '../../../../../../graphql/Movie/types';
+import type { Movie } from '../../../../../../graphql';
 
 import Link from '../../../../../../components/Link';
 
@@ -9,7 +9,7 @@ import SvgIcon from '../../../../../../components/SvgIcon';
 import MovieRatingStar from '../../../RatingStar';
 
 interface MovieCardProps {
-  movie: MovieData;
+  movie: Movie;
   openRatingModal: () => void;
 }
 

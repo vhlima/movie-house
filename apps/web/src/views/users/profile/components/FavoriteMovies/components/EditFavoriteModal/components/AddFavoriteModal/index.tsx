@@ -1,17 +1,15 @@
-import { useMutation } from '@apollo/client';
-
 import type { ModalHandles } from '../../../../../../../../../components/Modal';
 
 import type {
-  AddFavoriteMovieResponse,
-  AddFavoriteMovieInput,
-  FindFavoriteMoviesResponse,
-} from '../../../../../../../../../graphql/FavoriteMovie/types';
+  FindUserFavoriteMoviesQuery,
+  AddMovieToPremadeListMutationVariables,
+} from '../../../../../../../../../graphql';
 
 import {
-  ADD_FAVORITE_MOVIE,
-  FIND_FAVORITE_MOVIES,
-} from '../../../../../../../../../graphql/FavoriteMovie';
+  UserListType,
+  FindUserFavoriteMoviesDocument,
+  useAddMovieToPremadeListMutation,
+} from '../../../../../../../../../graphql';
 
 import MovieSearchModal from '../../../../../../../../movies/components/SearchModal';
 
@@ -20,32 +18,34 @@ type AddFavoriteMovieModalProps = ModalHandles;
 const AddFavoriteMovieModal: React.FC<AddFavoriteMovieModalProps> = ({
   onClose,
 }) => {
-  const [addFavoriteMovie, { loading, error, reset }] = useMutation<
-    AddFavoriteMovieResponse,
-    AddFavoriteMovieInput
-  >(ADD_FAVORITE_MOVIE, {
-    errorPolicy: 'all',
-    update: (cache, { data }) => {
-      if (!data) return;
+  const [addFavoriteMovie, { loading, error, reset }] =
+    useAddMovieToPremadeListMutation({
+      errorPolicy: 'all',
+      // update: (cache, { data }) => {
+      //   if (!data) return;
 
-      cache.updateQuery<FindFavoriteMoviesResponse>(
-        {
-          query: FIND_FAVORITE_MOVIES,
-        },
-        cacheData => ({
-          favoriteMovies: [
-            ...(cacheData?.favoriteMovies || []),
-            data.addFavoriteMovie,
-          ],
-        }),
-      );
-    },
-  });
+      //   cache.updateQuery<FindUserFavoriteMoviesQuery>(
+      //     {
+      //       query: FindUserFavoriteMoviesDocument,
+      //     },
+      //     cacheData => ({
+      //       favoriteMovies: [
+      //         ...(cacheData?.favoriteMovies || []),
+      //         data.addMovieToList,
+      //       ],
+      //     }),
+      //   );
+      // },
+    });
 
-  const handleAdd = async ({ movieId }: AddFavoriteMovieInput) => {
+  const handleAdd = async ({
+    movieId,
+  }: Omit<AddMovieToPremadeListMutationVariables, 'listType'>) => {
     if (loading) return;
 
-    const { data, errors } = await addFavoriteMovie({ variables: { movieId } });
+    const { data, errors } = await addFavoriteMovie({
+      variables: { movieId, listType: UserListType.Favorite },
+    });
 
     if (!errors && data) {
       onClose();

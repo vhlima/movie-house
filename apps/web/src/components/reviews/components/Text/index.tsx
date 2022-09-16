@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import type { ReviewData } from '../../../../graphql/Review/types';
+import type { Review } from '../../../../graphql';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
@@ -15,7 +15,7 @@ import Link from '../../../Link';
 import CommentaryCount from '../../../CommentaryCount';
 
 interface ReviewTextProps {
-  review: ReviewData;
+  review: Review;
   preview?: boolean;
 }
 

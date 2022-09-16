@@ -1,8 +1,4 @@
-import { useState } from 'react';
-
-import { useMutation } from '@apollo/client';
-
-import type { MovieResponse } from '../../../../graphql/Movie/types';
+import type { Movie } from '../../../../graphql';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
@@ -10,14 +6,14 @@ import { useAuth } from '../../../../hooks/useAuth';
 //   ADD_MOVIE_TO_WATCHLIST,
 //   RATE_MOVIE,
 //   REMOVE_MOVIE_FROM_WATCHLIST,
-// } from '../../../../graphql/user';
+// } from '../../../.;
 
 // TODO maybe use only one rating mutation for both rating types
 
 // TODO another class requiring movie while it could be gathered via context
 
 interface UserRatingLogicProps {
-  movie: MovieResponse;
+  movie: Movie;
 }
 
 interface UserRatingLogicHandles {
@@ -26,7 +22,7 @@ interface UserRatingLogicHandles {
 }
 
 export const useLogic = ({ movie }: UserRatingLogicProps) => {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
   // const [addUserRating] = useMutation<{ userAddRate: UserResponse }>(
   //   RATE_MOVIE,

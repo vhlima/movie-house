@@ -1,20 +1,17 @@
-import { ApolloError, useMutation, useQuery } from '@apollo/client';
+import { ApolloError } from '@apollo/client';
 
-import { FindPinnedReviewsResponse } from '../../../../../../../../graphql/Review/types';
-
-import { FIND_PINNED_REVIEWS } from '../../../../../../../../graphql/Review';
-
-import { PIN_REVIEW } from '../../../../../../../../graphql/Profile';
+import type { FindUserPinnedReviewsQuery } from '../../../../../../../../graphql';
 
 import {
-  PinReviewInput,
-  PinReviewResponse,
-} from '../../../../../../../../graphql/Profile/types';
+  FindUserPinnedReviewsDocument,
+  usePinReviewMutation,
+  useFindUserPinnedReviewsQuery,
+} from '../../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../../hooks/useAuth';
 
 interface EditModalLogicHandles {
-  cachedPinnedReviews: FindPinnedReviewsResponse;
+  cachedPinnedReviews: FindUserPinnedReviewsQuery;
 
   error: ApolloError;
 
@@ -24,22 +21,19 @@ interface EditModalLogicHandles {
 export const useLogic = (): EditModalLogicHandles => {
   const { user } = useAuth();
 
-  const { data: cachedPinnedReviews } = useQuery(FIND_PINNED_REVIEWS, {
+  const { data: cachedPinnedReviews } = useFindUserPinnedReviewsQuery({
     variables: { userId: user.id },
     fetchPolicy: 'cache-first',
   });
 
-  const [pinReview, { loading, error }] = useMutation<
-    PinReviewResponse,
-    PinReviewInput
-  >(PIN_REVIEW, {
+  const [pinReview, { loading, error }] = usePinReviewMutation({
     errorPolicy: 'all',
     update: (cache, { data }, context) => {
       if (!data || data.pinReview.pinned) return;
 
-      cache.updateQuery<FindPinnedReviewsResponse>(
+      cache.updateQuery<FindUserPinnedReviewsQuery>(
         {
-          query: FIND_PINNED_REVIEWS,
+          query: FindUserPinnedReviewsDocument,
         },
         cacheData => ({
           pinnedReviews: (cacheData?.pinnedReviews || []).filter(

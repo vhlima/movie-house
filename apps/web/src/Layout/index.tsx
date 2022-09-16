@@ -8,7 +8,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => (
   <>
     <div id="modalPortal" />
 
-    <div className="flex flex-col relative w-screen h-screen overflow-x-hidden overflow-y-auto font-sans bg-grey-900 overflow-scroll">
+    <div className="flex flex-col relative w-screen h-screen overflow-x-hidden overflow-y-auto font-sans bg-grey-900">
       <Navbar />
 
       <div className="relative w-full">{children}</div>

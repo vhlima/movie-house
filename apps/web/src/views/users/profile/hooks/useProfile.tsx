@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react';
 
-import type { UserData } from '../../../../graphql/User/types';
+import type { User } from '../../../../graphql';
 
 export interface ProfileContextData {
-  user: UserData;
+  user: User;
 }
 
 export const ProfileContext = createContext<ProfileContextData>(
@@ -14,7 +14,7 @@ export function useProfile(): ProfileContextData {
   const context = useContext(ProfileContext);
 
   if (!context) {
-    throw new Error('useProfile must be used within an AuthProvider');
+    throw new Error('useProfile must be used within an provider');
   }
 
   return context;

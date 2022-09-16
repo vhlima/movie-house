@@ -1,33 +1,22 @@
-import { useMutation, useQuery } from '@apollo/client';
-
-import type { QueryResult } from '@apollo/client';
-
 import type { ModalHandles } from '../../../../../../../../../../components/Modal';
 
 import type {
-  FindPinnedReviewsResponse,
-  FindReviewsInput,
-  FindReviewsResponse,
-} from '../../../../../../../../../../graphql/Review/types';
-
-import type {
-  PinReviewInput,
-  PinReviewResponse,
-} from '../../../../../../../../../../graphql/Profile/types';
+  FindUserPinnedReviewsQuery,
+  FindUserReviewsQueryResult,
+} from '../../../../../../../../../../graphql';
 
 import {
-  FIND_PINNED_REVIEWS,
-  FIND_REVIEWS,
-} from '../../../../../../../../../../graphql/Review';
-
-import { PIN_REVIEW } from '../../../../../../../../../../graphql/Profile';
+  FindUserPinnedReviewsDocument,
+  usePinReviewMutation,
+  useFindUserReviewsQuery,
+} from '../../../../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../../../../hooks/useAuth';
 
 type AddModalLogicProps = ModalHandles;
 
 interface AddModalLogicHandles {
-  reviewsResponse: QueryResult<FindReviewsResponse, FindReviewsInput>;
+  reviewsResponse: FindUserReviewsQueryResult;
 
   handlePin: (reviewId: string) => Promise<void>;
 }
@@ -37,22 +26,18 @@ export const useLogic = ({
 }: AddModalLogicProps): AddModalLogicHandles => {
   const { user } = useAuth();
 
-  const reviewsResponse = useQuery<FindReviewsResponse, FindReviewsInput>(
-    FIND_REVIEWS,
-    { variables: { userId: user.id } },
-  );
+  const reviewsResponse = useFindUserReviewsQuery({
+    variables: { userId: user.id },
+  });
 
-  const [pinReview, { loading }] = useMutation<
-    PinReviewResponse,
-    PinReviewInput
-  >(PIN_REVIEW, {
+  const [pinReview, { loading }] = usePinReviewMutation({
     errorPolicy: 'all',
     update: (cache, { data }) => {
       if (!data || !data.pinReview.pinned) return;
 
-      cache.updateQuery<FindPinnedReviewsResponse>(
+      cache.updateQuery<FindUserPinnedReviewsQuery>(
         {
-          query: FIND_PINNED_REVIEWS,
+          query: FindUserPinnedReviewsDocument,
         },
         cacheData => ({
           pinnedReviews: [...(cacheData?.pinnedReviews || []), data.pinReview],

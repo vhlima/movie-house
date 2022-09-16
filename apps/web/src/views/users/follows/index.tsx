@@ -1,11 +1,6 @@
 import { NetworkStatus } from '@apollo/client';
 
-import type {
-  FindFollowersResponse,
-  FindFollowingResponse,
-} from '../../../graphql/Follow/types';
-
-import type { UserData } from '../../../graphql/User/types';
+import type { FindFollowersQuery, FindFollowingQuery } from '../../../graphql';
 
 import type { FollowsLogicProps } from './logic';
 
@@ -42,8 +37,8 @@ const UserFollows: React.FC<UserFollowsProps> = ({ followType, userId }) => {
   return (
     <>
       {(followType === 'followers'
-        ? (data as FindFollowersResponse).followers
-        : (data as FindFollowingResponse).following
+        ? (data as FindFollowersQuery).followers
+        : (data as FindFollowingQuery).following
       ).edges.map(follow => (
         <div className="flex gap-2 items-center" key={follow.node.id}>
           <ProfilePicture
@@ -73,8 +68,8 @@ const UserFollows: React.FC<UserFollowsProps> = ({ followType, userId }) => {
       ))}
 
       {(followType === 'followers'
-        ? (data as FindFollowersResponse).followers
-        : (data as FindFollowingResponse).following
+        ? (data as FindFollowersQuery).followers
+        : (data as FindFollowingQuery).following
       ).pageInfo.hasNextPage && (
         <Observer onIntersect={handleScroll}>
           <LoadingSpinner />

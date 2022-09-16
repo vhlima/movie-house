@@ -32,7 +32,7 @@ interface ProfileSettingsLogicHandles {
 }
 
 export const useLogic = (): ProfileSettingsLogicHandles => {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
   // const [updateUserMutation, updateUserResult] =
   //   useMutation<UpdateUserResponse>(UPDATE_USER);

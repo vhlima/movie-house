@@ -2,9 +2,13 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 import { useRouter } from 'next/router';
 
-import type { ReviewResponse } from '../../graphql/Review/types';
+import type {
+  Review,
+  FindReviewQuery,
+  FindReviewQueryVariables,
+} from '../../graphql';
 
-import { FIND_REVIEW } from '../../graphql/Review';
+import { FindReviewDocument } from '../../graphql';
 
 import client from '../../api';
 
@@ -17,23 +21,26 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { id } = params;
 
-  if (id) {
-    try {
-      const { data } = await client.query<ReviewResponse>({
-        query: FIND_REVIEW,
-        variables: { reviewId: id },
-      });
+  if (!id && typeof id !== 'string') return defaultProps;
 
-      if (!data) return defaultProps;
+  try {
+    const { data } = await client.query<
+      FindReviewQuery,
+      FindReviewQueryVariables
+    >({
+      query: FindReviewDocument,
+      variables: { reviewId: id as string },
+    });
 
-      return {
-        props: {
-          review: data.review,
-        },
-      };
-    } catch (err) {
-      return defaultProps;
-    }
+    if (!data) return defaultProps;
+
+    return {
+      props: {
+        review: data.review,
+      },
+    };
+  } catch (err) {
+    return defaultProps;
   }
 
   return defaultProps;
@@ -44,7 +51,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const Reviews: NextPage<ReviewResponse> = ({ review }) => {
+const ReviewPage: NextPage<FindReviewQuery> = ({ review }) => {
   const { isFallback, push } = useRouter();
 
   if (isFallback) {
@@ -59,7 +66,7 @@ const Reviews: NextPage<ReviewResponse> = ({ review }) => {
     return null;
   }
 
-  return <MovieReviewView review={review} />;
+  return <MovieReviewView review={review as Review} />;
 };
 
-export default Reviews;
+export default ReviewPage;

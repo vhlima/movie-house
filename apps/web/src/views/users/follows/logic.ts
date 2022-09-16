@@ -1,12 +1,15 @@
-import { NetworkStatus, QueryResult, useQuery } from '@apollo/client';
 import { useCallback } from 'react';
-import { FIND_FOLLOWERS, FIND_FOLLOWING } from '../../../graphql/Follow';
+
+import { NetworkStatus, QueryResult, useQuery } from '@apollo/client';
 
 import type {
-  FindFollowersResponse,
-  FindFollowingResponse,
-  FindFollowInput,
-} from '../../../graphql/Follow/types';
+  FindFollowersQuery,
+  FindFollowersQueryVariables,
+  FindFollowingQuery,
+  FindFollowingQueryVariables,
+} from '../../../graphql';
+
+import { FindFollowersDocument, FindFollowingDocument } from '../../../graphql';
 
 export interface FollowsLogicProps {
   followType: 'following' | 'followers';
@@ -15,8 +18,8 @@ export interface FollowsLogicProps {
 
 interface FollowsLogicHandles {
   query: QueryResult<
-    FindFollowersResponse | FindFollowingResponse,
-    FindFollowInput
+    FindFollowersQuery | FindFollowingQuery,
+    FindFollowersQueryVariables | FindFollowingQueryVariables
   >;
   handleScroll: () => Promise<void>;
 }
@@ -28,12 +31,15 @@ export const useLogic = ({
   userId,
 }: FollowsLogicProps): FollowsLogicHandles => {
   const query = useQuery<
-    FindFollowersResponse | FindFollowingResponse,
-    FindFollowInput
-  >(followType === 'followers' ? FIND_FOLLOWERS : FIND_FOLLOWING, {
-    variables: { userId, first: ITEMS_PER_PAGE },
-    notifyOnNetworkStatusChange: true,
-  });
+    FindFollowersQuery | FindFollowingQuery,
+    FindFollowersQueryVariables | FindFollowingQueryVariables
+  >(
+    followType === 'followers' ? FindFollowersDocument : FindFollowingDocument,
+    {
+      variables: { userId, first: ITEMS_PER_PAGE },
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
   const handleScroll = useCallback(async () => {
     const { data, networkStatus, fetchMore } = query;
@@ -43,44 +49,43 @@ export const useLogic = ({
     if (networkStatus !== NetworkStatus.ready) return;
 
     await fetchMore<
-      FindFollowersResponse | FindFollowingResponse,
-      FindFollowInput
+      FindFollowersQuery | FindFollowingQuery,
+      FindFollowersQueryVariables | FindFollowingQueryVariables
     >({
       variables: {
         userId,
         first: ITEMS_PER_PAGE,
         after: (followType === 'followers'
-          ? (data as FindFollowersResponse).followers
-          : (data as FindFollowingResponse).following
+          ? (data as FindFollowersQuery).followers
+          : (data as FindFollowingQuery).following
         ).pageInfo.endCursor,
       },
       updateQuery: (previousQueryResult, { fetchMoreResult }) => {
         if (followType === 'followers') {
-          const followersResult = fetchMoreResult as FindFollowersResponse;
+          const followersResult = fetchMoreResult as FindFollowersQuery;
 
           return {
             followers: {
               pageInfo: followersResult.followers.pageInfo,
               edges: [
-                ...(previousQueryResult as FindFollowersResponse).followers
-                  .edges,
+                ...(previousQueryResult as FindFollowersQuery).followers.edges,
                 ...followersResult.followers.edges,
               ],
             },
-          } as FindFollowersResponse;
+          } as FindFollowersQuery;
         }
 
-        const followingResult = fetchMoreResult as FindFollowingResponse;
+        const followingResult = fetchMoreResult as FindFollowingQuery;
 
         return {
           following: {
             pageInfo: followingResult.following.pageInfo,
             edges: [
-              ...(previousQueryResult as FindFollowingResponse).following.edges,
+              ...(previousQueryResult as FindFollowingQuery).following.edges,
               ...followingResult.following.edges,
             ],
           },
-        } as FindFollowingResponse;
+        } as FindFollowingQuery;
       },
     });
   }, [query]);

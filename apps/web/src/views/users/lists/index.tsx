@@ -1,7 +1,5 @@
 import Image from 'next/image';
 
-import { movieList } from '../../../data/fakeData';
-
 import Link from '../../../components/Link';
 
 import SvgIcon from '../../../components/SvgIcon';
@@ -14,7 +12,7 @@ const UserMovieList: React.FC = () => (
   <ListItem>
     <Link href="/lists/abc">
       <ul className="flex relative w-full h-40">
-        {movieList.map((movie, index) => (
+        {/* {movieList.map((movie, index) => (
           <li
             className="relative min-w-0 flex-grow basis-1/3 rounded-lg float-left border border-grey-700 overflow-hidden"
             key={movie.id}
@@ -25,7 +23,7 @@ const UserMovieList: React.FC = () => (
           >
             <Image layout="fill" objectFit="fill" src={movie.coverUrl} />
           </li>
-        ))}
+        ))} */}
       </ul>
 
       <h1 className="text-grey-100 font-semibold text-lg my-2 hover:text-grey-200">

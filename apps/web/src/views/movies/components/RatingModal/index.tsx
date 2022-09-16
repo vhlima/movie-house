@@ -1,12 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import type { MotionProps } from 'framer-motion';
-
 import { useRouter } from 'next/router';
 
-import type { MovieData } from '../../../../graphql/Movie/types';
+import type { Movie } from '../../../../graphql';
 
 import type { ModalHandles } from '../../../../components/Modal';
 
@@ -25,7 +23,7 @@ import MovieRateModal from './RateModal';
 import Button from '../../../../components/Button';
 
 interface MovieRatingModalProps extends ModalHandles {
-  movie: MovieData;
+  movie: Movie;
 }
 
 const MovieRatingModal: React.FC<MovieRatingModalProps> = ({

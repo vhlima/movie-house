@@ -1,13 +1,13 @@
-import { useMutation, useQuery } from '@apollo/client';
+import type {
+  IsFollowingQuery,
+  IsFollowingQueryVariables,
+} from '../../graphql';
 
 import {
-  FollowInput,
-  FollowResponse,
-  IsFollowingInput,
-  IsFollowingResponse,
-} from '../../graphql/Follow/types';
-
-import { FOLLOW, IS_FOLLOWING } from '../../graphql/Follow';
+  IsFollowingDocument,
+  useIsFollowingQuery,
+  useFollowMutation,
+} from '../../graphql';
 
 import type { ButtonProps } from '../Button';
 
@@ -24,20 +24,17 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   onFollow,
   ...buttonProps
 }) => {
-  const { data } = useQuery<IsFollowingResponse, IsFollowingInput>(
-    IS_FOLLOWING,
-    { variables: { userId: targetUserId } },
-  );
+  const { data } = useIsFollowingQuery({ variables: { userId: targetUserId } });
 
-  const [followMutation] = useMutation<FollowResponse, FollowInput>(FOLLOW);
+  const [followMutation] = useFollowMutation();
 
   const handleFollow = async () => {
     await followMutation({
       variables: { userId: targetUserId },
       update: (cache, response) => {
-        cache.updateQuery<IsFollowingResponse>(
+        cache.updateQuery<IsFollowingQuery, IsFollowingQueryVariables>(
           {
-            query: IS_FOLLOWING,
+            query: IsFollowingDocument,
             variables: { userId: targetUserId },
           },
           cacheData => ({

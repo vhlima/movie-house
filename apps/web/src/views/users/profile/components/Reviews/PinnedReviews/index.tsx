@@ -1,13 +1,8 @@
 import { useState } from 'react';
 
-import { useQuery } from '@apollo/client';
+import type { Review } from '../../../../../../graphql';
 
-import type {
-  FindPinnedReviewsResponse,
-  FindPinnedReviewsInput,
-} from '../../../../../../graphql/Review/types';
-
-import { FIND_PINNED_REVIEWS } from '../../../../../../graphql/Review';
+import { useFindUserPinnedReviewsQuery } from '../../../../../../graphql';
 
 import { useAuth } from '../../../../../../hooks/useAuth';
 
@@ -24,10 +19,9 @@ const PinnedReviews: React.FC = () => {
 
   const [isEditing, setEditing] = useState<boolean>(false);
 
-  const { data, loading, error } = useQuery<
-    FindPinnedReviewsResponse,
-    FindPinnedReviewsInput
-  >(FIND_PINNED_REVIEWS, { variables: { userId: user.id } });
+  const { data, loading, error } = useFindUserPinnedReviewsQuery({
+    variables: { userId: user.id },
+  });
 
   return (
     <>
@@ -37,7 +31,7 @@ const PinnedReviews: React.FC = () => {
 
       <ReviewCard
         title="Pinned reviews"
-        reviews={data?.pinnedReviews}
+        reviews={data?.pinnedReviews as Review[]}
         loading={loading}
         error={error}
         rightIcon={

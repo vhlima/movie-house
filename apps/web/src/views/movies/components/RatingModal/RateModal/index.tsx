@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-import { useMutation } from '@apollo/client';
-
-import type { MovieData } from '../../../../../graphql/Movie/types';
+import type { Movie } from '../../../../../graphql';
 
 import type { ModalHandles } from '../../../../../components/Modal';
 
@@ -17,7 +15,7 @@ import SvgIcon from '../../../../../components/SvgIcon';
 import Stars from './components/Stars';
 
 interface MovieRateModalProps extends Required<ModalHandles> {
-  movie: MovieData;
+  movie: Movie;
   onRate?: (userRating: number) => void;
 }
 

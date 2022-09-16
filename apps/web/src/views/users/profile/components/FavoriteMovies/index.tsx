@@ -1,13 +1,6 @@
 import { useState } from 'react';
 
-import { useQuery } from '@apollo/client';
-
-import {
-  FindFavoriteMoviesInput,
-  FindFavoriteMoviesResponse,
-} from '../../../../../graphql/FavoriteMovie/types';
-
-import { FIND_FAVORITE_MOVIES } from '../../../../../graphql/FavoriteMovie';
+import { useFindUserFavoriteMoviesQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -34,17 +27,17 @@ const FavoriteMovies: React.FC = () => {
   /* When set to true, edit modal will be shown */
   const [isEditing, setEditing] = useState<boolean>(false);
 
-  /* Fetch currentUser favorite movies */
-  const { data, loading, error } = useQuery<
-    FindFavoriteMoviesResponse,
-    FindFavoriteMoviesInput
-  >(FIND_FAVORITE_MOVIES, { variables: { userId: user.id } });
+  /* Fetch user's favorite movies */
+  const { data, loading, error } = useFindUserFavoriteMoviesQuery({
+    variables: { userId: user.id },
+  });
 
   return (
     <>
       {isEditing && (
         <EditFavoriteMoviesModal
-          favoriteMovies={data?.favoriteMovies || []}
+          favoriteMovies={[]}
+          // favoriteMovies={data?.favoriteMovies || []}
           onClose={() => setEditing(false)}
         />
       )}
@@ -68,9 +61,10 @@ const FavoriteMovies: React.FC = () => {
           </>
         ) : (
           <MovieCardList
-            movies={(data?.favoriteMovies || []).map(
-              favoriteMovie => favoriteMovie.movie,
-            )}
+            movies={[]}
+            // movies={(data?.favoriteMovies || []).map(
+            //   favoriteMovie => favoriteMovie.movie,
+            // )}
             maxMovies={MAX_FAVORITE_MOVIES}
           />
         )}

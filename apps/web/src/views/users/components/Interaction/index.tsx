@@ -42,7 +42,7 @@ const Interaction: React.FC<PropsWithChildren<InteractionInternalProps>> = ({
       )}
     >
       <div className="flex items-center gap-1">
-        <ProfilePicture imageSize="sm" src={user.profilePicture} />
+        <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
 
         {header}
       </div>

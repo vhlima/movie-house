@@ -21,11 +21,11 @@ const CreateReviewView: React.FC = () => {
 
   const [isSearch, setSearch] = useState<boolean>(false);
 
-  const handleSelect = mov => {
+  const handleSelect = movie => {
     // reviewResult.reset();
     setUserRating(0);
 
-    setSelectedMovie(mov);
+    setSelectedMovie(movie);
     setSearch(false);
   };
 

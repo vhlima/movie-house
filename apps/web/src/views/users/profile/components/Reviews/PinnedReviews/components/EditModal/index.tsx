@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import type { ModalHandles } from '../../../../../../../../components/Modal';
 
+import type { Movie } from '../../../../../../../../graphql';
+
 import { useLogic } from './logic';
 
 import MovieCardList from '../../../../MovieCardList';
@@ -36,9 +38,9 @@ const EditPinnedReviewsModal: React.FC<EditPinnedReviewsModalProps> = ({
         maxMovies={4}
         movies={
           cachedPinnedReviews
-            ? cachedPinnedReviews.pinnedReviews.map(
+            ? (cachedPinnedReviews.pinnedReviews.map(
                 pinnedReview => pinnedReview.movie,
-              )
+              ) as Movie[])
             : []
         }
         onClickAdd={() => setAdding(true)}

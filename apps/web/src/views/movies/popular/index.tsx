@@ -1,12 +1,5 @@
 import { useQuery } from '@apollo/client';
 
-import type {
-  FindMovieInput,
-  FindMovieResponse,
-} from '../../../graphql/Movie/types';
-
-import { FIND_MOVIE } from '../../../graphql/Movie';
-
 import ErrorText from '../../../components/ErrorText';
 
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -15,20 +8,20 @@ import PageContent from '../../../components/PageContent';
 import MovieCover from '../components/Cover';
 
 const PopularMoviesView: React.FC = () => {
-  const { data, loading, error } = useQuery<FindMovieResponse, FindMovieInput>(
-    FIND_MOVIE,
-    {
-      variables: { movieId: 666 },
-    },
-  );
+  // const { data, loading, error } = useQuery<FindMovieResponse, FindMovieInput>(
+  //   FIND_MOVIE,
+  //   {
+  //     variables: { movieId: 666 },
+  //   },
+  // );
 
-  if (loading) {
-    return <LoadingSpinner className="flex justify-center mt-4" />;
-  }
+  // if (loading) {
+  //   return <LoadingSpinner className="flex justify-center mt-4" />;
+  // }
 
-  if (error) {
-    return <ErrorText text="Error loading movies" />;
-  }
+  // if (error) {
+  //   return <ErrorText text="Error loading movies" />;
+  // }
 
   const items = [];
 
@@ -36,7 +29,7 @@ const PopularMoviesView: React.FC = () => {
     items.push(i);
   }
 
-  const { movie } = data;
+  // const { movie } = data;
 
   return (
     <PageContent className="h-screen">
@@ -49,7 +42,7 @@ const PopularMoviesView: React.FC = () => {
           {items.map(numb => (
             <MovieCover
               key={numb}
-              coverUrl={movie.posterUrl}
+              // coverUrl={movie.posterUrl}
               coverSize="full"
             />
           ))}

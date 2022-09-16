@@ -1,15 +1,14 @@
-import { useMutation } from '@apollo/client';
-
 import type { GenericFormHandles } from '../index';
 
 import type {
-  AddReplyInput,
-  AddReplyResponse,
-  FindRepliesCacheInput,
-  FindRepliesResponse,
-} from '../../../../../../graphql/Reply/types';
+  FindRepliesQuery,
+  FindRepliesQueryVariables,
+} from '../../../../../../graphql';
 
-import { ADD_REPLY, FIND_REPLIES } from '../../../../../../graphql/Reply';
+import {
+  FindRepliesDocument,
+  useAddReplyMutation,
+} from '../../../../../../graphql';
 
 import GenericForm from '../index';
 
@@ -18,17 +17,15 @@ interface ReplyFormProps extends GenericFormHandles {
 }
 
 const ReplyForm: React.FC<ReplyFormProps> = ({ commentaryId, onSubmit }) => {
-  const [addReply, { loading }] = useMutation<
-    AddReplyResponse,
-    AddReplyInput,
-    FindRepliesResponse
-  >(ADD_REPLY, {
+  const [addReply, { loading }] = useAddReplyMutation({
     update: (cache, { data }) => {
       if (!data) return;
-
-      cache.updateQuery<FindRepliesResponse, FindRepliesCacheInput>(
+      cache.updateQuery<
+        FindRepliesQuery,
+        Omit<FindRepliesQueryVariables, 'first' | 'after'>
+      >(
         {
-          query: FIND_REPLIES,
+          query: FindRepliesDocument,
           variables: { commentaryId },
         },
         cacheData => ({

@@ -2,13 +2,13 @@ import { useCallback } from 'react';
 
 import { FormikHelpers } from 'formik';
 
-import { SignInCredentials } from '../../../../../types';
+import type { SignInMutationVariables } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
 type AuthSubmitHandles = (
-  values: SignInCredentials,
-  helpers: FormikHelpers<SignInCredentials>,
+  values: SignInMutationVariables,
+  helpers: FormikHelpers<SignInMutationVariables>,
 ) => Promise<void>;
 
 interface AuthModalLogicHandles {
@@ -28,9 +28,9 @@ export const useLogic = ({
     async (values, { setFieldError, setSubmitting }) => {
       if (!user) {
         try {
-          const result = await signIn(values);
+          const signInResponse = await signIn(values);
 
-          if (!result || !result.errors) {
+          if (signInResponse) {
             onClose();
             return;
           }

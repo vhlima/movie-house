@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-import type { CommentaryData } from '../../../graphql/Commentary/types';
+import type { Commentary } from '../../../graphql';
 
 import { useLogic } from './logic';
 
@@ -11,7 +9,7 @@ import SvgIcon from '../../SvgIcon';
 import Replies from './components/Replies';
 
 interface RepliesProps {
-  commentary: CommentaryData;
+  commentary: Commentary;
 }
 
 const ReplySection: React.FC<RepliesProps> = ({
@@ -22,7 +20,6 @@ const ReplySection: React.FC<RepliesProps> = ({
     repliesResponse,
     isViewingReplies,
     setViewingReplies,
-    fetchReplies,
   } = useLogic({
     commentaryId,
   });

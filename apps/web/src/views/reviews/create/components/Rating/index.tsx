@@ -1,16 +1,17 @@
 import { useState } from 'react';
 
-import type { MovieData } from '../../../../../graphql/Movie/types';
+import type { Movie } from '../../../../../graphql';
+
+import { useCreateReview } from '../../hooks/useReviewCreate';
 
 import Button from '../../../../../components/Button';
 
 import MovieRatingStar from '../../../../movies/components/RatingStar';
 
 import MovieRateModal from '../../../../movies/components/RatingModal/RateModal';
-import { useCreateReview } from '../../hooks/useReviewCreate';
 
 interface RatingProps {
-  movie: MovieData;
+  movie: Movie;
 }
 
 const Rating: React.FC<RatingProps> = ({ movie }) => {

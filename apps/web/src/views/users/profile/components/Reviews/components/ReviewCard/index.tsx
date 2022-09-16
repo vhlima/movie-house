@@ -1,6 +1,6 @@
 import { ApolloError } from '@apollo/client';
 
-import type { ReviewData } from '../../../../../../../graphql/Review/types';
+import type { Review } from '../../../../../../../graphql';
 
 import type { CardProps } from '../../../../../../../components/Card';
 
@@ -15,7 +15,7 @@ import LoadingSpinner from '../../../../../../../components/LoadingSpinner';
 import ReviewPreview from '../../../../../../../components/reviews/Preview';
 
 interface ReviewCardProps extends CardProps {
-  reviews?: ReviewData[];
+  reviews?: Review[];
   loading?: boolean;
   error?: ApolloError;
 }

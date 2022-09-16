@@ -2,9 +2,13 @@ import type { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 
 import { useRouter } from 'next/router';
 
-import type { UserResponse } from '../../graphql/User/types';
+import type {
+  User,
+  FindUserQuery,
+  FindUserQueryVariables,
+} from '../../graphql';
 
-import { FIND_USER } from '../../graphql/User';
+import { FindUserDocument } from '../../graphql';
 
 import client from '../../api';
 
@@ -19,23 +23,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { id } = params;
 
-  if (id) {
-    try {
-      const { data } = await client.query<UserResponse>({
-        query: FIND_USER,
-        variables: { userId: id },
-      });
+  if (!id || typeof id !== 'string') return defaultProps;
 
-      if (!data) return defaultProps;
+  try {
+    const { data } = await client.query<FindUserQuery, FindUserQueryVariables>({
+      query: FindUserDocument,
+      variables: { userId: id },
+    });
 
-      return {
-        props: {
-          user: data.user,
-        },
-      };
-    } catch (err) {
-      return defaultProps;
-    }
+    if (!data) return defaultProps;
+
+    return {
+      props: {
+        user: data.user,
+      },
+    };
+  } catch (err) {
+    return defaultProps;
   }
 
   return defaultProps;
@@ -46,7 +50,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const UserProfile: NextPage<UserResponse> = ({ user }) => {
+const UserProfile: NextPage<FindUserQuery> = ({ user }) => {
   const { isFallback } = useRouter();
 
   if (isFallback) {
@@ -57,7 +61,7 @@ const UserProfile: NextPage<UserResponse> = ({ user }) => {
     return <ErrorText text="User not found" />;
   }
 
-  return <UserProfileView user={user} />;
+  return <UserProfileView user={user as User} />;
 };
 
 export default UserProfile;

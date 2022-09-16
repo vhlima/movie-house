@@ -6,9 +6,7 @@ import type { PropsWithChildren } from 'react';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
-import type { CommentaryData } from '../../../../graphql/Commentary/types';
-
-import type { ReplyData } from '../../../../graphql/Reply/types';
+import type { Commentary, Reply } from '../../../../graphql';
 
 import Button from '../../../Button';
 
@@ -26,7 +24,7 @@ interface CommentHandles {
 
 interface CommentProps extends CommentHandles {
   isReply?: boolean;
-  comment: CommentaryData | ReplyData;
+  comment: Commentary | Reply;
 }
 
 const Comment: React.FC<PropsWithChildren<CommentProps>> = ({

@@ -1,13 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useQuery } from '@apollo/client';
-
-import type {
-  FindUserProfileInput,
-  FindUserProfileResponse,
-} from '../../../../../graphql/Profile/types';
-
-import { FIND_USER_PROFILE } from '../../../../../graphql/Profile';
+import { useFindUserProfileQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -27,10 +20,9 @@ const ProfileStats: React.FC = () => {
 
   const { push } = useRouter();
 
-  const { data, loading, error, refetch } = useQuery<
-    FindUserProfileResponse,
-    FindUserProfileInput
-  >(FIND_USER_PROFILE, { variables: { userId: user.id } });
+  const { data, loading, error, refetch } = useFindUserProfileQuery({
+    variables: { userId: user.id },
+  });
 
   if (error) {
     return <ErrorText text={`Error loading profile stats ${error.message}`} />;

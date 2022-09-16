@@ -2,18 +2,14 @@ import { useEffect, useState } from 'react';
 
 import type { Dispatch, SetStateAction } from 'react';
 
-import { ApolloError, useLazyQuery } from '@apollo/client';
+import { ApolloError } from '@apollo/client';
 
-import type {
-  MovieData,
-  MovieSearchInput,
-  MovieSearchResponse,
-} from '../../../../graphql/Movie/types';
+import type { Movie } from '../../../../graphql';
 
-import { SEARCH_MOVIE } from '../../../../graphql/Movie';
+import { useSearchMovieLazyQuery } from '../../../../graphql';
 
 interface MovieSearchModalLogicHandles {
-  searchResults: MovieData[];
+  searchResults: Movie[];
   error: ApolloError;
 
   resetSearchResults: () => void;
@@ -24,12 +20,11 @@ interface MovieSearchModalLogicHandles {
 export const useLogic = (): MovieSearchModalLogicHandles => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const [searchResults, setSearchResults] = useState<MovieData[]>([]);
+  const [searchResults, setSearchResults] = useState<Movie[]>([]);
 
-  const [searchMovie, { error }] = useLazyQuery<
-    MovieSearchResponse,
-    MovieSearchInput
-  >(SEARCH_MOVIE);
+  const [searchMovie, { error }] = useSearchMovieLazyQuery({
+    fetchPolicy: 'no-cache',
+  });
 
   const resetSearchResults = () => {
     setSearchResults([]);
@@ -39,17 +34,13 @@ export const useLogic = (): MovieSearchModalLogicHandles => {
     const fetchMovie = async () => {
       if (!searchTerm) return;
 
-      try {
-        const { data } = await searchMovie({
-          variables: { searchTerm },
-        });
+      const { data, error } = await searchMovie({
+        variables: { searchTerm },
+      });
 
-        if (!data) return;
+      if (!data || error) return;
 
-        setSearchResults(data.searchMovie.results);
-      } catch (err) {
-        console.error(err);
-      }
+      setSearchResults(data.searchMovie.results as Movie[]);
     };
 
     const delayDebounceFn = setTimeout(async () => {

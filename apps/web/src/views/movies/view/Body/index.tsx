@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from 'react';
 
 import Image from 'next/image';
 
-import type { MovieData } from '../../../../graphql/Movie/types';
+import type { Movie } from '../../../../graphql';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
@@ -15,10 +15,11 @@ import Button from '../../../../components/Button';
 import MovieRatingModal from '../../components/RatingModal';
 
 import Carousel from '../../../../components/Carousel';
+
 import TextShorter from '../../../../components/TextShorter';
 
 interface MovieBodyProps {
-  movie: MovieData;
+  movie: Movie;
 }
 
 const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({

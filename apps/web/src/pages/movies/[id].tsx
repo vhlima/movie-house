@@ -1,10 +1,14 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
-import type { MovieResponse } from '../../graphql/Movie/types';
+import type {
+  Movie,
+  FindFullMovieQuery,
+  FindFullMovieQueryVariables,
+} from '../../graphql';
 
-import { FIND_FULL_MOVIE } from '../../graphql/Movie';
+import { FindFullMovieDocument } from '../../graphql';
 
-import MovieView from '../../views/movies/view';
+import MovieView from '../../views/movies/root';
 
 import client from '../../api';
 
@@ -19,22 +23,21 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   if (typeof movieId !== 'number') return defaultProps;
 
-  try {
-    const { data: movieData } = await client.query<MovieResponse>({
-      query: FIND_FULL_MOVIE,
-      variables: { movieId },
-    });
+  const { data } = await client.query<
+    FindFullMovieQuery,
+    FindFullMovieQueryVariables
+  >({
+    query: FindFullMovieDocument,
+    variables: { movieId },
+  });
 
-    // TODO if dont find movie return 404
+  // TODO if dont find movie return 404
 
-    return {
-      props: {
-        movie: movieData.movie,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-  }
+  return {
+    props: {
+      movie: data.movie,
+    },
+  };
 
   return defaultProps;
 };
@@ -44,8 +47,8 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const Movie: NextPage<MovieResponse> = ({ movie }) => (
-  <MovieView movie={movie} />
+const MoviePage: NextPage<FindFullMovieQuery> = ({ movie }) => (
+  <MovieView movie={movie as Movie} />
 );
 
-export default Movie;
+export default MoviePage;

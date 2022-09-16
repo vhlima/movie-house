@@ -2,26 +2,26 @@ import { createContext, useContext, useMemo, useState } from 'react';
 
 import type { PropsWithChildren, Dispatch, SetStateAction } from 'react';
 
-import type { MovieData } from '../../../../graphql/Movie/types';
+import type { Movie } from '../../../../graphql';
 
 interface CreateReviewContextData {
-  selectedMovie?: MovieData;
-  setSelectedMovie: Dispatch<SetStateAction<MovieData>>;
+  selectedMovie?: Movie;
+  setSelectedMovie: Dispatch<SetStateAction<Movie>>;
 
   userRating: number;
   setUserRating: Dispatch<SetStateAction<number>>;
 }
 
 interface CreateReviewProps {
-  paramsMovie?: MovieData;
+  movieFromParams?: Movie;
 }
 
 const CreateReviewContext = createContext({} as CreateReviewContextData);
 
 export const CreateReviewProvider: React.FC<
   PropsWithChildren<CreateReviewProps>
-> = ({ paramsMovie, children }) => {
-  const [selectedMovie, setSelectedMovie] = useState<MovieData>(paramsMovie);
+> = ({ movieFromParams, children }) => {
+  const [selectedMovie, setSelectedMovie] = useState<Movie>(movieFromParams);
 
   const [userRating, setUserRating] = useState<number>(0);
 

@@ -2,7 +2,7 @@ import { NetworkStatus } from '@apollo/client';
 
 import type { PropsWithChildren } from 'react';
 
-import type { FindRepliesResponse } from '../../../../../graphql/Reply/types';
+import type { FindRepliesQuery, Reply } from '../../../../../graphql';
 
 import { useLogic } from './logic';
 
@@ -14,7 +14,7 @@ import Comment from '../../../components/Comment';
 
 interface RepliesProps {
   commentaryId: string;
-  repliesResponse: FindRepliesResponse;
+  repliesResponse: FindRepliesQuery;
   networkStatus: NetworkStatus;
 }
 
@@ -43,7 +43,7 @@ const Replies: React.FC<PropsWithChildren<RepliesProps>> = ({
         <Comment
           isReply
           key={reply.id}
-          comment={reply}
+          comment={reply as Reply}
           onClickDelete={handleDelete}
           onClickReport={() => ({})}
         />

@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import type { MovieData } from '../../../../../graphql/Movie/types';
+import type { Movie } from '../../../../../graphql';
 
 import Button from '../../../../../components/Button';
 
@@ -9,7 +9,7 @@ import SvgIcon from '../../../../../components/SvgIcon';
 import MovieCover from '../../../../movies/components/Cover';
 import Link from '../../../../../components/Link';
 
-type MoviesArrayType = Array<MovieData | null>;
+type MoviesArrayType = Array<Movie | null>;
 
 interface MovieCardListProps {
   movies: MoviesArrayType;

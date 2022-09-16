@@ -1,10 +1,10 @@
 import { parseISO } from 'date-fns';
 
-import type { MovieData } from '../../../../graphql/Movie/types';
-
-import { useLogic } from './logic';
+import type { Movie } from '../../../../graphql';
 
 import type { ModalHandles } from '../../../../components/Modal';
+
+import { useLogic } from './logic';
 
 import Modal from '../../../../components/Modal';
 
@@ -17,7 +17,7 @@ interface MovieSearchModalProps extends ModalHandles {
   description?: string;
   errors?: string[];
   onFocus?: () => void;
-  onSelect: (movie: MovieData) => void;
+  onSelect: (movie: Movie) => void;
 }
 
 const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
@@ -74,7 +74,7 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
                   {movie.originalTitle}
 
                   {movie.releaseDate &&
-                    ` (${new Date(movie.releaseDate).getFullYear()})`}
+                    ` (${parseISO(movie.releaseDate).getFullYear()})`}
                 </span>
               </Button>
             </li>

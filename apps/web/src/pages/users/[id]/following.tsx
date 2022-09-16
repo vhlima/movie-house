@@ -1,8 +1,8 @@
 import type { NextPage, GetServerSideProps } from 'next';
 
-import type { UserResponse } from '../../../graphql/User/types';
+import type { FindUserQuery, FindUserQueryVariables } from '../../../graphql';
 
-import { FIND_USER } from '../../../graphql/User';
+import { FindUserDocument } from '../../../graphql';
 
 import client from '../../../api';
 
@@ -15,29 +15,29 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   const { id } = params;
 
-  if (id) {
-    try {
-      const { data } = await client.query<UserResponse>({
-        query: FIND_USER,
-        variables: { userId: id },
-      });
+  if (!id || typeof id !== 'string') return defaultProps;
 
-      if (!data) return defaultProps;
+  try {
+    const { data } = await client.query<FindUserQuery, FindUserQueryVariables>({
+      query: FindUserDocument,
+      variables: { userId: id },
+    });
 
-      return {
-        props: {
-          user: data.user,
-        },
-      };
-    } catch (err) {
-      return defaultProps;
-    }
+    if (!data) return defaultProps;
+
+    return {
+      props: {
+        user: data.user,
+      },
+    };
+  } catch (err) {
+    return defaultProps;
   }
 
   return defaultProps;
 };
 
-const UserFollowing: NextPage<UserResponse> = ({ user }) => {
+const UserFollowing: NextPage<FindUserQuery> = ({ user }) => {
   if (!user) {
     // user not found
   }

@@ -1,12 +1,12 @@
-import { useMutation } from '@apollo/client';
-
 import type {
-  DeleteReplyInput,
-  FindRepliesCacheInput,
-  FindRepliesResponse,
-} from '../../../../../graphql/Reply/types';
+  FindRepliesQuery,
+  FindRepliesQueryVariables,
+} from '../../../../../graphql';
 
-import { DELETE_REPLY, FIND_REPLIES } from '../../../../../graphql/Reply';
+import {
+  FindRepliesDocument,
+  useDeleteReplyMutation,
+} from '../../../../../graphql';
 
 type DeleteHandles = (replyId: string) => Promise<void>;
 
@@ -21,14 +21,14 @@ interface RepliesLogicProps {
 export const useLogic = ({
   commentaryId,
 }: RepliesLogicProps): RepliesLogicHandles => {
-  const [deleteReply, deleteReplyResponse] = useMutation<
-    unknown,
-    DeleteReplyInput
-  >(DELETE_REPLY, {
+  const [deleteReply, deleteReplyResponse] = useDeleteReplyMutation({
     update: (cache, _, context) => {
-      cache.updateQuery<FindRepliesResponse, FindRepliesCacheInput>(
+      cache.updateQuery<
+        FindRepliesQuery,
+        Omit<FindRepliesQueryVariables, 'first' | 'after'>
+      >(
         {
-          query: FIND_REPLIES,
+          query: FindRepliesDocument,
           variables: { commentaryId },
         },
         cacheData => ({

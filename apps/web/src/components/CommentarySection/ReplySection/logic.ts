@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import { NetworkStatus, useLazyQuery } from '@apollo/client';
+import { NetworkStatus } from '@apollo/client';
 
 import type { Dispatch, SetStateAction } from 'react';
 
 import type {
-  FindRepliesInput,
-  FindRepliesResponse,
-} from '../../../graphql/Reply/types';
+  FindRepliesQuery,
+  FindRepliesQueryVariables,
+} from '../../../graphql';
 
-import { FIND_REPLIES } from '../../../graphql/Reply';
+import { useFindRepliesLazyQuery } from '../../../graphql';
 
 interface RepliesLogicHandles {
   networkStatus: NetworkStatus;
-  repliesResponse: FindRepliesResponse;
+  repliesResponse: FindRepliesQuery;
 
   isViewingReplies: boolean;
   setViewingReplies: Dispatch<SetStateAction<boolean>>;
@@ -33,7 +33,7 @@ export const useLogic = ({
   const [isViewingReplies, setViewingReplies] = useState<boolean>(false);
 
   const [fetch, { data: repliesResponse, called, networkStatus, fetchMore }] =
-    useLazyQuery<FindRepliesResponse, FindRepliesInput>(FIND_REPLIES, {
+    useFindRepliesLazyQuery({
       variables: { first: ITEMS_PER_PAGE, commentaryId },
       notifyOnNetworkStatusChange: true,
     });
@@ -41,7 +41,7 @@ export const useLogic = ({
   const fetchReplies = async () => {
     if (!called || networkStatus !== NetworkStatus.ready) return;
 
-    await fetchMore<FindRepliesResponse, FindRepliesInput>({
+    await fetchMore<FindRepliesQuery, FindRepliesQueryVariables>({
       variables: {
         commentaryId,
         first: ITEMS_PER_PAGE,

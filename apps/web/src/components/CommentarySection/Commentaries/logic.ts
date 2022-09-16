@@ -1,17 +1,17 @@
 import { useCallback } from 'react';
 
-import { NetworkStatus, useMutation, useQuery } from '@apollo/client';
+import { NetworkStatus } from '@apollo/client';
 
 import type {
-  FindCommentariesResponse,
-  FindCommentariesInput,
-  DeleteCommentaryInput,
-} from '../../../graphql/Commentary/types';
+  FindCommentariesQuery,
+  FindCommentariesQueryVariables,
+} from '../../../graphql';
 
 import {
-  FIND_COMMENTARIES,
-  DELETE_COMMENTARY,
-} from '../../../graphql/Commentary';
+  FindCommentariesDocument,
+  useDeleteCommentaryMutation,
+  useFindCommentariesQuery,
+} from '../../../graphql';
 
 export interface CommentariesLogicProps {
   postId: string;
@@ -20,7 +20,7 @@ export interface CommentariesLogicProps {
 type DeleteHandles = (commentaryId: string) => Promise<void>;
 
 interface CommentariesLogicHandles {
-  commentaries: FindCommentariesResponse;
+  commentaries: FindCommentariesQuery;
   networkStatus: NetworkStatus;
 
   handleDelete: DeleteHandles;
@@ -36,26 +36,18 @@ export const useLogic = ({
   const {
     data: commentariesResponse,
     networkStatus,
-    error,
     fetchMore,
-  } = useQuery<FindCommentariesResponse, FindCommentariesInput>(
-    FIND_COMMENTARIES,
-    {
-      variables: { postId, first: ITEMS_PER_PAGE },
-      notifyOnNetworkStatusChange: true,
-    },
-  );
+  } = useFindCommentariesQuery({
+    variables: { postId, first: ITEMS_PER_PAGE },
+    notifyOnNetworkStatusChange: true,
+  });
 
-  const [deleteComment, deleteCommentResponse] = useMutation<
-    unknown,
-    DeleteCommentaryInput
-  >(DELETE_COMMENTARY, {
+  const [deleteComment, deleteCommentResponse] = useDeleteCommentaryMutation({
     update: (cache, _, context) => {
       // TODO delete replies from cache on commentary delete
-
-      cache.updateQuery<FindCommentariesResponse>(
+      cache.updateQuery<FindCommentariesQuery>(
         {
-          query: FIND_COMMENTARIES,
+          query: FindCommentariesDocument,
         },
         cacheData => ({
           commentaries: {
@@ -73,11 +65,7 @@ export const useLogic = ({
   const handleDelete: DeleteHandles = async commentaryId => {
     if (deleteCommentResponse.loading) return;
 
-    try {
-      await deleteComment({ variables: { commentaryId } });
-    } catch (err) {
-      console.error(err);
-    }
+    await deleteComment({ variables: { commentaryId } });
 
     deleteCommentResponse.reset();
   };
@@ -85,7 +73,7 @@ export const useLogic = ({
   const handleScroll = useCallback(async () => {
     if (networkStatus !== NetworkStatus.ready) return;
 
-    await fetchMore<FindCommentariesResponse, FindCommentariesInput>({
+    await fetchMore<FindCommentariesQuery, FindCommentariesQueryVariables>({
       variables: {
         postId,
         first: ITEMS_PER_PAGE,

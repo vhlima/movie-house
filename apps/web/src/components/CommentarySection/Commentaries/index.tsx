@@ -2,6 +2,8 @@ import { NetworkStatus } from '@apollo/client';
 
 import type { CommentariesLogicProps } from './logic';
 
+import type { Commentary } from '../../../graphql';
+
 import { useLogic } from './logic';
 
 import Observer from '../../Observer';
@@ -49,12 +51,12 @@ const Commentaries: React.FC<CommentariesProps> = ({
           commentaries.commentaries.edges.map(({ node: commentary }) => (
             <Comment
               key={commentary.id}
-              comment={commentary}
+              comment={commentary as Commentary}
               onClickReport={() => ({})}
               onClickReply={onClickReply}
               onClickDelete={handleDelete}
             >
-              <ReplySection commentary={commentary} />
+              <ReplySection commentary={commentary as Commentary} />
             </Comment>
           ))}
       </section>

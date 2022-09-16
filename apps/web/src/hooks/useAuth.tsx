@@ -7,57 +7,44 @@ import {
   useEffect,
 } from 'react';
 
-import type { PropsWithChildren, Dispatch, SetStateAction } from 'react';
+import type { PropsWithChildren } from 'react';
 
-import { useLazyQuery, useMutation } from '@apollo/client';
+import type { User, SignInMutationVariables } from '../graphql';
 
-import type { FetchResult } from '@apollo/client';
-
-import type { SignInCredentials } from '../types';
-
-import type { UserData } from '../graphql/User/types';
-
-import { FIND_USER, SIGN_IN } from '../graphql/User';
-
-type SignInResponse = { login: UserData };
+import { useSignInMutation, useFindUserLazyQuery } from '../graphql';
 
 interface AuthContextData {
-  user?: UserData;
-  setUser: Dispatch<SetStateAction<UserData>>;
+  user?: User;
 
-  signIn: (
-    credentials: SignInCredentials,
-  ) => Promise<FetchResult<SignInResponse> | null>;
+  signIn: (credentials: SignInMutationVariables) => Promise<boolean>;
   signOut: () => void;
-  updateUser: () => void;
-
-  removeFavoriteMovie: (movieId: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<UserData>();
+  const [user, setUser] = useState<User>(null);
 
-  const [mutationSignIn] = useMutation<SignInResponse>(SIGN_IN);
+  const [mutationSignIn] = useSignInMutation();
 
-  const [findUser] = useLazyQuery<{ user: UserData }>(FIND_USER);
+  const [findUser] = useFindUserLazyQuery();
 
   const signIn = useCallback(
-    async ({ username }: SignInCredentials) => {
-      const fetchUser = await mutationSignIn({
+    async ({ username }: SignInMutationVariables) => {
+      const { data, errors } = await mutationSignIn({
         variables: { username },
       });
 
-      if (fetchUser.data) {
-        const userData = fetchUser.data.login;
+      if (!errors && data) {
+        const userData = data.login as User;
 
         localStorage.setItem('@MovieHouse:token', userData.id);
 
         setUser(userData);
+        return true;
       }
 
-      return fetchUser;
+      return false;
     },
     [setUser],
   );
@@ -67,17 +54,18 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setUser(undefined);
   }, [setUser]);
 
+  /* Login Persistance */
   useEffect(() => {
     const fetchUser = async () => {
       const localStorageToken = localStorage.getItem('@MovieHouse:token');
 
       if (localStorageToken) {
-        const userResponse = await findUser({
+        const { data, error } = await findUser({
           variables: { userId: localStorageToken },
         });
 
-        if (userResponse.data) {
-          setUser(userResponse.data.user);
+        if (!error && data) {
+          setUser(data.user as User);
         }
       }
     };
@@ -89,7 +77,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () =>
       ({
         user,
-        setUser,
 
         signIn,
         signOut,

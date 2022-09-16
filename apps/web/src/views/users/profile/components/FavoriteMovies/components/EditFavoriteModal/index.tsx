@@ -1,19 +1,17 @@
 import { useState } from 'react';
 
-import { useMutation } from '@apollo/client';
-
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
 import type {
-  FavoriteMovieData,
-  FindFavoriteMoviesResponse,
-  RemoveFavoriteMovieInput,
-} from '../../../../../../../graphql/FavoriteMovie/types';
+  Movie,
+  FindUserFavoriteMoviesQuery,
+} from '../../../../../../../graphql';
 
 import {
-  FIND_FAVORITE_MOVIES,
-  REMOVE_FAVORITE_MOVIE,
-} from '../../../../../../../graphql/FavoriteMovie';
+  UserListType,
+  FindUserFavoriteMoviesDocument,
+  useRemoveMovieFromPremadeListMutation,
+} from '../../../../../../../graphql';
 
 import Modal from '../../../../../../../components/Modal';
 
@@ -24,7 +22,7 @@ import ErrorText from '../../../../../../../components/ErrorText';
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
 
 interface EditFavoriteMoviesModalProps extends ModalHandles {
-  favoriteMovies: FavoriteMovieData[];
+  favoriteMovies: Movie[];
 }
 
 const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
@@ -34,32 +32,32 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
   /* When set to true, add modal will be shown */
   const [isAdding, setAdding] = useState<boolean>(false);
 
-  const [removeFavoriteMovie, { loading, error }] = useMutation<
-    string,
-    RemoveFavoriteMovieInput
-  >(REMOVE_FAVORITE_MOVIE, {
-    errorPolicy: 'all',
-    update: (cache, { data }, context) => {
-      if (!data) return;
+  const [removeFavoriteMovie, { loading, error }] =
+    useRemoveMovieFromPremadeListMutation({
+      errorPolicy: 'all',
+      update: (cache, { data }, context) => {
+        if (!data) return;
 
-      cache.updateQuery<FindFavoriteMoviesResponse>(
-        {
-          query: FIND_FAVORITE_MOVIES,
-        },
-        cacheData => ({
-          favoriteMovies: (cacheData.favoriteMovies || []).filter(
-            favoriteMovie =>
-              favoriteMovie.movie.id !== context.variables.movieId,
-          ),
-        }),
-      );
-    },
-  });
+        cache.updateQuery<FindUserFavoriteMoviesQuery>(
+          {
+            query: FindUserFavoriteMoviesDocument,
+          },
+          cacheData => ({
+            favoriteMovies: (cacheData.favoriteMovies || []).filter(
+              favoriteMovie =>
+                favoriteMovie.movie.id !== context.variables.movieId,
+            ),
+          }),
+        );
+      },
+    });
 
   const handleRemove = async (movieId: number) => {
     if (loading) return;
 
-    await removeFavoriteMovie({ variables: { movieId } });
+    await removeFavoriteMovie({
+      variables: { listType: UserListType.Favorite, movieId },
+    });
   };
 
   if (isAdding) {
@@ -74,7 +72,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
 
       <MovieCardList
         maxMovies={4}
-        movies={favoriteMovies.map(favoriteMovie => favoriteMovie.movie)}
+        movies={favoriteMovies.map(favoriteMovie => favoriteMovie)}
         onClickAdd={() => setAdding(true)}
         onClickRemove={handleRemove}
       />

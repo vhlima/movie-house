@@ -2,22 +2,19 @@ import { useMemo } from 'react';
 
 import * as Yup from 'yup';
 
-import { ApolloError, useMutation } from '@apollo/client';
+import { ApolloError } from '@apollo/client';
 
 import { useRouter } from 'next/router';
 
 import type { SchemaOf } from 'yup';
 
-import type {
-  ReviewInput,
-  CreateReviewResponse,
-} from '../../../../../graphql/Review/types';
+import type { CreateReviewMutationVariables } from '../../../../../graphql';
 
-import { CREATE_REVIEW } from '../../../../../graphql/Review';
+import { useCreateReviewMutation } from '../../../../../graphql';
 
 import { useCreateReview } from '../../hooks/useReviewCreate';
 
-type ReviewFormikInput = Omit<ReviewInput, 'movieId'>;
+type ReviewFormikInput = Omit<CreateReviewMutationVariables, 'movieId'>;
 
 type SubmitHandles = (values: ReviewFormikInput) => Promise<void>;
 
@@ -37,15 +34,12 @@ export const useLogic = (): CreateReviewLogicHandles => {
 
   const { push } = useRouter();
 
-  const [createReviewMutation, reviewResult] =
-    useMutation<CreateReviewResponse>(CREATE_REVIEW);
+  const [createReviewMutation, reviewResult] = useCreateReviewMutation();
 
   const validationSchema: ValidationSchemaType = useMemo(
     () =>
       Yup.object().shape({
-        body: Yup.string().required(
-          'Please, write your review before submitting',
-        ),
+        body: Yup.string().required('Write your review before submitting'),
       }),
     [],
   );
@@ -64,7 +58,7 @@ export const useLogic = (): CreateReviewLogicHandles => {
       // TODO fix that push
       await push({
         pathname: '/reviews/[id]',
-        query: { id: data.createReview.review.id },
+        query: { id: data.createReview.id },
       });
     }
   };

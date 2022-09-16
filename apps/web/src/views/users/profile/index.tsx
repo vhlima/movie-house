@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import type { UserData } from '../../../graphql/User/types';
+import type { User } from '../../../graphql';
 
 import type { ProfileContextData } from './hooks/useProfile';
 
@@ -21,7 +21,7 @@ import RecentReviews from './components/Reviews/RecentReviews';
 import PopularReviews from './components/Reviews/PopularReviews';
 
 interface UserProfileViewProps {
-  user: UserData;
+  user: User;
 }
 
 const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {

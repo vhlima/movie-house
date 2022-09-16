@@ -1,4 +1,4 @@
-import type { ReviewData } from '../../../graphql/Review/types';
+import type { Review } from '../../../graphql';
 
 import MovieHeader from '../../movies/view/Header';
 
@@ -11,7 +11,7 @@ import ReviewText from '../../../components/reviews/components/Text';
 import CommentarySection from '../../../components/CommentarySection';
 
 export interface MovieReviewViewProps {
-  review: ReviewData;
+  review: Review;
 }
 
 const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => (

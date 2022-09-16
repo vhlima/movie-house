@@ -15,6 +15,8 @@ const ReviewCreateForm: React.FC = () => {
 
   const { loading, error, validationSchema, handleSubmit } = useLogic();
 
+  // TODO show form validation errors
+
   return (
     <Formik
       initialValues={{ body: '' }}
