@@ -1,12 +1,9 @@
-import React, {
-  PropsWithChildren,
-  useState,
-  useRef,
-  useCallback,
-  useEffect,
-} from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+
+import type { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
+
 import SvgIcon from '../SvgIcon';
 
 interface CarouselStateProps {
@@ -90,11 +87,11 @@ const Carousel: React.FC<PropsWithChildren<CarouselProps>> = ({
   const buttonStyles =
     'absolute h-1/2 top-1/2 -translate-y-1/2 p-2 group bg-opacity-40 bg-black rounded-sm z-30';
 
-  console.log(
-    `teste? ${carouselRef.current?.getBoundingClientRect().x || 0} | ${
-      carouselProps.maxDistance
-    }`,
-  );
+  // console.log(
+  //   `teste? ${carouselRef.current?.getBoundingClientRect().x || 0} | ${
+  //     carouselProps.maxDistance
+  //   }`,
+  // );
 
   // right
   // first 12
