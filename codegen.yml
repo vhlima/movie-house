@@ -1,12 +1,9 @@
 overwrite: true
 schema: "apps/server/src/schema.graphql"
-documents: "apps/web/src/graphql/teste.tsx"
+documents: "apps/web/src/graphql/**.ts"
 generates:
-  apps/web/src/graphql/generated.tsx:
+  apps/web/src/graphql/index.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
-      - "typed-document-node"
-    config:
-      relativeFiles: true
