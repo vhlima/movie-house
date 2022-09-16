@@ -11,19 +11,15 @@
   "repository": "https://github.com/vhlima/movie-house.git",
   "author": "Victor <vhlima2000@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.yml"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "2.12.0",
-    "@graphql-codegen/typed-document-node": "^2.3.3",
     "@graphql-codegen/typescript": "2.7.3",
     "@graphql-codegen/typescript-operations": "2.5.3",
     "@graphql-codegen/typescript-react-apollo": "3.3.3",
     "@moviehouse/eslint-config": "*",
-    "typescript": "4.7.4"
-  },
-  "dependencies": {
-    "graphql": "^16.6.0"
-  },
-  "scripts": {
-    "codegen": "graphql-codegen --config codegen.yml"
+    "typescript": "4.8.3"
   }
 }
