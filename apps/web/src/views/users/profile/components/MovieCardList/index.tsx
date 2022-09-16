@@ -39,7 +39,7 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
           </Link>
         ) : (
           <>
-            <MovieCover coverUrl={movie.posterUrl} coverSize="full" />
+            <MovieCover coverUrl={movie?.posterUrl} coverSize="full" />
 
             <Button
               buttonStyle="danger"
