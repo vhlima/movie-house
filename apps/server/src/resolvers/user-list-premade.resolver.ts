@@ -45,7 +45,7 @@ export default class UserListPreMadeResolver {
   }
 
   @Query(() => [UserListPremadeMovie])
-  async watchlLater(@Arg('userId') userId: string) {
+  async watchLater(@Arg('userId') userId: string) {
     const listExists = await this.findSimpleList(
       userId,
       UserListType.WATCH_LATER,
@@ -57,6 +57,13 @@ export default class UserListPreMadeResolver {
   @Query(() => [UserListPremadeMovie])
   async watched(@Arg('userId') userId: string) {
     const listExists = await this.findSimpleList(userId, UserListType.WATCHED);
+
+    return listExists;
+  }
+
+  @Query(() => [UserListPremadeMovie])
+  async favoriteMovies(@Arg('userId') userId: string) {
+    const listExists = await this.findSimpleList(userId, UserListType.FAVORITE);
 
     return listExists;
   }

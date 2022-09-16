@@ -3,6 +3,8 @@ import { registerEnumType } from 'type-graphql';
 enum UserListType {
   /* Movies watched by user */
   WATCHED = 'WATCHED',
+  /* Movies tagged as favorite */
+  FAVORITE = 'FAVORITE',
   /* Movies in user's watchlist */
   WATCHLIST = 'WATCHLIST',
   /* Movies marked to watch later */
