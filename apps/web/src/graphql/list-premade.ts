@@ -4,7 +4,9 @@ export const ADD_MOVIE_TO_PREMADE_LIST = gql`
   mutation AddMovieToPremadeList($movieId: Int!, $listType: UserListType!) {
     addMovieToList(movieId: $movieId, listType: $listType) {
       movie {
+        id
         originalTitle
+        posterUrl
       }
     }
   }
@@ -24,6 +26,8 @@ export const FIND_USER_FAVORITE_MOVIES = gql`
     favoriteMovies(userId: $userId) {
       movie {
         id
+        originalTitle
+        posterUrl
       }
     }
   }
@@ -34,6 +38,8 @@ export const FIND_USER_WATCHLIST_MOVIES = gql`
     watchlist(userId: $userId) {
       movie {
         id
+        originalTitle
+        posterUrl
       }
     }
   }
@@ -44,6 +50,8 @@ export const FIND_USER_WATCH_LATER_MOVIES = gql`
     watchLater(userId: $userId) {
       movie {
         id
+        originalTitle
+        posterUrl
       }
     }
   }
@@ -54,6 +62,8 @@ export const FIND_USER_WATCHED_MOVIES = gql`
     watched(userId: $userId) {
       movie {
         id
+        originalTitle
+        posterUrl
       }
     }
   }

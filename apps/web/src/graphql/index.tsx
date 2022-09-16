@@ -736,7 +736,12 @@ export type AddMovieToPremadeListMutation = {
   __typename?: 'Mutation';
   addMovieToList: {
     __typename?: 'UserListPremadeMovie';
-    movie: { __typename?: 'Movie'; originalTitle: string };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    };
   };
 };
 
@@ -758,7 +763,7 @@ export type FindUserFavoriteMoviesQuery = {
   __typename?: 'Query';
   favoriteMovies: Array<{
     __typename?: 'UserListPremadeMovie';
-    movie: { __typename?: 'Movie'; id: number };
+    movie: { __typename?: 'Movie'; id: number; posterUrl: string };
   }>;
 };
 
@@ -1925,7 +1930,9 @@ export const AddMovieToPremadeListDocument = gql`
   mutation AddMovieToPremadeList($movieId: Int!, $listType: UserListType!) {
     addMovieToList(movieId: $movieId, listType: $listType) {
       movie {
+        id
         originalTitle
+        posterUrl
       }
     }
   }
@@ -2032,6 +2039,7 @@ export const FindUserFavoriteMoviesDocument = gql`
     favoriteMovies(userId: $userId) {
       movie {
         id
+        posterUrl
       }
     }
   }
@@ -2978,7 +2986,8 @@ export type FindUserRecentReviewsQueryResult = Apollo.QueryResult<
 >;
 export const FindUserPinnedReviewsDocument = gql`
   query FindUserPinnedReviews($userId: String!) {
-    pinnedReviews(userId: $userId) @connection(key: "pinnedReviews") {
+    pinnedReviews(userId: $userId)
+      @connection(key: "pinnedReviews", filter: ["userId"]) {
       ...ReviewFields
     }
   }

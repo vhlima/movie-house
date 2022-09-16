@@ -68,7 +68,7 @@ export const FIND_USER_PINNED_REVIEWS = gql`
   ${REVIEW_FIELDS}
 
   query FindUserPinnedReviews($userId: String!) {
-    pinnedReviews(userId: $userId) @connection(key: "pinnedReviews") {
+    pinnedReviews(userId: $userId) @connection(key: "pinnedReviews", filter: ["userId"]) {
       ...ReviewFields
     }
   }
