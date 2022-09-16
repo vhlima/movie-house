@@ -2,16 +2,9 @@ import { useState } from 'react';
 
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
-import type {
-  Movie,
-  FindUserFavoriteMoviesQuery,
-} from '../../../../../../../graphql';
+import type { Movie } from '../../../../../../../graphql';
 
-import {
-  UserListType,
-  FindUserFavoriteMoviesDocument,
-  useRemoveMovieFromPremadeListMutation,
-} from '../../../../../../../graphql';
+import { useLogic } from './logic';
 
 import Modal from '../../../../../../../components/Modal';
 
@@ -21,44 +14,15 @@ import ErrorText from '../../../../../../../components/ErrorText';
 
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
 
-interface EditFavoriteMoviesModalProps extends ModalHandles {
-  favoriteMovies: Movie[];
-}
+type EditFavoriteMoviesModalProps = ModalHandles;
 
 const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
-  favoriteMovies,
   onClose,
 }) => {
-  /* When set to true, add modal will be shown */
+  const { data, error, handleRemove } = useLogic();
+
+  /* Controls whether modal is shown or not */
   const [isAdding, setAdding] = useState<boolean>(false);
-
-  const [removeFavoriteMovie, { loading, error }] =
-    useRemoveMovieFromPremadeListMutation({
-      errorPolicy: 'all',
-      update: (cache, { data }, context) => {
-        if (!data) return;
-
-        cache.updateQuery<FindUserFavoriteMoviesQuery>(
-          {
-            query: FindUserFavoriteMoviesDocument,
-          },
-          cacheData => ({
-            favoriteMovies: (cacheData.favoriteMovies || []).filter(
-              favoriteMovie =>
-                favoriteMovie.movie.id !== context.variables.movieId,
-            ),
-          }),
-        );
-      },
-    });
-
-  const handleRemove = async (movieId: number) => {
-    if (loading) return;
-
-    await removeFavoriteMovie({
-      variables: { listType: UserListType.Favorite, movieId },
-    });
-  };
 
   if (isAdding) {
     return <AddFavoriteMovieModal onClose={() => setAdding(false)} />;
@@ -72,7 +36,13 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
 
       <MovieCardList
         maxMovies={4}
-        movies={favoriteMovies.map(favoriteMovie => favoriteMovie)}
+        movies={
+          data
+            ? (data.favoriteMovies.map(
+                favoriteMovie => favoriteMovie.movie,
+              ) as Movie[])
+            : []
+        }
         onClickAdd={() => setAdding(true)}
         onClickRemove={handleRemove}
       />

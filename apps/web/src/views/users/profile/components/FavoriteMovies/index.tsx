@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import type { Movie } from '../../../../../graphql';
+
 import { useFindUserFavoriteMoviesQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
@@ -35,11 +37,7 @@ const FavoriteMovies: React.FC = () => {
   return (
     <>
       {isEditing && (
-        <EditFavoriteMoviesModal
-          favoriteMovies={[]}
-          // favoriteMovies={data?.favoriteMovies || []}
-          onClose={() => setEditing(false)}
-        />
+        <EditFavoriteMoviesModal onClose={() => setEditing(false)} />
       )}
 
       <Card
@@ -61,11 +59,14 @@ const FavoriteMovies: React.FC = () => {
           </>
         ) : (
           <MovieCardList
-            movies={[]}
-            // movies={(data?.favoriteMovies || []).map(
-            //   favoriteMovie => favoriteMovie.movie,
-            // )}
             maxMovies={MAX_FAVORITE_MOVIES}
+            movies={
+              data
+                ? (data.favoriteMovies.map(
+                    favoriteMovie => favoriteMovie.movie,
+                  ) as Movie[])
+                : []
+            }
           />
         )}
       </Card>
