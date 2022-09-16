@@ -14,7 +14,7 @@ export default class Language {
   @Column()
   readonly english_name: string;
 
-  @Field()
+  @Field({ name: 'iso6391' })
   @Column()
   readonly iso_639_1: string;
 }
