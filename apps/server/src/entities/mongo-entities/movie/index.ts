@@ -68,6 +68,20 @@ export default class Movie {
   @Column()
   readonly spoken_languages: Language[];
 
+  @Field()
+  posterUrl(@Root('poster_path') posterPath: string): string {
+    if (!posterPath) return '';
+
+    return `https://image.tmdb.org/t/p/w500${posterPath}`;
+  }
+
+  @Field()
+  backdropUrl(@Root('backdrop_path') backdropPath: string): string {
+    if (!backdropPath) return '';
+
+    return `https://image.tmdb.org/t/p/w500${backdropPath}`;
+  }
+
   @Field(() => MovieCredits)
   async credits(@Ctx() context: ServerContext, @Root('id') movieId: string) {
     const movieCredits = await context.dataSources.tmdb.getCreditsByMovieId(
@@ -81,19 +95,5 @@ export default class Movie {
     }
 
     return movieCredits;
-  }
-
-  @Field()
-  posterUrl(@Root('poster_path') posterPath: string): string {
-    if (!posterPath) return '';
-
-    return `https://image.tmdb.org/t/p/w500${posterPath}`;
-  }
-
-  @Field()
-  backdropUrl(@Root('backdrop_path') backdropPath: string): string {
-    if (!backdropPath) return '';
-
-    return `https://image.tmdb.org/t/p/w500${backdropPath}`;
   }
 }
