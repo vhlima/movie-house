@@ -16,8 +16,8 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
           <MenuItem
             itemProps={{
               href: {
-                pathname: '/users/[id]',
-                query: { id: user.id },
+                pathname: '/users/[username]',
+                query: { username: user.username },
               },
             }}
             text="My Profile"

@@ -20,16 +20,12 @@ const ProfileStats: React.FC = () => {
 
   const { push } = useRouter();
 
-  const { data, loading, error, refetch } = useFindUserProfileQuery({
+  const { data, error, refetch } = useFindUserProfileQuery({
     variables: { userId: user.id },
   });
 
   if (error) {
     return <ErrorText text={`Error loading profile stats ${error.message}`} />;
-  }
-
-  if (loading) {
-    return <h1>loading</h1>;
   }
 
   const isOwnProfile = authUser && authUser.id === user.id;
@@ -66,19 +62,24 @@ const ProfileStats: React.FC = () => {
         <div className="flex">
           <Stats
             link={{ href: '/' }}
-            number={data.userProfile.moviesWatchedCount}
+            number={data ? data.userProfile.moviesWatchedCount : 0}
             text="Movies"
           />
 
           <Stats
             link={{ href: '/' }}
-            number={data.userProfile.moviesWatchedThisYearCount}
+            number={data ? data.userProfile.moviesWatchedThisYearCount : 0}
             text="This year"
           />
 
           <Stats
-            link={{ href: '/' }}
-            number={data.userProfile.listCount}
+            link={{
+              href: {
+                pathname: '/users/[username]/lists',
+                query: { username: user.username },
+              },
+            }}
+            number={data ? data.userProfile.listCount : 0}
             text="Lists"
           />
         </div>
@@ -87,22 +88,22 @@ const ProfileStats: React.FC = () => {
           <Stats
             link={{
               href: {
-                pathname: '/users/[id]/following',
-                query: { id: user.id },
+                pathname: '/users/[username]/following',
+                query: { username: user.username },
               },
             }}
-            number={data.userProfile.followingCount}
+            number={data ? data.userProfile.followingCount : 0}
             text="Following"
           />
 
           <Stats
             link={{
               href: {
-                pathname: '/users/[id]/followers',
-                query: { id: user.id },
+                pathname: '/users/[username]/followers',
+                query: { username: user.username },
               },
             }}
-            number={data.userProfile.followerCount}
+            number={data ? data.userProfile.followerCount : 0}
             text="Followers"
           />
         </div>

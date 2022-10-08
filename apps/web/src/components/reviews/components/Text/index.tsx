@@ -35,8 +35,8 @@ const ReviewText: React.FC<ReviewTextProps> = ({
           href={
             !preview
               ? {
-                  pathname: '/users/[id]',
-                  query: { id: author.id },
+                  pathname: '/users/[username]',
+                  query: { username: author.username },
                 }
               : {
                   pathname: '/reviews/[id]',

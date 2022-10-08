@@ -53,8 +53,8 @@ const UserText: React.FC<PropsWithChildren<UserTextInternalProps>> = ({
       <Link
         className="group"
         href={{
-          pathname: '/users/[id]',
-          query: { id: user.id },
+          pathname: '/users/[username]',
+          query: { username: user.username },
         }}
       >
         <span className="text-gray-100 font-semibold group-hover:text-grey-200">

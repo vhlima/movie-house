@@ -21,14 +21,14 @@ import ErrorText from '../../components/ErrorText';
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const defaultProps = { props: {} };
 
-  const { id } = params;
+  const { username } = params;
 
-  if (!id || typeof id !== 'string') return defaultProps;
+  if (!username || typeof username !== 'string') return defaultProps;
 
   try {
     const { data } = await client.query<FindUserQuery, FindUserQueryVariables>({
       query: FindUserDocument,
-      variables: { userId: id },
+      variables: { username },
     });
 
     if (!data) return defaultProps;
