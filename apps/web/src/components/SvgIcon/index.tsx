@@ -47,6 +47,8 @@ import { IoEye, IoList, IoEyeOutline } from 'react-icons/io5';
 
 import { CgSpinner } from 'react-icons/cg';
 
+import { TbMovie } from 'react-icons/tb';
+
 export type SvgIconType =
   | 'FaRegUserCircle'
   | 'FaChevronRight'
@@ -84,7 +86,8 @@ export type SvgIconType =
   | 'IoEye'
   | 'IoList'
   | 'IoEyeOutline'
-  | 'CgSpinner';
+  | 'CgSpinner'
+  | 'TbMovie';
 
 export interface SvgIconProps extends IconBaseProps {
   iconType: SvgIconType;
@@ -140,6 +143,8 @@ const icons: SvgIconsType = {
   IoEyeOutline,
 
   CgSpinner,
+
+  TbMovie,
 };
 
 const SvgIcon: React.FC<SvgIconProps> = ({ iconType, size, ...rest }) => {
