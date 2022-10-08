@@ -1,55 +1,51 @@
-import Image from 'next/image';
+import type { UserListsPageProps } from '../../../pages/users/[username]/lists';
 
 import Link from '../../../components/Link';
 
-import SvgIcon from '../../../components/SvgIcon';
+import Typography from '../../../components/Typography';
 
-import ListItem from '../../../components/ListItem';
+import PageContent from '../../../components/PageContent';
 
-// import Post from '../components/Post';
+import ProfilePicture from '../../../components/ProfilePicture';
 
-const UserMovieList: React.FC = () => (
-  <ListItem>
-    <Link href="/lists/abc">
-      <ul className="flex relative w-full h-40">
-        {/* {movieList.map((movie, index) => (
-          <li
-            className="relative min-w-0 flex-grow basis-1/3 rounded-lg float-left border border-grey-700 overflow-hidden"
-            key={movie.id}
-            style={{
-              zIndex: 20 - index,
-              marginRight: `-12.5%`,
-            }}
-          >
-            <Image layout="fill" objectFit="fill" src={movie.coverUrl} />
-          </li>
-        ))} */}
-      </ul>
+import UserListMoviesCard from './components/UserList';
 
-      <h1 className="text-grey-100 font-semibold text-lg my-2 hover:text-grey-200">
-        what is reality?
-      </h1>
-    </Link>
+const UserListsView: React.FC<UserListsPageProps> = ({ user, lists }) => {
+  const a = 1;
 
-    {/* <Post
-      text="meditations, ruminations, and explorations on the nature of reality and
-      existence. comprised most of projects ive watched, and some watchlist
-      entries. organized by color. ฅ^•ﻌ•^ฅ"
-      textShort
-    >
-      <Link className="group" href="/">
-        <span className="ml-1 text-gray-100 font-semibold group-hover:text-grey-200">
-          karsten
-        </span>
+  return (
+    <PageContent className="mt-2">
+      <Link
+        className="flex gap-2"
+        href={{
+          href: '/users/[username]',
+          query: { username: user.username },
+        }}
+      >
+        <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
+
+        <Typography className="font-semibold" component="span" color="primary">
+          {user.username}
+        </Typography>
       </Link>
 
-      <div className="flex items-center ml-auto">
-        <span className="mr-0.5 text-grey-200 font-semibold">1,327</span>
+      <div className="mt-2">
+        <Typography
+          className="uppercase mb-2 border-b border-b-grey-300"
+          component="h1"
+          color="primary"
+        >
+          Lists
+        </Typography>
 
-        <SvgIcon className="text-grey-300" iconType="MdMovie" size={22} />
+        <ul>
+          {lists.map(list => (
+            <UserListMoviesCard key={list.id} user={user} list={list} />
+          ))}
+        </ul>
       </div>
-    </Post> */}
-  </ListItem>
-);
+    </PageContent>
+  );
+};
 
-export default UserMovieList;
+export default UserListsView;
