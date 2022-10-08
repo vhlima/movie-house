@@ -11,8 +11,8 @@ import UserInput from '../entities/types/user.input';
 @Resolver(() => User)
 class UserResolver {
   @Query(() => User)
-  async user(@Arg(`userId`) userId: string): Promise<User> {
-    const user = await UserRepository.findOneBy({ id: userId });
+  async user(@Arg(`username`) username: string): Promise<User> {
+    const user = await UserRepository.findOneBy({ username });
 
     if (!user) {
       throw new Error('User not found');
