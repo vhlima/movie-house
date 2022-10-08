@@ -11,7 +11,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonStyle?: ButtonStyleType;
   buttonSize?: 'lg' | 'md' | 'sm' | 'xs' | 'none';
   full?: boolean;
-  flex?: boolean;
+  flex?: boolean; // TODO Change that prop to center
+  border?: boolean;
   rounded?: boolean;
 }
 
@@ -20,6 +21,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   full = true,
   flex = true,
   rounded = true,
+  border = true,
   buttonStyle = 'primary',
   buttonSize = 'sm',
   disabled,
@@ -38,14 +40,14 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
     () => ({
       primary: {
         bg: 'bg-movieHouse-mid',
-        text: 'text-white',
+        text: 'font-semibold text-white',
         hover: 'bg-movieHouse-light',
         outline: 'focus:border-white',
         disabled: 'bg-opacity-50',
       },
       secondary: {
         bg: 'bg-grey-700',
-        text: 'text-grey-100',
+        text: 'font-semibold text-grey-100',
         hover: 'bg-grey-600',
         outline: 'focus:border-white',
         disabled: 'border-grey-700',
@@ -59,7 +61,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
       },
       danger: {
         bg: 'bg-grey-700',
-        text: 'text-danger-light',
+        text: 'font-semibold text-danger-light',
         hover: 'bg-grey-600',
         outline: 'focus:border-white',
         disabled: 'border-grey-700',
@@ -73,12 +75,13 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   return (
     <button
       className={clsx(
-        'border-2 border-transparent font-semibold outline-none',
+        'outline-none',
         buttonStyleProps.bg,
         buttonStyleProps.text,
         // buttonStyleProps.outline,
         className,
         {
+          'border-2 border-transparent': border,
           'w-full h-fit': full,
           'w-fit': !full,
           'rounded-md': rounded,
