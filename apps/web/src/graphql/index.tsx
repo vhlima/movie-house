@@ -170,6 +170,14 @@ export type MovieCredits = {
   id: Scalars['String'];
 };
 
+export type MovieRate = {
+  __typename?: 'MovieRate';
+  createdAt: Scalars['DateTime'];
+  rating: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+};
+
 export type MovieSearch = {
   __typename?: 'MovieSearch';
   page: Scalars['Int'];
@@ -190,6 +198,7 @@ export type Mutation = {
   like: Scalars['Boolean'];
   login: User;
   pinReview: Review;
+  rateMovie: MovieRate;
   register: User;
   removeMovieFromCustomList: Scalars['String'];
   removeMovieFromList: Scalars['String'];
@@ -252,6 +261,11 @@ export type MutationPinReviewArgs = {
   reviewId: Scalars['String'];
 };
 
+export type MutationRateMovieArgs = {
+  movieId: Scalars['Int'];
+  rating: Scalars['Int'];
+};
+
 export type MutationRegisterArgs = {
   username: Scalars['String'];
 };
@@ -289,8 +303,11 @@ export type Query = {
   followers: Followers;
   following: Followers;
   followingCount: Scalars['Int'];
+  hasUserLike: Scalars['Boolean'];
   isFollowing: Scalars['Boolean'];
+  isMovieOnPremadeList: Scalars['Boolean'];
   movie: Movie;
+  movieRating?: Maybe<MovieRate>;
   pinnedReviews: Array<Review>;
   popularReviews: Array<Review>;
   recentReviews: Array<Review>;
@@ -337,12 +354,29 @@ export type QueryFollowingCountArgs = {
   userId: Scalars['String'];
 };
 
+export type QueryHasUserLikeArgs = {
+  referenceId?: InputMaybe<Scalars['String']>;
+  rootId: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type QueryIsFollowingArgs = {
+  userId: Scalars['String'];
+};
+
+export type QueryIsMovieOnPremadeListArgs = {
+  listType: UserListType;
+  movieId: Scalars['Int'];
   userId: Scalars['String'];
 };
 
 export type QueryMovieArgs = {
   movieId: Scalars['Int'];
+};
+
+export type QueryMovieRatingArgs = {
+  movieId: Scalars['Int'];
+  userId: Scalars['String'];
 };
 
 export type QueryPinnedReviewsArgs = {
@@ -376,7 +410,7 @@ export type QuerySearchMovieArgs = {
 };
 
 export type QueryUserArgs = {
-  userId: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type QueryUserListArgs = {
@@ -727,6 +761,43 @@ export type AddMovieToCustomListMutation = {
   };
 };
 
+export type FindUserListsQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+export type FindUserListsQuery = {
+  __typename?: 'Query';
+  userLists: Array<{ __typename?: 'UserListCustom'; id: string; name: string }>;
+};
+
+export type FindUserListsFullQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+export type FindUserListsFullQuery = {
+  __typename?: 'Query';
+  userLists: Array<{
+    __typename?: 'UserListCustom';
+    name: string;
+    body: string;
+    movies: Array<{
+      __typename?: 'Movie';
+      originalTitle: string;
+      posterUrl: string;
+    }>;
+  }>;
+};
+
+export type CreateUserListMutationVariables = Exact<{
+  body: Scalars['String'];
+  name: Scalars['String'];
+}>;
+
+export type CreateUserListMutation = {
+  __typename?: 'Mutation';
+  createUserList: { __typename?: 'UserListCustom'; id: string; name: string };
+};
+
 export type AddMovieToPremadeListMutationVariables = Exact<{
   movieId: Scalars['Int'];
   listType: UserListType;
@@ -763,7 +834,12 @@ export type FindUserFavoriteMoviesQuery = {
   __typename?: 'Query';
   favoriteMovies: Array<{
     __typename?: 'UserListPremadeMovie';
-    movie: { __typename?: 'Movie'; id: number; posterUrl: string };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    };
   }>;
 };
 
@@ -775,7 +851,12 @@ export type FindUserWatchlistQuery = {
   __typename?: 'Query';
   watchlist: Array<{
     __typename?: 'UserListPremadeMovie';
-    movie: { __typename?: 'Movie'; id: number };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    };
   }>;
 };
 
@@ -787,7 +868,12 @@ export type FindUserWatchLaterQuery = {
   __typename?: 'Query';
   watchLater: Array<{
     __typename?: 'UserListPremadeMovie';
-    movie: { __typename?: 'Movie'; id: number };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    };
   }>;
 };
 
@@ -799,8 +885,27 @@ export type FindUserWatchedMoviesQuery = {
   __typename?: 'Query';
   watched: Array<{
     __typename?: 'UserListPremadeMovie';
-    movie: { __typename?: 'Movie'; id: number };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    };
   }>;
+};
+
+export type FindMovieOptionsQueryVariables = Exact<{
+  movieId: Scalars['Int'];
+  userId: Scalars['String'];
+  rootId: Scalars['String'];
+}>;
+
+export type FindMovieOptionsQuery = {
+  __typename?: 'Query';
+  hasUserLike: boolean;
+  isOnWatchLater: boolean;
+  isOnWatchList: boolean;
+  movieRating?: { __typename?: 'MovieRate'; rating: number } | null;
 };
 
 export type MovieFieldsFragment = {
@@ -888,6 +993,13 @@ export type FindFullMovieQuery = {
         character: string;
         originalName: string;
         profilePictureUrl: string;
+      }>;
+      crew: Array<{
+        __typename?: 'Crew';
+        id: number;
+        popularity: number;
+        department: string;
+        originalName: string;
       }>;
     };
     genres: Array<{ __typename?: 'Genre'; id: string; name: string }>;
@@ -1281,7 +1393,7 @@ export type UserFieldsFragment = {
 };
 
 export type FindUserQueryVariables = Exact<{
-  userId: Scalars['String'];
+  username: Scalars['String'];
 }>;
 
 export type FindUserQuery = {
@@ -1926,6 +2038,180 @@ export type AddMovieToCustomListMutationOptions = Apollo.BaseMutationOptions<
   AddMovieToCustomListMutation,
   AddMovieToCustomListMutationVariables
 >;
+export const FindUserListsDocument = gql`
+  query FindUserLists($userId: String!) {
+    userLists(userId: $userId) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useFindUserListsQuery__
+ *
+ * To run a query within a React component, call `useFindUserListsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserListsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserListsQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFindUserListsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserListsQuery,
+    FindUserListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindUserListsQuery, FindUserListsQueryVariables>(
+    FindUserListsDocument,
+    options,
+  );
+}
+export function useFindUserListsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserListsQuery,
+    FindUserListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindUserListsQuery, FindUserListsQueryVariables>(
+    FindUserListsDocument,
+    options,
+  );
+}
+export type FindUserListsQueryHookResult = ReturnType<
+  typeof useFindUserListsQuery
+>;
+export type FindUserListsLazyQueryHookResult = ReturnType<
+  typeof useFindUserListsLazyQuery
+>;
+export type FindUserListsQueryResult = Apollo.QueryResult<
+  FindUserListsQuery,
+  FindUserListsQueryVariables
+>;
+export const FindUserListsFullDocument = gql`
+  query FindUserListsFull($userId: String!) {
+    userLists(userId: $userId) {
+      name
+      body
+      movies {
+        originalTitle
+        posterUrl
+      }
+    }
+  }
+`;
+
+/**
+ * __useFindUserListsFullQuery__
+ *
+ * To run a query within a React component, call `useFindUserListsFullQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserListsFullQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserListsFullQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFindUserListsFullQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserListsFullQuery,
+    FindUserListsFullQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserListsFullQuery,
+    FindUserListsFullQueryVariables
+  >(FindUserListsFullDocument, options);
+}
+export function useFindUserListsFullLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserListsFullQuery,
+    FindUserListsFullQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserListsFullQuery,
+    FindUserListsFullQueryVariables
+  >(FindUserListsFullDocument, options);
+}
+export type FindUserListsFullQueryHookResult = ReturnType<
+  typeof useFindUserListsFullQuery
+>;
+export type FindUserListsFullLazyQueryHookResult = ReturnType<
+  typeof useFindUserListsFullLazyQuery
+>;
+export type FindUserListsFullQueryResult = Apollo.QueryResult<
+  FindUserListsFullQuery,
+  FindUserListsFullQueryVariables
+>;
+export const CreateUserListDocument = gql`
+  mutation CreateUserList($body: String!, $name: String!) {
+    createUserList(body: $body, name: $name) {
+      id
+      name
+    }
+  }
+`;
+export type CreateUserListMutationFn = Apollo.MutationFunction<
+  CreateUserListMutation,
+  CreateUserListMutationVariables
+>;
+
+/**
+ * __useCreateUserListMutation__
+ *
+ * To run a mutation, you first call `useCreateUserListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserListMutation, { data, loading, error }] = useCreateUserListMutation({
+ *   variables: {
+ *      body: // value for 'body'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateUserListMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUserListMutation,
+    CreateUserListMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateUserListMutation,
+    CreateUserListMutationVariables
+  >(CreateUserListDocument, options);
+}
+export type CreateUserListMutationHookResult = ReturnType<
+  typeof useCreateUserListMutation
+>;
+export type CreateUserListMutationResult =
+  Apollo.MutationResult<CreateUserListMutation>;
+export type CreateUserListMutationOptions = Apollo.BaseMutationOptions<
+  CreateUserListMutation,
+  CreateUserListMutationVariables
+>;
 export const AddMovieToPremadeListDocument = gql`
   mutation AddMovieToPremadeList($movieId: Int!, $listType: UserListType!) {
     addMovieToList(movieId: $movieId, listType: $listType) {
@@ -2039,6 +2325,7 @@ export const FindUserFavoriteMoviesDocument = gql`
     favoriteMovies(userId: $userId) {
       movie {
         id
+        originalTitle
         posterUrl
       }
     }
@@ -2100,6 +2387,8 @@ export const FindUserWatchlistDocument = gql`
     watchlist(userId: $userId) {
       movie {
         id
+        originalTitle
+        posterUrl
       }
     }
   }
@@ -2160,6 +2449,8 @@ export const FindUserWatchLaterDocument = gql`
     watchLater(userId: $userId) {
       movie {
         id
+        originalTitle
+        posterUrl
       }
     }
   }
@@ -2220,6 +2511,8 @@ export const FindUserWatchedMoviesDocument = gql`
     watched(userId: $userId) {
       movie {
         id
+        originalTitle
+        posterUrl
       }
     }
   }
@@ -2274,6 +2567,77 @@ export type FindUserWatchedMoviesLazyQueryHookResult = ReturnType<
 export type FindUserWatchedMoviesQueryResult = Apollo.QueryResult<
   FindUserWatchedMoviesQuery,
   FindUserWatchedMoviesQueryVariables
+>;
+export const FindMovieOptionsDocument = gql`
+  query FindMovieOptions($movieId: Int!, $userId: String!, $rootId: String!) {
+    movieRating(movieId: $movieId, userId: $userId) {
+      rating
+    }
+    isOnWatchLater: isMovieOnPremadeList(
+      movieId: $movieId
+      listType: WATCH_LATER
+      userId: $userId
+    )
+    hasUserLike(rootId: $rootId, userId: $userId)
+    isOnWatchList: isMovieOnPremadeList(
+      movieId: $movieId
+      listType: WATCHLIST
+      userId: $userId
+    )
+  }
+`;
+
+/**
+ * __useFindMovieOptionsQuery__
+ *
+ * To run a query within a React component, call `useFindMovieOptionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMovieOptionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMovieOptionsQuery({
+ *   variables: {
+ *      movieId: // value for 'movieId'
+ *      userId: // value for 'userId'
+ *      rootId: // value for 'rootId'
+ *   },
+ * });
+ */
+export function useFindMovieOptionsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindMovieOptionsQuery,
+    FindMovieOptionsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindMovieOptionsQuery, FindMovieOptionsQueryVariables>(
+    FindMovieOptionsDocument,
+    options,
+  );
+}
+export function useFindMovieOptionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMovieOptionsQuery,
+    FindMovieOptionsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindMovieOptionsQuery,
+    FindMovieOptionsQueryVariables
+  >(FindMovieOptionsDocument, options);
+}
+export type FindMovieOptionsQueryHookResult = ReturnType<
+  typeof useFindMovieOptionsQuery
+>;
+export type FindMovieOptionsLazyQueryHookResult = ReturnType<
+  typeof useFindMovieOptionsLazyQuery
+>;
+export type FindMovieOptionsQueryResult = Apollo.QueryResult<
+  FindMovieOptionsQuery,
+  FindMovieOptionsQueryVariables
 >;
 export const FindMovieDocument = gql`
   query FindMovie($movieId: Int!) {
@@ -2339,6 +2703,12 @@ export const FindFullMovieDocument = gql`
           character
           originalName
           profilePictureUrl
+        }
+        crew {
+          id
+          popularity
+          department
+          originalName
         }
       }
     }
@@ -3104,8 +3474,8 @@ export type FindUserPopularReviewsQueryResult = Apollo.QueryResult<
   FindUserPopularReviewsQueryVariables
 >;
 export const FindUserDocument = gql`
-  query FindUser($userId: String!) {
-    user(userId: $userId) {
+  query FindUser($username: String!) {
+    user(username: $username) {
       ...UserFields
     }
   }
@@ -3124,7 +3494,7 @@ export const FindUserDocument = gql`
  * @example
  * const { data, loading, error } = useFindUserQuery({
  *   variables: {
- *      userId: // value for 'userId'
+ *      username: // value for 'username'
  *   },
  * });
  */

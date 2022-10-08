@@ -13,8 +13,8 @@ export const USER_FIELDS = gql`
 export const FIND_USER = gql`
   ${USER_FIELDS}
 
-  query FindUser($userId: String!) {
-    user(userId: $userId) {
+  query FindUser($username: String!) {
+    user(username: $username) {
       ...UserFields
     }
   }

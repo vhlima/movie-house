@@ -51,6 +51,12 @@ export const FIND_FULL_MOVIE = gql`
           originalName
           profilePictureUrl
         }
+        crew {
+          id
+          popularity
+          department
+          originalName
+        }
       }
     }
   }
