@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
-import UserMovieList from '../../views/users/lists';
 
-const UserList: NextPage = () => <UserMovieList />;
+const UserList: NextPage = () => <h1>creating</h1>;
 
 export default UserList;

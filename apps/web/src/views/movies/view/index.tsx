@@ -10,7 +10,6 @@ import MovieViewSkeleton from './Skeleton';
 
 import Card from '../../../components/Card';
 
-import UserMovieList from '../../users/lists';
 import PageContent from '../../../components/PageContent';
 import BackgroundImage from '../../../components/BackgroundImage';
 
@@ -66,7 +65,7 @@ const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
           </Card>
 
           <Card title="Popular lists" noPadding>
-            <UserMovieList />
+            {/* <UserMovieList /> */}
           </Card>
         </MovieBody>
       </PageContent>

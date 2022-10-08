@@ -8,10 +8,6 @@ import FeatureLink from './components/FeatureLink';
 
 import BackgroundImage from '../../components/BackgroundImage';
 
-import MovieCarousel from '../movies/components/Carousel';
-
-import UserMovieList from '../users/lists';
-
 import Link from '../../components/Link';
 
 const HomeView: React.FC = () => {

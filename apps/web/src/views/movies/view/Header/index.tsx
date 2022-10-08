@@ -1,3 +1,5 @@
+import { parseISO, intervalToDuration } from 'date-fns';
+
 import type { PropsWithChildren } from 'react';
 
 import type { Movie } from '../../../../graphql';
@@ -30,7 +32,12 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
     return `${hours}h ${minutes}m`;
   }
 
-  const movieDate = new Date(movie.releaseDate);
+  const movieDate = parseISO(movie.releaseDate);
+
+  // TODO change that, not showing #1 director
+  const directors = movie.credits.crew.filter(
+    crew => crew.department === 'Directing',
+  );
 
   return (
     <div className="flex justify-between gap-2">
@@ -59,9 +66,11 @@ const MovieHeader: React.FC<PropsWithChildren<MovieHeaderProps>> = ({
             <span className="text-sm">{toHoursAndMinutes(movie.runtime)}</span>
           </div>
 
-          <span className="text-sm mr-1">Directed by</span>
-
-          <span className="text-sm font-semibold">Steven Spielberg</span>
+          {directors.length > 0 && (
+            <span className="text-sm mr-1">
+              Directed by <strong>{directors[0].originalName}</strong>
+            </span>
+          )}
         </div>
 
         {!basicInfo && (
