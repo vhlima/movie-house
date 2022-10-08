@@ -1,6 +1,9 @@
 import { ApolloError } from '@apollo/client';
 
-import type { FindUserPinnedReviewsQuery } from '../../../../../../../../graphql';
+import type {
+  FindUserPinnedReviewsQuery,
+  FindUserPinnedReviewsQueryVariables,
+} from '../../../../../../../../graphql';
 
 import {
   FindUserPinnedReviewsDocument,
@@ -23,7 +26,7 @@ export const useLogic = (): EditModalLogicHandles => {
 
   const { data: cachedPinnedReviews } = useFindUserPinnedReviewsQuery({
     variables: { userId: user.id },
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'cache-only',
   });
 
   const [pinReview, { loading, error }] = usePinReviewMutation({
@@ -31,14 +34,20 @@ export const useLogic = (): EditModalLogicHandles => {
     update: (cache, { data }, context) => {
       if (!data || data.pinReview.pinned) return;
 
-      cache.updateQuery<FindUserPinnedReviewsQuery>(
+      cache.updateQuery<
+        FindUserPinnedReviewsQuery,
+        FindUserPinnedReviewsQueryVariables
+      >(
         {
           query: FindUserPinnedReviewsDocument,
+          variables: { userId: user.id },
         },
         cacheData => ({
-          pinnedReviews: (cacheData?.pinnedReviews || []).filter(
-            pinnedReview => pinnedReview.id !== context.variables.reviewId,
-          ),
+          pinnedReviews: cacheData?.pinnedReviews
+            ? cacheData.pinnedReviews.filter(
+                pinnedReview => pinnedReview.id !== context.variables.reviewId,
+              )
+            : [],
         }),
       );
     },

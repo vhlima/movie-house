@@ -41,7 +41,7 @@ const AddPinnedReviewModal: React.FC<AddPinnedReviewModalProps> = ({
           <ErrorText text={`Error loading reviews: ${error.message}`} />
         )}
 
-        {!loading && availableReviews.length <= 0 ? (
+        {!error && !loading && availableReviews.length <= 0 ? (
           <span className="text-grey-200">You dont have any review to pin</span>
         ) : (
           availableReviews.map(review => (

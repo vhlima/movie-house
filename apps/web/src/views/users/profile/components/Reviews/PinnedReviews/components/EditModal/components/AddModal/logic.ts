@@ -2,6 +2,7 @@ import type { ModalHandles } from '../../../../../../../../../../components/Moda
 
 import type {
   FindUserPinnedReviewsQuery,
+  FindUserPinnedReviewsQueryVariables,
   FindUserReviewsQueryResult,
 } from '../../../../../../../../../../graphql';
 
@@ -35,9 +36,13 @@ export const useLogic = ({
     update: (cache, { data }) => {
       if (!data || !data.pinReview.pinned) return;
 
-      cache.updateQuery<FindUserPinnedReviewsQuery>(
+      cache.updateQuery<
+        FindUserPinnedReviewsQuery,
+        FindUserPinnedReviewsQueryVariables
+      >(
         {
           query: FindUserPinnedReviewsDocument,
+          variables: { userId: user.id },
         },
         cacheData => ({
           pinnedReviews: [...(cacheData?.pinnedReviews || []), data.pinReview],
