@@ -94,6 +94,7 @@ const BaseInput = forwardRef<
             'rounded-md': rounded,
 
             'w-full border-2': inputSize === 'lg',
+            'w-full border-1': inputSize === 'md',
           },
           !error
             ? {
@@ -116,8 +117,13 @@ const BaseInput = forwardRef<
           {
             'cursor-not-allowed': disabled,
             'py-2': inputSize === 'lg',
+            'py-1': inputSize === 'md',
           },
           inputSize === 'lg' && {
+            'pr-2': !rightIcon,
+            'pl-2': !leftIcon,
+          },
+          inputSize === 'md' && {
             'pr-2': !rightIcon,
             'pl-2': !leftIcon,
           },
