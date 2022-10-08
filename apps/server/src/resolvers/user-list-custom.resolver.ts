@@ -19,6 +19,7 @@ import AuthenticationError from '../errors/Authentication';
 import UserListCustomMovie from '../entities/mongo-entities/user-list-custom-movie.interface';
 
 import UserListCustom from '../entities/mongo-entities/user-list-custom.interface';
+
 import AlreadyExistsError from '../errors/AlreadyExists';
 
 @Resolver(() => UserListCustom)
@@ -105,6 +106,15 @@ export default class UserListResolver {
 
     if (!listExists) {
       throw new NotFoundError('List not found');
+    }
+
+    const movieAlreadyAdded = await UserListCustomMovieRepository.findOneBy({
+      listId: listExists.id,
+      movieId,
+    });
+
+    if (movieAlreadyAdded) {
+      throw new AlreadyExistsError('This movie is already added to that list');
     }
 
     const movie = await dataSources.tmdb.getMovieById(movieId);
