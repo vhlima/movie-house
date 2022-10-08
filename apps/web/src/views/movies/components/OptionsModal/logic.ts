@@ -1,119 +1,134 @@
-import { useState } from 'react';
+import { ApolloCache } from '@apollo/client';
 
-import { useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
 
-import type { Movie } from '../../../../graphql';
+import {
+  Movie,
+  FindMovieOptionsQuery,
+  FindMovieOptionsQueryResult,
+  FindMovieOptionsQueryVariables,
+  useRemoveMovieFromPremadeListMutation,
+  UserListType,
+  FindMovieOptionsDocument,
+  useFindMovieOptionsQuery,
+  useAddMovieToPremadeListMutation,
+} from '../../../../graphql';
 
 import { useAuth } from '../../../../hooks/useAuth';
-
-// import {
-//   ADD_MOVIE_TO_WATCHLIST,
-//   RATE_MOVIE,
-//   REMOVE_MOVIE_FROM_WATCHLIST,
-// } from '../../../..';
-
-// TODO maybe use only one rating mutation for both rating types
 
 // TODO another class requiring movie while it could be gathered via context
 
 interface UserRatingLogicProps {
   movie: Movie;
+  // TODO maybe only movie id needed here
 }
+
+type MovieListActionHandles = (listType: UserListType) => Promise<void>;
 
 interface UserRatingLogicHandles {
-  handleWatchlist: () => Promise<void>;
-  handleClick: (action: 'watch' | 'like') => Promise<void>;
+  movieOptionsResponse: FindMovieOptionsQueryResult;
+
+  handleAddMovieToList: MovieListActionHandles;
+  handleRemoveMovieFromList: MovieListActionHandles;
+
+  redirectToCreateReviewPage: () => Promise<void>;
 }
 
-export const useLogic = ({ movie }: UserRatingLogicProps) => {
+export const useLogic = ({
+  movie,
+}: UserRatingLogicProps): UserRatingLogicHandles => {
+  const { push } = useRouter();
+
   const { user } = useAuth();
 
-  // const [addUserRating] = useMutation<{ userAddRate: UserResponse }>(
-  //   RATE_MOVIE,
-  // );
+  const movieOptionsResponse = useFindMovieOptionsQuery({
+    variables: {
+      userId: user.id,
+      movieId: movie.id,
+      rootId: String(movie.id),
+    },
+  });
 
-  // // TODO change this method to ADD or REMOVE from watchlist
+  const [addMovieToPremadeList] = useAddMovieToPremadeListMutation();
 
-  // const [addToWatchlist] = useMutation<{ addMovieToWatchlist: UserResponse }>(
-  //   ADD_MOVIE_TO_WATCHLIST,
-  // );
+  const [removeMovieFromPremadeList] = useRemoveMovieFromPremadeListMutation();
 
-  // const [removeFromWatchlist] = useMutation<{
-  //   removeMovieFromWatchlist: UserResponse;
-  // }>(REMOVE_MOVIE_FROM_WATCHLIST);
+  const updateCache = (
+    cache: ApolloCache<any>,
+    listType: UserListType,
+    condition: boolean,
+  ) => {
+    cache.updateQuery<FindMovieOptionsQuery, FindMovieOptionsQueryVariables>(
+      {
+        query: FindMovieOptionsDocument,
+        variables: {
+          userId: user.id,
+          movieId: movie.id,
+          rootId: String(movie.id),
+        },
+      },
+      cacheData => {
+        if (!cacheData) return cacheData;
 
-  // const handleWatchlist = async () => {
-  //   const movieExists = user.watchlist.find(m => m.id === movie.id);
+        return {
+          ...cacheData,
+          isOnWatchLater:
+            listType === UserListType.WatchLater
+              ? condition
+              : cacheData.isOnWatchLater,
 
-  //   const variables = {
-  //     userId: user._id,
-  //     movieId: movie.id,
-  //   };
+          isOnWatchList:
+            listType === UserListType.Watchlist
+              ? condition
+              : cacheData.isOnWatchList,
+        };
+      },
+    );
+  };
 
-  //   if (movieExists) {
-  //     const { data } = await removeFromWatchlist({
-  //       variables,
-  //     });
+  const handleAddMovieToList: MovieListActionHandles = async listType => {
+    await addMovieToPremadeList({
+      errorPolicy: 'ignore',
+      variables: {
+        listType,
+        movieId: movie.id,
+      },
+      update: (cache, { data }) => {
+        if (!data) return;
 
-  //     if (data) {
-  //       setUser(data.removeMovieFromWatchlist);
-  //     }
+        updateCache(cache, listType, true);
+      },
+    });
+  };
 
-  //     return;
-  //   }
+  const handleRemoveMovieFromList: MovieListActionHandles = async listType => {
+    await removeMovieFromPremadeList({
+      errorPolicy: 'ignore',
+      variables: {
+        listType,
+        movieId: movie.id,
+      },
+      update: (cache, { data }) => {
+        if (!data) return;
 
-  //   const { data } = await addToWatchlist({
-  //     variables,
-  //   });
+        updateCache(cache, listType, false);
+      },
+    });
+  };
 
-  //   if (data) {
-  //     setUser(data.addMovieToWatchlist);
-  //   }
-  // };
+  const redirectToCreateReviewPage = async () => {
+    await push({
+      pathname: '/reviews/create',
+      query: { movie: movie.id },
+    });
+  };
 
-  // const handleClick = async (action: string) => {
-  //   const ratingInfo = user.ratings.find(r => r.movie.id === movie.id);
+  return {
+    movieOptionsResponse,
 
-  //   const fieldsToUpdate = {};
+    handleAddMovieToList,
+    handleRemoveMovieFromList,
 
-  //   switch (action) {
-  //     case 'watch': {
-  //       Object.assign(fieldsToUpdate, {
-  //         watched: !ratingInfo ? true : !ratingInfo.watched,
-  //       });
-
-  //       break;
-  //     }
-
-  //     case 'like': {
-  //       Object.assign(fieldsToUpdate, {
-  //         liked: !ratingInfo ? true : !ratingInfo.liked,
-  //       });
-
-  //       break;
-  //     }
-
-  //     default:
-  //       break;
-  //   }
-
-  //   if (Object.keys(fieldsToUpdate).length > 0) {
-  //     const { data } = await addUserRating({
-  //       variables: {
-  //         userId: user._id,
-  //         movieId: movie.id,
-  //         data: fieldsToUpdate,
-  //       },
-  //     });
-
-  //     if (data) {
-  //       setUser(data.userAddRate);
-  //     }
-  //   }
-  // };
-
-  // return {
-  //   handleWatchlist,
-  //   handleClick,
-  // };
+    redirectToCreateReviewPage,
+  };
 };

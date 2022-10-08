@@ -1,16 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
-
-import type { MotionProps } from 'framer-motion';
-
-import { useRouter } from 'next/router';
 
 import type { Movie } from '../../../../graphql';
 
 import type { ModalHandles } from '../../../../components/Modal';
 
-import { useAuth } from '../../../../hooks/useAuth';
+import { UserListType } from '../../../../graphql';
 
 import { useLogic } from './logic';
 
@@ -23,6 +19,7 @@ import InfoButton from './components/InfoButton';
 import RateModal from '../RateModal';
 
 import Button from '../../../../components/Button';
+import AddMovieToListModal from './components/AddMovieToListModal';
 
 interface MovieOptionsModalProps extends ModalHandles {
   movie: Movie;
@@ -32,53 +29,72 @@ const MovieOptionsModal: React.FC<MovieOptionsModalProps> = ({
   movie,
   onClose,
 }) => {
-  const { push } = useRouter();
+  const {
+    movieOptionsResponse: { data },
 
-  // TODO user required to use this modal
+    handleAddMovieToList,
+    handleRemoveMovieFromList,
 
-  const { user } = useAuth();
+    redirectToCreateReviewPage,
+  } = useLogic({
+    movie,
+  });
 
-  // TODO prop drilling
+  const [subModalOpen, setSubModalOpen] = useState<
+    'rate' | 'addToList' | undefined
+  >();
 
-  // const { handleClick, handleWatchlist } = useLogic({ movie });
+  switch (subModalOpen) {
+    case 'rate': {
+      return (
+        <AnimatePresence>
+          <RateModal movie={movie} onClose={() => setSubModalOpen(undefined)} />
+        </AnimatePresence>
+      );
+    }
 
-  const [isRating, setRating] = useState<boolean>(false);
+    case 'addToList': {
+      return (
+        <AddMovieToListModal
+          movieId={movie.id}
+          onClose={() => setSubModalOpen(undefined)}
+        />
+      );
+    }
 
-  // const userRate = useMemo(
-  //   () => user.ratings.find(r => r.movie.id === movie.id),
-  //   [user, movie],
-  // );
+    default: {
+      break;
+    }
+  }
 
-  const redirectReview = () => {
-    push({
-      pathname: '/reviews/create',
-      query: { movie: movie.id },
-    });
-  };
-
-  return isRating ? (
-    <AnimatePresence>
-      <RateModal movie={movie} onClose={() => setRating(false)} />
-    </AnimatePresence>
-  ) : (
-    <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
+  return (
+    <Modal
+      bottom
+      backdrop
+      showX={false}
+      animation={modalBottom}
+      onClose={onClose}
+    >
       <div className="flex flex-col gap-4 items-center">
         <div className="flex gap-8 text-grey-300">
           <InfoButton
             text="Rate"
-            iconType="AiOutlineStar"
-            iconColor="blue"
-            // iconType={userRate?.rating > 0 ? 'AiFillStar' : 'AiOutlineStar'}
-            // iconColor={userRate?.rating > 0 ? 'blue' : undefined}
-            onClick={() => setRating(true)}
+            iconType={
+              data?.movieRating?.rating > 0 ? 'AiFillStar' : 'AiOutlineStar'
+            }
+            iconColor={data?.movieRating ? 'blue' : undefined}
+            onClick={() => setSubModalOpen('rate')}
           />
 
           <InfoButton
             text="Watch"
-            iconType="IoEyeOutline"
-            // iconType={userRate?.watched ? 'IoEye' : 'IoEyeOutline'}
-            // iconColor={userRate?.watched ? 'green' : undefined}
-            // onClick={() => handleClick('watch')}
+            iconType={data?.isOnWatchLater ? 'IoEye' : 'IoEyeOutline'}
+            iconColor={data?.isOnWatchLater ? 'green' : undefined}
+            onClick={() =>
+              data?.isOnWatchLater
+                ? handleAddMovieToList(UserListType.Watched)
+                : handleRemoveMovieFromList(UserListType.Watched)
+            }
           />
 
           <InfoButton
@@ -92,20 +108,27 @@ const MovieOptionsModal: React.FC<MovieOptionsModalProps> = ({
           <InfoButton
             text="Watchlist"
             iconType="AiOutlineClockCircle"
-            // iconColor={
-            //   user.watchlist.findIndex(m => m.id === movie.id) > 0
-            //     ? 'blue'
-            //     : undefined
-            // }
-            // onClick={handleWatchlist}
+            iconColor={data?.isOnWatchList ? 'blue' : undefined}
+            onClick={() =>
+              data?.isOnWatchList
+                ? handleAddMovieToList(UserListType.Watchlist)
+                : handleRemoveMovieFromList(UserListType.Watchlist)
+            }
           />
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <Button buttonStyle="secondary" onClick={redirectReview}>
+          <Button buttonStyle="secondary" onClick={redirectToCreateReviewPage}>
             Review
           </Button>
-          <Button buttonStyle="secondary">Add to list</Button>
+
+          <Button
+            buttonStyle="secondary"
+            onClick={() => setSubModalOpen('addToList')}
+          >
+            Add to list
+          </Button>
+
           <Button buttonStyle="secondary">Share</Button>
         </div>
       </div>
