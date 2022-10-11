@@ -2,80 +2,83 @@ import { Resolver, Mutation, Ctx, Arg, Int, Query } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
-import {
-  UserRepository,
-  UserListPremadeMovieRepository,
-} from '../repositories';
+import { UserListPreMadeMovieRepository } from '../repositories';
 
-import NotFoundError from '../errors/NotFound';
-
-import UserNotFoundError from '../errors/UserNotFound';
-
-import AuthenticationError from '../errors/Authentication';
+import { findWithOffsetPagination } from './offset-pagination.resolver';
 
 import UserListType from '../enums/UserListType';
 
-import UserListPremadeMovie from '../entities/mongo-entities/user-list-premade-movie.interface';
+import AlreadyExistsError from '../errors/AlreadyExists';
 
-@Resolver(() => UserListPremadeMovie)
+import UserListMovie from '../entities/mongo-entities/user-list/user-list-movie';
+
+import UserListPremadeMovies from '../entities/offset-pagination/entities/user-list-premade-movies';
+
+import UserListPremadeMovie from '../entities/mongo-entities/user-list/premade/user-list-premade-movie';
+
+import NotFoundError from '../errors/NotFound';
+
+import AuthenticationError from '../errors/Authentication';
+
+@Resolver()
 export default class UserListPreMadeResolver {
-  async findSimpleList(userId: string, listType: UserListType) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const listExists = await UserListPremadeMovieRepository.findBy({
-      userId,
-      listType: listType.toString(),
-    });
-
-    return listExists;
-  }
-
-  @Query(() => [UserListPremadeMovie])
-  async watchlist(@Arg('userId') userId: string) {
-    const listExists = await this.findSimpleList(
-      userId,
-      UserListType.WATCHLIST,
-    );
-
-    return listExists;
-  }
-
-  @Query(() => [UserListPremadeMovie])
-  async watchLater(@Arg('userId') userId: string) {
-    const listExists = await this.findSimpleList(
-      userId,
-      UserListType.WATCH_LATER,
-    );
-
-    return listExists;
-  }
-
-  @Query(() => [UserListPremadeMovie])
-  async watched(@Arg('userId') userId: string) {
-    const listExists = await this.findSimpleList(userId, UserListType.WATCHED);
-
-    return listExists;
-  }
-
-  @Query(() => [UserListPremadeMovie])
-  async favoriteMovies(@Arg('userId') userId: string) {
-    const listExists = await this.findSimpleList(userId, UserListType.FAVORITE);
-
-    return listExists;
-  }
-
-  @Mutation(() => UserListPremadeMovie)
-  async addMovieToList(
-    @Ctx() { user, dataSources }: ServerContext,
+  @Query(() => UserListPremadeMovies)
+  async userListPreMadeMovies(
+    @Arg('userId') userId: string,
     @Arg('listType', () => UserListType) listType: UserListType,
+    @Arg('first', () => Int) first: number,
+    @Arg('offset', () => Int, { nullable: true }) offset?: number,
+  ) {
+    const paginationResult =
+      await findWithOffsetPagination<UserListPremadeMovie>({
+        repository: UserListPreMadeMovieRepository,
+        findOptions: { where: { userId, listType } },
+        first,
+        offset,
+      });
+
+    return paginationResult;
+  }
+
+  @Query(() => Boolean)
+  async isMovieOnUserPreMadeList(
+    @Ctx() { user }: ServerContext,
+    @Arg('listType', () => UserListType)
+    listType: UserListType,
     @Arg('movieId', () => Int) movieId: number,
   ) {
     if (!user) {
       throw new AuthenticationError();
+    }
+
+    const isMovieInList = await UserListPreMadeMovieRepository.findOneBy({
+      userId: user.id,
+      listType,
+      movieId,
+    });
+
+    return !!isMovieInList;
+  }
+
+  @Mutation(() => UserListMovie)
+  async addMovieToUserList(
+    @Ctx() { user, dataSources }: ServerContext,
+    @Arg('movieId', () => Int) movieId: number,
+    @Arg('listType', () => UserListType)
+    listType: UserListType,
+  ) {
+    if (!user) {
+      throw new AuthenticationError();
+    }
+
+    const movieExistsInList = await UserListPreMadeMovieRepository.findOneBy({
+      userId: user.id,
+      listType,
+      movieId,
+    });
+
+    if (movieExistsInList) {
+      throw new AlreadyExistsError('This movie is already added to this list');
     }
 
     const movie = await dataSources.tmdb.getMovieById(movieId);
@@ -84,29 +87,30 @@ export default class UserListPreMadeResolver {
       throw new NotFoundError('Movie not found');
     }
 
-    const userListMovie = UserListPremadeMovieRepository.create({
+    const userListMovie = UserListPreMadeMovieRepository.create({
       userId: user.id,
-      movieId: movie.id,
       listType,
+      movieId: movie.id,
       movie,
     });
 
-    await UserListPremadeMovieRepository.save(userListMovie);
+    await UserListPreMadeMovieRepository.save(userListMovie);
 
     return userListMovie;
   }
 
-  @Mutation(() => String)
+  @Mutation(() => Boolean)
   async removeMovieFromList(
     @Ctx() { user }: ServerContext,
     @Arg('movieId', () => Int) movieId: number,
-    @Arg('listType', () => UserListType) listType: UserListType,
+    @Arg('listType', () => UserListType)
+    listType: UserListType,
   ) {
     if (!user) {
       throw new AuthenticationError();
     }
 
-    const listMovieExists = await UserListPremadeMovieRepository.findOneBy({
+    const listMovieExists = await UserListPreMadeMovieRepository.findOneBy({
       userId: user.id,
       listType,
       movieId,
@@ -116,12 +120,12 @@ export default class UserListPreMadeResolver {
       throw new NotFoundError('This movie is not part of that list');
     }
 
-    await UserListPremadeMovieRepository.deleteOne({
+    await UserListPreMadeMovieRepository.deleteOne({
       userId: user.id,
       listType,
       movieId,
     });
 
-    return 'Removed with sucess';
+    return true;
   }
 }

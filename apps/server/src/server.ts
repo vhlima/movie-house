@@ -22,8 +22,7 @@ import {
   LikeResolver,
   CommentaryResolver,
   ReplyResolver,
-  UserListPremadeResolver,
-  UserListCustomResolver,
+  MovieRateResolver,
 } from './resolvers';
 
 import { TmdbAPI } from './api';
@@ -31,6 +30,8 @@ import { TmdbAPI } from './api';
 import { UserRepository } from './repositories';
 
 import { connectDatabase } from './database';
+import UserListCustomResolver from './resolvers/user-list-custom.resolver';
+import UserListPreMadeResolver from './resolvers/user-list-premade.resolver';
 
 const main = async () => {
   const schema = await buildSchema({
@@ -38,13 +39,14 @@ const main = async () => {
       UserResolver,
       MovieResolver,
       ReviewResolver,
-      UserListPremadeResolver,
       ProfileResolver,
       FollowResolver,
       LikeResolver,
       CommentaryResolver,
       ReplyResolver,
+      MovieRateResolver,
       UserListCustomResolver,
+      UserListPreMadeResolver,
     ],
     // resolvers: [path.resolve(__dirname, 'src/resolvers/*.ts')],
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),

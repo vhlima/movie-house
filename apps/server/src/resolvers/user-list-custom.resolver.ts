@@ -1,14 +1,22 @@
-import { Resolver, Mutation, Ctx, Arg, Int, Query, Args } from 'type-graphql';
+import { Resolver, Mutation, Ctx, Arg, Int, Query } from 'type-graphql';
 
 import { ObjectId } from 'mongodb';
 
 import type { ServerContext } from '../types';
 
 import {
+  UserRepository,
   UserListCustomRepository,
   UserListCustomMovieRepository,
-  UserRepository,
 } from '../repositories';
+
+import { findWithOffsetPagination } from './offset-pagination.resolver';
+
+import UserListCustom from '../entities/mongo-entities/user-list/custom/user-list-custom';
+
+import UserListCustomMovies from '../entities/offset-pagination/entities/user-list-custom-movies';
+
+import UserListCustomMovie from '../entities/mongo-entities/user-list/custom/user-list-custom-movie';
 
 import NotFoundError from '../errors/NotFound';
 
@@ -16,81 +24,103 @@ import UserNotFoundError from '../errors/UserNotFound';
 
 import AuthenticationError from '../errors/Authentication';
 
-import UserListCustomMovie from '../entities/mongo-entities/user-list-custom-movie.interface';
-
-import UserListCustom from '../entities/mongo-entities/user-list-custom.interface';
-
 import AlreadyExistsError from '../errors/AlreadyExists';
 
 @Resolver(() => UserListCustom)
-export default class UserListResolver {
-  @Query(() => [UserListCustom])
-  async userLists(@Arg('userId') userId: string) {
-    const user = await UserRepository.findOneBy({ id: userId });
+export default class UserListCustomResolver {
+  @Query(() => UserListCustomMovies)
+  async userListCustomMovies(
+    @Arg('listId') listId: string,
+    @Arg('first', () => Int) first: number,
+    @Arg('offset', () => Int) offset: number,
+  ) {
+    const paginationResult =
+      await findWithOffsetPagination<UserListCustomMovie>({
+        repository: UserListCustomMovieRepository,
+        findOptions: { where: { listId } },
+        first,
+        offset,
+      });
 
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const lists = await UserListCustomRepository.findBy({
-      authorId: userId,
-    });
-
-    return lists;
+    return paginationResult;
   }
 
   @Query(() => UserListCustom)
-  async userList(@Arg('userId') userId: string, @Arg('listId') listId: string) {
+  async userListCustom(
+    @Arg('userId') userId: string,
+    @Arg('listId') listId: string,
+  ) {
     const user = await UserRepository.findOneBy({ id: userId });
 
     if (!user) {
       throw new UserNotFoundError();
     }
 
-    const listExists = await UserListCustomRepository.findOneBy({
+    const userListFound = await UserListCustomRepository.findOneBy({
       _id: new ObjectId(listId),
-      authorId: userId,
     });
 
-    if (!listExists) {
+    if (!userListFound) {
       throw new NotFoundError('List not found');
     }
 
-    return listExists;
+    return userListFound;
   }
 
   @Mutation(() => UserListCustom)
   async createUserList(
     @Ctx() { user }: ServerContext,
     @Arg('name') name: string,
-    @Arg('body') body?: string,
+    @Arg('body') body: string,
   ) {
     if (!user) {
       throw new AuthenticationError();
     }
 
-    const userListExists = await UserListCustomRepository.findOneBy({
-      authorId: user.id,
-      name,
-    });
+    const userListExists = await UserListCustomRepository.findOneBy({ name });
 
-    if (userListExists) {
-      throw new AlreadyExistsError('You already have a list with that name');
+    if (!userListExists) {
+      throw new AlreadyExistsError('You already have a list with this name');
     }
 
     const userList = UserListCustomRepository.create({
       authorId: user.id,
       name,
-      body: body || '',
+      body,
     });
-
-    await UserListCustomRepository.save(userList);
-
     return userList;
   }
 
+  @Query(() => Boolean)
+  async isMovieOnUserCustomList(
+    @Ctx() { user }: ServerContext,
+    @Arg('listId') listId: string,
+    @Arg('movieId', () => Int) movieId: number,
+  ) {
+    if (!user) {
+      throw new AuthenticationError();
+    }
+
+    const listIdAsObject = new ObjectId(listId);
+
+    const listExists = await UserListCustomRepository.findOneBy({
+      _id: listIdAsObject,
+    });
+
+    if (!listExists) {
+      throw new NotFoundError('List not found');
+    }
+
+    const isMovieInList = await UserListCustomMovieRepository.findOneBy({
+      listId: listIdAsObject,
+      movieId,
+    });
+
+    return !!isMovieInList;
+  }
+
   @Mutation(() => UserListCustomMovie)
-  async addMovieToCustomList(
+  async addMovieToUserCustomList(
     @Ctx() { user, dataSources }: ServerContext,
     @Arg('listId') listId: string,
     @Arg('movieId', () => Int) movieId: number,
@@ -99,22 +129,24 @@ export default class UserListResolver {
       throw new AuthenticationError();
     }
 
+    const listIdAsObject = new ObjectId(listId);
+
     const listExists = await UserListCustomRepository.findOneBy({
-      _id: new ObjectId(listId),
-      authorId: user.id,
+      _id: listIdAsObject,
     });
 
     if (!listExists) {
       throw new NotFoundError('List not found');
     }
 
-    const movieAlreadyAdded = await UserListCustomMovieRepository.findOneBy({
-      listId: listExists.id,
+    const movieExistsInList = await UserListCustomMovieRepository.findOneBy({
+      listId: listIdAsObject,
+      userId: user.id,
       movieId,
     });
 
-    if (movieAlreadyAdded) {
-      throw new AlreadyExistsError('This movie is already added to that list');
+    if (movieExistsInList) {
+      throw new AlreadyExistsError('This movie is already added to this list');
     }
 
     const movie = await dataSources.tmdb.getMovieById(movieId);
@@ -124,7 +156,7 @@ export default class UserListResolver {
     }
 
     const userListMovie = UserListCustomMovieRepository.create({
-      listId: listExists.id,
+      listId: listIdAsObject,
       movieId: movie.id,
       movie,
     });
@@ -134,7 +166,7 @@ export default class UserListResolver {
     return userListMovie;
   }
 
-  @Mutation(() => String)
+  @Mutation(() => Boolean)
   async removeMovieFromCustomList(
     @Ctx() { user }: ServerContext,
     @Arg('listId') listId: string,
@@ -144,17 +176,18 @@ export default class UserListResolver {
       throw new AuthenticationError();
     }
 
+    const listIdAsObject = new ObjectId(listId);
+
     const listExists = await UserListCustomRepository.findOneBy({
-      _id: new ObjectId(listId),
-      authorId: user.id,
+      _id: listIdAsObject,
     });
 
     if (!listExists) {
       throw new NotFoundError('List not found');
     }
 
-    const listMovieExists = await UserListCustomMovieRepository.findOneBy({
-      listId: listExists.id,
+    const listMovieExists = await UserListCustomRepository.findOneBy({
+      listId: listIdAsObject,
       userId: user.id,
       movieId,
     });
@@ -163,12 +196,12 @@ export default class UserListResolver {
       throw new NotFoundError('This movie is not part of that list');
     }
 
-    await UserListCustomMovieRepository.deleteOne({
-      listId: listExists.id,
+    await UserListCustomRepository.deleteOne({
+      listId: listIdAsObject,
       userId: user.id,
       movieId,
     });
 
-    return 'Removed with sucess';
+    return true;
   }
 }

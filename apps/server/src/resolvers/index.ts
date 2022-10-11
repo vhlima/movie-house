@@ -14,6 +14,6 @@ export { default as FollowResolver } from './follow.resolver';
 
 export { default as ProfileResolver } from './profile.resolver';
 
-export { default as UserListPremadeResolver } from './user-list-premade.resolver';
+export { default as UserListResolver } from './user-list.resolver';
 
-export { default as UserListCustomResolver } from './user-list-custom.resolver';
+export { default as MovieRateResolver } from './movie-rate.resolver';
