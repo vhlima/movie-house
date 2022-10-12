@@ -32,12 +32,12 @@ export default class UserListCustomResolver {
   async userListCustomMovies(
     @Arg('listId') listId: string,
     @Arg('first', () => Int) first: number,
-    @Arg('offset', () => Int) offset: number,
+    @Arg('offset', () => Int, { nullable: true }) offset?: number,
   ) {
     const paginationResult =
       await findWithOffsetPagination<UserListCustomMovie>({
         repository: UserListCustomMovieRepository,
-        findOptions: { where: { listId } },
+        findOptions: { where: { listId: new ObjectId(listId) } as any },
         first,
         offset,
       });
@@ -45,17 +45,23 @@ export default class UserListCustomResolver {
     return paginationResult;
   }
 
-  @Query(() => UserListCustom)
-  async userListCustom(
-    @Arg('userId') userId: string,
-    @Arg('listId') listId: string,
-  ) {
+  @Query(() => [UserListCustom])
+  async userListsCustom(@Arg('userId') userId: string) {
     const user = await UserRepository.findOneBy({ id: userId });
 
     if (!user) {
       throw new UserNotFoundError();
     }
 
+    const userLists = await UserListCustomRepository.findBy({
+      authorId: userId,
+    });
+
+    return userLists;
+  }
+
+  @Query(() => UserListCustom)
+  async userListCustom(@Arg('listId') listId: string) {
     const userListFound = await UserListCustomRepository.findOneBy({
       _id: new ObjectId(listId),
     });
