@@ -35,7 +35,7 @@ import {
   BsFlagFill,
 } from 'react-icons/bs';
 
-import { MdMovie } from 'react-icons/md';
+import { MdMovie, MdOutlineSort } from 'react-icons/md';
 
 import { FiX } from 'react-icons/fi';
 
@@ -78,6 +78,7 @@ export type SvgIconType =
   | 'BsPlusLg'
   | 'BsHouse'
   | 'MdMovie'
+  | 'MdOutlineSort'
   | 'HiMenu'
   | 'HiMail'
   | 'HiLockClosed'
@@ -130,6 +131,7 @@ const icons: SvgIconsType = {
   BsHouse,
 
   MdMovie,
+  MdOutlineSort,
 
   HiMenu,
   HiMail,
