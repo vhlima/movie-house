@@ -7,6 +7,7 @@ import { ApolloError } from 'apollo-server';
 import {
   FollowRepository,
   ReviewRepository,
+  UserListCustomRepository,
   UserRepository,
 } from '../repositories';
 
@@ -66,11 +67,15 @@ class ProfileResolver {
       userId,
     });
 
+    const listCount = await UserListCustomRepository.countBy({
+      authorId: userId,
+    });
+
     return {
       followerCount,
       followingCount,
 
-      listCount: 0,
+      listCount,
 
       moviesWatchedCount: 0,
       moviesWatchedThisYearCount: 0,
