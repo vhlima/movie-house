@@ -6,11 +6,11 @@ import type { Movie } from '../../../../../../../../graphql';
 
 import { useLogic } from './logic';
 
-import MovieCardList from '../../../../MovieCardList';
-
 import Modal from '../../../../../../../../components/Modal';
 
-import ErrorText from '../../../../../../../../components/ErrorText';
+import QueryState from '../../../../../../../../components/QueryState';
+
+import MovieCardsEditable from '../../../../MovieCardsEditable';
 
 import AddPinnedReviewModal from './components/AddModal';
 
@@ -19,7 +19,10 @@ type EditPinnedReviewsModalProps = ModalHandles;
 const EditPinnedReviewsModal: React.FC<EditPinnedReviewsModalProps> = ({
   onClose,
 }) => {
-  const { cachedPinnedReviews, error, handleUnpin } = useLogic();
+  const {
+    pinnedReviewsResult: { data, error },
+    handleUnpin,
+  } = useLogic();
 
   /* When set to true, add modal will be shown */
   const [isAdding, setAdding] = useState<boolean>(false);
@@ -32,20 +35,15 @@ const EditPinnedReviewsModal: React.FC<EditPinnedReviewsModalProps> = ({
     <Modal center backdrop onClose={onClose}>
       <h1 className="text-grey-100 text-lg mb-4">Edit your pinned reviews</h1>
 
-      {error && <ErrorText text={error.message} />}
-
-      <MovieCardList
-        maxMovies={4}
-        movies={
-          cachedPinnedReviews
-            ? (cachedPinnedReviews.pinnedReviews.map(
-                pinnedReview => pinnedReview.movie,
-              ) as Movie[])
-            : []
-        }
-        onClickAdd={() => setAdding(true)}
-        onClickRemove={handleUnpin}
-      />
+      <QueryState loading={false} error={error}>
+        {data && (
+          <MovieCardsEditable
+            movies={data.pinnedReviews.map(review => review.movie) as Movie[]}
+            onAdd={() => setAdding(true)}
+            onRemove={handleUnpin}
+          />
+        )}
+      </QueryState>
     </Modal>
   );
 };

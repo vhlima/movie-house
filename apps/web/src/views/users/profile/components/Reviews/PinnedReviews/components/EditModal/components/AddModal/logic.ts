@@ -1,18 +1,18 @@
 import type { ModalHandles } from '../../../../../../../../../../components/Modal';
 
 import type {
-  FindUserPinnedReviewsQuery,
-  FindUserPinnedReviewsQueryVariables,
+  Review,
   FindUserReviewsQueryResult,
 } from '../../../../../../../../../../graphql';
 
 import {
-  FindUserPinnedReviewsDocument,
   usePinReviewMutation,
   useFindUserReviewsQuery,
 } from '../../../../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../../../../hooks/useAuth';
+
+import { usePinnedReviewsCache } from '../../hooks/usePinnedReviewsCache';
 
 type AddModalLogicProps = ModalHandles;
 
@@ -31,23 +31,19 @@ export const useLogic = ({
     variables: { userId: user.id },
   });
 
+  const { updateCache } = usePinnedReviewsCache();
+
   const [pinReview, { loading }] = usePinReviewMutation({
     errorPolicy: 'all',
     update: (cache, { data }) => {
       if (!data || !data.pinReview.pinned) return;
 
-      cache.updateQuery<
-        FindUserPinnedReviewsQuery,
-        FindUserPinnedReviewsQueryVariables
-      >(
-        {
-          query: FindUserPinnedReviewsDocument,
-          variables: { userId: user.id },
-        },
-        cacheData => ({
-          pinnedReviews: [...(cacheData?.pinnedReviews || []), data.pinReview],
-        }),
-      );
+      updateCache(cacheData => ({
+        pinnedReviews: [
+          ...(cacheData?.pinnedReviews || []),
+          data.pinReview as Review,
+        ],
+      }));
     },
   });
 

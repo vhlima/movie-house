@@ -1,22 +1,16 @@
-import { ApolloError } from '@apollo/client';
-
-import type {
-  FindUserPinnedReviewsQuery,
-  FindUserPinnedReviewsQueryVariables,
-} from '../../../../../../../../graphql';
+import type { FindUserPinnedReviewsQueryResult } from '../../../../../../../../graphql';
 
 import {
-  FindUserPinnedReviewsDocument,
   usePinReviewMutation,
   useFindUserPinnedReviewsQuery,
 } from '../../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../../hooks/useAuth';
 
-interface EditModalLogicHandles {
-  cachedPinnedReviews: FindUserPinnedReviewsQuery;
+import { usePinnedReviewsCache } from './hooks/usePinnedReviewsCache';
 
-  error: ApolloError;
+interface EditModalLogicHandles {
+  pinnedReviewsResult: FindUserPinnedReviewsQueryResult;
 
   handleUnpin: (movieId: number) => Promise<void>;
 }
@@ -24,41 +18,34 @@ interface EditModalLogicHandles {
 export const useLogic = (): EditModalLogicHandles => {
   const { user } = useAuth();
 
-  const { data: cachedPinnedReviews } = useFindUserPinnedReviewsQuery({
+  const pinnedReviewsResult = useFindUserPinnedReviewsQuery({
     variables: { userId: user.id },
     fetchPolicy: 'cache-only',
   });
 
-  const [pinReview, { loading, error }] = usePinReviewMutation({
+  const { updateCache } = usePinnedReviewsCache();
+
+  const [pinReview, { loading }] = usePinReviewMutation({
     errorPolicy: 'all',
     update: (cache, { data }, context) => {
       if (!data || data.pinReview.pinned) return;
 
-      cache.updateQuery<
-        FindUserPinnedReviewsQuery,
-        FindUserPinnedReviewsQueryVariables
-      >(
-        {
-          query: FindUserPinnedReviewsDocument,
-          variables: { userId: user.id },
-        },
-        cacheData => ({
-          pinnedReviews: cacheData?.pinnedReviews
-            ? cacheData.pinnedReviews.filter(
-                pinnedReview => pinnedReview.id !== context.variables.reviewId,
-              )
-            : [],
-        }),
-      );
+      updateCache(cacheData => ({
+        pinnedReviews: cacheData?.pinnedReviews
+          ? cacheData.pinnedReviews.filter(
+              pinnedReview => pinnedReview.id !== context.variables.reviewId,
+            )
+          : [],
+      }));
     },
   });
 
   const handleUnpin = async (movieId: number) => {
     if (loading) return;
 
-    if (!cachedPinnedReviews) return;
+    if (!pinnedReviewsResult.data) return;
 
-    const review = cachedPinnedReviews.pinnedReviews.find(
+    const review = pinnedReviewsResult.data.pinnedReviews.find(
       review => review.movie.id === movieId,
     );
 
@@ -68,9 +55,7 @@ export const useLogic = (): EditModalLogicHandles => {
   };
 
   return {
-    cachedPinnedReviews,
-
-    error,
+    pinnedReviewsResult,
 
     handleUnpin,
   };

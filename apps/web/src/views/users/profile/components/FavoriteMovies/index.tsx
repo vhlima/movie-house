@@ -1,25 +1,20 @@
 import { useState } from 'react';
 
-import type { Movie } from '../../../../../graphql';
-
 import { useFindUserFavoriteMoviesQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
 import { useProfile } from '../../hooks/useProfile';
 
-import MovieCardList from '../MovieCardList';
+import QueryState from '../../../../../components/QueryState';
+
+import MovieCover from '../../../../movies/components/Cover';
 
 import Card from '../../../../../components/Card';
 
-import ErrorText from '../../../../../components/ErrorText';
-
-import LoadingSpinner from '../../../../../components/LoadingSpinner';
+import Link from '../../../../../components/Link';
 
 import EditFavoriteMoviesModal from './components/EditFavoriteModal';
-
-/* Max number of movies a user can have as favorite */
-const MAX_FAVORITE_MOVIES = 4;
 
 const FavoriteMovies: React.FC = () => {
   const { user: currentUser } = useAuth();
@@ -51,24 +46,32 @@ const FavoriteMovies: React.FC = () => {
         }
         noPadding
       >
-        {error || loading ? (
-          <>
-            {loading && <LoadingSpinner center />}
+        <QueryState loading={loading} error={error}>
+          {data && (
+            <ul className="flex gap-2">
+              {data.userFavoriteMovies.map(({ movie }) => (
+                <li key={`favorite-movies-profile-${movie.id}`}>
+                  <Link
+                    href={{
+                      pathname: '/movies/[id]',
+                      query: { id: movie.id },
+                    }}
+                  >
+                    <MovieCover coverUrl={movie.posterUrl} />
+                  </Link>
+                </li>
+              ))}
 
-            {error && <ErrorText text="Error loading favorite movies" />}
-          </>
-        ) : (
-          <MovieCardList
-            maxMovies={MAX_FAVORITE_MOVIES}
-            movies={
-              data
-                ? (data.favoriteMovies.map(
-                    favoriteMovie => favoriteMovie.movie,
-                  ) as Movie[])
-                : []
-            }
-          />
-        )}
+              {Array.from({ length: 4 - data.userFavoriteMovies.length }).map(
+                n => (
+                  <li key={`movie-cover-empty-${n}`}>
+                    <MovieCover />
+                  </li>
+                ),
+              )}
+            </ul>
+          )}
+        </QueryState>
       </Card>
     </>
   );

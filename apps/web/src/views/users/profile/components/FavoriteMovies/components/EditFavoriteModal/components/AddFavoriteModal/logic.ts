@@ -2,19 +2,12 @@ import { ApolloError } from '@apollo/client';
 
 import type { ModalHandles } from '../../../../../../../../../components/Modal';
 
-import type {
-  UserListPremadeMovie,
-  FindUserFavoriteMoviesQuery,
-  FindUserFavoriteMoviesQueryVariables,
-} from '../../../../../../../../../graphql';
-
 import {
   UserListType,
-  FindUserFavoriteMoviesDocument,
   useAddMovieToPremadeListMutation,
 } from '../../../../../../../../../graphql';
 
-import { useAuth } from '../../../../../../../../../hooks/useAuth';
+import { useFavoriteMoviesCache } from '../../hooks/useFavoriteMoviesCache';
 
 type AddFavoriteMovieModalLogicProps = ModalHandles;
 
@@ -30,7 +23,7 @@ interface AddFavoriteMovieModalLogicHandles {
 export const useLogic = ({
   onClose,
 }: AddFavoriteMovieModalLogicProps): AddFavoriteMovieModalLogicHandles => {
-  const { user } = useAuth();
+  const { updateCache } = useFavoriteMoviesCache();
 
   const [addFavoriteMovie, { loading, error, reset }] =
     useAddMovieToPremadeListMutation({
@@ -38,21 +31,12 @@ export const useLogic = ({
       update: (cache, { data }) => {
         if (!data) return;
 
-        cache.updateQuery<
-          FindUserFavoriteMoviesQuery,
-          FindUserFavoriteMoviesQueryVariables
-        >(
-          {
-            query: FindUserFavoriteMoviesDocument,
-            variables: { userId: user.id },
-          },
-          cacheData => ({
-            favoriteMovies: [
-              ...(cacheData?.favoriteMovies || []),
-              data.addMovieToList as UserListPremadeMovie,
-            ],
-          }),
-        );
+        updateCache(cacheData => ({
+          userFavoriteMovies: [
+            ...(cacheData?.userFavoriteMovies || []),
+            data.addMovieToUserList as any,
+          ],
+        }));
       },
     });
 

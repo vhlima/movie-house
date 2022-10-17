@@ -1,24 +1,19 @@
-import { ApolloError } from '@apollo/client';
-
-import type {
-  FindUserFavoriteMoviesQuery,
-  FindUserFavoriteMoviesQueryVariables,
-} from '../../../../../../../graphql';
+import type { FindUserFavoriteMoviesQueryResult } from '../../../../../../../graphql';
 
 import {
   UserListType,
-  FindUserFavoriteMoviesDocument,
-  useFindUserFavoriteMoviesQuery,
   useRemoveMovieFromPremadeListMutation,
+  useFindUserFavoriteMoviesQuery,
 } from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 
+import { useFavoriteMoviesCache } from './hooks/useFavoriteMoviesCache';
+
 type RemoveHandles = (movieId: number) => Promise<void>;
 
 interface EditFavoriteMovieModalLogicHandles {
-  data: FindUserFavoriteMoviesQuery;
-  error: ApolloError;
+  favoriteMoviesResult: FindUserFavoriteMoviesQueryResult;
 
   handleRemove: RemoveHandles;
 }
@@ -26,34 +21,29 @@ interface EditFavoriteMovieModalLogicHandles {
 export const useLogic = (): EditFavoriteMovieModalLogicHandles => {
   const { user } = useAuth();
 
-  const { data } = useFindUserFavoriteMoviesQuery({
+  /* 
+    Favorite movies are stored in cache because we already 
+    fetched from FavoriteMovies component.
+  */
+  const favoriteMoviesResult = useFindUserFavoriteMoviesQuery({
     variables: { userId: user.id },
     fetchPolicy: 'cache-only',
   });
 
-  const [removeFavoriteMovie, { loading, error }] =
+  const { updateCache } = useFavoriteMoviesCache();
+
+  const [removeFavoriteMovie, { loading }] =
     useRemoveMovieFromPremadeListMutation({
       errorPolicy: 'all',
       update: (cache, { data }, context) => {
         if (!data) return;
 
-        cache.updateQuery<
-          FindUserFavoriteMoviesQuery,
-          FindUserFavoriteMoviesQueryVariables
-        >(
-          {
-            query: FindUserFavoriteMoviesDocument,
-            variables: { userId: user.id },
-          },
-          cacheData => ({
-            favoriteMovies: cacheData?.favoriteMovies
-              ? cacheData.favoriteMovies.filter(
-                  favoriteMovie =>
-                    favoriteMovie.movie.id !== context.variables.movieId,
-                )
-              : [],
-          }),
-        );
+        /* Remove movie from favorite movies list cache */
+        updateCache(cacheData => ({
+          userFavoriteMovies: cacheData.userFavoriteMovies.filter(
+            ({ movie }) => movie.id !== context.variables.movieId,
+          ),
+        }));
       },
     });
 
@@ -61,13 +51,12 @@ export const useLogic = (): EditFavoriteMovieModalLogicHandles => {
     if (loading) return;
 
     await removeFavoriteMovie({
-      variables: { listType: UserListType.Favorite, movieId },
+      variables: { movieId, listType: UserListType.Favorite },
     });
   };
 
   return {
-    data,
-    error,
+    favoriteMoviesResult,
 
     handleRemove,
   };
