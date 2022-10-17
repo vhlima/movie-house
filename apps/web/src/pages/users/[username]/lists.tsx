@@ -9,9 +9,15 @@ import type {
   FindUserListsFullQueryVariables,
   FindUserQuery,
   FindUserQueryVariables,
+  FindUserListCustomMoviesQuery,
+  FindUserListCustomMoviesQueryVariables,
 } from '../../../graphql';
 
-import { FindUserDocument, FindUserListsFullDocument } from '../../../graphql';
+import {
+  FindUserDocument,
+  FindUserListsFullDocument,
+  FindUserListCustomMoviesDocument,
+} from '../../../graphql';
 
 import client from '../../../api';
 
@@ -47,7 +53,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       return {
         props: {
           user: userData.user,
-          lists: userListsData.userLists,
+          lists: userListsData.userListsCustom,
         } as UserListsPageProps,
       };
     }

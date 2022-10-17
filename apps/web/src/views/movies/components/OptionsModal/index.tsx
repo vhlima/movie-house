@@ -19,6 +19,7 @@ import InfoButton from './components/InfoButton';
 import RateModal from '../RateModal';
 
 import Button from '../../../../components/Button';
+
 import AddMovieToListModal from './components/AddMovieToListModal';
 
 interface MovieOptionsModalProps extends ModalHandles {

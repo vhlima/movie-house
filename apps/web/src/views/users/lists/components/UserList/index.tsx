@@ -23,7 +23,7 @@ const UserListMoviesCard: React.FC<UserListMoviesCardProps> = ({
   user,
   list,
 }) => {
-  const movies: Array<Movie | null> = list.movies.slice(0, 5);
+  const movies: Array<Movie | null> = [...list.featuredMovies];
 
   if (movies.length < 5) {
     Array.from({ length: 5 - movies.length }).map(() => movies.push(null));
@@ -37,10 +37,10 @@ const UserListMoviesCard: React.FC<UserListMoviesCardProps> = ({
           query: { id: list.id },
         }}
       >
-        <ul className="grid grid-cols-5">
+        <ul className="flex">
           {movies.map((movie, index) => (
             <li
-              className="relative"
+              className="w-full relative"
               style={{ zIndex: index + 50 }}
               key={`movie-card-list-${!movie ? uuid() : movie.id}`}
             >
@@ -63,7 +63,7 @@ const UserListMoviesCard: React.FC<UserListMoviesCardProps> = ({
         <SvgIcon className="text-grey-300" iconType="TbMovie" size={24} />
 
         <Typography component="span" color="primary">
-          136 movies
+          {list.totalCount} movies
         </Typography>
       </div>
 

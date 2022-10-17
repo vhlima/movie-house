@@ -14,7 +14,7 @@ const UserListsView: React.FC<UserListsPageProps> = ({ user, lists }) => {
   const a = 1;
 
   return (
-    <PageContent className="mt-2">
+    <PageContent className="my-3">
       <Link
         className="flex gap-2"
         href={{
