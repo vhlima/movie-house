@@ -2,7 +2,10 @@ import { Resolver, Mutation, Ctx, Arg, Int, Query } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
-import { UserListPreMadeMovieRepository } from '../repositories';
+import {
+  UserListPreMadeMovieRepository,
+  UserRepository,
+} from '../repositories';
 
 import { findWithOffsetPagination } from './offset-pagination.resolver';
 
@@ -14,14 +17,31 @@ import UserListMovie from '../entities/mongo-entities/user-list/user-list-movie'
 
 import UserListPremadeMovies from '../entities/offset-pagination/entities/user-list-premade-movies';
 
-import UserListPremadeMovie from '../entities/mongo-entities/user-list/premade/user-list-premade-movie';
+import UserListPreMadeMovie from '../entities/mongo-entities/user-list/premade/user-list-premade-movie';
 
 import NotFoundError from '../errors/NotFound';
 
 import AuthenticationError from '../errors/Authentication';
+import UserNotFoundError from '../errors/UserNotFound';
 
 @Resolver()
 export default class UserListPreMadeResolver {
+  @Query(() => [UserListPreMadeMovie])
+  async userFavoriteMovies(@Arg('userId') userId: string) {
+    const user = await UserRepository.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    const userFavoriteMovies = await UserListPreMadeMovieRepository.findBy({
+      userId,
+      listType: UserListType.FAVORITE,
+    });
+
+    return userFavoriteMovies;
+  }
+
   @Query(() => UserListPremadeMovies)
   async userListPreMadeMovies(
     @Arg('userId') userId: string,
@@ -30,7 +50,7 @@ export default class UserListPreMadeResolver {
     @Arg('offset', () => Int, { nullable: true }) offset?: number,
   ) {
     const paginationResult =
-      await findWithOffsetPagination<UserListPremadeMovie>({
+      await findWithOffsetPagination<UserListPreMadeMovie>({
         repository: UserListPreMadeMovieRepository,
         findOptions: { where: { userId, listType } },
         first,
