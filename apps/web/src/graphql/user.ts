@@ -29,3 +29,17 @@ export const SIGN_IN = gql`
     }
   }
 `;
+
+export const FIND_USER_FAVORITE_MOVIES = gql`
+  ${USER_FIELDS}
+
+  query FindUserFavoriteMovies($userId: String!) {
+    userFavoriteMovies(userId: $userId) {
+      movie {
+        id
+        originalTitle
+        posterUrl
+      }
+    }
+  }
+`;

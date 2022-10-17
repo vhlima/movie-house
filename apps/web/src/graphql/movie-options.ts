@@ -6,18 +6,16 @@ export const FIND_MOVIE_OPTIONS = gql`
       rating
     }
 
-    isOnWatchLater: isMovieOnPremadeList(
+    isOnWatchLater: isMovieOnUserPreMadeList(
       movieId: $movieId
       listType: WATCH_LATER
-      userId: $userId
     )
 
     hasUserLike(rootId: $rootId, userId: $userId)
 
-    isOnWatchList: isMovieOnPremadeList(
+    isOnWatchList: isMovieOnUserPreMadeList(
       movieId: $movieId
       listType: WATCHLIST
-      userId: $userId
     )
   }
 `;

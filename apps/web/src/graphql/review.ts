@@ -20,8 +20,16 @@ const REVIEW_FIELDS = gql`
     movie {
       id
       originalTitle
+      runtime
       posterUrl
+      backdropUrl
       releaseDate
+      credits {
+        crew {
+          department
+          originalName
+        }
+      }
     }
   }
 `;
@@ -68,7 +76,8 @@ export const FIND_USER_PINNED_REVIEWS = gql`
   ${REVIEW_FIELDS}
 
   query FindUserPinnedReviews($userId: String!) {
-    pinnedReviews(userId: $userId) @connection(key: "pinnedReviews", filter: ["userId"]) {
+    pinnedReviews(userId: $userId)
+      @connection(key: "pinnedReviews", filter: ["userId"]) {
       ...ReviewFields
     }
   }
