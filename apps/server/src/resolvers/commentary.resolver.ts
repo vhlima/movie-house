@@ -29,13 +29,13 @@ export default class CommentaryResolver {
       throw new NotFoundError('Post not found');
     }
 
-    const postExists = await ReviewRepository.findOneBy({
-      _id: new ObjectId(postId),
-    });
+    // const postExists = await ReviewRepository.findOneBy({
+    //   _id: new ObjectId(postId),
+    // });
 
-    if (!postExists) {
-      throw new NotFoundError('Post not found');
-    }
+    // if (!postExists) {
+    //   throw new NotFoundError('Post not found');
+    // }
 
     const commentaries = await findWithPagination<Commentary>({
       first,
