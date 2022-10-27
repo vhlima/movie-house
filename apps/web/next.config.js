@@ -12,6 +12,7 @@ const nextConfig = {
       'a.ltrbxd.com',
       'www.themoviedb.org',
       'loremflickr.com',
+      'avatars.githubusercontent.com',
     ],
     formats: ['image/avif', 'image/webp'],
   },
