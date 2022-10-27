@@ -1,12 +1,10 @@
 import { useState } from 'react';
 
-import { useFindUserFavoriteMoviesQuery } from '../../../../../graphql';
-
 import { useAuth } from '../../../../../hooks/useAuth';
 
 import { useProfile } from '../../hooks/useProfile';
 
-import QueryState from '../../../../../components/QueryState';
+import { useFindUserFavoriteMoviesQuery } from '../../../../../graphql';
 
 import MovieCover from '../../../../movies/components/Cover';
 
@@ -25,8 +23,8 @@ const FavoriteMovies: React.FC = () => {
   const [isEditing, setEditing] = useState<boolean>(false);
 
   /* Fetch user's favorite movies */
-  const { data, loading, error } = useFindUserFavoriteMoviesQuery({
-    variables: { userId: user.id },
+  const { data } = useFindUserFavoriteMoviesQuery({
+    variables: { userId: user?.id },
   });
 
   return (
@@ -39,39 +37,44 @@ const FavoriteMovies: React.FC = () => {
         title="Favorite movies"
         rightIcon={
           currentUser &&
-          currentUser.id === user.id && {
+          currentUser.id === user?.id && {
             iconType: 'FaPencilAlt',
             onClick: () => setEditing(true),
           }
         }
         noPadding
       >
-        <QueryState loading={loading} error={error}>
-          {data && (
-            <ul className="flex gap-2">
-              {data.userFavoriteMovies.map(({ movie }) => (
-                <li key={`favorite-movies-profile-${movie.id}`}>
-                  <Link
-                    href={{
-                      pathname: '/movies/[id]',
-                      query: { id: movie.id },
-                    }}
-                  >
-                    <MovieCover coverUrl={movie.posterUrl} />
-                  </Link>
-                </li>
-              ))}
+        <ul className="flex gap-2">
+          {data &&
+            data.userFavoriteMovies.map(({ movie }) => (
+              <li
+                className="flex flex-col gap-2 flex-grow sm:flex-grow-0"
+                key={`favorite-movies-profile-${movie.id}`}
+              >
+                <Link
+                  href={{
+                    pathname: '/movies/[id]',
+                    query: { id: movie.id },
+                  }}
+                >
+                  <MovieCover coverUrl={movie.posterUrl} coverSize="auto" />
+                </Link>
+              </li>
+            ))}
 
-              {Array.from({ length: 4 - data.userFavoriteMovies.length }).map(
-                n => (
-                  <li key={`movie-cover-empty-${n}`}>
-                    <MovieCover />
-                  </li>
-                ),
-              )}
-            </ul>
-          )}
-        </QueryState>
+          {Array.from({
+            length: 4 - (!data ? 0 : data.userFavoriteMovies.length),
+          })
+            .map((_, index) => index + 1)
+            .map(n => (
+              <li
+                className="flex-grow sm:flex-grow-0"
+                key={`movie-cover-empty-${n}`}
+              >
+                <MovieCover coverSize="auto" />
+              </li>
+            ))}
+        </ul>
       </Card>
     </>
   );

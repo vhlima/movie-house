@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { Review } from '../../../../../../graphql';
 
-import { useFindUserPinnedReviewsQuery } from '../../../../../../graphql';
+import { useFindUserProfileFeaturedReviewsQuery } from '../../../../../../graphql';
 
 import { useAuth } from '../../../../../../hooks/useAuth';
 
@@ -17,11 +17,11 @@ const PinnedReviews: React.FC = () => {
 
   const { user } = useProfile();
 
-  const [isEditing, setEditing] = useState<boolean>(false);
-
-  const { data, loading, error } = useFindUserPinnedReviewsQuery({
-    variables: { userId: user.id },
+  const { data } = useFindUserProfileFeaturedReviewsQuery({
+    variables: { userId: user?.id },
   });
+
+  const [isEditing, setEditing] = useState<boolean>(false);
 
   return (
     <>
@@ -31,12 +31,12 @@ const PinnedReviews: React.FC = () => {
 
       <ReviewCard
         title="Pinned reviews"
-        reviews={data?.pinnedReviews as Review[]}
-        loading={loading}
-        error={error}
+        reviews={
+          (data?.userProfileFeaturedReviews?.pinnedReviews ?? []) as Review[]
+        }
         rightIcon={
           currentUser &&
-          currentUser.id === user.id && {
+          currentUser.id === user?.id && {
             iconType: 'FaPencilAlt',
             onClick: () => setEditing(true),
           }

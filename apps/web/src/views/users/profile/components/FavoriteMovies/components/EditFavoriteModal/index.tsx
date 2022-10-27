@@ -13,6 +13,7 @@ import QueryState from '../../../../../../../components/QueryState';
 import MovieCardsEditable from '../../../MovieCardsEditable';
 
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
+import Typography from '../../../../../../../components/Typography';
 
 type EditFavoriteMoviesModalProps = ModalHandles;
 
@@ -33,11 +34,14 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
 
   return (
     <Modal center backdrop onClose={onClose}>
-      <h1 className="text-grey-100 text-lg mb-4">Edit your favorite movies</h1>
+      <Typography className="mb-2" component="h1" size="lg">
+        Edit your favorite movies
+      </Typography>
 
       <QueryState loading={false} error={error}>
         {data && (
           <MovieCardsEditable
+            maxMovies={4}
             movies={
               data.userFavoriteMovies.map(
                 favoriteMovie => favoriteMovie.movie,

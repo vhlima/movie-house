@@ -38,6 +38,7 @@ const EditPinnedReviewsModal: React.FC<EditPinnedReviewsModalProps> = ({
       <QueryState loading={false} error={error}>
         {data && (
           <MovieCardsEditable
+            maxMovies={3}
             movies={data.pinnedReviews.map(review => review.movie) as Movie[]}
             onAdd={() => setAdding(true)}
             onRemove={handleUnpin}

@@ -10,25 +10,16 @@ import Stats from './components/Stats';
 
 import Button from '../../../../../components/Button';
 
-import ErrorText from '../../../../../components/ErrorText';
 import FollowButton from '../../../../../components/FollowButton';
 
 const ProfileStats: React.FC = () => {
   const { user: authUser } = useAuth();
 
-  const { user } = useProfile();
+  const { userProfile } = useProfile();
 
   const { push } = useRouter();
 
-  const { data, error, refetch } = useFindUserProfileQuery({
-    variables: { userId: user.id },
-  });
-
-  if (error) {
-    return <ErrorText text={`Error loading profile stats ${error.message}`} />;
-  }
-
-  const isOwnProfile = authUser && authUser.id === user.id;
+  const isOwnProfile = authUser && authUser.id === userProfile?.user?.id;
 
   return (
     <>
@@ -37,9 +28,9 @@ const ProfileStats: React.FC = () => {
           <>
             <FollowButton
               buttonSize="xs"
-              targetUserId={user.id}
+              targetUserId={userProfile?.user?.id}
               onFollow={async () => {
-                await refetch();
+                // await refetch();
               }}
             />
 
@@ -62,13 +53,13 @@ const ProfileStats: React.FC = () => {
         <div className="flex">
           <Stats
             link={{ href: '/' }}
-            number={data ? data.userProfile.moviesWatchedCount : 0}
+            number={userProfile ? userProfile.moviesWatchedCount : 0}
             text="Movies"
           />
 
           <Stats
             link={{ href: '/' }}
-            number={data ? data.userProfile.moviesWatchedThisYearCount : 0}
+            number={userProfile ? userProfile.moviesWatchedThisYearCount : 0}
             text="This year"
           />
 
@@ -76,10 +67,10 @@ const ProfileStats: React.FC = () => {
             link={{
               href: {
                 pathname: '/users/[username]/lists',
-                query: { username: user.username },
+                query: { username: userProfile?.user?.username },
               },
             }}
-            number={data ? data.userProfile.listCount : 0}
+            number={userProfile ? userProfile.listCount : 0}
             text="Lists"
           />
         </div>
@@ -89,10 +80,10 @@ const ProfileStats: React.FC = () => {
             link={{
               href: {
                 pathname: '/users/[username]/following',
-                query: { username: user.username },
+                query: { username: userProfile?.user?.username },
               },
             }}
-            number={data ? data.userProfile.followingCount : 0}
+            number={userProfile ? userProfile.followingCount : 0}
             text="Following"
           />
 
@@ -100,10 +91,10 @@ const ProfileStats: React.FC = () => {
             link={{
               href: {
                 pathname: '/users/[username]/followers',
-                query: { username: user.username },
+                query: { username: userProfile?.user?.username },
               },
             }}
-            number={data ? data.userProfile.followerCount : 0}
+            number={userProfile ? userProfile.followerCount : 0}
             text="Followers"
           />
         </div>

@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 
-import type { User } from '../../../graphql';
+import { useRouter } from 'next/router';
+
+import { useFindUserQuery } from '../../../graphql';
 
 import type { ProfileContextData } from './hooks/useProfile';
 
@@ -14,34 +16,37 @@ import ProfileStats from './components/ProfileStats';
 
 import ProfilePicture from '../../../components/ProfilePicture';
 
-import BackgroundImage from '../../../components/BackgroundImage';
+import PageContent from '../../../components/PageContent';
 
-import PinnedReviews from './components/Reviews/PinnedReviews';
-import RecentReviews from './components/Reviews/RecentReviews';
-import PopularReviews from './components/Reviews/PopularReviews';
+import BackdropImage from '../../../components/BackdropImage';
 
-interface UserProfileViewProps {
-  user: User;
-}
+import ReviewsCards from './components/Reviews';
 
-const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
-  const contextProviderValue = useMemo(
-    () => ({ user } as ProfileContextData),
-    [user],
+const UserProfileView: React.FC = () => {
+  const { query } = useRouter();
+
+  const { data } = useFindUserQuery({
+    variables: { username: query.username as string },
+  });
+
+  const contextProvider = useMemo(
+    () => ({ user: data?.user } as ProfileContextData),
+    [data],
   );
 
   return (
-    <ProfileContext.Provider value={contextProviderValue}>
-      <div className="flex">
-        <BackgroundImage src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg" />
-
-        <div className="flex flex-col justify-center gap-4 w-full px-3 mt-32 z-10">
+    <BackdropImage src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg">
+      <ProfileContext.Provider value={contextProvider}>
+        <PageContent className="relative flex flex-col justify-center gap-4 w-full">
           <div className="flex items-center gap-2">
-            <ProfilePicture imageSize="lg" src={user.profilePictureUrl} />
+            <ProfilePicture
+              imageSize="lg"
+              src={data?.user?.profilePictureUrl}
+            />
 
             <div className="flex flex-grow flex-wrap items-center gap-x-2">
               <h1 className="text-grey-100 text-2xl font-semibold">
-                {user.username}
+                {data?.user?.username}
               </h1>
 
               <div className="bg-movieHouse-mid rounded-md px-1">
@@ -53,23 +58,22 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({ user }) => {
           <ProfileStats />
 
           <Card className="text-grey-200" title="About me" noPadding>
-            {!user.biography ? (
-              <p>{user.username} hasn&apos;t told us anything about him yet.</p>
+            {!data?.user?.biography ? (
+              <p>
+                {data?.user?.username} hasn&apos;t told us anything about him
+                yet.
+              </p>
             ) : (
-              <p className="whitespace-pre-wrap">{user.biography}</p>
+              <p className="whitespace-pre-wrap">{data?.user.biography}</p>
             )}
           </Card>
 
           <FavoriteMovies />
 
-          <PinnedReviews />
-
-          <RecentReviews />
-
-          <PopularReviews />
-        </div>
-      </div>
-    </ProfileContext.Provider>
+          <ReviewsCards />
+        </PageContent>
+      </ProfileContext.Provider>
+    </BackdropImage>
   );
 };
 

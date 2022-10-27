@@ -8,6 +8,7 @@ import MovieCover from '../../../../movies/components/Cover';
 
 interface MovieCardsEditableProps {
   movies: Movie[];
+  maxMovies: number;
 
   onAdd: () => void;
   onRemove: (movieId: number) => void;
@@ -15,41 +16,44 @@ interface MovieCardsEditableProps {
 
 const MovieCardsEditable: React.FC<MovieCardsEditableProps> = ({
   movies,
+  maxMovies,
   onAdd,
   onRemove,
 }) => {
-  const a = 1;
+  const movieList = [
+    ...movies,
+    ...Array.from({ length: maxMovies - movies.length }).map(() => undefined),
+  ];
+
+  const firstEmptyIndex = movieList.findIndex(m => !m);
 
   return (
-    <ul className="grid grid-cols-4 gap-2">
-      {movies.map(movie => (
+    <ul className="flex gap-2">
+      {movieList.map((movie, index) => (
         <li
-          className="flex flex-col gap-2"
-          key={`favorite-movies-modal-${movie.id}`}
+          className="flex flex-col gap-2 flex-grow"
+          key={`favorite-movies-modal-${movie ? movie.id : index}`}
         >
-          <MovieCover coverUrl={movie.posterUrl} coverSize="full" />
-
-          <Button
-            buttonStyle="danger"
-            buttonSize="xs"
-            onClick={() => onRemove(movie.id)}
-          >
-            X
-          </Button>
-        </li>
-      ))}
-
-      {Array.from({ length: 4 - movies.length }).map((n, index) => (
-        <li key={`movie-cover-empty-edit-${n}`}>
           <MovieCover
-            coverStyle="secondary"
-            coverSize="full"
-            onClick={index === 0 ? onAdd : undefined}
+            coverUrl={movie?.posterUrl}
+            coverSize="auto"
+            coverStyle={movie ? 'primary' : 'secondary'}
+            onClick={firstEmptyIndex === index ? onAdd : undefined}
           >
-            {index === 0 && (
+            {firstEmptyIndex === index && (
               <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
             )}
           </MovieCover>
+
+          {movie && (
+            <Button
+              buttonStyle="danger"
+              buttonSize="xs"
+              onClick={() => onRemove(movie.id)}
+            >
+              X
+            </Button>
+          )}
         </li>
       ))}
     </ul>

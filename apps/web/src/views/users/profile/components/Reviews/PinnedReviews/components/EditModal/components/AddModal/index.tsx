@@ -47,7 +47,7 @@ const AddPinnedReviewModal: React.FC<AddPinnedReviewModalProps> = ({
               <li className="flex gap-2" key={review.id}>
                 <MovieCover coverSize="sm" coverUrl={review.movie.posterUrl} />
 
-                <section className="flex flex-col">
+                <section className="flex flex-col w-full">
                   <Typography component="h2" color="primary">
                     <strong>{review.movie.originalTitle}</strong>
 
@@ -63,6 +63,7 @@ const AddPinnedReviewModal: React.FC<AddPinnedReviewModalProps> = ({
                   <Button
                     className="flex items-center gap-1 mt-2"
                     buttonStyle="secondary"
+                    full={false}
                     onClick={() => handlePin(review.id)}
                   >
                     <SvgIcon
