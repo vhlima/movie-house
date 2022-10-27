@@ -4,6 +4,8 @@ import Link from '../../Link';
 
 import ListItem from '../../ListItem';
 
+import Typography from '../../Typography';
+
 import ReviewText from '../components/Text';
 
 import MovieCover from '../../../views/movies/components/Cover';
@@ -15,23 +17,26 @@ interface ReviewPreviewProps {
 }
 
 const ReviewPreview: React.FC<ReviewPreviewProps> = ({ review }) => (
-  <ListItem>
+  <ListItem className="w-full">
     <div className="flex gap-2">
       <MovieCover coverUrl={review.movie.posterUrl} />
 
       <div className="flex flex-col">
-        <div className="flex items-center gap-1">
+        <Typography component="h2">
           <Link
             className="text-grey-100 text-xl font-semibold hover:text-grey-300"
-            href="/"
+            href={{
+              pathname: '/movies/[id]',
+              query: { id: review.movie.id },
+            }}
           >
             {review.movie.originalTitle}
           </Link>
 
-          <span className="text-grey-200">
+          <Typography className="ml-1" component="span">
             ({new Date(review.movie.releaseDate).getFullYear()})
-          </span>
-        </div>
+          </Typography>
+        </Typography>
 
         <div className="flex flex-col">
           <div className="flex mb-2">

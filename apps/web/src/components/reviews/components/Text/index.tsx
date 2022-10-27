@@ -65,7 +65,7 @@ const ReviewText: React.FC<ReviewTextProps> = ({
       />
 
       {user && (
-        <div className="flex gap-2 mb-2">
+        <div className="flex gap-2">
           <LikeButton
             rootId={reviewId}
             likeCount={0}
