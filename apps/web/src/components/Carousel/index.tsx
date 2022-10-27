@@ -39,6 +39,7 @@ const Carousel: React.FC<PropsWithChildren<CarouselProps>> = ({
 
     if (direction === 'left') {
       if (slideNumber === 1) return;
+
       const translateWidth = width + distance;
 
       current.style.transform = `translateX(${translateWidth}px)`;
@@ -81,39 +82,13 @@ const Carousel: React.FC<PropsWithChildren<CarouselProps>> = ({
     fetchCarouselProps();
   }, [fetchCarouselProps]);
 
-  // const buttonStyles =
-  //   'absolute top-1/2 -translate-y-1/2 py-4 px-2 group border border-white bg-opacity-40 bg-black rounded-md z-40';
-
   const buttonStyles =
     'absolute h-1/2 top-1/2 -translate-y-1/2 p-2 group bg-opacity-40 bg-black rounded-sm z-30';
 
-  // console.log(
-  //   `teste? ${carouselRef.current?.getBoundingClientRect().x || 0} | ${
-  //     carouselProps.maxDistance
-  //   }`,
-  // );
-
-  // right
-  // first 12
-  // second -176
-  // third -364
-  // fourth -552
-  // MAX -552
-
-  // left
-  // fourth -740
-  // third -552
-  // second -364
-  // first -176
-
-  // last returning -740 = 176 + 12
-
   return (
-    <div className="relative w-full">
+    <div className="relative w-full overflow-x-hidden">
       <div className="flex gap-3 w-max transition-transform" ref={carouselRef}>
         {children}
-
-        {/* <div className="absolute top-1/3 transform translate-y-1/2 flex justify-between max-w-full w-full"> */}
       </div>
 
       {slideNumber > 1 && (

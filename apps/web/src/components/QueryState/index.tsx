@@ -14,7 +14,7 @@ const QueryState: React.FC<PropsWithChildren<QueryStateProps>> = ({
   children,
 }) => {
   if (loading) {
-    return <LoadingSpinner center />;
+    return <LoadingSpinner center data-testid="loading-state" />;
   }
 
   if (error) {

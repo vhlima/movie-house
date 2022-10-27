@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useAuth } from '../../hooks/useAuth';
+import { useSession } from 'next-auth/react';
 
 import Commentaries from './Commentaries';
 
@@ -18,7 +18,9 @@ interface CommentarySectionProps {
 }
 
 const CommentarySection: React.FC<CommentarySectionProps> = ({ postId }) => {
-  const { user } = useAuth();
+  const {
+    data: { user },
+  } = useSession();
 
   const [interaction, setInteraction] = useState<CommentaryInteraction>();
 

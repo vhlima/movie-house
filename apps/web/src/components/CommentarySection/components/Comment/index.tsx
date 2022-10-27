@@ -4,7 +4,7 @@ import { formatDistance } from 'date-fns';
 
 import type { PropsWithChildren } from 'react';
 
-import { useAuth } from '../../../../hooks/useAuth';
+import { useSession } from 'next-auth/react';
 
 import type { Commentary, Reply } from '../../../../graphql';
 
@@ -35,7 +35,9 @@ const Comment: React.FC<PropsWithChildren<CommentProps>> = ({
   onClickDelete,
   children,
 }) => {
-  const { user } = useAuth();
+  const {
+    data: { user },
+  } = useSession();
 
   return (
     <div
@@ -64,7 +66,7 @@ const Comment: React.FC<PropsWithChildren<CommentProps>> = ({
             referenceId={comment.id}
             likeCount={comment.likes.length}
             hasLiked={
-              comment.likes.filter(usr => usr.id !== user.id).length > 0
+              comment.likes.filter(usr => usr.id !== user.).length > 0
             }
           />
 
