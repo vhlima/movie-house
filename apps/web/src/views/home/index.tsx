@@ -6,19 +6,19 @@ import Card from '../../components/Card';
 
 import FeatureLink from './components/FeatureLink';
 
-import BackgroundImage from '../../components/BackgroundImage';
-
 import Link from '../../components/Link';
+
+import BackdropImage from '../../components/BackdropImage';
+
+import PageContent from '../../components/PageContent';
 
 const HomeView: React.FC = () => {
   const { user } = useAuth();
 
   return (
-    <div className="flex">
-      <BackgroundImage src="https://a.ltrbxd.com/resized/sm/upload/ah/66/ey/4h/top-gun-maverick-1200-1200-675-675-crop-000000.jpg" />
-
-      <div className="w-full mt-32 z-10 p-3">
-        <div className="flex flex-col items-center gap-2 mb-16">
+    <BackdropImage src="https://a.ltrbxd.com/resized/sm/upload/ah/66/ey/4h/top-gun-maverick-1200-1200-675-675-crop-000000.jpg">
+      <PageContent>
+        <div className="relative flex flex-col items-center gap-2 mb-16">
           <Logo logoSize="lg" showLogo={false} showText />
 
           <p className="text-grey-200 text-xl text-center">
@@ -33,10 +33,10 @@ const HomeView: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <Card title="Features you will love" noPadding>
+          <div className="grid gap-2 lg:grid-cols-2">
             <FeatureLink
               href="/"
-              iconType="IoEye"
+              iconType="AiFillEye"
               color="green"
               text="Keep track of every film youve ever watched (or just start from the day you join)"
             />
@@ -75,7 +75,7 @@ const HomeView: React.FC = () => {
               color="purple"
               text="Compile and share lists of films on any topic and keep a watchlist of films to see"
             />
-          </Card>
+          </div>
 
           {/* <Card
           title="Top choices"
@@ -119,8 +119,8 @@ const HomeView: React.FC = () => {
           ))}
         </Card> */}
         </div>
-      </div>
-    </div>
+      </PageContent>
+    </BackdropImage>
   );
 };
 
