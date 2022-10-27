@@ -8,6 +8,8 @@ import MovieSearch from '../entities/movie-search.interface';
 
 import NotFoundError from '../errors/NotFound';
 
+import MovieTrending from '../entities/movie-trending';
+
 @Resolver(() => Movie)
 class MovieResolver {
   @Query(() => Movie)
@@ -51,6 +53,16 @@ class MovieResolver {
       ...searchResponse,
       results,
     };
+  }
+
+  @Query(() => MovieTrending)
+  async trendingMovies(
+    @Ctx() { dataSources }: ServerContext,
+    @Arg('page', () => Int) page: number,
+  ) {
+    const movies = await dataSources.tmdb.getTrendingMoviesWeek(page);
+
+    return movies;
   }
 }
 
