@@ -11,7 +11,7 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
 
   return (
     <Dropdown onClose={onClose}>
-      <ul className="p-4">
+      <ul className="">
         {user && (
           <MenuItem
             itemProps={{
@@ -26,7 +26,7 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
         )}
 
         <MenuItem
-          itemProps={{ href: '/' }}
+          itemProps={{ href: '/movies/trending' }}
           text="Films"
           icon="BsFillCollectionFill"
         />
