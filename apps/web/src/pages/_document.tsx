@@ -17,6 +17,14 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&family=Roboto:wght@400;600;700&display=swap"
             rel="stylesheet"
           />
+
+          <meta name="description" content="The coolest movie fan website" />
+          <meta name="og:description" content="The coolest movie fan website" />
+          <meta name="og:type" content="website" />
+          <meta name="og:title" content="MovieHouse" />
+          <meta name="og:locale" content="en_US" />
+          <meta name="robots" content="index,follow" />
+          <meta name="googlebot" content="index,follow" />
         </Head>
 
         <body>
