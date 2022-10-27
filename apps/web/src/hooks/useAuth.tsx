@@ -4,20 +4,15 @@ import {
   useState,
   useContext,
   useMemo,
-  useEffect,
 } from 'react';
 
 import type { PropsWithChildren } from 'react';
 
-import type { User, SignInMutationVariables } from '../graphql';
-
-import { useSignInMutation, useFindUserLazyQuery } from '../graphql';
+import { useSession } from 'next-auth/react';
+import type { User } from '../graphql';
 
 interface AuthContextData {
   user?: User;
-
-  signIn: (credentials: SignInMutationVariables) => Promise<boolean>;
-  signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -25,24 +20,26 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User>(null);
 
-  const [mutationSignIn] = useSignInMutation();
+  const { data } = useSession();
 
-  const [findUser] = useFindUserLazyQuery();
+  console.log(`use session data? ${JSON.stringify(data)}`);
 
   const signIn = useCallback(
-    async ({ username }: SignInMutationVariables) => {
-      const { data, errors } = await mutationSignIn({
-        variables: { username },
-      });
+    async ({ username }) => {
+      // const { data, errors } = await mutationSignIn({
+      //   variables: { username },
+      // });
 
-      if (!errors && data) {
-        const userData = data.login as User;
+      // if (!errors && data) {
+      //   const userData = data.login as User;
 
-        localStorage.setItem('@MovieHouse:token', userData.id);
+      //   localStorage.setItem('@MovieHouse:token', userData.username);
 
-        setUser(userData);
-        return true;
-      }
+      //   setUser(userData);
+      //   return true;
+      // }
+
+      const a = 1;
 
       return false;
     },
@@ -55,31 +52,28 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, [setUser]);
 
   /* Login Persistance */
-  useEffect(() => {
-    const fetchUser = async () => {
-      const localStorageToken = localStorage.getItem('@MovieHouse:token');
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const localStorageToken = localStorage.getItem('@MovieHouse:token');
 
-      if (localStorageToken) {
-        const { data, error } = await findUser({
-          variables: { userId: localStorageToken },
-        });
+  //     if (localStorageToken) {
+  //       const { data, error } = await findUser({
+  //         variables: { username: localStorageToken },
+  //       });
 
-        if (!error && data) {
-          setUser(data.user as User);
-        }
-      }
-    };
+  //       if (!error && data) {
+  //         setUser(data.user as User);
+  //       }
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   const value = useMemo(
     () =>
       ({
         user,
-
-        signIn,
-        signOut,
       } as AuthContextData),
     [user, setUser, signIn, signOut],
   );
