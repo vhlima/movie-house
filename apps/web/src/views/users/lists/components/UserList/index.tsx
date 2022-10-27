@@ -40,11 +40,11 @@ const UserListMoviesCard: React.FC<UserListMoviesCardProps> = ({
         <ul className="flex">
           {movies.map((movie, index) => (
             <li
-              className="w-full relative"
-              style={{ zIndex: index + 50 }}
+              className="relative flex-grow sm:flex-grow-0"
+              style={{ zIndex: index + 1 }}
               key={`movie-card-list-${!movie ? uuid() : movie.id}`}
             >
-              <MovieCover coverSize="full" coverUrl={movie?.posterUrl} />
+              <MovieCover coverSize="auto" coverUrl={movie?.posterUrl} />
             </li>
           ))}
         </ul>

@@ -1,5 +1,7 @@
 import type { UserListsPageProps } from '../../../pages/users/[username]/lists';
 
+import { useAuth } from '../../../hooks/useAuth';
+
 import Link from '../../../components/Link';
 
 import Typography from '../../../components/Typography';
@@ -11,7 +13,7 @@ import ProfilePicture from '../../../components/ProfilePicture';
 import UserListMoviesCard from './components/UserList';
 
 const UserListsView: React.FC<UserListsPageProps> = ({ user, lists }) => {
-  const a = 1;
+  const { user: currentUser } = useAuth();
 
   return (
     <PageContent className="my-3">
@@ -39,9 +41,15 @@ const UserListsView: React.FC<UserListsPageProps> = ({ user, lists }) => {
         </Typography>
 
         <ul>
-          {lists.map(list => (
-            <UserListMoviesCard key={list.id} user={user} list={list} />
-          ))}
+          {lists
+            .filter(list =>
+              !currentUser || currentUser.id !== user.id
+                ? list?.isPrivate || true
+                : true,
+            )
+            .map(list => (
+              <UserListMoviesCard key={list.id} user={user} list={list} />
+            ))}
         </ul>
       </div>
     </PageContent>
