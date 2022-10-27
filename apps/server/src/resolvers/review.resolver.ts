@@ -1,5 +1,7 @@
 import { Resolver, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 
+import { ApolloError } from 'apollo-server';
+import { ObjectId } from 'mongodb';
 import type { ServerContext } from '../types';
 
 import { createPostResolver } from './post.resolver';
@@ -17,6 +19,8 @@ import UserNotFoundError from '../errors/UserNotFound';
 import NotFoundError from '../errors/NotFound';
 
 import AuthorizationError from '../errors/Authorization';
+
+const MAX_PINNED_REVIEWS = 3;
 
 const PostResolver = createPostResolver();
 
@@ -42,6 +46,47 @@ class ReviewResolver extends PostResolver {
     }
 
     const reviews = await ReviewRepository.findBy({ authorId: userId });
+
+    return reviews;
+  }
+
+  @Query(() => [Review])
+  async recentReviews() {
+    const reviews = await ReviewRepository.find({
+      order: { createdAt: 'DESC' },
+      take: 8,
+    });
+
+    return reviews;
+  }
+
+  @Query(() => [Review])
+  async moviePopularReviews(@Arg('movieId', () => Int) movieId: number) {
+    const reviews = await ReviewRepository.find({
+      where: { movieId },
+      take: 3,
+    });
+
+    return reviews;
+  }
+
+  @Query(() => [Review])
+  async movieRecentReviews(@Arg('movieId', () => Int) movieId: number) {
+    const reviews = await ReviewRepository.find({
+      where: { movieId },
+      order: { createdAt: 'DESC' },
+      take: 3,
+    });
+
+    return reviews;
+  }
+
+  @Query(() => [Review])
+  async popularReviewsWeek() {
+    const reviews = await ReviewRepository.find({
+      order: { createdAt: 'DESC' },
+      take: 6,
+    });
 
     return reviews;
   }
@@ -129,6 +174,54 @@ class ReviewResolver extends PostResolver {
     await ReviewRepository.delete(reviewId);
 
     return 'Review deleted';
+  }
+
+  @Mutation(() => Review)
+  async pinReview(
+    @Ctx() { user }: ServerContext,
+    @Arg('reviewId') reviewId: string,
+  ) {
+    if (!user) {
+      throw new AuthenticationError();
+    }
+
+    const review = await ReviewRepository.findOneBy(reviewId);
+
+    if (!review) {
+      throw new NotFoundError('Review not found');
+    }
+
+    if (review.authorId !== user.id) {
+      throw new AuthorizationError();
+    }
+
+    if (!review.pinned) {
+      const pinnedReviews = await ReviewRepository.findBy({
+        authorId: user.id,
+        pinned: true,
+      });
+
+      if (pinnedReviews.length >= MAX_PINNED_REVIEWS) {
+        throw new ApolloError(
+          `You have reached the limit of ${MAX_PINNED_REVIEWS} pinned reviews`,
+        );
+      }
+
+      review.pinned = true;
+
+      await ReviewRepository.save(review);
+    } else {
+      await ReviewRepository.updateOne(
+        {
+          _id: new ObjectId(reviewId),
+        },
+        { $unset: { pinned: null } },
+      );
+
+      delete review.pinned;
+    }
+
+    return review;
   }
 }
 

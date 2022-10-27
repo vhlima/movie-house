@@ -24,6 +24,10 @@ import NotFoundError from '../errors/NotFound';
 import AuthenticationError from '../errors/Authentication';
 import UserNotFoundError from '../errors/UserNotFound';
 
+const MAX_FAVORITE_MOVIES = 3;
+
+// TODO bug adding favorite movie is not checking for limit
+
 @Resolver()
 export default class UserListPreMadeResolver {
   @Query(() => [UserListPreMadeMovie])
@@ -34,12 +38,12 @@ export default class UserListPreMadeResolver {
       throw new UserNotFoundError();
     }
 
-    const userFavoriteMovies = await UserListPreMadeMovieRepository.findBy({
-      userId,
-      listType: UserListType.FAVORITE,
+    const favoriteMovies = await UserListPreMadeMovieRepository.find({
+      where: { userId, listType: UserListType.FAVORITE },
+      take: MAX_FAVORITE_MOVIES,
     });
 
-    return userFavoriteMovies;
+    return favoriteMovies;
   }
 
   @Query(() => UserListPremadeMovies)

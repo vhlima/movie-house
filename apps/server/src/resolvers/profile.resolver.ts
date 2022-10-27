@@ -1,182 +1,90 @@
-import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
-
-import { ObjectId } from 'mongodb';
-
-import { ApolloError } from 'apollo-server';
+import { Arg, Query, Resolver } from 'type-graphql';
 
 import {
   FollowRepository,
   ReviewRepository,
   UserListCustomRepository,
+  UserListPreMadeMovieRepository,
   UserRepository,
 } from '../repositories';
 
-import type { ServerContext } from '../types';
-
-import UserProfile from '../entities/profile.interface';
-
-import Review from '../entities/mongo-entities/review.interface';
-
-import NotFoundError from '../errors/NotFound';
-
 import UserNotFoundError from '../errors/UserNotFound';
 
-import AuthorizationError from '../errors/Authorization';
+import ProfileStats from '../entities/user-profile/profile-stats.interface';
 
-import AuthenticationError from '../errors/Authentication';
+import ProfileReviews from '../entities/user-profile/profile-reviews.interface';
+import UserListType from '../enums/UserListType';
 
-const MAX_LATEST_REVIEWS = 3;
+const MAX_FEATURED_REVIEWS = 3;
 
-const MAX_POPULAR_REVIEWS = 3;
-
-const MAX_PINNED_REVIEWS = 3;
-
-@Resolver(() => UserProfile)
+@Resolver()
 class ProfileResolver {
-  @Query(() => Int)
-  async followerCount(@Arg('userId') userId: string) {
-    const count = await FollowRepository.countBy({
-      targetUserId: userId,
-    });
+  @Query(() => ProfileStats)
+  async userProfileStats(@Arg('userId') userId: string) {
+    const user = await UserRepository.findOneBy({ id: userId });
 
-    return count;
-  }
-
-  @Query(() => Int)
-  async followingCount(@Arg('userId') userId: string) {
-    const count = await FollowRepository.countBy({
-      userId,
-    });
-
-    return count;
-  }
-
-  @Query(() => UserProfile)
-  async userProfile(@Arg('userId') userId: string) {
-    const targetUser = await UserRepository.findOneBy({ id: userId });
-
-    if (!targetUser) {
+    if (!user) {
       throw new UserNotFoundError();
     }
 
     const followerCount = await FollowRepository.countBy({
-      targetUserId: userId,
+      targetUserId: user.id,
     });
 
     const followingCount = await FollowRepository.countBy({
-      userId,
+      userId: user.id,
     });
 
     const listCount = await UserListCustomRepository.countBy({
-      authorId: userId,
+      authorId: user.id,
+    });
+
+    const moviesWatchedCount = await UserListPreMadeMovieRepository.count({
+      where: { userId: user.id, listType: UserListType.WATCHED },
     });
 
     return {
       followerCount,
       followingCount,
-
       listCount,
 
-      moviesWatchedCount: 0,
+      moviesWatchedCount,
       moviesWatchedThisYearCount: 0,
-    } as UserProfile;
+    };
   }
 
-  @Mutation(() => Review)
-  async pinReview(
-    @Ctx() { user }: ServerContext,
-    @Arg('reviewId') reviewId: string,
-  ) {
+  @Query(() => ProfileReviews)
+  async userProfileFeaturedReviews(@Arg('userId') userId: string) {
+    const user = await UserRepository.findOneBy({ id: userId });
+
     if (!user) {
-      throw new AuthenticationError();
+      throw new UserNotFoundError();
     }
 
-    const review = await ReviewRepository.findOneBy(reviewId);
+    const recentReviews = await ReviewRepository.find({
+      where: { authorId: user.id },
+      order: { createdAt: 'DESC' },
+      take: MAX_FEATURED_REVIEWS,
+    });
 
-    if (!review) {
-      throw new NotFoundError('Review not found');
-    }
-
-    if (review.authorId !== user.id) {
-      throw new AuthorizationError();
-    }
-
-    if (!review.pinned) {
-      const pinnedReviews = await ReviewRepository.findBy({
+    const pinnedReviews = await ReviewRepository.find({
+      where: {
         authorId: user.id,
         pinned: true,
-      });
-
-      if (pinnedReviews.length >= MAX_PINNED_REVIEWS) {
-        throw new ApolloError(
-          `You have reached the limit of ${MAX_PINNED_REVIEWS} pinned reviews`,
-        );
-      }
-
-      review.pinned = true;
-
-      await ReviewRepository.save(review);
-    } else {
-      await ReviewRepository.updateOne(
-        {
-          _id: new ObjectId(reviewId),
-        },
-        { $unset: { pinned: null } },
-      );
-
-      delete review.pinned;
-    }
-
-    return review;
-  }
-
-  @Query(() => [Review])
-  async pinnedReviews(@Arg('userId') userId: string) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const reviews = await ReviewRepository.findBy({
-      authorId: userId,
-      pinned: true,
+      },
+      take: MAX_FEATURED_REVIEWS,
     });
 
-    return reviews;
-  }
-
-  @Query(() => [Review])
-  async popularReviews(@Arg('userId') userId: string) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const reviews = await ReviewRepository.find({
-      where: { authorId: userId },
-      take: MAX_POPULAR_REVIEWS,
+    const popularReviews = await ReviewRepository.find({
+      where: { authorId: user.id },
+      take: MAX_FEATURED_REVIEWS,
     });
 
-    return reviews;
-  }
-
-  @Query(() => [Review])
-  async recentReviews(@Arg('userId') userId: string) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const reviews = await ReviewRepository.find({
-      where: { authorId: userId },
-      order: { createdAt: 'DESC' },
-      take: MAX_LATEST_REVIEWS,
-    });
-
-    return reviews;
+    return {
+      recentReviews,
+      pinnedReviews,
+      popularReviews,
+    };
   }
 }
 
