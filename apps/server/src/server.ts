@@ -25,7 +25,7 @@ import {
   MovieRateResolver,
 } from './resolvers';
 
-import { TmdbAPI } from './api';
+import { TmdbAPI, GithubAPI } from './api';
 
 import { UserRepository } from './repositories';
 
@@ -56,6 +56,7 @@ const main = async () => {
     schema,
     dataSources: () => ({
       tmdb: new TmdbAPI(),
+      github: new GithubAPI(),
     }),
     formatError: (error: GraphQLError) => {
       if (error.originalError instanceof ApolloError) {
