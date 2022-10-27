@@ -1,8 +1,8 @@
+import { formatDistance } from 'date-fns';
+
 import type { UserListCustom } from '../../graphql';
 
 import Link from '../../components/Link';
-
-import SvgIcon from '../../components/SvgIcon';
 
 import Typography from '../../components/Typography';
 
@@ -12,10 +12,13 @@ import MoviesSection from './components/MoviesSection';
 
 import ProfilePicture from '../../components/ProfilePicture';
 
-import BackgroundImage from '../../components/BackgroundImage';
 import CommentarySection from '../../components/CommentarySection';
+
 import CommentaryCount from '../../components/CommentaryCount';
+
 import LikeButton from '../../components/LikeButton';
+
+import BackdropImage from '../../components/BackdropImage';
 
 interface UserListViewProps {
   list: UserListCustom;
@@ -26,11 +29,9 @@ const UserListView: React.FC<UserListViewProps> = ({ list }) => {
     'https://a.ltrbxd.com/resized/sm/upload/es/4u/du/em/spooky-1200-1200-675-675-crop-000000.jpg?v=4f77fabd8c';
 
   return (
-    <>
-      {bgUrl && <BackgroundImage src={bgUrl} />}
-
-      <PageContent className="flex flex-col gap-2 relative pb-3 mt-40">
-        <div className="flex">
+    <BackdropImage src={bgUrl || undefined}>
+      <PageContent className="flex flex-col gap-2 relative">
+        <div className="flex items-center">
           <ProfilePicture src={list.author.profilePictureUrl} imageSize="sm" />
 
           <Typography className="ml-2 mr-1" component="span">
@@ -53,9 +54,14 @@ const UserListView: React.FC<UserListViewProps> = ({ list }) => {
           </Link>
         </div>
 
-        <div className="flex items-center py-1 border-y border-y-grey-300">
+        <div className="flex items-center">
           <Typography size="sm" component="span">
-            Published <Typography component="time">23 minutes ago</Typography>
+            Published
+            <Typography className="ml-1" component="time">
+              {formatDistance(Date.now(), new Date(`${list.createdAt}`), {
+                addSuffix: true,
+              })}
+            </Typography>
           </Typography>
 
           {/* <div className="flex items-center ml-auto">
@@ -71,7 +77,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list }) => {
 
         <MoviesSection list={list} />
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-2">
           <LikeButton rootId={list.id} likeCount={0} />
 
           <CommentaryCount count={0} />
@@ -79,7 +85,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list }) => {
       </PageContent>
 
       <CommentarySection postId={list.id} />
-    </>
+    </BackdropImage>
   );
 };
 

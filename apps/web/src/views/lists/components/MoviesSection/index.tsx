@@ -11,6 +11,7 @@ import Button from '../../../../components/Button';
 import MovieCover from '../../../movies/components/Cover';
 
 import Typography from '../../../../components/Typography';
+
 import QueryState from '../../../../components/QueryState';
 
 interface MoviesSectionProps {

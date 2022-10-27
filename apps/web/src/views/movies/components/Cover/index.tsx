@@ -7,7 +7,7 @@ interface MovieCoverProps {
   coverUrl?: string;
 
   coverStyle?: 'primary' | 'secondary';
-  coverSize?: 'lg' | 'md' | 'sm' | 'xs' | 'full';
+  coverSize?: 'lg' | 'md' | 'sm' | 'xs' | 'full' | 'auto';
 
   onClick?: () => void;
 }
@@ -30,14 +30,16 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
   children,
 }) => {
   const coverContainerStyle = clsx(
-    'relative rounded-lg border border-grey-700 overflow-hidden flex-shrink-0',
+    'rounded-lg border border-grey-700 flex-shrink-0',
     {
+      'relative overflow-hidden': coverUrl,
       'flex items-center justify-center text-grey-500 select-none': !coverUrl,
 
       'w-14 h-16': coverSize === 'xs',
       'w-20 h-28': coverSize === 'sm',
       'w-20 h-40': coverSize === 'lg',
-      'w-full h-32 sm:h-44 sm:w-32': coverSize === 'full',
+      'w-full h-32': coverSize === 'full',
+      'w-full h-36 sm:w-24 sm:h-40': coverSize === 'auto',
 
       'border-grey-800': coverStyle === 'primary',
       'border-grey-500': coverStyle === 'secondary',
@@ -47,7 +49,12 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
   return !onClick ? (
     <div className={coverContainerStyle}>
       {coverUrl ? (
-        <Image layout="fill" objectFit="fill" src={coverUrl} />
+        <Image
+          layout="fill"
+          objectFit="fill"
+          src={coverUrl}
+          alt={!coverUrl ? 'Empty movie cover' : 'Movie cover'}
+        />
       ) : (
         <span className="text-3xl">?</span>
       )}
@@ -61,9 +68,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
       type="button"
       onClick={onClick}
     >
-      <div className="flex items-center justify-center w-full p-2">
-        {children}
-      </div>
+      {children}
     </button>
   );
 };

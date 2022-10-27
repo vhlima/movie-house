@@ -28,6 +28,11 @@ import MovieViewSkeleton from '../view/Skeleton';
 
 import MovieHeader from '../view/Header';
 
+import RecentReviews from './components/Reviews/RecentReviews';
+
+import PopularReviews from './components/Reviews/PopularReviews';
+import BackdropImage from '../../../components/BackdropImage';
+
 interface MovieViewProps {
   movie: Movie;
 }
@@ -50,13 +55,9 @@ const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
     return <h1 className="text-danger-base">Movie not found</h1>;
   }
 
-  // TODO create hook to pass movie without prop drilling
-
   return (
-    <>
-      <BackgroundImage src={movie.backdropUrl} />
-
-      <PageContent className="mt-40">
+    <BackdropImage src={movie.backdropUrl} alt="Movie backdrop image">
+      <PageContent>
         <MovieContext.Provider value={contextProviderValue}>
           <MovieHeader movie={movie} />
 
@@ -85,21 +86,9 @@ const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
 
             <MovieCast />
 
-            <Card title="Popular reviews" link={{ href: '/' }} noPadding>
-              <div>
-                {/* <UserMovieReviewBody preview /> */}
-                {/* <UserMovieReviewBody preview /> */}
-                {/* <UserMovieReviewBody preview /> */}
-              </div>
-            </Card>
+            <PopularReviews movieId={movie.id} />
 
-            <Card title="Recent reviews" link={{ href: '/' }} noPadding>
-              <div>
-                {/* <UserMovieReviewBody preview /> */}
-                {/* <UserMovieReviewBody preview /> */}
-                {/* <UserMovieReviewBody preview /> */}
-              </div>
-            </Card>
+            <RecentReviews />
 
             <Card title="Similar movies" noPadding>
               {/* <div className="flex gap-2">
@@ -117,7 +106,7 @@ const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
           </div>
         </MovieContext.Provider>
       </PageContent>
-    </>
+    </BackdropImage>
   );
 };
 

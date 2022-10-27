@@ -11,6 +11,7 @@ import Modal from '../../../../components/Modal';
 import Input from '../../../../components/Input';
 
 import Button from '../../../../components/Button';
+import Typography from '../../../../components/Typography';
 
 interface MovieSearchModalProps extends ModalHandles {
   title: string;
@@ -61,7 +62,7 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
       )}
 
       {searchResults.length > 0 && (
-        <ul className="flex flex-col rounded-md border border-grey-900 max-h-40 overflow-x-hidden overflow-y-scroll">
+        <ul className="mt-0.5 flex flex-col rounded-md border border-grey-900 max-h-40 overflow-x-hidden overflow-y-auto">
           {searchResults.map(movie => (
             <li key={movie.id}>
               <Button
@@ -70,12 +71,12 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
                 rounded={false}
                 onClick={() => onSelect(movie)}
               >
-                <span className="text-grey-100">
+                <Typography component="span" color="primary">
                   {movie.originalTitle}
 
                   {movie.releaseDate &&
                     ` (${parseISO(movie.releaseDate).getFullYear()})`}
-                </span>
+                </Typography>
               </Button>
             </li>
           ))}
