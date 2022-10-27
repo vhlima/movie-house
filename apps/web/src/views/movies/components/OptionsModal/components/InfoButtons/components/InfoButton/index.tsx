@@ -2,9 +2,9 @@ import type { ButtonHTMLAttributes } from 'react';
 
 import clsx from 'clsx';
 
-import SvgIcon from '../../../../../../components/SvgIcon';
+import SvgIcon from '../../../../../../../../components/SvgIcon';
 
-import type { SvgIconType } from '../../../../../../components/SvgIcon';
+import type { SvgIconType } from '../../../../../../../../components/SvgIcon';
 
 interface InfoButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;

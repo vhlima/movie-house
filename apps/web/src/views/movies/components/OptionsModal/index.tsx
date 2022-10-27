@@ -2,23 +2,21 @@ import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
+import { useRouter } from 'next/router';
+
 import type { Movie } from '../../../../graphql';
 
 import type { ModalHandles } from '../../../../components/Modal';
-
-import { UserListType } from '../../../../graphql';
-
-import { useLogic } from './logic';
 
 import { modalBottom } from '../../../../animations';
 
 import Modal from '../../../../components/Modal';
 
-import InfoButton from './components/InfoButton';
-
 import RateModal from '../RateModal';
 
 import Button from '../../../../components/Button';
+
+import InfoButtons from './components/InfoButtons';
 
 import AddMovieToListModal from './components/AddMovieToListModal';
 
@@ -30,16 +28,14 @@ const MovieOptionsModal: React.FC<MovieOptionsModalProps> = ({
   movie,
   onClose,
 }) => {
-  const {
-    movieOptionsResponse: { data },
+  const { push } = useRouter();
 
-    handleAddMovieToList,
-    handleRemoveMovieFromList,
-
-    redirectToCreateReviewPage,
-  } = useLogic({
-    movie,
-  });
+  const redirectToCreateReviewPage = async () => {
+    await push({
+      pathname: '/reviews/create',
+      query: { movie: movie.id },
+    });
+  };
 
   const [subModalOpen, setSubModalOpen] = useState<
     'rate' | 'addToList' | undefined
@@ -64,77 +60,42 @@ const MovieOptionsModal: React.FC<MovieOptionsModalProps> = ({
     }
 
     default: {
-      break;
+      return (
+        <Modal
+          bottom
+          backdrop
+          showX={false}
+          animation={modalBottom}
+          onClose={onClose}
+        >
+          <div className="flex flex-col gap-4 mx-auto lg:w-fit">
+            <InfoButtons
+              movieId={movie.id}
+              onRate={() => setSubModalOpen('rate')}
+            />
+
+            <div className="flex flex-col gap-2 w-full">
+              <Button
+                buttonStyle="secondary"
+                onClick={redirectToCreateReviewPage}
+              >
+                Review
+              </Button>
+
+              <Button
+                buttonStyle="secondary"
+                onClick={() => setSubModalOpen('addToList')}
+              >
+                Add to list
+              </Button>
+
+              <Button buttonStyle="secondary">Share</Button>
+            </div>
+          </div>
+        </Modal>
+      );
     }
   }
-
-  return (
-    <Modal
-      bottom
-      backdrop
-      showX={false}
-      animation={modalBottom}
-      onClose={onClose}
-    >
-      <div className="flex flex-col gap-4 items-center">
-        <div className="flex gap-8 text-grey-300">
-          <InfoButton
-            text="Rate"
-            iconType={
-              data?.movieRating?.rating > 0 ? 'AiFillStar' : 'AiOutlineStar'
-            }
-            iconColor={data?.movieRating ? 'blue' : undefined}
-            onClick={() => setSubModalOpen('rate')}
-          />
-
-          <InfoButton
-            text="Watch"
-            iconType={data?.isOnWatchLater ? 'IoEye' : 'IoEyeOutline'}
-            iconColor={data?.isOnWatchLater ? 'green' : undefined}
-            onClick={() =>
-              data?.isOnWatchLater
-                ? handleAddMovieToList(UserListType.Watched)
-                : handleRemoveMovieFromList(UserListType.Watched)
-            }
-          />
-
-          <InfoButton
-            text="Like"
-            iconType="AiOutlineHeart"
-            // iconType={userRate?.liked ? 'AiFillHeart' : 'AiOutlineHeart'}
-            // iconColor={userRate?.liked ? 'red' : undefined}
-            // onClick={() => handleClick('like')}
-          />
-
-          <InfoButton
-            text="Watchlist"
-            iconType="AiOutlineClockCircle"
-            iconColor={data?.isOnWatchList ? 'blue' : undefined}
-            onClick={() =>
-              data?.isOnWatchList
-                ? handleAddMovieToList(UserListType.Watchlist)
-                : handleRemoveMovieFromList(UserListType.Watchlist)
-            }
-          />
-        </div>
-
-        <div className="flex flex-col gap-2 w-full">
-          <Button buttonStyle="secondary" onClick={redirectToCreateReviewPage}>
-            Review
-          </Button>
-
-          <Button
-            buttonStyle="secondary"
-            onClick={() => setSubModalOpen('addToList')}
-          >
-            Add to list
-          </Button>
-
-          <Button buttonStyle="secondary">Share</Button>
-        </div>
-      </div>
-    </Modal>
-  );
 };
 
 export default MovieOptionsModal;

@@ -1,57 +1,51 @@
 import { ApolloCache } from '@apollo/client';
 
-import { useRouter } from 'next/router';
+import type {
+  FindMovieOptionsQuery,
+  FindMovieOptionsQueryVariables,
+  FindMovieOptionsQueryResult,
+} from '../../../../../../graphql';
 
 import {
-  Movie,
-  FindMovieOptionsQuery,
-  FindMovieOptionsQueryResult,
-  FindMovieOptionsQueryVariables,
-  useRemoveMovieFromPremadeListMutation,
   UserListType,
   FindMovieOptionsDocument,
   useFindMovieOptionsQuery,
   useAddMovieToPremadeListMutation,
-} from '../../../../graphql';
+  useRemoveMovieFromPremadeListMutation,
+} from '../../../../../../graphql';
 
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '../../../../../../hooks/useAuth';
 
-// TODO another class requiring movie while it could be gathered via context
-
-interface UserRatingLogicProps {
-  movie: Movie;
-  // TODO maybe only movie id needed here
+interface InfoButtonsLogicProps {
+  movieId: number;
 }
 
 type MovieListActionHandles = (listType: UserListType) => Promise<void>;
 
-interface UserRatingLogicHandles {
+interface InfoButtonsLogicHandles {
   movieOptionsResponse: FindMovieOptionsQueryResult;
 
-  handleAddMovieToList: MovieListActionHandles;
-  handleRemoveMovieFromList: MovieListActionHandles;
-
-  redirectToCreateReviewPage: () => Promise<void>;
+  handleAddOrRemoveMovieFromList: MovieListActionHandles;
 }
 
 export const useLogic = ({
-  movie,
-}: UserRatingLogicProps): UserRatingLogicHandles => {
-  const { push } = useRouter();
-
+  movieId,
+}: InfoButtonsLogicProps): InfoButtonsLogicHandles => {
   const { user } = useAuth();
 
   const movieOptionsResponse = useFindMovieOptionsQuery({
     variables: {
       userId: user.id,
-      movieId: movie.id,
-      rootId: String(movie.id),
+      movieId,
+      rootId: String(movieId),
     },
   });
 
-  const [addMovieToPremadeList] = useAddMovieToPremadeListMutation();
+  const [addMovieToPremadeList, addMovieFromListResponse] =
+    useAddMovieToPremadeListMutation();
 
-  const [removeMovieFromPremadeList] = useRemoveMovieFromPremadeListMutation();
+  const [removeMovieFromPremadeList, removeMovieFromListResponse] =
+    useRemoveMovieFromPremadeListMutation();
 
   const updateCache = (
     cache: ApolloCache<any>,
@@ -63,8 +57,8 @@ export const useLogic = ({
         query: FindMovieOptionsDocument,
         variables: {
           userId: user.id,
-          movieId: movie.id,
-          rootId: String(movie.id),
+          movieId,
+          rootId: String(movieId),
         },
       },
       cacheData => {
@@ -86,12 +80,14 @@ export const useLogic = ({
     );
   };
 
-  const handleAddMovieToList: MovieListActionHandles = async listType => {
+  const addMovieToList: MovieListActionHandles = async listType => {
+    if (addMovieFromListResponse.loading) return;
+
     await addMovieToPremadeList({
       errorPolicy: 'ignore',
       variables: {
         listType,
-        movieId: movie.id,
+        movieId,
       },
       update: (cache, { data }) => {
         if (!data) return;
@@ -101,12 +97,14 @@ export const useLogic = ({
     });
   };
 
-  const handleRemoveMovieFromList: MovieListActionHandles = async listType => {
+  const removeMovieFromList: MovieListActionHandles = async listType => {
+    if (removeMovieFromListResponse.loading) return;
+
     await removeMovieFromPremadeList({
       errorPolicy: 'ignore',
       variables: {
         listType,
-        movieId: movie.id,
+        movieId,
       },
       update: (cache, { data }) => {
         if (!data) return;
@@ -116,19 +114,24 @@ export const useLogic = ({
     });
   };
 
-  const redirectToCreateReviewPage = async () => {
-    await push({
-      pathname: '/reviews/create',
-      query: { movie: movie.id },
-    });
-  };
+  const handleAddOrRemoveMovieFromList: MovieListActionHandles =
+    async listType => {
+      if (movieOptionsResponse.loading) return;
+
+      const isRemove =
+        listType === UserListType.WatchLater
+          ? movieOptionsResponse.data?.isOnWatchLater
+          : movieOptionsResponse.data?.isOnWatchList;
+
+      if (!isRemove) {
+        await addMovieToList(listType);
+      } else {
+        await removeMovieFromList(listType);
+      }
+    };
 
   return {
     movieOptionsResponse,
-
-    handleAddMovieToList,
-    handleRemoveMovieFromList,
-
-    redirectToCreateReviewPage,
+    handleAddOrRemoveMovieFromList,
   };
 };
