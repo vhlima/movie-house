@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 import type { User } from '../../../../graphql';
 
 export interface ProfileContextData {
-  user: User;
+  user?: User;
 }
 
 export const ProfileContext = createContext<ProfileContextData>(
