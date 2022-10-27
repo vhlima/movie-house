@@ -23,6 +23,9 @@ import {
   AiOutlinePlusCircle,
   AiOutlineCalendar,
   AiOutlineClockCircle,
+  AiFillEye,
+  AiOutlineEye,
+  AiFillClockCircle,
 } from 'react-icons/ai';
 
 import {
@@ -43,7 +46,7 @@ import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
 
 import { IoIosJournal, IoIosSend } from 'react-icons/io';
 
-import { IoEye, IoList, IoEyeOutline } from 'react-icons/io5';
+import { IoList } from 'react-icons/io5';
 
 import { CgSpinner } from 'react-icons/cg';
 
@@ -65,11 +68,14 @@ export type SvgIconType =
   | 'FiX'
   | 'AiFillHeart'
   | 'AiFillStar'
+  | 'AiOutlineEye'
+  | 'AiFillEye'
   | 'AiOutlineHeart'
   | 'AiOutlineClockCircle'
   | 'AiOutlineStar'
   | 'AiOutlinePlusCircle'
   | 'AiOutlineCalendar'
+  | 'AiFillClockCircle'
   | 'BsFillCollectionFill'
   | 'BsFillChatLeftFill'
   | 'BsFlagFill'
@@ -84,9 +90,7 @@ export type SvgIconType =
   | 'HiLockClosed'
   | 'IoIosJournal'
   | 'IoIosSend'
-  | 'IoEye'
   | 'IoList'
-  | 'IoEyeOutline'
   | 'CgSpinner'
   | 'TbMovie';
 
@@ -121,6 +125,9 @@ const icons: SvgIconsType = {
   AiOutlinePlusCircle,
   AiOutlineCalendar,
   AiOutlineClockCircle,
+  AiFillEye,
+  AiOutlineEye,
+  AiFillClockCircle,
 
   BsFillCollectionFill,
   BsFillChatLeftFill,
@@ -140,9 +147,7 @@ const icons: SvgIconsType = {
   IoIosJournal,
   IoIosSend,
 
-  IoEye,
   IoList,
-  IoEyeOutline,
 
   CgSpinner,
 
