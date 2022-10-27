@@ -1,12 +1,14 @@
-import { Resolver, Mutation, Arg, Query, Args } from 'type-graphql';
+import { Resolver, Mutation, Arg, Query, Args, Ctx, Int } from 'type-graphql';
+
+import type { ServerContext } from '../types';
 
 import { UserRepository } from '../repositories';
 
 import User from '../entities/pg-entities/user.interface';
 
-import UserArgs from '../entities/types/args/user.args';
-
 import UserInput from '../entities/types/user.input';
+
+import UserNotFoundError from '../errors/UserNotFound';
 
 @Resolver(() => User)
 class UserResolver {
@@ -43,35 +45,37 @@ class UserResolver {
     // return user;
   }
 
-  @Mutation(() => User)
-  async login(@Arg('username') username: string) {
-    const user = await UserRepository.findOneBy({ username });
+  @Mutation(() => Boolean)
+  async register(
+    @Ctx() { dataSources }: ServerContext,
+    @Arg('githubId', () => Int) githubId: number,
+  ) {
+    const githubUser = await dataSources.github.getGithubUserById(githubId);
 
-    if (!user) {
-      throw new Error('User not found');
+    if (!githubUser) {
+      throw new UserNotFoundError();
     }
 
-    return user;
-  }
-
-  @Mutation(() => User)
-  async register(@Args() { username }: UserArgs) {
-    const userExists = await UserRepository.findOneBy({ username });
+    const userExists = await UserRepository.findOneBy({
+      username: githubUser.login,
+    });
 
     if (userExists) {
-      throw new Error('Username already taken');
+      return false;
     }
 
     const user = UserRepository.create({
-      username,
+      username: githubUser.login,
+      realName: githubUser.name,
+      profilePictureUrl: githubUser.avatar_url,
     });
 
-    user.profilePictureUrl =
-      'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6';
+    // user.profilePictureUrl =
+    //   'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6';
 
     await UserRepository.save(user);
 
-    return user;
+    return true;
   }
 }
 
