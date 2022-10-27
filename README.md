@@ -1,7 +1,7 @@
 ## Overview
 
 Movie House é um projeto de estudo, porém bem real. Baseado nos maiores sites
-para cinéfilos como <a href="https://www.imdb.com/" _blank>IMDb</a>, <a href="https://www.rottentomatoes.com/" _blank>Rotten Tomatoes</a> e <a href="https://letterboxd.com/" _blank>Letterboxd</a> e nas redes sociais do <a href="https://www.facebook.com/" _blank>Facebook</a> e <a href="https://www.instagram.com/" _blank>Instagram</a>. Neste projeto, podemos encontrar diversas características em comúm com os sites de referência citados acima, como: criação de posts avaliando filmes, curtidas, comentários, perfil de usuário com opção de seguir outros, adicionar filmes, avaliações e bio. O usuário também pode optar por navegar pelos diversos gêneros de filme que podem ser encontrados através da pagina de categorias, encontrar novos filmes pela página de filmes populares, ou até mesmo ser recomendado baseado em suas escolhas.
+para cinéfilos como <a href="https://www.imdb.com/" _blank>IMDb</a>, <a href="https://www.rottentomatoes.com/" _blank>Rotten Tomatoes</a> e <a href="https://letterboxd.com/" _blank>Letterboxd</a> e nas redes sociais <a href="https://www.facebook.com/" _blank>Facebook</a> e <a href="https://www.instagram.com/" _blank>Instagram</a>. Neste projeto podemos encontrar diversas características em comúm com os sites de referência citados acima, como: criação de posts avaliando filmes, curtidas, comentários, perfil de usuário com opção de seguir outros, adicionar filmes, avaliações e bio. O usuário também pode optar por navegar pelos diversos gêneros de filme que podem ser encontrados através da pagina de categorias, encontrar novos filmes pela página de filmes populares, ou até mesmo ser recomendado baseado em suas escolhas.
 
 ## Tecnologias utilizadas
   * Front-end:
@@ -12,8 +12,9 @@ para cinéfilos como <a href="https://www.imdb.com/" _blank>IMDb</a>, <a href="h
     - Formik (Criação de formulários)
     - Yup (Validação de formulários)
     - Framer Motion (Animações)
+    - Date-fns (Formatação de datas)
     - TailwindCSS (Estilização)
-  * Back-end
+  * Back-end:
     - Apollo Server (Express por baixo dos panos + GraphQL Schemas, Resolvers e Entities)
     - Type-GraphQL (GraphQL com suporte para TypeScript)
     - GraphQL (Biblioteca JS do GraphQL)
