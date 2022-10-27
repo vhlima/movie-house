@@ -1,67 +1,87 @@
-import type { GetStaticPaths, NextPage, GetStaticProps } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 
-import { useRouter } from 'next/router';
+import * as Yup from 'yup';
 
 import type {
-  User,
   FindUserQuery,
   FindUserQueryVariables,
+  FindUserFavoriteMoviesQuery,
+  FindUserFavoriteMoviesQueryVariables,
+  FindUserProfileStatsQuery,
+  FindUserProfileStatsQueryVariables,
+  FindUserProfileFeaturedReviewsQuery,
+  FindUserProfileFeaturedReviewsQueryVariables,
 } from '../../graphql';
 
-import { FindUserDocument } from '../../graphql';
+import {
+  FindUserDocument,
+  FindUserProfileStatsDocument,
+  FindUserFavoriteMoviesDocument,
+  FindUserProfileFeaturedReviewsDocument,
+} from '../../graphql';
 
-import client from '../../api';
+import { addApolloState, initializeApollo } from '../../client';
 
 import UserProfileView from '../../views/users/profile';
 
-import LoadingSpinner from '../../components/LoadingSpinner';
-
-import ErrorText from '../../components/ErrorText';
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const defaultProps = { props: {} };
-
-  const { username } = params;
-
-  if (!username || typeof username !== 'string') return defaultProps;
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  query,
+}) => {
+  const requestValidationSchema = Yup.object().shape({
+    username: Yup.string().required(),
+  });
 
   try {
-    const { data } = await client.query<FindUserQuery, FindUserQueryVariables>({
+    const { username } = await requestValidationSchema.validate(query);
+
+    const apolloClient = initializeApollo();
+
+    const {
+      data: { user },
+    } = await apolloClient.query<FindUserQuery, FindUserQueryVariables>({
       query: FindUserDocument,
-      variables: { username },
+      variables: { username: username as string },
     });
 
-    if (!data) return defaultProps;
+    if (!user) {
+      res.statusCode = 404;
+      return { props: {} };
+    }
 
-    return {
-      props: {
-        user: data.user,
-      },
-    };
+    await apolloClient.query<
+      FindUserProfileFeaturedReviewsQuery,
+      FindUserProfileFeaturedReviewsQueryVariables
+    >({
+      query: FindUserProfileFeaturedReviewsDocument,
+      variables: { userId: user.id },
+    });
+
+    await apolloClient.query<
+      FindUserProfileStatsQuery,
+      FindUserProfileStatsQueryVariables
+    >({
+      query: FindUserProfileStatsDocument,
+      variables: { userId: user.id },
+    });
+
+    await apolloClient.query<
+      FindUserFavoriteMoviesQuery,
+      FindUserFavoriteMoviesQueryVariables
+    >({
+      query: FindUserFavoriteMoviesDocument,
+      variables: { userId: user.id },
+    });
+
+    return addApolloState(apolloClient, {
+      props: {},
+    });
   } catch (err) {
-    return defaultProps;
+    res.statusCode = 404;
+    return { props: {} };
   }
-
-  return defaultProps;
 };
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [],
-  fallback: true,
-});
-
-const UserProfile: NextPage<FindUserQuery> = ({ user }) => {
-  const { isFallback } = useRouter();
-
-  if (isFallback) {
-    return <LoadingSpinner />;
-  }
-
-  if (!user) {
-    return <ErrorText text="User not found" />;
-  }
-
-  return <UserProfileView user={user as User} />;
-};
+const UserProfile: NextPage = () => <UserProfileView />;
 
 export default UserProfile;
