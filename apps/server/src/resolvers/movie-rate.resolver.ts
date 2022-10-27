@@ -1,24 +1,22 @@
-import { Resolver, Mutation, Args, Ctx, Query, Arg, Int } from 'type-graphql';
+import { Resolver, Query, Arg, Int, Mutation, Ctx } from 'type-graphql';
 
+import { GraphQLError } from 'graphql';
 import type { ServerContext } from '../types';
 
-import {
-  LikeRepository,
-  MovieRateRepository,
-  UserRepository,
-} from '../repositories';
+import { MovieRateRepository, UserRepository } from '../repositories';
 
 import MovieRate from '../entities/pg-entities/movie-rate.interface';
 
-import LikeArgs from '../entities/types/args/like.args';
+import NotFoundError from '../errors/NotFound';
 
 import UserNotFoundError from '../errors/UserNotFound';
 
 import AuthenticationError from '../errors/Authentication';
+import BadRequestError from '../errors/BadRequest';
 
 @Resolver(() => MovieRate)
 export default class MovieRateResolver {
-  @Query(() => MovieRate)
+  @Query(() => MovieRate, { nullable: true })
   async movieRating(
     @Arg('userId') userId: string,
     @Arg('movieId', () => Int) movieId: number,
@@ -32,42 +30,40 @@ export default class MovieRateResolver {
     const rating = await MovieRateRepository.findOneBy({ userId, movieId });
 
     if (!rating) {
-      const fakeRating = MovieRateRepository.create({
-        user,
-        movieId,
-        rating: 0,
-      });
-
-      return fakeRating;
+      return null;
     }
 
     return rating;
   }
 
-  @Mutation(() => Boolean)
-  async like(
-    @Ctx() { user }: ServerContext,
-    @Args() { rootId, referenceId }: LikeArgs,
+  @Mutation(() => MovieRate)
+  async rateMovie(
+    @Ctx() { user, dataSources }: ServerContext,
+    @Arg('movieId', () => Int) movieId: number,
+    @Arg('rating', () => Int) rating: number,
   ) {
     if (!user) {
       throw new AuthenticationError();
     }
 
-    const likeExists = await LikeRepository.findOneBy({ rootId, referenceId });
-
-    if (likeExists) {
-      await LikeRepository.delete({ userId: user.id, rootId, referenceId });
-      return false;
+    if (rating <= 0 || rating > 10) {
+      throw new BadRequestError('Rating must be in the range of 1-10');
     }
 
-    const like = LikeRepository.create({
+    const movie = dataSources.tmdb.getMovieById(movieId);
+
+    if (!movie) {
+      throw new NotFoundError('Movie not found');
+    }
+
+    const movieRate = MovieRateRepository.create({
       userId: user.id,
-      rootId,
-      referenceId,
+      movieId,
+      rating,
     });
 
-    await LikeRepository.save(like);
+    await MovieRateRepository.save(movieRate);
 
-    return true;
+    return movieRate;
   }
 }
