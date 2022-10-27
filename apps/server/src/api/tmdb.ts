@@ -1,11 +1,8 @@
-import { RESTDataSource } from 'apollo-datasource-rest';
+import { RequestOptions, RESTDataSource } from 'apollo-datasource-rest';
 
-import Movie from '../entities/mongo-entities/movie';
+import MovieSearch from '../entities/movie-search.interface';
 
-interface MovieSearchResponse {
-  page: number;
-  results: Movie[];
-}
+import MovieTrending from '../entities/movie-trending';
 
 export default class TmdbAPI extends RESTDataSource {
   constructor() {
@@ -13,34 +10,19 @@ export default class TmdbAPI extends RESTDataSource {
     this.baseURL = 'https://api.themoviedb.org/3/';
   }
 
+  protected willSendRequest(request: RequestOptions): void | Promise<void> {
+    request.headers.set('Authorization', `Bearer ${process.env.TMDB_API_KEY}`);
+    request.headers.set('Content-Type', 'application/json;charset=utf-8');
+  }
+
   async getCreditsByMovieId(movieId: string | number) {
-    const response = await this.get(
-      `movie/${movieId}/credits`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      },
-    );
+    const response = await this.get(`movie/${movieId}/credits`);
 
     return response;
   }
 
   async getMovieById(movieId: string | number) {
-    const response = await this.get(
-      `movie/${movieId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      },
-    );
-
-    // TODO throw error here on movie not found
+    const response = await this.get(`movie/${movieId}`);
 
     return {
       ...response,
@@ -48,17 +30,18 @@ export default class TmdbAPI extends RESTDataSource {
     };
   }
 
-  async searchMovie(query: string): Promise<MovieSearchResponse> {
-    const response = await this.get<MovieSearchResponse>(
-      'search/movie',
-      { query },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      },
-    );
+  async searchMovie(query: string): Promise<MovieSearch> {
+    const response = await this.get<MovieSearch>('search/movie', {
+      query,
+    });
+
+    return response;
+  }
+
+  async getTrendingMoviesWeek(page: number): Promise<MovieTrending> {
+    const response = await this.get('/trending/movie/week', {
+      page,
+    });
 
     return response;
   }
