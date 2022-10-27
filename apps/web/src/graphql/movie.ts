@@ -76,3 +76,16 @@ export const SEARCH_MOVIE = gql`
     }
   }
 `;
+
+export const FIND_TRENDING_MOVIES = gql`
+  query FindTrendingMovies($page: Int!) {
+    trendingMovies(page: $page) @connection(key: "trendingMovies") {
+      page
+      results {
+        id
+        originalTitle
+        posterUrl
+      }
+    }
+  }
+`;

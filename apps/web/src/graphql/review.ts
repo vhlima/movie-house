@@ -62,33 +62,89 @@ export const FIND_USER_REVIEWS = gql`
   }
 `;
 
-export const FIND_USER_RECENT_REVIEWS = gql`
+export const FIND_RECENT_REVIEWS = gql`
+  query FindRecentReviews {
+    recentReviews {
+      id
+      movie {
+        id
+        originalTitle
+        posterUrl
+      }
+    }
+  }
+`;
+
+export const FIND_POPULAR_REVIEWS_WEEK = gql`
   ${REVIEW_FIELDS}
 
-  query FindUserRecentReviews($userId: String!) {
-    recentReviews(userId: $userId) {
+  query FindPopularReviewsWeek {
+    popularReviewsWeek {
       ...ReviewFields
     }
   }
 `;
 
-export const FIND_USER_PINNED_REVIEWS = gql`
-  ${REVIEW_FIELDS}
-
-  query FindUserPinnedReviews($userId: String!) {
-    pinnedReviews(userId: $userId)
-      @connection(key: "pinnedReviews", filter: ["userId"]) {
-      ...ReviewFields
+export const FIND_MOVIE_POPULAR_REVIEWS = gql`
+  query FindMoviePopularReviews($movieId: Int!) {
+    moviePopularReviews(movieId: $movieId) {
+      id
+      body
+      commentaryCount
+      author {
+        username
+        profilePictureUrl
+      }
+      likes {
+        id
+      }
     }
   }
 `;
 
-export const FIND_USER_POPULAR_REVIEWS = gql`
-  ${REVIEW_FIELDS}
+export const FIND_MOVIE_RECENT_REVIEWS = gql`
+  query FindMovieRecentReviews($movieId: Int!) {
+    movieRecentReviews(movieId: $movieId) {
+      id
+      body
+      commentaryCount
+      author {
+        username
+        profilePictureUrl
+      }
+      likes {
+        id
+      }
+    }
+  }
+`;
 
-  query FindUserPopularReviews($userId: String!) {
-    popularReviews(userId: $userId) {
-      ...ReviewFields
+export const PIN_REVIEW = gql`
+  mutation PinReview($reviewId: String!) {
+    pinReview(reviewId: $reviewId) {
+      id
+      body
+      pinned
+      commentaryCount
+      createdAt
+      likes {
+        id
+        user {
+          id
+          username
+        }
+      }
+      author {
+        id
+        username
+        profilePictureUrl
+      }
+      movie {
+        id
+        originalTitle
+        posterUrl
+        releaseDate
+      }
     }
   }
 `;

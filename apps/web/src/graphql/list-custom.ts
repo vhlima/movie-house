@@ -47,6 +47,7 @@ export const FIND_USER_LIST = gql`
       name
       body
       backgroundImageUrl
+      createdAt
       author {
         id
         username

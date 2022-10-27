@@ -1,5 +1,17 @@
 import { gql } from '@apollo/client';
 
+export const FIND_USER_FAVORITE_MOVIES = gql`
+  query FindUserFavoriteMovies($userId: String!) {
+    userFavoriteMovies(userId: $userId) {
+      movie {
+        id
+        originalTitle
+        posterUrl
+      }
+    }
+  }
+`;
+
 export const ADD_MOVIE_TO_PREMADE_LIST = gql`
   mutation AddMovieToPremadeList($movieId: Int!, $listType: UserListType!) {
     addMovieToUserList(movieId: $movieId, listType: $listType) {

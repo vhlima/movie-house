@@ -20,26 +20,8 @@ export const FIND_USER = gql`
   }
 `;
 
-export const SIGN_IN = gql`
-  ${USER_FIELDS}
-
-  mutation SignIn($username: String!) {
-    login(username: $username) {
-      ...UserFields
-    }
-  }
-`;
-
-export const FIND_USER_FAVORITE_MOVIES = gql`
-  ${USER_FIELDS}
-
-  query FindUserFavoriteMovies($userId: String!) {
-    userFavoriteMovies(userId: $userId) {
-      movie {
-        id
-        originalTitle
-        posterUrl
-      }
-    }
+export const USER_REGISTER = gql`
+  mutation UserRegister($githubId: Int!) {
+    register(githubId: $githubId)
   }
 `;
