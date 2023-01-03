@@ -12,10 +12,10 @@ interface UserListsProps {
 }
 
 const UserLists: React.FC<UserListsProps> = ({ searchParams, onClick }) => {
-  const { user } = useAuth();
+  const { data: session } = useAuth();
 
   const { data, loading, error } = useFindUserListsCustomQuery({
-    variables: { userId: user.id },
+    variables: { userId: session.user.id },
   });
 
   return (

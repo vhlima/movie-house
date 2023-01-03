@@ -1,23 +1,23 @@
 import type { DropdownProps } from '../Dropdown';
 
-import { useAuth } from '../../../../../hooks/useAuth';
+import { useAuth, signOut } from '../../../../../hooks/useAuth';
 
 import MenuItem from './components/MenuItem';
 
 import Dropdown from '../Dropdown';
 
 const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
-  const { user, signOut } = useAuth();
+  const { data } = useAuth();
 
   return (
     <Dropdown onClose={onClose}>
       <ul className="">
-        {user && (
+        {data && (
           <MenuItem
             itemProps={{
               href: {
                 pathname: '/users/[username]',
-                query: { username: user.username },
+                query: { username: data.user.username },
               },
             }}
             text="My Profile"
@@ -41,7 +41,7 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
           icon="IoIosJournal"
         />
 
-        {user && (
+        {data && (
           <MenuItem itemProps={{ onClick: signOut }} text="Logout" icon="FiX" />
         )}
       </ul>

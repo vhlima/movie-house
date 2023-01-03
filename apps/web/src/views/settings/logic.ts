@@ -32,7 +32,7 @@ interface ProfileSettingsLogicHandles {
 }
 
 export const useLogic = (): ProfileSettingsLogicHandles => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   // const [updateUserMutation, updateUserResult] =
   //   useMutation<UpdateUserResponse>(UPDATE_USER);
@@ -47,7 +47,7 @@ export const useLogic = (): ProfileSettingsLogicHandles => {
   // TODO error handling
 
   const handleSubmit: SubmitHandles = async values => {
-    if (!user) return;
+    if (!data) return;
 
     const a = 1;
 

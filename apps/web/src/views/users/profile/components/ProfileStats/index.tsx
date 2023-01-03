@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useFindUserProfileQuery } from '../../../../../graphql';
+import { useFindUserProfileStatsQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -13,13 +13,17 @@ import Button from '../../../../../components/Button';
 import FollowButton from '../../../../../components/FollowButton';
 
 const ProfileStats: React.FC = () => {
-  const { user: authUser } = useAuth();
+  const { data: session } = useAuth();
 
-  const { userProfile } = useProfile();
+  const { user: userProfile } = useProfile();
+
+  const { data: profileStatsData } = useFindUserProfileStatsQuery({
+    variables: { userId: userProfile.id },
+  });
 
   const { push } = useRouter();
 
-  const isOwnProfile = authUser && authUser.id === userProfile?.user?.id;
+  const isOwnProfile = session && session.user.id === userProfile?.id;
 
   return (
     <>
@@ -28,7 +32,7 @@ const ProfileStats: React.FC = () => {
           <>
             <FollowButton
               buttonSize="xs"
-              targetUserId={userProfile?.user?.id}
+              targetUserId={userProfile?.id}
               onFollow={async () => {
                 // await refetch();
               }}
@@ -53,13 +57,21 @@ const ProfileStats: React.FC = () => {
         <div className="flex">
           <Stats
             link={{ href: '/' }}
-            number={userProfile ? userProfile.moviesWatchedCount : 0}
+            number={
+              profileStatsData
+                ? profileStatsData.userProfileStats.moviesWatchedCount
+                : 0
+            }
             text="Movies"
           />
 
           <Stats
             link={{ href: '/' }}
-            number={userProfile ? userProfile.moviesWatchedThisYearCount : 0}
+            number={
+              profileStatsData
+                ? profileStatsData.userProfileStats.moviesWatchedThisYearCount
+                : 0
+            }
             text="This year"
           />
 
@@ -67,10 +79,12 @@ const ProfileStats: React.FC = () => {
             link={{
               href: {
                 pathname: '/users/[username]/lists',
-                query: { username: userProfile?.user?.username },
+                query: { username: userProfile?.username },
               },
             }}
-            number={userProfile ? userProfile.listCount : 0}
+            number={
+              profileStatsData ? profileStatsData.userProfileStats.listCount : 0
+            }
             text="Lists"
           />
         </div>
@@ -80,10 +94,14 @@ const ProfileStats: React.FC = () => {
             link={{
               href: {
                 pathname: '/users/[username]/following',
-                query: { username: userProfile?.user?.username },
+                query: { username: userProfile?.username },
               },
             }}
-            number={userProfile ? userProfile.followingCount : 0}
+            number={
+              profileStatsData
+                ? profileStatsData.userProfileStats.followingCount
+                : 0
+            }
             text="Following"
           />
 
@@ -91,10 +109,14 @@ const ProfileStats: React.FC = () => {
             link={{
               href: {
                 pathname: '/users/[username]/followers',
-                query: { username: userProfile?.user?.username },
+                query: { username: userProfile?.username },
               },
             }}
-            number={userProfile ? userProfile.followerCount : 0}
+            number={
+              profileStatsData
+                ? profileStatsData.userProfileStats.followerCount
+                : 0
+            }
             text="Followers"
           />
         </div>

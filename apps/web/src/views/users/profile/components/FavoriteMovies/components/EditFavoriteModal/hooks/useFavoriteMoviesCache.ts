@@ -22,7 +22,7 @@ interface FavoriteMoviesCacheHandles {
 export const useFavoriteMoviesCache = (): FavoriteMoviesCacheHandles => {
   const { cache } = useApolloClient();
 
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const updateCache: UpdateCacheHandles = updateFn => {
     cache.updateQuery<
@@ -32,7 +32,7 @@ export const useFavoriteMoviesCache = (): FavoriteMoviesCacheHandles => {
       {
         query: FindUserFavoriteMoviesDocument,
         variables: {
-          userId: user.id,
+          userId: data.user.id,
         },
       },
       updateFn,

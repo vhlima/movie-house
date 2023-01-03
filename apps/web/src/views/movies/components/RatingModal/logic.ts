@@ -22,7 +22,7 @@ interface UserRatingLogicHandles {
 }
 
 export const useLogic = ({ movie }: UserRatingLogicProps) => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   // const [addUserRating] = useMutation<{ userAddRate: UserResponse }>(
   //   RATE_MOVIE,

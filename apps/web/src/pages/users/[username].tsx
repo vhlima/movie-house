@@ -37,24 +37,27 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     const apolloClient = initializeApollo();
 
-    const {
-      data: { user },
-    } = await apolloClient.query<FindUserQuery, FindUserQueryVariables>({
+    const { data } = await apolloClient.query<
+      FindUserQuery,
+      FindUserQueryVariables
+    >({
       query: FindUserDocument,
       variables: { username: username as string },
     });
 
-    if (!user) {
+    if (!data) {
       res.statusCode = 404;
       return { props: {} };
     }
+
+    const userId = data.user.id;
 
     await apolloClient.query<
       FindUserProfileFeaturedReviewsQuery,
       FindUserProfileFeaturedReviewsQueryVariables
     >({
       query: FindUserProfileFeaturedReviewsDocument,
-      variables: { userId: user.id },
+      variables: { userId },
     });
 
     await apolloClient.query<
@@ -62,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       FindUserProfileStatsQueryVariables
     >({
       query: FindUserProfileStatsDocument,
-      variables: { userId: user.id },
+      variables: { userId },
     });
 
     await apolloClient.query<
@@ -70,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       FindUserFavoriteMoviesQueryVariables
     >({
       query: FindUserFavoriteMoviesDocument,
-      variables: { userId: user.id },
+      variables: { userId },
     });
 
     return addApolloState(apolloClient, {

@@ -13,7 +13,7 @@ import ProfilePicture from '../../../components/ProfilePicture';
 import UserListMoviesCard from './components/UserList';
 
 const UserListsView: React.FC<UserListsPageProps> = ({ user, lists }) => {
-  const { user: currentUser } = useAuth();
+  const { data } = useAuth();
 
   return (
     <PageContent className="my-3">
@@ -43,7 +43,7 @@ const UserListsView: React.FC<UserListsPageProps> = ({ user, lists }) => {
         <ul>
           {lists
             .filter(list =>
-              !currentUser || currentUser.id !== user.id
+              !data || data.user.id !== user.id
                 ? list?.isPrivate || true
                 : true,
             )

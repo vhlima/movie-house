@@ -20,6 +20,17 @@ export const FIND_USER = gql`
   }
 `;
 
+export const FIND_USER_BY_PROVIDER = gql`
+  query FindUserByProvider($providerId: String!, $provider: String!) {
+    userByProvider(providerId: $providerId, provider: $provider) {
+      id
+      username
+      realName
+      profilePictureUrl
+    }
+  }
+`;
+
 export const USER_REGISTER = gql`
   mutation UserRegister($githubId: Int!) {
     register(githubId: $githubId)

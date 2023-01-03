@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useSession } from 'next-auth/react';
+import { useAuth } from '../../hooks/useAuth';
 
 import Commentaries from './Commentaries';
 
@@ -18,9 +18,7 @@ interface CommentarySectionProps {
 }
 
 const CommentarySection: React.FC<CommentarySectionProps> = ({ postId }) => {
-  const {
-    data: { user },
-  } = useSession();
+  const { data } = useAuth();
 
   const [interaction, setInteraction] = useState<CommentaryInteraction>();
 
@@ -35,7 +33,7 @@ const CommentarySection: React.FC<CommentarySectionProps> = ({ postId }) => {
       )}
 
       <div>
-        {user && (
+        {data && (
           <TextInput
             onFocus={() =>
               setInteraction({ type: 'commentary', referenceId: postId })

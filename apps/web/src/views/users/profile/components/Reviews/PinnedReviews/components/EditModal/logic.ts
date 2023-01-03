@@ -16,10 +16,10 @@ interface EditModalLogicHandles {
 }
 
 export const useLogic = (): EditModalLogicHandles => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const pinnedReviewsResult = useFindUserPinnedReviewsQuery({
-    variables: { userId: user.id },
+    variables: { userId: data.user.id },
     fetchPolicy: 'cache-only',
   });
 

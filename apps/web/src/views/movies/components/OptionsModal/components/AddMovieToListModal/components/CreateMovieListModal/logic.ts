@@ -22,7 +22,7 @@ import { useAuth } from '../../../../../../../../hooks/useAuth';
 export const useLogic = ({
   onClose,
 }: CreateMovieListModalLogicProps): CreateMovieListModalLogicHandles => {
-  const { user } = useAuth();
+  const { data: session } = useAuth();
 
   const [createUserList, createUserListResult] = useCreateUserListMutation();
 
@@ -38,7 +38,7 @@ export const useLogic = ({
         cache.updateQuery<FindUserListsQuery, FindUserListsQueryVariables>(
           {
             query: FindUserListsDocument,
-            variables: { userId: user.id },
+            variables: { userId: session.user.id },
           },
           cacheData => ({
             userLists: [...(cacheData?.userLists || []), data.createUserList],

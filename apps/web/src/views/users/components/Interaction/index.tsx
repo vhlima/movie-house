@@ -30,9 +30,9 @@ const Interaction: React.FC<PropsWithChildren<InteractionInternalProps>> = ({
   header,
   children,
 }) => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
-  if (!user) return <h1>user not found</h1>;
+  if (!data) return <h1>user not found</h1>;
 
   return (
     <div
@@ -42,7 +42,7 @@ const Interaction: React.FC<PropsWithChildren<InteractionInternalProps>> = ({
       )}
     >
       <div className="flex items-center gap-1">
-        <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
+        <ProfilePicture imageSize="sm" src={data.user.profilePictureUrl} />
 
         {header}
       </div>

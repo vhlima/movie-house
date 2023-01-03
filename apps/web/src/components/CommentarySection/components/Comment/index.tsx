@@ -4,7 +4,7 @@ import { formatDistance } from 'date-fns';
 
 import type { PropsWithChildren } from 'react';
 
-import { useSession } from 'next-auth/react';
+import { useAuth } from '../../../../hooks/useAuth';
 
 import type { Commentary, Reply } from '../../../../graphql';
 
@@ -35,9 +35,7 @@ const Comment: React.FC<PropsWithChildren<CommentProps>> = ({
   onClickDelete,
   children,
 }) => {
-  const {
-    data: { user },
-  } = useSession();
+  const { data } = useAuth();
 
   return (
     <div
@@ -59,14 +57,14 @@ const Comment: React.FC<PropsWithChildren<CommentProps>> = ({
         textShort
       />
 
-      {user && (
+      {data && (
         <div className="flex gap-2">
           <LikeButton
             rootId={comment.postId}
             referenceId={comment.id}
             likeCount={comment.likes.length}
             hasLiked={
-              comment.likes.filter(usr => usr.id !== user.).length > 0
+              comment.likes.filter(usr => usr.id !== data.user.id).length > 0
             }
           />
 
@@ -82,7 +80,7 @@ const Comment: React.FC<PropsWithChildren<CommentProps>> = ({
             </Button>
           )}
 
-          {user.id !== comment.user.id ? (
+          {data.user.id !== comment.user.id ? (
             <Button
               className="ml-auto"
               buttonStyle="secondary"

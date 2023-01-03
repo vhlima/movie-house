@@ -28,9 +28,9 @@ const TextInput: React.FC<TextInputInternalProps> = ({
   onFocus,
   onKeyUp,
 }) => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
-  if (!user) {
+  if (!data) {
     return null;
   }
 
@@ -63,7 +63,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       onKeyUp={formik && onKeyUp}
     >
       <div className="p-3 mt-auto">
-        <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
+        <ProfilePicture imageSize="sm" src={data.user.profilePictureUrl} />
       </div>
     </Input>
   );

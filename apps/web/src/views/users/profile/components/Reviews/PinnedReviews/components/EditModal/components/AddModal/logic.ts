@@ -25,10 +25,10 @@ interface AddModalLogicHandles {
 export const useLogic = ({
   onClose,
 }: AddModalLogicProps): AddModalLogicHandles => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const reviewsResponse = useFindUserReviewsQuery({
-    variables: { userId: user.id },
+    variables: { userId: data.user.id },
   });
 
   const { updateCache } = usePinnedReviewsCache();

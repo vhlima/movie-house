@@ -15,25 +15,27 @@ import QueryState from '../../../../../components/QueryState';
 import ProfilePicture from '../../../../../components/ProfilePicture';
 
 const PopularReviewers: React.FC = () => {
-  const { user } = useAuth();
+  const { data } = useAuth();
+
+  const { id, username, profilePictureUrl } = data?.user || {};
 
   return (
     <Card title="Popular reviewers" noPadding>
       <QueryState loading={false} error={undefined}>
-        {user && (
+        {data && (
           <ul className="flex flex-col gap-2">
             {Array.from({ length: 5 }).map((_, index) => (
               <ListItem
                 className="flex items-center gap-2"
-                key={`popular-reviewer-${user.id + index}`}
+                key={`popular-reviewer-${id + index}`}
               >
-                <ProfilePicture src={user.profilePictureUrl} imageSize="md" />
+                <ProfilePicture src={profilePictureUrl} imageSize="md" />
 
                 <div className="w-full">
                   <Link
                     href={{
                       pathname: '/users/[username]',
-                      query: { username: user.username },
+                      query: { username },
                     }}
                   >
                     <Typography
@@ -41,14 +43,14 @@ const PopularReviewers: React.FC = () => {
                       component="h3"
                       color="primary"
                     >
-                      {user.username}
+                      {username}
                     </Typography>
                   </Link>
 
                   <Link
                     href={{
                       pathname: '/users/[username]',
-                      query: { username: user.username },
+                      query: { username },
                     }}
                   >
                     <Typography
@@ -67,7 +69,7 @@ const PopularReviewers: React.FC = () => {
                   <Link
                     href={{
                       pathname: '/users/[username]',
-                      query: { username: user.username },
+                      query: { username },
                     }}
                   >
                     <Typography

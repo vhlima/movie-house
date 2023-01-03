@@ -14,15 +14,14 @@ import Notifications from './components/Notifications';
 
 import NavigationMenu from './components/NavigationMenu';
 
-import AuthenticationModal from './components/AuthenticationModal';
-
 import SvgIcon from '../../../components/SvgIcon';
+
 import LoginModal from './components/LoginModal';
 
 type NavWindowType = 'auth' | 'menu' | 'search' | 'notifications' | '';
 
 const Navbar: React.FC = () => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const [currentWindow, setCurrentWindow] = useState<NavWindowType>('');
 
@@ -36,15 +35,14 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      {!user && currentWindow === 'auth' && (
+      {!data && currentWindow === 'auth' && (
         <LoginModal onClose={closeWindow} />
-        // <AuthenticationModal onClose={closeWindow} />
       )}
 
       <nav className="bg-grey-800">
         <div className="flex items-center gap-2 p-3 relative mx-auto max-w-5xl">
           <AnimatePresence>
-            {user && currentWindow === 'notifications' && (
+            {data && currentWindow === 'notifications' && (
               <Notifications onClose={closeWindow} />
             )}
           </AnimatePresence>
@@ -62,7 +60,7 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className="flex items-center ml-auto text-grey-300">
-            {!user && (
+            {!data && (
               <button type="button" onClick={() => openWindow('auth')}>
                 <SvgIcon iconType="FaUserAlt" size={18} />
               </button>

@@ -1,9 +1,7 @@
 import { PropsWithChildren } from 'react';
 
-import { AuthProvider } from './useAuth';
+// import { AuthProvider } from './useAuth';
 
-const Hooks: React.FC<PropsWithChildren> = ({ children }) => (
-  <AuthProvider>{children}</AuthProvider>
-);
+const Hooks: React.FC<PropsWithChildren> = ({ children }) => children;
 
 export default Hooks;

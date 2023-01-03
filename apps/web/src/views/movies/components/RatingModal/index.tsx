@@ -34,7 +34,7 @@ const MovieRatingModal: React.FC<MovieRatingModalProps> = ({
 
   // TODO user required to use this modal
 
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   // TODO prop drilling
 

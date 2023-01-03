@@ -23,14 +23,14 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   likeCount,
   hasLiked,
 }) => {
-  const { user } = useAuth();
+  const { data: session } = useAuth();
 
   const [liked, setLiked] = useState<boolean>(hasLiked);
 
   const [likeOrDislikeMutation, { loading }] = useLikeContentMutation();
 
   const handleLike = async () => {
-    if (!user) return;
+    if (!session) return;
 
     const { data } = await likeOrDislikeMutation({
       variables: {

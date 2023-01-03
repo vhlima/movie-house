@@ -26,7 +26,7 @@ const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
   movie,
   children,
 }) => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const [isRating, setRating] = useState<boolean>(false);
 
@@ -34,7 +34,7 @@ const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
 
   return (
     <>
-      {user && isRating && (
+      {data && isRating && (
         <MovieRatingModal movie={movie} onClose={() => setRating(false)} />
       )}
 
@@ -57,7 +57,7 @@ const MovieBody: React.FC<PropsWithChildren<MovieBodyProps>> = ({
           ))}
         </div>
 
-        {user && (
+        {data && (
           <Button
             buttonStyle="secondary"
             onClick={() => setRating(prev => !prev)}

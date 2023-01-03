@@ -13,14 +13,14 @@ interface ReviewCardProps extends CardProps {
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ reviews, ...cardProps }) => {
-  const { userProfile } = useProfile();
+  const { user } = useProfile();
 
   return (
     <Card {...cardProps} noPadding>
       {reviews &&
         (reviews.length <= 0 ? (
           <p className="text-grey-200">
-            {userProfile?.user?.username} dont have any review to be displayed.
+            {user?.username} dont have any review to be displayed.
           </p>
         ) : (
           <ul>

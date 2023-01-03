@@ -13,7 +13,7 @@ import EditPinnedReviewsModal from './components/EditModal';
 import ReviewCard from '../components/ReviewCard';
 
 const PinnedReviews: React.FC = () => {
-  const { user: currentUser } = useAuth();
+  const { data: session } = useAuth();
 
   const { user } = useProfile();
 
@@ -35,8 +35,8 @@ const PinnedReviews: React.FC = () => {
           (data?.userProfileFeaturedReviews?.pinnedReviews ?? []) as Review[]
         }
         rightIcon={
-          currentUser &&
-          currentUser.id === user?.id && {
+          session &&
+          session.user.id === user?.id && {
             iconType: 'FaPencilAlt',
             onClick: () => setEditing(true),
           }

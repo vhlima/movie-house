@@ -22,7 +22,7 @@ interface PinnedReviewsCacheHandles {
 export const usePinnedReviewsCache = (): PinnedReviewsCacheHandles => {
   const { cache } = useApolloClient();
 
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const updateCache: UpdateCacheHandles = updateFn => {
     cache.updateQuery<
@@ -32,7 +32,7 @@ export const usePinnedReviewsCache = (): PinnedReviewsCacheHandles => {
       {
         query: FindUserPinnedReviewsDocument,
         variables: {
-          userId: user.id,
+          userId: data.user.id,
         },
       },
       updateFn,

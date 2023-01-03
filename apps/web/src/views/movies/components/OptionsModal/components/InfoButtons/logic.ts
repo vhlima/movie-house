@@ -31,11 +31,11 @@ interface InfoButtonsLogicHandles {
 export const useLogic = ({
   movieId,
 }: InfoButtonsLogicProps): InfoButtonsLogicHandles => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const movieOptionsResponse = useFindMovieOptionsQuery({
     variables: {
-      userId: user.id,
+      userId: data.user.id,
       movieId,
       rootId: String(movieId),
     },
@@ -56,7 +56,7 @@ export const useLogic = ({
       {
         query: FindMovieOptionsDocument,
         variables: {
-          userId: user.id,
+          userId: data.user.id,
           movieId,
           rootId: String(movieId),
         },

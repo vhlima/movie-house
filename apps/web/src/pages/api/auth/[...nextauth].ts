@@ -5,11 +5,16 @@ import GithubProvider from 'next-auth/providers/github';
 import { initializeApollo } from '../../../client';
 
 import type {
+  FindUserByProviderQuery,
+  FindUserByProviderQueryVariables,
   UserRegisterMutation,
   UserRegisterMutationVariables,
 } from '../../../graphql';
 
-import { UserRegisterDocument } from '../../../graphql';
+import {
+  UserRegisterDocument,
+  FindUserByProviderDocument,
+} from '../../../graphql';
 
 export default NextAuth({
   session: {
@@ -27,14 +32,49 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    // session: ({ session, token, user }) => ({
-    //   ...session,
-    //   accessToken: token,
-    //   user: {
-    //     ...user,
-    //     id: token.id,
-    //   },
-    // }),
+    jwt: async ({ token, account }) => {
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      if (account) {
+        const apolloClient = initializeApollo();
+
+        const { data } = await apolloClient.query<
+          FindUserByProviderQuery,
+          FindUserByProviderQueryVariables
+        >({
+          query: FindUserByProviderDocument,
+          variables: {
+            provider: 'github',
+            providerId: account.providerAccountId,
+          },
+        });
+
+        if (!data) {
+          return token;
+        }
+
+        const userData = data.userByProvider;
+
+        const updatedToken = { ...token };
+
+        updatedToken.id = userData.id;
+        updatedToken.username = userData.username;
+        updatedToken.realName = userData.realName;
+        updatedToken.profilePictureUrl = userData.profilePictureUrl;
+
+        return updatedToken;
+      }
+
+      return token;
+    },
+    session: async ({ session, token }) => ({
+      ...session,
+      user: {
+        id: token.id,
+        username: token.username,
+        profilePictureUrl: token.profilePictureUrl,
+        realName: token.realName,
+      },
+    }),
     signIn: async ({ user }) => {
       const apolloClient = initializeApollo();
 

@@ -23,7 +23,7 @@ const ReviewText: React.FC<ReviewTextProps> = ({
   review: { id: reviewId, author, body, likes, commentaryCount, createdAt },
   preview,
 }) => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   return (
     <div className="flex flex-col gap-2">
@@ -64,12 +64,12 @@ const ReviewText: React.FC<ReviewTextProps> = ({
         text={body}
       />
 
-      {user && (
+      {data && (
         <div className="flex gap-2">
           <LikeButton
             rootId={reviewId}
             likeCount={0}
-            hasLiked={likes.filter(usr => usr.id !== user.id).length > 0}
+            hasLiked={likes.filter(usr => usr.id !== data.user.id).length > 0}
           />
 
           <CommentaryCount count={commentaryCount} />

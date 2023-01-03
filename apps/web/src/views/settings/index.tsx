@@ -15,7 +15,7 @@ import Button from '../../components/Button';
 import ProfilePicture from '../../components/ProfilePicture';
 
 const ProfileSettingsView: React.FC = () => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   const {
     // updateUserResult,
@@ -28,9 +28,11 @@ const ProfileSettingsView: React.FC = () => {
     handleSubmit,
   } = useLogic();
 
+  // TODO Fetch user realName and biography from other query, no need tokeep it inside useAuth
+
   const profilePictureInputRef = useRef<HTMLInputElement | null>(null);
 
-  if (!user) {
+  if (!data) {
     return <h1 className="text-danger-base">Must be logged</h1>;
   }
 
@@ -38,9 +40,9 @@ const ProfileSettingsView: React.FC = () => {
     <Card title="Personal settings">
       <Formik
         initialValues={{
-          username: user.username,
-          realName: user.realName,
-          biography: user.biography,
+          username: data.user.username,
+          realName: '',
+          biography: '',
         }}
         onSubmit={handleSubmit}
       >
@@ -48,7 +50,7 @@ const ProfileSettingsView: React.FC = () => {
           <div className="flex items-center gap-2">
             <ProfilePicture
               imageSize="lg"
-              src={uploadedProfilePictureUrl || user.profilePictureUrl}
+              src={uploadedProfilePictureUrl || data.user.profilePictureUrl}
             />
 
             <input

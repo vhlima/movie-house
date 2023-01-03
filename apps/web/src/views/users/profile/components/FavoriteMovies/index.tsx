@@ -15,7 +15,7 @@ import Link from '../../../../../components/Link';
 import EditFavoriteMoviesModal from './components/EditFavoriteModal';
 
 const FavoriteMovies: React.FC = () => {
-  const { user: currentUser } = useAuth();
+  const { data: session } = useAuth();
 
   const { user } = useProfile();
 
@@ -26,6 +26,8 @@ const FavoriteMovies: React.FC = () => {
   const { data } = useFindUserFavoriteMoviesQuery({
     variables: { userId: user?.id },
   });
+
+  const { user: currentUser } = session || {};
 
   return (
     <>

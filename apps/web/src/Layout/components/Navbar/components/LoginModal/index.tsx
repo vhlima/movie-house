@@ -2,7 +2,11 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 
 import type { ModalHandles } from '../../../../../components/Modal';
 
+import Button from '../../../../../components/Button';
+
 import Modal from '../../../../../components/Modal';
+
+import Typography from '../../../../../components/Typography';
 
 type LoginModalProps = ModalHandles;
 
@@ -11,22 +15,31 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
   return (
     <Modal backdrop center onClose={onClose}>
-      {data ? (
-        <>
-          <h1>already logged in</h1>
-          <button type="button" onClick={() => signOut()}>
-            Sign out
-          </button>
-        </>
-      ) : (
-        <div>
-          <h1>login modal</h1>
+      <div className="flex flex-col gap-2">
+        {data ? (
+          <>
+            <Typography component="h1">You are already signed in</Typography>
 
-          <button type="button" onClick={() => signIn()}>
-            Sign in
-          </button>
-        </div>
-      )}
+            <Button
+              type="button"
+              buttonStyle="danger"
+              onClick={() => signOut()}
+            >
+              Sign out
+            </Button>
+          </>
+        ) : (
+          <>
+            <Typography component="h1">
+              Please, click the button below to sign in
+            </Typography>
+
+            <Button buttonStyle="primary" onClick={() => signIn()}>
+              Sign In using GitHub
+            </Button>
+          </>
+        )}
+      </div>
     </Modal>
   );
 };

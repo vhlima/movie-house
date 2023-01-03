@@ -19,14 +19,14 @@ interface EditFavoriteMovieModalLogicHandles {
 }
 
 export const useLogic = (): EditFavoriteMovieModalLogicHandles => {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   /* 
     Favorite movies are stored in cache because we already 
     fetched from FavoriteMovies component.
   */
   const favoriteMoviesResult = useFindUserFavoriteMoviesQuery({
-    variables: { userId: user.id },
+    variables: { userId: data.user.id },
     fetchPolicy: 'cache-only',
   });
 
