@@ -2,7 +2,7 @@ import { Resolver, Mutation, Arg, Query, Args, Ctx, Int } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
-import { UserRepository } from '../repositories';
+import { UserRepository, UserProviderRepository } from '../repositories';
 
 import User from '../entities/pg-entities/user.interface';
 
@@ -18,6 +18,31 @@ class UserResolver {
 
     if (!user) {
       throw new Error('User not found');
+    }
+
+    return user;
+  }
+
+  @Query(() => User)
+  async userByProvider(
+    @Arg('provider') provider: string,
+    @Arg('providerId') providerId: string,
+  ): Promise<User> {
+    const userProvider = await UserProviderRepository.findOne({
+      where: {
+        provider,
+        providerId,
+      },
+    });
+
+    if (!userProvider) {
+      throw new UserNotFoundError();
+    }
+
+    const user = await UserRepository.findOneBy({ id: userProvider.userId });
+
+    if (!user) {
+      throw new UserNotFoundError();
     }
 
     return user;
@@ -70,10 +95,15 @@ class UserResolver {
       profilePictureUrl: githubUser.avatar_url,
     });
 
-    // user.profilePictureUrl =
-    //   'https://a.ltrbxd.com/resized/avatar/twitter/4/9/0/4/5/7/shard/http___pbs.twimg.com_profile_images_1001935353740177414_9ZQ0Noe4-0-80-0-80-crop.jpg?k=9c800e12d6';
-
     await UserRepository.save(user);
+
+    const userProvider = UserProviderRepository.create({
+      userId: user.id,
+      provider: 'github',
+      providerId: String(githubUser.id),
+    });
+
+    await UserProviderRepository.save(userProvider);
 
     return true;
   }

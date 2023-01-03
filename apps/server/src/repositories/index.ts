@@ -12,6 +12,8 @@ import MovieRate from '../entities/pg-entities/movie-rate.interface';
 
 import Reply from '../entities/pg-entities/comment/reply.interface';
 
+import UserProvider from '../entities/pg-entities/user-provider';
+
 import Commentary from '../entities/pg-entities/comment/commentary.interface';
 
 /* Mongo Imports */
@@ -29,6 +31,9 @@ import UserListCustomMovie from '../entities/mongo-entities/user-list/custom/use
 /* Postgres Repositories */
 
 export const UserRepository = PostgresDataSource.getRepository(User);
+
+export const UserProviderRepository =
+  PostgresDataSource.getRepository(UserProvider);
 
 export const CommentaryRepository =
   PostgresDataSource.getRepository(Commentary);
