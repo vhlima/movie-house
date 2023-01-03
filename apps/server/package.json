@@ -8,7 +8,7 @@
     "start": "ts-node src/server.ts",
     "typeorm": "typeorm-ts-node-esm",
     "test": "vitest",
-    "migration:run": "dotenv -- typeorm-ts-node-esm migration:run -d src/database/postgres/index.ts"
+    "migration:run": "dotenv -- typeorm-ts-node-esm migration:run -d src/database/postgres.ts"
   },
   "dependencies": {
     "apollo-datasource-rest": "^3.6.1",
