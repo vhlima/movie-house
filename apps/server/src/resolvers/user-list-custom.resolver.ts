@@ -85,7 +85,7 @@ export default class UserListCustomResolver {
 
     const userListExists = await UserListCustomRepository.findOneBy({ name });
 
-    if (!userListExists) {
+    if (userListExists) {
       throw new AlreadyExistsError('You already have a list with this name');
     }
 
@@ -94,6 +94,9 @@ export default class UserListCustomResolver {
       name,
       body,
     });
+
+    await UserListCustomRepository.save(userList);
+
     return userList;
   }
 
