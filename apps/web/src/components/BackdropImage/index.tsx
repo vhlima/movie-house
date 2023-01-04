@@ -15,8 +15,14 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
     (children as ReactNode & ReactElement)
   ) : (
     <>
-      <div className="relative w-full h-56 sm:h-64 md:h-80 lg:h-96">
-        <Image layout="fill" objectFit="fill" unoptimized {...imageProps} />
+      <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[26rem]">
+        <Image
+          layout="fill"
+          objectFit="fill"
+          unoptimized
+          priority
+          {...imageProps}
+        />
 
         <div
           className="absolute h-full w-full"
