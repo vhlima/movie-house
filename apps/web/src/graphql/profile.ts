@@ -19,6 +19,7 @@ const FEATURED_REVIEW_FIELDS = gql`
     commentaryCount
     createdAt
     author {
+      username
       profilePictureUrl
     }
     likes {
