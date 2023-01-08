@@ -4,8 +4,6 @@ import Navbar from './components/Navbar';
 
 import Footer from './components/Footer';
 
-// max px 72
-
 const Layout: React.FC<PropsWithChildren> = ({ children }) => (
   <>
     <div id="modalPortal" />
