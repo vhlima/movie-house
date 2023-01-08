@@ -4,8 +4,6 @@ import Link from '../../../../../../../components/Link';
 
 import ListItem from '../../../../../../../components/ListItem';
 
-import MovieRatingStar from '../../../../../components/RatingStar';
-
 import LikeButton from '../../../../../../../components/LikeButton';
 
 import Typography from '../../../../../../../components/Typography';
@@ -13,6 +11,7 @@ import Typography from '../../../../../../../components/Typography';
 import ProfilePicture from '../../../../../../../components/ProfilePicture';
 
 import CommentaryCount from '../../../../../../../components/CommentaryCount';
+import StarIcon from '../../../../../../../components/StarIcon';
 
 interface ReviewPreviewProps {
   review: Review;
@@ -39,7 +38,8 @@ const ReviewPreview: React.FC<ReviewPreviewProps> = ({ review }) => (
       </Link>
 
       <div className="ml-auto">
-        <MovieRatingStar color="blue" size={22} rating={2.5} reverse checked />
+        <StarIcon fill />
+        <span>2.5</span>
       </div>
     </div>
 

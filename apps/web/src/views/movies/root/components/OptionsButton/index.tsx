@@ -4,7 +4,7 @@ import { useMovie } from '../../hooks/useMovie';
 
 import Button from '../../../../../components/Button';
 
-import MovieOptionsModal from '../../../components/OptionsModal';
+import MovieActionsModal from '../../../../../components/movie/MovieActionsModal';
 
 const OptionsButton: React.FC = () => {
   const { movie } = useMovie();
@@ -14,7 +14,13 @@ const OptionsButton: React.FC = () => {
   return (
     <>
       {isOpen && (
-        <MovieOptionsModal movie={movie} onClose={() => setOpen(false)} />
+        <MovieActionsModal
+          movie={{
+            id: movie.id,
+            originalTitle: movie.originalTitle,
+          }}
+          onClose={() => setOpen(false)}
+        />
       )}
 
       <Button buttonStyle="secondary" onClick={() => setOpen(true)}>

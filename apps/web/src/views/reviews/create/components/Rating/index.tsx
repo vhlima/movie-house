@@ -6,9 +6,9 @@ import { useCreateReview } from '../../hooks/useReviewCreate';
 
 import Button from '../../../../../components/Button';
 
-import MovieRatingStar from '../../../../movies/components/RatingStar';
+import StarIcon from '../../../../../components/StarIcon';
 
-import MovieRateModal from '../../../../movies/components/RatingModal/RateModal';
+import MovieRateModal from '../../../../../components/movie/MovieRateModal';
 
 interface RatingProps {
   movie: Movie;
@@ -23,20 +23,20 @@ const Rating: React.FC<RatingProps> = ({ movie }) => {
     <>
       {isRating && (
         <MovieRateModal
-          movie={movie}
+          movie={{
+            originalTitle: movie.originalTitle,
+          }}
           onRate={userRating => setUserRating(userRating)}
           onClose={() => setRating(false)}
         />
       )}
 
       <div className="flex">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-          <MovieRatingStar
-            key={n}
-            color={userRating >= n ? 'blue' : 'grey'}
-            checked={userRating >= n}
-          />
-        ))}
+        {Array.from({ length: 10 })
+          .map((_, index) => index + 1)
+          .map(n => (
+            <StarIcon key={`review-rating-star-${n}`} fill={userRating >= n} />
+          ))}
       </div>
 
       <Button

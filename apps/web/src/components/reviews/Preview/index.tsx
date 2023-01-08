@@ -1,16 +1,16 @@
 import type { Review } from '../../../graphql';
 
-import Link from '../../Link';
-
 import ListItem from '../../ListItem';
 
 import Typography from '../../Typography';
 
-import ReviewText from '../components/Text';
+import MovieCover from '../../movie/MovieCover';
 
-import MovieCover from '../../../views/movies/components/Cover';
+import MovieLink from '../../movie/MovieLink';
 
-import MovieRatingStar from '../../../views/movies/components/RatingStar';
+import ReviewBody from '../../review/ReviewBody';
+
+import StarIcon from '../../StarIcon';
 
 interface ReviewPreviewProps {
   review: Review;
@@ -19,19 +19,16 @@ interface ReviewPreviewProps {
 const ReviewPreview: React.FC<ReviewPreviewProps> = ({ review }) => (
   <ListItem className="w-full">
     <div className="flex gap-2">
-      <MovieCover coverUrl={review.movie.posterUrl} />
+      <MovieCover movie={review.movie} sizeType="sm" />
 
       <div className="flex flex-col">
         <Typography component="h2">
-          <Link
+          <MovieLink
             className="text-grey-100 text-xl font-semibold hover:text-grey-300"
-            href={{
-              pathname: '/movies/[id]',
-              query: { id: review.movie.id },
-            }}
+            movieId={review.movie.id}
           >
             {review.movie.originalTitle}
-          </Link>
+          </MovieLink>
 
           <Typography className="ml-1" component="span">
             ({new Date(review.movie.releaseDate).getFullYear()})
@@ -40,16 +37,19 @@ const ReviewPreview: React.FC<ReviewPreviewProps> = ({ review }) => (
 
         <div className="flex flex-col">
           <div className="flex mb-2">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-              <MovieRatingStar
-                key={n}
-                color={n <= 3 ? 'blue' : 'grey'}
-                checked={n <= 3}
-              />
-            ))}
+            {Array.from({ length: 10 })
+              .map((_, index) => index + 1)
+              .map(n => (
+                <StarIcon key={`review-preview-star-${n}`} fill={n <= 3} />
+              ))}
           </div>
 
-          <ReviewText review={review} preview />
+          <ReviewBody
+            id={review.id}
+            body={review.body}
+            author={review.author}
+            createdAt={review.createdAt}
+          />
         </div>
       </div>
     </div>

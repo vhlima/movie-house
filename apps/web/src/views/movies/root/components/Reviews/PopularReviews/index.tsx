@@ -2,19 +2,19 @@ import type { Review } from '../../../../../../graphql';
 
 import { useFindMoviePopularReviewsQuery } from '../../../../../../graphql';
 
+import { useMovie } from '../../../hooks/useMovie';
+
 import Card from '../../../../../../components/Card';
 
 import ReviewPreview from '../components/ReviewPreview';
 
 import QueryState from '../../../../../../components/QueryState';
 
-interface PopularReviewsProps {
-  movieId: number;
-}
+const PopularReviews: React.FC = () => {
+  const { movie } = useMovie();
 
-const PopularReviews: React.FC<PopularReviewsProps> = ({ movieId }) => {
   const { data, error, loading } = useFindMoviePopularReviewsQuery({
-    variables: { movieId },
+    variables: { movieId: movie.id },
   });
 
   return (
