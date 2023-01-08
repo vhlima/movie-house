@@ -8,13 +8,13 @@ import Card from '../../../components/Card';
 
 import Button from '../../../components/Button';
 
-import MovieCover from '../../movies/components/Cover';
-
-import MovieSearchModal from '../../movies/components/SearchModal';
-
 import Rating from './components/Rating';
 
 import ReviewCreateForm from './components/Form';
+
+import MovieCover from '../../../components/movie/MovieCover';
+
+import MovieSearchModal from '../../../components/movie/MovieSearchModal';
 
 const CreateReviewView: React.FC = () => {
   const { selectedMovie, setSelectedMovie, setUserRating } = useCreateReview();
@@ -41,7 +41,15 @@ const CreateReviewView: React.FC = () => {
 
       <Card title="Write your review">
         <div className="flex gap-2">
-          <MovieCover coverSize="sm" coverUrl={selectedMovie?.posterUrl} />
+          <MovieCover
+            sizeType="sm"
+            movie={
+              selectedMovie && {
+                originalTitle: selectedMovie.originalTitle,
+                posterUrl: selectedMovie.posterUrl,
+              }
+            }
+          />
 
           <div className="flex flex-col gap-2 w-full">
             {!selectedMovie ? (

@@ -1,8 +1,8 @@
 import type { ModalHandles } from '../../../../../../../../../components/Modal';
 
-import { useLogic } from './logic';
+import MovieSearchModal from '../../../../../../../../../components/movie/MovieSearchModal';
 
-import MovieSearchModal from '../../../../../../../../movies/components/SearchModal';
+import { useLogic } from './logic';
 
 type AddFavoriteMovieModalProps = ModalHandles;
 

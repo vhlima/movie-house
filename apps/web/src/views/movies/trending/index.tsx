@@ -2,9 +2,7 @@ import { FindTrendingMoviesQuery } from '../../../graphql';
 
 import Card from '../../../components/Card';
 
-import Link from '../../../components/Link';
-
-import MovieCover from '../components/Cover';
+import MovieCover from '../../../components/movie/MovieCover';
 
 import RecentReviews from './components/RecentReviews';
 
@@ -13,6 +11,8 @@ import PopularReviews from './components/PopularReviews';
 import PageContent from '../../../components/PageContent';
 
 import PopularReviewers from './components/PopularReviewers';
+
+import MovieLink from '../../../components/movie/MovieLink';
 
 interface MoviesTrendingViewProps {
   trendingMovies: FindTrendingMoviesQuery;
@@ -24,14 +24,17 @@ const MoviesTrendingView: React.FC<MoviesTrendingViewProps> = ({
   <PageContent className="flex flex-col gap-4 my-3">
     <Card title="Popular movies this week" noPadding>
       {trendingMovies && (
-        <ul className="grid grid-cols-4 sm:flex sm:flex-wrap gap-2">
+        <ul className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-2">
           {trendingMovies.results.map(movie => (
             <li key={`trending-movie-${movie.id}`}>
-              <Link
-                href={{ pathname: '/movies/[id]', query: { id: movie.id } }}
-              >
-                <MovieCover coverUrl={movie.posterUrl} coverSize="auto" />
-              </Link>
+              <MovieLink movieId={movie.id}>
+                <MovieCover
+                  movie={{
+                    originalTitle: movie.originalTitle,
+                    posterUrl: movie.posterUrl,
+                  }}
+                />
+              </MovieLink>
             </li>
           ))}
         </ul>

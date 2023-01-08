@@ -1,40 +1,54 @@
 import type { Review } from '../../../graphql';
 
-import MovieHeader from '../../movies/view/Header';
+import StarIcon from '../../../components/StarIcon';
 
 import PageContent from '../../../components/PageContent';
 
 import BackdropImage from '../../../components/BackdropImage';
 
-import MovieRatingStar from '../../movies/components/RatingStar';
+import MovieInfos from '../../../components/movie/MovieInfos';
 
-import ReviewText from '../../../components/reviews/components/Text';
+import ReviewBody from '../../../components/review/ReviewBody';
 
 import CommentarySection from '../../../components/CommentarySection';
 
 export interface MovieReviewViewProps {
-  review: Review;
+  review: Pick<Review, 'id' | 'author' | 'body' | 'movie' | 'createdAt'>;
 }
 
-const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => (
-  <BackdropImage src={review.movie.backdropUrl}>
+const MovieReviewView: React.FC<MovieReviewViewProps> = ({
+  review: { id, author, movie, body, createdAt },
+}) => (
+  <BackdropImage src={movie.backdropUrl}>
     <PageContent>
-      <MovieHeader movie={review.movie} basicInfo>
-        <div className="flex mb-2">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-            <MovieRatingStar
-              key={n}
-              color={n <= 3 ? 'blue' : 'grey'}
-              checked={n <= 3}
-            />
-          ))}
+      <MovieInfos movie={movie}>
+        <div className="flex mt-auto">
+          {Array.from({ length: 10 })
+            .map((_, index) => index + 1)
+            .map(n => (
+              <StarIcon key={`movie-review-star-${n}`} fill={n <= 3} />
+            ))}
         </div>
-      </MovieHeader>
+      </MovieInfos>
 
-      <ReviewText review={review} />
+      <div className="flex flex-col gap-2 mt-2">
+        <ReviewBody body={body} author={author} createdAt={createdAt} />
+
+        {/* {data && (
+          <div className="flex gap-2">
+            <LikeButton
+              rootId={reviewId}
+              likeCount={0}
+              hasLiked={likes.filter(usr => usr.id !== data.user.id).length > 0}
+            />
+
+            <CommentaryCount count={commentaryCount} />
+          </div>
+        )} */}
+      </div>
+
+      <CommentarySection postId={id} />
     </PageContent>
-
-    <CommentarySection postId={review.id} />
   </BackdropImage>
 );
 

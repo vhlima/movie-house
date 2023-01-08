@@ -1,18 +1,12 @@
-import { v4 as uuid } from 'uuid';
-
 import type { UserListCustom } from '../../../../graphql';
 
 import { useLogic } from './logic';
 
-import Link from '../../../../components/Link';
-
-import Button from '../../../../components/Button';
-
-import MovieCover from '../../../movies/components/Cover';
-
 import Typography from '../../../../components/Typography';
 
 import QueryState from '../../../../components/QueryState';
+
+import MovieCover from '../../../../components/movie/MovieCover';
 
 interface MoviesSectionProps {
   list: UserListCustom;
@@ -38,19 +32,14 @@ const MoviesSection: React.FC<MoviesSectionProps> = ({ list }) => {
       {list.body && <Typography component="p">{list.body}</Typography>}
 
       <QueryState loading={loading} error={error}>
-        <ul className="flex gap-2 flex-wrap mt-2">
+        <ul className="grid gap-2 my-4 grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
           {data &&
             data.userListCustomMovies.edges.map(({ node: { movie } }) => (
-              <li key={`movie-list-${movie.id}`}>
-                <Link
-                  href={{
-                    pathname: '/movies/[id]',
-                    query: { id: movie.id },
-                  }}
-                >
-                  <MovieCover coverUrl={movie.posterUrl} />
-                </Link>
-              </li>
+              <MovieCover
+                key={`movie-list-${movie.id}`}
+                movie={movie}
+                listItem
+              />
             ))}
         </ul>
 

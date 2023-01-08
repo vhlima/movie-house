@@ -4,13 +4,13 @@ import { useAuth } from '../../../../../hooks/useAuth';
 
 import { useProfile } from '../../hooks/useProfile';
 
+import type { UserListPreMadeMovie } from '../../../../../graphql';
+
 import { useFindUserFavoriteMoviesQuery } from '../../../../../graphql';
 
-import MovieCover from '../../../../movies/components/Cover';
+import MovieCover from '../../../../../components/movie/MovieCover';
 
 import Card from '../../../../../components/Card';
-
-import Link from '../../../../../components/Link';
 
 import EditFavoriteMoviesModal from './components/EditFavoriteModal';
 
@@ -26,6 +26,15 @@ const FavoriteMovies: React.FC = () => {
   const { data } = useFindUserFavoriteMoviesQuery({
     variables: { userId: user?.id },
   });
+
+  const favoriteMoviesFromQuery = data?.userFavoriteMovies || [];
+
+  const favoriteMovies = [
+    ...favoriteMoviesFromQuery,
+    ...Array.from({
+      length: 4 - favoriteMoviesFromQuery.length,
+    }).map(() => null),
+  ] as Array<UserListPreMadeMovie | null>;
 
   const { user: currentUser } = session || {};
 
@@ -46,36 +55,17 @@ const FavoriteMovies: React.FC = () => {
         }
         noPadding
       >
-        <ul className="flex gap-2">
-          {data &&
-            data.userFavoriteMovies.map(({ movie }) => (
-              <li
-                className="flex flex-col gap-2 flex-grow sm:flex-grow-0"
-                key={`favorite-movies-profile-${movie.id}`}
-              >
-                <Link
-                  href={{
-                    pathname: '/movies/[id]',
-                    query: { id: movie.id },
-                  }}
-                >
-                  <MovieCover coverUrl={movie.posterUrl} coverSize="auto" />
-                </Link>
-              </li>
-            ))}
-
-          {Array.from({
-            length: 4 - (!data ? 0 : data.userFavoriteMovies.length),
-          })
-            .map((_, index) => index + 1)
-            .map(n => (
-              <li
-                className="flex-grow sm:flex-grow-0"
-                key={`movie-cover-empty-${n}`}
-              >
-                <MovieCover coverSize="auto" />
-              </li>
-            ))}
+        <ul className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1 sm:gap-2 relative">
+          {favoriteMovies.map((favoriteMovie, index) => (
+            <MovieCover
+              key={
+                favoriteMovie
+                  ? `favorite-movie-profile-${favoriteMovie.movie.id}`
+                  : `favorite-movie-profile-null-${index}`
+              }
+              movie={favoriteMovie?.movie}
+            />
+          ))}
         </ul>
       </Card>
     </>

@@ -4,7 +4,7 @@ import Link from '../../../../../components/Link';
 
 import Card from '../../../../../components/Card';
 
-import MovieCover from '../../../components/Cover';
+import MovieCover from '../../../../../components/movie/MovieCover';
 
 import QueryState from '../../../../../components/QueryState';
 
@@ -15,7 +15,7 @@ const RecentReviews: React.FC = () => {
     <Card title="Just reviewed..." noPadding>
       <QueryState loading={loading} error={error}>
         {data && (
-          <ul className="grid grid-cols-4 gap-2 w-fit">
+          <ul className="grid grid-cols-4 sm:grid-cols-8 gap-2">
             {data.recentReviews.map(review => (
               <li key={`recent-review-${review.id}`}>
                 <Link
@@ -25,8 +25,10 @@ const RecentReviews: React.FC = () => {
                   }}
                 >
                   <MovieCover
-                    coverUrl={review.movie.posterUrl}
-                    coverSize="auto"
+                    movie={{
+                      originalTitle: review.movie.originalTitle,
+                      posterUrl: review.movie.posterUrl,
+                    }}
                   />
                 </Link>
               </li>
