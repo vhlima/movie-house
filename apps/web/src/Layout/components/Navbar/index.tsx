@@ -17,6 +17,7 @@ import NavigationMenu from './components/NavigationMenu';
 import SvgIcon from '../../../components/SvgIcon';
 
 import LoginModal from './components/LoginModal';
+import PageContent from '../../../components/PageContent';
 
 type NavWindowType = 'auth' | 'menu' | 'search' | 'notifications' | '';
 
@@ -40,7 +41,7 @@ const Navbar: React.FC = () => {
       )}
 
       <nav className="bg-grey-800">
-        <div className="flex items-center gap-2 p-3 relative mx-auto max-w-5xl">
+        <PageContent className="flex items-center gap-2 py-4 relative mx-auto max-w-5xl">
           <AnimatePresence>
             {data && currentWindow === 'notifications' && (
               <Notifications onClose={closeWindow} />
@@ -79,7 +80,7 @@ const Navbar: React.FC = () => {
               />
             </button>
           </div>
-        </div>
+        </PageContent>
       </nav>
     </>
   );
