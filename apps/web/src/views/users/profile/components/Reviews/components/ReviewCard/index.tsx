@@ -6,7 +6,7 @@ import { useProfile } from '../../../../hooks/useProfile';
 
 import Card from '../../../../../../../components/Card';
 
-import ReviewPreview from '../../../../../../../components/reviews/Preview';
+import ReviewPreview from '../../../../../../../components/review/ReviewPreview';
 
 interface ReviewCardProps extends CardProps {
   reviews?: Review[];

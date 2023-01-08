@@ -6,7 +6,7 @@ import Card from '../../../../../components/Card';
 
 import QueryState from '../../../../../components/QueryState';
 
-import ReviewPreview from '../../../../../components/reviews/Preview';
+import ReviewPreview from '../../../../../components/review/ReviewPreview';
 
 const PopularReviews: React.FC = () => {
   const { data, loading, error } = useFindPopularReviewsWeekQuery();

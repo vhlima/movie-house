@@ -8,7 +8,7 @@ import MovieCover from '../../movie/MovieCover';
 
 import MovieLink from '../../movie/MovieLink';
 
-import ReviewBody from '../../review/ReviewBody';
+import ReviewBody from '../ReviewBody';
 
 import StarIcon from '../../StarIcon';
 
