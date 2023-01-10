@@ -10,26 +10,14 @@ const Footer: React.FC = () => {
     <footer className="flex flex-col items-center gap-4 p-4 mt-8 bg-grey-800 text-grey-200">
       <div className="flex justify-center gap-2 font-semibold">
         <Link className={hoverStyle} href="/">
-          About
-        </Link>
-        <Link className={hoverStyle} href="/">
-          News
-        </Link>
-        <Link className={hoverStyle} href="/">
-          Help
-        </Link>
-        <Link className={hoverStyle} href="/">
-          Terms
-        </Link>
-        <Link className={hoverStyle} href="/">
           Contact
         </Link>
       </div>
 
       <Typography className="text-center" component="p" color="primary">
-        © Movie House 2022
+        © Movie House 2023
         <br />
-        Made by Victor Almeida
+        Made by Victor Hugo Lima
         <br />
         All film data comes from TMDb
       </Typography>
