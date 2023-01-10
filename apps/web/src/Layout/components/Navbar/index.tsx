@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
             <Logo showText />
           </Link>
 
-          <div className="flex items-center ml-auto text-grey-300">
+          <div className="flex items-center gap-2 ml-auto text-grey-300">
             {!data && (
               <button type="button" onClick={() => openWindow('auth')}>
                 <SvgIcon iconType="FaUserAlt" size={18} />

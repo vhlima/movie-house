@@ -33,13 +33,13 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
 
         <MenuItem itemProps={{ href: '/' }} text="Lists" icon="FaListUl" />
 
-        <MenuItem itemProps={{ href: '/' }} text="Members" icon="FaUsers" />
+        {/* <MenuItem itemProps={{ href: '/' }} text="Members" icon="FaUsers" /> */}
 
-        <MenuItem
+        {/* <MenuItem
           itemProps={{ href: '/' }}
           text="Journal"
           icon="IoIosJournal"
-        />
+        /> */}
 
         {data && (
           <MenuItem itemProps={{ onClick: signOut }} text="Logout" icon="FiX" />
