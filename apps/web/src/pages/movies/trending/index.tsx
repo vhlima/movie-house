@@ -1,5 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next';
 
+import { initializeApollo } from '../../../client';
+
 import type {
   FindTrendingMoviesQuery,
   FindTrendingMoviesQueryVariables,
@@ -9,12 +11,12 @@ import { FindTrendingMoviesDocument } from '../../../graphql';
 
 import MoviesTrendingView from '../../../views/movies/trending';
 
-import client from '../../../api';
-
 export const getStaticProps: GetStaticProps = async () => {
   const defaultProps = { props: {} };
 
-  const { data } = await client.query<
+  const apolloClient = initializeApollo();
+
+  const { data } = await apolloClient.query<
     FindTrendingMoviesQuery,
     FindTrendingMoviesQueryVariables
   >({

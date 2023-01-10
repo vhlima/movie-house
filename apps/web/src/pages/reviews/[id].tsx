@@ -10,11 +10,11 @@ import type {
 
 import { FindReviewDocument } from '../../graphql';
 
-import client from '../../api';
+import { initializeApollo } from '../../client';
 
 import MovieReviewView from '../../views/reviews/root';
 
-import MovieHeaderSkeleton from '../../views/movies/view/Header/Skeleton';
+import MovieInfosSkeleton from '../../components/movie/MovieInfos/Skeleton';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const defaultProps = { props: {} };
@@ -24,7 +24,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (!id && typeof id !== 'string') return defaultProps;
 
   try {
-    const { data } = await client.query<
+    const apolloClient = initializeApollo();
+
+    const { data } = await apolloClient.query<
       FindReviewQuery,
       FindReviewQueryVariables
     >({
@@ -55,7 +57,7 @@ const ReviewPage: NextPage<FindReviewQuery> = ({ review }) => {
   const { isFallback, push } = useRouter();
 
   if (isFallback) {
-    return <MovieHeaderSkeleton />;
+    return <MovieInfosSkeleton />;
   }
 
   if (!review) {

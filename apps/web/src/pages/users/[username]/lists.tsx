@@ -19,7 +19,7 @@ import {
   FindUserListCustomMoviesDocument,
 } from '../../../graphql';
 
-import client from '../../../api';
+import { initializeApollo } from '../../../client';
 
 import UserListsView from '../../../views/users/lists';
 
@@ -32,8 +32,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { username } = params;
 
   if (username && typeof username === 'string') {
+    const apolloClient = initializeApollo();
+
     // TODO maybe change that to just one query
-    const { data: userData, error: userError } = await client.query<
+    const { data: userData, error: userError } = await apolloClient.query<
       FindUserQuery,
       FindUserQueryVariables
     >({
@@ -41,13 +43,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       variables: { username },
     });
 
-    const { data: userListsData, error: userListsError } = await client.query<
-      FindUserListsFullQuery,
-      FindUserListsFullQueryVariables
-    >({
-      query: FindUserListsFullDocument,
-      variables: { userId: userData.user.id },
-    });
+    const { data: userListsData, error: userListsError } =
+      await apolloClient.query<
+        FindUserListsFullQuery,
+        FindUserListsFullQueryVariables
+      >({
+        query: FindUserListsFullDocument,
+        variables: { userId: userData.user.id },
+      });
 
     if (userData && !userError && userListsData && !userListsError) {
       return {

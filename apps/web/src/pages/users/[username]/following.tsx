@@ -4,7 +4,7 @@ import type { FindUserQuery, FindUserQueryVariables } from '../../../graphql';
 
 import { FindUserDocument } from '../../../graphql';
 
-import client from '../../../api';
+import { initializeApollo } from '../../../client';
 
 import Card from '../../../components/Card';
 
@@ -18,7 +18,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   if (!username || typeof username !== 'string') return defaultProps;
 
   try {
-    const { data } = await client.query<FindUserQuery, FindUserQueryVariables>({
+    const apolloClient = initializeApollo();
+
+    const { data } = await apolloClient.query<
+      FindUserQuery,
+      FindUserQueryVariables
+    >({
       query: FindUserDocument,
       variables: { username },
     });

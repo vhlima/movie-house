@@ -8,9 +8,9 @@ import type {
 
 import { FindFullMovieDocument } from '../../graphql';
 
-import MovieView from '../../views/movies/root';
+import { initializeApollo } from '../../client';
 
-import client from '../../api';
+import MovieView from '../../views/movies/root';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const defaultProps = { props: { movie: null, credits: null } };
@@ -23,7 +23,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   if (typeof movieId !== 'number') return defaultProps;
 
-  const { data } = await client.query<
+  const apolloClient = initializeApollo();
+
+  const { data } = await apolloClient.query<
     FindFullMovieQuery,
     FindFullMovieQueryVariables
   >({

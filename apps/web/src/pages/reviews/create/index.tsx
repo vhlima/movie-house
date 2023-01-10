@@ -10,9 +10,9 @@ import { FindMovieDocument } from '../../../graphql';
 
 import { CreateReviewProvider } from '../../../views/reviews/create/hooks/useReviewCreate';
 
-import CreateReviewView from '../../../views/reviews/create';
+import { initializeApollo } from '../../../client';
 
-import client from '../../../api';
+import CreateReviewView from '../../../views/reviews/create';
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const defaultProps = { props: { movie: null } };
@@ -26,7 +26,12 @@ export const getServerSideProps: GetServerSideProps = async context => {
   // TODO change that to number
   if (!movieId || typeof movieId !== 'string') return defaultProps;
 
-  const { data } = await client.query<FindMovieQuery, FindMovieQueryVariables>({
+  const apolloClient = initializeApollo();
+
+  const { data } = await apolloClient.query<
+    FindMovieQuery,
+    FindMovieQueryVariables
+  >({
     query: FindMovieDocument,
     variables: { movieId: parseInt(movieId, 10) },
   });
