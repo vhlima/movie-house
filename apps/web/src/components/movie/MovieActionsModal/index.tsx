@@ -66,13 +66,7 @@ const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
 
     default: {
       return (
-        <Modal
-          bottom
-          backdrop
-          showX={false}
-          animation={modalBottom}
-          onClose={onClose}
-        >
+        <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
           <div className="flex flex-col gap-4 mx-auto lg:w-fit lg:">
             <ActionButtons
               movieId={movie.id}

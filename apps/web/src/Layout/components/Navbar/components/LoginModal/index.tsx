@@ -7,6 +7,7 @@ import Button from '../../../../../components/Button';
 import Modal from '../../../../../components/Modal';
 
 import Typography from '../../../../../components/Typography';
+import SvgIcon from '../../../../../components/SvgIcon';
 
 type LoginModalProps = ModalHandles;
 
@@ -30,13 +31,35 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
           </>
         ) : (
           <>
-            <Typography component="h1">
-              Please, click the button below to sign in
-            </Typography>
+            <Modal.Header>
+              <Modal.Title text="Sign in" />
 
-            <Button buttonStyle="primary" onClick={() => signIn()}>
-              Sign In using GitHub
-            </Button>
+              <Typography component="h2">
+                Choose your preferable way to sign in.
+              </Typography>
+
+              <Modal.CloseButton onClose={onClose} />
+            </Modal.Header>
+
+            <div className="flex gap-2">
+              <Button
+                className="flex gap-2"
+                buttonStyle="secondary"
+                onClick={() => signIn()}
+              >
+                <SvgIcon className="flex-shrink-0" iconType="FaUserAlt" />
+                Sign in with GitHub
+              </Button>
+
+              <Button
+                className="flex gap-2"
+                buttonStyle="secondary"
+                onClick={() => signIn()}
+              >
+                <SvgIcon className="flex-shrink-0" iconType="FaUserAlt" />
+                Sign in using test account
+              </Button>
+            </div>
           </>
         )}
       </div>

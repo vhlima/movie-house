@@ -7,15 +7,15 @@ import type {
   CreateMovieListModalLogicHandles,
 } from './types';
 
-import type {
-  FindUserListsQuery,
-  FindUserListsQueryVariables,
-} from '../../../../../../../graphql';
+// import type {
+//   FindUserListsQuery,
+//   FindUserListsQueryVariables,
+// } from '../../../../../../../graphql';
 
-import {
-  FindUserListsDocument,
-  useCreateUserListMutation,
-} from '../../../../../../../graphql';
+// import {
+//   FindUserListsDocument,
+//   useCreateUserListMutation,
+// } from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 
@@ -24,32 +24,30 @@ export const useLogic = ({
 }: CreateMovieListModalLogicProps): CreateMovieListModalLogicHandles => {
   const { data: session } = useAuth();
 
-  const [createUserList, createUserListResult] = useCreateUserListMutation();
+  // const [createUserList, createUserListResult] = useCreateUserListMutation();
 
   const handleSubmit: SubmitHandles = async ({ listName, description }) => {
-    const { errors } = await createUserList({
-      variables: {
-        name: listName,
-        body: description || '',
-      },
-      update: (cache, { data }) => {
-        if (!data) return;
-
-        cache.updateQuery<FindUserListsQuery, FindUserListsQueryVariables>(
-          {
-            query: FindUserListsDocument,
-            variables: { userId: session.user.id },
-          },
-          cacheData => ({
-            userLists: [...(cacheData?.userLists || []), data.createUserList],
-          }),
-        );
-      },
-    });
-
-    if (!errors) {
-      onClose();
-    }
+    // const { errors } = await createUserList({
+    //   variables: {
+    //     name: listName,
+    //     body: description || '',
+    //   },
+    //   update: (cache, { data }) => {
+    //     if (!data) return;
+    //     cache.updateQuery<FindUserListsQuery, FindUserListsQueryVariables>(
+    //       {
+    //         query: FindUserListsDocument,
+    //         variables: { userId: session.user.id },
+    //       },
+    //       cacheData => ({
+    //         userLists: [...(cacheData?.userLists || []), data.createUserList],
+    //       }),
+    //     );
+    //   },
+    // });
+    // if (!errors) {
+    //   onClose();
+    // }
   };
 
   const validationSchema: ValidationSchemaType = Yup.object().shape({
@@ -60,7 +58,7 @@ export const useLogic = ({
   });
 
   return {
-    createUserListResult,
+    createUserListResult: undefined,
 
     validationSchema,
 

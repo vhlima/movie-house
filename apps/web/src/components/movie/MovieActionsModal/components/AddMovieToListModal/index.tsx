@@ -48,7 +48,6 @@ const AddMovieToListModal: React.FC<AddMovieToListModalProps> = ({
       className="overflow-hidden"
       center
       backdrop
-      showX={false}
       autoStyle={false}
       onClose={onClose}
     >

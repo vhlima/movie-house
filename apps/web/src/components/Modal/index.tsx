@@ -8,9 +8,13 @@ import { motion } from 'framer-motion';
 
 import type { MotionProps } from 'framer-motion';
 
-import SvgIcon from '../SvgIcon';
-
 import Backdrop from '../Backdrop';
+
+import ModalHeader from './components/ModalHeader';
+
+import ModalTitle from './components/ModalTitle';
+
+import ModalCloseButton from './components/ModalCloseButton';
 
 export interface ModalProps {
   animation?: MotionProps;
@@ -27,18 +31,23 @@ interface ModalInternalProps extends ModalProps, Partial<ModalHandles> {
   bottom?: boolean;
   backdrop?: boolean;
   autoStyle?: boolean;
-  showX?: boolean;
+}
+
+interface ModalSubComponents {
+  Header: typeof ModalHeader;
+  Title: typeof ModalTitle;
+  CloseButton: typeof ModalCloseButton;
 }
 
 const PORTAL_ID = 'modalPortal';
 
-const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
+const Modal: React.FC<PropsWithChildren<ModalInternalProps>> &
+  ModalSubComponents = ({
   className,
   animation,
   center,
   bottom,
   backdrop,
-  showX = true,
   autoStyle = true,
   onClose,
   children,
@@ -55,12 +64,6 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
       onClick={e => e.stopPropagation()}
       {...animation}
     >
-      {showX && (
-        <button className="absolute right-4" type="button" onClick={onClose}>
-          <SvgIcon className="text-danger-light" iconType="FiX" size={28} />
-        </button>
-      )}
-
       {children}
     </motion.div>
   );
@@ -76,5 +79,11 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
     document.getElementById(PORTAL_ID) || document.body,
   );
 };
+
+Modal.Header = ModalHeader;
+
+Modal.Title = ModalTitle;
+
+Modal.CloseButton = ModalCloseButton;
 
 export default Modal;
