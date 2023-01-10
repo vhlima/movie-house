@@ -13,11 +13,12 @@ const PopularMovies: React.FC = () => {
 
   return (
     <Card
+      className="mb-16"
       title="Popular movies this week"
       link={{ href: '/movies/trending' }}
       noPadding
     >
-      <ul className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-16">
+      <ul className="grid grid-cols-3 sm:grid-cols-6 gap-2">
         {data &&
           data.trendingMovies.results.slice(0, 6).map(movie => (
             <MovieCover
