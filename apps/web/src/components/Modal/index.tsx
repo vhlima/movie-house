@@ -8,8 +8,6 @@ import { motion } from 'framer-motion';
 
 import type { MotionProps } from 'framer-motion';
 
-import Backdrop from '../Backdrop';
-
 import ModalHeader from './components/ModalHeader';
 
 import ModalTitle from './components/ModalTitle';
@@ -71,7 +69,13 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> &
   const modal = !backdrop ? (
     body
   ) : (
-    <Backdrop onClick={onClose}>{body}</Backdrop>
+    <div
+      className="absolute w-screen h-screen overflow-hidden bg-black bg-opacity-50 z-40"
+      role="presentation"
+      onClick={onClose}
+    >
+      {body}
+    </div>
   );
 
   return createPortal(
