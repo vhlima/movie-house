@@ -1,120 +1,68 @@
 import 'reflect-metadata';
 
-import dotenv from 'dotenv';
+import express from 'express';
 
-/* eslint-disable import/first */
-dotenv.config();
+import cors from 'cors';
 
-import path from 'path';
+import http from 'http';
 
-import { ApolloError, ApolloServer } from 'apollo-server';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
-import { buildSchema } from 'type-graphql';
+import { expressMiddleware } from '@apollo/server/express4';
 
-import { GraphQLError } from 'graphql';
+import { ApolloServer } from '@apollo/server';
 
-import {
-  UserResolver,
-  MovieResolver,
-  ReviewResolver,
-  ProfileResolver,
-  FollowResolver,
-  LikeResolver,
-  CommentaryResolver,
-  ReplyResolver,
-  MovieRateResolver,
-} from './resolvers';
+import { json } from 'body-parser';
 
-import { TmdbAPI, GithubAPI } from './api';
-
-import { UserRepository } from './repositories';
+import { context } from './server/context';
+import { formatError } from './server/formatError';
+import { buildSchema } from './server/buildSchema';
 
 import { connectDatabase } from './database';
-import UserListCustomResolver from './resolvers/user-list-custom.resolver';
-import UserListPreMadeResolver from './resolvers/user-list-premade.resolver';
 
 const main = async () => {
-  const schema = await buildSchema({
-    resolvers: [
-      UserResolver,
-      MovieResolver,
-      ReviewResolver,
-      ProfileResolver,
-      FollowResolver,
-      LikeResolver,
-      CommentaryResolver,
-      ReplyResolver,
-      MovieRateResolver,
-      UserListCustomResolver,
-      UserListPreMadeResolver,
-    ],
-    // resolvers: [path.resolve(__dirname, 'src/resolvers/*.ts')],
-    emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
-  });
+  const app = express();
+
+  const httpServer = http.createServer(app);
+
+  const schema = await buildSchema();
 
   const server = new ApolloServer({
     schema,
-    dataSources: () => ({
-      tmdb: new TmdbAPI(),
-      github: new GithubAPI(),
-    }),
-    formatError: (error: GraphQLError) => {
-      if (error.originalError instanceof ApolloError) {
-        return error;
-      }
-
-      if (error instanceof GraphQLError) {
-        return error;
-      }
-
-      const now = Date.now();
-
-      console.log(`Unexpected error occurred: ${now}`);
-      console.error(error);
-
-      return new GraphQLError(`Internal server error: ${now}`);
-    },
-    context: async ({ req }) => {
-      // Note: This example uses the `req` argument to access headers,
-      // but the arguments received by `context` vary by integration.
-
-      // This means they vary for Express, Koa, Lambda, etc.
-
-      // To find out the correct arguments for a specific integration,
-      // see https://www.apollographql.com/docs/apollo-server/api/apollo-server/#middleware-specific-context-fields
-
-      // Get the user token from the headers.
-
-      const defaultProps = { user: null };
-
-      const token = req.headers.authorization || '';
-
-      if (!token) {
-        return defaultProps;
-      }
-
-      // Try to retrieve a user with the token
-
-      try {
-        console.log(`run context`);
-
-        const user = await UserRepository.findOne({
-          where: { username: 'vtr' },
-        });
-
-        console.log(`end context`);
-        return { user };
-      } catch (error) {
-        return defaultProps;
-      }
-    },
+    formatError,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
-  const { url } = await server.listen();
+  try {
+    await connectDatabase();
 
-  await connectDatabase();
+    await server.start();
 
-  console.log(`[Movie House] Server running on ${url}`);
+    app.use(
+      cors<cors.CorsRequest>({
+        origin: [
+          'http://localhost:3000',
+          'http://127.0.0.1:3000',
+          'https://studio.apollographql.com',
+        ],
+        credentials: true,
+      }),
+      json(),
+
+      expressMiddleware(server, {
+        context,
+      }),
+    );
+
+    /* eslint-disable no-promise-executor-return */
+    await new Promise<void>(resolve =>
+      httpServer.listen({ port: 4000 }, resolve),
+    );
+
+    console.log(`[Movie House] 🚀 Server running on URL`);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 main();

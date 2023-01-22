@@ -1,9 +1,7 @@
-import { ApolloError } from 'apollo-server';
+import Error from './Error';
 
-export default class NotFoundError extends ApolloError {
+export default class NotFoundError extends Error {
   constructor(message: string) {
-    super(message, '404');
-
-    Object.defineProperty(this, 'name', { value: 'NotFound' });
+    super('NotFound', message, '404');
   }
 }

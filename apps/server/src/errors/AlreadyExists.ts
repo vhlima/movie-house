@@ -1,9 +1,7 @@
-import { ApolloError } from 'apollo-server';
+import Error from './Error';
 
-export default class AlreadyExistsError extends ApolloError {
+export default class AlreadyExistsError extends Error {
   constructor(message: string) {
-    super(message, '409');
-
-    Object.defineProperty(this, 'name', { value: 'UserNotFound' });
+    super('UserNotFound', message, '409');
   }
 }

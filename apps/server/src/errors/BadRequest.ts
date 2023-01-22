@@ -1,9 +1,7 @@
-import { ApolloError } from 'apollo-server';
+import Error from './Error';
 
-export default class BadRequestError extends ApolloError {
+export default class BadRequestError extends Error {
   constructor(message: string) {
-    super(message, '400');
-
-    Object.defineProperty(this, 'name', { value: 'BadRequestError' });
+    super('BadRequestError', message, '400');
   }
 }

@@ -1,9 +1,7 @@
-import { ApolloError } from 'apollo-server';
+import Error from './Error';
 
-export default class AuthorizationError extends ApolloError {
+export default class AuthorizationError extends Error {
   constructor() {
-    super('You dont have permission to do that', '403');
-
-    Object.defineProperty(this, 'name', { value: 'AuthorizationError' });
+    super('AuthorizationError', 'You dont have permission to do that', '403');
   }
 }
