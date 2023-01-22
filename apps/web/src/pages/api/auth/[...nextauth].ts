@@ -33,60 +33,59 @@ export default NextAuth({
   ],
   callbacks: {
     jwt: async ({ token, account }) => {
-      // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
-        const apolloClient = initializeApollo();
-
-        const { data } = await apolloClient.query<
-          FindUserByProviderQuery,
-          FindUserByProviderQueryVariables
-        >({
-          query: FindUserByProviderDocument,
-          variables: {
-            provider: 'github',
+        return {
+          user: {
             providerId: account.providerAccountId,
           },
-        });
-
-        if (!data) {
-          return token;
-        }
-
-        const userData = data.userByProvider;
-
-        const updatedToken = { ...token };
-
-        updatedToken.id = userData.id;
-        updatedToken.username = userData.username;
-        updatedToken.realName = userData.realName;
-        updatedToken.profilePictureUrl = userData.profilePictureUrl;
-
-        return updatedToken;
+        };
       }
 
       return token;
     },
-    session: async ({ session, token }) => ({
-      ...session,
-      user: {
-        id: token.id,
-        username: token.username,
-        profilePictureUrl: token.profilePictureUrl,
-        realName: token.realName,
-      },
-    }),
-    signIn: async ({ user }) => {
+    session: async ({ token, session }) => {
       const apolloClient = initializeApollo();
 
-      await apolloClient.mutate<
-        UserRegisterMutation,
-        UserRegisterMutationVariables
+      const { data: userData } = await apolloClient.query<
+        FindUserByProviderQuery,
+        FindUserByProviderQueryVariables
       >({
-        mutation: UserRegisterDocument,
-        variables: { githubId: parseInt(user.id, 10) },
+        query: FindUserByProviderDocument,
+        variables: {
+          provider: 'github',
+          providerId: token.user.providerId,
+        },
       });
 
-      return true;
+      if (!userData) {
+        return null;
+      }
+
+      const { __typename, ...user } = userData.userByProvider;
+
+      return {
+        ...session,
+        user,
+      };
+    },
+    signIn: async ({ account, user }) => {
+      if (!user) return false;
+
+      const apolloClient = initializeApollo();
+
+      try {
+        await apolloClient.mutate<
+          UserRegisterMutation,
+          UserRegisterMutationVariables
+        >({
+          mutation: UserRegisterDocument,
+          variables: { githubId: parseInt(account.providerAccountId, 10) },
+        });
+
+        return true;
+      } catch (err) {
+        return false;
+      }
     },
   },
 });
