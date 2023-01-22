@@ -4,15 +4,18 @@ import { useAuth } from '../../../../../hooks/useAuth';
 
 import { useProfile } from '../../hooks/useProfile';
 
-import type { UserListPreMadeMovie } from '../../../../../graphql';
-
-import { useFindUserFavoriteMoviesQuery } from '../../../../../graphql';
-
-import MovieCover from '../../../../../components/movie/MovieCover';
+import {
+  LimitType,
+  PreMadeListType,
+  useFindLimitQuery,
+  useFindUserPreMadeListMoviesQuery,
+} from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 
 import EditFavoriteMoviesModal from './components/EditFavoriteModal';
+
+import MovieCoverList from '../../../../../components/movie/MovieCoverList';
 
 const FavoriteMovies: React.FC = () => {
   const { data: session } = useAuth();
@@ -23,20 +26,17 @@ const FavoriteMovies: React.FC = () => {
   const [isEditing, setEditing] = useState<boolean>(false);
 
   /* Fetch user's favorite movies */
-  const { data } = useFindUserFavoriteMoviesQuery({
-    variables: { userId: user?.id },
+  const { data: listMoviesData } = useFindUserPreMadeListMoviesQuery({
+    variables: { userId: user.id, listType: PreMadeListType.Favorite },
   });
 
-  const favoriteMoviesFromQuery = data?.userFavoriteMovies || [];
+  /* Fetch limit for favorite movies */
+  const { data: limitData } = useFindLimitQuery({
+    variables: { limitType: LimitType.MaxFavoriteMovies },
+  });
 
-  const favoriteMovies = [
-    ...favoriteMoviesFromQuery,
-    ...Array.from({
-      length: 4 - favoriteMoviesFromQuery.length,
-    }).map(() => null),
-  ] as Array<UserListPreMadeMovie | null>;
-
-  const { user: currentUser } = session || {};
+  /* Used to display Pencil icon on card */
+  const isSameUserAsProfile = session && session.user.id === user?.id;
 
   return (
     <>
@@ -47,26 +47,28 @@ const FavoriteMovies: React.FC = () => {
       <Card
         title="Favorite movies"
         rightIcon={
-          currentUser &&
-          currentUser.id === user?.id && {
+          isSameUserAsProfile && {
             iconType: 'FaPencilAlt',
             onClick: () => setEditing(true),
           }
         }
         noPadding
       >
-        <ul className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1 sm:gap-2 relative">
-          {favoriteMovies.map((favoriteMovie, index) => (
-            <MovieCover
-              key={
-                favoriteMovie
-                  ? `favorite-movie-profile-${favoriteMovie.movie.id}`
-                  : `favorite-movie-profile-null-${index}`
-              }
-              movie={favoriteMovie?.movie}
-            />
-          ))}
-        </ul>
+        {limitData && listMoviesData && (
+          <MovieCoverList
+            className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1 sm:gap-2"
+            name="favorite-movie-profile"
+            empty={
+              limitData.limit.limit -
+              listMoviesData.userPreMadeListMovies.length
+            }
+            movies={listMoviesData.userPreMadeListMovies.map(({ movie }) => ({
+              id: movie.id,
+              originalTitle: movie.originalTitle,
+              posterUrl: movie.posterUrl,
+            }))}
+          />
+        )}
       </Card>
     </>
   );

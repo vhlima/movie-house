@@ -1,18 +1,21 @@
 import { useApolloClient } from '@apollo/client';
 
 import type {
-  FindUserFavoriteMoviesQuery,
-  FindUserFavoriteMoviesQueryVariables,
+  FindUserPreMadeListMoviesQuery,
+  FindUserPreMadeListMoviesQueryVariables,
 } from '../../../../../../../../graphql';
 
-import { FindUserFavoriteMoviesDocument } from '../../../../../../../../graphql';
+import {
+  PreMadeListType,
+  FindUserPreMadeListMoviesDocument,
+} from '../../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../../hooks/useAuth';
 
 type UpdateCacheHandles = (
   updateFn: (
-    cacheData?: FindUserFavoriteMoviesQuery,
-  ) => FindUserFavoriteMoviesQuery,
+    cacheData?: FindUserPreMadeListMoviesQuery,
+  ) => FindUserPreMadeListMoviesQuery,
 ) => void;
 
 interface FavoriteMoviesCacheHandles {
@@ -26,16 +29,17 @@ export const useFavoriteMoviesCache = (): FavoriteMoviesCacheHandles => {
 
   const updateCache: UpdateCacheHandles = updateFn => {
     cache.updateQuery<
-      FindUserFavoriteMoviesQuery,
-      FindUserFavoriteMoviesQueryVariables
+      FindUserPreMadeListMoviesQuery,
+      FindUserPreMadeListMoviesQueryVariables
     >(
       {
-        query: FindUserFavoriteMoviesDocument,
+        query: FindUserPreMadeListMoviesDocument,
         variables: {
           userId: data.user.id,
+          listType: PreMadeListType.Favorite,
         },
       },
-      updateFn,
+      cacheData => (!cacheData ? cacheData : updateFn(cacheData)),
     );
   };
 

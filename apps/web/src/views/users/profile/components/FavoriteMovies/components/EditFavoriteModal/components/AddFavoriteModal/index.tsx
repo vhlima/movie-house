@@ -9,14 +9,14 @@ type AddFavoriteMovieModalProps = ModalHandles;
 const AddFavoriteMovieModal: React.FC<AddFavoriteMovieModalProps> = ({
   onClose,
 }) => {
-  const { error, resetMutation, handleAdd } = useLogic({ onClose });
+  const { error, resetMutation, handleAddMovie } = useLogic({ onClose });
 
   return (
     <MovieSearchModal
       title="Pick a favorite movie"
-      description="Select one of your favorite movies to display on your profile"
+      description="Search one of your favorite movies to display on your profile."
       errors={error && [error.message]}
-      onSelect={movie => handleAdd(movie.id)}
+      onSelect={movie => handleAddMovie(movie.id)}
       onFocus={() => resetMutation()}
       onClose={onClose}
     />

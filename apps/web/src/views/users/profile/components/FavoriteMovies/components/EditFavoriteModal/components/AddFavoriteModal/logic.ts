@@ -1,50 +1,37 @@
-import { ApolloError } from '@apollo/client';
-
 import type { ModalHandles } from '../../../../../../../../../components/Modal';
 
 import {
-  UserListType,
-  useAddMovieToPremadeListMutation,
+  PreMadeListType,
+  useAddMovieToPreMadeListMutation,
 } from '../../../../../../../../../graphql';
 
 import { useFavoriteMoviesCache } from '../../hooks/useFavoriteMoviesCache';
 
 type AddFavoriteMovieModalLogicProps = ModalHandles;
 
-type HandleAdd = (movieId: number) => Promise<void>;
-
-interface AddFavoriteMovieModalLogicHandles {
-  error: ApolloError;
-  resetMutation: () => void;
-
-  handleAdd: HandleAdd;
-}
-
-export const useLogic = ({
-  onClose,
-}: AddFavoriteMovieModalLogicProps): AddFavoriteMovieModalLogicHandles => {
+export const useLogic = ({ onClose }: AddFavoriteMovieModalLogicProps) => {
   const { updateCache } = useFavoriteMoviesCache();
 
   const [addFavoriteMovie, { loading, error, reset }] =
-    useAddMovieToPremadeListMutation({
+    useAddMovieToPreMadeListMutation({
       errorPolicy: 'all',
       update: (cache, { data }) => {
         if (!data) return;
 
         updateCache(cacheData => ({
-          userFavoriteMovies: [
-            ...(cacheData?.userFavoriteMovies || []),
-            data.addMovieToUserList as any,
+          userPreMadeListMovies: [
+            ...cacheData.userPreMadeListMovies,
+            data.userPreMadeListAddMovie,
           ],
         }));
       },
     });
 
-  const handleAdd: HandleAdd = async movieId => {
+  const handleAddMovie = async (movieId: number) => {
     if (loading) return;
 
     const { data, errors } = await addFavoriteMovie({
-      variables: { movieId, listType: UserListType.Favorite },
+      variables: { movieId, listType: PreMadeListType.Favorite },
     });
 
     if (!errors && data) {
@@ -56,6 +43,6 @@ export const useLogic = ({
     error,
     resetMutation: reset,
 
-    handleAdd,
+    handleAddMovie,
   };
 };

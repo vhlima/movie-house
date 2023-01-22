@@ -1,6 +1,8 @@
+import clsx from 'clsx';
+
 import { useState } from 'react';
 
-import type { Movie } from '../../../../../../../graphql';
+import { LimitType, useFindLimitQuery } from '../../../../../../../graphql';
 
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
@@ -8,12 +10,13 @@ import { useLogic } from './logic';
 
 import Modal from '../../../../../../../components/Modal';
 
-import QueryState from '../../../../../../../components/QueryState';
-
-import MovieCardsEditable from '../../../MovieCardsEditable';
-
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
+
 import Typography from '../../../../../../../components/Typography';
+
+import SvgIcon from '../../../../../../../components/SvgIcon';
+
+import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
 
 type EditFavoriteMoviesModalProps = ModalHandles;
 
@@ -21,9 +24,13 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
   onClose,
 }) => {
   const {
-    favoriteMoviesResult: { data, error },
-    handleRemove,
+    favoriteMoviesResult: { data: favoriteMoviesData },
+    handleRemoveMovie,
   } = useLogic();
+
+  const { data: limitData } = useFindLimitQuery({
+    variables: { limitType: LimitType.MaxFavoriteMovies },
+  });
 
   /* Controls whether add favorite modal is shown or not */
   const [isAdding, setAdding] = useState<boolean>(false);
@@ -34,12 +41,51 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
 
   return (
     <Modal center backdrop onClose={onClose}>
-      <Typography className="mb-2" component="h1" size="lg">
-        Edit your favorite movies
-      </Typography>
+      <Modal.Header>
+        <Modal.Title text="Edit favorite movies" />
 
-      <QueryState loading={false} error={error}>
-        {data && (
+        <Typography component="h2">
+          Select wich movies you want to be displayed in your profile.
+        </Typography>
+
+        <Modal.CloseButton onClose={onClose} />
+      </Modal.Header>
+
+      {favoriteMoviesData && limitData && (
+        <MovieCoverList
+          className="grid-cols-4"
+          name="favorite-movies-modal"
+          empty={
+            limitData.limit.limit -
+            favoriteMoviesData.userPreMadeListMovies.length
+          }
+          movies={favoriteMoviesData.userPreMadeListMovies.map(({ movie }) => ({
+            id: movie.id,
+            originalTitle: movie.originalTitle,
+            posterUrl: movie.posterUrl,
+          }))}
+          renderCover={(index, movie) =>
+            !movie && {
+              className: clsx({
+                'hover:border-movieHouse-mid': index === 0,
+              }),
+              children: (
+                <button
+                  className="flex items-center justify-center w-full h-full"
+                  type="button"
+                  onClick={() => setAdding(true)}
+                >
+                  {index === 0 && (
+                    <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
+                  )}
+                </button>
+              ),
+            }
+          }
+        />
+      )}
+
+      {/* {data && (
           <MovieCardsEditable
             maxMovies={4}
             movies={
@@ -50,8 +96,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
             onAdd={() => setAdding(true)}
             onRemove={handleRemove}
           />
-        )}
-      </QueryState>
+        )} */}
     </Modal>
   );
 };
