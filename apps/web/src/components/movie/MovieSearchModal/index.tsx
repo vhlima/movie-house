@@ -14,12 +14,19 @@ import Button from '../../Button';
 
 import Typography from '../../Typography';
 
+export type MovieSearchResult = {
+  id: Movie['id'];
+  posterUrl: Movie['posterUrl'];
+  originalTitle: Movie['originalTitle'];
+  releaseDate?: Movie['releaseDate'];
+};
+
 interface MovieSearchModalProps extends ModalHandles {
   title: string;
   description?: string;
   errors?: string[];
   onFocus?: () => void;
-  onSelect: (movie: Movie) => void;
+  onSelect: (movie: MovieSearchResult) => void;
 }
 
 const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
@@ -41,16 +48,18 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
 
   return (
     <Modal center backdrop onClose={onClose}>
-      <div className="mb-4">
-        <h1 className="text-grey-100 text-lg">{title}</h1>
+      <Modal.Header>
+        <Modal.Title text={title} />
 
-        {description && <p className="text-grey-200">{description}</p>}
-      </div>
+        {description && <Typography component="h2">{description}</Typography>}
+
+        <Modal.CloseButton onClose={onClose} />
+      </Modal.Header>
 
       <Input
         name="searchMovie"
         inputStyle="secondary"
-        label={{ text: "Enter the movie's name", htmlFor: true }}
+        label={{ text: 'Search for a movie', htmlFor: true }}
         onFocus={onFocus}
         onChange={e => {
           setSearchTerm(e.target.value);

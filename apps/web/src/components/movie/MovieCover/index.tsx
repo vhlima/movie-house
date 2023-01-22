@@ -40,7 +40,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
 
   const imageJsx = (
     <>
-      {movie ? (
+      {movie && (
         <Image
           title={movie.originalTitle}
           layout="responsive"
@@ -49,11 +49,9 @@ const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
           src={movie.posterUrl}
           alt={movie.originalTitle}
         />
-      ) : (
-        <span className="text-3xl">?</span>
       )}
 
-      {children}
+      {!children && !movie ? <span className="text-3xl">?</span> : children}
     </>
   );
 

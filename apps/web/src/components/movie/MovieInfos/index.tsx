@@ -2,12 +2,23 @@ import { parseISO } from 'date-fns';
 
 import type { PropsWithChildren } from 'react';
 
-import type { Movie } from '../../../graphql';
+import type { Movie, Crew } from '../../../graphql';
 
 import MovieCover from '../MovieCover';
 
 interface MovieInfosProps {
-  movie: Movie;
+  movie: {
+    originalTitle: Movie['originalTitle'];
+    posterUrl: Movie['posterUrl'];
+    runtime: Movie['runtime'];
+    releaseDate?: Movie['releaseDate'];
+    credits: {
+      crew: Array<{
+        originalName: Crew['originalName'];
+        department: Crew['department'];
+      }>;
+    };
+  };
 }
 
 const MovieInfos: React.FC<PropsWithChildren<MovieInfosProps>> = ({
