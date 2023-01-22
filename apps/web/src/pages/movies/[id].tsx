@@ -1,47 +1,48 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
+import { useRouter } from 'next/router';
+
+import * as Yup from 'yup';
+
 import type {
-  Movie,
   FindFullMovieQuery,
   FindFullMovieQueryVariables,
 } from '../../graphql';
 
 import { FindFullMovieDocument } from '../../graphql';
 
-import { initializeApollo } from '../../client';
+import { addApolloState, initializeApollo } from '../../client';
 
 import MovieView from '../../views/movies/root';
 
+import MovieInfosSkeleton from '../../components/movie/MovieInfos/Skeleton';
+
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const defaultProps = { props: { movie: null, credits: null } };
-
-  const { id } = params;
-
-  if (!id && typeof id !== 'string') return defaultProps;
-
-  const movieId = parseInt(id as string, 10);
-
-  if (typeof movieId !== 'number') return defaultProps;
-
-  const apolloClient = initializeApollo();
-
-  const { data } = await apolloClient.query<
-    FindFullMovieQuery,
-    FindFullMovieQueryVariables
-  >({
-    query: FindFullMovieDocument,
-    variables: { movieId },
+  const requestValidationSchema = Yup.object().shape({
+    id: Yup.number().required(),
   });
 
-  // TODO if dont find movie return 404
+  try {
+    const { id } = await requestValidationSchema.validate(params);
 
-  return {
-    props: {
-      movie: data.movie,
-    },
-  };
+    const apolloClient = initializeApollo();
 
-  return defaultProps;
+    const { data: movieData } = await apolloClient.query<
+      FindFullMovieQuery,
+      FindFullMovieQueryVariables
+    >({
+      query: FindFullMovieDocument,
+      variables: { movieId: id },
+    });
+
+    return addApolloState(apolloClient, {
+      props: {
+        ...movieData,
+      },
+    });
+  } catch (err) {
+    return { notFound: true };
+  }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => ({
@@ -49,8 +50,14 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const MoviePage: NextPage<FindFullMovieQuery> = ({ movie }) => (
-  <MovieView movie={movie as Movie} />
-);
+const MoviePage: NextPage<FindFullMovieQuery> = ({ movie }) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <MovieInfosSkeleton />;
+  }
+
+  return <MovieView movieId={movie.id} />;
+};
 
 export default MoviePage;

@@ -1,41 +1,34 @@
-import type { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 
-import { useRouter } from 'next/router';
+import * as Yup from 'yup';
 
 import type {
-  User,
-  UserListCustom,
-  FindUserListsFullQuery,
-  FindUserListsFullQueryVariables,
+  FindUserListsQuery,
+  FindUserListsQueryVariables,
   FindUserQuery,
   FindUserQueryVariables,
-  FindUserListCustomMoviesQuery,
-  FindUserListCustomMoviesQueryVariables,
 } from '../../../graphql';
 
-import {
-  FindUserDocument,
-  FindUserListsFullDocument,
-  FindUserListCustomMoviesDocument,
-} from '../../../graphql';
+import { FindUserDocument, FindUserListsDocument } from '../../../graphql';
 
-import { initializeApollo } from '../../../client';
+import { addApolloState, initializeApollo } from '../../../client';
 
 import UserListsView from '../../../views/users/lists';
 
-export interface UserListsPageProps {
-  user: User;
-  lists: UserListCustom[];
-}
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  query,
+}) => {
+  const requestValidationSchema = Yup.object().shape({
+    username: Yup.string().required(),
+  });
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { username } = params;
+  try {
+    const { username } = await requestValidationSchema.validate(query);
 
-  if (username && typeof username === 'string') {
     const apolloClient = initializeApollo();
 
-    // TODO maybe change that to just one query
-    const { data: userData, error: userError } = await apolloClient.query<
+    const { data: userData } = await apolloClient.query<
       FindUserQuery,
       FindUserQueryVariables
     >({
@@ -43,41 +36,31 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       variables: { username },
     });
 
-    const { data: userListsData, error: userListsError } =
-      await apolloClient.query<
-        FindUserListsFullQuery,
-        FindUserListsFullQueryVariables
-      >({
-        query: FindUserListsFullDocument,
-        variables: { userId: userData.user.id },
-      });
-
-    if (userData && !userError && userListsData && !userListsError) {
-      return {
-        props: {
-          user: userData.user,
-          lists: userListsData.userListsCustom,
-        } as UserListsPageProps,
-      };
+    if (!userData) {
+      res.statusCode = 404;
+      return { props: {} };
     }
-  }
 
-  return { props: {} };
+    const { data: userListsData } = await apolloClient.query<
+      FindUserListsQuery,
+      FindUserListsQueryVariables
+    >({
+      query: FindUserListsDocument,
+      variables: { userId: userData.user.id },
+    });
+
+    return addApolloState(apolloClient, {
+      props: {
+        ...userData,
+        ...userListsData,
+      },
+    });
+  } catch (err) {
+    res.statusCode = 404;
+    return { props: {} };
+  }
 };
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [],
-  fallback: true,
-});
-
-const UserLists: NextPage<UserListsPageProps> = ({ user, lists }) => {
-  const { isFallback } = useRouter();
-
-  if (isFallback) {
-    return <h1>loading</h1>;
-  }
-
-  return <UserListsView user={user} lists={lists} />;
-};
+const UserLists: NextPage = () => <UserListsView />;
 
 export default UserLists;

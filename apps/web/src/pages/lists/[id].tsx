@@ -1,56 +1,66 @@
-import { useRouter } from 'next/router';
+import type { GetServerSideProps, NextPage } from 'next';
 
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import * as Yup from 'yup';
 
-import { initializeApollo } from '../../client';
+import { addApolloState, initializeApollo } from '../../client';
 
 import type {
-  UserListCustom,
   FindUserListQuery,
   FindUserListQueryVariables,
+  FindUserListMoviesQuery,
+  FindUserListMoviesQueryVariables,
 } from '../../graphql';
 
-import { FindUserListDocument } from '../../graphql';
+import {
+  FindUserListDocument,
+  FindUserListMoviesDocument,
+} from '../../graphql';
 
 import UserListView from '../../views/lists';
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { id } = params;
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
+  const requestValidationSchema = Yup.object().shape({
+    id: Yup.number().required(),
+  });
 
-  if (id && typeof id === 'string') {
+  try {
+    const { id } = await requestValidationSchema.validate(query);
+
     const apolloClient = initializeApollo();
 
-    const { data } = await apolloClient.query<
+    const { data: listData } = await apolloClient.query<
       FindUserListQuery,
       FindUserListQueryVariables
     >({
       query: FindUserListDocument,
-      variables: { listId: String(id) },
+      variables: { postId: id },
     });
 
-    return {
+    const { data: listMoviesData } = await apolloClient.query<
+      FindUserListMoviesQuery,
+      FindUserListMoviesQueryVariables
+    >({
+      query: FindUserListMoviesDocument,
+      variables: {
+        listId: listData?.userList?.id,
+      },
+    });
+
+    return addApolloState(apolloClient, {
       props: {
-        ...data,
-      } as FindUserListQuery,
-    };
+        ...listData,
+        ...listMoviesData,
+      },
+    });
+  } catch (err) {
+    req.statusCode = 404;
+    return { props: {} };
   }
-
-  return { props: {} };
 };
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [],
-  fallback: true,
-});
-
-const UserListPage: NextPage<FindUserListQuery> = ({ userListCustom }) => {
-  const { isFallback } = useRouter();
-
-  if (isFallback) {
-    return <h1>loading</h1>;
-  }
-
-  return <UserListView list={userListCustom as UserListCustom} />;
-};
+const UserListPage: NextPage = () => <UserListView />;
 
 export default UserListPage;

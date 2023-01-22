@@ -1,74 +1,53 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 
 import { useRouter } from 'next/router';
 
-import type {
-  Review,
-  FindReviewQuery,
-  FindReviewQueryVariables,
-} from '../../graphql';
+import * as Yup from 'yup';
+
+import type { FindReviewQuery, FindReviewQueryVariables } from '../../graphql';
 
 import { FindReviewDocument } from '../../graphql';
 
-import { initializeApollo } from '../../client';
+import { addApolloState, initializeApollo } from '../../client';
 
 import MovieReviewView from '../../views/reviews/root';
 
-import MovieInfosSkeleton from '../../components/movie/MovieInfos/Skeleton';
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
+  const notFoundProps = { notFound: true };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const defaultProps = { props: {} };
-
-  const { id } = params;
-
-  if (!id && typeof id !== 'string') return defaultProps;
+  const requestValidationSchema = Yup.object().shape({
+    id: Yup.number().required().min(0).max(10000),
+  });
 
   try {
+    const { id } = await requestValidationSchema.validate(query);
+
     const apolloClient = initializeApollo();
 
-    const { data } = await apolloClient.query<
+    const { data: reviewData } = await apolloClient.query<
       FindReviewQuery,
       FindReviewQueryVariables
     >({
       query: FindReviewDocument,
-      variables: { reviewId: id as string },
+      variables: { postId: id },
     });
 
-    if (!data) return defaultProps;
-
-    return {
+    return addApolloState(apolloClient, {
       props: {
-        review: data.review,
+        ...reviewData,
       },
-    };
+    });
   } catch (err) {
-    return defaultProps;
+    req.statusCode = 404;
+    return notFoundProps;
   }
-
-  return defaultProps;
 };
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [],
-  fallback: true,
-});
-
-const ReviewPage: NextPage<FindReviewQuery> = ({ review }) => {
-  const { isFallback, push } = useRouter();
-
-  if (isFallback) {
-    return <MovieInfosSkeleton />;
-  }
-
-  if (!review) {
-    if (typeof window !== 'undefined') {
-      push('/404');
-    }
-
-    return null;
-  }
-
-  return <MovieReviewView review={review as Review} />;
-};
+const ReviewPage: NextPage<FindReviewQuery> = ({ review }) => (
+  <MovieReviewView review={review} />
+);
 
 export default ReviewPage;

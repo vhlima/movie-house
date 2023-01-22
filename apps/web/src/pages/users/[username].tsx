@@ -5,19 +5,30 @@ import * as Yup from 'yup';
 import type {
   FindUserQuery,
   FindUserQueryVariables,
-  FindUserFavoriteMoviesQuery,
-  FindUserFavoriteMoviesQueryVariables,
+  FindUserPreMadeListMoviesQuery,
+  FindUserPreMadeListMoviesQueryVariables,
   FindUserProfileStatsQuery,
   FindUserProfileStatsQueryVariables,
-  FindUserProfileFeaturedReviewsQuery,
-  FindUserProfileFeaturedReviewsQueryVariables,
+  FindUserPinnedReviewsQuery,
+  FindUserPinnedReviewsQueryVariables,
+  FindUserPopularReviewsQuery,
+  FindUserPopularReviewsQueryVariables,
+  FindUserRecentReviewsQuery,
+  FindUserRecentReviewsQueryVariables,
+  FindLimitQuery,
+  FindLimitQueryVariables,
 } from '../../graphql';
 
 import {
+  LimitType,
+  PreMadeListType,
   FindUserDocument,
+  FindLimitDocument,
   FindUserProfileStatsDocument,
-  FindUserFavoriteMoviesDocument,
-  FindUserProfileFeaturedReviewsDocument,
+  FindUserPreMadeListMoviesDocument,
+  FindUserPinnedReviewsDocument,
+  FindUserPopularReviewsDocument,
+  FindUserRecentReviewsDocument,
 } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
@@ -25,42 +36,61 @@ import { addApolloState, initializeApollo } from '../../client';
 import UserProfileView from '../../views/users/profile';
 
 export const getServerSideProps: GetServerSideProps = async ({
+  req,
   res,
   query,
 }) => {
+  const notFoundProps = { notFound: true };
+
   const requestValidationSchema = Yup.object().shape({
-    username: Yup.string().required(),
+    username: Yup.string().required().min(1),
   });
 
   try {
     const { username } = await requestValidationSchema.validate(query);
 
-    const apolloClient = initializeApollo();
+    const apolloClient = initializeApollo(req.headers);
 
-    const { data } = await apolloClient.query<
+    const { data: userData } = await apolloClient.query<
       FindUserQuery,
       FindUserQueryVariables
     >({
       query: FindUserDocument,
-      variables: { username: username as string },
+      variables: { username },
     });
 
-    if (!data) {
+    if (!userData) {
       res.statusCode = 404;
-      return { props: {} };
+      return notFoundProps;
     }
 
-    const userId = data.user.id;
+    const userId = userData.user.id;
 
-    await apolloClient.query<
-      FindUserProfileFeaturedReviewsQuery,
-      FindUserProfileFeaturedReviewsQueryVariables
+    const { data: userPinnedReviewsData } = await apolloClient.query<
+      FindUserPinnedReviewsQuery,
+      FindUserPinnedReviewsQueryVariables
     >({
-      query: FindUserProfileFeaturedReviewsDocument,
+      query: FindUserPinnedReviewsDocument,
       variables: { userId },
     });
 
-    await apolloClient.query<
+    const { data: userPopularReviewsData } = await apolloClient.query<
+      FindUserPopularReviewsQuery,
+      FindUserPopularReviewsQueryVariables
+    >({
+      query: FindUserPopularReviewsDocument,
+      variables: { userId },
+    });
+
+    const { data: userRecentReviewsData } = await apolloClient.query<
+      FindUserRecentReviewsQuery,
+      FindUserRecentReviewsQueryVariables
+    >({
+      query: FindUserRecentReviewsDocument,
+      variables: { userId },
+    });
+
+    const { data: profileStatsData } = await apolloClient.query<
       FindUserProfileStatsQuery,
       FindUserProfileStatsQueryVariables
     >({
@@ -68,20 +98,36 @@ export const getServerSideProps: GetServerSideProps = async ({
       variables: { userId },
     });
 
-    await apolloClient.query<
-      FindUserFavoriteMoviesQuery,
-      FindUserFavoriteMoviesQueryVariables
+    const { data: favoriteMoviesData } = await apolloClient.query<
+      FindUserPreMadeListMoviesQuery,
+      FindUserPreMadeListMoviesQueryVariables
     >({
-      query: FindUserFavoriteMoviesDocument,
-      variables: { userId },
+      query: FindUserPreMadeListMoviesDocument,
+      variables: { userId, listType: PreMadeListType.Favorite },
+    });
+
+    const { data: limitData } = await apolloClient.query<
+      FindLimitQuery,
+      FindLimitQueryVariables
+    >({
+      query: FindLimitDocument,
+      variables: { limitType: LimitType.MaxFavoriteMovies },
     });
 
     return addApolloState(apolloClient, {
-      props: {},
+      props: {
+        ...userData,
+        ...limitData,
+        ...favoriteMoviesData,
+        ...userPopularReviewsData,
+        ...userPinnedReviewsData,
+        ...userRecentReviewsData,
+        ...profileStatsData,
+      },
     });
   } catch (err) {
     res.statusCode = 404;
-    return { props: {} };
+    return notFoundProps;
   }
 };
 
