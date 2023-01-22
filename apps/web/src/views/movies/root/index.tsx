@@ -1,91 +1,72 @@
-import { useRouter } from 'next/router';
-
-import { Movie } from '../../../graphql';
-
-import { MovieContextProvider } from './hooks/useMovie';
-
 import { useAuth } from '../../../hooks/useAuth';
 
-import Card from '../../../components/Card';
-
-import PageContent from '../../../components/PageContent';
-
-import TextShorter from '../../../components/TextShorter';
-
-import OptionsButton from './components/OptionsButton';
-
-import MovieCast from './components/MovieCast';
+import { useFindFullMovieQuery } from '../../../graphql';
 
 import Button from '../../../components/Button';
-
-import RecentReviews from './components/Reviews/RecentReviews';
-
+import PageContent from '../../../components/PageContent';
+import TextShorter from '../../../components/TextShorter';
 import BackdropImage from '../../../components/BackdropImage';
-
 import MovieInfos from '../../../components/movie/MovieInfos';
 
-import PopularReviews from './components/Reviews/PopularReviews';
-
+import MovieCast from './components/MovieCast';
 import MovieGenres from './components/MovieGenres';
-
-import MovieInfosSkeleton from '../../../components/movie/MovieInfos/Skeleton';
+import MoviePopularLists from './components/MoviePopularLists';
+import MovieOptionsButton from './components/MovieOptionsButton';
+import MovieRecentReviews from './components/MovieRecentReviews';
+import MoviePopularReviews from './components/MoviePopularReviews';
 
 interface MovieViewProps {
-  movie: Movie;
+  movieId: number;
 }
 
-const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
+const MovieView: React.FC<MovieViewProps> = ({ movieId }) => {
   const { data: session } = useAuth();
 
-  const { isFallback } = useRouter();
-
-  if (isFallback) {
-    return <MovieInfosSkeleton />;
-  }
+  const {
+    data: { movie },
+  } = useFindFullMovieQuery({ variables: { movieId } });
 
   return (
     <BackdropImage src={movie.backdropUrl} alt={movie.originalTitle}>
       <PageContent>
-        <MovieContextProvider movie={movie}>
-          <MovieInfos movie={movie}>
-            <div className="flex items-center gap-1 text-grey-200 mt-2">
-              <Button
-                className="text-sm"
-                buttonStyle="secondary"
-                buttonSize="xs"
-                full={false}
-              >
-                Watch trailer
-              </Button>
+        <MovieInfos movie={movie}>
+          <div className="flex items-center gap-1 text-grey-200 mt-2">
+            <Button
+              className="text-sm"
+              buttonStyle="secondary"
+              buttonSize="xs"
+              full={false}
+            >
+              Watch trailer
+            </Button>
 
-              <div className="rounded-md border border-grey-700 px-1 bg-opacity-60">
-                <span>18</span>
-              </div>
+            <div className="rounded-md border border-grey-700 px-1 bg-opacity-60">
+              <span>18</span>
             </div>
-          </MovieInfos>
+          </div>
+        </MovieInfos>
 
-          <article className="flex flex-col gap-4 mt-4">
-            <TextShorter
-              className="text-grey-200"
-              text={movie.overview}
-              maxCharacters={200}
-            />
+        <article className="flex flex-col gap-4 mt-4">
+          <TextShorter
+            className="text-grey-200"
+            text={movie.overview}
+            maxCharacters={200}
+          />
 
-            <MovieGenres />
+          <MovieGenres genres={movie.genres} />
 
-            {session && <OptionsButton />}
+          {session && <MovieOptionsButton movie={movie} />}
 
-            <MovieCast />
+          <MovieCast cast={movie.credits.cast} />
 
-            <PopularReviews />
+          <MoviePopularReviews movieId={movie.id} />
 
-            <RecentReviews />
+          <MovieRecentReviews movieId={movie.id} />
 
-            <Card title="Similar movies" noPadding />
+          <MoviePopularLists movieId={movie.id} />
 
-            <Card title="Popular lists" noPadding />
-          </article>
-        </MovieContextProvider>
+          {/* <Card title="Similar movies" noPadding /> */}
+        </article>
       </PageContent>
     </BackdropImage>
   );

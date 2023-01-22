@@ -9,18 +9,20 @@ import type { ProfileContextData } from './hooks/useProfile';
 import { ProfileContext } from './hooks/useProfile';
 
 import Card from '../../../components/Card';
+import Typography from '../../../components/Typography';
+import PageContent from '../../../components/PageContent';
+import BackdropImage from '../../../components/BackdropImage';
+import ProfilePicture from '../../../components/ProfilePicture';
 
 import FavoriteMovies from './components/FavoriteMovies';
 
 import ProfileStats from './components/ProfileStats';
 
-import ProfilePicture from '../../../components/ProfilePicture';
+import PinnedReviews from './components/PinnedReviews';
 
-import PageContent from '../../../components/PageContent';
+import RecentReviews from './components/RecentReviews';
 
-import BackdropImage from '../../../components/BackdropImage';
-
-import ReviewsCards from './components/Reviews';
+import PopularReviews from './components/PopularReviews';
 
 const UserProfileView: React.FC = () => {
   const { query } = useRouter();
@@ -34,45 +36,58 @@ const UserProfileView: React.FC = () => {
     [data],
   );
 
+  if (!data) {
+    return null;
+  }
+
+  const { username, biography, profilePictureUrl } = data.user;
+
   return (
     <BackdropImage src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg">
-      <ProfileContext.Provider value={contextProvider}>
-        <PageContent className="relative flex flex-col justify-center gap-4 w-full">
-          <div className="flex items-center gap-2">
-            <ProfilePicture
-              imageSize="lg"
-              src={data?.user?.profilePictureUrl}
-            />
+      <PageContent className="relative flex flex-col justify-center gap-8 w-full">
+        <div className="flex items-center gap-2">
+          <ProfilePicture imageSize="lg" src={profilePictureUrl} />
 
-            <div className="flex flex-grow flex-wrap items-center gap-x-2">
-              <h1 className="text-grey-100 text-2xl font-semibold">
-                {data?.user?.username}
-              </h1>
+          <div className="flex flex-grow flex-wrap items-center gap-x-2">
+            <Typography
+              className="font-bold"
+              component="h1"
+              color="primary"
+              size="2xl"
+            >
+              {username}
+            </Typography>
 
-              <div className="bg-movieHouse-mid rounded-md px-1">
-                <span className="text-white text-sm">Patron</span>
-              </div>
+            <div className="bg-movieHouse-mid rounded-md px-2">
+              <span className="text-white text-sm">Patron</span>
             </div>
           </div>
+        </div>
 
+        <ProfileContext.Provider value={contextProvider}>
           <ProfileStats />
 
-          <Card className="text-grey-200" title="About me" noPadding>
-            {!data?.user?.biography ? (
-              <p>
-                {data?.user?.username} hasn&apos;t told us anything about him
-                yet.
-              </p>
+          <Card title="About me" noPadding>
+            {!biography ? (
+              <Typography component="p">
+                {username} hasn&apos;t told us anything about him yet.
+              </Typography>
             ) : (
-              <p className="whitespace-pre-wrap">{data?.user.biography}</p>
+              <Typography className="whitespace-pre-wrap" component="p">
+                {biography}
+              </Typography>
             )}
           </Card>
 
           <FavoriteMovies />
 
-          <ReviewsCards />
-        </PageContent>
-      </ProfileContext.Provider>
+          <PinnedReviews />
+
+          <RecentReviews />
+
+          <PopularReviews />
+        </ProfileContext.Provider>
+      </PageContent>
     </BackdropImage>
   );
 };

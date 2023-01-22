@@ -13,7 +13,6 @@ const PopularMovies: React.FC = () => {
 
   return (
     <Card
-      className="mb-16"
       title="Popular movies this week"
       link={{ href: '/movies/trending' }}
       noPadding
