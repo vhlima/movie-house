@@ -1,17 +1,13 @@
-import { DocumentNode, gql } from '@apollo/client';
+import { format, formatDistance } from 'date-fns';
 
-// TODO change that
+export function formatDateDistance(dateISO: string) {
+  return formatDistance(new Date(dateISO), Date.now(), {
+    addSuffix: true,
+  });
+}
 
-export const appendGql = (...docs: DocumentNode[]) => gql`
-    # ${docs.map(doc => `${doc}`)}
-
-    ${docs[0]}
-    ${docs[1]}
-
-    ${docs.length > 2 ? docs[2] : ''}
-
-    ${docs.length > 3 ? docs[3] : ''}
-  `;
+export const formatDate = (dateISO: string) =>
+  format(new Date(dateISO), 'MMM dd, yyyy');
 
 export const formatNumberToLargeScale = (num: number): string => {
   const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
