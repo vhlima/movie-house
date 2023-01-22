@@ -8,6 +8,7 @@
     "start": "cross-env NODE_ENV=production ts-node -r dotenv/config build/src/server.js",
     "typeorm": "typeorm-ts-node-esm",
     "test": "vitest",
+    "production:build": "yarn migration:run && yarn build",
     "migration:run": "dotenv -- typeorm-ts-node-esm migration:run -d src/database/postgres.ts",
     "migration:revert": "dotenv -- typeorm-ts-node-esm migration:revert -d src/database/postgres.ts"
   },
@@ -23,12 +24,12 @@
     "dotenv-cli": "^6.0.0",
     "express": "^4.18.2",
     "graphql": "^16.6.0",
-    "mongodb": "^4.8.1",
+    "mongodb": "^4.13.0",
     "next-auth": "^4.18.8",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^2.0.0-beta.1",
-    "typeorm": "^0.3.7",
+    "typeorm": "^0.3.11",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
