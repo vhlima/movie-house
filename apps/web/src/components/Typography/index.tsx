@@ -6,7 +6,7 @@ interface TypographyProps extends HtmlHTMLAttributes<HTMLParagraphElement> {
 
   /* Style Props */
   color?: 'primary' | 'secondary' | 'tertiary';
-  size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+  size?: '4xl' | '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 }
 
 const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
@@ -28,6 +28,8 @@ const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
           'text-grey-300': color === 'tertiary',
         },
         size && {
+          'text-4xl': size === '4xl',
+          'text-2xl': size === '2xl',
           'text-xl': size === 'xl',
           'text-lg': size === 'lg',
           'text-md': size === 'md',
