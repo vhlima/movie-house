@@ -14,8 +14,6 @@ import Button from '../../../../Button';
 
 import Input from '../../../../Input';
 
-import ErrorText from '../../../../ErrorText';
-
 import UserLists from './components/UserLists';
 
 import CreateMovieListModal from './components/CreateMovieListModal';
@@ -28,12 +26,7 @@ const AddMovieToListModal: React.FC<AddMovieToListModalProps> = ({
   movieId,
   onClose,
 }) => {
-  const {
-    addMovieToCustomListResult: { error },
-    handleAddMovieToList,
-  } = useLogic({
-    onClose,
-  });
+  const { handleAddMovieToList } = useLogic();
 
   const [searchParams, setSearchParams] = useState<string>();
 
@@ -105,15 +98,15 @@ const AddMovieToListModal: React.FC<AddMovieToListModalProps> = ({
         </Button>
       </div>
 
-      {error && (
-        <div className="p-2">
-          <ErrorText text={error.message} />
-        </div>
-      )}
-
       <UserLists
-        searchParams={searchParams}
-        onClick={listId => handleAddMovieToList(listId, movieId)}
+        filter={searchParams}
+        onClick={async listId => {
+          const success = await handleAddMovieToList(listId, movieId);
+
+          if (success) {
+            onClose();
+          }
+        }}
       />
     </Modal>
   );

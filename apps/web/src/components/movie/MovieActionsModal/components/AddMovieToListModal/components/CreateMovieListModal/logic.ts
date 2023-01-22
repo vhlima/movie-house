@@ -1,64 +1,70 @@
 import * as Yup from 'yup';
 
 import type {
-  SubmitHandles,
-  ValidationSchemaType,
-  CreateMovieListModalLogicProps,
-  CreateMovieListModalLogicHandles,
-} from './types';
+  FindUserListNamesQuery,
+  FindUserListNamesQueryVariables,
+} from '../../../../../../../graphql';
 
-// import type {
-//   FindUserListsQuery,
-//   FindUserListsQueryVariables,
-// } from '../../../../../../../graphql';
-
-// import {
-//   FindUserListsDocument,
-//   useCreateUserListMutation,
-// } from '../../../../../../../graphql';
+import {
+  FindUserListNamesDocument,
+  useCreateUserListMutation,
+} from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 
-export const useLogic = ({
-  onClose,
-}: CreateMovieListModalLogicProps): CreateMovieListModalLogicHandles => {
+interface CreateMovieListFormValues {
+  listName: string;
+  description?: string;
+}
+
+type ValidationSchemaType = Yup.SchemaOf<CreateMovieListFormValues>;
+
+export const useLogic = () => {
   const { data: session } = useAuth();
 
-  // const [createUserList, createUserListResult] = useCreateUserListMutation();
+  const [createUserList, createUserListResult] = useCreateUserListMutation();
 
-  const handleSubmit: SubmitHandles = async ({ listName, description }) => {
-    // const { errors } = await createUserList({
-    //   variables: {
-    //     name: listName,
-    //     body: description || '',
-    //   },
-    //   update: (cache, { data }) => {
-    //     if (!data) return;
-    //     cache.updateQuery<FindUserListsQuery, FindUserListsQueryVariables>(
-    //       {
-    //         query: FindUserListsDocument,
-    //         variables: { userId: session.user.id },
-    //       },
-    //       cacheData => ({
-    //         userLists: [...(cacheData?.userLists || []), data.createUserList],
-    //       }),
-    //     );
-    //   },
-    // });
-    // if (!errors) {
-    //   onClose();
-    // }
-  };
+  async function handleSubmit({
+    listName,
+    description,
+  }: CreateMovieListFormValues) {
+    const { errors } = await createUserList({
+      variables: {
+        name: listName,
+        body: description || '',
+      },
+      update: (cache, { data }) => {
+        if (!data) return;
+
+        cache.updateQuery<
+          FindUserListNamesQuery,
+          FindUserListNamesQueryVariables
+        >(
+          {
+            query: FindUserListNamesDocument,
+            variables: { userId: session.user.id },
+          },
+          cacheData => ({
+            userLists: !cacheData
+              ? [data.userListCreate]
+              : [...cacheData.userLists, data.userListCreate],
+          }),
+        );
+      },
+    });
+
+    return !errors;
+  }
 
   const validationSchema: ValidationSchemaType = Yup.object().shape({
     listName: Yup.string().required(
-      'Name is a required field to create a list',
+      'You must provide a name to the list you are trying to create',
     ),
     description: Yup.string(),
   });
 
   return {
-    createUserListResult: undefined,
+    createUserListResult,
 
     validationSchema,
 

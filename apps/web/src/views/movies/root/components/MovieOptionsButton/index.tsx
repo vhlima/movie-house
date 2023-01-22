@@ -1,14 +1,19 @@
 import { useState } from 'react';
 
-import { useMovie } from '../../hooks/useMovie';
+import type { Movie } from '../../../../../graphql';
 
 import Button from '../../../../../components/Button';
 
 import MovieActionsModal from '../../../../../components/movie/MovieActionsModal';
 
-const OptionsButton: React.FC = () => {
-  const { movie } = useMovie();
+interface MovieOptionsButtonProps {
+  movie: {
+    id: Movie['id'];
+    originalTitle: Movie['originalTitle'];
+  };
+}
 
+const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({ movie }) => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
   return (
@@ -30,4 +35,4 @@ const OptionsButton: React.FC = () => {
   );
 };
 
-export default OptionsButton;
+export default MovieOptionsButton;

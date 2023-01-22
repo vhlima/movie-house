@@ -1,31 +1,12 @@
-import type { ModalHandles } from '../../../../Modal';
+import { useAddMovieToListMutation } from '../../../../../graphql';
 
-import type { AddMovieToCustomListMutationResult } from '../../../../../graphql';
-
-import { useAddMovieToCustomListMutation } from '../../../../../graphql';
-
-type AddMovieToListHandles = (listId: string, movieId: number) => Promise<void>;
-
-type AddMovieToListModalLogicProps = ModalHandles;
-
-interface AddMovieToListModalLogicHandles {
-  addMovieToCustomListResult: AddMovieToCustomListMutationResult;
-
-  handleAddMovieToList: AddMovieToListHandles;
-}
-
-export const useLogic = ({
-  onClose,
-}: AddMovieToListModalLogicProps): AddMovieToListModalLogicHandles => {
+export const useLogic = () => {
   const [addMovieToCustomList, addMovieToCustomListResult] =
-    useAddMovieToCustomListMutation({
+    useAddMovieToListMutation({
       errorPolicy: 'all',
     });
 
-  const handleAddMovieToList: AddMovieToListHandles = async (
-    listId,
-    movieId,
-  ) => {
+  async function handleAddMovieToList(listId: string, movieId: number) {
     const { errors } = await addMovieToCustomList({
       variables: {
         listId,
@@ -33,10 +14,8 @@ export const useLogic = ({
       },
     });
 
-    if (!errors) {
-      onClose();
-    }
-  };
+    return !errors;
+  }
 
   return {
     addMovieToCustomListResult,

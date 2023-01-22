@@ -2,9 +2,9 @@ import type { ButtonHTMLAttributes } from 'react';
 
 import clsx from 'clsx';
 
-import SvgIcon from '../../../../../../SvgIcon';
+import SvgIcon from '../../../../SvgIcon';
 
-import type { SvgIconType } from '../../../../../../SvgIcon';
+import type { SvgIconType } from '../../../../SvgIcon';
 
 interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
@@ -20,7 +20,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   ...rest
 }) => (
   <button
-    className="flex flex-col items-center"
+    className="flex flex-col items-center gap-1 p-2"
     type="button"
     onClick={onClick}
     {...rest}
@@ -28,11 +28,13 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     <SvgIcon
       className={clsx(
         iconColor && {
-          'text-warning-base': iconColor === 'orange',
-          'text-success-base': iconColor === 'green',
-          'text-error-dark': iconColor === 'red',
-          'text-blue-500': iconColor === 'blue',
+          'text-grey-300': true,
+          // 'text-warning-base': iconColor === 'orange',
+          // 'text-success-base': iconColor === 'green',
+          // 'text-error-dark': iconColor === 'red',
+          // 'text-blue-500': iconColor === 'blue',
         },
+        !iconColor && 'text-grey-300',
       )}
       iconType={iconType}
       size={30}

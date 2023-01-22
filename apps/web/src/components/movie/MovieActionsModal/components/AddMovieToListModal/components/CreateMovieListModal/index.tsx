@@ -19,28 +19,25 @@ type CreateMovieListModalProps = ModalHandles;
 const CreateMovieListModal: React.FC<CreateMovieListModalProps> = ({
   onClose,
 }) => {
-  const {
-    createUserListResult: { loading, error },
-    validationSchema,
-    handleSubmit,
-  } = useLogic({
-    onClose,
-  });
+  const { createUserListResult, validationSchema, handleSubmit } = useLogic();
+
+  const { error } = createUserListResult;
 
   return (
     <Modal center backdrop onClose={onClose}>
-      <Typography
-        className="font-bold mb-2"
-        component="h1"
-        color="primary"
-        size="xl"
-      >
-        Create movie list
-      </Typography>
+      <Modal.Header>
+        <Modal.Title text="Create movie list" />
+
+        <Typography component="h2">
+          Create your own list and add movies to it.
+        </Typography>
+
+        <Modal.CloseButton onClose={onClose} />
+      </Modal.Header>
 
       {error && (
         <div className="mb-2">
-          <ErrorText text={`Error creating movie list: ${error.message}`} />
+          <ErrorText text={error.message} />
         </div>
       )}
 
@@ -49,9 +46,15 @@ const CreateMovieListModal: React.FC<CreateMovieListModalProps> = ({
         validateOnChange={false}
         validateOnBlur={false}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={async values => {
+          const success = await handleSubmit(values);
+
+          if (success) {
+            onClose();
+          }
+        }}
       >
-        <Form>
+        <Form className="flex flex-col gap-2">
           <Input
             formik
             name="listName"
@@ -64,6 +67,7 @@ const CreateMovieListModal: React.FC<CreateMovieListModalProps> = ({
 
           <Input
             formik
+            textarea
             autoGrow={{ maxHeight: 250 }}
             name="description"
             inputStyle="secondary"
@@ -73,7 +77,7 @@ const CreateMovieListModal: React.FC<CreateMovieListModalProps> = ({
             }}
           />
 
-          <Button className="mt-2" type="submit" disabled={loading}>
+          <Button className="mt-2" type="submit">
             Create
           </Button>
         </Form>

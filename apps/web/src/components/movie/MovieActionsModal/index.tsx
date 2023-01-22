@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { useRouter } from 'next/router';
-
 import type { Movie } from '../../../graphql';
 
 import type { ModalHandles } from '../../Modal';
@@ -11,38 +9,32 @@ import type { ModalHandles } from '../../Modal';
 import { modalBottom } from '../../../animations';
 
 import Modal from '../../Modal';
+import Button from '../../Button';
 
 import MovieRateModal from '../MovieRateModal';
 
-import Button from '../../Button';
-
-import ActionButtons from './components/ActionButtons';
-
+import RateButton from './components/RateButton';
+import WatchListButton from './components/WatchListButton';
+import MovieLikeButton from './components/MovieLikeButton';
+import WatchLaterButton from './components/WatchLaterButton';
 import AddMovieToListModal from './components/AddMovieToListModal';
+import MovieReviewButton from './components/MovieReviewButton';
 
 interface MovieActionsModalProps extends ModalHandles {
-  movie: Pick<Movie, 'id' | 'originalTitle'>;
+  movie: {
+    id: Movie['id'];
+    originalTitle: Movie['originalTitle'];
+  };
 }
 
 const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
   movie,
   onClose,
 }) => {
-  const { push } = useRouter();
+  const [subModalOpen, setSubModalOpen] = useState<'rate' | 'addToList'>();
 
-  const redirectToCreateReviewPage = async () => {
-    await push({
-      pathname: '/reviews/create',
-      query: { movie: movie.id },
-    });
-  };
-
-  const [subModalOpen, setSubModalOpen] = useState<
-    'rate' | 'addToList' | undefined
-  >();
-
-  switch (subModalOpen) {
-    case 'rate': {
+  if (subModalOpen) {
+    if (subModalOpen === 'rate') {
       return (
         <AnimatePresence>
           <MovieRateModal
@@ -55,7 +47,7 @@ const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
       );
     }
 
-    case 'addToList': {
+    if (subModalOpen === 'addToList') {
       return (
         <AddMovieToListModal
           movieId={movie.id}
@@ -63,38 +55,37 @@ const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
         />
       );
     }
-
-    default: {
-      return (
-        <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
-          <div className="flex flex-col gap-4 mx-auto lg:w-fit lg:">
-            <ActionButtons
-              movieId={movie.id}
-              onRate={() => setSubModalOpen('rate')}
-            />
-
-            <div className="flex flex-col gap-2 w-full">
-              <Button
-                buttonStyle="secondary"
-                onClick={redirectToCreateReviewPage}
-              >
-                Review
-              </Button>
-
-              <Button
-                buttonStyle="secondary"
-                onClick={() => setSubModalOpen('addToList')}
-              >
-                Add to list
-              </Button>
-
-              <Button buttonStyle="secondary">Share</Button>
-            </div>
-          </div>
-        </Modal>
-      );
-    }
   }
+
+  return (
+    <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
+      <div className="flex items-center justify-center gap-4 mb-2">
+        <RateButton
+          movieId={movie.id}
+          onClick={() => setSubModalOpen('rate')}
+        />
+
+        <WatchLaterButton movieId={movie.id} />
+
+        <MovieLikeButton movieId={movie.id} />
+
+        <WatchListButton movieId={movie.id} />
+      </div>
+
+      <div className="flex flex-col gap-2 w-full">
+        <MovieReviewButton movieId={movie.id} />
+
+        <Button
+          buttonStyle="secondary"
+          onClick={() => setSubModalOpen('addToList')}
+        >
+          Add to list
+        </Button>
+
+        <Button buttonStyle="secondary">Share</Button>
+      </div>
+    </Modal>
+  );
 };
 
 export default MovieActionsModal;
