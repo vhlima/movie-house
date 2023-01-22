@@ -15,7 +15,7 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
     (children as ReactNode & ReactElement)
   ) : (
     <>
-      <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[26rem]">
+      <div className="relative w-full h-72 sm:h-96 md:h-96 lg:h-[28rem]">
         <Image
           layout="fill"
           objectFit="fill"
@@ -49,7 +49,7 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
         />
       </div>
 
-      <div className={clsx('-mt-12', className && className)}>{children}</div>
+      <div className={clsx('-mt-16', className && className)}>{children}</div>
     </>
   );
 
