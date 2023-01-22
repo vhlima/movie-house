@@ -20,7 +20,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
     className={clsx(
       'relative flex-shrink-0 border border-grey-700 rounded-full overflow-hidden',
       {
-        'w-6 h-6': imageSize === 'sm',
+        'w-7 h-7': imageSize === 'sm',
         'w-10 h-10': imageSize === 'md',
         'w-16 h-16': imageSize === 'lg',
       },
