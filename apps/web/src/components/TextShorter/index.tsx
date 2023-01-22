@@ -1,8 +1,11 @@
+import clsx from 'clsx';
+
 import { useState } from 'react';
 
 import Button from '../Button';
 
 import SvgIcon from '../SvgIcon';
+import Typography from '../Typography';
 
 interface TextShorterProps {
   className?: string;
@@ -20,7 +23,10 @@ const TextShorter: React.FC<TextShorterProps> = ({
   const isMaxCharacters = text.length > maxCharacters;
 
   return (
-    <p className={className && className}>
+    <Typography
+      className={clsx('break-words', className && className)}
+      component="p"
+    >
       {isCollapsed || !isMaxCharacters
         ? text
         : `${text.slice(0, maxCharacters)}...`}
@@ -47,7 +53,7 @@ const TextShorter: React.FC<TextShorterProps> = ({
           </div>
         </Button>
       )}
-    </p>
+    </Typography>
   );
 };
 
