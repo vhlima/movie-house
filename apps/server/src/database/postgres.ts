@@ -9,9 +9,15 @@ export const PostgresDataSource = new DataSource({
   database: process.env.POSTGRES_DATABASE,
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
-  entities: ['./src/entities/pg-entities/**/*.ts'],
+  entities:
+    process.env.NODE_ENV === 'development'
+      ? ['./src/entities/pg-entities/**/*.ts']
+      : ['./build/src/entities/pg-entities/**/*.js'],
   subscribers: [],
-  migrations: ['./src/database/migrations/*.ts'],
+  migrations:
+    process.env.NODE_ENV === 'development'
+      ? ['./src/database/migrations/*.ts']
+      : ['./build/src/database/migrations/*.js'],
 });
 
 export const connectPostgres = async () => {
