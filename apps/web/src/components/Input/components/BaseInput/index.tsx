@@ -17,7 +17,10 @@ import InputIcon from '../../Icon';
 
 import { inputStyles } from './styles';
 
-type InputAttributes = InputHTMLAttributes<HTMLInputElement>;
+type InputAttributes = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'crossOrigin'
+>;
 
 type TextareaAttributes = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
