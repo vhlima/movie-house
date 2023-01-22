@@ -16,7 +16,7 @@ const RecentReviews: React.FC = () => {
       <QueryState loading={loading} error={error}>
         {data && (
           <ul className="grid grid-cols-4 sm:grid-cols-8 gap-2">
-            {data.recentReviews.map(review => (
+            {data.reviewsRecent.map(review => (
               <li key={`recent-review-${review.id}`}>
                 <Link
                   href={{

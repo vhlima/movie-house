@@ -10,33 +10,36 @@ import TextShorter from '../../TextShorter';
 
 import ProfilePicture from '../../ProfilePicture';
 
-interface ReviewBodyProps
-  extends Pick<Review, 'author' | 'body' | 'createdAt'> {
-  id?: string;
+interface ReviewBodyProps {
+  review: {
+    user: Pick<Review['user'], 'username' | 'profilePictureUrl'>;
+    post: Pick<Review['post'], 'id' | 'body' | 'createdAt'>;
+  };
 }
 
-const ReviewBody: React.FC<ReviewBodyProps> = ({
-  id,
-  author,
-  body,
-  createdAt,
-}) => (
+// TODO there is a visual bug when you are larger than XS size but not enough to reach SM
+
+const ReviewBody: React.FC<ReviewBodyProps> = ({ review: { post, user } }) => (
   <>
-    <div className="flex align-top gap-1">
-      <ProfilePicture imageSize="sm" src={author.profilePictureUrl} />
+    <div className="flex gap-1 align-top sm:items-center relative">
+      <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
 
       <Link
         className="group"
         href={
-          !id
-            ? {
-                pathname: '/users/[username]',
-                query: { username: author.username },
-              }
-            : {
-                pathname: '/reviews/[id]',
-                query: { id },
-              }
+          {
+            pathname: '/reviews/[id]',
+            query: { id: post.id },
+          }
+          // !id
+          //   ? {
+          //       pathname: '/users/[username]',
+          //       query: { username: user.username },
+          //     }
+          //   : {
+          //       pathname: '/reviews/[id]',
+          //       query: { id },
+          //     }
         }
       >
         <Typography
@@ -49,9 +52,9 @@ const ReviewBody: React.FC<ReviewBodyProps> = ({
             className="font-semibold group-hover:text-grey-300"
             component="strong"
           >
-            {author.username}
+            {user.username}
           </Typography>
-          &nbsp;in {formatDate(createdAt)}
+          &nbsp;in {formatDate(post.createdAt)}
         </Typography>
       </Link>
     </div>
@@ -59,7 +62,7 @@ const ReviewBody: React.FC<ReviewBodyProps> = ({
     <TextShorter
       className="text-grey-200 my-2"
       maxCharacters={200}
-      text={body}
+      text={post.body}
     />
   </>
 );

@@ -2,18 +2,20 @@ import { Form, Formik } from 'formik';
 
 import { useLogic } from './logic';
 
-import { useCreateReview } from '../../hooks/useReviewCreate';
-
 import Input from '../../../../../components/Input';
 
 import Button from '../../../../../components/Button';
 
 import ErrorText from '../../../../../components/ErrorText';
 
-const ReviewCreateForm: React.FC = () => {
-  const { userRating, selectedMovie } = useCreateReview();
+interface ReviewCreateFormProps {
+  movieId: number;
+}
 
-  const { loading, error, validationSchema, handleSubmit } = useLogic();
+const ReviewCreateForm: React.FC<ReviewCreateFormProps> = ({ movieId }) => {
+  const { loading, error, validationSchema, handleSubmit } = useLogic({
+    movieId,
+  });
 
   // TODO show form validation errors
 
@@ -36,10 +38,7 @@ const ReviewCreateForm: React.FC = () => {
           label={{ text: 'Your review:', htmlFor: true }}
         />
 
-        <Button
-          type="submit"
-          disabled={!selectedMovie || loading || userRating <= 0}
-        >
+        <Button type="submit" disabled={movieId === -1 || loading}>
           Post review
         </Button>
       </Form>

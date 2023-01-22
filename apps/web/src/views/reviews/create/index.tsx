@@ -1,99 +1,51 @@
 import { useState } from 'react';
 
-import { useCreateReview } from './hooks/useReviewCreate';
-
-import Link from '../../../components/Link';
+import type { Movie } from '../../../graphql';
 
 import Card from '../../../components/Card';
-
-import Button from '../../../components/Button';
-
-import Rating from './components/Rating';
-
-import ReviewCreateForm from './components/Form';
-
 import MovieCover from '../../../components/movie/MovieCover';
 
-import MovieSearchModal from '../../../components/movie/MovieSearchModal';
+import ReviewCreateForm from './components/ReviewCreateForm';
+import MovieSearchButton from './components/MovieSearchButton';
+import MovieSelectionInfo from './components/MovieSelectionInfo';
 
-const CreateReviewView: React.FC = () => {
-  const { selectedMovie, setSelectedMovie, setUserRating } = useCreateReview();
+type CardReviewMovieType = {
+  id: Movie['id'];
+  posterUrl: Movie['posterUrl'];
+  releaseDate?: Movie['releaseDate'];
+  originalTitle: Movie['originalTitle'];
+};
 
-  const [isSearch, setSearch] = useState<boolean>(false);
+interface CreateReviewView {
+  movie: CardReviewMovieType;
+}
 
-  const handleSelect = movie => {
-    // reviewResult.reset();
-    setUserRating(0);
-
-    setSelectedMovie(movie);
-    setSearch(false);
-  };
+const CreateReviewView: React.FC<CreateReviewView> = ({ movie }) => {
+  const [selectedMovie, setSelectedMovie] =
+    useState<CardReviewMovieType>(movie);
 
   return (
-    <>
-      {isSearch && (
-        <MovieSearchModal
-          title="Search a movie to review"
-          onSelect={handleSelect}
-          onClose={() => setSearch(false)}
-        />
-      )}
-
-      <Card title="Write your review">
-        <div className="flex gap-2">
-          <MovieCover
-            sizeType="sm"
-            movie={
-              selectedMovie && {
-                originalTitle: selectedMovie.originalTitle,
-                posterUrl: selectedMovie.posterUrl,
-              }
+    <Card title="Write your review">
+      <div className="flex gap-2">
+        <MovieCover
+          sizeType="sm"
+          movie={
+            selectedMovie && {
+              originalTitle: selectedMovie.originalTitle,
+              posterUrl: selectedMovie.posterUrl,
             }
-          />
+          }
+        />
 
-          <div className="flex flex-col gap-2 w-full">
-            {!selectedMovie ? (
-              <div>
-                <h1 className="text-grey-100 text-lg whitespace-nowrap">
-                  No movie selected
-                </h1>
+        <MovieSelectionInfo movie={selectedMovie} />
+      </div>
 
-                <p className="text-grey-200">
-                  Select the movie you want to review
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-x-1 flex-wrap">
-                  <Link
-                    className="text-grey-100 text-xl font-semibold hover:text-grey-300"
-                    href="/"
-                  >
-                    {selectedMovie.originalTitle}
-                  </Link>
+      <MovieSearchButton onSearchResult={movie => setSelectedMovie(movie)}>
+        {!selectedMovie ? 'Select movie' : 'Change movie'}
+      </MovieSearchButton>
 
-                  <span className="text-grey-200">
-                    ({new Date(selectedMovie.releaseDate).getFullYear()})
-                  </span>
-                </div>
-
-                <Rating movie={selectedMovie} />
-              </div>
-            )}
-          </div>
-        </div>
-
-        <Button
-          className="mt-auto"
-          buttonStyle="secondary"
-          onClick={() => setSearch(true)}
-        >
-          {!selectedMovie ? 'Select movie' : 'Change movie'}
-        </Button>
-
-        <ReviewCreateForm />
-      </Card>
-    </>
+      <ReviewCreateForm movieId={selectedMovie ? selectedMovie.id : -1} />
+    </Card>
   );
 };
 

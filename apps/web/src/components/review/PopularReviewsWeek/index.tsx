@@ -1,14 +1,14 @@
-import type { Review } from '../../../../../graphql';
+import type { Review } from '../../../graphql';
 
-import { useFindPopularReviewsWeekQuery } from '../../../../../graphql';
+import { useFindPopularReviewsWeekQuery } from '../../../graphql';
 
-import Card from '../../../../../components/Card';
+import Card from '../../Card';
 
-import QueryState from '../../../../../components/QueryState';
+import QueryState from '../../QueryState';
 
-import ReviewPreview from '../../../../../components/review/ReviewPreview';
+import ReviewPreview from '../ReviewPreview';
 
-const PopularReviews: React.FC = () => {
+const PopularReviewsWeek: React.FC = () => {
   const { data, loading, error } = useFindPopularReviewsWeekQuery();
 
   return (
@@ -16,7 +16,7 @@ const PopularReviews: React.FC = () => {
       <QueryState loading={loading} error={error}>
         {data && (
           <ul className="flex flex-wrap">
-            {data.popularReviewsWeek.map(review => (
+            {data.reviewsPopularWeek.map(review => (
               <ReviewPreview
                 key={`popular-review-${review.id}`}
                 review={review as Review}
@@ -29,4 +29,4 @@ const PopularReviews: React.FC = () => {
   );
 };
 
-export default PopularReviews;
+export default PopularReviewsWeek;

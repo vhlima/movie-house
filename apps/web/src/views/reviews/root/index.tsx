@@ -1,40 +1,27 @@
-import type { Review } from '../../../graphql';
-
-import StarIcon from '../../../components/StarIcon';
+import type { FindReviewQuery } from '../../../graphql';
 
 import PageContent from '../../../components/PageContent';
-
 import BackdropImage from '../../../components/BackdropImage';
-
 import MovieInfos from '../../../components/movie/MovieInfos';
-
 import ReviewBody from '../../../components/review/ReviewBody';
-
-import CommentarySection from '../../../components/CommentarySection';
+import PostCommentaries from '../../../components/PostCommentaries';
 
 export interface MovieReviewViewProps {
-  review: Pick<Review, 'id' | 'author' | 'body' | 'movie' | 'createdAt'>;
+  review: FindReviewQuery['review'];
 }
 
-const MovieReviewView: React.FC<MovieReviewViewProps> = ({
-  review: { id, author, movie, body, createdAt },
-}) => (
-  <BackdropImage src={movie.backdropUrl}>
-    <PageContent>
-      <MovieInfos movie={movie}>
-        <div className="flex mt-auto">
-          {Array.from({ length: 10 })
-            .map((_, index) => index + 1)
-            .map(n => (
-              <StarIcon key={`movie-review-star-${n}`} fill={n <= 3} />
-            ))}
-        </div>
-      </MovieInfos>
+const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
+  const { movie } = review;
 
-      <div className="flex flex-col gap-2 mt-2">
-        <ReviewBody body={body} author={author} createdAt={createdAt} />
+  return (
+    <BackdropImage src={movie.backdropUrl}>
+      <PageContent>
+        <MovieInfos movie={movie} />
 
-        {/* {data && (
+        <div className="flex flex-col gap-2 mt-2">
+          <ReviewBody review={review} />
+
+          {/* {data && (
           <div className="flex gap-2">
             <LikeButton
               rootId={reviewId}
@@ -45,11 +32,12 @@ const MovieReviewView: React.FC<MovieReviewViewProps> = ({
             <CommentaryCount count={commentaryCount} />
           </div>
         )} */}
-      </div>
+        </div>
 
-      <CommentarySection postId={id} />
-    </PageContent>
-  </BackdropImage>
-);
+        <PostCommentaries postId={review.post.id} />
+      </PageContent>
+    </BackdropImage>
+  );
+};
 
 export default MovieReviewView;

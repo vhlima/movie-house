@@ -13,15 +13,19 @@ import Typography from '../../../../../components/Typography';
 import QueryState from '../../../../../components/QueryState';
 
 import ProfilePicture from '../../../../../components/ProfilePicture';
+import { useFindUserQuery } from '../../../../../graphql';
+import UserProfileLink from '../../../../../components/user/UserProfileLink';
 
 const PopularReviewers: React.FC = () => {
-  const { data } = useAuth();
+  const { data, error } = useFindUserQuery({
+    variables: { username: 'vhlima' },
+  });
 
   const { id, username, profilePictureUrl } = data?.user || {};
 
   return (
     <Card title="Popular reviewers" noPadding>
-      <QueryState loading={false} error={undefined}>
+      <QueryState loading={false} error={error}>
         {data && (
           <ul className="flex flex-col gap-2">
             {Array.from({ length: 5 }).map((_, index) => (
@@ -32,12 +36,7 @@ const PopularReviewers: React.FC = () => {
                 <ProfilePicture src={profilePictureUrl} imageSize="md" />
 
                 <div className="w-full">
-                  <Link
-                    href={{
-                      pathname: '/users/[username]',
-                      query: { username },
-                    }}
-                  >
+                  <UserProfileLink username={username}>
                     <Typography
                       className="font-semibold hover:text-grey-200"
                       component="h3"
@@ -45,7 +44,7 @@ const PopularReviewers: React.FC = () => {
                     >
                       {username}
                     </Typography>
-                  </Link>
+                  </UserProfileLink>
 
                   <Link
                     href={{
@@ -81,10 +80,6 @@ const PopularReviewers: React.FC = () => {
                     </Typography>
                   </Link>
                 </div>
-
-                <button className="bg-grey-300 p-2 rounded-full" type="button">
-                  <SvgIcon className="text-grey-100" iconType="BsPlusLg" />
-                </button>
               </ListItem>
             ))}
           </ul>
