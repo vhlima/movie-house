@@ -68,7 +68,6 @@ export const SEARCH_MOVIE = gql`
       page
       results {
         id
-        overview
         posterUrl
         originalTitle
         releaseDate

@@ -7,7 +7,6 @@ export const COMMENTARY_FIELDS = gql`
     body
     replyCount
     createdAt
-    updatedAt
     user {
       id
       username
@@ -24,7 +23,7 @@ export const COMMENTARY_FIELDS = gql`
 export const FIND_COMMENTARIES = gql`
   ${COMMENTARY_FIELDS}
 
-  query FindCommentaries($first: Int!, $postId: String!, $after: String) {
+  query FindCommentaries($first: Int!, $postId: Int!, $after: String) {
     commentaries(first: $first, postId: $postId, after: $after)
       @connection(key: "commentaries") {
       pageInfo {
@@ -44,7 +43,7 @@ export const FIND_COMMENTARIES = gql`
 
 export const ADD_COMMENTARY = gql`
   ${COMMENTARY_FIELDS}
-  mutation AddCommentary($body: String!, $postId: String!) {
+  mutation AddCommentary($body: String!, $postId: Int!) {
     comment(body: $body, postId: $postId) {
       ...CommentaryFields
     }
