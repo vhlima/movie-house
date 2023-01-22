@@ -79,7 +79,7 @@ export default class Movie {
   backdropUrl(@Root('backdrop_path') backdropPath: string): string {
     if (!backdropPath) return '';
 
-    return `https://image.tmdb.org/t/p/w1280${backdropPath}`;
+    return `https://image.tmdb.org/t/p/original${backdropPath}`;
   }
 
   @Field(() => MovieCredits)
