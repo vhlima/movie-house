@@ -4,23 +4,21 @@ import clsx from 'clsx';
 
 interface ListItemProps {
   className?: string;
-  border?: boolean;
 }
 
 /* 
-  This component will be used when we need a list with border spacing
-  Ex: Lists of MovieReview (preview) or MovieList (preview)
+  This component will be used whenever we need a list with border and spacing
 */
 
 const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
   className,
-  border = true,
   children,
 }) => (
   <li
-    className={clsx('py-2 first-of-type:pt-0 last-of-type:pb-0', className, {
-      'border-b border-b-grey-300 last-of-type:border-b-0': border,
-    })}
+    className={clsx(
+      'py-4 first-of-type:pt-0 last-of-type:pb-0 border-b border-b-grey-300 last-of-type:border-b-0',
+      className,
+    )}
   >
     {children}
   </li>
