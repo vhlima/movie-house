@@ -5,24 +5,18 @@ import { AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../../hooks/useAuth';
 
 import Link from '../../../components/Link';
-
-import Logo from '../../../components/Logo';
-
-import SearchBar from './components/SearchBar';
-
-import Notifications from './components/Notifications';
-
-import NavigationMenu from './components/NavigationMenu';
-
 import SvgIcon from '../../../components/SvgIcon';
+import Notifications from './components/Notifications';
+import NavigationMenu from './components/NavigationMenu';
+import Typography from '../../../components/Typography';
+import PageContent from '../../../components/PageContent';
 
 import LoginModal from './components/LoginModal';
-import PageContent from '../../../components/PageContent';
 
 type NavWindowType = 'auth' | 'menu' | 'search' | 'notifications' | '';
 
 const Navbar: React.FC = () => {
-  const { data } = useAuth();
+  const { data: session } = useAuth();
 
   const [currentWindow, setCurrentWindow] = useState<NavWindowType>('');
 
@@ -36,14 +30,14 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      {!data && currentWindow === 'auth' && (
+      {!session && currentWindow === 'auth' && (
         <LoginModal onClose={closeWindow} />
       )}
 
       <nav className="bg-grey-800">
-        <PageContent className="flex items-center gap-2 py-4 relative mx-auto max-w-5xl">
+        <PageContent className="flex items-center gap-2 py-4 relative mx-auto max-w-5xl z-50">
           <AnimatePresence>
-            {data && currentWindow === 'notifications' && (
+            {session && currentWindow === 'notifications' && (
               <Notifications onClose={closeWindow} />
             )}
           </AnimatePresence>
@@ -54,14 +48,26 @@ const Navbar: React.FC = () => {
             )}
           </AnimatePresence>
 
-          {currentWindow === 'search' && <SearchBar onClose={closeWindow} />}
+          <Link className="flex items-center gap-2 select-none" href="/">
+            <SvgIcon
+              className="text-movieHouse-dark"
+              iconType="BsHouse"
+              size={24}
+              strokeWidth={1}
+            />
 
-          <Link href="/">
-            <Logo showText />
+            <Typography
+              className="font-mono font-bold"
+              component="h1"
+              color="primary"
+              size="2xl"
+            >
+              MovieHouse
+            </Typography>
           </Link>
 
           <div className="flex items-center gap-2 ml-auto text-grey-300">
-            {!data && (
+            {!session && (
               <button type="button" onClick={() => openWindow('auth')}>
                 <SvgIcon iconType="FaUserAlt" size={18} />
               </button>
@@ -72,6 +78,12 @@ const Navbar: React.FC = () => {
               size={18}
               onClick={() => openWindow('search')}
             /> */}
+
+            {session && (
+              <button type="button" onClick={() => openWindow('notifications')}>
+                <SvgIcon iconType="BsFillBellFill" size={18} />
+              </button>
+            )}
 
             <button type="button" onClick={() => openWindow('menu')}>
               <SvgIcon

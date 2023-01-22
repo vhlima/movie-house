@@ -1,5 +1,6 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
+// import { useSession, signIn, signOut } from 'next-auth/react';
 
+import { signIn, signOut, useSession } from 'next-auth/react';
 import type { ModalHandles } from '../../../../../components/Modal';
 
 import Button from '../../../../../components/Button';
@@ -8,16 +9,19 @@ import Modal from '../../../../../components/Modal';
 
 import Typography from '../../../../../components/Typography';
 import SvgIcon from '../../../../../components/SvgIcon';
+// import { useAuth } from '../../../../../hooks/useAuth2';
 
 type LoginModalProps = ModalHandles;
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
-  const { data } = useSession();
+  const { data: session } = useSession();
+
+  // const { session, signIn, signOut } = useAuth();
 
   return (
     <Modal backdrop center onClose={onClose}>
       <div className="flex flex-col gap-2">
-        {data ? (
+        {session ? (
           <>
             <Typography component="h1">You are already signed in</Typography>
 

@@ -7,17 +7,17 @@ import MenuItem from './components/MenuItem';
 import Dropdown from '../Dropdown';
 
 const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
-  const { data } = useAuth();
+  const { data: session } = useAuth();
 
   return (
     <Dropdown onClose={onClose}>
       <ul className="">
-        {data && (
+        {session && (
           <MenuItem
             itemProps={{
               href: {
                 pathname: '/users/[username]',
-                query: { username: data.user.username },
+                query: { username: session.user.username },
               },
             }}
             text="My Profile"
@@ -31,7 +31,18 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
           icon="BsFillCollectionFill"
         />
 
-        <MenuItem itemProps={{ href: '/' }} text="Lists" icon="FaListUl" />
+        {session && (
+          <MenuItem
+            itemProps={{
+              href: {
+                pathname: '/users/[username]/lists',
+                query: { username: session.user.username },
+              },
+            }}
+            text="Lists"
+            icon="FaListUl"
+          />
+        )}
 
         {/* <MenuItem itemProps={{ href: '/' }} text="Members" icon="FaUsers" /> */}
 
@@ -41,7 +52,7 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
           icon="IoIosJournal"
         /> */}
 
-        {data && (
+        {session && (
           <MenuItem itemProps={{ onClick: signOut }} text="Logout" icon="FiX" />
         )}
       </ul>
