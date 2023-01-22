@@ -46,7 +46,7 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
       <div className="flex gap-2 items-center text-grey-100">
         <span className="block w-1 h-6 rounded-lg bg-movieHouse-dark" />
 
-        <h1 className="font-bold text-xl">{title}</h1>
+        <h1 className="font-bold text-xl uppercase">{title}</h1>
 
         {link && (
           <SvgIcon
@@ -81,7 +81,7 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
         </Link>
       )}
 
-      <div className={clsx('flex flex-col flex-grow mt-2', { 'gap-2': gap })}>
+      <div className={clsx('flex flex-col flex-grow mt-4', { 'gap-2': gap })}>
         {children}
       </div>
     </div>
