@@ -4,17 +4,13 @@ import { PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
 
 import User from '../user.interface';
 
-import PostgresTimestamps from '../timestamps.interface';
+import PostgresTimestamps from '../timestamps';
 
 @ObjectType({ isAbstract: true })
 export default abstract class BaseCommentary extends PostgresTimestamps {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
-
-  @Field(() => ID)
-  @Column({ name: 'post_id' })
-  postId: string;
 
   @Column({ name: 'user_id' })
   userId: string;
@@ -24,7 +20,7 @@ export default abstract class BaseCommentary extends PostgresTimestamps {
   @JoinColumn({
     name: 'user_id',
     referencedColumnName: 'id',
-    foreignKeyConstraintName: 'user_id',
+    foreignKeyConstraintName: 'UserId',
   })
   user: User;
 

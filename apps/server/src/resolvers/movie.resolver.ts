@@ -4,7 +4,7 @@ import type { ServerContext } from '../types';
 
 import Movie from '../entities/mongo-entities/movie';
 
-import MovieSearch from '../entities/movie-search.interface';
+import MovieSearch from '../entities/movie-search';
 
 import NotFoundError from '../errors/NotFound';
 

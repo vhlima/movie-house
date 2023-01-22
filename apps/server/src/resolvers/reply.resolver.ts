@@ -35,7 +35,10 @@ export default class ReplyResolver {
       first,
       cursor: after,
       repository: ReplyRepository,
-      findOptions: { where: { commentaryId }, relations: ['user'] },
+      findOptions: {
+        where: { commentaryId },
+        relations: ['user', 'commentary'],
+      },
     });
 
     return replies;
@@ -61,7 +64,6 @@ export default class ReplyResolver {
 
     const reply = ReplyRepository.create({
       userId: user.id,
-      postId: commentaryExists.postId,
       commentaryId,
       body,
     });
@@ -71,6 +73,7 @@ export default class ReplyResolver {
     // TODO find way of returning user without specifying, more detailed objects can be massive
 
     reply.user = user;
+    reply.commentary = commentaryExists;
 
     return reply;
   }

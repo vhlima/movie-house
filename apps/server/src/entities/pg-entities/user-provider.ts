@@ -1,8 +1,14 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import User from './user.interface';
 
-import PostgresTimestamps from './timestamps.interface';
+import PostgresTimestamps from './timestamps';
 
 @Entity('users_providers')
 export default class UserProvider extends PostgresTimestamps {
@@ -11,6 +17,14 @@ export default class UserProvider extends PostgresTimestamps {
 
   @Column({ name: 'user_id' })
   userId: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({
+    name: 'user_id',
+    referencedColumnName: 'id',
+    foreignKeyConstraintName: 'UserId',
+  })
+  user: User;
 
   @Column()
   provider: string;

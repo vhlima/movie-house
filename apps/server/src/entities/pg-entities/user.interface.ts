@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 
 import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 
-import PostgresTimestamps from './timestamps.interface';
+import PostgresTimestamps from './timestamps';
 
 @ObjectType()
 @Entity('users')

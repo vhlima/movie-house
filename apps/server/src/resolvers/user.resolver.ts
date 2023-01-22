@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Query, Args, Ctx, Int } from 'type-graphql';
+import { Resolver, Mutation, Arg, Query, Ctx, Int } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
@@ -72,22 +72,32 @@ class UserResolver {
 
   @Mutation(() => Boolean)
   async register(
-    @Ctx() { dataSources }: ServerContext,
+    @Ctx() context: ServerContext,
     @Arg('githubId', () => Int) githubId: number,
   ) {
-    const githubUser = await dataSources.github.getGithubUserById(githubId);
+    console.log(`register? ${JSON.stringify(context || {})}`);
+
+    const githubUser = await context.dataSources.github.getGithubUserById(
+      githubId,
+    );
 
     if (!githubUser) {
       throw new UserNotFoundError();
     }
 
+    console.log(`register2?`);
+
     const userExists = await UserRepository.findOneBy({
       username: githubUser.login,
     });
 
+    console.log(`register3?`);
+
     if (userExists) {
       return false;
     }
+
+    console.log(`register4?`);
 
     const user = UserRepository.create({
       username: githubUser.login,
@@ -104,6 +114,8 @@ class UserResolver {
     });
 
     await UserProviderRepository.save(userProvider);
+
+    console.log(`register5?`);
 
     return true;
   }

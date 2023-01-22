@@ -8,9 +8,13 @@ import User from '../entities/pg-entities/user.interface';
 
 import Follow from '../entities/pg-entities/follow.interface';
 
-import MovieRate from '../entities/pg-entities/movie-rate.interface';
-
 import Reply from '../entities/pg-entities/comment/reply.interface';
+
+import Post from '../entities/pg-entities/post';
+
+import Review from '../entities/pg-entities/review';
+
+import UserLimit from '../entities/pg-entities/limit';
 
 import UserProvider from '../entities/pg-entities/user-provider';
 
@@ -18,15 +22,15 @@ import Commentary from '../entities/pg-entities/comment/commentary.interface';
 
 /* Mongo Imports */
 
-import Review from '../entities/mongo-entities/review.interface';
-
 import Like from '../entities/mongo-entities/like.interface';
 
-import UserListCustom from '../entities/mongo-entities/user-list/custom/user-list-custom';
+import ListMovie from '../entities/mongo-entities/list-movie';
 
-import UserListPremadeMovie from '../entities/mongo-entities/user-list/premade/user-list-premade-movie';
+import PreMadeList from '../entities/pg-entities/pre-made-list';
 
-import UserListCustomMovie from '../entities/mongo-entities/user-list/custom/user-list-custom-movie';
+import List from '../entities/pg-entities/list';
+
+import ReviewMovie from '../entities/mongo-entities/review-movie';
 
 /* Postgres Repositories */
 
@@ -42,19 +46,23 @@ export const ReplyRepository = PostgresDataSource.getRepository(Reply);
 
 export const FollowRepository = PostgresDataSource.getRepository(Follow);
 
-export const MovieRateRepository = PostgresDataSource.getRepository(MovieRate);
+export const ReviewRepository = PostgresDataSource.getRepository(Review);
+
+export const UserLimitRepository = PostgresDataSource.getRepository(UserLimit);
+
+export const PostRepository = PostgresDataSource.getRepository(Post);
+
+export const PreMadeListRepository =
+  PostgresDataSource.getRepository(PreMadeList);
+
+export const ListRepository = PostgresDataSource.getRepository(List);
 
 /* Mongo Repositories */
 
-export const ReviewRepository = MongoDataSource.getMongoRepository(Review);
-
 export const LikeRepository = MongoDataSource.getMongoRepository(Like);
 
-export const UserListCustomRepository =
-  MongoDataSource.getMongoRepository(UserListCustom);
+export const ListMovieRepository =
+  MongoDataSource.getMongoRepository(ListMovie);
 
-export const UserListCustomMovieRepository =
-  MongoDataSource.getMongoRepository(UserListCustomMovie);
-
-export const UserListPreMadeMovieRepository =
-  MongoDataSource.getMongoRepository(UserListPremadeMovie);
+export const ReviewMovieRepository =
+  MongoDataSource.getMongoRepository(ReviewMovie);

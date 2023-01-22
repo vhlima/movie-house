@@ -7,7 +7,7 @@ import {
 
 const TABLE_NAME = 'commentaries';
 
-export class CreateCommentaries1660164283319 implements MigrationInterface {
+export class CreateCommentaries1673321693313 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -22,7 +22,7 @@ export class CreateCommentaries1660164283319 implements MigrationInterface {
           },
           {
             name: 'post_id',
-            type: 'varchar',
+            type: 'int',
           },
           {
             name: 'user_id',
@@ -49,6 +49,18 @@ export class CreateCommentaries1660164283319 implements MigrationInterface {
     await queryRunner.createForeignKey(
       TABLE_NAME,
       new TableForeignKey({
+        name: 'PostId',
+        columnNames: ['post_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'posts',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      TABLE_NAME,
+      new TableForeignKey({
         name: 'UserId',
         columnNames: ['user_id'],
         referencedColumnNames: ['id'],
@@ -60,6 +72,7 @@ export class CreateCommentaries1660164283319 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey(TABLE_NAME, 'PostId');
     await queryRunner.dropForeignKey(TABLE_NAME, 'UserId');
 
     await queryRunner.dropTable(TABLE_NAME);

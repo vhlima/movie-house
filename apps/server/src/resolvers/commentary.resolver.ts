@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Arg, ID, Args, Ctx } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Args, Ctx, Int } from 'type-graphql';
 
 import { ObjectId } from 'mongodb';
 
-import { CommentaryRepository, ReviewRepository } from '../repositories';
+import { CommentaryRepository } from '../repositories';
 
 import type { ServerContext } from '../types';
 
@@ -11,18 +11,17 @@ import { findWithPagination } from './pagination.resolver';
 import PaginationArgs from '../entities/types/args/pagination.args';
 
 import Commentary from '../entities/pg-entities/comment/commentary.interface';
-
 import Commentaries from '../entities/pg-entities/pagination/entities/commentaries.interface';
 
 import NotFoundError from '../errors/NotFound';
-
+import AuthorizationError from '../errors/Authorization';
 import AuthenticationError from '../errors/Authentication';
 
 @Resolver(() => Commentary)
 export default class CommentaryResolver {
   @Query(() => Commentaries)
   async commentaries(
-    @Arg('postId') postId: string,
+    @Arg('postId', () => Int) postId: number,
     @Args(() => PaginationArgs) { first, after }: PaginationArgs,
   ) {
     if (!ObjectId.isValid(postId)) {
@@ -50,7 +49,7 @@ export default class CommentaryResolver {
   @Mutation(() => Commentary)
   async comment(
     @Ctx() { user }: ServerContext,
-    @Arg('postId') postId: string,
+    @Arg('postId', () => Int) postId: number,
     @Arg('body') body: string,
   ) {
     if (!user) {
@@ -75,13 +74,24 @@ export default class CommentaryResolver {
   }
 
   @Mutation(() => String)
-  async deleteCommentary(@Arg('commentaryId') commentaryId: string) {
+  async deleteCommentary(
+    @Ctx() { user }: ServerContext,
+    @Arg('commentaryId') commentaryId: string,
+  ) {
+    if (!user) {
+      throw new AuthenticationError();
+    }
+
     const commentaryExists = await CommentaryRepository.findOneBy({
       id: commentaryId,
     });
 
     if (!commentaryExists) {
       throw new NotFoundError('Commentary not found');
+    }
+
+    if (commentaryExists.userId !== user.id) {
+      throw new AuthorizationError();
     }
 
     await CommentaryRepository.delete({ id: commentaryExists.id });

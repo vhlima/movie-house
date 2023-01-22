@@ -1,6 +1,6 @@
 import { registerEnumType } from 'type-graphql';
 
-enum UserListType {
+enum PreMadeListType {
   /* Movies watched by user */
   WATCHED = 'WATCHED',
   /* Movies tagged as favorite */
@@ -11,9 +11,9 @@ enum UserListType {
   WATCH_LATER = 'WATCH_LATER',
 }
 
-registerEnumType(UserListType, {
-  name: 'UserListType',
-  description: 'User list type defines wich category is that list in',
+registerEnumType(PreMadeListType, {
+  name: 'PreMadeListType',
+  description: 'Used to distinguish lists',
 });
 
-export default UserListType;
+export default PreMadeListType;

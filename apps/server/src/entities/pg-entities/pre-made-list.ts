@@ -1,20 +1,22 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
 import {
-  PrimaryGeneratedColumn,
   Column,
   Entity,
-  ManyToOne,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import User from './user.interface';
+import PreMadeListType from '../../enums/PreMadeListType';
 
 import PostgresTimestamps from './timestamps';
 
+import User from './user.interface';
+
 @ObjectType()
-@Entity('follows')
-export default class Follow extends PostgresTimestamps {
+@Entity('pre_made_lists')
+export default class PreMadeList extends PostgresTimestamps {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
@@ -22,7 +24,6 @@ export default class Follow extends PostgresTimestamps {
   @Column({ name: 'user_id' })
   userId: string;
 
-  @Field(() => User)
   @ManyToOne(() => User)
   @JoinColumn({
     name: 'user_id',
@@ -31,15 +32,7 @@ export default class Follow extends PostgresTimestamps {
   })
   user: User;
 
-  @Column({ name: 'target_user_id' })
-  targetUserId: string;
-
-  @Field(() => User)
-  @ManyToOne(() => User)
-  @JoinColumn({
-    name: 'target_user_id',
-    referencedColumnName: 'id',
-    foreignKeyConstraintName: 'TargetUserId',
-  })
-  targetUser: User;
+  @Field(() => PreMadeListType)
+  @Column({ name: 'list_type', type: 'varchar' })
+  listType: PreMadeListType;
 }

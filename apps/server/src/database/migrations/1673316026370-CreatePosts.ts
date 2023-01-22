@@ -5,9 +5,9 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-const TABLE_NAME = 'replies';
+const TABLE_NAME = 'posts';
 
-export class CreateReplies1660358504011 implements MigrationInterface {
+export class CreatePosts1673316026370 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -15,14 +15,9 @@ export class CreateReplies1660358504011 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'uuid',
+            type: 'int',
             isPrimary: true,
-            generationStrategy: 'uuid',
-            default: 'uuid_generate_v4()',
-          },
-          {
-            name: 'post_id',
-            type: 'varchar',
+            generationStrategy: 'increment',
           },
           {
             name: 'user_id',
@@ -30,11 +25,8 @@ export class CreateReplies1660358504011 implements MigrationInterface {
           },
           {
             name: 'body',
-            type: 'text',
-          },
-          {
-            name: 'commentary_id',
-            type: 'uuid',
+            type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -61,24 +53,9 @@ export class CreateReplies1660358504011 implements MigrationInterface {
         onUpdate: 'CASCADE',
       }),
     );
-
-    await queryRunner.createForeignKey(
-      TABLE_NAME,
-      new TableForeignKey({
-        name: 'CommentaryId',
-        columnNames: ['commentary_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'commentaries',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      }),
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey(TABLE_NAME, 'UserId');
-    await queryRunner.dropForeignKey(TABLE_NAME, 'CommentaryId');
-
     await queryRunner.dropTable(TABLE_NAME);
   }
 }

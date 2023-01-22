@@ -2,20 +2,16 @@ import { Arg, Query, Resolver } from 'type-graphql';
 
 import {
   FollowRepository,
-  ReviewRepository,
-  UserListCustomRepository,
-  UserListPreMadeMovieRepository,
+  ListRepository,
+  PreMadeListRepository,
   UserRepository,
 } from '../repositories';
 
 import UserNotFoundError from '../errors/UserNotFound';
 
-import ProfileStats from '../entities/user-profile/profile-stats.interface';
+import ProfileStats from '../entities/profile-stats';
 
-import ProfileReviews from '../entities/user-profile/profile-reviews.interface';
-import UserListType from '../enums/UserListType';
-
-const MAX_FEATURED_REVIEWS = 3;
+import PreMadeListType from '../enums/PreMadeListType';
 
 @Resolver()
 class ProfileResolver {
@@ -35,12 +31,15 @@ class ProfileResolver {
       userId: user.id,
     });
 
-    const listCount = await UserListCustomRepository.countBy({
-      authorId: user.id,
+    const listCount = await ListRepository.count({
+      where: {
+        post: { userId: user.id },
+      },
+      relations: ['post'],
     });
 
-    const moviesWatchedCount = await UserListPreMadeMovieRepository.count({
-      where: { userId: user.id, listType: UserListType.WATCHED },
+    const moviesWatchedCount = await PreMadeListRepository.count({
+      where: { userId: user.id, listType: PreMadeListType.WATCHED },
     });
 
     return {
@@ -50,40 +49,6 @@ class ProfileResolver {
 
       moviesWatchedCount,
       moviesWatchedThisYearCount: 0,
-    };
-  }
-
-  @Query(() => ProfileReviews)
-  async userProfileFeaturedReviews(@Arg('userId') userId: string) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const recentReviews = await ReviewRepository.find({
-      where: { authorId: user.id },
-      order: { createdAt: 'DESC' },
-      take: MAX_FEATURED_REVIEWS,
-    });
-
-    const pinnedReviews = await ReviewRepository.find({
-      where: {
-        authorId: user.id,
-        pinned: true,
-      },
-      take: MAX_FEATURED_REVIEWS,
-    });
-
-    const popularReviews = await ReviewRepository.find({
-      where: { authorId: user.id },
-      take: MAX_FEATURED_REVIEWS,
-    });
-
-    return {
-      recentReviews,
-      pinnedReviews,
-      popularReviews,
     };
   }
 }
