@@ -2,28 +2,24 @@ import { NetworkStatus } from '@apollo/client';
 
 import type { PropsWithChildren } from 'react';
 
-import type { FindRepliesQuery, Reply } from '../../../../../graphql';
+import Observer from '../../../Observer';
+import ErrorText from '../../../ErrorText';
+import LoadingSpinner from '../../../LoadingSpinner';
+
+import Reply from '../Reply';
 
 import { useLogic } from './logic';
 
-import LoadingSpinner from '../../../../LoadingSpinner';
-
-import ErrorText from '../../../../ErrorText';
-
-import Comment from '../../../components/Comment';
-
 interface RepliesProps {
   commentaryId: string;
-  repliesResponse: FindRepliesQuery;
-  networkStatus: NetworkStatus;
 }
 
 const Replies: React.FC<PropsWithChildren<RepliesProps>> = ({
   commentaryId,
-  repliesResponse,
-  networkStatus,
 }) => {
-  const { handleDelete } = useLogic({ commentaryId });
+  const { repliesResponse, networkStatus, fetchReplies } = useLogic({
+    commentaryId,
+  });
 
   if (networkStatus === NetworkStatus.error) {
     return <ErrorText text="Error loading replies" />;
@@ -40,19 +36,13 @@ const Replies: React.FC<PropsWithChildren<RepliesProps>> = ({
   return (
     <div>
       {repliesResponse.replies.edges.map(({ node: reply }) => (
-        <Comment
-          isReply
-          key={reply.id}
-          comment={reply as Reply}
-          onClickDelete={handleDelete}
-          onClickReport={() => ({})}
-        />
+        <Reply key={`commentary-reply-${reply.id}`} reply={reply} />
       ))}
 
       {repliesResponse.replies.pageInfo.hasNextPage && (
-        <div>
-          <h1>do you want to load more replies?</h1>
-        </div>
+        <Observer onIntersect={fetchReplies}>
+          <LoadingSpinner className="mt-4" center />;
+        </Observer>
       )}
     </div>
   );

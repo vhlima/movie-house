@@ -10,7 +10,6 @@ export type TextInputReference = RefObject<HTMLTextAreaElement>;
 
 interface TextInputHandles {
   onFocus?: () => void;
-  onKeyUp?: () => void;
 }
 
 export interface TextInputProps {
@@ -26,7 +25,6 @@ const TextInput: React.FC<TextInputInternalProps> = ({
   isReply,
   loading,
   onFocus,
-  onKeyUp,
 }) => {
   const { data } = useAuth();
 
@@ -39,6 +37,7 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       name="body"
       formik={formik}
       autoFocus={formik}
+      rows={1}
       autoGrow={formik && { maxHeight: 250 }}
       placeholder={!isReply ? 'Add a commentary...' : 'Add a reply...'}
       rightIcon={
@@ -56,11 +55,10 @@ const TextInput: React.FC<TextInputInternalProps> = ({
         showError: false,
         border: false,
         borderFocus: false,
-        rounded: false,
+        rounded: !formik,
         roundedTop: formik,
       }}
       onFocus={onFocus}
-      onKeyUp={formik && onKeyUp}
     >
       <div className="p-3 mt-auto">
         <ProfilePicture imageSize="sm" src={data.user.profilePictureUrl} />
