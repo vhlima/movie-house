@@ -59,7 +59,7 @@ const main = async () => {
 
     /* eslint-disable no-promise-executor-return */
     await new Promise<void>(resolve =>
-      httpServer.listen({ port: process.env.SERVER_PORT }, resolve),
+      httpServer.listen({ port: process.env.PORT || 4000 }, resolve),
     );
 
     console.log(`[Movie House] 🚀 Server running on URL`);
