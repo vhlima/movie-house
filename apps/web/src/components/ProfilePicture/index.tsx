@@ -4,7 +4,7 @@ import type { ImageProps } from 'next/image';
 
 import Image from '../Image';
 
-interface ProfilePictureProps extends ImageProps {
+interface ProfilePictureProps extends Omit<ImageProps, 'alt'> {
   imageSize: 'lg' | 'md' | 'sm';
 }
 

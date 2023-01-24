@@ -43,7 +43,10 @@ const UserProfileView: React.FC = () => {
   const { username, biography, profilePictureUrl } = data.user;
 
   return (
-    <BackdropImage src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg">
+    <BackdropImage
+      src="https://a.ltrbxd.com/resized/sm/upload/cb/ch/lf/md/oslo-august-31-1200-1200-675-675-crop-000000.jpg"
+      alt="User profile backdrop"
+    >
       <PageContent className="relative flex flex-col justify-center gap-8 w-full">
         <div className="flex items-center gap-2">
           <ProfilePicture imageSize="lg" src={profilePictureUrl} />

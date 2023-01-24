@@ -14,7 +14,7 @@ const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
   const { movie } = review;
 
   return (
-    <BackdropImage src={movie.backdropUrl}>
+    <BackdropImage src={movie.backdropUrl} alt="Movie review backdrop">
       <PageContent>
         <MovieInfos movie={movie} />
 

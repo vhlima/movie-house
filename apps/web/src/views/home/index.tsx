@@ -8,7 +8,10 @@ import Features from './components/Features';
 import PopularMovies from './components/PopularMovies';
 
 const HomeView: React.FC = () => (
-  <BackdropImage src="https://a.ltrbxd.com/resized/sm/upload/ah/66/ey/4h/top-gun-maverick-1200-1200-675-675-crop-000000.jpg">
+  <BackdropImage
+    src="https://a.ltrbxd.com/resized/sm/upload/ah/66/ey/4h/top-gun-maverick-1200-1200-675-675-crop-000000.jpg"
+    alt="Homepage backdrop image"
+  >
     <PageContent className="flex flex-col gap-4">
       <div className="relative flex flex-col items-center gap-2 mb-8">
         <Typography

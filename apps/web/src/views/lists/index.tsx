@@ -33,7 +33,7 @@ const UserListView: React.FC = () => {
   const { id: listId, user, name, post } = userListData.userList;
 
   return (
-    <BackdropImage src={bgUrl}>
+    <BackdropImage src={bgUrl} alt="Backdrop image for user list">
       <PageContent className="flex flex-col gap-2 relative">
         <div className="flex items-center">
           <ProfilePicture src={user.profilePictureUrl} imageSize="sm" />
