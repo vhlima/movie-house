@@ -36,7 +36,7 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
     link: from([
       errorLink,
       createHttpLink({
-        uri: 'http://127.0.0.1:4000/graphql', // TODO change that to api url on env
+        uri: process.env.API_URL,
         credentials: 'include',
         headers: {
           SameSite: 'None',

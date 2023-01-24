@@ -5,13 +5,15 @@ export const MongoDataSource = new DataSource({
   url: process.env.MONGO_URL,
   host: process.env.MONGOHOST,
   useNewUrlParser: true,
-  ssl: true,
+  ssl: false,
+  useUnifiedTopology: true,
   port: parseInt(process.env.MONGOPORT as string, 10),
   database: process.env.MONGO_DATABASE,
   username: process.env.MONGOUSER,
   password: process.env.MONGOPASSWORD,
   synchronize: process.env.NODE_ENV === 'development',
   logging: true,
+  authSource: 'admin',
   entities:
     process.env.NODE_ENV === 'development'
       ? ['./src/entities/mongo-entities/**/*.ts']
@@ -22,9 +24,7 @@ export const connectMongo = async () => {
   try {
     await MongoDataSource.initialize();
 
-    console.log(
-      `[Movie House] Mongo connected with sucess | ${process.env.NODE_ENV}`,
-    );
+    console.log(`[Movie House] Mongo connected with sucess`);
   } catch (error) {
     console.error('[Movie House] Error connecting to Mongo: ', error);
   }
