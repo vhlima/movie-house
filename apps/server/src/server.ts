@@ -47,7 +47,7 @@ const main = async () => {
                 'http://127.0.0.1:3000',
                 'https://studio.apollographql.com',
               ]
-            : ['https://movie-house.up.railway.app'],
+            : ['https://moviehouse.up.railway.app'],
         credentials: true,
       }),
       json(),
@@ -59,7 +59,7 @@ const main = async () => {
 
     /* eslint-disable no-promise-executor-return */
     await new Promise<void>(resolve =>
-      httpServer.listen({ port: 4000 }, resolve),
+      httpServer.listen({ port: process.env.SERVER_PORT }, resolve),
     );
 
     console.log(`[Movie House] 🚀 Server running on URL`);

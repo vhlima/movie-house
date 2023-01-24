@@ -8,7 +8,6 @@
     "start": "cross-env NODE_ENV=production ts-node -r dotenv/config build/src/server.js",
     "typeorm": "typeorm-ts-node-esm",
     "test": "vitest",
-    "migrate": "dotenv -- typeorm-ts-node-esm migration:run -d build/src/database/postgres.js",
     "migration:run": "dotenv -- typeorm-ts-node-esm migration:run -d src/database/postgres.ts",
     "migration:revert": "dotenv -- typeorm-ts-node-esm migration:revert -d src/database/postgres.ts"
   },
