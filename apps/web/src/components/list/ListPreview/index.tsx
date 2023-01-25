@@ -11,6 +11,7 @@ interface ListPreviewProps {
   list: {
     name: List['name'];
     movies: Array<{
+      id: Movie['id'];
       originalTitle: Movie['originalTitle'];
       posterUrl: Movie['posterUrl'];
     }>;
@@ -36,18 +37,13 @@ const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
         {movies.length > 0 && (
           <ul className="grid gap-2 grid-cols-4 sm:grid-cols-6 md:grid-cols-8 mb-2">
             {movies.map((movie, index) => (
-              <MovieCover
+              <li
                 key={`movie-card-list-${
                   !movie ? `null-${index}` : movie.originalTitle
                 }`}
-                movie={
-                  movie && {
-                    originalTitle: movie.originalTitle,
-                    posterUrl: movie.posterUrl,
-                  }
-                }
-                listItem
-              />
+              >
+                <MovieCover movie={movie} />
+              </li>
             ))}
           </ul>
         )}

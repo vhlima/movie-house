@@ -32,27 +32,24 @@ const MovieCardsEditable: React.FC<MovieCardsEditableProps> = ({
     <ul className="grid grid-cols-4 gap-2">
       {movieList.map((movie, index) =>
         !movie ? (
-          <MovieCover
-            className={clsx({
-              'hover:border-movieHouse-mid': firstEmptyIndex === index,
-            })}
-            onClick={firstEmptyIndex === index ? onAdd : undefined}
-            listItem
-          >
-            {firstEmptyIndex === index && (
-              <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
-            )}
-          </MovieCover>
+          <li>
+            <MovieCover
+              className={clsx({
+                'hover:border-movieHouse-mid': firstEmptyIndex === index,
+              })}
+              // onClick={firstEmptyIndex === index ? onAdd : undefined}
+              // listItem
+            >
+              {firstEmptyIndex === index && (
+                <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
+              )}
+            </MovieCover>
+          </li>
         ) : (
           <li className="flex flex-col gap-2">
             <MovieCover
               key={`favorite-movies-modal-${movie ? movie.id : index}`}
-              movie={
-                movie && {
-                  originalTitle: movie.originalTitle,
-                  posterUrl: movie.posterUrl,
-                }
-              }
+              movie={movie}
             />
 
             {movie && (

@@ -18,6 +18,7 @@ interface ReviewToPinProps {
       createdAt: Review['post']['createdAt'];
     };
     movie: {
+      id: Review['movie']['id'];
       originalTitle: Review['movie']['originalTitle'];
       posterUrl: Review['movie']['posterUrl'];
       releaseDate?: Review['movie']['releaseDate'];
@@ -28,13 +29,7 @@ interface ReviewToPinProps {
 
 const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
   <li className="flex gap-2">
-    <MovieCover
-      sizeType="sm"
-      movie={{
-        originalTitle: review.movie.originalTitle,
-        posterUrl: review.movie.posterUrl,
-      }}
-    />
+    <MovieCover sizeType="sm" movie={review.movie} />
 
     <section className="flex flex-col w-full mr-2">
       <Typography component="h2" color="primary">

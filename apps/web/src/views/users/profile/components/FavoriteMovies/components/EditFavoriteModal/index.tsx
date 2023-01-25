@@ -55,6 +55,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
         <MovieCoverList
           className="grid-cols-4"
           name="favorite-movies-modal"
+          link={false}
           empty={
             limitData.limit.limit -
             favoriteMoviesData.userPreMadeListMovies.length
@@ -69,7 +70,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
               className: clsx({
                 'hover:border-movieHouse-mid': index === 0,
               }),
-              children: (
+              children: !movie && index === 0 && (
                 <button
                   className="flex items-center justify-center w-full h-full"
                   type="button"

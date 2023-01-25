@@ -31,12 +31,7 @@ const MoviesTrendingView: React.FC = () => {
             {trendingMoviesData.trendingMovies.results.map(movie => (
               <li key={`trending-movie-${movie.id}`}>
                 <MovieLink movieId={movie.id}>
-                  <MovieCover
-                    movie={{
-                      originalTitle: movie.originalTitle,
-                      posterUrl: movie.posterUrl,
-                    }}
-                  />
+                  <MovieCover movie={movie} />
                 </MovieLink>
               </li>
             ))}

@@ -32,8 +32,8 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => (
               ) : (
                 <Image
                   alt={actor.originalName}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: 'cover' }}
                   src={actor.profilePictureUrl}
                 />
               )}

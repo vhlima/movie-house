@@ -27,15 +27,7 @@ const CreateReviewView: React.FC<CreateReviewView> = ({ movie }) => {
   return (
     <Card title="Write your review">
       <div className="flex gap-2">
-        <MovieCover
-          sizeType="sm"
-          movie={
-            selectedMovie && {
-              originalTitle: selectedMovie.originalTitle,
-              posterUrl: selectedMovie.posterUrl,
-            }
-          }
-        />
+        <MovieCover sizeType="sm" movie={selectedMovie} />
 
         <MovieSelectionInfo movie={selectedMovie} />
       </div>

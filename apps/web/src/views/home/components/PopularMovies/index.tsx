@@ -20,14 +20,15 @@ const PopularMovies: React.FC = () => {
       <ul className="grid grid-cols-3 sm:grid-cols-6 gap-2">
         {data &&
           data.trendingMovies.results.slice(0, 6).map(movie => (
-            <MovieCover
-              className="group hover:border-movieHouse-light"
-              key={`movie-cover-${movie.id}`}
-              movie={movie}
-              listItem
-            >
-              <MovieCoverOverlay />
-            </MovieCover>
+            <li>
+              <MovieCover
+                className="group hover:border-movieHouse-light"
+                key={`movie-cover-${movie.id}`}
+                movie={movie}
+              >
+                <MovieCoverOverlay />
+              </MovieCover>
+            </li>
           ))}
       </ul>
     </Card>
