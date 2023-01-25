@@ -74,7 +74,7 @@ const MovieInfos: React.FC<PropsWithChildren<MovieInfosProps>> = ({
         {children}
       </div>
 
-      <MovieCover movie={movie} sizeType="md" />
+      <MovieCover movie={movie} sizeType="md" link={false} />
     </div>
   );
 };

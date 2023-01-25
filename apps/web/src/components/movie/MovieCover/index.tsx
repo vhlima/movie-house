@@ -52,7 +52,9 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   return !link || !movie ? (
     <div className={containerClassNames}>{movieCoverBody}</div>
   ) : (
-    <MovieLink movieId={movie.id}>{movieCoverBody}</MovieLink>
+    <MovieLink className={containerClassNames} movieId={movie.id}>
+      {movieCoverBody}
+    </MovieLink>
   );
 };
 
