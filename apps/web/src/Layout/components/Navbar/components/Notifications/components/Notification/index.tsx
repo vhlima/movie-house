@@ -17,8 +17,8 @@ const Notification: React.FC<PropsWithChildren<NotificationProps>> = ({
       {imageUrl && (
         <div className="relative w-8 h-8 flex-shrink-0 rounded-full overflow-hidden mr-2">
           <Image
-            layout="fill"
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
+            fill
             alt="Notification"
             src={imageUrl}
           />

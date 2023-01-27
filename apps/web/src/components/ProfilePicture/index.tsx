@@ -27,8 +27,8 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
     )}
   >
     <Image
-      layout="fill"
-      objectFit="cover"
+      style={{ objectFit: 'fill' }}
+      fill
       alt="User profile picture"
       {...imageProps}
     />
