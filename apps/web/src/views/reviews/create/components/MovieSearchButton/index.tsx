@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import type { PropsWithChildren } from 'react';
 
+import clsx from 'clsx';
+
 import Button from '../../../../../components/Button';
 
 import MovieSearchModal from '../../../../../components/movie/MovieSearchModal';
@@ -9,12 +11,13 @@ import MovieSearchModal from '../../../../../components/movie/MovieSearchModal';
 import type { MovieSearchResult } from '../../../../../components/movie/MovieSearchModal';
 
 interface MovieSearchButtonProps {
+  className?: string;
   onSearchResult: (searchResult: MovieSearchResult) => void;
 }
 
 const MovieSearchButton: React.FC<
   PropsWithChildren<MovieSearchButtonProps>
-> = ({ onSearchResult, children }) => {
+> = ({ className, onSearchResult, children }) => {
   const [isSearch, setSearch] = useState<boolean>(false);
 
   return (
@@ -31,7 +34,7 @@ const MovieSearchButton: React.FC<
       )}
 
       <Button
-        className="mt-auto"
+        className={clsx('mt-auto', className && className)}
         buttonStyle="secondary"
         onClick={() => setSearch(true)}
       >
