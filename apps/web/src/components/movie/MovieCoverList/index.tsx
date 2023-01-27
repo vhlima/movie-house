@@ -33,18 +33,28 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
     {movies.map((movie, index) => {
       const coverProps = renderCover ? renderCover(index, movie) : undefined;
 
+      const isCustomCoverProps =
+        coverProps &&
+        typeof coverProps === 'object' &&
+        'children' in coverProps;
+
       return (
-        <li>
+        <li
+          className={clsx({
+            'flex flex-col gap-2': coverProps,
+          })}
+          key={`movie-cover-list-${name}-${movie.id}`}
+        >
           <MovieCover
-            key={`movie-cover-list-${name}-${movie.id}`}
+            className={isCustomCoverProps && coverProps.className}
             movie={movie}
             link={link}
-          >
-            {coverProps &&
-              (typeof coverProps === 'object' && 'children' in coverProps
-                ? coverProps.children
-                : coverProps)}
-          </MovieCover>
+          />
+
+          {coverProps &&
+            (isCustomCoverProps
+              ? coverProps.children
+              : (coverProps as ReactNode))}
         </li>
       );
     })}
@@ -55,7 +65,7 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
         const coverProps = renderCover ? renderCover(index) : undefined;
 
         return (
-          <li>
+          <li key={`movie-cover-list-empty-${name}-${n}`}>
             <MovieCover
               className={
                 coverProps &&
@@ -64,7 +74,6 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
                   ? coverProps.className
                   : ''
               }
-              key={`movie-cover-list-empty-${name}-${n}`}
             >
               {coverProps &&
                 (typeof coverProps === 'object' && 'children' in coverProps

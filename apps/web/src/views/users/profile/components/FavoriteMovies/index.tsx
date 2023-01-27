@@ -62,11 +62,9 @@ const FavoriteMovies: React.FC = () => {
               limitData.limit.limit -
               listMoviesData.userPreMadeListMovies.length
             }
-            movies={listMoviesData.userPreMadeListMovies.map(({ movie }) => ({
-              id: movie.id,
-              originalTitle: movie.originalTitle,
-              posterUrl: movie.posterUrl,
-            }))}
+            movies={listMoviesData.userPreMadeListMovies.map(
+              ({ movie }) => movie,
+            )}
           />
         )}
       </Card>

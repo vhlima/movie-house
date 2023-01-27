@@ -2,35 +2,30 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import { LimitType, useFindLimitQuery } from '../../../../../../../graphql';
-
-import type { ModalHandles } from '../../../../../../../components/Modal';
-
-import { useLogic } from './logic';
+import {
+  LimitType,
+  PreMadeListType,
+  useFindLimitQuery,
+} from '../../../../../../../graphql';
 
 import Modal from '../../../../../../../components/Modal';
+import SvgIcon from '../../../../../../../components/SvgIcon';
+import Typography from '../../../../../../../components/Typography';
+import type { ModalHandles } from '../../../../../../../components/Modal';
+import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
 
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
+import RemoveMovieFromPreMadeListButton from './components/RemoveMovieFromPreMadeListButton';
 
-import Typography from '../../../../../../../components/Typography';
-
-import SvgIcon from '../../../../../../../components/SvgIcon';
-
-import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
+import { useLogic } from './logic';
 
 type EditFavoriteMoviesModalProps = ModalHandles;
 
 const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
   onClose,
 }) => {
-  const {
-    favoriteMoviesResult: { data: favoriteMoviesData },
-    handleRemoveMovie,
-  } = useLogic();
-
-  const { data: limitData } = useFindLimitQuery({
-    variables: { limitType: LimitType.MaxFavoriteMovies },
-  });
+  /* Internal logic from component */
+  const { limitResult, favoriteMoviesResult, handleUpdateCache } = useLogic();
 
   /* Controls whether add favorite modal is shown or not */
   const [isAdding, setAdding] = useState<boolean>(false);
@@ -38,6 +33,8 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
   if (isAdding) {
     return <AddFavoriteMovieModal onClose={() => setAdding(false)} />;
   }
+
+  const { data: favoriteMoviesData } = favoriteMoviesResult;
 
   return (
     <Modal center backdrop onClose={onClose}>
@@ -51,53 +48,44 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
         <Modal.CloseButton onClose={onClose} />
       </Modal.Header>
 
-      {favoriteMoviesData && limitData && (
+      {favoriteMoviesData && limitResult && (
         <MovieCoverList
           className="grid-cols-4"
-          name="favorite-movies-modal"
+          name="edit-favorite-movies-modal"
           link={false}
           empty={
-            limitData.limit.limit -
+            limitResult.limit.limit -
             favoriteMoviesData.userPreMadeListMovies.length
           }
-          movies={favoriteMoviesData.userPreMadeListMovies.map(({ movie }) => ({
-            id: movie.id,
-            originalTitle: movie.originalTitle,
-            posterUrl: movie.posterUrl,
-          }))}
+          movies={favoriteMoviesData.userPreMadeListMovies.map(
+            ({ movie }) => movie,
+          )}
           renderCover={(index, movie) =>
-            !movie && {
-              className: clsx({
-                'hover:border-movieHouse-mid': index === 0,
-              }),
-              children: !movie && index === 0 && (
-                <button
-                  className="flex items-center justify-center w-full h-full"
-                  type="button"
-                  onClick={() => setAdding(true)}
-                >
-                  {index === 0 && (
+            !movie ? (
+              {
+                className: clsx({
+                  'hover:border-movieHouse-mid': index === 0,
+                }),
+                children: index === 0 && (
+                  <button
+                    className="flex items-center justify-center w-full h-full"
+                    type="button"
+                    onClick={() => setAdding(true)}
+                  >
                     <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
-                  )}
-                </button>
-              ),
-            }
+                  </button>
+                ),
+              }
+            ) : (
+              <RemoveMovieFromPreMadeListButton
+                movieId={movie.id}
+                listType={PreMadeListType.Favorite}
+                onCacheUpdate={movieId => handleUpdateCache(movieId)}
+              />
+            )
           }
         />
       )}
-
-      {/* {data && (
-          <MovieCardsEditable
-            maxMovies={4}
-            movies={
-              data.userFavoriteMovies.map(
-                favoriteMovie => favoriteMovie.movie,
-              ) as Movie[]
-            }
-            onAdd={() => setAdding(true)}
-            onRemove={handleRemove}
-          />
-        )} */}
     </Modal>
   );
 };

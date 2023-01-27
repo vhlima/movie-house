@@ -5,6 +5,7 @@ import type { PropsWithChildren } from 'react';
 import type { Movie } from '../../../graphql';
 
 import Image from '../../Image';
+import Typography from '../../Typography';
 
 import MovieLink from '../MovieLink';
 
@@ -22,39 +23,46 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   link = true,
   children,
 }) => {
-  const containerClassNames = clsx(
-    'relative w-full h-full select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
-    {
-      'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
-      'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
-      'flex items-center justify-center': !movie,
-      [className]: !!className,
-    },
+  const movieCoverImageJsx = movie && (
+    <Image
+      title={movie.originalTitle}
+      layout="responsive"
+      width={150}
+      height={225}
+      src={movie.posterUrl}
+      alt={movie.originalTitle}
+    />
   );
 
-  const movieCoverBody = (
-    <>
-      {movie && (
-        <Image
-          title={movie.originalTitle}
-          layout="responsive"
-          width={150}
-          height={225}
-          src={movie.posterUrl}
-          alt={movie.originalTitle}
-        />
+  const movieCoverBodyJsx =
+    !link || !movie ? (
+      movieCoverImageJsx
+    ) : (
+      <MovieLink movieId={movie.id}>{movieCoverImageJsx}</MovieLink>
+    );
+
+  return (
+    <div
+      className={clsx(
+        'relative w-full h-full select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
+        {
+          'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
+          'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
+          'flex items-center justify-center': !movie,
+          [className]: !!className,
+        },
       )}
+    >
+      {movieCoverBodyJsx}
 
-      {!children && !movie ? <span className="text-3xl">?</span> : children}
-    </>
-  );
-
-  return !link || !movie ? (
-    <div className={containerClassNames}>{movieCoverBody}</div>
-  ) : (
-    <MovieLink className={containerClassNames} movieId={movie.id}>
-      {movieCoverBody}
-    </MovieLink>
+      {!children && !movie ? (
+        <Typography component="span" size="3xl" color="quaternary">
+          ?
+        </Typography>
+      ) : (
+        children
+      )}
+    </div>
   );
 };
 

@@ -22,15 +22,13 @@ import MovieCoverList from '../../../../../../../components/movie/MovieCoverList
 
 import PinnedReviewsAddModal from '../PinnedReviewsAddModal';
 
-import { useLogic } from './logic';
+import UnpinReviewButton from './components/UnpinReviewButton';
 
 type PinnedReviewsEditModalProps = ModalHandles;
 
 const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
   onClose,
 }) => {
-  const { handleUnpinReview } = useLogic();
-
   const { data: session } = useAuth();
 
   const { data: userPinnedReviewsData } = useFindUserPinnedReviewsQuery({
@@ -71,72 +69,33 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
           movies={userPinnedReviewsData.reviewsUserPinned.map(
             review => review.movie,
           )}
-          renderCover={(index, movie) =>
-            movie
-              ? {
-                  children: (
-                    <button
-                      className="flex items-center justify-center w-full"
-                      type="button"
-                      onClick={async () => {
-                        // TODO temporary workaround
-                        const review =
-                          userPinnedReviewsData.reviewsUserPinned[index];
+          link={false}
+          renderCover={(index, movie) => {
+            if (movie) {
+              const review = userPinnedReviewsData.reviewsUserPinned[index];
 
-                        if (review) {
-                          await handleUnpinReview(review.post.id);
-                        }
-                      }}
-                    >
-                      <SvgIcon
-                        className="text-error-light"
-                        iconType="FiX"
-                        size={30}
-                      />
-                    </button>
-                  ),
-                }
-              : {
-                  className: clsx({
-                    'hover:border-movieHouse-mid': index === 0,
-                  }),
-                  children: index === 0 && (
-                    <button
-                      className="flex items-center justify-center w-full h-full"
-                      type="button"
-                      onClick={() => setAdding(true)}
-                    >
-                      <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
-                    </button>
-                  ),
-                }
-          }
+              if (review) {
+                return <UnpinReviewButton postId={review.post.id} />;
+              }
+            }
+
+            return {
+              className: clsx({
+                'hover:border-movieHouse-mid': index === 0,
+              }),
+              children: index === 0 && (
+                <button
+                  className="flex items-center justify-center w-full h-full"
+                  type="button"
+                  onClick={() => setAdding(true)}
+                >
+                  <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
+                </button>
+              ),
+            };
+          }}
         />
       )}
-
-      {/* <QueryState loading={false} error={error}>
-        {!data ? (
-          Array.from({ length: 3 })
-            .map((_, index) => index + 1)
-            .map(n => (
-              <MovieCover
-                key={`edit-pinned-movie-empty-${n}`}
-                sizeType="responsive"
-              />
-            ))
-        ) : (
-          <MovieCardsEditable
-            maxMovies={3}
-            movies={
-              data.reviews
-                .filter(review => review.pinned)
-                .map(review => review.movie) as Movie[]
-            }
-            onAdd={() => setAdding(true)}
-            onRemove={handleUnpin}
-          />
-        )}
-      </QueryState> */}
     </Modal>
   );
 };

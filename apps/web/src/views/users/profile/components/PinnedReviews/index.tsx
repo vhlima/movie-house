@@ -25,6 +25,10 @@ const PinnedReviews: React.FC = () => {
 
   const [isEditing, setEditing] = useState<boolean>(false);
 
+  const hasAnyReviewPinned =
+    !!userPinnedReviewsData ||
+    userPinnedReviewsData.reviewsUserPinned.length > 0;
+
   return (
     <>
       {isEditing && (
@@ -42,8 +46,7 @@ const PinnedReviews: React.FC = () => {
         }
         noPadding
       >
-        {!userPinnedReviewsData ||
-        userPinnedReviewsData.reviewsUserPinned.length === 0 ? (
+        {!hasAnyReviewPinned ? (
           <Typography component="p">
             {user.username} dont have any review highlighted.
           </Typography>
