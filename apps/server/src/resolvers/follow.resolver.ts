@@ -69,7 +69,7 @@ class FollowResolver {
     @Arg('userId') userId: string,
   ) {
     if (!user) {
-      throw new AuthenticationError();
+      return false;
     }
 
     const targetUser = await UserRepository.findOneBy({ id: userId });
