@@ -20,18 +20,17 @@ const TextShorter: React.FC<TextShorterProps> = ({
 }) => {
   const [isCollapsed, setCollapsed] = useState<boolean>(false);
 
-  const isMaxCharacters = text.length > maxCharacters;
+  const collapse =
+    text.length > maxCharacters && text.length - maxCharacters >= maxCharacters;
 
   return (
     <Typography
       className={clsx('break-words', className && className)}
       component="p"
     >
-      {isCollapsed || !isMaxCharacters
-        ? text
-        : `${text.slice(0, maxCharacters)}...`}
+      {isCollapsed || !collapse ? text : `${text.slice(0, maxCharacters)}...`}
 
-      {isMaxCharacters && (
+      {collapse && (
         <Button
           buttonStyle="tertiary"
           buttonSize="none"
