@@ -41,6 +41,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
       width={sizes[imageSize].width}
       height={sizes[imageSize].height}
       alt="User profile picture"
+      unoptimized
       {...imageProps}
     />
   </div>
