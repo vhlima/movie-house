@@ -36,7 +36,7 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
     link: from([
       errorLink,
       createHttpLink({
-        uri: process.env.API_URL,
+        uri: process.env.NEXT_PUBLIC_API_URL,
         credentials: 'include',
         headers: {
           SameSite: 'None',
