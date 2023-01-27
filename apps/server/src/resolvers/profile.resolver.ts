@@ -42,13 +42,18 @@ class ProfileResolver {
       where: { userId: user.id, listType: PreMadeListType.WATCHED },
     });
 
+    const moviesWatchedThisYearCount = await PreMadeListRepository.count({
+      // TODO order query by only movies watched the current year
+      where: { userId: user.id, listType: PreMadeListType.WATCHED },
+    });
+
     return {
       followerCount,
       followingCount,
       listCount,
 
       moviesWatchedCount,
-      moviesWatchedThisYearCount: 0,
+      moviesWatchedThisYearCount,
     };
   }
 }
