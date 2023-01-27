@@ -25,6 +25,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
 }) => {
   const movieCoverImageJsx = movie && (
     <Image
+      className="w-full h-full"
       title={movie.originalTitle}
       width={250}
       height={250}
