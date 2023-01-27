@@ -4,14 +4,14 @@ import { usePreMadeListMoviesCache } from '../../hooks/usePreMadeListMoviesCache
 
 import ActionButton from '../ActionButton';
 
-interface WatchLaterButtonProps {
+interface WatchButtonProps {
   movieId: number;
 }
 
-const WatchLaterButton: React.FC<WatchLaterButtonProps> = ({ movieId }) => {
+const WatchButton: React.FC<WatchButtonProps> = ({ movieId }) => {
   const { isAddedToList, handleAddOrRemoveFromList } =
     usePreMadeListMoviesCache({
-      listType: PreMadeListType.WatchLater,
+      listType: PreMadeListType.Watched,
     });
 
   return (
@@ -24,4 +24,4 @@ const WatchLaterButton: React.FC<WatchLaterButtonProps> = ({ movieId }) => {
   );
 };
 
-export default WatchLaterButton;
+export default WatchButton;

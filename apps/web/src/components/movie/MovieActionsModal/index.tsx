@@ -16,7 +16,7 @@ import MovieRateModal from '../MovieRateModal';
 import RateButton from './components/RateButton';
 import WatchListButton from './components/WatchListButton';
 import MovieLikeButton from './components/MovieLikeButton';
-import WatchLaterButton from './components/WatchLaterButton';
+import WatchButton from './components/WatchButton';
 import AddMovieToListModal from './components/AddMovieToListModal';
 import MovieReviewButton from './components/MovieReviewButton';
 
@@ -65,7 +65,7 @@ const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
           onClick={() => setSubModalOpen('rate')}
         />
 
-        <WatchLaterButton movieId={movie.id} />
+        <WatchButton movieId={movie.id} />
 
         <MovieLikeButton movieId={movie.id} />
 
