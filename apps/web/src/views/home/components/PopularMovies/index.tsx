@@ -4,8 +4,6 @@ import Card from '../../../../components/Card';
 
 import MovieCover from '../../../../components/movie/MovieCover';
 
-import MovieCoverOverlay from './components/MovieCoverOverlay';
-
 const PopularMovies: React.FC = () => {
   const { data } = useFindTrendingMoviesQuery({
     variables: { page: 1 },
@@ -25,9 +23,7 @@ const PopularMovies: React.FC = () => {
                 className="group hover:border-movieHouse-light"
                 key={`movie-cover-${movie.id}`}
                 movie={movie}
-              >
-                <MovieCoverOverlay />
-              </MovieCover>
+              />
             </li>
           ))}
       </ul>
