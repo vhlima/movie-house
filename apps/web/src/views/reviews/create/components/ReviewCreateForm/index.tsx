@@ -17,8 +17,6 @@ const ReviewCreateForm: React.FC<ReviewCreateFormProps> = ({ movieId }) => {
     movieId,
   });
 
-  // TODO show form validation errors
-
   return (
     <Formik
       initialValues={{ body: '' }}
@@ -27,21 +25,31 @@ const ReviewCreateForm: React.FC<ReviewCreateFormProps> = ({ movieId }) => {
       validateOnBlur={false}
       onSubmit={handleSubmit}
     >
-      <Form className="flex flex-col gap-2">
-        {error && <ErrorText text={error.message} />}
+      {({ errors }) => (
+        <Form className="flex flex-col gap-2 w-full mt-auto">
+          {error && <ErrorText text={error.message} />}
 
-        <Input
-          formik
-          name="body"
-          rows={4}
-          autoGrow={{ maxHeight: 250 }}
-          label={{ text: 'Your review:', htmlFor: true }}
-        />
+          {errors && Object.keys(errors).length > 0 && (
+            <ErrorText
+              text={Object.keys(errors)
+                .map(key => errors[key])
+                .join(', ')}
+            />
+          )}
 
-        <Button type="submit" disabled={movieId === -1 || loading}>
-          Post review
-        </Button>
-      </Form>
+          <Input
+            formik
+            name="body"
+            rows={4}
+            autoGrow={{ maxHeight: 250 }}
+            label={{ text: 'Your review:', htmlFor: true }}
+          />
+
+          <Button type="submit" disabled={movieId === -1 || loading}>
+            Post review
+          </Button>
+        </Form>
+      )}
     </Formik>
   );
 };
