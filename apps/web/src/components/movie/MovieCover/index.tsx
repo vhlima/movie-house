@@ -11,7 +11,7 @@ import MovieLink from '../MovieLink';
 
 interface MovieCover2Props {
   className?: string;
-  sizeType?: 'responsive' | 'sm' | 'md';
+  sizeType?: 'sm' | 'md';
   movie?: Pick<Movie, 'id' | 'originalTitle' | 'posterUrl'>;
   link?: boolean;
 }
@@ -26,9 +26,8 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   const movieCoverImageJsx = movie && (
     <Image
       title={movie.originalTitle}
-      layout="responsive"
-      width={150}
-      height={225}
+      width={250}
+      height={250}
       src={movie.posterUrl}
       alt={movie.originalTitle}
     />
