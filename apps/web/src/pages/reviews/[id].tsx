@@ -1,7 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next';
 
-import { useRouter } from 'next/router';
-
 import * as Yup from 'yup';
 
 import type { FindReviewQuery, FindReviewQueryVariables } from '../../graphql';
