@@ -29,7 +29,7 @@ interface ReviewToPinProps {
 
 const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
   <li className="flex gap-2">
-    <MovieCover sizeType="sm" movie={review.movie} />
+    <MovieCover sizeType="sm" movie={review.movie} link={false} />
 
     <section className="flex flex-col w-full mr-2">
       <Typography component="h2" color="primary">
