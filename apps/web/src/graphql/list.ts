@@ -52,6 +52,31 @@ export const FIND_USER_LIST = gql`
   }
 `;
 
+export const FIND_MOVIE_POPULAR_LISTS = gql`
+  query FindMoviePopularLists($movieId: Int!) {
+    moviePopularLists(movieId: $movieId) {
+      id
+      name
+      backgroundImageUrl
+      user {
+        id
+        username
+        profilePictureUrl
+      }
+      post {
+        id
+        body
+        createdAt
+      }
+      movies {
+        id
+        originalTitle
+        posterUrl
+      }
+    }
+  }
+`;
+
 export const CREATE_USER_LIST = gql`
   mutation CreateUserList($name: String!, $body: String) {
     userListCreate(name: $name, body: $body) {

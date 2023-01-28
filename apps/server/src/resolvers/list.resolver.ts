@@ -1,5 +1,6 @@
 import { Resolver, Mutation, Ctx, Arg, Int, Query } from 'type-graphql';
 
+import { Any } from 'typeorm';
 import type { ServerContext } from '../types';
 
 import {
@@ -208,5 +209,23 @@ export default class ListResolver {
     await ListMovieRepository.deleteOne(listMovieExists);
 
     return true;
+  }
+
+  @Query(() => [List])
+  async moviePopularLists(@Arg('movieId', () => Int) movieId: number) {
+    const listMovies = await ListMovieRepository.find({
+      where: { movieId },
+      take: 3,
+    });
+
+    const lists = await ListRepository.find({
+      where: { id: Any(listMovies.map(listMovie => listMovie.listId)) },
+      relations: ['post', 'post.user'],
+    });
+
+    return lists.map(list => ({
+      ...list,
+      user: list.post.user,
+    }));
   }
 }

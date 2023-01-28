@@ -1,24 +1,26 @@
-import { useFindUserListsQuery } from '../../../../../graphql';
+import { useFindMoviePopularListsQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
+import ListPreview from '../../../../../components/list/ListPreview';
 
 interface MoviePopularListsProps {
   movieId: number;
 }
 
 const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
-  const { data: popularListsData } = useFindUserListsQuery({
-    variables: { userId: '' },
+  const { data: popularListsData } = useFindMoviePopularListsQuery({
+    variables: { movieId },
   });
 
   return (
     <Card title="Popular lists" link={{ href: '/' }} noPadding>
       {popularListsData && (
         <ul>
-          {popularListsData.userLists.map(list => (
-            <h1 key={`movie-popular-lists-${list.post.id}`}>
-              list here {list.name}
-            </h1>
+          {popularListsData.moviePopularLists.map(list => (
+            <ListPreview
+              key={`movie-popular-lists-${list.post.id}`}
+              list={list}
+            />
           ))}
         </ul>
       )}
