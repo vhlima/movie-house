@@ -17,9 +17,9 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
     <>
       <div className="relative w-full h-72 sm:h-96 md:h-96 lg:h-[28rem]">
         <Image
+          sizes="100vw, 100vh"
           style={{ objectFit: 'fill' }}
           fill
-          unoptimized
           priority
           {...imageProps}
         />
