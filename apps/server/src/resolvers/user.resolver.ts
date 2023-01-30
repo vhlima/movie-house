@@ -75,8 +75,6 @@ class UserResolver {
     @Ctx() context: ServerContext,
     @Arg('githubId', () => Int) githubId: number,
   ) {
-    console.log(`register? ${JSON.stringify(context || {})}`);
-
     const githubUser = await context.dataSources.github.getGithubUserById(
       githubId,
     );
@@ -85,19 +83,13 @@ class UserResolver {
       throw new UserNotFoundError();
     }
 
-    console.log(`register2?`);
-
     const userExists = await UserRepository.findOneBy({
       username: githubUser.login,
     });
 
-    console.log(`register3?`);
-
     if (userExists) {
       return false;
     }
-
-    console.log(`register4?`);
 
     const user = UserRepository.create({
       username: githubUser.login,
@@ -114,8 +106,6 @@ class UserResolver {
     });
 
     await UserProviderRepository.save(userProvider);
-
-    console.log(`register5?`);
 
     return true;
   }
