@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 import type { Commentary } from '../../../../graphql';
 
@@ -17,8 +17,6 @@ import ProfilePicture from '../../../ProfilePicture';
 
 import UserProfileLink from '../../../user/UserProfileLink';
 
-import ReplyButton from './components/ReplyButton';
-
 export interface CommentaryBaseProps {
   id: Commentary['id'];
   body: Commentary['body'];
@@ -33,20 +31,21 @@ export interface CommentaryBaseProps {
 interface CommentaryBaseInternalProps {
   isReply?: boolean;
   base: CommentaryBaseProps;
+  buttons?: ReactNode;
   onClickDelete: () => void;
 }
 
 const CommentaryBase: React.FC<
   PropsWithChildren<CommentaryBaseInternalProps>
-> = ({ isReply, base, children, onClickDelete }) => {
+> = ({ isReply, base, buttons, children, onClickDelete }) => {
   const { user, body, createdAt } = base;
 
   const { data: session } = useAuth();
 
   return (
-    <div
+    <li
       className={clsx(
-        'flex flex-col gap-2 p-4 border-b border-grey-700 last-of-type:border-b-0',
+        'flex flex-col gap-2 py-4 border-b border-grey-700 last-of-type:border-b-0 last-of-type:pb-0',
         {
           'pr-0 pl-6': isReply,
         },
@@ -75,7 +74,7 @@ const CommentaryBase: React.FC<
       <div className="flex gap-2">
         <LikeButton rootId="" likeCount={0} />
 
-        {!isReply && <ReplyButton commentaryId={base.id} />}
+        {buttons && buttons}
 
         {session && session.user.id === base.user.id && (
           <Button
@@ -91,7 +90,7 @@ const CommentaryBase: React.FC<
       </div>
 
       {children}
-    </div>
+    </li>
   );
 };
 
