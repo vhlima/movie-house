@@ -11,7 +11,9 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => (
     <div className="flex flex-col relative w-screen h-screen overflow-x-hidden overflow-y-auto font-sans bg-grey-900">
       <Navbar />
 
-      <main className="relative w-full mx-auto max-w-5xl">{children}</main>
+      <main className="relative w-full mx-auto max-w-5xl px-3 md:px-9">
+        {children}
+      </main>
 
       <Footer />
     </div>
