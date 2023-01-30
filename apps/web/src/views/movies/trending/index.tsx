@@ -12,8 +12,6 @@ import PageContent from '../../../components/PageContent';
 
 import PopularReviewers from './components/PopularReviewers';
 
-import MovieLink from '../../../components/movie/MovieLink';
-
 const MoviesTrendingView: React.FC = () => {
   const { data: trendingMoviesData } = useFindTrendingMoviesQuery({
     variables: { page: 1 },
@@ -30,9 +28,7 @@ const MoviesTrendingView: React.FC = () => {
           <ul className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-2">
             {trendingMoviesData.trendingMovies.results.map(movie => (
               <li key={`trending-movie-${movie.id}`}>
-                <MovieLink movieId={movie.id}>
-                  <MovieCover movie={movie} />
-                </MovieLink>
+                <MovieCover movie={movie} />
               </li>
             ))}
           </ul>

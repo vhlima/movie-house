@@ -24,7 +24,7 @@ const RecentReviews: React.FC = () => {
                     query: { id: review.id },
                   }}
                 >
-                  <MovieCover movie={review.movie} />
+                  <MovieCover movie={review.movie} link={false} />
                 </Link>
               </li>
             ))}
