@@ -10,7 +10,6 @@ import {
 
 import { ListMovieRepository, UserRepository } from '../../repositories';
 
-import ListMovie from '../mongo-entities/list-movie';
 import Movie from '../mongo-entities/movie';
 
 import Post from './post';
@@ -21,7 +20,7 @@ import User from './user.interface';
 @Entity('lists')
 export default class List {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ name: 'post_id' })
