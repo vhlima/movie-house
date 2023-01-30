@@ -33,7 +33,14 @@ const UserListsView: React.FC = () => {
 
   const { user } = userData;
 
-  const { userLists } = userListsData;
+  // TODO that must be received directly filtered from server
+  const userLists = userListsData
+    ? userListsData.userLists.filter(list =>
+        !session || session.user.id !== user.id
+          ? list?.isPrivate || true
+          : true,
+      )
+    : [];
 
   return (
     <PageContent className="my-3">
@@ -57,19 +64,13 @@ const UserListsView: React.FC = () => {
           Lists
         </Typography>
 
-        {userLists && userLists.length > 0 && (
+        {userLists.length > 0 && (
           <ul>
-            {userLists
-              .filter(list =>
-                !session || session.user.id !== user.id
-                  ? list?.isPrivate || true
-                  : true,
-              )
-              .map(list => (
-                <ListItem key={`user-list-${list.name}`}>
-                  <ListPreview list={list} />
-                </ListItem>
-              ))}
+            {userLists.map(list => (
+              <ListItem key={`user-list-${list.name}`}>
+                <ListPreview list={list} />
+              </ListItem>
+            ))}
           </ul>
         )}
       </div>

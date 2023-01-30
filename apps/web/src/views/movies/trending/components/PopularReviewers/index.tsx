@@ -1,19 +1,12 @@
-import { useAuth } from '../../../../../hooks/useAuth';
+import { useFindUserQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
-
 import Link from '../../../../../components/Link';
-
-import SvgIcon from '../../../../../components/SvgIcon';
-
 import ListItem from '../../../../../components/ListItem';
-
 import Typography from '../../../../../components/Typography';
-
 import QueryState from '../../../../../components/QueryState';
-
 import ProfilePicture from '../../../../../components/ProfilePicture';
-import { useFindUserQuery } from '../../../../../graphql';
+
 import UserProfileLink from '../../../../../components/user/UserProfileLink';
 
 const PopularReviewers: React.FC = () => {
@@ -27,7 +20,7 @@ const PopularReviewers: React.FC = () => {
     <Card title="Popular reviewers" noPadding>
       <QueryState loading={false} error={error}>
         {data && (
-          <ul className="flex flex-col gap-2">
+          <ul>
             {Array.from({ length: 5 }).map((_, index) => (
               <ListItem
                 className="flex items-center gap-2"
