@@ -15,12 +15,15 @@ const PopularReviews: React.FC = () => {
     variables: { userId: user?.id },
   });
 
+  const hasAnyReview =
+    userPopularReviewsData &&
+    userPopularReviewsData.reviewsUserPopular.length > 0;
+
   return (
     <Card title="Popular reviews" noPadding>
-      {!userPopularReviewsData ||
-      userPopularReviewsData.reviewsUserPopular.length === 0 ? (
+      {!hasAnyReview ? (
         <Typography component="p">
-          {user.username} hasnt reviewed any movies yet
+          {user.username} hasnt reviewed any movies yet.
         </Typography>
       ) : (
         <ul>

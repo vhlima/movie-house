@@ -26,8 +26,7 @@ const PinnedReviews: React.FC = () => {
   const [isEditing, setEditing] = useState<boolean>(false);
 
   const hasAnyReviewPinned =
-    !!userPinnedReviewsData ||
-    userPinnedReviewsData.reviewsUserPinned.length > 0;
+    userPinnedReviewsData && userPinnedReviewsData.reviewsUserPinned.length > 0;
 
   return (
     <>
@@ -48,7 +47,7 @@ const PinnedReviews: React.FC = () => {
       >
         {!hasAnyReviewPinned ? (
           <Typography component="p">
-            {user.username} dont have any review highlighted.
+            {user.username} dont have any review pinned.
           </Typography>
         ) : (
           <ul>
