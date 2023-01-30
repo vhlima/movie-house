@@ -22,7 +22,7 @@ const MoviesTrendingView: React.FC = () => {
   }
 
   return (
-    <PageContent className="flex flex-col gap-4 my-3">
+    <div className="flex flex-col gap-4 my-4">
       <Card title="Popular movies this week" noPadding>
         {trendingMoviesData && (
           <ul className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-2">
@@ -40,7 +40,7 @@ const MoviesTrendingView: React.FC = () => {
       <PopularReviewsWeek />
 
       <PopularReviewers />
-    </PageContent>
+    </div>
   );
 };
 
