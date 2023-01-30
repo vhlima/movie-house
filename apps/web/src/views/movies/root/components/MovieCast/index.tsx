@@ -22,7 +22,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => (
           className="flex flex-col gap-1 w-24 flex-shrink-0"
           key={`movie-cast-${actor.id}`}
         >
-          <Link className="flex flex-col gap-2 items-center group" href="/">
+          <div className="flex flex-col gap-2 items-center group">
             <div className="relative w-20 h-20 border-grey-800 border rounded-full overflow-hidden hover:opacity-60">
               {!actor.profilePictureUrl ? (
                 <div className="flex items-center justify-center w-full h-full bg-grey-800">
@@ -32,8 +32,9 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => (
                 </div>
               ) : (
                 <Image
-                  width={78}
-                  height={78}
+                  style={{ objectFit: 'cover' }}
+                  fill
+                  sizes="5rem, 5rem"
                   alt={actor.originalName}
                   src={actor.profilePictureUrl}
                 />
@@ -47,7 +48,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => (
             >
               {actor.originalName}
             </Typography>
-          </Link>
+          </div>
 
           <Typography className="text-center" component="span" size="xs">
             {actor.character}
