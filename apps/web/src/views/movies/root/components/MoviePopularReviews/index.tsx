@@ -2,7 +2,7 @@ import { useFindPopularReviewsFromMovieQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 
-import ReviewBody from '../../../../../components/review/ReviewBody';
+import ReviewPreview from '../../../../../components/review/ReviewPreview';
 
 interface MoviePopularReviewsProps {
   movieId: number;
@@ -20,9 +20,10 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
       {popularReviewsData && (
         <ul>
           {popularReviewsData.reviewsPopularFromMovie.map(review => (
-            <ReviewBody
+            <ReviewPreview
               key={`movie-popular-review-${review.id}`}
               review={review}
+              simple
             />
           ))}
         </ul>

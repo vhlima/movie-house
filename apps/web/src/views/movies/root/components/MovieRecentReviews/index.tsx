@@ -2,7 +2,7 @@ import { useFindMovieRecentReviewsQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 
-import ReviewBody from '../../../../../components/review/ReviewBody';
+import ReviewPreview from '../../../../../components/review/ReviewPreview';
 
 interface MovieRecentReviewsProps {
   movieId: number;
@@ -18,9 +18,10 @@ const MovieRecentReviews: React.FC<MovieRecentReviewsProps> = ({ movieId }) => {
       {recentReviewsData && (
         <ul>
           {recentReviewsData.reviewsRecentFromMovie.map(review => (
-            <ReviewBody
+            <ReviewPreview
               key={`movie-recent-review-${review.id}`}
               review={review}
+              simple
             />
           ))}
         </ul>
