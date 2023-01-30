@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { SessionProvider } from 'next-auth/react';
 
 import type { SessionProviderProps } from 'next-auth/react';
@@ -20,6 +24,16 @@ const MyApp = ({
   session,
 }: AppProps & SessionProviderProps) => {
   const apolloClient = useApollo(pageProps);
+
+  const { events } = useRouter();
+
+  useEffect(() => {
+    events.on('routeChangeStart', () => apolloClient.clearStore());
+
+    return () => {
+      events.off('routeChangeStart', () => apolloClient.clearStore());
+    };
+  }, []);
 
   return (
     <SessionProvider session={session}>
