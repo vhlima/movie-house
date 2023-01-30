@@ -42,7 +42,7 @@ const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
                   !movie ? `null-${index}` : movie.originalTitle
                 }`}
               >
-                <MovieCover movie={movie} />
+                <MovieCover movie={movie} link={false} />
               </li>
             ))}
           </ul>
