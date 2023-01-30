@@ -13,7 +13,7 @@ const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
   });
 
   return (
-    <Card title="Popular lists" link={{ href: '/' }} noPadding>
+    <Card title="Popular lists" noPadding>
       {popularListsData && (
         <ul>
           {popularListsData.moviePopularLists.map(list => (

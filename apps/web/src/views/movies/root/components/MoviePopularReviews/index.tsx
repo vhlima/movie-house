@@ -16,7 +16,7 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
   });
 
   return (
-    <Card title="Popular reviews" link={{ href: '/' }} noPadding>
+    <Card title="Popular reviews" noPadding>
       {popularReviewsData && (
         <ul>
           {popularReviewsData.reviewsPopularFromMovie.map(review => (

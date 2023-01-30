@@ -14,7 +14,7 @@ const MovieRecentReviews: React.FC<MovieRecentReviewsProps> = ({ movieId }) => {
   });
 
   return (
-    <Card title="Recent reviews" link={{ href: '/' }} noPadding>
+    <Card title="Recent reviews" noPadding>
       {recentReviewsData && (
         <ul>
           {recentReviewsData.reviewsRecentFromMovie.map(review => (
