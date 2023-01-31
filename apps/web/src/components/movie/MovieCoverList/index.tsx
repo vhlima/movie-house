@@ -29,7 +29,12 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
   link = true,
   renderCover,
 }) => (
-  <ul className={clsx('grid gap-1 sm:gap-2', className && className)}>
+  <ul
+    className={clsx('grid gap-1 sm:gap-2', {
+      [className]: !!className,
+      'grid-cols-4 sm:grid-cols-5 md:grid-cols-10': !className,
+    })}
+  >
     {movies.map((movie, index) => {
       const coverProps = renderCover ? renderCover(index, movie) : undefined;
 
