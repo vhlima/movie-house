@@ -36,7 +36,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
   imageSize,
   ...imageProps
 }) => (
-  <div className="relative flex-shrink-0 border border-grey-700 rounded-full overflow-hidden">
+  <div className="relative h-fit w-fit flex-shrink-0 border border-grey-700 rounded-full overflow-hidden">
     <Image
       width={sizes[imageSize].width}
       height={sizes[imageSize].height}
