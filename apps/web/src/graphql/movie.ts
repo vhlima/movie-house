@@ -97,3 +97,13 @@ export const FIND_MOVIE_GENRES = gql`
     }
   }
 `;
+
+export const FIND_MOVIE_RECOMMENDATIONS = gql`
+  query FindMovieRecommendations($movieId: Int!) {
+    movieRecommendations(movieId: $movieId) {
+      id
+      originalTitle
+      posterUrl
+    }
+  }
+`;

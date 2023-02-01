@@ -1,4 +1,5 @@
 import { AugmentedRequest, RESTDataSource } from '@apollo/datasource-rest';
+import Movie from '../entities/mongo-entities/movie';
 import Genre from '../entities/mongo-entities/movie/genre.interface';
 
 import MovieSearch from '../entities/movie-search';
@@ -54,6 +55,14 @@ export default class TmdbAPI extends RESTDataSource {
 
   async getMovieGenres(): Promise<{ genres: Genre[] }> {
     const response = await this.get('genre/list');
+
+    return response;
+  }
+
+  async getMovieRecommendations(
+    movieId: number,
+  ): Promise<{ page: number; results: Movie[] }> {
+    const response = await this.get(`movie/${movieId}/recommendations`);
 
     return response;
   }

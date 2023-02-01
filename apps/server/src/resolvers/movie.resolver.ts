@@ -72,6 +72,21 @@ class MovieResolver {
 
     return genresResponse.genres;
   }
+
+  @Query(() => [Movie])
+  async movieRecommendations(
+    @Ctx() { dataSources }: ServerContext,
+    @Arg('movieId', () => Int) movieId: number,
+  ) {
+    const recommendationsResponse =
+      await dataSources.tmdb.getMovieRecommendations(movieId);
+
+    if (!recommendationsResponse) {
+      return [];
+    }
+
+    return recommendationsResponse.results.map(movie => movie);
+  }
 }
 
 export default MovieResolver;

@@ -365,6 +365,7 @@ export type Query = {
   movie: Movie;
   movieGenres: Array<Genre>;
   moviePopularLists: Array<List>;
+  movieRecommendations: Array<Movie>;
   replies: Replies;
   review: Review;
   reviewsPopularFromMovie: Array<Review>;
@@ -443,6 +444,11 @@ export type QueryMovieArgs = {
 
 
 export type QueryMoviePopularListsArgs = {
+  movieId: Scalars['Int'];
+};
+
+
+export type QueryMovieRecommendationsArgs = {
   movieId: Scalars['Int'];
 };
 
@@ -809,6 +815,13 @@ export type FindMovieGenresQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindMovieGenresQuery = { __typename?: 'Query', movieGenres: Array<{ __typename?: 'Genre', id: number, name: string }> };
+
+export type FindMovieRecommendationsQueryVariables = Exact<{
+  movieId: Scalars['Int'];
+}>;
+
+
+export type FindMovieRecommendationsQuery = { __typename?: 'Query', movieRecommendations: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> };
 
 export type AddMovieToPreMadeListMutationVariables = Exact<{
   listType: PreMadeListType;
@@ -2107,6 +2120,43 @@ export function useFindMovieGenresLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type FindMovieGenresQueryHookResult = ReturnType<typeof useFindMovieGenresQuery>;
 export type FindMovieGenresLazyQueryHookResult = ReturnType<typeof useFindMovieGenresLazyQuery>;
 export type FindMovieGenresQueryResult = Apollo.QueryResult<FindMovieGenresQuery, FindMovieGenresQueryVariables>;
+export const FindMovieRecommendationsDocument = gql`
+    query FindMovieRecommendations($movieId: Int!) {
+  movieRecommendations(movieId: $movieId) {
+    id
+    originalTitle
+    posterUrl
+  }
+}
+    `;
+
+/**
+ * __useFindMovieRecommendationsQuery__
+ *
+ * To run a query within a React component, call `useFindMovieRecommendationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMovieRecommendationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMovieRecommendationsQuery({
+ *   variables: {
+ *      movieId: // value for 'movieId'
+ *   },
+ * });
+ */
+export function useFindMovieRecommendationsQuery(baseOptions: Apollo.QueryHookOptions<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>(FindMovieRecommendationsDocument, options);
+      }
+export function useFindMovieRecommendationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>(FindMovieRecommendationsDocument, options);
+        }
+export type FindMovieRecommendationsQueryHookResult = ReturnType<typeof useFindMovieRecommendationsQuery>;
+export type FindMovieRecommendationsLazyQueryHookResult = ReturnType<typeof useFindMovieRecommendationsLazyQuery>;
+export type FindMovieRecommendationsQueryResult = Apollo.QueryResult<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>;
 export const AddMovieToPreMadeListDocument = gql`
     mutation AddMovieToPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
   userPreMadeListAddMovie(listType: $listType, movieId: $movieId) {
