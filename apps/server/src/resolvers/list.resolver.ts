@@ -27,7 +27,10 @@ import AuthenticationError from '../errors/Authentication';
 @Resolver()
 export default class ListResolver {
   @Query(() => [List])
-  async userLists(@Arg('userId') userId: string) {
+  async userLists(
+    @Ctx() { user: session }: ServerContext,
+    @Arg('userId') userId: string,
+  ) {
     const user = await UserRepository.findOneBy({ id: userId });
 
     if (!user) {
@@ -35,7 +38,7 @@ export default class ListResolver {
     }
 
     const listsFound = await ListRepository.find({
-      where: { post: { userId } },
+      where: { post: { userId }, isPrivate: session && session.id === user.id },
       relations: ['post'],
     });
 

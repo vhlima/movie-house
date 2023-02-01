@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     if (!userData) {
       res.statusCode = 404;
-      return { props: {} };
+      return { props: { notFound: true } };
     }
 
     const { data: userListsData } = await apolloClient.query<
@@ -57,10 +57,14 @@ export const getServerSideProps: GetServerSideProps = async ({
     });
   } catch (err) {
     res.statusCode = 404;
-    return { props: {} };
+    return { props: { notFound: true } };
   }
 };
 
-const UserLists: NextPage = () => <UserListsView />;
+type UserListsPageProps = FindUserQuery;
 
-export default UserLists;
+const UserListsPage: NextPage<UserListsPageProps> = ({ user }) => (
+  <UserListsView user={user} />
+);
+
+export default UserListsPage;
