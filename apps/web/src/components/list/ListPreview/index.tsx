@@ -1,11 +1,10 @@
 import type { List, Movie } from '../../../graphql';
 
-import MovieCover from '../../movie/MovieCover';
-
 import Link from '../../Link';
 import SvgIcon from '../../SvgIcon';
 import Typography from '../../Typography';
 import TextShorter from '../../TextShorter';
+import MovieCoverList from '../../movie/MovieCoverList';
 
 interface ListPreviewProps {
   list: {
@@ -35,17 +34,12 @@ const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
         }}
       >
         {movies.length > 0 && (
-          <ul className="grid gap-2 grid-cols-4 sm:grid-cols-6 md:grid-cols-8 mb-2">
-            {movies.map((movie, index) => (
-              <li
-                key={`movie-card-list-${
-                  !movie ? `null-${index}` : movie.originalTitle
-                }`}
-              >
-                <MovieCover movie={movie} link={false} />
-              </li>
-            ))}
-          </ul>
+          <MovieCoverList
+            name="list-preview-movies"
+            movies={movies}
+            empty={4 - movies.length}
+            link={false}
+          />
         )}
 
         <Typography
