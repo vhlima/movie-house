@@ -88,3 +88,12 @@ export const FIND_TRENDING_MOVIES = gql`
     }
   }
 `;
+
+export const FIND_MOVIE_GENRES = gql`
+  query FindMovieGenres {
+    movieGenres {
+      id
+      name
+    }
+  }
+`;

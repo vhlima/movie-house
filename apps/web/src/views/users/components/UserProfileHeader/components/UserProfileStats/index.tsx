@@ -60,7 +60,12 @@ const UserProfileStats: React.FC<UserProfileStatsProps> = ({ user }) => {
       <div className="flex flex-col items-center gap-2">
         <div className="flex">
           <UserStats
-            link={{ href: '/' }}
+            link={{
+              href: {
+                pathname: '/users/[username]/films',
+                query: { username },
+              },
+            }}
             number={
               profileStatsData
                 ? profileStatsData.userProfileStats.moviesWatchedCount
@@ -70,7 +75,12 @@ const UserProfileStats: React.FC<UserProfileStatsProps> = ({ user }) => {
           />
 
           <UserStats
-            link={{ href: '/' }}
+            link={{
+              href: {
+                pathname: '/users/[username]/films',
+                query: { username },
+              },
+            }}
             number={
               profileStatsData
                 ? profileStatsData.userProfileStats.moviesWatchedThisYearCount

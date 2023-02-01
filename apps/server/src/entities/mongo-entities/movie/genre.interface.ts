@@ -1,12 +1,12 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 
 import { Column } from 'typeorm';
 
 @ObjectType()
 export default class Genre {
-  @Field()
+  @Field(() => Int)
   @Column()
-  readonly id: string;
+  readonly id: number;
 
   @Field()
   @Column()

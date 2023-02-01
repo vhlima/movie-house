@@ -9,6 +9,7 @@ import MovieSearch from '../entities/movie-search';
 import NotFoundError from '../errors/NotFound';
 
 import MovieTrending from '../entities/movie-trending';
+import Genre from '../entities/mongo-entities/movie/genre.interface';
 
 @Resolver(() => Movie)
 class MovieResolver {
@@ -63,6 +64,13 @@ class MovieResolver {
     const movies = await dataSources.tmdb.getTrendingMoviesWeek(page);
 
     return movies;
+  }
+
+  @Query(() => [Genre])
+  async movieGenres(@Ctx() { dataSources }: ServerContext) {
+    const genresResponse = await dataSources.tmdb.getMovieGenres();
+
+    return genresResponse.genres;
   }
 }
 

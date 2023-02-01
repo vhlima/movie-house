@@ -115,4 +115,34 @@ export default class UserListResolver {
 
     return !!movieFound;
   }
+
+  @Query(() => [ListMovie])
+  async userPreMadeListMoviesByGenre(
+    @Arg('userId') userId: string,
+    @Arg('genres', () => [Int]) genres: number[],
+    @Arg('listType', () => PreMadeListType) listType: PreMadeListType,
+  ) {
+    const user = await UserRepository.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    const listExists = await PreMadeListRepository.findOneBy({
+      listType,
+    });
+
+    if (!listExists) {
+      return [];
+    }
+
+    const listMovies = await ListMovieRepository.findBy({
+      listId: listExists.id,
+      'movie.genres': {
+        $elemMatch: { id: { $in: genres } },
+      },
+    });
+
+    return listMovies;
+  }
 }

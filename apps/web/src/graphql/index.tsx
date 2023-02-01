@@ -120,7 +120,7 @@ export type FollowersPaginationInfo = {
 
 export type Genre = {
   __typename?: 'Genre';
-  id: Scalars['String'];
+  id: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -363,6 +363,7 @@ export type Query = {
   isMovieOnPreMadeList: Scalars['Boolean'];
   limit: Limit;
   movie: Movie;
+  movieGenres: Array<Genre>;
   moviePopularLists: Array<List>;
   replies: Replies;
   review: Review;
@@ -382,6 +383,7 @@ export type Query = {
   userListMovies: Array<ListMovie>;
   userLists: Array<List>;
   userPreMadeListMovies: Array<ListMovie>;
+  userPreMadeListMoviesByGenre: Array<ListMovie>;
   userProfileStats: ProfileStats;
 };
 
@@ -426,6 +428,7 @@ export type QueryIsMovieOnListArgs = {
 
 export type QueryIsMovieOnPreMadeListArgs = {
   listType: PreMadeListType;
+  movieId: Scalars['Int'];
 };
 
 
@@ -526,6 +529,13 @@ export type QueryUserListsArgs = {
 export type QueryUserPreMadeListMoviesArgs = {
   listType: PreMadeListType;
   page?: InputMaybe<Scalars['Int']>;
+  userId: Scalars['String'];
+};
+
+
+export type QueryUserPreMadeListMoviesByGenreArgs = {
+  genres: Array<Scalars['Int']>;
+  listType: PreMadeListType;
   userId: Scalars['String'];
 };
 
@@ -684,6 +694,7 @@ export type FindUserPreMadeListMoviesQuery = { __typename?: 'Query', userPreMade
 
 export type IsMovieOnPreMadeListQueryVariables = Exact<{
   listType: PreMadeListType;
+  movieId: Scalars['Int'];
 }>;
 
 
@@ -695,6 +706,15 @@ export type IsMovieOnListQueryVariables = Exact<{
 
 
 export type IsMovieOnListQuery = { __typename?: 'Query', isMovieOnList: boolean };
+
+export type FindUserPreMadeListMoviesByGenreQueryVariables = Exact<{
+  listType: PreMadeListType;
+  genres: Array<Scalars['Int']> | Scalars['Int'];
+  userId: Scalars['String'];
+}>;
+
+
+export type FindUserPreMadeListMoviesByGenreQuery = { __typename?: 'Query', userPreMadeListMoviesByGenre: Array<{ __typename?: 'ListMovie', movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string } }> };
 
 export type FindUserListNamesQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -755,21 +775,21 @@ export type RemoveMovieFromListMutationVariables = Exact<{
 
 export type RemoveMovieFromListMutation = { __typename?: 'Mutation', userListRemoveMovie: boolean };
 
-export type MovieFieldsFragment = { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, genres: Array<{ __typename?: 'Genre', id: string, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> };
+export type MovieFieldsFragment = { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, genres: Array<{ __typename?: 'Genre', id: number, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> };
 
 export type FindMovieQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
 
-export type FindMovieQuery = { __typename?: 'Query', movie: { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, genres: Array<{ __typename?: 'Genre', id: string, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> } };
+export type FindMovieQuery = { __typename?: 'Query', movie: { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, genres: Array<{ __typename?: 'Genre', id: number, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> } };
 
 export type FindFullMovieQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
 
-export type FindFullMovieQuery = { __typename?: 'Query', movie: { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, credits: { __typename?: 'MovieCredits', cast: Array<{ __typename?: 'Cast', id: number, character: string, originalName: string, profilePictureUrl: string }>, crew: Array<{ __typename?: 'Crew', id: number, popularity: number, department: string, originalName: string }> }, genres: Array<{ __typename?: 'Genre', id: string, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> } };
+export type FindFullMovieQuery = { __typename?: 'Query', movie: { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, credits: { __typename?: 'MovieCredits', cast: Array<{ __typename?: 'Cast', id: number, character: string, originalName: string, profilePictureUrl: string }>, crew: Array<{ __typename?: 'Crew', id: number, popularity: number, department: string, originalName: string }> }, genres: Array<{ __typename?: 'Genre', id: number, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> } };
 
 export type SearchMovieQueryVariables = Exact<{
   searchTerm: Scalars['String'];
@@ -784,6 +804,11 @@ export type FindTrendingMoviesQueryVariables = Exact<{
 
 
 export type FindTrendingMoviesQuery = { __typename?: 'Query', trendingMovies: { __typename?: 'MovieTrending', page: number, results: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> } };
+
+export type FindMovieGenresQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindMovieGenresQuery = { __typename?: 'Query', movieGenres: Array<{ __typename?: 'Genre', id: number, name: string }> };
 
 export type AddMovieToPreMadeListMutationVariables = Exact<{
   listType: PreMadeListType;
@@ -1452,8 +1477,8 @@ export type FindUserPreMadeListMoviesQueryHookResult = ReturnType<typeof useFind
 export type FindUserPreMadeListMoviesLazyQueryHookResult = ReturnType<typeof useFindUserPreMadeListMoviesLazyQuery>;
 export type FindUserPreMadeListMoviesQueryResult = Apollo.QueryResult<FindUserPreMadeListMoviesQuery, FindUserPreMadeListMoviesQueryVariables>;
 export const IsMovieOnPreMadeListDocument = gql`
-    query IsMovieOnPreMadeList($listType: PreMadeListType!) {
-  isMovieOnPreMadeList(listType: $listType)
+    query IsMovieOnPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
+  isMovieOnPreMadeList(listType: $listType, movieId: $movieId)
 }
     `;
 
@@ -1470,6 +1495,7 @@ export const IsMovieOnPreMadeListDocument = gql`
  * const { data, loading, error } = useIsMovieOnPreMadeListQuery({
  *   variables: {
  *      listType: // value for 'listType'
+ *      movieId: // value for 'movieId'
  *   },
  * });
  */
@@ -1517,6 +1543,51 @@ export function useIsMovieOnListLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type IsMovieOnListQueryHookResult = ReturnType<typeof useIsMovieOnListQuery>;
 export type IsMovieOnListLazyQueryHookResult = ReturnType<typeof useIsMovieOnListLazyQuery>;
 export type IsMovieOnListQueryResult = Apollo.QueryResult<IsMovieOnListQuery, IsMovieOnListQueryVariables>;
+export const FindUserPreMadeListMoviesByGenreDocument = gql`
+    query FindUserPreMadeListMoviesByGenre($listType: PreMadeListType!, $genres: [Int!]!, $userId: String!) {
+  userPreMadeListMoviesByGenre(
+    listType: $listType
+    genres: $genres
+    userId: $userId
+  ) {
+    movie {
+      id
+      originalTitle
+      posterUrl
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindUserPreMadeListMoviesByGenreQuery__
+ *
+ * To run a query within a React component, call `useFindUserPreMadeListMoviesByGenreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserPreMadeListMoviesByGenreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUserPreMadeListMoviesByGenreQuery({
+ *   variables: {
+ *      listType: // value for 'listType'
+ *      genres: // value for 'genres'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFindUserPreMadeListMoviesByGenreQuery(baseOptions: Apollo.QueryHookOptions<FindUserPreMadeListMoviesByGenreQuery, FindUserPreMadeListMoviesByGenreQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUserPreMadeListMoviesByGenreQuery, FindUserPreMadeListMoviesByGenreQueryVariables>(FindUserPreMadeListMoviesByGenreDocument, options);
+      }
+export function useFindUserPreMadeListMoviesByGenreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserPreMadeListMoviesByGenreQuery, FindUserPreMadeListMoviesByGenreQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUserPreMadeListMoviesByGenreQuery, FindUserPreMadeListMoviesByGenreQueryVariables>(FindUserPreMadeListMoviesByGenreDocument, options);
+        }
+export type FindUserPreMadeListMoviesByGenreQueryHookResult = ReturnType<typeof useFindUserPreMadeListMoviesByGenreQuery>;
+export type FindUserPreMadeListMoviesByGenreLazyQueryHookResult = ReturnType<typeof useFindUserPreMadeListMoviesByGenreLazyQuery>;
+export type FindUserPreMadeListMoviesByGenreQueryResult = Apollo.QueryResult<FindUserPreMadeListMoviesByGenreQuery, FindUserPreMadeListMoviesByGenreQueryVariables>;
 export const FindUserListNamesDocument = gql`
     query FindUserListNames($userId: String!) {
   userLists(userId: $userId) {
@@ -2001,6 +2072,41 @@ export function useFindTrendingMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type FindTrendingMoviesQueryHookResult = ReturnType<typeof useFindTrendingMoviesQuery>;
 export type FindTrendingMoviesLazyQueryHookResult = ReturnType<typeof useFindTrendingMoviesLazyQuery>;
 export type FindTrendingMoviesQueryResult = Apollo.QueryResult<FindTrendingMoviesQuery, FindTrendingMoviesQueryVariables>;
+export const FindMovieGenresDocument = gql`
+    query FindMovieGenres {
+  movieGenres {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useFindMovieGenresQuery__
+ *
+ * To run a query within a React component, call `useFindMovieGenresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMovieGenresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMovieGenresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindMovieGenresQuery(baseOptions?: Apollo.QueryHookOptions<FindMovieGenresQuery, FindMovieGenresQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindMovieGenresQuery, FindMovieGenresQueryVariables>(FindMovieGenresDocument, options);
+      }
+export function useFindMovieGenresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMovieGenresQuery, FindMovieGenresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindMovieGenresQuery, FindMovieGenresQueryVariables>(FindMovieGenresDocument, options);
+        }
+export type FindMovieGenresQueryHookResult = ReturnType<typeof useFindMovieGenresQuery>;
+export type FindMovieGenresLazyQueryHookResult = ReturnType<typeof useFindMovieGenresLazyQuery>;
+export type FindMovieGenresQueryResult = Apollo.QueryResult<FindMovieGenresQuery, FindMovieGenresQueryVariables>;
 export const AddMovieToPreMadeListDocument = gql`
     mutation AddMovieToPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
   userPreMadeListAddMovie(listType: $listType, movieId: $movieId) {
