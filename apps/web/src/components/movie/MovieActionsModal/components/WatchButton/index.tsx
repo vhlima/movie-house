@@ -12,6 +12,7 @@ const WatchButton: React.FC<WatchButtonProps> = ({ movieId }) => {
   const { isAddedToList, handleAddOrRemoveFromList } =
     usePreMadeListMoviesCache({
       listType: PreMadeListType.Watched,
+      movieId,
     });
 
   return (

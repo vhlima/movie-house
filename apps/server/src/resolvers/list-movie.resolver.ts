@@ -1,5 +1,6 @@
 import { Resolver, Arg, Query, Int, Ctx } from 'type-graphql';
 
+import { Any } from 'typeorm';
 import type { ServerContext } from '../types';
 
 import {
@@ -16,6 +17,7 @@ import UserNotFoundError from '../errors/UserNotFound';
 import PreMadeListType from '../enums/PreMadeListType';
 
 import ListMovie from '../entities/mongo-entities/list-movie';
+
 import AuthenticationError from '../errors/Authentication';
 
 @Resolver()
@@ -66,6 +68,7 @@ export default class UserListResolver {
   @Query(() => Boolean)
   async isMovieOnPreMadeList(
     @Ctx() { user }: ServerContext,
+    @Arg('movieId', () => Int) movieId: number,
     @Arg('listType', () => PreMadeListType) listType: PreMadeListType,
   ) {
     if (!user) {
@@ -82,6 +85,7 @@ export default class UserListResolver {
 
     const movieFound = await ListMovieRepository.findOneBy({
       listId: listTypeFound.id,
+      movieId,
     });
 
     return !!movieFound;
