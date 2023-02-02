@@ -1,16 +1,15 @@
 import Card from '../../../../../components/Card';
 
 import MovieCoverList from '../../../../../components/movie/MovieCoverList';
+import Typography from '../../../../../components/Typography';
 
 import { useFindMovieRecommendationsQuery } from '../../../../../graphql';
 
-interface MovieRecommendationsProps {
+interface MoviesRelatedProps {
   movieId: number;
 }
 
-const MovieRecommendations: React.FC<MovieRecommendationsProps> = ({
-  movieId,
-}) => {
+const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
   const { data: movieRecommendations } = useFindMovieRecommendationsQuery({
     variables: { movieId },
   });
@@ -21,9 +20,10 @@ const MovieRecommendations: React.FC<MovieRecommendationsProps> = ({
 
   return (
     <Card title="Related movies" noPadding>
-      {hasAnyMovie && (
+      {!hasAnyMovie ? (
+        <Typography component="h2">No related movie was found.</Typography>
+      ) : (
         <MovieCoverList
-          // className="grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7"
           name="related-movies"
           movies={movieRecommendations.movieRecommendations.slice(0, 4)}
         />
@@ -32,4 +32,4 @@ const MovieRecommendations: React.FC<MovieRecommendationsProps> = ({
   );
 };
 
-export default MovieRecommendations;
+export default MoviesRelated;
