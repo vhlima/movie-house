@@ -29,7 +29,9 @@ const MovieListSortButton: React.FC<
       <SvgIcon className="text-grey-300 ml-2" iconType="FaChevronDown" />
     </button>
 
-    {isOpen && <div className="absolute top-5 bg-grey-800">{children}</div>}
+    {isOpen && (
+      <div className="absolute top-5 bg-grey-800 z-10">{children}</div>
+    )}
   </section>
 );
 
