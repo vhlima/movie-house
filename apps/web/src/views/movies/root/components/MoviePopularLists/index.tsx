@@ -20,7 +20,7 @@ const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
     <Card title="Popular lists" noPadding>
       {!hasAnyPopularList ? (
         <Typography component="p">
-          No lists where found containing this movie.
+          No lists were found containing this movie.
         </Typography>
       ) : (
         <ul>
