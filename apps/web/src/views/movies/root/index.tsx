@@ -14,7 +14,7 @@ import MoviePopularLists from './components/MoviePopularLists';
 import MovieOptionsButton from './components/MovieOptionsButton';
 import MovieRecentReviews from './components/MovieRecentReviews';
 import MoviePopularReviews from './components/MoviePopularReviews';
-import MovieRecommendations from './components/MovieRecommendations';
+import MoviesRelated from './components/MoviesRelated';
 
 interface MovieViewProps {
   movieId: number;
@@ -64,7 +64,7 @@ const MovieView: React.FC<MovieViewProps> = ({ movieId }) => {
 
           <MovieRecentReviews movieId={movie.id} />
 
-          <MovieRecommendations movieId={movie.id} />
+          <MoviesRelated movieId={movie.id} />
 
           <MoviePopularLists movieId={movie.id} />
         </article>
