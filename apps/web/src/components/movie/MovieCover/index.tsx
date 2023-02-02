@@ -14,6 +14,9 @@ interface MovieCover2Props {
   sizeType?: 'sm' | 'md';
   movie?: Pick<Movie, 'id' | 'originalTitle' | 'posterUrl'>;
   link?: boolean;
+
+  width?: number;
+  height?: number;
 }
 
 const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
@@ -21,14 +24,16 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   sizeType,
   movie,
   link = true,
+  width = 250,
+  height = 250,
   children,
 }) => {
   const movieCoverImageJsx = movie && (
     <Image
       className="w-full h-full"
       title={movie.originalTitle}
-      width={250}
-      height={250}
+      width={width}
+      height={height}
       src={movie.posterUrl}
       alt={movie.originalTitle}
     />
@@ -44,11 +49,12 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   return (
     <div
       className={clsx(
-        'relative w-full h-full select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
+        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
         {
           'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
           'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
-          'flex items-center justify-center': !movie,
+          'w-fit h-fit': movie,
+          'flex items-center justify-center w-full h-full': !movie,
           [className]: !!className,
         },
       )}
