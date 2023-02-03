@@ -5,18 +5,21 @@ import type { PropsWithChildren } from 'react';
 import SvgIcon from '../../../../components/SvgIcon';
 import Typography from '../../../../components/Typography';
 
-interface MovieListSortButtonProps {
+interface SortButtonProps {
   text: string;
   isOpen?: boolean;
   onClick: () => void;
 }
 
-const MovieListSortButton: React.FC<
-  PropsWithChildren<MovieListSortButtonProps>
-> = ({ text, isOpen, onClick, children }) => (
+const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
+  text,
+  isOpen,
+  onClick,
+  children,
+}) => (
   <section className="relative">
     <button
-      className={clsx('flex items-center', {
+      className={clsx('flex items-center border border-transparent', {
         'bg-grey-800': isOpen,
       })}
       type="button"
@@ -29,10 +32,8 @@ const MovieListSortButton: React.FC<
       <SvgIcon className="text-grey-300 ml-2" iconType="FaChevronDown" />
     </button>
 
-    {isOpen && (
-      <div className="absolute top-5 bg-grey-800 z-10">{children}</div>
-    )}
+    {isOpen && children}
   </section>
 );
 
-export default MovieListSortButton;
+export default SortButton;

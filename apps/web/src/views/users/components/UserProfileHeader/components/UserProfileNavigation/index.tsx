@@ -41,9 +41,9 @@ const navigationOptions = [
 const UserProfileNavigation: React.FC<UserProfileNavigationProps> = ({
   user,
 }) => {
-  const { username } = user;
+  const { route } = useRouter();
 
-  const { pathname } = useRouter();
+  const rootPath = route.split('/').slice(0, 4).join('/');
 
   return (
     <nav className="rounded-sm border border-grey-800 overflow-hidden">
@@ -56,16 +56,16 @@ const UserProfileNavigation: React.FC<UserProfileNavigationProps> = ({
             <Link
               className={clsx('p-2 block text-center', {
                 'border-b-2 border-b-movieHouse-mid':
-                  pathname === navigation.pathname,
+                  rootPath === navigation.pathname,
               })}
               href={{
                 pathname: navigation.pathname,
-                query: { username },
+                query: { username: user.username },
               }}
             >
               <Typography
                 className={clsx({
-                  'group-hover:text-grey-300': pathname !== navigation.pathname,
+                  'group-hover:text-grey-300': rootPath !== navigation.pathname,
                 })}
                 component="span"
               >

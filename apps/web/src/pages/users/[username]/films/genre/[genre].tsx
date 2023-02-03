@@ -3,21 +3,17 @@ import type { NextPage, GetServerSideProps } from 'next';
 import * as Yup from 'yup';
 
 import type {
-  FindUserPreMadeListMoviesByGenreQuery,
-  FindUserPreMadeListMoviesByGenreQueryVariables,
   FindUserQuery,
-  FindUserQueryVariables,
+  FindUserPreMadeListMoviesQuery,
 } from '../../../../../graphql';
 
-import {
-  PreMadeListType,
-  FindUserDocument,
-  FindUserPreMadeListMoviesByGenreDocument,
-} from '../../../../../graphql';
+import { PreMadeListType, MovieSortType } from '../../../../../graphql';
 
 import { addApolloState, initializeApollo } from '../../../../../client';
 
-import UserFilmsView from '../../../../../views/users/films';
+import { withFetchPreMadeListMovies } from '../../../../../hocs/withFetchPreMadeListMovies';
+
+import MovieListView from '../../../../../views/users/components/MovieListView';
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -33,48 +29,28 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     const apolloClient = initializeApollo();
 
-    const { data: userData } = await apolloClient.query<
-      FindUserQuery,
-      FindUserQueryVariables
-    >({
-      query: FindUserDocument,
-      variables: { username },
-    });
-
-    if (!userData) {
-      res.statusCode = 404;
-      return { props: { notFound: true } };
-    }
-
-    const { data: moviesData } = await apolloClient.query<
-      FindUserPreMadeListMoviesByGenreQuery,
-      FindUserPreMadeListMoviesByGenreQueryVariables
-    >({
-      query: FindUserPreMadeListMoviesByGenreDocument,
-      variables: {
-        userId: userData.user.id,
-        genres: genre.split(',').map(genreId => parseInt(genreId, 10)),
-        listType: PreMadeListType.Watched,
+    const fetchResponse = await withFetchPreMadeListMovies({
+      apolloClient,
+      username,
+      listType: PreMadeListType.Watched,
+      sort: {
+        type: MovieSortType.Genre,
+        filter: genre.split(',').map(genreId => parseInt(genreId, 10)),
       },
     });
 
-    return addApolloState(apolloClient, {
-      props: {
-        ...userData,
-        ...moviesData,
-      },
-    });
+    return addApolloState(apolloClient, fetchResponse);
   } catch (err) {
     res.statusCode = 404;
-    return { props: { notFound: true } };
+    return { notFound: true };
   }
 };
 
-type FindUserQueryProps = FindUserQuery & FindUserPreMadeListMoviesByGenreQuery;
+type FindUserQueryProps = FindUserQuery & FindUserPreMadeListMoviesQuery;
 
 const UserFilmsPage: NextPage<FindUserQueryProps> = ({
   user,
-  userPreMadeListMoviesByGenre,
-}) => <UserFilmsView user={user} movies={userPreMadeListMoviesByGenre} />;
+  userPreMadeListMovies,
+}) => <MovieListView user={user} movies={userPreMadeListMovies} />;
 
 export default UserFilmsPage;

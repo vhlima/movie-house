@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const fetchResponse = withFetchPreMadeListMovies({
       apolloClient,
       username,
-      listType: PreMadeListType.Watched,
+      listType: PreMadeListType.Watchlist,
     });
 
     return addApolloState(apolloClient, fetchResponse);
