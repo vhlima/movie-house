@@ -17,8 +17,6 @@ import { withFetchPreMadeListMovies } from '../../../../../hocs/withFetchPreMade
 
 import MovieListView from '../../../../../views/users/components/MovieListView';
 
-import MovieListYearNavigation from '../../../../../views/users/components/MovieListYearNavigation';
-
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
     username: Yup.string().required(),
@@ -59,9 +57,11 @@ const UserFilmsDecadePage: NextPage<UserFilmsDecadePageProps> = ({
   user,
   userPreMadeListMovies,
 }) => (
-  <MovieListView user={user} movies={userPreMadeListMovies}>
-    <MovieListYearNavigation year={decade} isDecade />
-  </MovieListView>
+  <MovieListView
+    user={user}
+    movies={userPreMadeListMovies}
+    navigation={{ year: decade, isDecade: true }}
+  />
 );
 
 export default UserFilmsDecadePage;

@@ -37,13 +37,12 @@ import UserProfileView from '../../views/users/profile';
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
-  res,
   query,
 }) => {
   const notFoundProps = { notFound: true };
 
   const requestValidationSchema = Yup.object().shape({
-    username: Yup.string().required().min(1),
+    username: Yup.string().required().max(25),
   });
 
   try {
@@ -60,7 +59,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     });
 
     if (!userData) {
-      res.statusCode = 404;
       return notFoundProps;
     }
 
@@ -126,11 +124,14 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     });
   } catch (err) {
-    res.statusCode = 404;
     return notFoundProps;
   }
 };
 
-const UserProfile: NextPage = () => <UserProfileView />;
+type UserProfilePageProps = FindUserQuery;
 
-export default UserProfile;
+const UserProfilePage: NextPage<UserProfilePageProps> = ({ user }) => (
+  <UserProfileView user={user} />
+);
+
+export default UserProfilePage;

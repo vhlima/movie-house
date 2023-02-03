@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
+import type { FindUserQuery } from '../../../graphql';
+
 import { useFindUserQuery } from '../../../graphql';
 
 import type { ProfileContextData } from './hooks/useProfile';
@@ -11,33 +13,25 @@ import { ProfileContext } from './hooks/useProfile';
 import Card from '../../../components/Card';
 import Typography from '../../../components/Typography';
 
-import UserProfileHeader from '../components/UserProfileHeader';
-
 import FavoriteMovies from './components/FavoriteMovies';
 import PinnedReviews from './components/PinnedReviews';
 import RecentReviews from './components/RecentReviews';
 import PopularReviews from './components/PopularReviews';
 
-const UserProfileView: React.FC = () => {
-  const { query } = useRouter();
+import UserProfilePageView from '../components/UserProfilePageView';
 
-  const { data } = useFindUserQuery({
-    variables: { username: query.username as string },
-  });
+type UserProfilePageViewProps = FindUserQuery;
 
+const UserProfileView: React.FC<UserProfilePageViewProps> = ({ user }) => {
   const contextProvider = useMemo(
-    () => ({ user: data?.user } as ProfileContextData),
-    [data],
+    () => ({ user } as ProfileContextData),
+    [user],
   );
 
-  if (!data) {
-    return null;
-  }
-
-  const { username, biography } = data.user;
+  const { username, biography } = user;
 
   return (
-    <UserProfileHeader user={data.user}>
+    <UserProfilePageView user={user}>
       <ProfileContext.Provider value={contextProvider}>
         <Card title="About me" noPadding>
           {!biography ? (
@@ -59,7 +53,7 @@ const UserProfileView: React.FC = () => {
 
         <PopularReviews />
       </ProfileContext.Provider>
-    </UserProfileHeader>
+    </UserProfilePageView>
   );
 };
 

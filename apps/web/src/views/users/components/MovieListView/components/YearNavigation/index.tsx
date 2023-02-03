@@ -1,21 +1,19 @@
 import clsx from 'clsx';
 
 import { getDecade } from 'date-fns';
+
 import { useRouter } from 'next/router';
 
-import Link from '../../../../components/Link';
+import Link from '../../../../../../components/Link';
 
-import Typography from '../../../../components/Typography';
+import Typography from '../../../../../../components/Typography';
 
-interface MovieListYearNavigationProps {
+interface YearNavigationProps {
   year: number;
   isDecade?: boolean;
 }
 
-const MovieListYearNavigation: React.FC<MovieListYearNavigationProps> = ({
-  year,
-  isDecade,
-}) => {
+const YearNavigation: React.FC<YearNavigationProps> = ({ year, isDecade }) => {
   const { query, asPath } = useRouter();
 
   const rootPath = asPath.split('/')[3];
@@ -68,4 +66,4 @@ const MovieListYearNavigation: React.FC<MovieListYearNavigationProps> = ({
   );
 };
 
-export default MovieListYearNavigation;
+export default YearNavigation;

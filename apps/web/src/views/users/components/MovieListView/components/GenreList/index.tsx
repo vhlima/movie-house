@@ -1,6 +1,6 @@
 import { useFindMovieGenresQuery } from '../../../../../../graphql';
 
-import SortDropdown from '../SortDropdown';
+import SortDropdown from '../../../SortDropdown';
 
 interface GenreListProps {
   pathname: string;

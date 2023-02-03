@@ -6,7 +6,7 @@ import ListItem from '../../../components/ListItem';
 import Typography from '../../../components/Typography';
 import ListPreview from '../../../components/list/ListPreview';
 
-import UserProfileHeader from '../components/UserProfileHeader';
+import UserProfilePageView from '../components/UserProfilePageView';
 
 type UserListsViewProps = FindUserQuery;
 
@@ -20,13 +20,7 @@ const UserListsView: React.FC<UserListsViewProps> = ({ user }) => {
   const hasAnyList = userListsData && userListsData.userLists.length > 0;
 
   return (
-    <UserProfileHeader user={user}>
-      <div className="flex items-center gap-2 border-b border-b-grey-800">
-        <Typography className="uppercase" component="h1" size="sm">
-          Lists
-        </Typography>
-      </div>
-
+    <UserProfilePageView title="Lists" user={user}>
       {!hasAnyList ? (
         <Typography className="text-center" component="h1">
           No lists have been made yet.
@@ -40,7 +34,7 @@ const UserListsView: React.FC<UserListsViewProps> = ({ user }) => {
           ))}
         </ul>
       )}
-    </UserProfileHeader>
+    </UserProfilePageView>
   );
 };
 

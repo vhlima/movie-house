@@ -6,47 +6,70 @@ import type {
 } from '../../../../graphql';
 
 import Typography from '../../../../components/Typography';
-
 import MovieCoverList from '../../../../components/movie/MovieCoverList';
 
-import UserProfileHeader from '../UserProfileHeader';
+import UserProfilePageView from '../UserProfilePageView';
 
 import SortButtons from './components/SortButtons';
+import YearNavigation from './components/YearNavigation';
 
 interface MovieListViewProps {
   user: FindUserQuery['user'];
   movies: FindUserPreMadeListMoviesQuery['userPreMadeListMovies'];
+
+  navigation?: {
+    year: number;
+    isDecade?: boolean;
+  };
 }
 
 const MovieListView: React.FC<PropsWithChildren<MovieListViewProps>> = ({
   user,
   movies,
+  navigation,
   children,
-}) => {
-  const a = 1;
+}) => (
+  <UserProfilePageView
+    title={`${user.username} watched ${movies.length} ${
+      movies.length === 1 ? 'movie' : 'movies'
+    }`}
+    user={user}
+    sortButtons={<SortButtons />}
+  >
+    {navigation && (
+      <YearNavigation year={navigation.year} isDecade={navigation.isDecade} />
+    )}
 
-  return (
-    <UserProfileHeader user={user}>
-      <div className="flex items-center gap-2 border-b border-b-grey-800">
-        <Typography className="uppercase" component="h1" size="sm">
-          {user.username} watched {movies.length}{' '}
-          {movies.length === 1 ? 'movie' : 'movies'}
-        </Typography>
+    {children}
 
-        <SortButtons />
-      </div>
+    {!movies || movies.length === 0 ? (
+      <Typography className="text-center" component="h1">
+        No movies added yet.
+      </Typography>
+    ) : (
+      <MovieCoverList name="user-profile-film-list" movies={movies} />
+    )}
+  </UserProfilePageView>
 
-      {children}
+  // <UserProfileHeader user={user}>
+  //   <UserProfileSubNavigation
+  //     title={`${user.username} watched ${movies.length} ${
+  //       movies.length === 1 ? 'movie' : 'movies'
+  //     }`}
+  //   >
+  //     <SortButtons />
+  //   </UserProfileSubNavigation>
 
-      {!movies || movies.length === 0 ? (
-        <Typography className="text-center" component="h1">
-          No movies added yet.
-        </Typography>
-      ) : (
-        <MovieCoverList name="user-profile-film-list" movies={movies} />
-      )}
-    </UserProfileHeader>
-  );
-};
+  //   {children}
+
+  //   {!movies || movies.length === 0 ? (
+  //     <Typography className="text-center" component="h1">
+  //       No movies added yet.
+  //     </Typography>
+  //   ) : (
+  //     <MovieCoverList name="user-profile-film-list" movies={movies} />
+  //   )}
+  // </UserProfileHeader>
+);
 
 export default MovieListView;

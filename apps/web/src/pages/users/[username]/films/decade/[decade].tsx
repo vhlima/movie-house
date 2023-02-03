@@ -58,9 +58,14 @@ const UserFilmsDecadePage: NextPage<UserFilmsDecadePageProps> = ({
   user,
   userPreMadeListMovies,
 }) => (
-  <MovieListView user={user} movies={userPreMadeListMovies}>
-    <MovieListYearNavigation year={decade} isDecade />
-  </MovieListView>
+  <MovieListView
+    user={user}
+    movies={userPreMadeListMovies}
+    navigation={{
+      year: decade,
+      isDecade: true,
+    }}
+  />
 );
 
 export default UserFilmsDecadePage;

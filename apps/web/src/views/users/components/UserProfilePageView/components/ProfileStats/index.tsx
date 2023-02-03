@@ -9,14 +9,14 @@ import FollowButton from '../../../../../../components/FollowButton';
 
 import UserStats from './components/UserStats';
 
-interface UserProfileStatsProps {
+interface ProfileStatsProps {
   user: {
     id: string;
     username: string;
   };
 }
 
-const UserProfileStats: React.FC<UserProfileStatsProps> = ({ user }) => {
+const ProfileStats: React.FC<ProfileStatsProps> = ({ user }) => {
   const { data: session } = useAuth();
 
   const { data: profileStatsData } = useFindUserProfileStatsQuery({
@@ -139,4 +139,4 @@ const UserProfileStats: React.FC<UserProfileStatsProps> = ({ user }) => {
   );
 };
 
-export default UserProfileStats;
+export default ProfileStats;

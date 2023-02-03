@@ -1,6 +1,6 @@
 import { getDecade, setYear } from 'date-fns';
 
-import SortDropdown from '../SortDropdown';
+import SortDropdown from '../../../SortDropdown';
 
 interface DecadeListProps {
   pathname: string;

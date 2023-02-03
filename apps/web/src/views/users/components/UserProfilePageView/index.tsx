@@ -1,14 +1,17 @@
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 import Typography from '../../../../components/Typography';
 import PageContent from '../../../../components/PageContent';
 import BackdropImage from '../../../../components/BackdropImage';
 import ProfilePicture from '../../../../components/ProfilePicture';
 
-import UserProfileNavigation from './components/UserProfileNavigation';
-import UserProfileStats from './components/UserProfileStats';
+import ProfileStats from './components/ProfileStats';
+import ProfileNavigation from './components/ProfileNavigation';
 
-interface UserProfileHeaderProps {
+interface UserProfilePageViewProps {
+  title?: string;
+  sortButtons?: ReactNode;
+
   user: {
     id: string;
     username: string;
@@ -16,10 +19,10 @@ interface UserProfileHeaderProps {
   };
 }
 
-const UserProfileHeader: React.FC<
-  PropsWithChildren<UserProfileHeaderProps>
-> = ({ user, children }) => {
-  const { username, profilePictureUrl } = user;
+const UserProfilePageView: React.FC<
+  PropsWithChildren<UserProfilePageViewProps>
+> = ({ title, user, sortButtons, children }) => {
+  const a = 1;
 
   return (
     <BackdropImage
@@ -28,7 +31,7 @@ const UserProfileHeader: React.FC<
     >
       <PageContent className="relative flex flex-col justify-center gap-8 w-full">
         <div className="flex items-center gap-2">
-          <ProfilePicture imageSize="lg" src={profilePictureUrl} />
+          <ProfilePicture imageSize="lg" src={user.profilePictureUrl} />
 
           <div className="flex flex-grow flex-wrap items-center gap-x-2">
             <Typography
@@ -37,7 +40,7 @@ const UserProfileHeader: React.FC<
               color="primary"
               size="2xl"
             >
-              {username}
+              {user.username}
             </Typography>
 
             <div className="bg-movieHouse-mid rounded-md px-2">
@@ -46,9 +49,21 @@ const UserProfileHeader: React.FC<
           </div>
         </div>
 
-        <UserProfileStats user={user} />
+        <ProfileStats user={user} />
 
-        <UserProfileNavigation user={user} />
+        <ProfileNavigation user={user} />
+
+        {(title || sortButtons) && (
+          <div className="flex items-center gap-2 border-b border-b-grey-800">
+            {title && (
+              <Typography className="uppercase" component="h1" size="sm">
+                {title}
+              </Typography>
+            )}
+
+            {sortButtons && <div className="flex ml-auto">{sortButtons}</div>}
+          </div>
+        )}
 
         {children}
       </PageContent>
@@ -56,4 +71,4 @@ const UserProfileHeader: React.FC<
   );
 };
 
-export default UserProfileHeader;
+export default UserProfilePageView;

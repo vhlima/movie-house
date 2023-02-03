@@ -14,7 +14,6 @@ import { addApolloState, initializeApollo } from '../../../../../client';
 import { withFetchPreMadeListMovies } from '../../../../../hocs/withFetchPreMadeListMovies';
 
 import MovieListView from '../../../../../views/users/components/MovieListView';
-import MovieListYearNavigation from '../../../../../views/users/components/MovieListYearNavigation';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
@@ -56,9 +55,11 @@ const UserFilmsYearPage: NextPage<UserFilmsYearPageProps> = ({
   user,
   userPreMadeListMovies,
 }) => (
-  <MovieListView user={user} movies={userPreMadeListMovies}>
-    <MovieListYearNavigation year={year} />
-  </MovieListView>
+  <MovieListView
+    user={user}
+    movies={userPreMadeListMovies}
+    navigation={{ year }}
+  />
 );
 
 export default UserFilmsYearPage;

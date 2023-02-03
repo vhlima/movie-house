@@ -15,9 +15,10 @@ const SortButtons: React.FC = () => {
   const rootPath = asPath.split('/')[3];
 
   return (
-    <div className="flex gap-4 ml-auto">
+    <div className="flex flex-col sm:flex-row items-center ml-auto">
       <SortButton
         text="Genre"
+        sizeType="lg"
         isOpen={dropdownOpen === 'genre'}
         onClick={() =>
           setDropdownOpen(prev => (prev !== 'genre' ? 'genre' : ''))

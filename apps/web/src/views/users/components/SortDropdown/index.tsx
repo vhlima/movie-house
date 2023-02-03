@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
-import Link from '../../../../../../components/Link';
-import SvgIcon from '../../../../../../components/SvgIcon';
-import Typography from '../../../../../../components/Typography';
+import Link from '../../../../components/Link';
+import SvgIcon from '../../../../components/SvgIcon';
+import Typography from '../../../../components/Typography';
 
 import type { SortDropdownLogicProps } from './logic';
 
@@ -22,8 +22,8 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
   const { selectedOptions, buildGenreUrl } = useLogic(logicProps);
 
   return (
-    <div className="absolute top-5 bg-grey-800 z-10">
-      <ul className="shadow-lg">
+    <div className="absolute inset-0 top-7 z-10">
+      <ul className="shadow-lg bg-grey-800 rounded-b-sm">
         {items.map((item, index) => {
           const isOptionSelected =
             index === 0

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Link from '../../../../../../components/Link';
 import Typography from '../../../../../../components/Typography';
 
-interface UserProfileNavigationProps {
+interface ProfileNavigationProps {
   user: {
     username: string;
   };
@@ -38,9 +38,7 @@ const navigationOptions = [
   },
 ];
 
-const UserProfileNavigation: React.FC<UserProfileNavigationProps> = ({
-  user,
-}) => {
+const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ user }) => {
   const { route } = useRouter();
 
   const rootPath = route.split('/').slice(0, 4).join('/');
@@ -79,4 +77,4 @@ const UserProfileNavigation: React.FC<UserProfileNavigationProps> = ({
   );
 };
 
-export default UserProfileNavigation;
+export default ProfileNavigation;

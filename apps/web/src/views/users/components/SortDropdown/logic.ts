@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import type { LinkProps } from '../../../../../../components/Link';
+import type { LinkProps } from '../../../../components/Link';
 
 export interface SortDropdownLogicProps {
   /* Query key to access from values */
