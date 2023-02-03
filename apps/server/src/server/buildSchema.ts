@@ -14,6 +14,7 @@ import {
   PreMadeListResolver,
   ListResolver,
   ListMovieResolver,
+  PreMadeListMovieResolver,
   LimitResolver,
 } from '../resolvers';
 
@@ -31,6 +32,7 @@ export const buildSchema = async () => {
       PreMadeListResolver,
       ListResolver,
       ListMovieResolver,
+      PreMadeListMovieResolver,
       LimitResolver,
     ],
     // resolvers: [path.resolve(__dirname, 'src/resolvers/*.ts')],
