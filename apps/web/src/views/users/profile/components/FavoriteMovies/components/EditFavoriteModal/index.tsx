@@ -2,16 +2,13 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import {
-  LimitType,
-  PreMadeListType,
-  useFindLimitQuery,
-} from '../../../../../../../graphql';
+import { PreMadeListType } from '../../../../../../../graphql';
+
+import type { ModalHandles } from '../../../../../../../components/Modal';
 
 import Modal from '../../../../../../../components/Modal';
 import SvgIcon from '../../../../../../../components/SvgIcon';
 import Typography from '../../../../../../../components/Typography';
-import type { ModalHandles } from '../../../../../../../components/Modal';
 import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
 
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
@@ -57,9 +54,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
             limitResult.limit.limit -
             favoriteMoviesData.userPreMadeListMovies.length
           }
-          movies={favoriteMoviesData.userPreMadeListMovies.map(
-            ({ movie }) => movie,
-          )}
+          movies={favoriteMoviesData.userPreMadeListMovies}
           renderCover={(index, movie) =>
             !movie ? (
               {

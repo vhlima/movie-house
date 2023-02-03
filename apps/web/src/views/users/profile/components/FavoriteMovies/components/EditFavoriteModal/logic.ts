@@ -26,8 +26,9 @@ export const useLogic = () => {
   /* Update FavoriteMovies cache removing the movie passed */
   function handleUpdateCache(movieId: number) {
     updateCache(cacheData => ({
+      ...cacheData,
       userPreMadeListMovies: cacheData.userPreMadeListMovies.filter(
-        ({ movie }) => movie.id !== movieId,
+        movie => movie.id !== movieId,
       ),
     }));
   }
