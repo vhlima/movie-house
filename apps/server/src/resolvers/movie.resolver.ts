@@ -66,13 +66,6 @@ class MovieResolver {
     return movies;
   }
 
-  @Query(() => [Genre])
-  async movieGenres(@Ctx() { dataSources }: ServerContext) {
-    const genresResponse = await dataSources.tmdb.getMovieGenres();
-
-    return genresResponse.genres;
-  }
-
   @Query(() => [Movie])
   async movieRecommendations(
     @Ctx() { dataSources }: ServerContext,
