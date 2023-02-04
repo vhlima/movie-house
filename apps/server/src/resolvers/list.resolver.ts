@@ -1,6 +1,7 @@
 import { Resolver, Mutation, Ctx, Arg, Int, Query } from 'type-graphql';
 
-import { Any } from 'typeorm';
+import { Any, FindOptionsOrder } from 'typeorm';
+
 import type { ServerContext } from '../types';
 
 import {
@@ -12,24 +13,63 @@ import {
 
 import List from '../entities/pg-entities/list';
 
-import AuthorizationError from '../errors/Authorization';
-
 import ListMovie from '../entities/mongo-entities/list-movie';
 
+import ListSortInput from '../inputs/list-sort.input';
+
+import ListSortType from '../enums/ListSortType';
+
 import NotFoundError from '../errors/NotFound';
-
 import UserNotFoundError from '../errors/UserNotFound';
-
 import AlreadyExistsError from '../errors/AlreadyExists';
-
+import AuthorizationError from '../errors/Authorization';
 import AuthenticationError from '../errors/Authentication';
 
 @Resolver()
 export default class ListResolver {
+  parseSortOptions(sort?: ListSortInput): FindOptionsOrder<List> | undefined {
+    if (!sort) {
+      return {
+        post: {
+          createdAt: 'DESC',
+        },
+      };
+    }
+
+    switch (sort.type) {
+      case ListSortType.NAME: {
+        return {
+          name: 'ASC',
+        };
+      }
+
+      case ListSortType.UPDATED: {
+        return { post: { updatedAt: 'DESC' } };
+      }
+
+      case ListSortType.POPULARITY: {
+        // fetch by like count
+        return undefined;
+      }
+
+      case ListSortType.OLDER: {
+        return {
+          post: {
+            createdAt: 'ASC',
+          },
+        };
+      }
+
+      default:
+        return undefined;
+    }
+  }
+
   @Query(() => [List])
   async userLists(
     @Ctx() { user: session }: ServerContext,
     @Arg('userId') userId: string,
+    @Arg('sort', () => ListSortInput, { nullable: true }) sort?: ListSortInput,
   ) {
     const user = await UserRepository.findOneBy({ id: userId });
 
@@ -37,9 +77,12 @@ export default class ListResolver {
       throw new UserNotFoundError();
     }
 
+    const isFetchPrivateLists = !!(session && session.id === user.id);
+
     const listsFound = await ListRepository.find({
-      where: { post: { userId }, isPrivate: session && session.id === user.id },
+      where: { post: { userId }, isPrivate: isFetchPrivateLists },
       relations: ['post'],
+      order: this.parseSortOptions(sort),
     });
 
     return listsFound;
