@@ -1,17 +1,20 @@
-import { Arg, Query, Resolver } from 'type-graphql';
+import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 
 import {
   FollowRepository,
+  ListMovieRepository,
   ListRepository,
   PreMadeListRepository,
   UserRepository,
 } from '../repositories';
 
-import UserNotFoundError from '../errors/UserNotFound';
-
-import ProfileStats from '../entities/profile-stats';
+import { sortMongoDateFieldByYear } from '../utils/date-utils';
 
 import PreMadeListType from '../enums/PreMadeListType';
+
+import ProfileStats from '../objects/profile-stats';
+
+import UserNotFoundError from '../errors/UserNotFound';
 
 @Resolver()
 class ProfileResolver {
@@ -42,10 +45,21 @@ class ProfileResolver {
       where: { userId: user.id, listType: PreMadeListType.WATCHED },
     });
 
-    const moviesWatchedThisYearCount = await PreMadeListRepository.count({
-      // TODO order query by only movies watched the current year
-      where: { userId: user.id, listType: PreMadeListType.WATCHED },
+    const watchedMoviesList = await PreMadeListRepository.findOneBy({
+      userId: user.id,
+      listType: PreMadeListType.WATCHED,
     });
+
+    let moviesWatchedThisYearCount = 0;
+
+    if (watchedMoviesList) {
+      const currentYear = new Date().getFullYear();
+
+      moviesWatchedThisYearCount = await ListMovieRepository.countBy({
+        listId: watchedMoviesList.id,
+        createdAt: sortMongoDateFieldByYear(currentYear),
+      });
+    }
 
     return {
       followerCount,
