@@ -2,7 +2,7 @@
 nixPkgs = ['nodejs', 'yarn']
 
 [phases.install]
-cmds = ['yarn install']
+cmds = ['yarn install --frozen-lockfile']
 
 [phases.build]
 cmds = ['yarn build', 'yarn migration:run']
