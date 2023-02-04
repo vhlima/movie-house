@@ -32,7 +32,7 @@ const ReviewPreview: React.FC<ReviewPreviewProps> = ({
     <div className="flex gap-2">
       {!simple && <MovieCover movie={review.movie} sizeType="sm" />}
 
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full">
         {!simple && (
           <Typography component="h2">
             <MovieLink
@@ -51,7 +51,7 @@ const ReviewPreview: React.FC<ReviewPreviewProps> = ({
         )}
 
         <Link
-          className="group"
+          className="group w-full"
           href={{
             pathname: '/reviews/[id]',
             query: {
