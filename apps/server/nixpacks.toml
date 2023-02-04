@@ -1,8 +1,11 @@
 [phases.setup]
 nixPkgs = ['nodejs', 'yarn']
 
+[phases.install]
+cmd = 'yarn install'
+
 [phases.build]
-cmds = ['yarn install', 'yarn build', 'yarn migration:run']
+cmds = ['yarn build', 'yarn migration:run']
 
 [start]
 cmd = 'yarn start'
