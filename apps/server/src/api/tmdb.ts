@@ -1,10 +1,10 @@
 import { AugmentedRequest, RESTDataSource } from '@apollo/datasource-rest';
+
 import Movie from '../entities/mongo-entities/movie';
 import Genre from '../entities/mongo-entities/movie/genre.interface';
 
-import MovieSearch from '../entities/movie-search';
-
-import MovieTrending from '../entities/movie-trending';
+import MovieSearch from '../objects/movie-search';
+import MovieTrending from '../objects/movie-trending';
 
 export default class TmdbAPI extends RESTDataSource {
   constructor() {

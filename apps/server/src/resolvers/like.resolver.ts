@@ -6,8 +6,6 @@ import { LikeRepository, UserRepository } from '../repositories';
 
 import Like from '../entities/mongo-entities/like.interface';
 
-import LikeArgs from '../entities/types/args/like.args';
-
 import UserNotFoundError from '../errors/UserNotFound';
 
 import AuthenticationError from '../errors/Authentication';
@@ -17,7 +15,8 @@ export default class LikeResolver {
   @Query(() => Boolean)
   async hasUserLike(
     @Arg('userId') userId: string,
-    @Args() { rootId, referenceId }: LikeArgs,
+    @Arg('rootId') rootId: string,
+    @Arg('referenceId', { nullable: true }) referenceId?: string,
   ) {
     const user = await UserRepository.findOneBy({ id: userId });
 
@@ -37,7 +36,8 @@ export default class LikeResolver {
   @Mutation(() => Boolean)
   async like(
     @Ctx() { user }: ServerContext,
-    @Args() { rootId, referenceId }: LikeArgs,
+    @Arg('rootId') rootId: string,
+    @Arg('referenceId', { nullable: true }) referenceId?: string,
   ) {
     if (!user) {
       throw new AuthenticationError();

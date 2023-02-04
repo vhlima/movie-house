@@ -22,7 +22,8 @@ import UserNotFoundError from '../errors/UserNotFound';
 import AuthenticationError from '../errors/Authentication';
 
 import MovieSortType from '../enums/MovieSortType';
-import MovieSortArgs from '../entities/types/movie-sort.args';
+
+import MovieSortInput from '../inputs/movie-sort.input';
 
 @Resolver()
 export default class PreMadeListMovieResolver {
@@ -82,7 +83,7 @@ export default class PreMadeListMovieResolver {
   async userPreMadeListMovies(
     @Arg('userId') userId: string,
     @Arg('listType', () => PreMadeListType) listType: PreMadeListType,
-    @Arg('sort', { nullable: true }) sort?: MovieSortArgs,
+    @Arg('sort', { nullable: true }) sort?: MovieSortInput,
     @Arg('page', () => Int, { nullable: true }) page = 1,
   ) {
     const user = await UserRepository.findOneBy({ id: userId });

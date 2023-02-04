@@ -8,7 +8,7 @@ import type { ServerContext } from '../types';
 
 import { findWithPagination } from './pagination.resolver';
 
-import PaginationArgs from '../entities/types/args/pagination.args';
+import PaginationArgs from '../args/pagination.args';
 
 import Commentary from '../entities/pg-entities/comment/commentary.interface';
 import Commentaries from '../entities/pg-entities/pagination/entities/commentaries.interface';
@@ -27,6 +27,8 @@ export default class CommentaryResolver {
     if (!ObjectId.isValid(postId)) {
       throw new NotFoundError('Post not found');
     }
+
+    // TODO check if post exists
 
     // const postExists = await ReviewRepository.findOneBy({
     //   _id: new ObjectId(postId),

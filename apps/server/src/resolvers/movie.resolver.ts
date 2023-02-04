@@ -4,11 +4,11 @@ import type { ServerContext } from '../types';
 
 import Movie from '../entities/mongo-entities/movie';
 
-import MovieSearch from '../entities/movie-search';
+import MovieSearch from '../objects/movie-search';
+import MovieTrending from '../objects/movie-trending';
 
 import NotFoundError from '../errors/NotFound';
 
-import MovieTrending from '../entities/movie-trending';
 import Genre from '../entities/mongo-entities/movie/genre.interface';
 
 @Resolver(() => Movie)

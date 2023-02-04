@@ -6,7 +6,7 @@ import { CommentaryRepository, ReplyRepository } from '../repositories';
 
 import { findWithPagination } from './pagination.resolver';
 
-import PaginationArgs from '../entities/types/args/pagination.args';
+import PaginationArgs from '../args/pagination.args';
 
 import Reply from '../entities/pg-entities/comment/reply.interface';
 

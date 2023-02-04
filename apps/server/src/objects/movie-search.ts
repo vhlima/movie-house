@@ -1,9 +1,9 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 
-import Movie from './mongo-entities/movie';
+import Movie from '../entities/mongo-entities/movie';
 
 @ObjectType()
-export default class MovieTrending {
+export default class MovieSearch {
   @Field(() => Int)
   page: number;
 
