@@ -13,7 +13,7 @@ export const FIND_USER_LIST_MOVIES = gql`
 export const FIND_USER_PRE_MADE_LIST_MOVIES = gql`
   query FindUserPreMadeListMovies(
     $page: Int
-    $sort: MovieSortArgs
+    $sort: MovieSortInput
     $listType: PreMadeListType!
     $userId: String!
   ) {

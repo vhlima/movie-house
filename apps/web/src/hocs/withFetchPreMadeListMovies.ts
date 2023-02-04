@@ -1,11 +1,7 @@
-import { GetServerSideProps } from 'next';
-
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
-import * as Yup from 'yup';
-
 import type {
-  MovieSortArgs,
+  MovieSortInput,
   FindUserQuery,
   FindUserQueryVariables,
   FindUserPreMadeListMoviesQuery,
@@ -22,7 +18,7 @@ interface FetchDataProps {
   apolloClient: ApolloClient<NormalizedCacheObject>;
   username: string;
   listType: PreMadeListType;
-  sort?: MovieSortArgs;
+  sort?: MovieSortInput;
 }
 
 export async function withFetchPreMadeListMovies({
