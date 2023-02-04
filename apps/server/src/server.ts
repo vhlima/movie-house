@@ -40,14 +40,13 @@ const main = async () => {
 
     app.use(
       cors<cors.CorsRequest>({
-        origin:
-          process.env.NODE_ENV === 'development'
-            ? [
-                'http://localhost:3000',
-                'http://127.0.0.1:3000',
-                'https://studio.apollographql.com',
-              ]
-            : ['https://moviehouse.up.railway.app'],
+        origin: !process.env.WEB_URL
+          ? [
+              'http://localhost:3000',
+              'http://127.0.0.1:3000',
+              'https://studio.apollographql.com',
+            ]
+          : [process.env.WEB_URL],
         credentials: true,
       }),
       json(),
