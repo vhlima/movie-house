@@ -16,6 +16,37 @@ interface ProfileStatsProps {
   };
 }
 
+const profileStats = [
+  {
+    text: 'Movies',
+    attributeKey: 'moviesWatchedCount',
+    pathname: '/users/[username]/films',
+  },
+  {
+    text: 'This year',
+    attributeKey: 'moviesWatchedThisYearCount',
+    pathname: '/users/[username]/films',
+  },
+  {
+    text: 'Lists',
+    attributeKey: 'listCount',
+    pathname: '/users/[username]/lists',
+  },
+];
+
+const followStats = [
+  {
+    text: 'Following',
+    attributeKey: 'followingCount',
+    pathname: '/users/[username]/following',
+  },
+  {
+    text: 'Followers',
+    attributeKey: 'followerCount',
+    pathname: '/users/[username]/followers',
+  },
+];
+
 const ProfileStats: React.FC<ProfileStatsProps> = ({ user }) => {
   const { data: session } = useAuth();
 
@@ -59,80 +90,45 @@ const ProfileStats: React.FC<ProfileStatsProps> = ({ user }) => {
 
       <div className="flex flex-col items-center gap-2">
         <div className="flex">
-          <UserStats
-            link={{
-              href: {
-                pathname: '/users/[username]/films',
-                query: { username },
-              },
-            }}
-            number={
-              profileStatsData
-                ? profileStatsData.userProfileStats.moviesWatchedCount
-                : 0
-            }
-            text="Movies"
-          />
-
-          <UserStats
-            link={{
-              href: {
-                pathname: '/users/[username]/films',
-                query: { username },
-              },
-            }}
-            number={
-              profileStatsData
-                ? profileStatsData.userProfileStats.moviesWatchedThisYearCount
-                : 0
-            }
-            text="This year"
-          />
-
-          <UserStats
-            link={{
-              href: {
-                pathname: '/users/[username]/lists',
-                query: { username },
-              },
-            }}
-            number={
-              profileStatsData ? profileStatsData.userProfileStats.listCount : 0
-            }
-            text="Lists"
-          />
+          {profileStats.map(stats => (
+            <UserStats
+              key={`user-profile-stats-${stats.text}`}
+              text={stats.text}
+              number={
+                !profileStatsData
+                  ? 0
+                  : profileStatsData.userProfileStats[stats.attributeKey]
+              }
+              link={{
+                href: {
+                  pathname: stats.pathname,
+                  query: {
+                    username,
+                  },
+                },
+              }}
+            />
+          ))}
         </div>
 
         <div className="flex">
-          <UserStats
-            link={{
-              href: {
-                pathname: '/users/[username]/following',
-                query: { username },
-              },
-            }}
-            number={
-              profileStatsData
-                ? profileStatsData.userProfileStats.followingCount
-                : 0
-            }
-            text="Following"
-          />
-
-          <UserStats
-            link={{
-              href: {
-                pathname: '/users/[username]/followers',
-                query: { username },
-              },
-            }}
-            number={
-              profileStatsData
-                ? profileStatsData.userProfileStats.followerCount
-                : 0
-            }
-            text="Followers"
-          />
+          {followStats.map(stats => (
+            <UserStats
+              key={`user-profile-stats-${stats.text}`}
+              text={stats.text}
+              number={
+                !profileStatsData
+                  ? 0
+                  : profileStatsData.userProfileStats[stats.attributeKey]
+              }
+              link={{
+                href: {
+                  pathname: stats.pathname,
+                  query: { username },
+                },
+              }}
+            />
+          ))}
         </div>
       </div>
     </>
