@@ -172,6 +172,18 @@ export type ListMovie = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type ListSortInput = {
+  type: ListSortType;
+};
+
+/** Sort options for lists */
+export enum ListSortType {
+  Name = 'NAME',
+  Older = 'OLDER',
+  Popularity = 'POPULARITY',
+  Updated = 'UPDATED'
+}
+
 export type Movie = {
   __typename?: 'Movie';
   backdropUrl: Scalars['String'];
@@ -545,6 +557,7 @@ export type QueryUserListMoviesArgs = {
 
 
 export type QueryUserListsArgs = {
+  sort?: InputMaybe<ListSortInput>;
   userId: Scalars['String'];
 };
 
@@ -747,6 +760,7 @@ export type FindUserListNamesQuery = { __typename?: 'Query', userLists: Array<{ 
 
 export type FindUserListsQueryVariables = Exact<{
   userId: Scalars['String'];
+  sort?: InputMaybe<ListSortInput>;
 }>;
 
 
@@ -1614,8 +1628,8 @@ export type FindUserListNamesQueryHookResult = ReturnType<typeof useFindUserList
 export type FindUserListNamesLazyQueryHookResult = ReturnType<typeof useFindUserListNamesLazyQuery>;
 export type FindUserListNamesQueryResult = Apollo.QueryResult<FindUserListNamesQuery, FindUserListNamesQueryVariables>;
 export const FindUserListsDocument = gql`
-    query FindUserLists($userId: String!) {
-  userLists(userId: $userId) {
+    query FindUserLists($userId: String!, $sort: ListSortInput) {
+  userLists(userId: $userId, sort: $sort) {
     name
     isPrivate
     user {
@@ -1649,6 +1663,7 @@ export const FindUserListsDocument = gql`
  * const { data, loading, error } = useFindUserListsQuery({
  *   variables: {
  *      userId: // value for 'userId'
+ *      sort: // value for 'sort'
  *   },
  * });
  */

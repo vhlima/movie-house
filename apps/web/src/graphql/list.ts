@@ -10,8 +10,8 @@ export const FIND_USER_LIST_NAMES = gql`
 `;
 
 export const FIND_USER_LISTS = gql`
-  query FindUserLists($userId: String!) {
-    userLists(userId: $userId) {
+  query FindUserLists($userId: String!, $sort: ListSortInput) {
+    userLists(userId: $userId, sort: $sort) {
       name
       isPrivate
       user {
