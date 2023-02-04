@@ -52,6 +52,8 @@ import { CgSpinner } from 'react-icons/cg';
 
 import { TbMovie } from 'react-icons/tb';
 
+import { VscPreview } from 'react-icons/vsc';
+
 export type SvgIconType =
   | 'FaRegUserCircle'
   | 'FaChevronRight'
@@ -94,7 +96,8 @@ export type SvgIconType =
   | 'IoList'
   | 'IoFilter'
   | 'CgSpinner'
-  | 'TbMovie';
+  | 'TbMovie'
+  | 'VscPreview';
 
 export interface SvgIconProps extends IconBaseProps {
   iconType: SvgIconType;
@@ -156,6 +159,8 @@ const icons: SvgIconsType = {
   CgSpinner,
 
   TbMovie,
+
+  VscPreview,
 };
 
 const SvgIcon: React.FC<SvgIconProps> = ({ iconType, size, ...rest }) => {
