@@ -1,8 +1,8 @@
 import { GraphQLScalarType, Kind } from 'graphql';
 
-export const MovieSortScalar = new GraphQLScalarType({
-  name: 'MovieSortScalar',
-  description: 'Movie sort scalar type',
+export const SortScalar = new GraphQLScalarType({
+  name: 'Sort',
+  description: 'Sort scalar type',
   parseValue(value: unknown) {
     if (typeof value === 'string') {
       return value;
@@ -43,4 +43,4 @@ export const MovieSortScalar = new GraphQLScalarType({
   },
 });
 
-export default MovieSortScalar;
+export default SortScalar;
