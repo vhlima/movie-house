@@ -21,7 +21,7 @@ const RecentReviews: React.FC = () => {
                 <Link
                   href={{
                     pathname: '/reviews/[id]',
-                    query: { id: review.id },
+                    query: { id: review.post.id },
                   }}
                 >
                   <MovieCover movie={review.movie} link={false} />
