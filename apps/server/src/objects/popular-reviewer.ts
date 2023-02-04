@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 
-import User from './pg-entities/user.interface';
+import User from '../entities/pg-entities/user.interface';
 
 @ObjectType()
 export default class PopularReviewer {

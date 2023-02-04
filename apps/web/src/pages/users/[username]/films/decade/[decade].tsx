@@ -16,7 +16,6 @@ import { addApolloState, initializeApollo } from '../../../../../client';
 import { withFetchPreMadeListMovies } from '../../../../../hocs/withFetchPreMadeListMovies';
 
 import MovieListView from '../../../../../views/users/components/MovieListView';
-import MovieListYearNavigation from '../../../../../views/users/components/MovieListYearNavigation';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
