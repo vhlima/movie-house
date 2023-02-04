@@ -29,7 +29,7 @@ export function useLogic({
     ? (query[queryKey] as string).split(',')
     : [];
 
-  function buildGenreUrl(optionId: string): LinkProps {
+  function buildFilteredHref(optionId: string): LinkProps {
     if (optionId === '-1') {
       return {
         href: {
@@ -65,6 +65,6 @@ export function useLogic({
 
   return {
     selectedOptions,
-    buildGenreUrl,
+    buildFilteredHref,
   };
 }

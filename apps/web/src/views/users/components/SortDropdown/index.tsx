@@ -19,7 +19,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
   items,
   ...logicProps
 }) => {
-  const { selectedOptions, buildGenreUrl } = useLogic(logicProps);
+  const { selectedOptions, buildFilteredHref } = useLogic(logicProps);
 
   return (
     <div className="absolute inset-0 top-7 z-10">
@@ -39,7 +39,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
             >
               <Link
                 className={clsx('relative pl-6 p-1 block')}
-                {...buildGenreUrl(item.id)}
+                {...buildFilteredHref(item.id)}
               >
                 {index > 0 && isOptionSelected && (
                   <SvgIcon
