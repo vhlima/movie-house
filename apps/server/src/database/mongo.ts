@@ -5,7 +5,7 @@ export const MongoDataSource = new DataSource({
   url: process.env.MONGO_URL,
   host: process.env.MONGOHOST,
   useNewUrlParser: true,
-  ssl: process.env.NODE_ENV === 'development',
+  ssl: process.env.MONGO_SSL ? process.env.MONGO_SSL === 'true' : false,
   useUnifiedTopology: true,
   port: parseInt(process.env.MONGOPORT as string, 10),
   database: process.env.MONGO_DATABASE,
