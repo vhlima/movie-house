@@ -2,23 +2,15 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type {
-  FindUserReviewsQuery,
-  FindUserReviewsQueryVariables,
-  FindUserQuery,
-  FindUserQueryVariables,
-} from '../../../../graphql';
-
-import { FindUserDocument, FindUserReviewsDocument } from '../../../../graphql';
+import type { FindUserQuery, FindUserReviewsQuery } from '../../../../graphql';
 
 import { addApolloState, initializeApollo } from '../../../../client';
 
+import { withFetchUserReviews } from '../../../../hocs/withFetchUserReviews';
+
 import UserReviewsView from '../../../../views/users/reviews';
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  query,
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
     username: Yup.string().required(),
   });
@@ -28,43 +20,21 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     const apolloClient = initializeApollo();
 
-    const { data: userData } = await apolloClient.query<
-      FindUserQuery,
-      FindUserQueryVariables
-    >({
-      query: FindUserDocument,
-      variables: { username },
+    const fetchResponse = await withFetchUserReviews({
+      apolloClient,
+      username,
     });
 
-    if (!userData) {
-      res.statusCode = 404;
-      return { props: { notFound: true } };
-    }
-
-    const { data: userReviewsData } = await apolloClient.query<
-      FindUserReviewsQuery,
-      FindUserReviewsQueryVariables
-    >({
-      query: FindUserReviewsDocument,
-      variables: { userId: userData.user.id },
-    });
-
-    return addApolloState(apolloClient, {
-      props: {
-        ...userData,
-        ...userReviewsData,
-      },
-    });
+    return addApolloState(apolloClient, fetchResponse);
   } catch (err) {
-    res.statusCode = 404;
-    return { props: { notFound: true } };
+    return { notFound: true };
   }
 };
 
-type PageProps = FindUserQuery;
+type PageProps = FindUserQuery & FindUserReviewsQuery;
 
-const UserReviewsPage: NextPage<PageProps> = ({ user }) => (
-  <UserReviewsView user={user} />
+const UserReviewsPage: NextPage<PageProps> = ({ user, reviewsUser }) => (
+  <UserReviewsView user={user} reviewsUser={reviewsUser} />
 );
 
 export default UserReviewsPage;

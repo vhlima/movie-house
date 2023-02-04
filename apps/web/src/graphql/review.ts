@@ -87,8 +87,8 @@ export const FIND_USER_PINNED_REVIEWS = gql`
 export const FIND_USER_REVIEWS = gql`
   ${BASIC_REVIEW_FIELDS}
 
-  query FindUserReviews($userId: String!) {
-    reviewsUser(userId: $userId) {
+  query FindUserReviews($userId: String!, $sort: ReviewSortInput) {
+    reviewsUser(userId: $userId, sort: $sort) {
       ...BasicReviewFields
       isPinned
       movie {
