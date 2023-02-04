@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Query, Resolver } from 'type-graphql';
 
 import {
   FollowRepository,
@@ -7,8 +7,6 @@ import {
   PreMadeListRepository,
   UserRepository,
 } from '../repositories';
-
-import { sortMongoDateFieldByYear } from '../utils/date-utils';
 
 import PreMadeListType from '../enums/PreMadeListType';
 
@@ -57,7 +55,10 @@ class ProfileResolver {
 
       moviesWatchedThisYearCount = await ListMovieRepository.countBy({
         listId: watchedMoviesList.id,
-        createdAt: sortMongoDateFieldByYear(currentYear),
+        createdAt: {
+          $gte: new Date(`${currentYear}-01-01T00:00:00.000Z`),
+          $lte: new Date(`${currentYear}-12-31T23:59:59.999Z`),
+        },
       });
     }
 
