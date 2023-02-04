@@ -6,14 +6,15 @@ import { UserRepository, UserProviderRepository } from '../repositories';
 
 import User from '../entities/pg-entities/user.interface';
 
-import UserInput from '../entities/types/user.input';
+import UserFieldsInput from '../inputs/user-fields.input';
 
 import UserNotFoundError from '../errors/UserNotFound';
+import AuthenticationError from '../errors/Authentication';
 
 @Resolver(() => User)
 class UserResolver {
   @Query(() => User)
-  async user(@Arg(`username`) username: string): Promise<User> {
+  async user(@Arg(`username`) username: string) {
     const user = await UserRepository.findOneBy({ username });
 
     if (!user) {
@@ -27,7 +28,7 @@ class UserResolver {
   async userByProvider(
     @Arg('provider') provider: string,
     @Arg('providerId') providerId: string,
-  ): Promise<User> {
+  ) {
     const userProvider = await UserProviderRepository.findOne({
       where: {
         provider,
@@ -50,24 +51,16 @@ class UserResolver {
 
   @Mutation(() => User)
   async updateUser(
-    @Arg('userId') userId: string,
-    @Arg('data') data: UserInput,
+    @Ctx() { user }: ServerContext,
+    @Arg('data') data: UserFieldsInput,
   ) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
     if (!user) {
-      throw new Error('User not found');
+      throw new AuthenticationError();
     }
 
-    return user;
+    const updatedUser = await UserRepository.update(user.id, { ...data });
 
-    // const user = await UserModel.findByIdAndUpdate(userId, { ...data });
-
-    // if (!user) {
-    //   throw new Error('User not found');
-    // }
-
-    // return user;
+    return updatedUser;
   }
 
   @Mutation(() => Boolean)
