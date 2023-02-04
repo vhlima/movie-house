@@ -2,7 +2,8 @@ import { useFindPopularReviewsFromMovieQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 
-import ReviewBody from '../../../../../components/review/ReviewBody';
+import ReviewPreview from '../../../../../components/review/ReviewPreview';
+import Typography from '../../../../../components/Typography';
 
 interface MoviePopularReviewsProps {
   movieId: number;
@@ -15,14 +16,22 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
     variables: { movieId },
   });
 
+  const hasAnyPopularReview =
+    popularReviewsData && popularReviewsData.reviewsPopularFromMovie.length > 0;
+
   return (
-    <Card title="Popular reviews" link={{ href: '/' }} noPadding>
-      {popularReviewsData && (
+    <Card title="Popular reviews" noPadding>
+      {!hasAnyPopularReview ? (
+        <Typography component="p">
+          No one has reviewed this movie yet.
+        </Typography>
+      ) : (
         <ul>
           {popularReviewsData.reviewsPopularFromMovie.map(review => (
-            <ReviewBody
+            <ReviewPreview
               key={`movie-popular-review-${review.id}`}
               review={review}
+              simple
             />
           ))}
         </ul>

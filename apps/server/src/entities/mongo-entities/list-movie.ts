@@ -6,6 +6,8 @@ import { ObjectId } from 'mongodb';
 
 import Movie from './movie';
 
+import MongoTimestamps from './timestamps.interface';
+
 /* 
   This entity can store movies from any type of lists 
   Currently being used on Lists and PreMadeLists
@@ -13,7 +15,7 @@ import Movie from './movie';
 
 @ObjectType()
 @Entity('list_movies')
-export default class ListMovie {
+export default class ListMovie extends MongoTimestamps {
   @ObjectIdColumn({ name: '_id' })
   readonly id: ObjectId;
 

@@ -3,9 +3,9 @@ interface ErrorTextProps {
 }
 
 const ErrorText: React.FC<ErrorTextProps> = ({ text }) => (
-  <h1 className="text-danger-base" data-testid="loading-error">
+  <h2 className="text-danger-base" data-testid="loading-error">
     {text}
-  </h1>
+  </h2>
 );
 
 export default ErrorText;

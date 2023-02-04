@@ -1,16 +1,14 @@
 import type { Review } from '../../../graphql';
 
 import ListItem from '../../ListItem';
-
 import Typography from '../../Typography';
-
+import MovieLink from '../../movie/MovieLink';
 import MovieCover from '../../movie/MovieCover';
 
-import MovieLink from '../../movie/MovieLink';
+import Link from '../../Link';
+import TextShorter from '../../TextShorter';
 
-import ReviewBody from '../ReviewBody';
-
-import StarIcon from '../../StarIcon';
+import ReviewHeader from '../ReviewHeader';
 
 export type ReviewPreviewFields = {
   user: Pick<Review['user'], 'username' | 'profilePictureUrl'>;
@@ -23,40 +21,52 @@ export type ReviewPreviewFields = {
 
 interface ReviewPreviewProps {
   review: ReviewPreviewFields;
+  simple?: boolean;
 }
 
-const ReviewPreview: React.FC<ReviewPreviewProps> = ({ review }) => (
+const ReviewPreview: React.FC<ReviewPreviewProps> = ({
+  review,
+  simple = false,
+}) => (
   <ListItem className="w-full">
     <div className="flex gap-2">
-      <MovieCover movie={review.movie} sizeType="sm" />
+      {!simple && <MovieCover movie={review.movie} sizeType="sm" />}
 
-      <div className="flex flex-col">
-        <Typography component="h2">
-          <MovieLink
-            className="text-grey-100 text-xl font-semibold hover:text-grey-300"
-            movieId={review.movie.id}
-          >
-            {review.movie.originalTitle}
-          </MovieLink>
+      <div className="flex flex-col w-full">
+        {!simple && (
+          <Typography component="h2">
+            <MovieLink
+              className="text-grey-100 text-xl font-semibold hover:text-grey-300"
+              movieId={review.movie.id}
+            >
+              {review.movie.originalTitle}
+            </MovieLink>
 
-          {review.movie.releaseDate && (
-            <Typography className="ml-1" component="span">
-              ({new Date(review.movie.releaseDate).getFullYear()})
-            </Typography>
-          )}
-        </Typography>
+            {review.movie.releaseDate && (
+              <Typography className="ml-1" component="span">
+                ({new Date(review.movie.releaseDate).getFullYear()})
+              </Typography>
+            )}
+          </Typography>
+        )}
 
-        <div className="flex flex-col">
-          {/* <div className="flex mb-2">
-            {Array.from({ length: 10 })
-              .map((_, index) => index + 1)
-              .map(n => (
-                <StarIcon key={`review-preview-star-${n}`} fill={n <= 3} />
-              ))}
-          </div> */}
+        <Link
+          className="group w-full"
+          href={{
+            pathname: '/reviews/[id]',
+            query: {
+              id: review.post.id,
+            },
+          }}
+        >
+          <ReviewHeader user={review.user} post={review.post} />
+        </Link>
 
-          <ReviewBody review={review} />
-        </div>
+        <TextShorter
+          className="my-2"
+          maxCharacters={200}
+          text={review.post.body}
+        />
       </div>
     </div>
   </ListItem>

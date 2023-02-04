@@ -1,8 +1,10 @@
 import { AugmentedRequest, RESTDataSource } from '@apollo/datasource-rest';
 
-import MovieSearch from '../entities/movie-search';
+import Movie from '../entities/mongo-entities/movie';
+import Genre from '../entities/mongo-entities/movie/genre.interface';
 
-import MovieTrending from '../entities/movie-trending';
+import MovieSearch from '../objects/movie-search';
+import MovieTrending from '../objects/movie-trending';
 
 export default class TmdbAPI extends RESTDataSource {
   constructor() {
@@ -47,6 +49,20 @@ export default class TmdbAPI extends RESTDataSource {
 
   async getTrendingMoviesWeek(page: number): Promise<MovieTrending> {
     const response = await this.get('trending/movie/week');
+
+    return response;
+  }
+
+  async getMovieGenres(): Promise<{ genres: Genre[] }> {
+    const response = await this.get('genre/list');
+
+    return response;
+  }
+
+  async getMovieRecommendations(
+    movieId: number,
+  ): Promise<{ page: number; results: Movie[] }> {
+    const response = await this.get(`movie/${movieId}/recommendations`);
 
     return response;
   }

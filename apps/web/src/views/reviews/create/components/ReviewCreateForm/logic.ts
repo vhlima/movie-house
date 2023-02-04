@@ -17,13 +17,15 @@ interface CreateReviewLogicProps {
 }
 
 const validationSchema: ValidationSchemaType = Yup.object().shape({
-  body: Yup.string().required('Write your review before submitting'),
+  body: Yup.string().required('Write your review before submitting.'),
 });
 
 export const useLogic = ({ movieId }: CreateReviewLogicProps) => {
   const { push } = useRouter();
 
-  const [createReviewMutation, reviewResult] = useCreateReviewMutation();
+  const [createReviewMutation, reviewResult] = useCreateReviewMutation({
+    errorPolicy: 'all',
+  });
 
   const handleSubmit = async (values: ReviewFormikInput) => {
     if (movieId === -1) return;

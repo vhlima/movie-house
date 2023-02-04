@@ -1,10 +1,9 @@
 import type { Cast } from '../../../../../graphql';
 
 import Link from '../../../../../components/Link';
-
 import Card from '../../../../../components/Card';
-
 import Image from '../../../../../components/Image';
+import Typography from '../../../../../components/Typography';
 
 interface MovieCastProps {
   cast: Array<{
@@ -21,32 +20,39 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => (
       {cast.slice(0, 10).map(actor => (
         <div
           className="flex flex-col gap-1 w-24 flex-shrink-0"
-          key={`actor-${actor.id}`}
+          key={`movie-cast-${actor.id}`}
         >
-          <Link className="flex flex-col gap-2 items-center group" href="/">
+          <div className="flex flex-col gap-2 items-center group">
             <div className="relative w-20 h-20 border-grey-800 border rounded-full overflow-hidden hover:opacity-60">
               {!actor.profilePictureUrl ? (
-                <div className="flex items-center  justify-center w-full h-full bg-grey-800">
-                  <span className="text-grey-100 text-4xl">?</span>
+                <div className="flex items-center justify-center w-full h-full bg-grey-800">
+                  <Typography component="span" color="primary" size="4xl">
+                    ?
+                  </Typography>
                 </div>
               ) : (
                 <Image
+                  style={{ objectFit: 'cover' }}
+                  fill
+                  sizes="5rem, 5rem"
                   alt={actor.originalName}
-                  layout="fill"
-                  objectFit="cover"
                   src={actor.profilePictureUrl}
                 />
               )}
             </div>
 
-            <h1 className="text-grey-100 font-semibold text-center group-hover:underline">
+            <Typography
+              className="font-semibold text-center group-hover:underline"
+              component="h2"
+              color="primary"
+            >
               {actor.originalName}
-            </h1>
-          </Link>
+            </Typography>
+          </div>
 
-          <span className="text-grey-200 text-xs text-center">
+          <Typography className="text-center" component="span" size="xs">
             {actor.character}
-          </span>
+          </Typography>
         </div>
       ))}
     </ul>

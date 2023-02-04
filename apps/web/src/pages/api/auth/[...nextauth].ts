@@ -68,9 +68,7 @@ export default NextAuth({
         user,
       };
     },
-    signIn: async ({ account, user }) => {
-      if (!user) return false;
-
+    signIn: async ({ account }) => {
       const apolloClient = initializeApollo();
 
       try {

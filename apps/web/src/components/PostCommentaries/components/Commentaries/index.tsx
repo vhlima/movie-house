@@ -25,14 +25,14 @@ const Commentaries: React.FC<CommentariesProps> = ({ postId }) => {
 
   return (
     <>
-      <section className="mb-8">
+      <ul>
         {commentaries.commentaries.edges.map(({ node: commentary }) => (
           <Commentary
             key={`post-commentary-${commentary.id}`}
             commentary={commentary}
           />
         ))}
-      </section>
+      </ul>
 
       {commentaries && commentaries.commentaries.pageInfo.hasNextPage && (
         <Observer onIntersect={handleScroll}>

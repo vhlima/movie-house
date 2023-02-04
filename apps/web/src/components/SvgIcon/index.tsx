@@ -40,17 +40,19 @@ import {
 
 import { MdMovie, MdOutlineSort } from 'react-icons/md';
 
-import { FiX } from 'react-icons/fi';
+import { FiX, FiCheck } from 'react-icons/fi';
 
 import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
 
 import { IoIosJournal, IoIosSend } from 'react-icons/io';
 
-import { IoList } from 'react-icons/io5';
+import { IoList, IoFilter } from 'react-icons/io5';
 
 import { CgSpinner } from 'react-icons/cg';
 
 import { TbMovie } from 'react-icons/tb';
+
+import { VscPreview } from 'react-icons/vsc';
 
 export type SvgIconType =
   | 'FaRegUserCircle'
@@ -66,6 +68,7 @@ export type SvgIconType =
   | 'FaUsers'
   | 'FaPlay'
   | 'FiX'
+  | 'FiCheck'
   | 'AiFillHeart'
   | 'AiFillStar'
   | 'AiOutlineEye'
@@ -91,8 +94,10 @@ export type SvgIconType =
   | 'IoIosJournal'
   | 'IoIosSend'
   | 'IoList'
+  | 'IoFilter'
   | 'CgSpinner'
-  | 'TbMovie';
+  | 'TbMovie'
+  | 'VscPreview';
 
 export interface SvgIconProps extends IconBaseProps {
   iconType: SvgIconType;
@@ -117,6 +122,7 @@ const icons: SvgIconsType = {
   FaPlay,
 
   FiX,
+  FiCheck,
 
   AiFillHeart,
   AiFillStar,
@@ -148,10 +154,13 @@ const icons: SvgIconsType = {
   IoIosSend,
 
   IoList,
+  IoFilter,
 
   CgSpinner,
 
   TbMovie,
+
+  VscPreview,
 };
 
 const SvgIcon: React.FC<SvgIconProps> = ({ iconType, size, ...rest }) => {

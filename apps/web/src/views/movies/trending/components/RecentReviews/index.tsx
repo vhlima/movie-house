@@ -21,15 +21,10 @@ const RecentReviews: React.FC = () => {
                 <Link
                   href={{
                     pathname: '/reviews/[id]',
-                    query: { id: review.id },
+                    query: { id: review.post.id },
                   }}
                 >
-                  <MovieCover
-                    movie={{
-                      originalTitle: review.movie.originalTitle,
-                      posterUrl: review.movie.posterUrl,
-                    }}
-                  />
+                  <MovieCover movie={review.movie} link={false} />
                 </Link>
               </li>
             ))}

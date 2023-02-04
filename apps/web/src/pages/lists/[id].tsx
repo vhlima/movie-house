@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     });
   } catch (err) {
     req.statusCode = 404;
-    return { props: {} };
+    return { props: { notFound: true } };
   }
 };
 

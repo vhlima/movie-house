@@ -20,7 +20,7 @@ const RecentReviews: React.FC = () => {
       {!userRecentReviewsData ||
       userRecentReviewsData.reviewsUserRecent.length === 0 ? (
         <Typography component="p">
-          {user.username} hasnt reviewed any movies yet
+          {user.username} hasnt reviewed any movies yet.
         </Typography>
       ) : (
         <ul>

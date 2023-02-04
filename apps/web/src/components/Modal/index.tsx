@@ -54,7 +54,7 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> &
     <motion.div
       className={clsx('z-50 bg-grey-800', className, {
         'p-4': autoStyle,
-        'fixed top-1/4 left-1/2 transform -translate-x-1/2 rounded-md w-11/12 sm:w-3/4 lg:max-w-2xl lg:w-2/4':
+        'fixed top-1/4 left-1/2 transform -translate-x-1/2 rounded-md w-full sm:w-3/4 lg:max-w-2xl lg:w-2/4':
           center,
         'absolute bottom-0 w-full rounded-t-md': bottom,
       })}

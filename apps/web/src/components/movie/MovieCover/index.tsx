@@ -1,106 +1,75 @@
 import clsx from 'clsx';
 
-import type {
-  ButtonHTMLAttributes,
-  ElementType,
-  PropsWithChildren,
-} from 'react';
+import type { PropsWithChildren } from 'react';
 
 import type { Movie } from '../../../graphql';
 
 import Image from '../../Image';
+import Typography from '../../Typography';
 
 import MovieLink from '../MovieLink';
 
-import MovieCoverButton from './components/MovieCoverButton';
+interface MovieCover2Props {
+  className?: string;
+  sizeType?: 'sm' | 'md';
+  movie?: Pick<Movie, 'id' | 'originalTitle' | 'posterUrl'>;
+  link?: boolean;
 
-interface MovieCoverProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  movie?: Partial<Pick<Movie, 'id'>> &
-    Pick<Movie, 'originalTitle' | 'posterUrl'>;
-  sizeType?: 'responsive' | 'sm' | 'md';
-  listItem?: boolean;
+  width?: number;
+  height?: number;
 }
 
-const MovieCover: React.FC<PropsWithChildren<MovieCoverProps>> = ({
+const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   className,
-  sizeType = 'responsive',
+  sizeType,
   movie,
-  listItem,
+  link = true,
+  width = 250,
+  height = 250,
   children,
-  ...buttonProps
 }) => {
-  const containerClassNames = clsx(
-    'relative w-full h-full select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
-    {
-      'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
-      'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
-      [className]: !!className,
-    },
+  const movieCoverImageJsx = movie && (
+    <Image
+      className="w-full h-full"
+      title={movie.originalTitle}
+      width={width}
+      height={height}
+      src={movie.posterUrl}
+      alt={movie.originalTitle}
+    />
   );
 
-  const imageJsx = (
-    <>
-      {movie && (
-        <Image
-          title={movie.originalTitle}
-          layout="responsive"
-          width={150}
-          height={225}
-          src={movie.posterUrl}
-          alt={movie.originalTitle}
-        />
-      )}
-
-      {!children && !movie ? <span className="text-3xl">?</span> : children}
-    </>
-  );
-
-  if ((!movie || !movie.id) && !buttonProps.onClick) {
-    const ContainerElement: ElementType = listItem ? 'li' : 'div';
-
-    return (
-      <ContainerElement
-        className={clsx(containerClassNames, {
-          'flex items-center justify-center': !movie,
-        })}
-      >
-        {imageJsx}
-      </ContainerElement>
-    );
-  }
-
-  if (buttonProps.onClick) {
-    const movieCoverButton = (
-      <MovieCoverButton listItem={listItem} {...buttonProps}>
-        {children}
-      </MovieCoverButton>
-    );
-
-    return listItem ? (
-      <li className={containerClassNames}>{movieCoverButton}</li>
+  const movieCoverBodyJsx =
+    !link || !movie ? (
+      movieCoverImageJsx
     ) : (
-      movieCoverButton
+      <MovieLink movieId={movie.id}>{movieCoverImageJsx}</MovieLink>
     );
-  }
 
-  const linkContainer = (
-    <MovieLink
-      className={!listItem ? containerClassNames : ''}
-      movieId={movie.id}
+  return (
+    <div
+      className={clsx(
+        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
+        {
+          'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
+          'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
+          'w-fit h-fit': movie,
+          'flex items-center justify-center w-full h-full': !movie,
+          [className]: !!className,
+        },
+      )}
     >
-      {imageJsx}
-    </MovieLink>
+      {movieCoverBodyJsx}
+
+      {!children && !movie ? (
+        <Typography component="span" size="3xl" color="quaternary">
+          ?
+        </Typography>
+      ) : (
+        children
+      )}
+    </div>
   );
-
-  if (listItem) {
-    return (
-      <li className={containerClassNames} title={movie.originalTitle}>
-        {linkContainer}
-      </li>
-    );
-  }
-
-  return linkContainer;
 };
 
 export default MovieCover;

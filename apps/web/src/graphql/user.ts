@@ -7,6 +7,7 @@ export const USER_FIELDS = gql`
     realName
     biography
     profilePictureUrl
+    createdAt
   }
 `;
 

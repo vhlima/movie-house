@@ -20,4 +20,6 @@ export { default as ListResolver } from './list.resolver';
 
 export { default as ListMovieResolver } from './list-movie.resolver';
 
+export { default as PreMadeListMovieResolver } from './pre-made-list-movie.resolver';
+
 export { default as LimitResolver } from './limit.resolver';

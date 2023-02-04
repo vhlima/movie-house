@@ -22,6 +22,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** Sort scalar type */
+  Sort: any;
 };
 
 export type Cast = {
@@ -127,7 +129,7 @@ export type FollowersPaginationInfo = {
 
 export type Genre = {
   __typename?: 'Genre';
-  id: Scalars['String'];
+  id: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -172,8 +174,22 @@ export type List = {
 
 export type ListMovie = {
   __typename?: 'ListMovie';
+  createdAt: Scalars['DateTime'];
   movie: Movie;
+  updatedAt: Scalars['DateTime'];
 };
+
+export type ListSortInput = {
+  type: ListSortType;
+};
+
+/** Sort options for lists */
+export enum ListSortType {
+  Name = 'NAME',
+  Older = 'OLDER',
+  Popularity = 'POPULARITY',
+  Updated = 'UPDATED',
+}
 
 export type Movie = {
   __typename?: 'Movie';
@@ -205,6 +221,20 @@ export type MovieSearch = {
   page: Scalars['Int'];
   results: Array<Movie>;
 };
+
+export type MovieSortInput = {
+  filter: Scalars['Sort'];
+  type: MovieSortType;
+};
+
+/** Sort options for movie list */
+export enum MovieSortType {
+  Decade = 'DECADE',
+  Genre = 'GENRE',
+  ReleaseDateAsc = 'RELEASE_DATE_ASC',
+  ReleaseDateDesc = 'RELEASE_DATE_DESC',
+  Year = 'YEAR',
+}
 
 export type MovieTrending = {
   __typename?: 'MovieTrending';
@@ -283,8 +313,7 @@ export type MutationReviewUnpinArgs = {
 };
 
 export type MutationUpdateUserArgs = {
-  data: UserInput;
-  userId: Scalars['String'];
+  data: UserFieldsInput;
 };
 
 export type MutationUserListAddMovieArgs = {
@@ -332,13 +361,6 @@ export enum PreMadeListType {
   WatchLater = 'WATCH_LATER',
 }
 
-export type ProfileReviews = {
-  __typename?: 'ProfileReviews';
-  pinnedReviews: Array<Review>;
-  popularReviews: Array<Review>;
-  recentReviews: Array<Review>;
-};
-
 export type ProfileStats = {
   __typename?: 'ProfileStats';
   followerCount: Scalars['Int'];
@@ -359,6 +381,9 @@ export type Query = {
   isMovieOnPreMadeList: Scalars['Boolean'];
   limit: Limit;
   movie: Movie;
+  movieGenres: Array<Genre>;
+  moviePopularLists: Array<List>;
+  movieRecommendations: Array<Movie>;
   replies: Replies;
   review: Review;
   reviewsPopularFromMovie: Array<Review>;
@@ -374,10 +399,9 @@ export type Query = {
   user: User;
   userByProvider: User;
   userList: List;
-  userListMovies: Array<ListMovie>;
+  userListMovies: Array<Movie>;
   userLists: Array<List>;
-  userPreMadeListMovies: Array<ListMovie>;
-  userProfileFeaturedReviews: ProfileReviews;
+  userPreMadeListMovies: Array<Movie>;
   userProfileStats: ProfileStats;
 };
 
@@ -415,6 +439,7 @@ export type QueryIsMovieOnListArgs = {
 
 export type QueryIsMovieOnPreMadeListArgs = {
   listType: PreMadeListType;
+  movieId: Scalars['Int'];
 };
 
 export type QueryLimitArgs = {
@@ -422,6 +447,14 @@ export type QueryLimitArgs = {
 };
 
 export type QueryMovieArgs = {
+  movieId: Scalars['Int'];
+};
+
+export type QueryMoviePopularListsArgs = {
+  movieId: Scalars['Int'];
+};
+
+export type QueryMovieRecommendationsArgs = {
   movieId: Scalars['Int'];
 };
 
@@ -444,6 +477,7 @@ export type QueryReviewsRecentFromMovieArgs = {
 };
 
 export type QueryReviewsUserArgs = {
+  sort?: InputMaybe<ReviewSortInput>;
   userId: Scalars['String'];
 };
 
@@ -486,16 +520,14 @@ export type QueryUserListMoviesArgs = {
 };
 
 export type QueryUserListsArgs = {
+  sort?: InputMaybe<ListSortInput>;
   userId: Scalars['String'];
 };
 
 export type QueryUserPreMadeListMoviesArgs = {
   listType: PreMadeListType;
   page?: InputMaybe<Scalars['Int']>;
-  userId: Scalars['String'];
-};
-
-export type QueryUserProfileFeaturedReviewsArgs = {
+  sort?: InputMaybe<MovieSortInput>;
   userId: Scalars['String'];
 };
 
@@ -543,6 +575,18 @@ export type Review = {
   user: User;
 };
 
+export type ReviewSortInput = {
+  filter: Scalars['Sort'];
+  type: ReviewSortType;
+};
+
+/** Sort options for review */
+export enum ReviewSortType {
+  CreateDateAsc = 'CREATE_DATE_ASC',
+  CreateDateDesc = 'CREATE_DATE_DESC',
+  Year = 'YEAR',
+}
+
 export type User = {
   __typename?: 'User';
   biography?: Maybe<Scalars['String']>;
@@ -554,7 +598,7 @@ export type User = {
   username: Scalars['String'];
 };
 
-export type UserInput = {
+export type UserFieldsInput = {
   biography?: InputMaybe<Scalars['String']>;
   profilePicture?: InputMaybe<Scalars['String']>;
   realName?: InputMaybe<Scalars['String']>;
@@ -568,7 +612,6 @@ export type CommentaryFieldsFragment = {
   body: string;
   replyCount: number;
   createdAt: any;
-  updatedAt: any;
   user: {
     __typename?: 'User';
     id: string;
@@ -606,7 +649,6 @@ export type FindCommentariesQuery = {
         body: string;
         replyCount: number;
         createdAt: any;
-        updatedAt: any;
         user: {
           __typename?: 'User';
           id: string;
@@ -636,7 +678,6 @@ export type AddCommentaryMutation = {
     body: string;
     replyCount: number;
     createdAt: any;
-    updatedAt: any;
     user: {
       __typename?: 'User';
       id: string;
@@ -781,17 +822,16 @@ export type FindUserListMoviesQueryVariables = Exact<{
 export type FindUserListMoviesQuery = {
   __typename?: 'Query';
   userListMovies: Array<{
-    __typename?: 'ListMovie';
-    movie: {
-      __typename?: 'Movie';
-      id: number;
-      originalTitle: string;
-      posterUrl: string;
-    };
+    __typename?: 'Movie';
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
   }>;
 };
 
 export type FindUserPreMadeListMoviesQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<MovieSortInput>;
   listType: PreMadeListType;
   userId: Scalars['String'];
 }>;
@@ -799,18 +839,16 @@ export type FindUserPreMadeListMoviesQueryVariables = Exact<{
 export type FindUserPreMadeListMoviesQuery = {
   __typename?: 'Query';
   userPreMadeListMovies: Array<{
-    __typename?: 'ListMovie';
-    movie: {
-      __typename?: 'Movie';
-      id: number;
-      originalTitle: string;
-      posterUrl: string;
-    };
+    __typename?: 'Movie';
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
   }>;
 };
 
 export type IsMovieOnPreMadeListQueryVariables = Exact<{
   listType: PreMadeListType;
+  movieId: Scalars['Int'];
 }>;
 
 export type IsMovieOnPreMadeListQuery = {
@@ -838,6 +876,7 @@ export type FindUserListNamesQuery = {
 
 export type FindUserListsQueryVariables = Exact<{
   userId: Scalars['String'];
+  sort?: InputMaybe<ListSortInput>;
 }>;
 
 export type FindUserListsQuery = {
@@ -881,6 +920,33 @@ export type FindUserListQuery = {
     };
     post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
   };
+};
+
+export type FindMoviePopularListsQueryVariables = Exact<{
+  movieId: Scalars['Int'];
+}>;
+
+export type FindMoviePopularListsQuery = {
+  __typename?: 'Query';
+  moviePopularLists: Array<{
+    __typename?: 'List';
+    id: string;
+    name: string;
+    backgroundImageUrl?: string | null;
+    user: {
+      __typename?: 'User';
+      id: string;
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movies: Array<{
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    }>;
+  }>;
 };
 
 export type CreateUserListMutationVariables = Exact<{
@@ -937,7 +1003,7 @@ export type MovieFieldsFragment = {
   releaseDate?: any | null;
   posterUrl: string;
   backdropUrl: string;
-  genres: Array<{ __typename?: 'Genre'; id: string; name: string }>;
+  genres: Array<{ __typename?: 'Genre'; id: number; name: string }>;
   productionCompanies: Array<{
     __typename?: 'Company';
     id: string;
@@ -969,7 +1035,7 @@ export type FindMovieQuery = {
     releaseDate?: any | null;
     posterUrl: string;
     backdropUrl: string;
-    genres: Array<{ __typename?: 'Genre'; id: string; name: string }>;
+    genres: Array<{ __typename?: 'Genre'; id: number; name: string }>;
     productionCompanies: Array<{
       __typename?: 'Company';
       id: string;
@@ -1019,7 +1085,7 @@ export type FindFullMovieQuery = {
         originalName: string;
       }>;
     };
-    genres: Array<{ __typename?: 'Genre'; id: string; name: string }>;
+    genres: Array<{ __typename?: 'Genre'; id: number; name: string }>;
     productionCompanies: Array<{
       __typename?: 'Company';
       id: string;
@@ -1071,6 +1137,27 @@ export type FindTrendingMoviesQuery = {
   };
 };
 
+export type FindMovieGenresQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindMovieGenresQuery = {
+  __typename?: 'Query';
+  movieGenres: Array<{ __typename?: 'Genre'; id: number; name: string }>;
+};
+
+export type FindMovieRecommendationsQueryVariables = Exact<{
+  movieId: Scalars['Int'];
+}>;
+
+export type FindMovieRecommendationsQuery = {
+  __typename?: 'Query';
+  movieRecommendations: Array<{
+    __typename?: 'Movie';
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
+  }>;
+};
+
 export type AddMovieToPreMadeListMutationVariables = Exact<{
   listType: PreMadeListType;
   movieId: Scalars['Int'];
@@ -1120,7 +1207,6 @@ export type ReplyFieldsFragment = {
   id: string;
   body: string;
   createdAt: any;
-  updatedAt: any;
   user: {
     __typename?: 'User';
     id: string;
@@ -1157,7 +1243,6 @@ export type FindRepliesQuery = {
         id: string;
         body: string;
         createdAt: any;
-        updatedAt: any;
         user: {
           __typename?: 'User';
           id: string;
@@ -1186,7 +1271,6 @@ export type AddReplyMutation = {
     id: string;
     body: string;
     createdAt: any;
-    updatedAt: any;
     user: {
       __typename?: 'User';
       id: string;
@@ -1342,6 +1426,7 @@ export type FindUserPinnedReviewsQuery = {
 
 export type FindUserReviewsQueryVariables = Exact<{
   userId: Scalars['String'];
+  sort?: InputMaybe<ReviewSortInput>;
 }>;
 
 export type FindUserReviewsQuery = {
@@ -1536,6 +1621,7 @@ export type UserFieldsFragment = {
   realName?: string | null;
   biography?: string | null;
   profilePictureUrl?: string | null;
+  createdAt: any;
 };
 
 export type FindUserQueryVariables = Exact<{
@@ -1551,6 +1637,7 @@ export type FindUserQuery = {
     realName?: string | null;
     biography?: string | null;
     profilePictureUrl?: string | null;
+    createdAt: any;
   };
 };
 
@@ -1586,7 +1673,6 @@ export const CommentaryFieldsFragmentDoc = gql`
     body
     replyCount
     createdAt
-    updatedAt
     user {
       id
       username
@@ -1650,7 +1736,6 @@ export const ReplyFieldsFragmentDoc = gql`
     id
     body
     createdAt
-    updatedAt
     user {
       id
       username
@@ -1694,6 +1779,7 @@ export const UserFieldsFragmentDoc = gql`
     realName
     biography
     profilePictureUrl
+    createdAt
   }
 `;
 export const FindCommentariesDocument = gql`
@@ -2194,11 +2280,9 @@ export type FindLimitQueryResult = Apollo.QueryResult<
 export const FindUserListMoviesDocument = gql`
   query FindUserListMovies($listId: String!) {
     userListMovies(listId: $listId) {
-      movie {
-        id
-        originalTitle
-        posterUrl
-      }
+      id
+      originalTitle
+      posterUrl
     }
   }
 `;
@@ -2255,15 +2339,20 @@ export type FindUserListMoviesQueryResult = Apollo.QueryResult<
 >;
 export const FindUserPreMadeListMoviesDocument = gql`
   query FindUserPreMadeListMovies(
+    $page: Int
+    $sort: MovieSortInput
     $listType: PreMadeListType!
     $userId: String!
   ) {
-    userPreMadeListMovies(listType: $listType, userId: $userId) {
-      movie {
-        id
-        originalTitle
-        posterUrl
-      }
+    userPreMadeListMovies(
+      page: $page
+      sort: $sort
+      listType: $listType
+      userId: $userId
+    ) {
+      id
+      originalTitle
+      posterUrl
     }
   }
 `;
@@ -2280,6 +2369,8 @@ export const FindUserPreMadeListMoviesDocument = gql`
  * @example
  * const { data, loading, error } = useFindUserPreMadeListMoviesQuery({
  *   variables: {
+ *      page: // value for 'page'
+ *      sort: // value for 'sort'
  *      listType: // value for 'listType'
  *      userId: // value for 'userId'
  *   },
@@ -2320,8 +2411,8 @@ export type FindUserPreMadeListMoviesQueryResult = Apollo.QueryResult<
   FindUserPreMadeListMoviesQueryVariables
 >;
 export const IsMovieOnPreMadeListDocument = gql`
-  query IsMovieOnPreMadeList($listType: PreMadeListType!) {
-    isMovieOnPreMadeList(listType: $listType)
+  query IsMovieOnPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
+    isMovieOnPreMadeList(listType: $listType, movieId: $movieId)
   }
 `;
 
@@ -2338,6 +2429,7 @@ export const IsMovieOnPreMadeListDocument = gql`
  * const { data, loading, error } = useIsMovieOnPreMadeListQuery({
  *   variables: {
  *      listType: // value for 'listType'
+ *      movieId: // value for 'movieId'
  *   },
  * });
  */
@@ -2491,8 +2583,8 @@ export type FindUserListNamesQueryResult = Apollo.QueryResult<
   FindUserListNamesQueryVariables
 >;
 export const FindUserListsDocument = gql`
-  query FindUserLists($userId: String!) {
-    userLists(userId: $userId) {
+  query FindUserLists($userId: String!, $sort: ListSortInput) {
+    userLists(userId: $userId, sort: $sort) {
       name
       isPrivate
       user {
@@ -2526,6 +2618,7 @@ export const FindUserListsDocument = gql`
  * const { data, loading, error } = useFindUserListsQuery({
  *   variables: {
  *      userId: // value for 'userId'
+ *      sort: // value for 'sort'
  *   },
  * });
  */
@@ -2632,6 +2725,81 @@ export type FindUserListLazyQueryHookResult = ReturnType<
 export type FindUserListQueryResult = Apollo.QueryResult<
   FindUserListQuery,
   FindUserListQueryVariables
+>;
+export const FindMoviePopularListsDocument = gql`
+  query FindMoviePopularLists($movieId: Int!) {
+    moviePopularLists(movieId: $movieId) {
+      id
+      name
+      backgroundImageUrl
+      user {
+        id
+        username
+        profilePictureUrl
+      }
+      post {
+        id
+        body
+        createdAt
+      }
+      movies {
+        id
+        originalTitle
+        posterUrl
+      }
+    }
+  }
+`;
+
+/**
+ * __useFindMoviePopularListsQuery__
+ *
+ * To run a query within a React component, call `useFindMoviePopularListsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMoviePopularListsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMoviePopularListsQuery({
+ *   variables: {
+ *      movieId: // value for 'movieId'
+ *   },
+ * });
+ */
+export function useFindMoviePopularListsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >(FindMoviePopularListsDocument, options);
+}
+export function useFindMoviePopularListsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >(FindMoviePopularListsDocument, options);
+}
+export type FindMoviePopularListsQueryHookResult = ReturnType<
+  typeof useFindMoviePopularListsQuery
+>;
+export type FindMoviePopularListsLazyQueryHookResult = ReturnType<
+  typeof useFindMoviePopularListsLazyQuery
+>;
+export type FindMoviePopularListsQueryResult = Apollo.QueryResult<
+  FindMoviePopularListsQuery,
+  FindMoviePopularListsQueryVariables
 >;
 export const CreateUserListDocument = gql`
   mutation CreateUserList($name: String!, $body: String) {
@@ -3086,6 +3254,124 @@ export type FindTrendingMoviesLazyQueryHookResult = ReturnType<
 export type FindTrendingMoviesQueryResult = Apollo.QueryResult<
   FindTrendingMoviesQuery,
   FindTrendingMoviesQueryVariables
+>;
+export const FindMovieGenresDocument = gql`
+  query FindMovieGenres {
+    movieGenres {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useFindMovieGenresQuery__
+ *
+ * To run a query within a React component, call `useFindMovieGenresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMovieGenresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMovieGenresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindMovieGenresQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FindMovieGenresQuery,
+    FindMovieGenresQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindMovieGenresQuery, FindMovieGenresQueryVariables>(
+    FindMovieGenresDocument,
+    options,
+  );
+}
+export function useFindMovieGenresLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMovieGenresQuery,
+    FindMovieGenresQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindMovieGenresQuery,
+    FindMovieGenresQueryVariables
+  >(FindMovieGenresDocument, options);
+}
+export type FindMovieGenresQueryHookResult = ReturnType<
+  typeof useFindMovieGenresQuery
+>;
+export type FindMovieGenresLazyQueryHookResult = ReturnType<
+  typeof useFindMovieGenresLazyQuery
+>;
+export type FindMovieGenresQueryResult = Apollo.QueryResult<
+  FindMovieGenresQuery,
+  FindMovieGenresQueryVariables
+>;
+export const FindMovieRecommendationsDocument = gql`
+  query FindMovieRecommendations($movieId: Int!) {
+    movieRecommendations(movieId: $movieId) {
+      id
+      originalTitle
+      posterUrl
+    }
+  }
+`;
+
+/**
+ * __useFindMovieRecommendationsQuery__
+ *
+ * To run a query within a React component, call `useFindMovieRecommendationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMovieRecommendationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMovieRecommendationsQuery({
+ *   variables: {
+ *      movieId: // value for 'movieId'
+ *   },
+ * });
+ */
+export function useFindMovieRecommendationsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >(FindMovieRecommendationsDocument, options);
+}
+export function useFindMovieRecommendationsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >(FindMovieRecommendationsDocument, options);
+}
+export type FindMovieRecommendationsQueryHookResult = ReturnType<
+  typeof useFindMovieRecommendationsQuery
+>;
+export type FindMovieRecommendationsLazyQueryHookResult = ReturnType<
+  typeof useFindMovieRecommendationsLazyQuery
+>;
+export type FindMovieRecommendationsQueryResult = Apollo.QueryResult<
+  FindMovieRecommendationsQuery,
+  FindMovieRecommendationsQueryVariables
 >;
 export const AddMovieToPreMadeListDocument = gql`
   mutation AddMovieToPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
@@ -3682,8 +3968,8 @@ export type FindUserPinnedReviewsQueryResult = Apollo.QueryResult<
   FindUserPinnedReviewsQueryVariables
 >;
 export const FindUserReviewsDocument = gql`
-  query FindUserReviews($userId: String!) {
-    reviewsUser(userId: $userId) {
+  query FindUserReviews($userId: String!, $sort: ReviewSortInput) {
+    reviewsUser(userId: $userId, sort: $sort) {
       ...BasicReviewFields
       isPinned
       movie {
@@ -3707,6 +3993,7 @@ export const FindUserReviewsDocument = gql`
  * const { data, loading, error } = useFindUserReviewsQuery({
  *   variables: {
  *      userId: // value for 'userId'
+ *      sort: // value for 'sort'
  *   },
  * });
  */

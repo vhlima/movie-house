@@ -34,9 +34,15 @@ const Replies: React.FC<PropsWithChildren<RepliesProps>> = ({
   }
 
   return (
-    <div>
+    <ul>
       {repliesResponse.replies.edges.map(({ node: reply }) => (
-        <Reply key={`commentary-reply-${reply.id}`} reply={reply} />
+        <Reply
+          key={`commentary-reply-${reply.id}`}
+          reply={reply}
+          // onClickDelete={() =>
+          //   deleteReply({ variables: { replyId: reply.id } })
+          // }
+        />
       ))}
 
       {repliesResponse.replies.pageInfo.hasNextPage && (
@@ -44,7 +50,7 @@ const Replies: React.FC<PropsWithChildren<RepliesProps>> = ({
           <LoadingSpinner className="mt-4" center />;
         </Observer>
       )}
-    </div>
+    </ul>
   );
 };
 

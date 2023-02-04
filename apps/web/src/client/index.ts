@@ -21,13 +21,17 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 let apolloClient: ApolloClient<NormalizedCacheObject> | null;
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (process.env.NODE_ENV === 'development') {
+    if (graphQLErrors)
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        ),
+      );
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  } else {
+    console.log('[Error Link] Unexpected error occurred');
+  }
 });
 
 function createApolloClient(headers?: IncomingHttpHeaders) {
@@ -36,7 +40,7 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
     link: from([
       errorLink,
       createHttpLink({
-        uri: process.env.API_URL,
+        uri: process.env.NEXT_PUBLIC_API_URL,
         credentials: 'include',
         headers: {
           SameSite: 'None',

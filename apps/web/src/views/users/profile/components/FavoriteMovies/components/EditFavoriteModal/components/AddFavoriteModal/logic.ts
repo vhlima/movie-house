@@ -21,7 +21,7 @@ export const useLogic = ({ onClose }: AddFavoriteMovieModalLogicProps) => {
         updateCache(cacheData => ({
           userPreMadeListMovies: [
             ...cacheData.userPreMadeListMovies,
-            data.userPreMadeListAddMovie,
+            data.userPreMadeListAddMovie.movie,
           ],
         }));
       },

@@ -8,6 +8,7 @@ import MovieCover from '../MovieCover';
 
 interface MovieInfosProps {
   movie: {
+    id: Movie['id'];
     originalTitle: Movie['originalTitle'];
     posterUrl: Movie['posterUrl'];
     runtime: Movie['runtime'];
@@ -73,13 +74,7 @@ const MovieInfos: React.FC<PropsWithChildren<MovieInfosProps>> = ({
         {children}
       </div>
 
-      <MovieCover
-        movie={{
-          originalTitle: movie.originalTitle,
-          posterUrl: movie.posterUrl,
-        }}
-        sizeType="md"
-      />
+      <MovieCover movie={movie} sizeType="md" link={false} />
     </div>
   );
 };

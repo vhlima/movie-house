@@ -1,17 +1,19 @@
 import type { FindReviewQuery } from '../../../graphql';
 
+import TextShorter from '../../../components/TextShorter';
 import PageContent from '../../../components/PageContent';
 import BackdropImage from '../../../components/BackdropImage';
 import MovieInfos from '../../../components/movie/MovieInfos';
-import ReviewBody from '../../../components/review/ReviewBody';
 import PostCommentaries from '../../../components/PostCommentaries';
+import ReviewHeader from '../../../components/review/ReviewHeader';
+import UserProfileLink from '../../../components/user/UserProfileLink';
 
 export interface MovieReviewViewProps {
   review: FindReviewQuery['review'];
 }
 
 const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
-  const { movie } = review;
+  const { user, movie, post } = review;
 
   return (
     <BackdropImage src={movie.backdropUrl} alt="Movie review backdrop">
@@ -19,22 +21,14 @@ const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
         <MovieInfos movie={movie} />
 
         <div className="flex flex-col gap-2 mt-2">
-          <ReviewBody review={review} />
+          <UserProfileLink className="group" username={user.username}>
+            <ReviewHeader user={user} post={post} />
+          </UserProfileLink>
 
-          {/* {data && (
-          <div className="flex gap-2">
-            <LikeButton
-              rootId={reviewId}
-              likeCount={0}
-              hasLiked={likes.filter(usr => usr.id !== data.user.id).length > 0}
-            />
-
-            <CommentaryCount count={commentaryCount} />
-          </div>
-        )} */}
+          <TextShorter className="my-2" maxCharacters={400} text={post.body} />
         </div>
 
-        <PostCommentaries postId={review.post.id} />
+        <PostCommentaries postId={post.id} />
       </PageContent>
     </BackdropImage>
   );

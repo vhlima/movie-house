@@ -45,22 +45,13 @@ export const useRepliesCache = (commentaryId: string) => {
 
   // cache.evict({ id:  })
 
-  /*
-  
-    commentary: {
-      replies: [],
-    }
-  */
-
   function updateCache(callback: (cacheData: FindRepliesQuery) => void) {
     cache.updateQuery<FindRepliesQuery, FindRepliesQueryVariables>(
       {
         query: FindRepliesDocument,
         variables: { commentaryId },
       },
-      cacheData => {
-        callback(cacheData);
-      },
+      cacheData => callback(cacheData),
     );
   }
 

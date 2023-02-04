@@ -15,13 +15,15 @@ import {
 
 interface PreMadeListMoviesCacheProps {
   listType: PreMadeListType;
+  movieId: number;
 }
 
 export function usePreMadeListMoviesCache({
   listType,
+  movieId,
 }: PreMadeListMoviesCacheProps) {
   const { data: isOnPreMadeListData } = useIsMovieOnPreMadeListQuery({
-    variables: { listType },
+    variables: { listType, movieId },
   });
 
   const [addMovieToPreMadeList] = useAddMovieToPreMadeListMutation();
@@ -37,6 +39,7 @@ export function usePreMadeListMoviesCache({
         query: IsMovieOnPreMadeListDocument,
         variables: {
           listType,
+          movieId,
         },
       },
       () => ({

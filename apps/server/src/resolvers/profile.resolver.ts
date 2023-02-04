@@ -2,16 +2,17 @@ import { Arg, Query, Resolver } from 'type-graphql';
 
 import {
   FollowRepository,
+  ListMovieRepository,
   ListRepository,
   PreMadeListRepository,
   UserRepository,
 } from '../repositories';
 
-import UserNotFoundError from '../errors/UserNotFound';
-
-import ProfileStats from '../entities/profile-stats';
-
 import PreMadeListType from '../enums/PreMadeListType';
+
+import ProfileStats from '../objects/profile-stats';
+
+import UserNotFoundError from '../errors/UserNotFound';
 
 @Resolver()
 class ProfileResolver {
@@ -42,13 +43,32 @@ class ProfileResolver {
       where: { userId: user.id, listType: PreMadeListType.WATCHED },
     });
 
+    const watchedMoviesList = await PreMadeListRepository.findOneBy({
+      userId: user.id,
+      listType: PreMadeListType.WATCHED,
+    });
+
+    let moviesWatchedThisYearCount = 0;
+
+    if (watchedMoviesList) {
+      const currentYear = new Date().getFullYear();
+
+      moviesWatchedThisYearCount = await ListMovieRepository.countBy({
+        listId: watchedMoviesList.id,
+        createdAt: {
+          $gte: new Date(`${currentYear}-01-01T00:00:00.000Z`),
+          $lte: new Date(`${currentYear}-12-31T23:59:59.999Z`),
+        },
+      });
+    }
+
     return {
       followerCount,
       followingCount,
       listCount,
 
       moviesWatchedCount,
-      moviesWatchedThisYearCount: 0,
+      moviesWatchedThisYearCount,
     };
   }
 }

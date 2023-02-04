@@ -4,19 +4,19 @@ import { useRepliesCache } from '../../hooks/useRepliesCache';
 import { useCommentariesCache } from '../../hooks/useCommentariesCache';
 
 export const useLogic = (commentaryId: string) => {
+  const { updateCache } = useRepliesCache(commentaryId);
+
+  const { changeReplyCount } = useCommentariesCache();
+
   const [deleteReply] = useDeleteReplyMutation({
     update: (cache, _, context) => {
-      const { updateCache } = useRepliesCache(commentaryId);
-
-      const { changeReplyCount } = useCommentariesCache();
-
       /* Update replies cache removing the deleted reply */
       updateCache(cacheData => ({
         ...cacheData,
         replies: {
           ...cacheData.replies,
           edges: cacheData.replies.edges.filter(
-            commentary => commentary.node.id !== context.variables.replyId,
+            reply => reply.node.id !== context.variables.replyId,
           ),
         },
       }));

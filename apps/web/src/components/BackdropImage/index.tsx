@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import type { PropsWithChildren, ReactNode, ReactElement } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import type { ImageProps } from 'next/image';
 
@@ -10,16 +10,14 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
   className,
   children,
   ...imageProps
-}) =>
-  !imageProps.src ? (
-    (children as ReactNode & ReactElement)
-  ) : (
-    <>
-      <div className="relative w-full h-72 sm:h-96 md:h-96 lg:h-[28rem]">
+}) => (
+  <>
+    {imageProps.src && (
+      <div className="relative w-full h-72 md:h-80 lg:h-[22rem]">
         <Image
-          layout="fill"
-          objectFit="fill"
-          unoptimized
+          sizes="100vw, 100vh"
+          style={{ objectFit: 'cover' }}
+          fill
           priority
           {...imageProps}
         />
@@ -28,7 +26,7 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
           className="absolute h-full w-full"
           style={{
             backgroundImage:
-              'linear-gradient(to left, transparent, rgba(18, 18, 20, 0.05), #121214)',
+              'linear-gradient(to left, transparent, rgba(18, 18, 20, 0.02), #121214)',
           }}
         />
 
@@ -36,7 +34,7 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
           className="absolute h-full w-full"
           style={{
             backgroundImage:
-              'linear-gradient(to right, transparent, rgba(18, 18, 20, 0.05), #121214)',
+              'linear-gradient(to right, transparent, rgba(18, 18, 20, 0.02), #121214)',
           }}
         />
 
@@ -44,13 +42,24 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
           className="absolute h-full w-full"
           style={{
             backgroundImage:
-              'linear-gradient(to bottom, transparent, rgba(18, 18, 20, 0.05), #121214)',
+              'linear-gradient(to bottom, transparent, rgba(18, 18, 20, 0.02), #121214)',
           }}
         />
       </div>
+    )}
 
-      <div className={clsx('-mt-16', className && className)}>{children}</div>
-    </>
-  );
+    <div
+      className={clsx(
+        {
+          '-mt-16': !!imageProps.src,
+          'mt-8': !imageProps.src,
+        },
+        className && className,
+      )}
+    >
+      {children}
+    </div>
+  </>
+);
 
 export default BackdropImage;

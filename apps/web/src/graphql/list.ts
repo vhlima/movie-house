@@ -10,8 +10,8 @@ export const FIND_USER_LIST_NAMES = gql`
 `;
 
 export const FIND_USER_LISTS = gql`
-  query FindUserLists($userId: String!) {
-    userLists(userId: $userId) {
+  query FindUserLists($userId: String!, $sort: ListSortInput) {
+    userLists(userId: $userId, sort: $sort) {
       name
       isPrivate
       user {
@@ -47,6 +47,31 @@ export const FIND_USER_LIST = gql`
         id
         body
         createdAt
+      }
+    }
+  }
+`;
+
+export const FIND_MOVIE_POPULAR_LISTS = gql`
+  query FindMoviePopularLists($movieId: Int!) {
+    moviePopularLists(movieId: $movieId) {
+      id
+      name
+      backgroundImageUrl
+      user {
+        id
+        username
+        profilePictureUrl
+      }
+      post {
+        id
+        body
+        createdAt
+      }
+      movies {
+        id
+        originalTitle
+        posterUrl
       }
     }
   }

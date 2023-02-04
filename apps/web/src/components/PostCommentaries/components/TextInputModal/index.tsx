@@ -2,6 +2,8 @@ import { Form, Formik } from 'formik';
 
 import * as Yup from 'yup';
 
+import { ApolloError } from '@apollo/client';
+
 import type { ModalHandles } from '../../../Modal';
 
 import Modal from '../../../Modal';
@@ -9,18 +11,24 @@ import ErrorText from '../../../ErrorText';
 
 import TextInput from '../TextInput';
 
-import { useLogic } from './logic';
-
 interface TextInputModalProps extends ModalHandles {
   rootId: string | number;
+
+  loading: boolean;
+  error: ApolloError;
+  handleSubmit: (body: string) => Promise<boolean>;
 }
 
-const TextInputModal: React.FC<TextInputModalProps> = ({ rootId, onClose }) => {
+const TextInputModal: React.FC<TextInputModalProps> = ({
+  rootId,
+  loading,
+  error,
+  handleSubmit,
+  onClose,
+}) => {
   const validationSchema: Yup.SchemaOf<{ body: string }> = Yup.object().shape({
     body: Yup.string().required('Body is required'),
   });
-
-  const { loading, error, handleSubmit } = useLogic({ rootId });
 
   return (
     <Modal backdrop center autoStyle={false} onClose={onClose}>

@@ -1,5 +1,6 @@
 import { Resolver, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 
+import { Between } from 'typeorm';
 import type { ServerContext } from '../types';
 
 import {
@@ -21,6 +22,9 @@ import AuthorizationError from '../errors/Authorization';
 
 import LimitType from '../enums/LimitType';
 
+import ReviewSortInput from '../inputs/review-sort.input';
+import ReviewSortType from '../enums/ReviewSortType';
+
 @Resolver(() => Review)
 class ReviewResolver {
   @Query(() => Review)
@@ -38,15 +42,47 @@ class ReviewResolver {
   }
 
   @Query(() => [Review])
-  async reviewsUser(@Arg('userId') userId: string) {
+  async reviewsUser(
+    @Arg('userId') userId: string,
+    @Arg('sort', { nullable: true }) sort?: ReviewSortInput,
+  ) {
     const user = await UserRepository.findOneBy({ id: userId });
 
     if (!user) {
       throw new UserNotFoundError();
     }
 
+    let sortWhere: Record<string, unknown> = {};
+
+    if (sort) {
+      switch (sort.type) {
+        case ReviewSortType.YEAR: {
+          const year = sort.filter;
+
+          if (typeof year !== 'number') {
+            throw new NotFoundError('Year not found');
+          }
+
+          if (
+            year > new Date().getFullYear() ||
+            year < user.createdAt.getFullYear()
+          ) {
+            throw new NotFoundError('Year not found');
+          }
+
+          sortWhere = {
+            createdAt: Between(new Date(year, 0, 1), new Date(year + 1, 0, 1)),
+          };
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+
     const reviews = await ReviewRepository.find({
-      where: { post: { userId } },
+      where: { post: { userId, ...sortWhere } },
       relations: ['post'],
     });
 

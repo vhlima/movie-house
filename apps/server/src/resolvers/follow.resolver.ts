@@ -8,7 +8,7 @@ import { FollowRepository, UserRepository } from '../repositories';
 
 import Follow from '../entities/pg-entities/follow.interface';
 
-import PaginationArgs from '../entities/types/args/pagination.args';
+import PaginationArgs from '../args/pagination.args';
 
 import Followers from '../entities/pg-entities/pagination/entities/follow.interface';
 
@@ -69,7 +69,7 @@ class FollowResolver {
     @Arg('userId') userId: string,
   ) {
     if (!user) {
-      throw new AuthenticationError();
+      return false;
     }
 
     const targetUser = await UserRepository.findOneBy({ id: userId });

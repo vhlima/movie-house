@@ -1,8 +1,7 @@
 import type { PropsWithChildren } from 'react';
 
-import Image from 'next/image';
-
 import Link from '../../../../../../../components/Link';
+import ProfilePicture from '../../../../../../../components/ProfilePicture';
 
 interface NotificationProps {
   imageUrl?: string;
@@ -16,12 +15,7 @@ const Notification: React.FC<PropsWithChildren<NotificationProps>> = ({
     <Link className="flex items-center" href="/">
       {imageUrl && (
         <div className="relative w-8 h-8 flex-shrink-0 rounded-full overflow-hidden mr-2">
-          <Image
-            layout="fill"
-            objectFit="contain"
-            alt="Notification"
-            src={imageUrl}
-          />
+          <ProfilePicture src={imageUrl} imageSize="md" />
         </div>
       )}
 

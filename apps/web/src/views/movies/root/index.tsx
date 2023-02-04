@@ -14,6 +14,7 @@ import MoviePopularLists from './components/MoviePopularLists';
 import MovieOptionsButton from './components/MovieOptionsButton';
 import MovieRecentReviews from './components/MovieRecentReviews';
 import MoviePopularReviews from './components/MoviePopularReviews';
+import MoviesRelated from './components/MoviesRelated';
 
 interface MovieViewProps {
   movieId: number;
@@ -63,9 +64,9 @@ const MovieView: React.FC<MovieViewProps> = ({ movieId }) => {
 
           <MovieRecentReviews movieId={movie.id} />
 
-          <MoviePopularLists movieId={movie.id} />
+          <MoviesRelated movieId={movie.id} />
 
-          {/* <Card title="Similar movies" noPadding /> */}
+          <MoviePopularLists movieId={movie.id} />
         </article>
       </PageContent>
     </BackdropImage>
