@@ -1,8 +1,8 @@
 [phases.setup]
-nixPkgs = ['nodejs', 'yarn', 'nodePackages.typescript']
+nixPkgs = ['nodejs', 'yarn']
 
 [phases.install]
-cmds = ['yarn install --frozen-lockfile', 'yarn add typescript']
+cmds = ['yarn install --frozen-lockfile']
 
 [phases.build]
 cmds = ['yarn build']
