@@ -52,6 +52,6 @@ export async function withFetchUserReviews({
       },
     };
   } catch (err) {
-    throw new Error('An error occurred during fetchPreMadeListMovies');
+    throw new Error('An error occurred during fetchUserReviews');
   }
 }
