@@ -14,12 +14,14 @@
   "scripts": {
     "codegen": "graphql-codegen --config codegen.yml"
   },
+  "dependencies": {
+    "typescript": "4.8.3"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "2.12.0",
     "@graphql-codegen/typescript": "2.7.3",
     "@graphql-codegen/typescript-operations": "2.5.3",
     "@graphql-codegen/typescript-react-apollo": "3.3.3",
-    "@moviehouse/eslint-config": "*",
-    "typescript": "4.8.3"
+    "@moviehouse/eslint-config": "*"
   }
 }
