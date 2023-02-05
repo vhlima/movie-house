@@ -1,10 +1,17 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -151,7 +158,7 @@ export type Limit = {
 export enum LimitType {
   MaxFavoriteMovies = 'MAX_FAVORITE_MOVIES',
   MaxFeaturedReviews = 'MAX_FEATURED_REVIEWS',
-  MaxPinnedReviews = 'MAX_PINNED_REVIEWS'
+  MaxPinnedReviews = 'MAX_PINNED_REVIEWS',
 }
 
 export type List = {
@@ -181,7 +188,7 @@ export enum ListSortType {
   Name = 'NAME',
   Older = 'OLDER',
   Popularity = 'POPULARITY',
-  Updated = 'UPDATED'
+  Updated = 'UPDATED',
 }
 
 export type Movie = {
@@ -226,7 +233,7 @@ export enum MovieSortType {
   Genre = 'GENRE',
   ReleaseDateAsc = 'RELEASE_DATE_ASC',
   ReleaseDateDesc = 'RELEASE_DATE_DESC',
-  Year = 'YEAR'
+  Year = 'YEAR',
 }
 
 export type MovieTrending = {
@@ -257,99 +264,81 @@ export type Mutation = {
   userPreMadeListRemoveMovie: Scalars['Boolean'];
 };
 
-
 export type MutationCommentArgs = {
   body: Scalars['String'];
   postId: Scalars['Int'];
 };
 
-
 export type MutationDeleteCommentaryArgs = {
   commentaryId: Scalars['String'];
 };
-
 
 export type MutationDeleteReplyArgs = {
   replyId: Scalars['String'];
 };
 
-
 export type MutationFollowArgs = {
   userId: Scalars['String'];
 };
-
 
 export type MutationLikeArgs = {
   referenceId?: InputMaybe<Scalars['String']>;
   rootId: Scalars['String'];
 };
 
-
 export type MutationRegisterArgs = {
   githubId: Scalars['String'];
 };
-
 
 export type MutationReplyArgs = {
   body: Scalars['String'];
   commentaryId: Scalars['String'];
 };
 
-
 export type MutationReviewCreateArgs = {
   body: Scalars['String'];
   movieId: Scalars['Int'];
 };
 
-
 export type MutationReviewDeleteArgs = {
   postId: Scalars['Int'];
 };
-
 
 export type MutationReviewPinArgs = {
   postId: Scalars['Int'];
 };
 
-
 export type MutationReviewUnpinArgs = {
   postId: Scalars['Int'];
 };
 
-
 export type MutationUpdateUserArgs = {
   data: UserFieldsInput;
 };
-
 
 export type MutationUserListAddMovieArgs = {
   listId: Scalars['String'];
   movieId: Scalars['Int'];
 };
 
-
 export type MutationUserListCreateArgs = {
   body?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
-
 export type MutationUserListDeleteArgs = {
   listId: Scalars['String'];
 };
-
 
 export type MutationUserListRemoveMovieArgs = {
   listId: Scalars['String'];
   movieId: Scalars['Int'];
 };
 
-
 export type MutationUserPreMadeListAddMovieArgs = {
   listType: PreMadeListType;
   movieId: Scalars['Int'];
 };
-
 
 export type MutationUserPreMadeListRemoveMovieArgs = {
   listType: PreMadeListType;
@@ -369,7 +358,7 @@ export enum PreMadeListType {
   Favorite = 'FAVORITE',
   Watched = 'WATCHED',
   Watchlist = 'WATCHLIST',
-  WatchLater = 'WATCH_LATER'
+  WatchLater = 'WATCH_LATER',
 }
 
 export type ProfileStats = {
@@ -415,13 +404,11 @@ export type Query = {
   userProfileStats: ProfileStats;
 };
 
-
 export type QueryCommentariesArgs = {
   after?: InputMaybe<Scalars['String']>;
   first: Scalars['Int'];
   postId: Scalars['Int'];
 };
-
 
 export type QueryFollowersArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -429,13 +416,11 @@ export type QueryFollowersArgs = {
   userId: Scalars['String'];
 };
 
-
 export type QueryFollowingArgs = {
   after?: InputMaybe<Scalars['String']>;
   first: Scalars['Int'];
   userId: Scalars['String'];
 };
-
 
 export type QueryHasUserLikeArgs = {
   referenceId?: InputMaybe<Scalars['String']>;
@@ -443,42 +428,34 @@ export type QueryHasUserLikeArgs = {
   userId: Scalars['String'];
 };
 
-
 export type QueryIsFollowingArgs = {
   userId: Scalars['String'];
 };
 
-
 export type QueryIsMovieOnListArgs = {
   postId: Scalars['Int'];
 };
-
 
 export type QueryIsMovieOnPreMadeListArgs = {
   listType: PreMadeListType;
   movieId: Scalars['Int'];
 };
 
-
 export type QueryLimitArgs = {
   limitType: LimitType;
 };
-
 
 export type QueryMovieArgs = {
   movieId: Scalars['Int'];
 };
 
-
 export type QueryMoviePopularListsArgs = {
   movieId: Scalars['Int'];
 };
 
-
 export type QueryMovieRecommendationsArgs = {
   movieId: Scalars['Int'];
 };
-
 
 export type QueryRepliesArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -486,80 +463,65 @@ export type QueryRepliesArgs = {
   first: Scalars['Int'];
 };
 
-
 export type QueryReviewArgs = {
   postId: Scalars['Int'];
 };
-
 
 export type QueryReviewsPopularFromMovieArgs = {
   movieId: Scalars['Int'];
 };
 
-
 export type QueryReviewsRecentFromMovieArgs = {
   movieId: Scalars['Int'];
 };
-
 
 export type QueryReviewsUserArgs = {
   sort?: InputMaybe<ReviewSortInput>;
   userId: Scalars['String'];
 };
 
-
 export type QueryReviewsUserPinnedArgs = {
   userId: Scalars['String'];
 };
-
 
 export type QueryReviewsUserPopularArgs = {
   userId: Scalars['String'];
 };
 
-
 export type QueryReviewsUserRecentArgs = {
   userId: Scalars['String'];
 };
-
 
 export type QuerySearchMovieArgs = {
   searchTerm: Scalars['String'];
 };
 
-
 export type QueryTrendingMoviesArgs = {
   page: Scalars['Int'];
 };
 
-
 export type QueryUserArgs = {
   username: Scalars['String'];
 };
-
 
 export type QueryUserByProviderArgs = {
   provider: Scalars['String'];
   providerId: Scalars['String'];
 };
 
-
 export type QueryUserListArgs = {
   postId: Scalars['Int'];
 };
-
 
 export type QueryUserListMoviesArgs = {
   listId: Scalars['String'];
   page?: InputMaybe<Scalars['Int']>;
 };
 
-
 export type QueryUserListsArgs = {
   sort?: InputMaybe<ListSortInput>;
   userId: Scalars['String'];
 };
-
 
 export type QueryUserPreMadeListMoviesArgs = {
   listType: PreMadeListType;
@@ -567,7 +529,6 @@ export type QueryUserPreMadeListMoviesArgs = {
   sort?: InputMaybe<MovieSortInput>;
   userId: Scalars['String'];
 };
-
 
 export type QueryUserProfileStatsArgs = {
   userId: Scalars['String'];
@@ -622,7 +583,7 @@ export type ReviewSortInput = {
 export enum ReviewSortType {
   CreateDateAsc = 'CREATE_DATE_ASC',
   CreateDateDesc = 'CREATE_DATE_DESC',
-  Year = 'YEAR'
+  Year = 'YEAR',
 }
 
 export type User = {
@@ -643,7 +604,24 @@ export type UserFieldsInput = {
   username?: InputMaybe<Scalars['String']>;
 };
 
-export type CommentaryFieldsFragment = { __typename?: 'Commentary', id: string, postId: number, body: string, replyCount: number, createdAt: any, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, likes: Array<{ __typename?: 'Like', user: { __typename?: 'User', id: string } }> };
+export type CommentaryFieldsFragment = {
+  __typename?: 'Commentary';
+  id: string;
+  postId: number;
+  body: string;
+  replyCount: number;
+  createdAt: any;
+  user: {
+    __typename?: 'User';
+    id: string;
+    username: string;
+    profilePictureUrl?: string | null;
+  };
+  likes: Array<{
+    __typename?: 'Like';
+    user: { __typename?: 'User'; id: string };
+  }>;
+};
 
 export type FindCommentariesQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -651,39 +629,110 @@ export type FindCommentariesQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type FindCommentariesQuery = { __typename?: 'Query', commentaries: { __typename?: 'Commentaries', pageInfo: { __typename?: 'CommentariesPaginationInfo', maxItems: number, hasNextPage: boolean, endCursor?: string | null }, edges: Array<{ __typename?: 'CommentariesPaginationEdge', node: { __typename?: 'Commentary', id: string, postId: number, body: string, replyCount: number, createdAt: any, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, likes: Array<{ __typename?: 'Like', user: { __typename?: 'User', id: string } }> } }> } };
+export type FindCommentariesQuery = {
+  __typename?: 'Query';
+  commentaries: {
+    __typename?: 'Commentaries';
+    pageInfo: {
+      __typename?: 'CommentariesPaginationInfo';
+      maxItems: number;
+      hasNextPage: boolean;
+      endCursor?: string | null;
+    };
+    edges: Array<{
+      __typename?: 'CommentariesPaginationEdge';
+      node: {
+        __typename?: 'Commentary';
+        id: string;
+        postId: number;
+        body: string;
+        replyCount: number;
+        createdAt: any;
+        user: {
+          __typename?: 'User';
+          id: string;
+          username: string;
+          profilePictureUrl?: string | null;
+        };
+        likes: Array<{
+          __typename?: 'Like';
+          user: { __typename?: 'User'; id: string };
+        }>;
+      };
+    }>;
+  };
+};
 
 export type AddCommentaryMutationVariables = Exact<{
   body: Scalars['String'];
   postId: Scalars['Int'];
 }>;
 
-
-export type AddCommentaryMutation = { __typename?: 'Mutation', comment: { __typename?: 'Commentary', id: string, postId: number, body: string, replyCount: number, createdAt: any, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, likes: Array<{ __typename?: 'Like', user: { __typename?: 'User', id: string } }> } };
+export type AddCommentaryMutation = {
+  __typename?: 'Mutation';
+  comment: {
+    __typename?: 'Commentary';
+    id: string;
+    postId: number;
+    body: string;
+    replyCount: number;
+    createdAt: any;
+    user: {
+      __typename?: 'User';
+      id: string;
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    likes: Array<{
+      __typename?: 'Like';
+      user: { __typename?: 'User'; id: string };
+    }>;
+  };
+};
 
 export type DeleteCommentaryMutationVariables = Exact<{
   commentaryId: Scalars['String'];
 }>;
 
+export type DeleteCommentaryMutation = {
+  __typename?: 'Mutation';
+  deleteCommentary: string;
+};
 
-export type DeleteCommentaryMutation = { __typename?: 'Mutation', deleteCommentary: string };
-
-export type FollowFieldsFragment = { __typename?: 'Followers', pageInfo: { __typename?: 'FollowersPaginationInfo', endCursor?: string | null, hasNextPage: boolean }, edges: Array<{ __typename?: 'FollowersPaginationEdge', node: { __typename?: 'Follow', id: string, targetUser: { __typename?: 'User', id: string, username: string, realName?: string | null, profilePictureUrl?: string | null } } }> };
+export type FollowFieldsFragment = {
+  __typename?: 'Followers';
+  pageInfo: {
+    __typename?: 'FollowersPaginationInfo';
+    endCursor?: string | null;
+    hasNextPage: boolean;
+  };
+  edges: Array<{
+    __typename?: 'FollowersPaginationEdge';
+    node: {
+      __typename?: 'Follow';
+      id: string;
+      targetUser: {
+        __typename?: 'User';
+        id: string;
+        username: string;
+        realName?: string | null;
+        profilePictureUrl?: string | null;
+      };
+    };
+  }>;
+};
 
 export type FollowMutationVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-
-export type FollowMutation = { __typename?: 'Mutation', follow: boolean };
+export type FollowMutation = { __typename?: 'Mutation'; follow: boolean };
 
 export type IsFollowingQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-
-export type IsFollowingQuery = { __typename?: 'Query', isFollowing: boolean };
+export type IsFollowingQuery = { __typename?: 'Query'; isFollowing: boolean };
 
 export type FindFollowingQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -691,8 +740,31 @@ export type FindFollowingQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type FindFollowingQuery = { __typename?: 'Query', following: { __typename?: 'Followers', pageInfo: { __typename?: 'FollowersPaginationInfo', endCursor?: string | null, hasNextPage: boolean }, edges: Array<{ __typename?: 'FollowersPaginationEdge', node: { __typename?: 'Follow', id: string, targetUser: { __typename?: 'User', id: string, username: string, realName?: string | null, profilePictureUrl?: string | null } } }> } };
+export type FindFollowingQuery = {
+  __typename?: 'Query';
+  following: {
+    __typename?: 'Followers';
+    pageInfo: {
+      __typename?: 'FollowersPaginationInfo';
+      endCursor?: string | null;
+      hasNextPage: boolean;
+    };
+    edges: Array<{
+      __typename?: 'FollowersPaginationEdge';
+      node: {
+        __typename?: 'Follow';
+        id: string;
+        targetUser: {
+          __typename?: 'User';
+          id: string;
+          username: string;
+          realName?: string | null;
+          profilePictureUrl?: string | null;
+        };
+      };
+    }>;
+  };
+};
 
 export type FindFollowersQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -700,30 +772,61 @@ export type FindFollowersQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type FindFollowersQuery = { __typename?: 'Query', followers: { __typename?: 'Followers', pageInfo: { __typename?: 'FollowersPaginationInfo', endCursor?: string | null, hasNextPage: boolean }, edges: Array<{ __typename?: 'FollowersPaginationEdge', node: { __typename?: 'Follow', id: string, targetUser: { __typename?: 'User', id: string, username: string, realName?: string | null, profilePictureUrl?: string | null } } }> } };
+export type FindFollowersQuery = {
+  __typename?: 'Query';
+  followers: {
+    __typename?: 'Followers';
+    pageInfo: {
+      __typename?: 'FollowersPaginationInfo';
+      endCursor?: string | null;
+      hasNextPage: boolean;
+    };
+    edges: Array<{
+      __typename?: 'FollowersPaginationEdge';
+      node: {
+        __typename?: 'Follow';
+        id: string;
+        targetUser: {
+          __typename?: 'User';
+          id: string;
+          username: string;
+          realName?: string | null;
+          profilePictureUrl?: string | null;
+        };
+      };
+    }>;
+  };
+};
 
 export type LikeContentMutationVariables = Exact<{
   rootId: Scalars['String'];
   referenceId?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type LikeContentMutation = { __typename?: 'Mutation', like: boolean };
+export type LikeContentMutation = { __typename?: 'Mutation'; like: boolean };
 
 export type FindLimitQueryVariables = Exact<{
   limitType: LimitType;
 }>;
 
-
-export type FindLimitQuery = { __typename?: 'Query', limit: { __typename?: 'Limit', limit: number } };
+export type FindLimitQuery = {
+  __typename?: 'Query';
+  limit: { __typename?: 'Limit'; limit: number };
+};
 
 export type FindUserListMoviesQueryVariables = Exact<{
   listId: Scalars['String'];
 }>;
 
-
-export type FindUserListMoviesQuery = { __typename?: 'Query', userListMovies: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> };
+export type FindUserListMoviesQuery = {
+  __typename?: 'Query';
+  userListMovies: Array<{
+    __typename?: 'Movie';
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
+  }>;
+};
 
 export type FindUserPreMadeListMoviesQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']>;
@@ -732,145 +835,382 @@ export type FindUserPreMadeListMoviesQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-
-export type FindUserPreMadeListMoviesQuery = { __typename?: 'Query', userPreMadeListMovies: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> };
+export type FindUserPreMadeListMoviesQuery = {
+  __typename?: 'Query';
+  userPreMadeListMovies: Array<{
+    __typename?: 'Movie';
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
+  }>;
+};
 
 export type IsMovieOnPreMadeListQueryVariables = Exact<{
   listType: PreMadeListType;
   movieId: Scalars['Int'];
 }>;
 
-
-export type IsMovieOnPreMadeListQuery = { __typename?: 'Query', isMovieOnPreMadeList: boolean };
+export type IsMovieOnPreMadeListQuery = {
+  __typename?: 'Query';
+  isMovieOnPreMadeList: boolean;
+};
 
 export type IsMovieOnListQueryVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
-
-export type IsMovieOnListQuery = { __typename?: 'Query', isMovieOnList: boolean };
+export type IsMovieOnListQuery = {
+  __typename?: 'Query';
+  isMovieOnList: boolean;
+};
 
 export type FindUserListNamesQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-
-export type FindUserListNamesQuery = { __typename?: 'Query', userLists: Array<{ __typename?: 'List', id: string, name: string }> };
+export type FindUserListNamesQuery = {
+  __typename?: 'Query';
+  userLists: Array<{ __typename?: 'List'; id: string; name: string }>;
+};
 
 export type FindUserListsQueryVariables = Exact<{
   userId: Scalars['String'];
   sort?: InputMaybe<ListSortInput>;
 }>;
 
-
-export type FindUserListsQuery = { __typename?: 'Query', userLists: Array<{ __typename?: 'List', name: string, isPrivate: boolean, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string }, movies: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> }> };
+export type FindUserListsQuery = {
+  __typename?: 'Query';
+  userLists: Array<{
+    __typename?: 'List';
+    name: string;
+    isPrivate: boolean;
+    user: {
+      __typename?: 'User';
+      id: string;
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string };
+    movies: Array<{
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    }>;
+  }>;
+};
 
 export type FindUserListQueryVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
-
-export type FindUserListQuery = { __typename?: 'Query', userList: { __typename?: 'List', id: string, name: string, backgroundImageUrl?: string | null, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any } } };
+export type FindUserListQuery = {
+  __typename?: 'Query';
+  userList: {
+    __typename?: 'List';
+    id: string;
+    name: string;
+    backgroundImageUrl?: string | null;
+    user: {
+      __typename?: 'User';
+      id: string;
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+  };
+};
 
 export type FindMoviePopularListsQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
-
-export type FindMoviePopularListsQuery = { __typename?: 'Query', moviePopularLists: Array<{ __typename?: 'List', id: string, name: string, backgroundImageUrl?: string | null, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movies: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> }> };
+export type FindMoviePopularListsQuery = {
+  __typename?: 'Query';
+  moviePopularLists: Array<{
+    __typename?: 'List';
+    id: string;
+    name: string;
+    backgroundImageUrl?: string | null;
+    user: {
+      __typename?: 'User';
+      id: string;
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movies: Array<{
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    }>;
+  }>;
+};
 
 export type CreateUserListMutationVariables = Exact<{
   name: Scalars['String'];
   body?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type CreateUserListMutation = { __typename?: 'Mutation', userListCreate: { __typename?: 'List', id: string, name: string } };
+export type CreateUserListMutation = {
+  __typename?: 'Mutation';
+  userListCreate: { __typename?: 'List'; id: string; name: string };
+};
 
 export type DeleteUserListMutationVariables = Exact<{
   listId: Scalars['String'];
 }>;
 
-
-export type DeleteUserListMutation = { __typename?: 'Mutation', userListDelete: boolean };
+export type DeleteUserListMutation = {
+  __typename?: 'Mutation';
+  userListDelete: boolean;
+};
 
 export type AddMovieToListMutationVariables = Exact<{
   movieId: Scalars['Int'];
   listId: Scalars['String'];
 }>;
 
-
-export type AddMovieToListMutation = { __typename?: 'Mutation', userListAddMovie: { __typename?: 'ListMovie', movie: { __typename?: 'Movie', originalTitle: string } } };
+export type AddMovieToListMutation = {
+  __typename?: 'Mutation';
+  userListAddMovie: {
+    __typename?: 'ListMovie';
+    movie: { __typename?: 'Movie'; originalTitle: string };
+  };
+};
 
 export type RemoveMovieFromListMutationVariables = Exact<{
   movieId: Scalars['Int'];
   listId: Scalars['String'];
 }>;
 
+export type RemoveMovieFromListMutation = {
+  __typename?: 'Mutation';
+  userListRemoveMovie: boolean;
+};
 
-export type RemoveMovieFromListMutation = { __typename?: 'Mutation', userListRemoveMovie: boolean };
-
-export type MovieFieldsFragment = { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, genres: Array<{ __typename?: 'Genre', id: number, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> };
+export type MovieFieldsFragment = {
+  __typename?: 'Movie';
+  id: number;
+  imdbId: string;
+  originalLanguage: string;
+  originalTitle: string;
+  overview: string;
+  runtime: number;
+  voteAverage: number;
+  releaseDate?: any | null;
+  posterUrl: string;
+  backdropUrl: string;
+  genres: Array<{ __typename?: 'Genre'; id: number; name: string }>;
+  productionCompanies: Array<{
+    __typename?: 'Company';
+    id: string;
+    name: string;
+    logoPath?: string | null;
+  }>;
+  spokenLanguages: Array<{
+    __typename?: 'Language';
+    englishName: string;
+    iso6391: string;
+  }>;
+};
 
 export type FindMovieQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
-
-export type FindMovieQuery = { __typename?: 'Query', movie: { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, genres: Array<{ __typename?: 'Genre', id: number, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> } };
+export type FindMovieQuery = {
+  __typename?: 'Query';
+  movie: {
+    __typename?: 'Movie';
+    id: number;
+    imdbId: string;
+    originalLanguage: string;
+    originalTitle: string;
+    overview: string;
+    runtime: number;
+    voteAverage: number;
+    releaseDate?: any | null;
+    posterUrl: string;
+    backdropUrl: string;
+    genres: Array<{ __typename?: 'Genre'; id: number; name: string }>;
+    productionCompanies: Array<{
+      __typename?: 'Company';
+      id: string;
+      name: string;
+      logoPath?: string | null;
+    }>;
+    spokenLanguages: Array<{
+      __typename?: 'Language';
+      englishName: string;
+      iso6391: string;
+    }>;
+  };
+};
 
 export type FindFullMovieQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
-
-export type FindFullMovieQuery = { __typename?: 'Query', movie: { __typename?: 'Movie', id: number, imdbId: string, originalLanguage: string, originalTitle: string, overview: string, runtime: number, voteAverage: number, releaseDate?: any | null, posterUrl: string, backdropUrl: string, credits: { __typename?: 'MovieCredits', cast: Array<{ __typename?: 'Cast', id: number, character: string, originalName: string, profilePictureUrl: string }>, crew: Array<{ __typename?: 'Crew', id: number, popularity: number, department: string, originalName: string }> }, genres: Array<{ __typename?: 'Genre', id: number, name: string }>, productionCompanies: Array<{ __typename?: 'Company', id: string, name: string, logoPath?: string | null }>, spokenLanguages: Array<{ __typename?: 'Language', englishName: string, iso6391: string }> } };
+export type FindFullMovieQuery = {
+  __typename?: 'Query';
+  movie: {
+    __typename?: 'Movie';
+    id: number;
+    imdbId: string;
+    originalLanguage: string;
+    originalTitle: string;
+    overview: string;
+    runtime: number;
+    voteAverage: number;
+    releaseDate?: any | null;
+    posterUrl: string;
+    backdropUrl: string;
+    credits: {
+      __typename?: 'MovieCredits';
+      cast: Array<{
+        __typename?: 'Cast';
+        id: number;
+        character: string;
+        originalName: string;
+        profilePictureUrl: string;
+      }>;
+      crew: Array<{
+        __typename?: 'Crew';
+        id: number;
+        popularity: number;
+        department: string;
+        originalName: string;
+      }>;
+    };
+    genres: Array<{ __typename?: 'Genre'; id: number; name: string }>;
+    productionCompanies: Array<{
+      __typename?: 'Company';
+      id: string;
+      name: string;
+      logoPath?: string | null;
+    }>;
+    spokenLanguages: Array<{
+      __typename?: 'Language';
+      englishName: string;
+      iso6391: string;
+    }>;
+  };
+};
 
 export type SearchMovieQueryVariables = Exact<{
   searchTerm: Scalars['String'];
 }>;
 
-
-export type SearchMovieQuery = { __typename?: 'Query', searchMovie: { __typename?: 'MovieSearch', page: number, results: Array<{ __typename?: 'Movie', id: number, posterUrl: string, originalTitle: string, releaseDate?: any | null }> } };
+export type SearchMovieQuery = {
+  __typename?: 'Query';
+  searchMovie: {
+    __typename?: 'MovieSearch';
+    page: number;
+    results: Array<{
+      __typename?: 'Movie';
+      id: number;
+      posterUrl: string;
+      originalTitle: string;
+      releaseDate?: any | null;
+    }>;
+  };
+};
 
 export type FindTrendingMoviesQueryVariables = Exact<{
   page: Scalars['Int'];
 }>;
 
-
-export type FindTrendingMoviesQuery = { __typename?: 'Query', trendingMovies: { __typename?: 'MovieTrending', page: number, results: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> } };
+export type FindTrendingMoviesQuery = {
+  __typename?: 'Query';
+  trendingMovies: {
+    __typename?: 'MovieTrending';
+    page: number;
+    results: Array<{
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    }>;
+  };
+};
 
 export type FindMovieRecommendationsQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
-
-export type FindMovieRecommendationsQuery = { __typename?: 'Query', movieRecommendations: Array<{ __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string }> };
+export type FindMovieRecommendationsQuery = {
+  __typename?: 'Query';
+  movieRecommendations: Array<{
+    __typename?: 'Movie';
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
+  }>;
+};
 
 export type AddMovieToPreMadeListMutationVariables = Exact<{
   listType: PreMadeListType;
   movieId: Scalars['Int'];
 }>;
 
-
-export type AddMovieToPreMadeListMutation = { __typename?: 'Mutation', userPreMadeListAddMovie: { __typename?: 'ListMovie', movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string } } };
+export type AddMovieToPreMadeListMutation = {
+  __typename?: 'Mutation';
+  userPreMadeListAddMovie: {
+    __typename?: 'ListMovie';
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    };
+  };
+};
 
 export type RemoveMovieFromPreMadeListMutationVariables = Exact<{
   listType: PreMadeListType;
   movieId: Scalars['Int'];
 }>;
 
-
-export type RemoveMovieFromPreMadeListMutation = { __typename?: 'Mutation', userPreMadeListRemoveMovie: boolean };
+export type RemoveMovieFromPreMadeListMutation = {
+  __typename?: 'Mutation';
+  userPreMadeListRemoveMovie: boolean;
+};
 
 export type FindUserProfileStatsQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
+export type FindUserProfileStatsQuery = {
+  __typename?: 'Query';
+  userProfileStats: {
+    __typename?: 'ProfileStats';
+    followerCount: number;
+    followingCount: number;
+    listCount: number;
+    moviesWatchedCount: number;
+    moviesWatchedThisYearCount: number;
+  };
+};
 
-export type FindUserProfileStatsQuery = { __typename?: 'Query', userProfileStats: { __typename?: 'ProfileStats', followerCount: number, followingCount: number, listCount: number, moviesWatchedCount: number, moviesWatchedThisYearCount: number } };
-
-export type ReplyFieldsFragment = { __typename?: 'Reply', id: string, body: string, createdAt: any, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, commentary: { __typename?: 'Commentary', id: string, postId: number }, likes: Array<{ __typename?: 'Like', user: { __typename?: 'User', id: string } }> };
+export type ReplyFieldsFragment = {
+  __typename?: 'Reply';
+  id: string;
+  body: string;
+  createdAt: any;
+  user: {
+    __typename?: 'User';
+    id: string;
+    username: string;
+    profilePictureUrl?: string | null;
+  };
+  commentary: { __typename?: 'Commentary'; id: string; postId: number };
+  likes: Array<{
+    __typename?: 'Like';
+    user: { __typename?: 'User'; id: string };
+  }>;
+};
 
 export type FindRepliesQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -878,264 +1218,580 @@ export type FindRepliesQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type FindRepliesQuery = { __typename?: 'Query', replies: { __typename?: 'Replies', pageInfo: { __typename?: 'RepliesPaginationInfo', maxItems: number, endCursor?: string | null, hasNextPage: boolean }, edges: Array<{ __typename?: 'RepliesPaginationEdge', node: { __typename?: 'Reply', id: string, body: string, createdAt: any, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, commentary: { __typename?: 'Commentary', id: string, postId: number }, likes: Array<{ __typename?: 'Like', user: { __typename?: 'User', id: string } }> } }> } };
+export type FindRepliesQuery = {
+  __typename?: 'Query';
+  replies: {
+    __typename?: 'Replies';
+    pageInfo: {
+      __typename?: 'RepliesPaginationInfo';
+      maxItems: number;
+      endCursor?: string | null;
+      hasNextPage: boolean;
+    };
+    edges: Array<{
+      __typename?: 'RepliesPaginationEdge';
+      node: {
+        __typename?: 'Reply';
+        id: string;
+        body: string;
+        createdAt: any;
+        user: {
+          __typename?: 'User';
+          id: string;
+          username: string;
+          profilePictureUrl?: string | null;
+        };
+        commentary: { __typename?: 'Commentary'; id: string; postId: number };
+        likes: Array<{
+          __typename?: 'Like';
+          user: { __typename?: 'User'; id: string };
+        }>;
+      };
+    }>;
+  };
+};
 
 export type AddReplyMutationVariables = Exact<{
   body: Scalars['String'];
   commentaryId: Scalars['String'];
 }>;
 
-
-export type AddReplyMutation = { __typename?: 'Mutation', reply: { __typename?: 'Reply', id: string, body: string, createdAt: any, user: { __typename?: 'User', id: string, username: string, profilePictureUrl?: string | null }, commentary: { __typename?: 'Commentary', id: string, postId: number }, likes: Array<{ __typename?: 'Like', user: { __typename?: 'User', id: string } }> } };
+export type AddReplyMutation = {
+  __typename?: 'Mutation';
+  reply: {
+    __typename?: 'Reply';
+    id: string;
+    body: string;
+    createdAt: any;
+    user: {
+      __typename?: 'User';
+      id: string;
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    commentary: { __typename?: 'Commentary'; id: string; postId: number };
+    likes: Array<{
+      __typename?: 'Like';
+      user: { __typename?: 'User'; id: string };
+    }>;
+  };
+};
 
 export type DeleteReplyMutationVariables = Exact<{
   replyId: Scalars['String'];
 }>;
 
-
-export type DeleteReplyMutation = { __typename?: 'Mutation', deleteReply: string };
+export type DeleteReplyMutation = {
+  __typename?: 'Mutation';
+  deleteReply: string;
+};
 
 export type FindReviewQueryVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
+export type FindReviewQuery = {
+  __typename?: 'Query';
+  review: {
+    __typename?: 'Review';
+    id: string;
+    isPinned: boolean;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      runtime: number;
+      posterUrl: string;
+      backdropUrl: string;
+      releaseDate?: any | null;
+      credits: {
+        __typename?: 'MovieCredits';
+        crew: Array<{
+          __typename?: 'Crew';
+          department: string;
+          originalName: string;
+        }>;
+      };
+    };
+  };
+};
 
-export type FindReviewQuery = { __typename?: 'Query', review: { __typename?: 'Review', id: string, isPinned: boolean, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, runtime: number, posterUrl: string, backdropUrl: string, releaseDate?: any | null, credits: { __typename?: 'MovieCredits', crew: Array<{ __typename?: 'Crew', department: string, originalName: string }> } } } };
-
-export type BasicReviewFieldsFragment = { __typename?: 'Review', id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } };
+export type BasicReviewFieldsFragment = {
+  __typename?: 'Review';
+  id: string;
+  user: {
+    __typename?: 'User';
+    username: string;
+    profilePictureUrl?: string | null;
+  };
+  post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+  movie: {
+    __typename?: 'Movie';
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
+    releaseDate?: any | null;
+  };
+};
 
 export type FindUserRecentReviewsQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-
-export type FindUserRecentReviewsQuery = { __typename?: 'Query', reviewsUserRecent: Array<{ __typename?: 'Review', id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } }> };
+export type FindUserRecentReviewsQuery = {
+  __typename?: 'Query';
+  reviewsUserRecent: Array<{
+    __typename?: 'Review';
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  }>;
+};
 
 export type FindUserPopularReviewsQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-
-export type FindUserPopularReviewsQuery = { __typename?: 'Query', reviewsUserPopular: Array<{ __typename?: 'Review', id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } }> };
+export type FindUserPopularReviewsQuery = {
+  __typename?: 'Query';
+  reviewsUserPopular: Array<{
+    __typename?: 'Review';
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  }>;
+};
 
 export type FindUserPinnedReviewsQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-
-export type FindUserPinnedReviewsQuery = { __typename?: 'Query', reviewsUserPinned: Array<{ __typename?: 'Review', isPinned: boolean, id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } }> };
+export type FindUserPinnedReviewsQuery = {
+  __typename?: 'Query';
+  reviewsUserPinned: Array<{
+    __typename?: 'Review';
+    isPinned: boolean;
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  }>;
+};
 
 export type FindUserReviewsQueryVariables = Exact<{
   userId: Scalars['String'];
   sort?: InputMaybe<ReviewSortInput>;
 }>;
 
+export type FindUserReviewsQuery = {
+  __typename?: 'Query';
+  reviewsUser: Array<{
+    __typename?: 'Review';
+    isPinned: boolean;
+    id: string;
+    movie: {
+      __typename?: 'Movie';
+      releaseDate?: any | null;
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+    };
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+  }>;
+};
 
-export type FindUserReviewsQuery = { __typename?: 'Query', reviewsUser: Array<{ __typename?: 'Review', isPinned: boolean, id: string, movie: { __typename?: 'Movie', releaseDate?: any | null, id: number, originalTitle: string, posterUrl: string }, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any } }> };
+export type FindRecentReviewsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FindRecentReviewsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindRecentReviewsQuery = { __typename?: 'Query', reviewsRecent: Array<{ __typename?: 'Review', id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } }> };
+export type FindRecentReviewsQuery = {
+  __typename?: 'Query';
+  reviewsRecent: Array<{
+    __typename?: 'Review';
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  }>;
+};
 
 export type FindPopularReviewsFromMovieQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
-
-export type FindPopularReviewsFromMovieQuery = { __typename?: 'Query', reviewsPopularFromMovie: Array<{ __typename?: 'Review', id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } }> };
+export type FindPopularReviewsFromMovieQuery = {
+  __typename?: 'Query';
+  reviewsPopularFromMovie: Array<{
+    __typename?: 'Review';
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  }>;
+};
 
 export type FindMovieRecentReviewsQueryVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
 
+export type FindMovieRecentReviewsQuery = {
+  __typename?: 'Query';
+  reviewsRecentFromMovie: Array<{
+    __typename?: 'Review';
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  }>;
+};
 
-export type FindMovieRecentReviewsQuery = { __typename?: 'Query', reviewsRecentFromMovie: Array<{ __typename?: 'Review', id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } }> };
+export type FindPopularReviewsWeekQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type FindPopularReviewsWeekQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindPopularReviewsWeekQuery = { __typename?: 'Query', reviewsPopularWeek: Array<{ __typename?: 'Review', id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } }> };
+export type FindPopularReviewsWeekQuery = {
+  __typename?: 'Query';
+  reviewsPopularWeek: Array<{
+    __typename?: 'Review';
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  }>;
+};
 
 export type CreateReviewMutationVariables = Exact<{
   body: Scalars['String'];
   movieId: Scalars['Int'];
 }>;
 
-
-export type CreateReviewMutation = { __typename?: 'Mutation', reviewCreate: { __typename?: 'Review', post: { __typename?: 'Post', id: number } } };
+export type CreateReviewMutation = {
+  __typename?: 'Mutation';
+  reviewCreate: {
+    __typename?: 'Review';
+    post: { __typename?: 'Post'; id: number };
+  };
+};
 
 export type PinReviewMutationVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
-
-export type PinReviewMutation = { __typename?: 'Mutation', reviewPin: { __typename?: 'Review', isPinned: boolean, id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } } };
+export type PinReviewMutation = {
+  __typename?: 'Mutation';
+  reviewPin: {
+    __typename?: 'Review';
+    isPinned: boolean;
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  };
+};
 
 export type UnpinReviewMutationVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
+export type UnpinReviewMutation = {
+  __typename?: 'Mutation';
+  reviewUnpin: {
+    __typename?: 'Review';
+    isPinned: boolean;
+    id: string;
+    user: {
+      __typename?: 'User';
+      username: string;
+      profilePictureUrl?: string | null;
+    };
+    post: { __typename?: 'Post'; id: number; body: string; createdAt: any };
+    movie: {
+      __typename?: 'Movie';
+      id: number;
+      originalTitle: string;
+      posterUrl: string;
+      releaseDate?: any | null;
+    };
+  };
+};
 
-export type UnpinReviewMutation = { __typename?: 'Mutation', reviewUnpin: { __typename?: 'Review', isPinned: boolean, id: string, user: { __typename?: 'User', username: string, profilePictureUrl?: string | null }, post: { __typename?: 'Post', id: number, body: string, createdAt: any }, movie: { __typename?: 'Movie', id: number, originalTitle: string, posterUrl: string, releaseDate?: any | null } } };
-
-export type UserFieldsFragment = { __typename?: 'User', id: string, username: string, realName?: string | null, biography?: string | null, profilePictureUrl?: string | null, createdAt: any };
+export type UserFieldsFragment = {
+  __typename?: 'User';
+  id: string;
+  username: string;
+  realName?: string | null;
+  biography?: string | null;
+  profilePictureUrl?: string | null;
+  createdAt: any;
+};
 
 export type FindUserQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
-
-export type FindUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username: string, realName?: string | null, biography?: string | null, profilePictureUrl?: string | null, createdAt: any } };
+export type FindUserQuery = {
+  __typename?: 'Query';
+  user: {
+    __typename?: 'User';
+    id: string;
+    username: string;
+    realName?: string | null;
+    biography?: string | null;
+    profilePictureUrl?: string | null;
+    createdAt: any;
+  };
+};
 
 export type FindUserByProviderQueryVariables = Exact<{
   providerId: Scalars['String'];
   provider: Scalars['String'];
 }>;
 
-
-export type FindUserByProviderQuery = { __typename?: 'Query', userByProvider: { __typename?: 'User', id: string, username: string, realName?: string | null, profilePictureUrl?: string | null } };
+export type FindUserByProviderQuery = {
+  __typename?: 'Query';
+  userByProvider: {
+    __typename?: 'User';
+    id: string;
+    username: string;
+    realName?: string | null;
+    profilePictureUrl?: string | null;
+  };
+};
 
 export type UserRegisterMutationVariables = Exact<{
   githubId: Scalars['String'];
 }>;
 
-
-export type UserRegisterMutation = { __typename?: 'Mutation', register: boolean };
+export type UserRegisterMutation = {
+  __typename?: 'Mutation';
+  register: boolean;
+};
 
 export const CommentaryFieldsFragmentDoc = gql`
-    fragment CommentaryFields on Commentary {
-  id
-  postId
-  body
-  replyCount
-  createdAt
-  user {
+  fragment CommentaryFields on Commentary {
     id
-    username
-    profilePictureUrl
-  }
-  likes {
+    postId
+    body
+    replyCount
+    createdAt
     user {
       id
+      username
+      profilePictureUrl
     }
-  }
-}
-    `;
-export const FollowFieldsFragmentDoc = gql`
-    fragment FollowFields on Followers {
-  pageInfo {
-    endCursor
-    hasNextPage
-  }
-  edges {
-    node {
-      id
-      targetUser {
+    likes {
+      user {
         id
-        username
-        realName
-        profilePictureUrl
       }
     }
   }
-}
-    `;
-export const MovieFieldsFragmentDoc = gql`
-    fragment MovieFields on Movie {
-  id
-  imdbId
-  originalLanguage
-  originalTitle
-  overview
-  runtime
-  voteAverage
-  releaseDate
-  posterUrl
-  backdropUrl
-  genres {
-    id
-    name
-  }
-  productionCompanies {
-    id
-    name
-    logoPath
-  }
-  spokenLanguages {
-    englishName
-    iso6391
-  }
-}
-    `;
-export const ReplyFieldsFragmentDoc = gql`
-    fragment ReplyFields on Reply {
-  id
-  body
-  createdAt
-  user {
-    id
-    username
-    profilePictureUrl
-  }
-  commentary {
-    id
-    postId
-  }
-  likes {
-    user {
-      id
-    }
-  }
-}
-    `;
-export const BasicReviewFieldsFragmentDoc = gql`
-    fragment BasicReviewFields on Review {
-  id
-  user {
-    username
-    profilePictureUrl
-  }
-  post {
-    id
-    body
-    createdAt
-  }
-  movie {
-    id
-    originalTitle
-    posterUrl
-    releaseDate
-  }
-}
-    `;
-export const UserFieldsFragmentDoc = gql`
-    fragment UserFields on User {
-  id
-  username
-  realName
-  biography
-  profilePictureUrl
-  createdAt
-}
-    `;
-export const FindCommentariesDocument = gql`
-    query FindCommentaries($first: Int!, $postId: Int!, $after: String) {
-  commentaries(first: $first, postId: $postId, after: $after) @connection(key: "commentaries") {
+`;
+export const FollowFieldsFragmentDoc = gql`
+  fragment FollowFields on Followers {
     pageInfo {
-      maxItems
-      hasNextPage
       endCursor
+      hasNextPage
     }
     edges {
       node {
-        ...CommentaryFields
+        id
+        targetUser {
+          id
+          username
+          realName
+          profilePictureUrl
+        }
       }
     }
   }
-}
-    ${CommentaryFieldsFragmentDoc}`;
+`;
+export const MovieFieldsFragmentDoc = gql`
+  fragment MovieFields on Movie {
+    id
+    imdbId
+    originalLanguage
+    originalTitle
+    overview
+    runtime
+    voteAverage
+    releaseDate
+    posterUrl
+    backdropUrl
+    genres {
+      id
+      name
+    }
+    productionCompanies {
+      id
+      name
+      logoPath
+    }
+    spokenLanguages {
+      englishName
+      iso6391
+    }
+  }
+`;
+export const ReplyFieldsFragmentDoc = gql`
+  fragment ReplyFields on Reply {
+    id
+    body
+    createdAt
+    user {
+      id
+      username
+      profilePictureUrl
+    }
+    commentary {
+      id
+      postId
+    }
+    likes {
+      user {
+        id
+      }
+    }
+  }
+`;
+export const BasicReviewFieldsFragmentDoc = gql`
+  fragment BasicReviewFields on Review {
+    id
+    user {
+      username
+      profilePictureUrl
+    }
+    post {
+      id
+      body
+      createdAt
+    }
+    movie {
+      id
+      originalTitle
+      posterUrl
+      releaseDate
+    }
+  }
+`;
+export const UserFieldsFragmentDoc = gql`
+  fragment UserFields on User {
+    id
+    username
+    realName
+    biography
+    profilePictureUrl
+    createdAt
+  }
+`;
+export const FindCommentariesDocument = gql`
+  query FindCommentaries($first: Int!, $postId: Int!, $after: String) {
+    commentaries(first: $first, postId: $postId, after: $after)
+      @connection(key: "commentaries") {
+      pageInfo {
+        maxItems
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          ...CommentaryFields
+        }
+      }
+    }
+  }
+  ${CommentaryFieldsFragmentDoc}
+`;
 
 /**
  * __useFindCommentariesQuery__
@@ -1155,25 +1811,52 @@ export const FindCommentariesDocument = gql`
  *   },
  * });
  */
-export function useFindCommentariesQuery(baseOptions: Apollo.QueryHookOptions<FindCommentariesQuery, FindCommentariesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindCommentariesQuery, FindCommentariesQueryVariables>(FindCommentariesDocument, options);
-      }
-export function useFindCommentariesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindCommentariesQuery, FindCommentariesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindCommentariesQuery, FindCommentariesQueryVariables>(FindCommentariesDocument, options);
-        }
-export type FindCommentariesQueryHookResult = ReturnType<typeof useFindCommentariesQuery>;
-export type FindCommentariesLazyQueryHookResult = ReturnType<typeof useFindCommentariesLazyQuery>;
-export type FindCommentariesQueryResult = Apollo.QueryResult<FindCommentariesQuery, FindCommentariesQueryVariables>;
-export const AddCommentaryDocument = gql`
-    mutation AddCommentary($body: String!, $postId: Int!) {
-  comment(body: $body, postId: $postId) {
-    ...CommentaryFields
-  }
+export function useFindCommentariesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindCommentariesQuery,
+    FindCommentariesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindCommentariesQuery, FindCommentariesQueryVariables>(
+    FindCommentariesDocument,
+    options,
+  );
 }
-    ${CommentaryFieldsFragmentDoc}`;
-export type AddCommentaryMutationFn = Apollo.MutationFunction<AddCommentaryMutation, AddCommentaryMutationVariables>;
+export function useFindCommentariesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindCommentariesQuery,
+    FindCommentariesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindCommentariesQuery,
+    FindCommentariesQueryVariables
+  >(FindCommentariesDocument, options);
+}
+export type FindCommentariesQueryHookResult = ReturnType<
+  typeof useFindCommentariesQuery
+>;
+export type FindCommentariesLazyQueryHookResult = ReturnType<
+  typeof useFindCommentariesLazyQuery
+>;
+export type FindCommentariesQueryResult = Apollo.QueryResult<
+  FindCommentariesQuery,
+  FindCommentariesQueryVariables
+>;
+export const AddCommentaryDocument = gql`
+  mutation AddCommentary($body: String!, $postId: Int!) {
+    comment(body: $body, postId: $postId) {
+      ...CommentaryFields
+    }
+  }
+  ${CommentaryFieldsFragmentDoc}
+`;
+export type AddCommentaryMutationFn = Apollo.MutationFunction<
+  AddCommentaryMutation,
+  AddCommentaryMutationVariables
+>;
 
 /**
  * __useAddCommentaryMutation__
@@ -1193,19 +1876,36 @@ export type AddCommentaryMutationFn = Apollo.MutationFunction<AddCommentaryMutat
  *   },
  * });
  */
-export function useAddCommentaryMutation(baseOptions?: Apollo.MutationHookOptions<AddCommentaryMutation, AddCommentaryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddCommentaryMutation, AddCommentaryMutationVariables>(AddCommentaryDocument, options);
-      }
-export type AddCommentaryMutationHookResult = ReturnType<typeof useAddCommentaryMutation>;
-export type AddCommentaryMutationResult = Apollo.MutationResult<AddCommentaryMutation>;
-export type AddCommentaryMutationOptions = Apollo.BaseMutationOptions<AddCommentaryMutation, AddCommentaryMutationVariables>;
-export const DeleteCommentaryDocument = gql`
-    mutation DeleteCommentary($commentaryId: String!) {
-  deleteCommentary(commentaryId: $commentaryId)
+export function useAddCommentaryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddCommentaryMutation,
+    AddCommentaryMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    AddCommentaryMutation,
+    AddCommentaryMutationVariables
+  >(AddCommentaryDocument, options);
 }
-    `;
-export type DeleteCommentaryMutationFn = Apollo.MutationFunction<DeleteCommentaryMutation, DeleteCommentaryMutationVariables>;
+export type AddCommentaryMutationHookResult = ReturnType<
+  typeof useAddCommentaryMutation
+>;
+export type AddCommentaryMutationResult =
+  Apollo.MutationResult<AddCommentaryMutation>;
+export type AddCommentaryMutationOptions = Apollo.BaseMutationOptions<
+  AddCommentaryMutation,
+  AddCommentaryMutationVariables
+>;
+export const DeleteCommentaryDocument = gql`
+  mutation DeleteCommentary($commentaryId: String!) {
+    deleteCommentary(commentaryId: $commentaryId)
+  }
+`;
+export type DeleteCommentaryMutationFn = Apollo.MutationFunction<
+  DeleteCommentaryMutation,
+  DeleteCommentaryMutationVariables
+>;
 
 /**
  * __useDeleteCommentaryMutation__
@@ -1224,19 +1924,36 @@ export type DeleteCommentaryMutationFn = Apollo.MutationFunction<DeleteCommentar
  *   },
  * });
  */
-export function useDeleteCommentaryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentaryMutation, DeleteCommentaryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCommentaryMutation, DeleteCommentaryMutationVariables>(DeleteCommentaryDocument, options);
-      }
-export type DeleteCommentaryMutationHookResult = ReturnType<typeof useDeleteCommentaryMutation>;
-export type DeleteCommentaryMutationResult = Apollo.MutationResult<DeleteCommentaryMutation>;
-export type DeleteCommentaryMutationOptions = Apollo.BaseMutationOptions<DeleteCommentaryMutation, DeleteCommentaryMutationVariables>;
-export const FollowDocument = gql`
-    mutation Follow($userId: String!) {
-  follow(userId: $userId)
+export function useDeleteCommentaryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteCommentaryMutation,
+    DeleteCommentaryMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteCommentaryMutation,
+    DeleteCommentaryMutationVariables
+  >(DeleteCommentaryDocument, options);
 }
-    `;
-export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
+export type DeleteCommentaryMutationHookResult = ReturnType<
+  typeof useDeleteCommentaryMutation
+>;
+export type DeleteCommentaryMutationResult =
+  Apollo.MutationResult<DeleteCommentaryMutation>;
+export type DeleteCommentaryMutationOptions = Apollo.BaseMutationOptions<
+  DeleteCommentaryMutation,
+  DeleteCommentaryMutationVariables
+>;
+export const FollowDocument = gql`
+  mutation Follow($userId: String!) {
+    follow(userId: $userId)
+  }
+`;
+export type FollowMutationFn = Apollo.MutationFunction<
+  FollowMutation,
+  FollowMutationVariables
+>;
 
 /**
  * __useFollowMutation__
@@ -1255,18 +1972,30 @@ export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMut
  *   },
  * });
  */
-export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, options);
-      }
+export function useFollowMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    FollowMutation,
+    FollowMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<FollowMutation, FollowMutationVariables>(
+    FollowDocument,
+    options,
+  );
+}
 export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
 export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
-export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
+export type FollowMutationOptions = Apollo.BaseMutationOptions<
+  FollowMutation,
+  FollowMutationVariables
+>;
 export const IsFollowingDocument = gql`
-    query IsFollowing($userId: String!) {
-  isFollowing(userId: $userId) @connection(key: "isFollowing", filter: ["userId"])
-}
-    `;
+  query IsFollowing($userId: String!) {
+    isFollowing(userId: $userId)
+      @connection(key: "isFollowing", filter: ["userId"])
+  }
+`;
 
 /**
  * __useIsFollowingQuery__
@@ -1284,24 +2013,46 @@ export const IsFollowingDocument = gql`
  *   },
  * });
  */
-export function useIsFollowingQuery(baseOptions: Apollo.QueryHookOptions<IsFollowingQuery, IsFollowingQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IsFollowingQuery, IsFollowingQueryVariables>(IsFollowingDocument, options);
-      }
-export function useIsFollowingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsFollowingQuery, IsFollowingQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IsFollowingQuery, IsFollowingQueryVariables>(IsFollowingDocument, options);
-        }
-export type IsFollowingQueryHookResult = ReturnType<typeof useIsFollowingQuery>;
-export type IsFollowingLazyQueryHookResult = ReturnType<typeof useIsFollowingLazyQuery>;
-export type IsFollowingQueryResult = Apollo.QueryResult<IsFollowingQuery, IsFollowingQueryVariables>;
-export const FindFollowingDocument = gql`
-    query FindFollowing($first: Int!, $userId: String!, $after: String) {
-  following(first: $first, userId: $userId, after: $after) {
-    ...FollowFields
-  }
+export function useIsFollowingQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    IsFollowingQuery,
+    IsFollowingQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<IsFollowingQuery, IsFollowingQueryVariables>(
+    IsFollowingDocument,
+    options,
+  );
 }
-    ${FollowFieldsFragmentDoc}`;
+export function useIsFollowingLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    IsFollowingQuery,
+    IsFollowingQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<IsFollowingQuery, IsFollowingQueryVariables>(
+    IsFollowingDocument,
+    options,
+  );
+}
+export type IsFollowingQueryHookResult = ReturnType<typeof useIsFollowingQuery>;
+export type IsFollowingLazyQueryHookResult = ReturnType<
+  typeof useIsFollowingLazyQuery
+>;
+export type IsFollowingQueryResult = Apollo.QueryResult<
+  IsFollowingQuery,
+  IsFollowingQueryVariables
+>;
+export const FindFollowingDocument = gql`
+  query FindFollowing($first: Int!, $userId: String!, $after: String) {
+    following(first: $first, userId: $userId, after: $after) {
+      ...FollowFields
+    }
+  }
+  ${FollowFieldsFragmentDoc}
+`;
 
 /**
  * __useFindFollowingQuery__
@@ -1321,24 +2072,48 @@ export const FindFollowingDocument = gql`
  *   },
  * });
  */
-export function useFindFollowingQuery(baseOptions: Apollo.QueryHookOptions<FindFollowingQuery, FindFollowingQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindFollowingQuery, FindFollowingQueryVariables>(FindFollowingDocument, options);
-      }
-export function useFindFollowingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindFollowingQuery, FindFollowingQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindFollowingQuery, FindFollowingQueryVariables>(FindFollowingDocument, options);
-        }
-export type FindFollowingQueryHookResult = ReturnType<typeof useFindFollowingQuery>;
-export type FindFollowingLazyQueryHookResult = ReturnType<typeof useFindFollowingLazyQuery>;
-export type FindFollowingQueryResult = Apollo.QueryResult<FindFollowingQuery, FindFollowingQueryVariables>;
-export const FindFollowersDocument = gql`
-    query FindFollowers($first: Int!, $userId: String!, $after: String) {
-  followers(first: $first, userId: $userId, after: $after) {
-    ...FollowFields
-  }
+export function useFindFollowingQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindFollowingQuery,
+    FindFollowingQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindFollowingQuery, FindFollowingQueryVariables>(
+    FindFollowingDocument,
+    options,
+  );
 }
-    ${FollowFieldsFragmentDoc}`;
+export function useFindFollowingLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindFollowingQuery,
+    FindFollowingQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindFollowingQuery, FindFollowingQueryVariables>(
+    FindFollowingDocument,
+    options,
+  );
+}
+export type FindFollowingQueryHookResult = ReturnType<
+  typeof useFindFollowingQuery
+>;
+export type FindFollowingLazyQueryHookResult = ReturnType<
+  typeof useFindFollowingLazyQuery
+>;
+export type FindFollowingQueryResult = Apollo.QueryResult<
+  FindFollowingQuery,
+  FindFollowingQueryVariables
+>;
+export const FindFollowersDocument = gql`
+  query FindFollowers($first: Int!, $userId: String!, $after: String) {
+    followers(first: $first, userId: $userId, after: $after) {
+      ...FollowFields
+    }
+  }
+  ${FollowFieldsFragmentDoc}
+`;
 
 /**
  * __useFindFollowersQuery__
@@ -1358,23 +2133,49 @@ export const FindFollowersDocument = gql`
  *   },
  * });
  */
-export function useFindFollowersQuery(baseOptions: Apollo.QueryHookOptions<FindFollowersQuery, FindFollowersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindFollowersQuery, FindFollowersQueryVariables>(FindFollowersDocument, options);
-      }
-export function useFindFollowersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindFollowersQuery, FindFollowersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindFollowersQuery, FindFollowersQueryVariables>(FindFollowersDocument, options);
-        }
-export type FindFollowersQueryHookResult = ReturnType<typeof useFindFollowersQuery>;
-export type FindFollowersLazyQueryHookResult = ReturnType<typeof useFindFollowersLazyQuery>;
-export type FindFollowersQueryResult = Apollo.QueryResult<FindFollowersQuery, FindFollowersQueryVariables>;
-export const LikeContentDocument = gql`
-    mutation LikeContent($rootId: String!, $referenceId: String) {
-  like(rootId: $rootId, referenceId: $referenceId)
+export function useFindFollowersQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindFollowersQuery,
+    FindFollowersQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindFollowersQuery, FindFollowersQueryVariables>(
+    FindFollowersDocument,
+    options,
+  );
 }
-    `;
-export type LikeContentMutationFn = Apollo.MutationFunction<LikeContentMutation, LikeContentMutationVariables>;
+export function useFindFollowersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindFollowersQuery,
+    FindFollowersQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindFollowersQuery, FindFollowersQueryVariables>(
+    FindFollowersDocument,
+    options,
+  );
+}
+export type FindFollowersQueryHookResult = ReturnType<
+  typeof useFindFollowersQuery
+>;
+export type FindFollowersLazyQueryHookResult = ReturnType<
+  typeof useFindFollowersLazyQuery
+>;
+export type FindFollowersQueryResult = Apollo.QueryResult<
+  FindFollowersQuery,
+  FindFollowersQueryVariables
+>;
+export const LikeContentDocument = gql`
+  mutation LikeContent($rootId: String!, $referenceId: String) {
+    like(rootId: $rootId, referenceId: $referenceId)
+  }
+`;
+export type LikeContentMutationFn = Apollo.MutationFunction<
+  LikeContentMutation,
+  LikeContentMutationVariables
+>;
 
 /**
  * __useLikeContentMutation__
@@ -1394,20 +2195,34 @@ export type LikeContentMutationFn = Apollo.MutationFunction<LikeContentMutation,
  *   },
  * });
  */
-export function useLikeContentMutation(baseOptions?: Apollo.MutationHookOptions<LikeContentMutation, LikeContentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LikeContentMutation, LikeContentMutationVariables>(LikeContentDocument, options);
-      }
-export type LikeContentMutationHookResult = ReturnType<typeof useLikeContentMutation>;
-export type LikeContentMutationResult = Apollo.MutationResult<LikeContentMutation>;
-export type LikeContentMutationOptions = Apollo.BaseMutationOptions<LikeContentMutation, LikeContentMutationVariables>;
-export const FindLimitDocument = gql`
-    query FindLimit($limitType: LimitType!) {
-  limit(limitType: $limitType) {
-    limit
-  }
+export function useLikeContentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LikeContentMutation,
+    LikeContentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LikeContentMutation, LikeContentMutationVariables>(
+    LikeContentDocument,
+    options,
+  );
 }
-    `;
+export type LikeContentMutationHookResult = ReturnType<
+  typeof useLikeContentMutation
+>;
+export type LikeContentMutationResult =
+  Apollo.MutationResult<LikeContentMutation>;
+export type LikeContentMutationOptions = Apollo.BaseMutationOptions<
+  LikeContentMutation,
+  LikeContentMutationVariables
+>;
+export const FindLimitDocument = gql`
+  query FindLimit($limitType: LimitType!) {
+    limit(limitType: $limitType) {
+      limit
+    }
+  }
+`;
 
 /**
  * __useFindLimitQuery__
@@ -1425,26 +2240,44 @@ export const FindLimitDocument = gql`
  *   },
  * });
  */
-export function useFindLimitQuery(baseOptions: Apollo.QueryHookOptions<FindLimitQuery, FindLimitQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindLimitQuery, FindLimitQueryVariables>(FindLimitDocument, options);
-      }
-export function useFindLimitLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindLimitQuery, FindLimitQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindLimitQuery, FindLimitQueryVariables>(FindLimitDocument, options);
-        }
-export type FindLimitQueryHookResult = ReturnType<typeof useFindLimitQuery>;
-export type FindLimitLazyQueryHookResult = ReturnType<typeof useFindLimitLazyQuery>;
-export type FindLimitQueryResult = Apollo.QueryResult<FindLimitQuery, FindLimitQueryVariables>;
-export const FindUserListMoviesDocument = gql`
-    query FindUserListMovies($listId: String!) {
-  userListMovies(listId: $listId) {
-    id
-    originalTitle
-    posterUrl
-  }
+export function useFindLimitQuery(
+  baseOptions: Apollo.QueryHookOptions<FindLimitQuery, FindLimitQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindLimitQuery, FindLimitQueryVariables>(
+    FindLimitDocument,
+    options,
+  );
 }
-    `;
+export function useFindLimitLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindLimitQuery,
+    FindLimitQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindLimitQuery, FindLimitQueryVariables>(
+    FindLimitDocument,
+    options,
+  );
+}
+export type FindLimitQueryHookResult = ReturnType<typeof useFindLimitQuery>;
+export type FindLimitLazyQueryHookResult = ReturnType<
+  typeof useFindLimitLazyQuery
+>;
+export type FindLimitQueryResult = Apollo.QueryResult<
+  FindLimitQuery,
+  FindLimitQueryVariables
+>;
+export const FindUserListMoviesDocument = gql`
+  query FindUserListMovies($listId: String!) {
+    userListMovies(listId: $listId) {
+      id
+      originalTitle
+      posterUrl
+    }
+  }
+`;
 
 /**
  * __useFindUserListMoviesQuery__
@@ -1462,31 +2295,59 @@ export const FindUserListMoviesDocument = gql`
  *   },
  * });
  */
-export function useFindUserListMoviesQuery(baseOptions: Apollo.QueryHookOptions<FindUserListMoviesQuery, FindUserListMoviesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserListMoviesQuery, FindUserListMoviesQueryVariables>(FindUserListMoviesDocument, options);
-      }
-export function useFindUserListMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserListMoviesQuery, FindUserListMoviesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserListMoviesQuery, FindUserListMoviesQueryVariables>(FindUserListMoviesDocument, options);
-        }
-export type FindUserListMoviesQueryHookResult = ReturnType<typeof useFindUserListMoviesQuery>;
-export type FindUserListMoviesLazyQueryHookResult = ReturnType<typeof useFindUserListMoviesLazyQuery>;
-export type FindUserListMoviesQueryResult = Apollo.QueryResult<FindUserListMoviesQuery, FindUserListMoviesQueryVariables>;
-export const FindUserPreMadeListMoviesDocument = gql`
-    query FindUserPreMadeListMovies($page: Int, $sort: MovieSortInput, $listType: PreMadeListType!, $userId: String!) {
-  userPreMadeListMovies(
-    page: $page
-    sort: $sort
-    listType: $listType
-    userId: $userId
-  ) {
-    id
-    originalTitle
-    posterUrl
-  }
+export function useFindUserListMoviesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserListMoviesQuery,
+    FindUserListMoviesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserListMoviesQuery,
+    FindUserListMoviesQueryVariables
+  >(FindUserListMoviesDocument, options);
 }
-    `;
+export function useFindUserListMoviesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserListMoviesQuery,
+    FindUserListMoviesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserListMoviesQuery,
+    FindUserListMoviesQueryVariables
+  >(FindUserListMoviesDocument, options);
+}
+export type FindUserListMoviesQueryHookResult = ReturnType<
+  typeof useFindUserListMoviesQuery
+>;
+export type FindUserListMoviesLazyQueryHookResult = ReturnType<
+  typeof useFindUserListMoviesLazyQuery
+>;
+export type FindUserListMoviesQueryResult = Apollo.QueryResult<
+  FindUserListMoviesQuery,
+  FindUserListMoviesQueryVariables
+>;
+export const FindUserPreMadeListMoviesDocument = gql`
+  query FindUserPreMadeListMovies(
+    $page: Int
+    $sort: MovieSortInput
+    $listType: PreMadeListType!
+    $userId: String!
+  ) {
+    userPreMadeListMovies(
+      page: $page
+      sort: $sort
+      listType: $listType
+      userId: $userId
+    ) {
+      id
+      originalTitle
+      posterUrl
+    }
+  }
+`;
 
 /**
  * __useFindUserPreMadeListMoviesQuery__
@@ -1507,22 +2368,45 @@ export const FindUserPreMadeListMoviesDocument = gql`
  *   },
  * });
  */
-export function useFindUserPreMadeListMoviesQuery(baseOptions: Apollo.QueryHookOptions<FindUserPreMadeListMoviesQuery, FindUserPreMadeListMoviesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserPreMadeListMoviesQuery, FindUserPreMadeListMoviesQueryVariables>(FindUserPreMadeListMoviesDocument, options);
-      }
-export function useFindUserPreMadeListMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserPreMadeListMoviesQuery, FindUserPreMadeListMoviesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserPreMadeListMoviesQuery, FindUserPreMadeListMoviesQueryVariables>(FindUserPreMadeListMoviesDocument, options);
-        }
-export type FindUserPreMadeListMoviesQueryHookResult = ReturnType<typeof useFindUserPreMadeListMoviesQuery>;
-export type FindUserPreMadeListMoviesLazyQueryHookResult = ReturnType<typeof useFindUserPreMadeListMoviesLazyQuery>;
-export type FindUserPreMadeListMoviesQueryResult = Apollo.QueryResult<FindUserPreMadeListMoviesQuery, FindUserPreMadeListMoviesQueryVariables>;
-export const IsMovieOnPreMadeListDocument = gql`
-    query IsMovieOnPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
-  isMovieOnPreMadeList(listType: $listType, movieId: $movieId)
+export function useFindUserPreMadeListMoviesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserPreMadeListMoviesQuery,
+    FindUserPreMadeListMoviesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserPreMadeListMoviesQuery,
+    FindUserPreMadeListMoviesQueryVariables
+  >(FindUserPreMadeListMoviesDocument, options);
 }
-    `;
+export function useFindUserPreMadeListMoviesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserPreMadeListMoviesQuery,
+    FindUserPreMadeListMoviesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserPreMadeListMoviesQuery,
+    FindUserPreMadeListMoviesQueryVariables
+  >(FindUserPreMadeListMoviesDocument, options);
+}
+export type FindUserPreMadeListMoviesQueryHookResult = ReturnType<
+  typeof useFindUserPreMadeListMoviesQuery
+>;
+export type FindUserPreMadeListMoviesLazyQueryHookResult = ReturnType<
+  typeof useFindUserPreMadeListMoviesLazyQuery
+>;
+export type FindUserPreMadeListMoviesQueryResult = Apollo.QueryResult<
+  FindUserPreMadeListMoviesQuery,
+  FindUserPreMadeListMoviesQueryVariables
+>;
+export const IsMovieOnPreMadeListDocument = gql`
+  query IsMovieOnPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
+    isMovieOnPreMadeList(listType: $listType, movieId: $movieId)
+  }
+`;
 
 /**
  * __useIsMovieOnPreMadeListQuery__
@@ -1541,22 +2425,45 @@ export const IsMovieOnPreMadeListDocument = gql`
  *   },
  * });
  */
-export function useIsMovieOnPreMadeListQuery(baseOptions: Apollo.QueryHookOptions<IsMovieOnPreMadeListQuery, IsMovieOnPreMadeListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IsMovieOnPreMadeListQuery, IsMovieOnPreMadeListQueryVariables>(IsMovieOnPreMadeListDocument, options);
-      }
-export function useIsMovieOnPreMadeListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsMovieOnPreMadeListQuery, IsMovieOnPreMadeListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IsMovieOnPreMadeListQuery, IsMovieOnPreMadeListQueryVariables>(IsMovieOnPreMadeListDocument, options);
-        }
-export type IsMovieOnPreMadeListQueryHookResult = ReturnType<typeof useIsMovieOnPreMadeListQuery>;
-export type IsMovieOnPreMadeListLazyQueryHookResult = ReturnType<typeof useIsMovieOnPreMadeListLazyQuery>;
-export type IsMovieOnPreMadeListQueryResult = Apollo.QueryResult<IsMovieOnPreMadeListQuery, IsMovieOnPreMadeListQueryVariables>;
-export const IsMovieOnListDocument = gql`
-    query IsMovieOnList($postId: Int!) {
-  isMovieOnList(postId: $postId)
+export function useIsMovieOnPreMadeListQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    IsMovieOnPreMadeListQuery,
+    IsMovieOnPreMadeListQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    IsMovieOnPreMadeListQuery,
+    IsMovieOnPreMadeListQueryVariables
+  >(IsMovieOnPreMadeListDocument, options);
 }
-    `;
+export function useIsMovieOnPreMadeListLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    IsMovieOnPreMadeListQuery,
+    IsMovieOnPreMadeListQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    IsMovieOnPreMadeListQuery,
+    IsMovieOnPreMadeListQueryVariables
+  >(IsMovieOnPreMadeListDocument, options);
+}
+export type IsMovieOnPreMadeListQueryHookResult = ReturnType<
+  typeof useIsMovieOnPreMadeListQuery
+>;
+export type IsMovieOnPreMadeListLazyQueryHookResult = ReturnType<
+  typeof useIsMovieOnPreMadeListLazyQuery
+>;
+export type IsMovieOnPreMadeListQueryResult = Apollo.QueryResult<
+  IsMovieOnPreMadeListQuery,
+  IsMovieOnPreMadeListQueryVariables
+>;
+export const IsMovieOnListDocument = gql`
+  query IsMovieOnList($postId: Int!) {
+    isMovieOnList(postId: $postId)
+  }
+`;
 
 /**
  * __useIsMovieOnListQuery__
@@ -1574,25 +2481,48 @@ export const IsMovieOnListDocument = gql`
  *   },
  * });
  */
-export function useIsMovieOnListQuery(baseOptions: Apollo.QueryHookOptions<IsMovieOnListQuery, IsMovieOnListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IsMovieOnListQuery, IsMovieOnListQueryVariables>(IsMovieOnListDocument, options);
-      }
-export function useIsMovieOnListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsMovieOnListQuery, IsMovieOnListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IsMovieOnListQuery, IsMovieOnListQueryVariables>(IsMovieOnListDocument, options);
-        }
-export type IsMovieOnListQueryHookResult = ReturnType<typeof useIsMovieOnListQuery>;
-export type IsMovieOnListLazyQueryHookResult = ReturnType<typeof useIsMovieOnListLazyQuery>;
-export type IsMovieOnListQueryResult = Apollo.QueryResult<IsMovieOnListQuery, IsMovieOnListQueryVariables>;
-export const FindUserListNamesDocument = gql`
-    query FindUserListNames($userId: String!) {
-  userLists(userId: $userId) {
-    id
-    name
-  }
+export function useIsMovieOnListQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    IsMovieOnListQuery,
+    IsMovieOnListQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<IsMovieOnListQuery, IsMovieOnListQueryVariables>(
+    IsMovieOnListDocument,
+    options,
+  );
 }
-    `;
+export function useIsMovieOnListLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    IsMovieOnListQuery,
+    IsMovieOnListQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<IsMovieOnListQuery, IsMovieOnListQueryVariables>(
+    IsMovieOnListDocument,
+    options,
+  );
+}
+export type IsMovieOnListQueryHookResult = ReturnType<
+  typeof useIsMovieOnListQuery
+>;
+export type IsMovieOnListLazyQueryHookResult = ReturnType<
+  typeof useIsMovieOnListLazyQuery
+>;
+export type IsMovieOnListQueryResult = Apollo.QueryResult<
+  IsMovieOnListQuery,
+  IsMovieOnListQueryVariables
+>;
+export const FindUserListNamesDocument = gql`
+  query FindUserListNames($userId: String!) {
+    userLists(userId: $userId) {
+      id
+      name
+    }
+  }
+`;
 
 /**
  * __useFindUserListNamesQuery__
@@ -1610,39 +2540,62 @@ export const FindUserListNamesDocument = gql`
  *   },
  * });
  */
-export function useFindUserListNamesQuery(baseOptions: Apollo.QueryHookOptions<FindUserListNamesQuery, FindUserListNamesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserListNamesQuery, FindUserListNamesQueryVariables>(FindUserListNamesDocument, options);
-      }
-export function useFindUserListNamesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserListNamesQuery, FindUserListNamesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserListNamesQuery, FindUserListNamesQueryVariables>(FindUserListNamesDocument, options);
-        }
-export type FindUserListNamesQueryHookResult = ReturnType<typeof useFindUserListNamesQuery>;
-export type FindUserListNamesLazyQueryHookResult = ReturnType<typeof useFindUserListNamesLazyQuery>;
-export type FindUserListNamesQueryResult = Apollo.QueryResult<FindUserListNamesQuery, FindUserListNamesQueryVariables>;
+export function useFindUserListNamesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserListNamesQuery,
+    FindUserListNamesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserListNamesQuery,
+    FindUserListNamesQueryVariables
+  >(FindUserListNamesDocument, options);
+}
+export function useFindUserListNamesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserListNamesQuery,
+    FindUserListNamesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserListNamesQuery,
+    FindUserListNamesQueryVariables
+  >(FindUserListNamesDocument, options);
+}
+export type FindUserListNamesQueryHookResult = ReturnType<
+  typeof useFindUserListNamesQuery
+>;
+export type FindUserListNamesLazyQueryHookResult = ReturnType<
+  typeof useFindUserListNamesLazyQuery
+>;
+export type FindUserListNamesQueryResult = Apollo.QueryResult<
+  FindUserListNamesQuery,
+  FindUserListNamesQueryVariables
+>;
 export const FindUserListsDocument = gql`
-    query FindUserLists($userId: String!, $sort: ListSortInput) {
-  userLists(userId: $userId, sort: $sort) {
-    name
-    isPrivate
-    user {
-      id
-      username
-      profilePictureUrl
-    }
-    post {
-      id
-      body
-    }
-    movies {
-      id
-      originalTitle
-      posterUrl
+  query FindUserLists($userId: String!, $sort: ListSortInput) {
+    userLists(userId: $userId, sort: $sort) {
+      name
+      isPrivate
+      user {
+        id
+        username
+        profilePictureUrl
+      }
+      post {
+        id
+        body
+      }
+      movies {
+        id
+        originalTitle
+        posterUrl
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useFindUserListsQuery__
@@ -1661,36 +2614,59 @@ export const FindUserListsDocument = gql`
  *   },
  * });
  */
-export function useFindUserListsQuery(baseOptions: Apollo.QueryHookOptions<FindUserListsQuery, FindUserListsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserListsQuery, FindUserListsQueryVariables>(FindUserListsDocument, options);
-      }
-export function useFindUserListsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserListsQuery, FindUserListsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserListsQuery, FindUserListsQueryVariables>(FindUserListsDocument, options);
-        }
-export type FindUserListsQueryHookResult = ReturnType<typeof useFindUserListsQuery>;
-export type FindUserListsLazyQueryHookResult = ReturnType<typeof useFindUserListsLazyQuery>;
-export type FindUserListsQueryResult = Apollo.QueryResult<FindUserListsQuery, FindUserListsQueryVariables>;
+export function useFindUserListsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserListsQuery,
+    FindUserListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindUserListsQuery, FindUserListsQueryVariables>(
+    FindUserListsDocument,
+    options,
+  );
+}
+export function useFindUserListsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserListsQuery,
+    FindUserListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindUserListsQuery, FindUserListsQueryVariables>(
+    FindUserListsDocument,
+    options,
+  );
+}
+export type FindUserListsQueryHookResult = ReturnType<
+  typeof useFindUserListsQuery
+>;
+export type FindUserListsLazyQueryHookResult = ReturnType<
+  typeof useFindUserListsLazyQuery
+>;
+export type FindUserListsQueryResult = Apollo.QueryResult<
+  FindUserListsQuery,
+  FindUserListsQueryVariables
+>;
 export const FindUserListDocument = gql`
-    query FindUserList($postId: Int!) {
-  userList(postId: $postId) {
-    id
-    name
-    backgroundImageUrl
-    user {
+  query FindUserList($postId: Int!) {
+    userList(postId: $postId) {
       id
-      username
-      profilePictureUrl
-    }
-    post {
-      id
-      body
-      createdAt
+      name
+      backgroundImageUrl
+      user {
+        id
+        username
+        profilePictureUrl
+      }
+      post {
+        id
+        body
+        createdAt
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useFindUserListQuery__
@@ -1708,41 +2684,64 @@ export const FindUserListDocument = gql`
  *   },
  * });
  */
-export function useFindUserListQuery(baseOptions: Apollo.QueryHookOptions<FindUserListQuery, FindUserListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserListQuery, FindUserListQueryVariables>(FindUserListDocument, options);
-      }
-export function useFindUserListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserListQuery, FindUserListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserListQuery, FindUserListQueryVariables>(FindUserListDocument, options);
-        }
-export type FindUserListQueryHookResult = ReturnType<typeof useFindUserListQuery>;
-export type FindUserListLazyQueryHookResult = ReturnType<typeof useFindUserListLazyQuery>;
-export type FindUserListQueryResult = Apollo.QueryResult<FindUserListQuery, FindUserListQueryVariables>;
+export function useFindUserListQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserListQuery,
+    FindUserListQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindUserListQuery, FindUserListQueryVariables>(
+    FindUserListDocument,
+    options,
+  );
+}
+export function useFindUserListLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserListQuery,
+    FindUserListQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindUserListQuery, FindUserListQueryVariables>(
+    FindUserListDocument,
+    options,
+  );
+}
+export type FindUserListQueryHookResult = ReturnType<
+  typeof useFindUserListQuery
+>;
+export type FindUserListLazyQueryHookResult = ReturnType<
+  typeof useFindUserListLazyQuery
+>;
+export type FindUserListQueryResult = Apollo.QueryResult<
+  FindUserListQuery,
+  FindUserListQueryVariables
+>;
 export const FindMoviePopularListsDocument = gql`
-    query FindMoviePopularLists($movieId: Int!) {
-  moviePopularLists(movieId: $movieId) {
-    id
-    name
-    backgroundImageUrl
-    user {
+  query FindMoviePopularLists($movieId: Int!) {
+    moviePopularLists(movieId: $movieId) {
       id
-      username
-      profilePictureUrl
-    }
-    post {
-      id
-      body
-      createdAt
-    }
-    movies {
-      id
-      originalTitle
-      posterUrl
+      name
+      backgroundImageUrl
+      user {
+        id
+        username
+        profilePictureUrl
+      }
+      post {
+        id
+        body
+        createdAt
+      }
+      movies {
+        id
+        originalTitle
+        posterUrl
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useFindMoviePopularListsQuery__
@@ -1760,26 +2759,52 @@ export const FindMoviePopularListsDocument = gql`
  *   },
  * });
  */
-export function useFindMoviePopularListsQuery(baseOptions: Apollo.QueryHookOptions<FindMoviePopularListsQuery, FindMoviePopularListsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindMoviePopularListsQuery, FindMoviePopularListsQueryVariables>(FindMoviePopularListsDocument, options);
-      }
-export function useFindMoviePopularListsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMoviePopularListsQuery, FindMoviePopularListsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindMoviePopularListsQuery, FindMoviePopularListsQueryVariables>(FindMoviePopularListsDocument, options);
-        }
-export type FindMoviePopularListsQueryHookResult = ReturnType<typeof useFindMoviePopularListsQuery>;
-export type FindMoviePopularListsLazyQueryHookResult = ReturnType<typeof useFindMoviePopularListsLazyQuery>;
-export type FindMoviePopularListsQueryResult = Apollo.QueryResult<FindMoviePopularListsQuery, FindMoviePopularListsQueryVariables>;
-export const CreateUserListDocument = gql`
-    mutation CreateUserList($name: String!, $body: String) {
-  userListCreate(name: $name, body: $body) {
-    id
-    name
-  }
+export function useFindMoviePopularListsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >(FindMoviePopularListsDocument, options);
 }
-    `;
-export type CreateUserListMutationFn = Apollo.MutationFunction<CreateUserListMutation, CreateUserListMutationVariables>;
+export function useFindMoviePopularListsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindMoviePopularListsQuery,
+    FindMoviePopularListsQueryVariables
+  >(FindMoviePopularListsDocument, options);
+}
+export type FindMoviePopularListsQueryHookResult = ReturnType<
+  typeof useFindMoviePopularListsQuery
+>;
+export type FindMoviePopularListsLazyQueryHookResult = ReturnType<
+  typeof useFindMoviePopularListsLazyQuery
+>;
+export type FindMoviePopularListsQueryResult = Apollo.QueryResult<
+  FindMoviePopularListsQuery,
+  FindMoviePopularListsQueryVariables
+>;
+export const CreateUserListDocument = gql`
+  mutation CreateUserList($name: String!, $body: String) {
+    userListCreate(name: $name, body: $body) {
+      id
+      name
+    }
+  }
+`;
+export type CreateUserListMutationFn = Apollo.MutationFunction<
+  CreateUserListMutation,
+  CreateUserListMutationVariables
+>;
 
 /**
  * __useCreateUserListMutation__
@@ -1799,19 +2824,36 @@ export type CreateUserListMutationFn = Apollo.MutationFunction<CreateUserListMut
  *   },
  * });
  */
-export function useCreateUserListMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserListMutation, CreateUserListMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateUserListMutation, CreateUserListMutationVariables>(CreateUserListDocument, options);
-      }
-export type CreateUserListMutationHookResult = ReturnType<typeof useCreateUserListMutation>;
-export type CreateUserListMutationResult = Apollo.MutationResult<CreateUserListMutation>;
-export type CreateUserListMutationOptions = Apollo.BaseMutationOptions<CreateUserListMutation, CreateUserListMutationVariables>;
-export const DeleteUserListDocument = gql`
-    mutation DeleteUserList($listId: String!) {
-  userListDelete(listId: $listId)
+export function useCreateUserListMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUserListMutation,
+    CreateUserListMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateUserListMutation,
+    CreateUserListMutationVariables
+  >(CreateUserListDocument, options);
 }
-    `;
-export type DeleteUserListMutationFn = Apollo.MutationFunction<DeleteUserListMutation, DeleteUserListMutationVariables>;
+export type CreateUserListMutationHookResult = ReturnType<
+  typeof useCreateUserListMutation
+>;
+export type CreateUserListMutationResult =
+  Apollo.MutationResult<CreateUserListMutation>;
+export type CreateUserListMutationOptions = Apollo.BaseMutationOptions<
+  CreateUserListMutation,
+  CreateUserListMutationVariables
+>;
+export const DeleteUserListDocument = gql`
+  mutation DeleteUserList($listId: String!) {
+    userListDelete(listId: $listId)
+  }
+`;
+export type DeleteUserListMutationFn = Apollo.MutationFunction<
+  DeleteUserListMutation,
+  DeleteUserListMutationVariables
+>;
 
 /**
  * __useDeleteUserListMutation__
@@ -1830,23 +2872,40 @@ export type DeleteUserListMutationFn = Apollo.MutationFunction<DeleteUserListMut
  *   },
  * });
  */
-export function useDeleteUserListMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserListMutation, DeleteUserListMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteUserListMutation, DeleteUserListMutationVariables>(DeleteUserListDocument, options);
-      }
-export type DeleteUserListMutationHookResult = ReturnType<typeof useDeleteUserListMutation>;
-export type DeleteUserListMutationResult = Apollo.MutationResult<DeleteUserListMutation>;
-export type DeleteUserListMutationOptions = Apollo.BaseMutationOptions<DeleteUserListMutation, DeleteUserListMutationVariables>;
+export function useDeleteUserListMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteUserListMutation,
+    DeleteUserListMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteUserListMutation,
+    DeleteUserListMutationVariables
+  >(DeleteUserListDocument, options);
+}
+export type DeleteUserListMutationHookResult = ReturnType<
+  typeof useDeleteUserListMutation
+>;
+export type DeleteUserListMutationResult =
+  Apollo.MutationResult<DeleteUserListMutation>;
+export type DeleteUserListMutationOptions = Apollo.BaseMutationOptions<
+  DeleteUserListMutation,
+  DeleteUserListMutationVariables
+>;
 export const AddMovieToListDocument = gql`
-    mutation AddMovieToList($movieId: Int!, $listId: String!) {
-  userListAddMovie(movieId: $movieId, listId: $listId) {
-    movie {
-      originalTitle
+  mutation AddMovieToList($movieId: Int!, $listId: String!) {
+    userListAddMovie(movieId: $movieId, listId: $listId) {
+      movie {
+        originalTitle
+      }
     }
   }
-}
-    `;
-export type AddMovieToListMutationFn = Apollo.MutationFunction<AddMovieToListMutation, AddMovieToListMutationVariables>;
+`;
+export type AddMovieToListMutationFn = Apollo.MutationFunction<
+  AddMovieToListMutation,
+  AddMovieToListMutationVariables
+>;
 
 /**
  * __useAddMovieToListMutation__
@@ -1866,19 +2925,36 @@ export type AddMovieToListMutationFn = Apollo.MutationFunction<AddMovieToListMut
  *   },
  * });
  */
-export function useAddMovieToListMutation(baseOptions?: Apollo.MutationHookOptions<AddMovieToListMutation, AddMovieToListMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddMovieToListMutation, AddMovieToListMutationVariables>(AddMovieToListDocument, options);
-      }
-export type AddMovieToListMutationHookResult = ReturnType<typeof useAddMovieToListMutation>;
-export type AddMovieToListMutationResult = Apollo.MutationResult<AddMovieToListMutation>;
-export type AddMovieToListMutationOptions = Apollo.BaseMutationOptions<AddMovieToListMutation, AddMovieToListMutationVariables>;
-export const RemoveMovieFromListDocument = gql`
-    mutation RemoveMovieFromList($movieId: Int!, $listId: String!) {
-  userListRemoveMovie(movieId: $movieId, listId: $listId)
+export function useAddMovieToListMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddMovieToListMutation,
+    AddMovieToListMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    AddMovieToListMutation,
+    AddMovieToListMutationVariables
+  >(AddMovieToListDocument, options);
 }
-    `;
-export type RemoveMovieFromListMutationFn = Apollo.MutationFunction<RemoveMovieFromListMutation, RemoveMovieFromListMutationVariables>;
+export type AddMovieToListMutationHookResult = ReturnType<
+  typeof useAddMovieToListMutation
+>;
+export type AddMovieToListMutationResult =
+  Apollo.MutationResult<AddMovieToListMutation>;
+export type AddMovieToListMutationOptions = Apollo.BaseMutationOptions<
+  AddMovieToListMutation,
+  AddMovieToListMutationVariables
+>;
+export const RemoveMovieFromListDocument = gql`
+  mutation RemoveMovieFromList($movieId: Int!, $listId: String!) {
+    userListRemoveMovie(movieId: $movieId, listId: $listId)
+  }
+`;
+export type RemoveMovieFromListMutationFn = Apollo.MutationFunction<
+  RemoveMovieFromListMutation,
+  RemoveMovieFromListMutationVariables
+>;
 
 /**
  * __useRemoveMovieFromListMutation__
@@ -1898,20 +2974,35 @@ export type RemoveMovieFromListMutationFn = Apollo.MutationFunction<RemoveMovieF
  *   },
  * });
  */
-export function useRemoveMovieFromListMutation(baseOptions?: Apollo.MutationHookOptions<RemoveMovieFromListMutation, RemoveMovieFromListMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveMovieFromListMutation, RemoveMovieFromListMutationVariables>(RemoveMovieFromListDocument, options);
-      }
-export type RemoveMovieFromListMutationHookResult = ReturnType<typeof useRemoveMovieFromListMutation>;
-export type RemoveMovieFromListMutationResult = Apollo.MutationResult<RemoveMovieFromListMutation>;
-export type RemoveMovieFromListMutationOptions = Apollo.BaseMutationOptions<RemoveMovieFromListMutation, RemoveMovieFromListMutationVariables>;
-export const FindMovieDocument = gql`
-    query FindMovie($movieId: Int!) {
-  movie(movieId: $movieId) {
-    ...MovieFields
-  }
+export function useRemoveMovieFromListMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RemoveMovieFromListMutation,
+    RemoveMovieFromListMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RemoveMovieFromListMutation,
+    RemoveMovieFromListMutationVariables
+  >(RemoveMovieFromListDocument, options);
 }
-    ${MovieFieldsFragmentDoc}`;
+export type RemoveMovieFromListMutationHookResult = ReturnType<
+  typeof useRemoveMovieFromListMutation
+>;
+export type RemoveMovieFromListMutationResult =
+  Apollo.MutationResult<RemoveMovieFromListMutation>;
+export type RemoveMovieFromListMutationOptions = Apollo.BaseMutationOptions<
+  RemoveMovieFromListMutation,
+  RemoveMovieFromListMutationVariables
+>;
+export const FindMovieDocument = gql`
+  query FindMovie($movieId: Int!) {
+    movie(movieId: $movieId) {
+      ...MovieFields
+    }
+  }
+  ${MovieFieldsFragmentDoc}
+`;
 
 /**
  * __useFindMovieQuery__
@@ -1929,38 +3020,57 @@ export const FindMovieDocument = gql`
  *   },
  * });
  */
-export function useFindMovieQuery(baseOptions: Apollo.QueryHookOptions<FindMovieQuery, FindMovieQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindMovieQuery, FindMovieQueryVariables>(FindMovieDocument, options);
-      }
-export function useFindMovieLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMovieQuery, FindMovieQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindMovieQuery, FindMovieQueryVariables>(FindMovieDocument, options);
-        }
+export function useFindMovieQuery(
+  baseOptions: Apollo.QueryHookOptions<FindMovieQuery, FindMovieQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindMovieQuery, FindMovieQueryVariables>(
+    FindMovieDocument,
+    options,
+  );
+}
+export function useFindMovieLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMovieQuery,
+    FindMovieQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindMovieQuery, FindMovieQueryVariables>(
+    FindMovieDocument,
+    options,
+  );
+}
 export type FindMovieQueryHookResult = ReturnType<typeof useFindMovieQuery>;
-export type FindMovieLazyQueryHookResult = ReturnType<typeof useFindMovieLazyQuery>;
-export type FindMovieQueryResult = Apollo.QueryResult<FindMovieQuery, FindMovieQueryVariables>;
+export type FindMovieLazyQueryHookResult = ReturnType<
+  typeof useFindMovieLazyQuery
+>;
+export type FindMovieQueryResult = Apollo.QueryResult<
+  FindMovieQuery,
+  FindMovieQueryVariables
+>;
 export const FindFullMovieDocument = gql`
-    query FindFullMovie($movieId: Int!) {
-  movie(movieId: $movieId) {
-    ...MovieFields
-    credits {
-      cast {
-        id
-        character
-        originalName
-        profilePictureUrl
-      }
-      crew {
-        id
-        popularity
-        department
-        originalName
+  query FindFullMovie($movieId: Int!) {
+    movie(movieId: $movieId) {
+      ...MovieFields
+      credits {
+        cast {
+          id
+          character
+          originalName
+          profilePictureUrl
+        }
+        crew {
+          id
+          popularity
+          department
+          originalName
+        }
       }
     }
   }
-}
-    ${MovieFieldsFragmentDoc}`;
+  ${MovieFieldsFragmentDoc}
+`;
 
 /**
  * __useFindFullMovieQuery__
@@ -1978,30 +3088,53 @@ export const FindFullMovieDocument = gql`
  *   },
  * });
  */
-export function useFindFullMovieQuery(baseOptions: Apollo.QueryHookOptions<FindFullMovieQuery, FindFullMovieQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindFullMovieQuery, FindFullMovieQueryVariables>(FindFullMovieDocument, options);
-      }
-export function useFindFullMovieLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindFullMovieQuery, FindFullMovieQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindFullMovieQuery, FindFullMovieQueryVariables>(FindFullMovieDocument, options);
-        }
-export type FindFullMovieQueryHookResult = ReturnType<typeof useFindFullMovieQuery>;
-export type FindFullMovieLazyQueryHookResult = ReturnType<typeof useFindFullMovieLazyQuery>;
-export type FindFullMovieQueryResult = Apollo.QueryResult<FindFullMovieQuery, FindFullMovieQueryVariables>;
+export function useFindFullMovieQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindFullMovieQuery,
+    FindFullMovieQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindFullMovieQuery, FindFullMovieQueryVariables>(
+    FindFullMovieDocument,
+    options,
+  );
+}
+export function useFindFullMovieLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindFullMovieQuery,
+    FindFullMovieQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindFullMovieQuery, FindFullMovieQueryVariables>(
+    FindFullMovieDocument,
+    options,
+  );
+}
+export type FindFullMovieQueryHookResult = ReturnType<
+  typeof useFindFullMovieQuery
+>;
+export type FindFullMovieLazyQueryHookResult = ReturnType<
+  typeof useFindFullMovieLazyQuery
+>;
+export type FindFullMovieQueryResult = Apollo.QueryResult<
+  FindFullMovieQuery,
+  FindFullMovieQueryVariables
+>;
 export const SearchMovieDocument = gql`
-    query SearchMovie($searchTerm: String!) {
-  searchMovie(searchTerm: $searchTerm) {
-    page
-    results {
-      id
-      posterUrl
-      originalTitle
-      releaseDate
+  query SearchMovie($searchTerm: String!) {
+    searchMovie(searchTerm: $searchTerm) {
+      page
+      results {
+        id
+        posterUrl
+        originalTitle
+        releaseDate
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useSearchMovieQuery__
@@ -2019,29 +3152,50 @@ export const SearchMovieDocument = gql`
  *   },
  * });
  */
-export function useSearchMovieQuery(baseOptions: Apollo.QueryHookOptions<SearchMovieQuery, SearchMovieQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchMovieQuery, SearchMovieQueryVariables>(SearchMovieDocument, options);
-      }
-export function useSearchMovieLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchMovieQuery, SearchMovieQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchMovieQuery, SearchMovieQueryVariables>(SearchMovieDocument, options);
-        }
+export function useSearchMovieQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    SearchMovieQuery,
+    SearchMovieQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SearchMovieQuery, SearchMovieQueryVariables>(
+    SearchMovieDocument,
+    options,
+  );
+}
+export function useSearchMovieLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SearchMovieQuery,
+    SearchMovieQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SearchMovieQuery, SearchMovieQueryVariables>(
+    SearchMovieDocument,
+    options,
+  );
+}
 export type SearchMovieQueryHookResult = ReturnType<typeof useSearchMovieQuery>;
-export type SearchMovieLazyQueryHookResult = ReturnType<typeof useSearchMovieLazyQuery>;
-export type SearchMovieQueryResult = Apollo.QueryResult<SearchMovieQuery, SearchMovieQueryVariables>;
+export type SearchMovieLazyQueryHookResult = ReturnType<
+  typeof useSearchMovieLazyQuery
+>;
+export type SearchMovieQueryResult = Apollo.QueryResult<
+  SearchMovieQuery,
+  SearchMovieQueryVariables
+>;
 export const FindTrendingMoviesDocument = gql`
-    query FindTrendingMovies($page: Int!) {
-  trendingMovies(page: $page) @connection(key: "trendingMovies") {
-    page
-    results {
-      id
-      originalTitle
-      posterUrl
+  query FindTrendingMovies($page: Int!) {
+    trendingMovies(page: $page) @connection(key: "trendingMovies") {
+      page
+      results {
+        id
+        originalTitle
+        posterUrl
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useFindTrendingMoviesQuery__
@@ -2059,26 +3213,49 @@ export const FindTrendingMoviesDocument = gql`
  *   },
  * });
  */
-export function useFindTrendingMoviesQuery(baseOptions: Apollo.QueryHookOptions<FindTrendingMoviesQuery, FindTrendingMoviesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindTrendingMoviesQuery, FindTrendingMoviesQueryVariables>(FindTrendingMoviesDocument, options);
-      }
-export function useFindTrendingMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindTrendingMoviesQuery, FindTrendingMoviesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindTrendingMoviesQuery, FindTrendingMoviesQueryVariables>(FindTrendingMoviesDocument, options);
-        }
-export type FindTrendingMoviesQueryHookResult = ReturnType<typeof useFindTrendingMoviesQuery>;
-export type FindTrendingMoviesLazyQueryHookResult = ReturnType<typeof useFindTrendingMoviesLazyQuery>;
-export type FindTrendingMoviesQueryResult = Apollo.QueryResult<FindTrendingMoviesQuery, FindTrendingMoviesQueryVariables>;
-export const FindMovieRecommendationsDocument = gql`
-    query FindMovieRecommendations($movieId: Int!) {
-  movieRecommendations(movieId: $movieId) {
-    id
-    originalTitle
-    posterUrl
-  }
+export function useFindTrendingMoviesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindTrendingMoviesQuery,
+    FindTrendingMoviesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindTrendingMoviesQuery,
+    FindTrendingMoviesQueryVariables
+  >(FindTrendingMoviesDocument, options);
 }
-    `;
+export function useFindTrendingMoviesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindTrendingMoviesQuery,
+    FindTrendingMoviesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindTrendingMoviesQuery,
+    FindTrendingMoviesQueryVariables
+  >(FindTrendingMoviesDocument, options);
+}
+export type FindTrendingMoviesQueryHookResult = ReturnType<
+  typeof useFindTrendingMoviesQuery
+>;
+export type FindTrendingMoviesLazyQueryHookResult = ReturnType<
+  typeof useFindTrendingMoviesLazyQuery
+>;
+export type FindTrendingMoviesQueryResult = Apollo.QueryResult<
+  FindTrendingMoviesQuery,
+  FindTrendingMoviesQueryVariables
+>;
+export const FindMovieRecommendationsDocument = gql`
+  query FindMovieRecommendations($movieId: Int!) {
+    movieRecommendations(movieId: $movieId) {
+      id
+      originalTitle
+      posterUrl
+    }
+  }
+`;
 
 /**
  * __useFindMovieRecommendationsQuery__
@@ -2096,29 +3273,55 @@ export const FindMovieRecommendationsDocument = gql`
  *   },
  * });
  */
-export function useFindMovieRecommendationsQuery(baseOptions: Apollo.QueryHookOptions<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>(FindMovieRecommendationsDocument, options);
-      }
-export function useFindMovieRecommendationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>(FindMovieRecommendationsDocument, options);
-        }
-export type FindMovieRecommendationsQueryHookResult = ReturnType<typeof useFindMovieRecommendationsQuery>;
-export type FindMovieRecommendationsLazyQueryHookResult = ReturnType<typeof useFindMovieRecommendationsLazyQuery>;
-export type FindMovieRecommendationsQueryResult = Apollo.QueryResult<FindMovieRecommendationsQuery, FindMovieRecommendationsQueryVariables>;
+export function useFindMovieRecommendationsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >(FindMovieRecommendationsDocument, options);
+}
+export function useFindMovieRecommendationsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindMovieRecommendationsQuery,
+    FindMovieRecommendationsQueryVariables
+  >(FindMovieRecommendationsDocument, options);
+}
+export type FindMovieRecommendationsQueryHookResult = ReturnType<
+  typeof useFindMovieRecommendationsQuery
+>;
+export type FindMovieRecommendationsLazyQueryHookResult = ReturnType<
+  typeof useFindMovieRecommendationsLazyQuery
+>;
+export type FindMovieRecommendationsQueryResult = Apollo.QueryResult<
+  FindMovieRecommendationsQuery,
+  FindMovieRecommendationsQueryVariables
+>;
 export const AddMovieToPreMadeListDocument = gql`
-    mutation AddMovieToPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
-  userPreMadeListAddMovie(listType: $listType, movieId: $movieId) {
-    movie {
-      id
-      originalTitle
-      posterUrl
+  mutation AddMovieToPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
+    userPreMadeListAddMovie(listType: $listType, movieId: $movieId) {
+      movie {
+        id
+        originalTitle
+        posterUrl
+      }
     }
   }
-}
-    `;
-export type AddMovieToPreMadeListMutationFn = Apollo.MutationFunction<AddMovieToPreMadeListMutation, AddMovieToPreMadeListMutationVariables>;
+`;
+export type AddMovieToPreMadeListMutationFn = Apollo.MutationFunction<
+  AddMovieToPreMadeListMutation,
+  AddMovieToPreMadeListMutationVariables
+>;
 
 /**
  * __useAddMovieToPreMadeListMutation__
@@ -2138,19 +3341,39 @@ export type AddMovieToPreMadeListMutationFn = Apollo.MutationFunction<AddMovieTo
  *   },
  * });
  */
-export function useAddMovieToPreMadeListMutation(baseOptions?: Apollo.MutationHookOptions<AddMovieToPreMadeListMutation, AddMovieToPreMadeListMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddMovieToPreMadeListMutation, AddMovieToPreMadeListMutationVariables>(AddMovieToPreMadeListDocument, options);
-      }
-export type AddMovieToPreMadeListMutationHookResult = ReturnType<typeof useAddMovieToPreMadeListMutation>;
-export type AddMovieToPreMadeListMutationResult = Apollo.MutationResult<AddMovieToPreMadeListMutation>;
-export type AddMovieToPreMadeListMutationOptions = Apollo.BaseMutationOptions<AddMovieToPreMadeListMutation, AddMovieToPreMadeListMutationVariables>;
-export const RemoveMovieFromPreMadeListDocument = gql`
-    mutation RemoveMovieFromPreMadeList($listType: PreMadeListType!, $movieId: Int!) {
-  userPreMadeListRemoveMovie(listType: $listType, movieId: $movieId)
+export function useAddMovieToPreMadeListMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddMovieToPreMadeListMutation,
+    AddMovieToPreMadeListMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    AddMovieToPreMadeListMutation,
+    AddMovieToPreMadeListMutationVariables
+  >(AddMovieToPreMadeListDocument, options);
 }
-    `;
-export type RemoveMovieFromPreMadeListMutationFn = Apollo.MutationFunction<RemoveMovieFromPreMadeListMutation, RemoveMovieFromPreMadeListMutationVariables>;
+export type AddMovieToPreMadeListMutationHookResult = ReturnType<
+  typeof useAddMovieToPreMadeListMutation
+>;
+export type AddMovieToPreMadeListMutationResult =
+  Apollo.MutationResult<AddMovieToPreMadeListMutation>;
+export type AddMovieToPreMadeListMutationOptions = Apollo.BaseMutationOptions<
+  AddMovieToPreMadeListMutation,
+  AddMovieToPreMadeListMutationVariables
+>;
+export const RemoveMovieFromPreMadeListDocument = gql`
+  mutation RemoveMovieFromPreMadeList(
+    $listType: PreMadeListType!
+    $movieId: Int!
+  ) {
+    userPreMadeListRemoveMovie(listType: $listType, movieId: $movieId)
+  }
+`;
+export type RemoveMovieFromPreMadeListMutationFn = Apollo.MutationFunction<
+  RemoveMovieFromPreMadeListMutation,
+  RemoveMovieFromPreMadeListMutationVariables
+>;
 
 /**
  * __useRemoveMovieFromPreMadeListMutation__
@@ -2170,24 +3393,39 @@ export type RemoveMovieFromPreMadeListMutationFn = Apollo.MutationFunction<Remov
  *   },
  * });
  */
-export function useRemoveMovieFromPreMadeListMutation(baseOptions?: Apollo.MutationHookOptions<RemoveMovieFromPreMadeListMutation, RemoveMovieFromPreMadeListMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveMovieFromPreMadeListMutation, RemoveMovieFromPreMadeListMutationVariables>(RemoveMovieFromPreMadeListDocument, options);
-      }
-export type RemoveMovieFromPreMadeListMutationHookResult = ReturnType<typeof useRemoveMovieFromPreMadeListMutation>;
-export type RemoveMovieFromPreMadeListMutationResult = Apollo.MutationResult<RemoveMovieFromPreMadeListMutation>;
-export type RemoveMovieFromPreMadeListMutationOptions = Apollo.BaseMutationOptions<RemoveMovieFromPreMadeListMutation, RemoveMovieFromPreMadeListMutationVariables>;
-export const FindUserProfileStatsDocument = gql`
-    query FindUserProfileStats($userId: String!) {
-  userProfileStats(userId: $userId) {
-    followerCount
-    followingCount
-    listCount
-    moviesWatchedCount
-    moviesWatchedThisYearCount
-  }
+export function useRemoveMovieFromPreMadeListMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RemoveMovieFromPreMadeListMutation,
+    RemoveMovieFromPreMadeListMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RemoveMovieFromPreMadeListMutation,
+    RemoveMovieFromPreMadeListMutationVariables
+  >(RemoveMovieFromPreMadeListDocument, options);
 }
-    `;
+export type RemoveMovieFromPreMadeListMutationHookResult = ReturnType<
+  typeof useRemoveMovieFromPreMadeListMutation
+>;
+export type RemoveMovieFromPreMadeListMutationResult =
+  Apollo.MutationResult<RemoveMovieFromPreMadeListMutation>;
+export type RemoveMovieFromPreMadeListMutationOptions =
+  Apollo.BaseMutationOptions<
+    RemoveMovieFromPreMadeListMutation,
+    RemoveMovieFromPreMadeListMutationVariables
+  >;
+export const FindUserProfileStatsDocument = gql`
+  query FindUserProfileStats($userId: String!) {
+    userProfileStats(userId: $userId) {
+      followerCount
+      followingCount
+      listCount
+      moviesWatchedCount
+      moviesWatchedThisYearCount
+    }
+  }
+`;
 
 /**
  * __useFindUserProfileStatsQuery__
@@ -2205,33 +3443,58 @@ export const FindUserProfileStatsDocument = gql`
  *   },
  * });
  */
-export function useFindUserProfileStatsQuery(baseOptions: Apollo.QueryHookOptions<FindUserProfileStatsQuery, FindUserProfileStatsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserProfileStatsQuery, FindUserProfileStatsQueryVariables>(FindUserProfileStatsDocument, options);
-      }
-export function useFindUserProfileStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserProfileStatsQuery, FindUserProfileStatsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserProfileStatsQuery, FindUserProfileStatsQueryVariables>(FindUserProfileStatsDocument, options);
-        }
-export type FindUserProfileStatsQueryHookResult = ReturnType<typeof useFindUserProfileStatsQuery>;
-export type FindUserProfileStatsLazyQueryHookResult = ReturnType<typeof useFindUserProfileStatsLazyQuery>;
-export type FindUserProfileStatsQueryResult = Apollo.QueryResult<FindUserProfileStatsQuery, FindUserProfileStatsQueryVariables>;
+export function useFindUserProfileStatsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserProfileStatsQuery,
+    FindUserProfileStatsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserProfileStatsQuery,
+    FindUserProfileStatsQueryVariables
+  >(FindUserProfileStatsDocument, options);
+}
+export function useFindUserProfileStatsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserProfileStatsQuery,
+    FindUserProfileStatsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserProfileStatsQuery,
+    FindUserProfileStatsQueryVariables
+  >(FindUserProfileStatsDocument, options);
+}
+export type FindUserProfileStatsQueryHookResult = ReturnType<
+  typeof useFindUserProfileStatsQuery
+>;
+export type FindUserProfileStatsLazyQueryHookResult = ReturnType<
+  typeof useFindUserProfileStatsLazyQuery
+>;
+export type FindUserProfileStatsQueryResult = Apollo.QueryResult<
+  FindUserProfileStatsQuery,
+  FindUserProfileStatsQueryVariables
+>;
 export const FindRepliesDocument = gql`
-    query FindReplies($first: Int!, $commentaryId: String!, $after: String) {
-  replies(first: $first, commentaryId: $commentaryId, after: $after) @connection(key: "replies", filter: ["commentaryId"]) {
-    pageInfo {
-      maxItems
-      endCursor
-      hasNextPage
-    }
-    edges {
-      node {
-        ...ReplyFields
+  query FindReplies($first: Int!, $commentaryId: String!, $after: String) {
+    replies(first: $first, commentaryId: $commentaryId, after: $after)
+      @connection(key: "replies", filter: ["commentaryId"]) {
+      pageInfo {
+        maxItems
+        endCursor
+        hasNextPage
+      }
+      edges {
+        node {
+          ...ReplyFields
+        }
       }
     }
   }
-}
-    ${ReplyFieldsFragmentDoc}`;
+  ${ReplyFieldsFragmentDoc}
+`;
 
 /**
  * __useFindRepliesQuery__
@@ -2251,25 +3514,50 @@ export const FindRepliesDocument = gql`
  *   },
  * });
  */
-export function useFindRepliesQuery(baseOptions: Apollo.QueryHookOptions<FindRepliesQuery, FindRepliesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindRepliesQuery, FindRepliesQueryVariables>(FindRepliesDocument, options);
-      }
-export function useFindRepliesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRepliesQuery, FindRepliesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindRepliesQuery, FindRepliesQueryVariables>(FindRepliesDocument, options);
-        }
-export type FindRepliesQueryHookResult = ReturnType<typeof useFindRepliesQuery>;
-export type FindRepliesLazyQueryHookResult = ReturnType<typeof useFindRepliesLazyQuery>;
-export type FindRepliesQueryResult = Apollo.QueryResult<FindRepliesQuery, FindRepliesQueryVariables>;
-export const AddReplyDocument = gql`
-    mutation AddReply($body: String!, $commentaryId: String!) {
-  reply(body: $body, commentaryId: $commentaryId) {
-    ...ReplyFields
-  }
+export function useFindRepliesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindRepliesQuery,
+    FindRepliesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindRepliesQuery, FindRepliesQueryVariables>(
+    FindRepliesDocument,
+    options,
+  );
 }
-    ${ReplyFieldsFragmentDoc}`;
-export type AddReplyMutationFn = Apollo.MutationFunction<AddReplyMutation, AddReplyMutationVariables>;
+export function useFindRepliesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindRepliesQuery,
+    FindRepliesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindRepliesQuery, FindRepliesQueryVariables>(
+    FindRepliesDocument,
+    options,
+  );
+}
+export type FindRepliesQueryHookResult = ReturnType<typeof useFindRepliesQuery>;
+export type FindRepliesLazyQueryHookResult = ReturnType<
+  typeof useFindRepliesLazyQuery
+>;
+export type FindRepliesQueryResult = Apollo.QueryResult<
+  FindRepliesQuery,
+  FindRepliesQueryVariables
+>;
+export const AddReplyDocument = gql`
+  mutation AddReply($body: String!, $commentaryId: String!) {
+    reply(body: $body, commentaryId: $commentaryId) {
+      ...ReplyFields
+    }
+  }
+  ${ReplyFieldsFragmentDoc}
+`;
+export type AddReplyMutationFn = Apollo.MutationFunction<
+  AddReplyMutation,
+  AddReplyMutationVariables
+>;
 
 /**
  * __useAddReplyMutation__
@@ -2289,19 +3577,33 @@ export type AddReplyMutationFn = Apollo.MutationFunction<AddReplyMutation, AddRe
  *   },
  * });
  */
-export function useAddReplyMutation(baseOptions?: Apollo.MutationHookOptions<AddReplyMutation, AddReplyMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddReplyMutation, AddReplyMutationVariables>(AddReplyDocument, options);
-      }
+export function useAddReplyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddReplyMutation,
+    AddReplyMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddReplyMutation, AddReplyMutationVariables>(
+    AddReplyDocument,
+    options,
+  );
+}
 export type AddReplyMutationHookResult = ReturnType<typeof useAddReplyMutation>;
 export type AddReplyMutationResult = Apollo.MutationResult<AddReplyMutation>;
-export type AddReplyMutationOptions = Apollo.BaseMutationOptions<AddReplyMutation, AddReplyMutationVariables>;
+export type AddReplyMutationOptions = Apollo.BaseMutationOptions<
+  AddReplyMutation,
+  AddReplyMutationVariables
+>;
 export const DeleteReplyDocument = gql`
-    mutation DeleteReply($replyId: String!) {
-  deleteReply(replyId: $replyId)
-}
-    `;
-export type DeleteReplyMutationFn = Apollo.MutationFunction<DeleteReplyMutation, DeleteReplyMutationVariables>;
+  mutation DeleteReply($replyId: String!) {
+    deleteReply(replyId: $replyId)
+  }
+`;
+export type DeleteReplyMutationFn = Apollo.MutationFunction<
+  DeleteReplyMutation,
+  DeleteReplyMutationVariables
+>;
 
 /**
  * __useDeleteReplyMutation__
@@ -2320,44 +3622,58 @@ export type DeleteReplyMutationFn = Apollo.MutationFunction<DeleteReplyMutation,
  *   },
  * });
  */
-export function useDeleteReplyMutation(baseOptions?: Apollo.MutationHookOptions<DeleteReplyMutation, DeleteReplyMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteReplyMutation, DeleteReplyMutationVariables>(DeleteReplyDocument, options);
-      }
-export type DeleteReplyMutationHookResult = ReturnType<typeof useDeleteReplyMutation>;
-export type DeleteReplyMutationResult = Apollo.MutationResult<DeleteReplyMutation>;
-export type DeleteReplyMutationOptions = Apollo.BaseMutationOptions<DeleteReplyMutation, DeleteReplyMutationVariables>;
+export function useDeleteReplyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteReplyMutation,
+    DeleteReplyMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteReplyMutation, DeleteReplyMutationVariables>(
+    DeleteReplyDocument,
+    options,
+  );
+}
+export type DeleteReplyMutationHookResult = ReturnType<
+  typeof useDeleteReplyMutation
+>;
+export type DeleteReplyMutationResult =
+  Apollo.MutationResult<DeleteReplyMutation>;
+export type DeleteReplyMutationOptions = Apollo.BaseMutationOptions<
+  DeleteReplyMutation,
+  DeleteReplyMutationVariables
+>;
 export const FindReviewDocument = gql`
-    query FindReview($postId: Int!) {
-  review(postId: $postId) {
-    id
-    isPinned
-    user {
-      username
-      profilePictureUrl
-    }
-    post {
+  query FindReview($postId: Int!) {
+    review(postId: $postId) {
       id
-      body
-      createdAt
-    }
-    movie {
-      id
-      originalTitle
-      runtime
-      posterUrl
-      backdropUrl
-      releaseDate
-      credits {
-        crew {
-          department
-          originalName
+      isPinned
+      user {
+        username
+        profilePictureUrl
+      }
+      post {
+        id
+        body
+        createdAt
+      }
+      movie {
+        id
+        originalTitle
+        runtime
+        posterUrl
+        backdropUrl
+        releaseDate
+        credits {
+          crew {
+            department
+            originalName
+          }
         }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useFindReviewQuery__
@@ -2375,24 +3691,46 @@ export const FindReviewDocument = gql`
  *   },
  * });
  */
-export function useFindReviewQuery(baseOptions: Apollo.QueryHookOptions<FindReviewQuery, FindReviewQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindReviewQuery, FindReviewQueryVariables>(FindReviewDocument, options);
-      }
-export function useFindReviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindReviewQuery, FindReviewQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindReviewQuery, FindReviewQueryVariables>(FindReviewDocument, options);
-        }
-export type FindReviewQueryHookResult = ReturnType<typeof useFindReviewQuery>;
-export type FindReviewLazyQueryHookResult = ReturnType<typeof useFindReviewLazyQuery>;
-export type FindReviewQueryResult = Apollo.QueryResult<FindReviewQuery, FindReviewQueryVariables>;
-export const FindUserRecentReviewsDocument = gql`
-    query FindUserRecentReviews($userId: String!) {
-  reviewsUserRecent(userId: $userId) {
-    ...BasicReviewFields
-  }
+export function useFindReviewQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindReviewQuery,
+    FindReviewQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindReviewQuery, FindReviewQueryVariables>(
+    FindReviewDocument,
+    options,
+  );
 }
-    ${BasicReviewFieldsFragmentDoc}`;
+export function useFindReviewLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindReviewQuery,
+    FindReviewQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindReviewQuery, FindReviewQueryVariables>(
+    FindReviewDocument,
+    options,
+  );
+}
+export type FindReviewQueryHookResult = ReturnType<typeof useFindReviewQuery>;
+export type FindReviewLazyQueryHookResult = ReturnType<
+  typeof useFindReviewLazyQuery
+>;
+export type FindReviewQueryResult = Apollo.QueryResult<
+  FindReviewQuery,
+  FindReviewQueryVariables
+>;
+export const FindUserRecentReviewsDocument = gql`
+  query FindUserRecentReviews($userId: String!) {
+    reviewsUserRecent(userId: $userId) {
+      ...BasicReviewFields
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindUserRecentReviewsQuery__
@@ -2410,24 +3748,48 @@ export const FindUserRecentReviewsDocument = gql`
  *   },
  * });
  */
-export function useFindUserRecentReviewsQuery(baseOptions: Apollo.QueryHookOptions<FindUserRecentReviewsQuery, FindUserRecentReviewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserRecentReviewsQuery, FindUserRecentReviewsQueryVariables>(FindUserRecentReviewsDocument, options);
-      }
-export function useFindUserRecentReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserRecentReviewsQuery, FindUserRecentReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserRecentReviewsQuery, FindUserRecentReviewsQueryVariables>(FindUserRecentReviewsDocument, options);
-        }
-export type FindUserRecentReviewsQueryHookResult = ReturnType<typeof useFindUserRecentReviewsQuery>;
-export type FindUserRecentReviewsLazyQueryHookResult = ReturnType<typeof useFindUserRecentReviewsLazyQuery>;
-export type FindUserRecentReviewsQueryResult = Apollo.QueryResult<FindUserRecentReviewsQuery, FindUserRecentReviewsQueryVariables>;
-export const FindUserPopularReviewsDocument = gql`
-    query FindUserPopularReviews($userId: String!) {
-  reviewsUserPopular(userId: $userId) {
-    ...BasicReviewFields
-  }
+export function useFindUserRecentReviewsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserRecentReviewsQuery,
+    FindUserRecentReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserRecentReviewsQuery,
+    FindUserRecentReviewsQueryVariables
+  >(FindUserRecentReviewsDocument, options);
 }
-    ${BasicReviewFieldsFragmentDoc}`;
+export function useFindUserRecentReviewsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserRecentReviewsQuery,
+    FindUserRecentReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserRecentReviewsQuery,
+    FindUserRecentReviewsQueryVariables
+  >(FindUserRecentReviewsDocument, options);
+}
+export type FindUserRecentReviewsQueryHookResult = ReturnType<
+  typeof useFindUserRecentReviewsQuery
+>;
+export type FindUserRecentReviewsLazyQueryHookResult = ReturnType<
+  typeof useFindUserRecentReviewsLazyQuery
+>;
+export type FindUserRecentReviewsQueryResult = Apollo.QueryResult<
+  FindUserRecentReviewsQuery,
+  FindUserRecentReviewsQueryVariables
+>;
+export const FindUserPopularReviewsDocument = gql`
+  query FindUserPopularReviews($userId: String!) {
+    reviewsUserPopular(userId: $userId) {
+      ...BasicReviewFields
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindUserPopularReviewsQuery__
@@ -2445,25 +3807,49 @@ export const FindUserPopularReviewsDocument = gql`
  *   },
  * });
  */
-export function useFindUserPopularReviewsQuery(baseOptions: Apollo.QueryHookOptions<FindUserPopularReviewsQuery, FindUserPopularReviewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserPopularReviewsQuery, FindUserPopularReviewsQueryVariables>(FindUserPopularReviewsDocument, options);
-      }
-export function useFindUserPopularReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserPopularReviewsQuery, FindUserPopularReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserPopularReviewsQuery, FindUserPopularReviewsQueryVariables>(FindUserPopularReviewsDocument, options);
-        }
-export type FindUserPopularReviewsQueryHookResult = ReturnType<typeof useFindUserPopularReviewsQuery>;
-export type FindUserPopularReviewsLazyQueryHookResult = ReturnType<typeof useFindUserPopularReviewsLazyQuery>;
-export type FindUserPopularReviewsQueryResult = Apollo.QueryResult<FindUserPopularReviewsQuery, FindUserPopularReviewsQueryVariables>;
-export const FindUserPinnedReviewsDocument = gql`
-    query FindUserPinnedReviews($userId: String!) {
-  reviewsUserPinned(userId: $userId) {
-    ...BasicReviewFields
-    isPinned
-  }
+export function useFindUserPopularReviewsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserPopularReviewsQuery,
+    FindUserPopularReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserPopularReviewsQuery,
+    FindUserPopularReviewsQueryVariables
+  >(FindUserPopularReviewsDocument, options);
 }
-    ${BasicReviewFieldsFragmentDoc}`;
+export function useFindUserPopularReviewsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserPopularReviewsQuery,
+    FindUserPopularReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserPopularReviewsQuery,
+    FindUserPopularReviewsQueryVariables
+  >(FindUserPopularReviewsDocument, options);
+}
+export type FindUserPopularReviewsQueryHookResult = ReturnType<
+  typeof useFindUserPopularReviewsQuery
+>;
+export type FindUserPopularReviewsLazyQueryHookResult = ReturnType<
+  typeof useFindUserPopularReviewsLazyQuery
+>;
+export type FindUserPopularReviewsQueryResult = Apollo.QueryResult<
+  FindUserPopularReviewsQuery,
+  FindUserPopularReviewsQueryVariables
+>;
+export const FindUserPinnedReviewsDocument = gql`
+  query FindUserPinnedReviews($userId: String!) {
+    reviewsUserPinned(userId: $userId) {
+      ...BasicReviewFields
+      isPinned
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindUserPinnedReviewsQuery__
@@ -2481,28 +3867,52 @@ export const FindUserPinnedReviewsDocument = gql`
  *   },
  * });
  */
-export function useFindUserPinnedReviewsQuery(baseOptions: Apollo.QueryHookOptions<FindUserPinnedReviewsQuery, FindUserPinnedReviewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserPinnedReviewsQuery, FindUserPinnedReviewsQueryVariables>(FindUserPinnedReviewsDocument, options);
-      }
-export function useFindUserPinnedReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserPinnedReviewsQuery, FindUserPinnedReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserPinnedReviewsQuery, FindUserPinnedReviewsQueryVariables>(FindUserPinnedReviewsDocument, options);
-        }
-export type FindUserPinnedReviewsQueryHookResult = ReturnType<typeof useFindUserPinnedReviewsQuery>;
-export type FindUserPinnedReviewsLazyQueryHookResult = ReturnType<typeof useFindUserPinnedReviewsLazyQuery>;
-export type FindUserPinnedReviewsQueryResult = Apollo.QueryResult<FindUserPinnedReviewsQuery, FindUserPinnedReviewsQueryVariables>;
+export function useFindUserPinnedReviewsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserPinnedReviewsQuery,
+    FindUserPinnedReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserPinnedReviewsQuery,
+    FindUserPinnedReviewsQueryVariables
+  >(FindUserPinnedReviewsDocument, options);
+}
+export function useFindUserPinnedReviewsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserPinnedReviewsQuery,
+    FindUserPinnedReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserPinnedReviewsQuery,
+    FindUserPinnedReviewsQueryVariables
+  >(FindUserPinnedReviewsDocument, options);
+}
+export type FindUserPinnedReviewsQueryHookResult = ReturnType<
+  typeof useFindUserPinnedReviewsQuery
+>;
+export type FindUserPinnedReviewsLazyQueryHookResult = ReturnType<
+  typeof useFindUserPinnedReviewsLazyQuery
+>;
+export type FindUserPinnedReviewsQueryResult = Apollo.QueryResult<
+  FindUserPinnedReviewsQuery,
+  FindUserPinnedReviewsQueryVariables
+>;
 export const FindUserReviewsDocument = gql`
-    query FindUserReviews($userId: String!, $sort: ReviewSortInput) {
-  reviewsUser(userId: $userId, sort: $sort) {
-    ...BasicReviewFields
-    isPinned
-    movie {
-      releaseDate
+  query FindUserReviews($userId: String!, $sort: ReviewSortInput) {
+    reviewsUser(userId: $userId, sort: $sort) {
+      ...BasicReviewFields
+      isPinned
+      movie {
+        releaseDate
+      }
     }
   }
-}
-    ${BasicReviewFieldsFragmentDoc}`;
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindUserReviewsQuery__
@@ -2521,24 +3931,48 @@ export const FindUserReviewsDocument = gql`
  *   },
  * });
  */
-export function useFindUserReviewsQuery(baseOptions: Apollo.QueryHookOptions<FindUserReviewsQuery, FindUserReviewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserReviewsQuery, FindUserReviewsQueryVariables>(FindUserReviewsDocument, options);
-      }
-export function useFindUserReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserReviewsQuery, FindUserReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserReviewsQuery, FindUserReviewsQueryVariables>(FindUserReviewsDocument, options);
-        }
-export type FindUserReviewsQueryHookResult = ReturnType<typeof useFindUserReviewsQuery>;
-export type FindUserReviewsLazyQueryHookResult = ReturnType<typeof useFindUserReviewsLazyQuery>;
-export type FindUserReviewsQueryResult = Apollo.QueryResult<FindUserReviewsQuery, FindUserReviewsQueryVariables>;
-export const FindRecentReviewsDocument = gql`
-    query FindRecentReviews {
-  reviewsRecent {
-    ...BasicReviewFields
-  }
+export function useFindUserReviewsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserReviewsQuery,
+    FindUserReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindUserReviewsQuery, FindUserReviewsQueryVariables>(
+    FindUserReviewsDocument,
+    options,
+  );
 }
-    ${BasicReviewFieldsFragmentDoc}`;
+export function useFindUserReviewsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserReviewsQuery,
+    FindUserReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserReviewsQuery,
+    FindUserReviewsQueryVariables
+  >(FindUserReviewsDocument, options);
+}
+export type FindUserReviewsQueryHookResult = ReturnType<
+  typeof useFindUserReviewsQuery
+>;
+export type FindUserReviewsLazyQueryHookResult = ReturnType<
+  typeof useFindUserReviewsLazyQuery
+>;
+export type FindUserReviewsQueryResult = Apollo.QueryResult<
+  FindUserReviewsQuery,
+  FindUserReviewsQueryVariables
+>;
+export const FindRecentReviewsDocument = gql`
+  query FindRecentReviews {
+    reviewsRecent {
+      ...BasicReviewFields
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindRecentReviewsQuery__
@@ -2555,24 +3989,48 @@ export const FindRecentReviewsDocument = gql`
  *   },
  * });
  */
-export function useFindRecentReviewsQuery(baseOptions?: Apollo.QueryHookOptions<FindRecentReviewsQuery, FindRecentReviewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindRecentReviewsQuery, FindRecentReviewsQueryVariables>(FindRecentReviewsDocument, options);
-      }
-export function useFindRecentReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRecentReviewsQuery, FindRecentReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindRecentReviewsQuery, FindRecentReviewsQueryVariables>(FindRecentReviewsDocument, options);
-        }
-export type FindRecentReviewsQueryHookResult = ReturnType<typeof useFindRecentReviewsQuery>;
-export type FindRecentReviewsLazyQueryHookResult = ReturnType<typeof useFindRecentReviewsLazyQuery>;
-export type FindRecentReviewsQueryResult = Apollo.QueryResult<FindRecentReviewsQuery, FindRecentReviewsQueryVariables>;
-export const FindPopularReviewsFromMovieDocument = gql`
-    query FindPopularReviewsFromMovie($movieId: Int!) {
-  reviewsPopularFromMovie(movieId: $movieId) {
-    ...BasicReviewFields
-  }
+export function useFindRecentReviewsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FindRecentReviewsQuery,
+    FindRecentReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindRecentReviewsQuery,
+    FindRecentReviewsQueryVariables
+  >(FindRecentReviewsDocument, options);
 }
-    ${BasicReviewFieldsFragmentDoc}`;
+export function useFindRecentReviewsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindRecentReviewsQuery,
+    FindRecentReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindRecentReviewsQuery,
+    FindRecentReviewsQueryVariables
+  >(FindRecentReviewsDocument, options);
+}
+export type FindRecentReviewsQueryHookResult = ReturnType<
+  typeof useFindRecentReviewsQuery
+>;
+export type FindRecentReviewsLazyQueryHookResult = ReturnType<
+  typeof useFindRecentReviewsLazyQuery
+>;
+export type FindRecentReviewsQueryResult = Apollo.QueryResult<
+  FindRecentReviewsQuery,
+  FindRecentReviewsQueryVariables
+>;
+export const FindPopularReviewsFromMovieDocument = gql`
+  query FindPopularReviewsFromMovie($movieId: Int!) {
+    reviewsPopularFromMovie(movieId: $movieId) {
+      ...BasicReviewFields
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindPopularReviewsFromMovieQuery__
@@ -2590,24 +4048,48 @@ export const FindPopularReviewsFromMovieDocument = gql`
  *   },
  * });
  */
-export function useFindPopularReviewsFromMovieQuery(baseOptions: Apollo.QueryHookOptions<FindPopularReviewsFromMovieQuery, FindPopularReviewsFromMovieQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindPopularReviewsFromMovieQuery, FindPopularReviewsFromMovieQueryVariables>(FindPopularReviewsFromMovieDocument, options);
-      }
-export function useFindPopularReviewsFromMovieLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPopularReviewsFromMovieQuery, FindPopularReviewsFromMovieQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindPopularReviewsFromMovieQuery, FindPopularReviewsFromMovieQueryVariables>(FindPopularReviewsFromMovieDocument, options);
-        }
-export type FindPopularReviewsFromMovieQueryHookResult = ReturnType<typeof useFindPopularReviewsFromMovieQuery>;
-export type FindPopularReviewsFromMovieLazyQueryHookResult = ReturnType<typeof useFindPopularReviewsFromMovieLazyQuery>;
-export type FindPopularReviewsFromMovieQueryResult = Apollo.QueryResult<FindPopularReviewsFromMovieQuery, FindPopularReviewsFromMovieQueryVariables>;
-export const FindMovieRecentReviewsDocument = gql`
-    query FindMovieRecentReviews($movieId: Int!) {
-  reviewsRecentFromMovie(movieId: $movieId) {
-    ...BasicReviewFields
-  }
+export function useFindPopularReviewsFromMovieQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindPopularReviewsFromMovieQuery,
+    FindPopularReviewsFromMovieQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindPopularReviewsFromMovieQuery,
+    FindPopularReviewsFromMovieQueryVariables
+  >(FindPopularReviewsFromMovieDocument, options);
 }
-    ${BasicReviewFieldsFragmentDoc}`;
+export function useFindPopularReviewsFromMovieLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindPopularReviewsFromMovieQuery,
+    FindPopularReviewsFromMovieQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindPopularReviewsFromMovieQuery,
+    FindPopularReviewsFromMovieQueryVariables
+  >(FindPopularReviewsFromMovieDocument, options);
+}
+export type FindPopularReviewsFromMovieQueryHookResult = ReturnType<
+  typeof useFindPopularReviewsFromMovieQuery
+>;
+export type FindPopularReviewsFromMovieLazyQueryHookResult = ReturnType<
+  typeof useFindPopularReviewsFromMovieLazyQuery
+>;
+export type FindPopularReviewsFromMovieQueryResult = Apollo.QueryResult<
+  FindPopularReviewsFromMovieQuery,
+  FindPopularReviewsFromMovieQueryVariables
+>;
+export const FindMovieRecentReviewsDocument = gql`
+  query FindMovieRecentReviews($movieId: Int!) {
+    reviewsRecentFromMovie(movieId: $movieId) {
+      ...BasicReviewFields
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindMovieRecentReviewsQuery__
@@ -2625,24 +4107,48 @@ export const FindMovieRecentReviewsDocument = gql`
  *   },
  * });
  */
-export function useFindMovieRecentReviewsQuery(baseOptions: Apollo.QueryHookOptions<FindMovieRecentReviewsQuery, FindMovieRecentReviewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindMovieRecentReviewsQuery, FindMovieRecentReviewsQueryVariables>(FindMovieRecentReviewsDocument, options);
-      }
-export function useFindMovieRecentReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMovieRecentReviewsQuery, FindMovieRecentReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindMovieRecentReviewsQuery, FindMovieRecentReviewsQueryVariables>(FindMovieRecentReviewsDocument, options);
-        }
-export type FindMovieRecentReviewsQueryHookResult = ReturnType<typeof useFindMovieRecentReviewsQuery>;
-export type FindMovieRecentReviewsLazyQueryHookResult = ReturnType<typeof useFindMovieRecentReviewsLazyQuery>;
-export type FindMovieRecentReviewsQueryResult = Apollo.QueryResult<FindMovieRecentReviewsQuery, FindMovieRecentReviewsQueryVariables>;
-export const FindPopularReviewsWeekDocument = gql`
-    query FindPopularReviewsWeek {
-  reviewsPopularWeek {
-    ...BasicReviewFields
-  }
+export function useFindMovieRecentReviewsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindMovieRecentReviewsQuery,
+    FindMovieRecentReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindMovieRecentReviewsQuery,
+    FindMovieRecentReviewsQueryVariables
+  >(FindMovieRecentReviewsDocument, options);
 }
-    ${BasicReviewFieldsFragmentDoc}`;
+export function useFindMovieRecentReviewsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMovieRecentReviewsQuery,
+    FindMovieRecentReviewsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindMovieRecentReviewsQuery,
+    FindMovieRecentReviewsQueryVariables
+  >(FindMovieRecentReviewsDocument, options);
+}
+export type FindMovieRecentReviewsQueryHookResult = ReturnType<
+  typeof useFindMovieRecentReviewsQuery
+>;
+export type FindMovieRecentReviewsLazyQueryHookResult = ReturnType<
+  typeof useFindMovieRecentReviewsLazyQuery
+>;
+export type FindMovieRecentReviewsQueryResult = Apollo.QueryResult<
+  FindMovieRecentReviewsQuery,
+  FindMovieRecentReviewsQueryVariables
+>;
+export const FindPopularReviewsWeekDocument = gql`
+  query FindPopularReviewsWeek {
+    reviewsPopularWeek {
+      ...BasicReviewFields
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
 
 /**
  * __useFindPopularReviewsWeekQuery__
@@ -2659,27 +4165,53 @@ export const FindPopularReviewsWeekDocument = gql`
  *   },
  * });
  */
-export function useFindPopularReviewsWeekQuery(baseOptions?: Apollo.QueryHookOptions<FindPopularReviewsWeekQuery, FindPopularReviewsWeekQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindPopularReviewsWeekQuery, FindPopularReviewsWeekQueryVariables>(FindPopularReviewsWeekDocument, options);
-      }
-export function useFindPopularReviewsWeekLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPopularReviewsWeekQuery, FindPopularReviewsWeekQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindPopularReviewsWeekQuery, FindPopularReviewsWeekQueryVariables>(FindPopularReviewsWeekDocument, options);
-        }
-export type FindPopularReviewsWeekQueryHookResult = ReturnType<typeof useFindPopularReviewsWeekQuery>;
-export type FindPopularReviewsWeekLazyQueryHookResult = ReturnType<typeof useFindPopularReviewsWeekLazyQuery>;
-export type FindPopularReviewsWeekQueryResult = Apollo.QueryResult<FindPopularReviewsWeekQuery, FindPopularReviewsWeekQueryVariables>;
+export function useFindPopularReviewsWeekQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FindPopularReviewsWeekQuery,
+    FindPopularReviewsWeekQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindPopularReviewsWeekQuery,
+    FindPopularReviewsWeekQueryVariables
+  >(FindPopularReviewsWeekDocument, options);
+}
+export function useFindPopularReviewsWeekLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindPopularReviewsWeekQuery,
+    FindPopularReviewsWeekQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindPopularReviewsWeekQuery,
+    FindPopularReviewsWeekQueryVariables
+  >(FindPopularReviewsWeekDocument, options);
+}
+export type FindPopularReviewsWeekQueryHookResult = ReturnType<
+  typeof useFindPopularReviewsWeekQuery
+>;
+export type FindPopularReviewsWeekLazyQueryHookResult = ReturnType<
+  typeof useFindPopularReviewsWeekLazyQuery
+>;
+export type FindPopularReviewsWeekQueryResult = Apollo.QueryResult<
+  FindPopularReviewsWeekQuery,
+  FindPopularReviewsWeekQueryVariables
+>;
 export const CreateReviewDocument = gql`
-    mutation CreateReview($body: String!, $movieId: Int!) {
-  reviewCreate(body: $body, movieId: $movieId) {
-    post {
-      id
+  mutation CreateReview($body: String!, $movieId: Int!) {
+    reviewCreate(body: $body, movieId: $movieId) {
+      post {
+        id
+      }
     }
   }
-}
-    `;
-export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>;
+`;
+export type CreateReviewMutationFn = Apollo.MutationFunction<
+  CreateReviewMutation,
+  CreateReviewMutationVariables
+>;
 
 /**
  * __useCreateReviewMutation__
@@ -2699,22 +4231,40 @@ export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutatio
  *   },
  * });
  */
-export function useCreateReviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateReviewMutation, CreateReviewMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateReviewMutation, CreateReviewMutationVariables>(CreateReviewDocument, options);
-      }
-export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
-export type CreateReviewMutationResult = Apollo.MutationResult<CreateReviewMutation>;
-export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
-export const PinReviewDocument = gql`
-    mutation PinReview($postId: Int!) {
-  reviewPin(postId: $postId) {
-    ...BasicReviewFields
-    isPinned
-  }
+export function useCreateReviewMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateReviewMutation,
+    CreateReviewMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateReviewMutation,
+    CreateReviewMutationVariables
+  >(CreateReviewDocument, options);
 }
-    ${BasicReviewFieldsFragmentDoc}`;
-export type PinReviewMutationFn = Apollo.MutationFunction<PinReviewMutation, PinReviewMutationVariables>;
+export type CreateReviewMutationHookResult = ReturnType<
+  typeof useCreateReviewMutation
+>;
+export type CreateReviewMutationResult =
+  Apollo.MutationResult<CreateReviewMutation>;
+export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<
+  CreateReviewMutation,
+  CreateReviewMutationVariables
+>;
+export const PinReviewDocument = gql`
+  mutation PinReview($postId: Int!) {
+    reviewPin(postId: $postId) {
+      ...BasicReviewFields
+      isPinned
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
+export type PinReviewMutationFn = Apollo.MutationFunction<
+  PinReviewMutation,
+  PinReviewMutationVariables
+>;
 
 /**
  * __usePinReviewMutation__
@@ -2733,22 +4283,39 @@ export type PinReviewMutationFn = Apollo.MutationFunction<PinReviewMutation, Pin
  *   },
  * });
  */
-export function usePinReviewMutation(baseOptions?: Apollo.MutationHookOptions<PinReviewMutation, PinReviewMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PinReviewMutation, PinReviewMutationVariables>(PinReviewDocument, options);
-      }
-export type PinReviewMutationHookResult = ReturnType<typeof usePinReviewMutation>;
-export type PinReviewMutationResult = Apollo.MutationResult<PinReviewMutation>;
-export type PinReviewMutationOptions = Apollo.BaseMutationOptions<PinReviewMutation, PinReviewMutationVariables>;
-export const UnpinReviewDocument = gql`
-    mutation UnpinReview($postId: Int!) {
-  reviewUnpin(postId: $postId) {
-    ...BasicReviewFields
-    isPinned
-  }
+export function usePinReviewMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    PinReviewMutation,
+    PinReviewMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<PinReviewMutation, PinReviewMutationVariables>(
+    PinReviewDocument,
+    options,
+  );
 }
-    ${BasicReviewFieldsFragmentDoc}`;
-export type UnpinReviewMutationFn = Apollo.MutationFunction<UnpinReviewMutation, UnpinReviewMutationVariables>;
+export type PinReviewMutationHookResult = ReturnType<
+  typeof usePinReviewMutation
+>;
+export type PinReviewMutationResult = Apollo.MutationResult<PinReviewMutation>;
+export type PinReviewMutationOptions = Apollo.BaseMutationOptions<
+  PinReviewMutation,
+  PinReviewMutationVariables
+>;
+export const UnpinReviewDocument = gql`
+  mutation UnpinReview($postId: Int!) {
+    reviewUnpin(postId: $postId) {
+      ...BasicReviewFields
+      isPinned
+    }
+  }
+  ${BasicReviewFieldsFragmentDoc}
+`;
+export type UnpinReviewMutationFn = Apollo.MutationFunction<
+  UnpinReviewMutation,
+  UnpinReviewMutationVariables
+>;
 
 /**
  * __useUnpinReviewMutation__
@@ -2767,20 +4334,35 @@ export type UnpinReviewMutationFn = Apollo.MutationFunction<UnpinReviewMutation,
  *   },
  * });
  */
-export function useUnpinReviewMutation(baseOptions?: Apollo.MutationHookOptions<UnpinReviewMutation, UnpinReviewMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UnpinReviewMutation, UnpinReviewMutationVariables>(UnpinReviewDocument, options);
-      }
-export type UnpinReviewMutationHookResult = ReturnType<typeof useUnpinReviewMutation>;
-export type UnpinReviewMutationResult = Apollo.MutationResult<UnpinReviewMutation>;
-export type UnpinReviewMutationOptions = Apollo.BaseMutationOptions<UnpinReviewMutation, UnpinReviewMutationVariables>;
-export const FindUserDocument = gql`
-    query FindUser($username: String!) {
-  user(username: $username) {
-    ...UserFields
-  }
+export function useUnpinReviewMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UnpinReviewMutation,
+    UnpinReviewMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UnpinReviewMutation, UnpinReviewMutationVariables>(
+    UnpinReviewDocument,
+    options,
+  );
 }
-    ${UserFieldsFragmentDoc}`;
+export type UnpinReviewMutationHookResult = ReturnType<
+  typeof useUnpinReviewMutation
+>;
+export type UnpinReviewMutationResult =
+  Apollo.MutationResult<UnpinReviewMutation>;
+export type UnpinReviewMutationOptions = Apollo.BaseMutationOptions<
+  UnpinReviewMutation,
+  UnpinReviewMutationVariables
+>;
+export const FindUserDocument = gql`
+  query FindUser($username: String!) {
+    user(username: $username) {
+      ...UserFields
+    }
+  }
+  ${UserFieldsFragmentDoc}
+`;
 
 /**
  * __useFindUserQuery__
@@ -2798,27 +4380,45 @@ export const FindUserDocument = gql`
  *   },
  * });
  */
-export function useFindUserQuery(baseOptions: Apollo.QueryHookOptions<FindUserQuery, FindUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserQuery, FindUserQueryVariables>(FindUserDocument, options);
-      }
-export function useFindUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserQuery, FindUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserQuery, FindUserQueryVariables>(FindUserDocument, options);
-        }
-export type FindUserQueryHookResult = ReturnType<typeof useFindUserQuery>;
-export type FindUserLazyQueryHookResult = ReturnType<typeof useFindUserLazyQuery>;
-export type FindUserQueryResult = Apollo.QueryResult<FindUserQuery, FindUserQueryVariables>;
-export const FindUserByProviderDocument = gql`
-    query FindUserByProvider($providerId: String!, $provider: String!) {
-  userByProvider(providerId: $providerId, provider: $provider) {
-    id
-    username
-    realName
-    profilePictureUrl
-  }
+export function useFindUserQuery(
+  baseOptions: Apollo.QueryHookOptions<FindUserQuery, FindUserQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindUserQuery, FindUserQueryVariables>(
+    FindUserDocument,
+    options,
+  );
 }
-    `;
+export function useFindUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserQuery,
+    FindUserQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindUserQuery, FindUserQueryVariables>(
+    FindUserDocument,
+    options,
+  );
+}
+export type FindUserQueryHookResult = ReturnType<typeof useFindUserQuery>;
+export type FindUserLazyQueryHookResult = ReturnType<
+  typeof useFindUserLazyQuery
+>;
+export type FindUserQueryResult = Apollo.QueryResult<
+  FindUserQuery,
+  FindUserQueryVariables
+>;
+export const FindUserByProviderDocument = gql`
+  query FindUserByProvider($providerId: String!, $provider: String!) {
+    userByProvider(providerId: $providerId, provider: $provider) {
+      id
+      username
+      realName
+      profilePictureUrl
+    }
+  }
+`;
 
 /**
  * __useFindUserByProviderQuery__
@@ -2837,23 +4437,49 @@ export const FindUserByProviderDocument = gql`
  *   },
  * });
  */
-export function useFindUserByProviderQuery(baseOptions: Apollo.QueryHookOptions<FindUserByProviderQuery, FindUserByProviderQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindUserByProviderQuery, FindUserByProviderQueryVariables>(FindUserByProviderDocument, options);
-      }
-export function useFindUserByProviderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserByProviderQuery, FindUserByProviderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindUserByProviderQuery, FindUserByProviderQueryVariables>(FindUserByProviderDocument, options);
-        }
-export type FindUserByProviderQueryHookResult = ReturnType<typeof useFindUserByProviderQuery>;
-export type FindUserByProviderLazyQueryHookResult = ReturnType<typeof useFindUserByProviderLazyQuery>;
-export type FindUserByProviderQueryResult = Apollo.QueryResult<FindUserByProviderQuery, FindUserByProviderQueryVariables>;
-export const UserRegisterDocument = gql`
-    mutation UserRegister($githubId: String!) {
-  register(githubId: $githubId)
+export function useFindUserByProviderQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindUserByProviderQuery,
+    FindUserByProviderQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindUserByProviderQuery,
+    FindUserByProviderQueryVariables
+  >(FindUserByProviderDocument, options);
 }
-    `;
-export type UserRegisterMutationFn = Apollo.MutationFunction<UserRegisterMutation, UserRegisterMutationVariables>;
+export function useFindUserByProviderLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindUserByProviderQuery,
+    FindUserByProviderQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindUserByProviderQuery,
+    FindUserByProviderQueryVariables
+  >(FindUserByProviderDocument, options);
+}
+export type FindUserByProviderQueryHookResult = ReturnType<
+  typeof useFindUserByProviderQuery
+>;
+export type FindUserByProviderLazyQueryHookResult = ReturnType<
+  typeof useFindUserByProviderLazyQuery
+>;
+export type FindUserByProviderQueryResult = Apollo.QueryResult<
+  FindUserByProviderQuery,
+  FindUserByProviderQueryVariables
+>;
+export const UserRegisterDocument = gql`
+  mutation UserRegister($githubId: String!) {
+    register(githubId: $githubId)
+  }
+`;
+export type UserRegisterMutationFn = Apollo.MutationFunction<
+  UserRegisterMutation,
+  UserRegisterMutationVariables
+>;
 
 /**
  * __useUserRegisterMutation__
@@ -2872,10 +4498,24 @@ export type UserRegisterMutationFn = Apollo.MutationFunction<UserRegisterMutatio
  *   },
  * });
  */
-export function useUserRegisterMutation(baseOptions?: Apollo.MutationHookOptions<UserRegisterMutation, UserRegisterMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UserRegisterMutation, UserRegisterMutationVariables>(UserRegisterDocument, options);
-      }
-export type UserRegisterMutationHookResult = ReturnType<typeof useUserRegisterMutation>;
-export type UserRegisterMutationResult = Apollo.MutationResult<UserRegisterMutation>;
-export type UserRegisterMutationOptions = Apollo.BaseMutationOptions<UserRegisterMutation, UserRegisterMutationVariables>;
+export function useUserRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UserRegisterMutation,
+    UserRegisterMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UserRegisterMutation,
+    UserRegisterMutationVariables
+  >(UserRegisterDocument, options);
+}
+export type UserRegisterMutationHookResult = ReturnType<
+  typeof useUserRegisterMutation
+>;
+export type UserRegisterMutationResult =
+  Apollo.MutationResult<UserRegisterMutation>;
+export type UserRegisterMutationOptions = Apollo.BaseMutationOptions<
+  UserRegisterMutation,
+  UserRegisterMutationVariables
+>;
