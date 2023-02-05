@@ -24,7 +24,7 @@ export default NextAuth({
     updateAge: 30 * 60,
   },
   secret: process.env.JWT_SECRET,
-  debug: true,
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -46,27 +46,32 @@ export default NextAuth({
     session: async ({ token, session }) => {
       const apolloClient = initializeApollo();
 
-      const { data: userData } = await apolloClient.query<
-        FindUserByProviderQuery,
-        FindUserByProviderQueryVariables
-      >({
-        query: FindUserByProviderDocument,
-        variables: {
-          provider: 'github',
-          providerId: token.user.providerId,
-        },
-      });
+      try {
+        const { data: userData } = await apolloClient.query<
+          FindUserByProviderQuery,
+          FindUserByProviderQueryVariables
+        >({
+          query: FindUserByProviderDocument,
+          variables: {
+            provider: 'github',
+            providerId: token.user.providerId,
+          },
+        });
 
-      if (!userData) {
+        if (!userData) {
+          return null;
+        }
+
+        const { __typename, ...user } = userData.userByProvider;
+
+        return {
+          ...session,
+          user,
+        };
+      } catch (err) {
+        console.log(err);
         return null;
       }
-
-      const { __typename, ...user } = userData.userByProvider;
-
-      return {
-        ...session,
-        user,
-      };
     },
     signIn: async ({ account }) => {
       const apolloClient = initializeApollo();
@@ -82,6 +87,8 @@ export default NextAuth({
 
         return true;
       } catch (err) {
+        console.log(err);
+
         return false;
       }
     },
