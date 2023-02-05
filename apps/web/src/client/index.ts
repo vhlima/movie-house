@@ -48,6 +48,8 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
           // SameSite: 'None',
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Origin': '*',
+          'apollo-require-preflight': 'true',
+          'Content-Type': 'application/json',
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
         },
         fetchOptions: {
