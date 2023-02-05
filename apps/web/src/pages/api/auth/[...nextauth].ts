@@ -79,7 +79,12 @@ export default NextAuth({
     signIn: async ({ account }) => {
       const apolloClient = initializeApollo();
 
-      console.log(`register user? ${JSON.stringify(account)}`);
+      console.log(
+        `register user? ${account.providerAccountId} | ${parseInt(
+          account.providerAccountId,
+          10,
+        )} |  ${JSON.stringify(account)}`,
+      );
 
       try {
         await apolloClient.mutate<
