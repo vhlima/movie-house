@@ -66,7 +66,7 @@ class UserResolver {
   @Mutation(() => Boolean)
   async register(
     @Ctx() context: ServerContext,
-    @Arg('githubId', () => Int) githubId: number,
+    @Arg('githubId') githubId: string,
   ) {
     const githubUser = await context.dataSources.github.getGithubUserById(
       githubId,
@@ -95,7 +95,7 @@ class UserResolver {
     const userProvider = UserProviderRepository.create({
       userId: user.id,
       provider: 'github',
-      providerId: String(githubUser.id),
+      providerId: githubUser.id,
     });
 
     await UserProviderRepository.save(userProvider);

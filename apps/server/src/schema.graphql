@@ -209,7 +209,7 @@ type Mutation {
   deleteReply(replyId: String!): String!
   follow(userId: String!): Boolean!
   like(referenceId: String, rootId: String!): Boolean!
-  register(githubId: Int!): Boolean!
+  register(githubId: String!): Boolean!
   reply(body: String!, commentaryId: String!): Reply!
   reviewCreate(body: String!, movieId: Int!): Review!
   reviewDelete(postId: Int!): Boolean!

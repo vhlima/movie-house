@@ -1,7 +1,7 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
 
 interface GithubUser {
-  id: number;
+  id: string;
   login: string;
   /* eslint-disable-next-line */
   avatar_url: string;
@@ -14,7 +14,7 @@ export default class GithubAPI extends RESTDataSource {
     this.baseURL = 'https://api.github.com/';
   }
 
-  async getGithubUserById(githubId: number): Promise<GithubUser> {
+  async getGithubUserById(githubId: string): Promise<GithubUser> {
     const githubUser = await this.get(`/user/${githubId}`);
 
     return githubUser;

@@ -33,7 +33,7 @@ export const FIND_USER_BY_PROVIDER = gql`
 `;
 
 export const USER_REGISTER = gql`
-  mutation UserRegister($githubId: Int!) {
+  mutation UserRegister($githubId: String!) {
     register(githubId: $githubId)
   }
 `;

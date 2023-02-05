@@ -92,7 +92,7 @@ export default NextAuth({
           UserRegisterMutationVariables
         >({
           mutation: UserRegisterDocument,
-          variables: { githubId: parseInt(account.providerAccountId, 10) },
+          variables: { githubId: account.providerAccountId },
         });
 
         return true;
