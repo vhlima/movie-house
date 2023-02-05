@@ -25,11 +25,6 @@ export class CreateUsers1660164273196 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'provider_id',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
             name: 'biography',
             type: 'text',
             isNullable: true,
