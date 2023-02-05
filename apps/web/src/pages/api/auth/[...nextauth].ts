@@ -24,7 +24,8 @@ export default NextAuth({
     updateAge: 30 * 60,
   },
   secret: process.env.JWT_SECRET,
-  debug: process.env.NODE_ENV === 'development',
+  // debug: process.env.NODE_ENV === 'development',
+  debug: true,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -77,6 +78,8 @@ export default NextAuth({
     },
     signIn: async ({ account }) => {
       const apolloClient = initializeApollo();
+
+      console.log(`register user? ${JSON.stringify(account)}`);
 
       try {
         await apolloClient.mutate<
