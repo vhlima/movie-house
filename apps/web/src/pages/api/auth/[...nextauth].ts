@@ -44,6 +44,8 @@ export default NextAuth({
       return token;
     },
     session: async ({ token, session }) => {
+      if (!token) return session;
+
       const apolloClient = initializeApollo();
 
       try {
