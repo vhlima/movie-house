@@ -24,6 +24,10 @@ export class CreateReviews1673316386611 implements MigrationInterface {
             type: 'int',
           },
           {
+            name: 'movie_id',
+            type: 'int',
+          },
+          {
             name: 'is_pinned',
             type: 'boolean',
           },
