@@ -80,7 +80,10 @@ export default class ListResolver {
     const isFetchPrivateLists = !!(session && session.id === user.id);
 
     const listsFound = await ListRepository.find({
-      where: { post: { userId }, isPrivate: isFetchPrivateLists },
+      where: {
+        post: { userId },
+        ...(!isFetchPrivateLists ? { isPrivate: false } : {}),
+      },
       relations: ['post'],
       order: this.parseSortOptions(sort),
     });
