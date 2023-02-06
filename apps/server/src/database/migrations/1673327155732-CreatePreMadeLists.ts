@@ -27,6 +27,16 @@ export class CreatePreMadeLists1673327155732 implements MigrationInterface {
             name: 'list_type',
             type: 'varchar',
           },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
         ],
       }),
     );
