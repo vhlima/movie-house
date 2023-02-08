@@ -39,9 +39,9 @@ export default class TmdbAPI extends RESTDataSource {
     }
   }
 
-  async searchMovie(query: string): Promise<MovieSearch> {
+  async searchMovie(query: string, page: number): Promise<MovieSearch> {
     const response = await this.get<MovieSearch>('search/movie', {
-      params: { query },
+      params: { query, page: `${page}` },
     });
 
     return response;
@@ -49,12 +49,6 @@ export default class TmdbAPI extends RESTDataSource {
 
   async getTrendingMoviesWeek(page: number): Promise<MovieTrending> {
     const response = await this.get('trending/movie/week');
-
-    return response;
-  }
-
-  async getMovieGenres(): Promise<{ genres: Genre[] }> {
-    const response = await this.get('genre/list');
 
     return response;
   }

@@ -8,8 +8,7 @@ import MovieSearch from '../objects/movie-search';
 import MovieTrending from '../objects/movie-trending';
 
 import NotFoundError from '../errors/NotFound';
-
-import Genre from '../entities/mongo-entities/movie/genre.interface';
+import Error from '../errors/Error';
 
 @Resolver(() => Movie)
 class MovieResolver {
@@ -31,10 +30,20 @@ class MovieResolver {
   async searchMovie(
     @Ctx() context: ServerContext,
     @Arg('searchTerm') searchTerm: string,
+    @Arg('page', () => Int, { nullable: true }) page = 1,
   ) {
     const searchResponse = await context.dataSources.tmdb.searchMovie(
       searchTerm,
+      page,
     );
+
+    if (searchResponse.total_results === 0) {
+      return searchResponse;
+    }
+
+    if (searchResponse.page > searchResponse.total_pages) {
+      throw new Error('PageNotFound', 'Page not found');
+    }
 
     // TODO bug: Invalid time value
 
