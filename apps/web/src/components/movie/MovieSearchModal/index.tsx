@@ -7,11 +7,8 @@ import type { ModalHandles } from '../../Modal';
 import { useLogic } from './logic';
 
 import Modal from '../../Modal';
-
 import Input from '../../Input';
-
 import Button from '../../Button';
-
 import Typography from '../../Typography';
 
 export type MovieSearchResult = {
@@ -56,16 +53,24 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
         <Modal.CloseButton onClose={onClose} />
       </Modal.Header>
 
-      <Input
-        name="searchMovie"
-        inputStyle="secondary"
-        label={{ text: 'Search for a movie', htmlFor: true }}
-        onFocus={onFocus}
-        onChange={e => {
-          setSearchTerm(e.target.value);
-          resetSearchResults();
-        }}
-      />
+      <Input.Label
+        text="Search for a movie"
+        htmlFor="searchMovie"
+        formik={false}
+      >
+        <Input.Container styleType="secondary">
+          <Input
+            id="searchMovie"
+            placeholder="Search for a movie"
+            formik={false}
+            onFocus={onFocus}
+            onChange={e => {
+              setSearchTerm(e.target.value);
+              resetSearchResults();
+            }}
+          />
+        </Input.Container>
+      </Input.Label>
 
       {errors.length > 0 && (
         <span className="text-danger-base">{errors.join('')}</span>

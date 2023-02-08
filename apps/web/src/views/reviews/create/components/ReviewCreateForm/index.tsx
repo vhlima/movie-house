@@ -3,9 +3,7 @@ import { Form, Formik } from 'formik';
 import { useLogic } from './logic';
 
 import Input from '../../../../../components/Input';
-
 import Button from '../../../../../components/Button';
-
 import ErrorText from '../../../../../components/ErrorText';
 
 interface ReviewCreateFormProps {
@@ -25,31 +23,27 @@ const ReviewCreateForm: React.FC<ReviewCreateFormProps> = ({ movieId }) => {
       validateOnBlur={false}
       onSubmit={handleSubmit}
     >
-      {({ errors }) => (
-        <Form className="flex flex-col gap-2 w-full mt-auto">
-          {error && <ErrorText text={error.message} />}
+      <Form className="flex flex-col gap-2 w-full mt-auto">
+        {error && <ErrorText text={error.message} />}
 
-          {errors && Object.keys(errors).length > 0 && (
-            <ErrorText
-              text={Object.keys(errors)
-                .map(key => errors[key])
-                .join(', ')}
-            />
-          )}
+        <Input.Label text="Your review:" htmlFor="body">
+          <Input.Container>
+            <Input.AutoGrow id="body" rows={4} maxHeight={250} />
+          </Input.Container>
+        </Input.Label>
 
-          <Input
+        {/* <Input
             formik
             name="body"
             rows={4}
             autoGrow={{ maxHeight: 250 }}
             label={{ text: 'Your review:', htmlFor: true }}
-          />
+          /> */}
 
-          <Button type="submit" disabled={movieId === -1 || loading}>
-            Post review
-          </Button>
-        </Form>
-      )}
+        <Button type="submit" disabled={movieId === -1 || loading}>
+          Post review
+        </Button>
+      </Form>
     </Formik>
   );
 };

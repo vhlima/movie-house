@@ -7,11 +7,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { useLogic } from './logic';
 
 import Card from '../../components/Card';
-
 import Input from '../../components/Input';
-
 import Button from '../../components/Button';
-
 import ProfilePicture from '../../components/ProfilePicture';
 
 const ProfileSettingsView: React.FC = () => {
@@ -36,12 +33,20 @@ const ProfileSettingsView: React.FC = () => {
     return <h1 className="text-danger-base">Must be logged</h1>;
   }
 
+  const fields = [
+    { id: 'username', name: 'Username' },
+    { id: 'realName', name: 'Real name' },
+    { id: 'email', name: 'Email' },
+    { id: 'biography', name: 'Biography' },
+  ];
+
   return (
     <Card title="Personal settings">
       <Formik
         initialValues={{
           username: data.user.username,
-          realName: '',
+          realName: data.user.realName,
+          email: '',
           biography: '',
         }}
         onSubmit={handleSubmit}
@@ -81,32 +86,17 @@ const ProfileSettingsView: React.FC = () => {
             </div>
           </div>
 
-          <Input
-            formik
-            name="username"
-            label={{ text: 'Username', htmlFor: true }}
-          />
-
-          <Input
-            formik
-            name="realName"
-            label={{ text: 'Real name', htmlFor: true }}
-          />
-
-          <Input
-            formik
-            type="email"
-            name="email"
-            label={{ text: 'Email', htmlFor: true }}
-          />
-
-          <Input
-            className="h-36"
-            formik
-            textarea
-            name="biography"
-            label={{ text: 'Bio', htmlFor: true }}
-          />
+          {fields.map(field => (
+            <Input.Label
+              key={`settings-field-${field.id}`}
+              htmlFor={field.id}
+              text={field.name}
+            >
+              <Input.Container>
+                <Input id={field.id} />
+              </Input.Container>
+            </Input.Label>
+          ))}
 
           {/* <Button type="submit" disabled={updateUserResult.loading}>
             Save changes

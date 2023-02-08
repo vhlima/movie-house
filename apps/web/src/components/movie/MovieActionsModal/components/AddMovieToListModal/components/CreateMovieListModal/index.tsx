@@ -5,11 +5,8 @@ import type { ModalHandles } from '../../../../../../Modal';
 import { useLogic } from './logic';
 
 import Modal from '../../../../../../Modal';
-
 import Input from '../../../../../../Input';
-
 import Button from '../../../../../../Button';
-
 import Typography from '../../../../../../Typography';
 
 import ErrorText from '../../../../../../ErrorText';
@@ -55,27 +52,17 @@ const CreateMovieListModal: React.FC<CreateMovieListModalProps> = ({
         }}
       >
         <Form className="flex flex-col gap-2">
-          <Input
-            formik
-            name="listName"
-            inputStyle="secondary"
-            label={{
-              text: 'Name',
-              htmlFor: true,
-            }}
-          />
+          <Input.Label text="Name" htmlFor="listName">
+            <Input.Container styleType="secondary">
+              <Input id="listName" />
+            </Input.Container>
+          </Input.Label>
 
-          <Input
-            formik
-            textarea
-            autoGrow={{ maxHeight: 250 }}
-            name="description"
-            inputStyle="secondary"
-            label={{
-              text: 'Description',
-              htmlFor: true,
-            }}
-          />
+          <Input.Label text="Description" htmlFor="description">
+            <Input.Container styleType="secondary">
+              <Input.AutoGrow id="description" />
+            </Input.Container>
+          </Input.Label>
 
           <Button className="mt-2" type="submit">
             Create

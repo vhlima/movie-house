@@ -5,17 +5,12 @@ import type { ModalHandles } from '../../../../Modal';
 import { useLogic } from './logic';
 
 import Modal from '../../../../Modal';
-
+import Input from '../../../../Input';
+import Button from '../../../../Button';
+import SvgIcon from '../../../../SvgIcon';
 import Typography from '../../../../Typography';
 
-import SvgIcon from '../../../../SvgIcon';
-
-import Button from '../../../../Button';
-
-import Input from '../../../../Input';
-
 import UserLists from './components/UserLists';
-
 import CreateMovieListModal from './components/CreateMovieListModal';
 
 interface AddMovieToListModalProps extends ModalHandles {
@@ -64,20 +59,16 @@ const AddMovieToListModal: React.FC<AddMovieToListModalProps> = ({
       </div>
 
       <div className="p-2">
-        <Input
-          name="searchParams"
-          placeholder="Search"
-          inputStyle="secondary"
-          inputSize="md"
-          leftIcon={{
-            className: 'px-2 py-1',
-            icon: {
-              iconType: 'FaSearch',
-              size: 18,
-            },
-          }}
-          onChange={e => setSearchParams(e.target.value)}
-        />
+        <Input.Container styleType="secondary" borderFocus="none">
+          <Input
+            id="searchParams"
+            placeholder="Search"
+            formik={false}
+            onChange={e => setSearchParams(e.target.value)}
+          />
+
+          <Input.Icon iconType="FaSearch" size={18} direction="left" />
+        </Input.Container>
       </div>
 
       <div className="border-b border-b-grey-700">

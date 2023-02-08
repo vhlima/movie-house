@@ -1,7 +1,5 @@
-import { useState } from 'react';
+import TextInputForm from '../TextInputForm';
 
-import TextInput from '../TextInput';
-import TextInputModal from '../TextInputModal';
 import { useLogic } from './logic';
 
 interface CommentaryTextInputProps {
@@ -11,13 +9,11 @@ interface CommentaryTextInputProps {
 const CommentaryTextInput: React.FC<CommentaryTextInputProps> = ({
   postId,
 }) => {
-  const [isCommenting, setCommenting] = useState<boolean>(false);
-
   const { loading, error, handleSubmit } = useLogic(postId);
 
   return (
     <>
-      {isCommenting && (
+      {/* {isCommenting && (
         <TextInputModal
           rootId={postId}
           loading={loading}
@@ -27,7 +23,14 @@ const CommentaryTextInput: React.FC<CommentaryTextInputProps> = ({
         />
       )}
 
-      <TextInput formik={false} onFocus={() => setCommenting(true)} />
+      <TextInput formik={false} /> */}
+
+      <TextInputForm
+        rootId={postId}
+        error={error}
+        loading={loading}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 };
