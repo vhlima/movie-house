@@ -10,12 +10,7 @@ import { addApolloState, initializeApollo } from '../../client';
 
 import MovieReviewView from '../../views/reviews/root';
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  query,
-}) => {
-  const notFoundProps = { notFound: true };
-
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
     id: Yup.number().required().min(0).max(10000),
   });
@@ -39,8 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     });
   } catch (err) {
-    req.statusCode = 404;
-    return notFoundProps;
+    return { notFound: true };
   }
 };
 
