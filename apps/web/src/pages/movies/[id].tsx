@@ -13,7 +13,7 @@ import { FindFullMovieDocument } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 
-import MovieView from '../../views/movies/root';
+import MovieView from '../../views/movies/movie';
 
 import MovieInfosSkeleton from '../../components/movie/MovieInfos/Skeleton';
 
