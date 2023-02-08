@@ -16,7 +16,7 @@ const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
 }) => (
   <li
     className={clsx(
-      'py-4 first-of-type:pt-0 last-of-type:pb-0 border-b border-b-grey-800 last-of-type:border-b-0',
+      'py-4 last-of-type:pb-0 border-b border-b-grey-800 last-of-type:border-b-0',
       className,
     )}
   >
