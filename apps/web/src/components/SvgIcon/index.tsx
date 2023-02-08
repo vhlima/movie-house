@@ -55,6 +55,7 @@ import { CgSpinner } from 'react-icons/cg';
 import { TbMovie } from 'react-icons/tb';
 
 import { VscPreview } from 'react-icons/vsc';
+import clsx from 'clsx';
 
 export type SvgIconType =
   | 'FaTimes'
@@ -167,13 +168,24 @@ const icons: SvgIconsType = {
   VscPreview,
 };
 
-const SvgIcon: React.FC<SvgIconProps> = ({ iconType, size, ...rest }) => {
+const SvgIcon: React.FC<SvgIconProps> = ({
+  className,
+  iconType,
+  size,
+  ...rest
+}) => {
   const Icon = icons[iconType];
   if (!Icon) {
     return null;
   }
 
-  return <Icon size={size} {...rest} />;
+  return (
+    <Icon
+      className={clsx('text-grey-300', className && className)}
+      size={size}
+      {...rest}
+    />
+  );
 };
 
 export default SvgIcon;
