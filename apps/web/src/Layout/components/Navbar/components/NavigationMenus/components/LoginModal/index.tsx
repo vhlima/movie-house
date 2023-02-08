@@ -1,22 +1,16 @@
-// import { useSession, signIn, signOut } from 'next-auth/react';
+import { useAuth, signIn, signOut } from '../../../../../../../hooks/useAuth';
 
-import { signIn, signOut, useSession } from 'next-auth/react';
-import type { ModalHandles } from '../../../../../components/Modal';
+import type { ModalHandles } from '../../../../../../../components/Modal';
 
-import Button from '../../../../../components/Button';
-
-import Modal from '../../../../../components/Modal';
-
-import Typography from '../../../../../components/Typography';
-import SvgIcon from '../../../../../components/SvgIcon';
-// import { useAuth } from '../../../../../hooks/useAuth2';
+import Modal from '../../../../../../../components/Modal';
+import Button from '../../../../../../../components/Button';
+import SvgIcon from '../../../../../../../components/SvgIcon';
+import Typography from '../../../../../../../components/Typography';
 
 type LoginModalProps = ModalHandles;
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
-  const { data: session } = useSession();
-
-  // const { session, signIn, signOut } = useAuth();
+  const { data: session } = useAuth();
 
   return (
     <Modal backdrop center onClose={onClose}>

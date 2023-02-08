@@ -1,10 +1,10 @@
-import type { DropdownProps } from '../Dropdown';
+import type { DropdownProps } from '../../../Dropdown';
 
-import { useAuth } from '../../../../../hooks/useAuth';
+import { useAuth } from '../../../../../../../hooks/useAuth';
 
 import Notification from './components/Notification';
 
-import Dropdown from '../Dropdown';
+import Dropdown from '../../../Dropdown';
 
 const Notifications: React.FC<DropdownProps> = ({ onClose }) => {
   const { data } = useAuth();

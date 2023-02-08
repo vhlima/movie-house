@@ -50,7 +50,7 @@ const Dropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
 
   return (
     <motion.div
-      className="absolute w-full max-w-5xl p-3 bg-grey-800 rounded-b-md z-20 right-0 sm:left-0 top-14"
+      className="absolute w-full p-3 bg-grey-800 rounded-b-md z-20 right-0 sm:left-0 top-14"
       {...animation}
     >
       {children}

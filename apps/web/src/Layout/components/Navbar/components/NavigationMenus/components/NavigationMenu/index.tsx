@@ -1,10 +1,10 @@
-import type { DropdownProps } from '../Dropdown';
+import type { DropdownProps } from '../../../Dropdown';
 
-import { useAuth, signOut } from '../../../../../hooks/useAuth';
+import { useAuth, signOut } from '../../../../../../../hooks/useAuth';
 
 import MenuItem from './components/MenuItem';
 
-import Dropdown from '../Dropdown';
+import Dropdown from '../../../Dropdown';
 
 const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
   const { data: session } = useAuth();
