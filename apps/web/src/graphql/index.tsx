@@ -220,6 +220,8 @@ export type MovieSearch = {
   __typename?: 'MovieSearch';
   page: Scalars['Int'];
   results: Array<Movie>;
+  totalPages: Scalars['Int'];
+  totalResults: Scalars['Int'];
 };
 
 export type MovieSortInput = {
@@ -493,6 +495,7 @@ export type QueryReviewsUserRecentArgs = {
 };
 
 export type QuerySearchMovieArgs = {
+  page?: InputMaybe<Scalars['Int']>;
   searchTerm: Scalars['String'];
 };
 
@@ -1101,6 +1104,7 @@ export type FindFullMovieQuery = {
 
 export type SearchMovieQueryVariables = Exact<{
   searchTerm: Scalars['String'];
+  page?: InputMaybe<Scalars['Int']>;
 }>;
 
 export type SearchMovieQuery = {
@@ -1108,6 +1112,8 @@ export type SearchMovieQuery = {
   searchMovie: {
     __typename?: 'MovieSearch';
     page: number;
+    totalResults: number;
+    totalPages: number;
     results: Array<{
       __typename?: 'Movie';
       id: number;
@@ -3123,9 +3129,11 @@ export type FindFullMovieQueryResult = Apollo.QueryResult<
   FindFullMovieQueryVariables
 >;
 export const SearchMovieDocument = gql`
-  query SearchMovie($searchTerm: String!) {
-    searchMovie(searchTerm: $searchTerm) {
+  query SearchMovie($searchTerm: String!, $page: Int) {
+    searchMovie(searchTerm: $searchTerm, page: $page) {
       page
+      totalResults
+      totalPages
       results {
         id
         posterUrl
@@ -3149,6 +3157,7 @@ export const SearchMovieDocument = gql`
  * const { data, loading, error } = useSearchMovieQuery({
  *   variables: {
  *      searchTerm: // value for 'searchTerm'
+ *      page: // value for 'page'
  *   },
  * });
  */

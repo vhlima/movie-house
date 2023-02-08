@@ -63,9 +63,11 @@ export const FIND_FULL_MOVIE = gql`
 `;
 
 export const SEARCH_MOVIE = gql`
-  query SearchMovie($searchTerm: String!) {
-    searchMovie(searchTerm: $searchTerm) {
+  query SearchMovie($searchTerm: String!, $page: Int) {
+    searchMovie(searchTerm: $searchTerm, page: $page) {
       page
+      totalResults
+      totalPages
       results {
         id
         posterUrl
