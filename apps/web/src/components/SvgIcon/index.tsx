@@ -1,6 +1,8 @@
 import type { IconType, IconBaseProps } from 'react-icons';
 
 import {
+  FaTimes,
+  FaBars,
   FaRegUserCircle,
   FaChevronRight,
   FaChevronLeft,
@@ -42,7 +44,7 @@ import { MdMovie, MdOutlineSort } from 'react-icons/md';
 
 import { FiX, FiCheck } from 'react-icons/fi';
 
-import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
+import { HiMail, HiLockClosed } from 'react-icons/hi';
 
 import { IoIosJournal, IoIosSend } from 'react-icons/io';
 
@@ -55,6 +57,8 @@ import { TbMovie } from 'react-icons/tb';
 import { VscPreview } from 'react-icons/vsc';
 
 export type SvgIconType =
+  | 'FaTimes'
+  | 'FaBars'
   | 'FaRegUserCircle'
   | 'FaChevronRight'
   | 'FaChevronLeft'
@@ -88,7 +92,6 @@ export type SvgIconType =
   | 'BsHouse'
   | 'MdMovie'
   | 'MdOutlineSort'
-  | 'HiMenu'
   | 'HiMail'
   | 'HiLockClosed'
   | 'IoIosJournal'
@@ -108,6 +111,7 @@ type SvgIconsType = {
 };
 
 const icons: SvgIconsType = {
+  FaTimes,
   FaRegUserCircle,
   FaChevronRight,
   FaChevronLeft,
@@ -119,6 +123,7 @@ const icons: SvgIconsType = {
   FaGithub,
   FaListUl,
   FaUsers,
+  FaBars,
   FaPlay,
 
   FiX,
@@ -146,7 +151,6 @@ const icons: SvgIconsType = {
   MdMovie,
   MdOutlineSort,
 
-  HiMenu,
   HiMail,
   HiLockClosed,
 
