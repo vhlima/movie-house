@@ -1,16 +1,18 @@
-import { Field, useField } from 'formik';
+import { Field } from 'formik';
 
 import type { PropsWithChildren } from 'react';
 
 import Typography from '../../../Typography';
 
 interface InputLabelProps {
+  className?: string;
   htmlFor: string;
   text: string;
   formik?: boolean;
 }
 
 const InputLabel: React.FC<PropsWithChildren<InputLabelProps>> = ({
+  className,
   htmlFor,
   text,
   formik = true,
@@ -19,7 +21,7 @@ const InputLabel: React.FC<PropsWithChildren<InputLabelProps>> = ({
   const a = 1;
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={className || 'flex flex-col gap-1'}>
       {!htmlFor ? (
         <Typography className="font-bold" component="span">
           {text}

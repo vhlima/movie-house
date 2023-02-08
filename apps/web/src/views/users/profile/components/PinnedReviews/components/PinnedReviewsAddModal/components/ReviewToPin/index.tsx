@@ -49,7 +49,7 @@ const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
         buttonStyle="secondary"
         onClick={() => onClick(review.post.id)}
       >
-        <SvgIcon className="text-grey-300" iconType="BsFillPinFill" />
+        <SvgIcon iconType="BsFillPinFill" />
 
         <Typography component="span">Pin this review</Typography>
       </Button>

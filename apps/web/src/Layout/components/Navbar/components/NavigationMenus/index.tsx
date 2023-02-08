@@ -50,7 +50,7 @@ const NavigationMenus: React.FC = () => {
         </AnimatePresence>
       )}
 
-      <div className="flex items-center ml-auto text-grey-300">
+      <div className="flex items-center ml-auto">
         <button
           className="p-2"
           type="button"

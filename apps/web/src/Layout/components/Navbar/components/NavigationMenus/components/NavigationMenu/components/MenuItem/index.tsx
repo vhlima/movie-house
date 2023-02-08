@@ -19,7 +19,7 @@ interface MenuLinkProps {
 const MenuLink: React.FC<MenuLinkProps> = ({ text, icon, itemProps }) => {
   const ItemBody = (
     <div className="flex items-center gap-3">
-      <SvgIcon className="text-grey-300" iconType={icon} size={22} />
+      <SvgIcon iconType={icon} size={22} />
 
       <span className="text-grey-200 uppercase font-semibold group-hover:text-grey-300">
         {text}

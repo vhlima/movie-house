@@ -53,7 +53,7 @@ const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
       </Link>
 
       <div className="flex items-center gap-1">
-        <SvgIcon className="text-grey-300" iconType="TbMovie" size={24} />
+        <SvgIcon iconType="TbMovie" size={24} />
 
         <Typography component="span" color="primary">
           {movies.length} {movies.length === 1 ? 'movie' : 'movies'}

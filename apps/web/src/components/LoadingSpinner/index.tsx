@@ -12,11 +12,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   center,
 }) => {
   const spinner = (
-    <SvgIcon
-      className="text-grey-300 animate-spin"
-      iconType="CgSpinner"
-      size={36}
-    />
+    <SvgIcon className="animate-spin" iconType="CgSpinner" size={36} />
   );
 
   return !className && !center ? (

@@ -16,7 +16,7 @@ const InputIcon: React.FC<InputIconProps> = ({
 }) => (
   <SvgIcon
     className={clsx(
-      'flex-shrink-0 m-2 text-grey-300',
+      'flex-shrink-0 m-2',
       {
         'ml-0': direction === 'left',
         'mr-0': direction === 'right',

@@ -41,7 +41,7 @@ const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
         {text}
       </Typography>
 
-      <SvgIcon className="text-grey-300 ml-2" iconType="FaChevronDown" />
+      <SvgIcon className="ml-2" iconType="FaChevronDown" />
     </button>
 
     {isOpen && children}
