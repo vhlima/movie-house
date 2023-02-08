@@ -20,13 +20,17 @@ const MoviesTrendingView: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4 my-4">
-      <Card title="Popular movies this week" noPadding>
-        {trendingMoviesData && (
-          <MovieCoverList
-            name="trending-movies-list"
-            movies={trendingMoviesData.trendingMovies.results}
-          />
-        )}
+      <Card>
+        <Card.Header title="Popular movies this week" marginBottom />
+
+        <Card.Body>
+          {trendingMoviesData && (
+            <MovieCoverList
+              name="trending-movies-list"
+              movies={trendingMoviesData.trendingMovies.results}
+            />
+          )}
+        </Card.Body>
       </Card>
 
       <RecentReviews />

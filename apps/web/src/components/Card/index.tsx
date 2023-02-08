@@ -9,6 +9,8 @@ import type { SvgIconType } from '../SvgIcon';
 import Link from '../Link';
 
 import SvgIcon from '../SvgIcon';
+import CardBody from './components/CardBody';
+import CardHeader from './components/CardHeader';
 
 export interface CardIconProps {
   iconType: SvgIconType;
@@ -18,7 +20,7 @@ export interface CardIconProps {
 export interface CardProps {
   className?: string;
 
-  title: string;
+  title?: string;
   description?: string;
 
   link?: LinkProps;
@@ -29,7 +31,24 @@ export interface CardProps {
   rightIcon?: CardIconProps;
 }
 
-const Card: React.FC<PropsWithChildren<CardProps>> = ({
+interface CardSubComponents {
+  Body: typeof CardBody;
+  Header: typeof CardHeader;
+}
+
+const Card: React.FC<PropsWithChildren<CardProps>> & CardSubComponents = ({
+  className,
+  children,
+}) => {
+  const a = 1;
+
+  return <div className={clsx('w-full', className)}>{children}</div>;
+};
+
+Card.Body = CardBody;
+Card.Header = CardHeader;
+
+const OldCard: React.FC<PropsWithChildren<CardProps>> = ({
   className,
   title,
   description,
@@ -43,10 +62,10 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
 
   const head = (
     <>
-      <div className="flex gap-2 items-center text-grey-100">
-        <span className="block w-1 h-6 rounded-lg bg-movieHouse-dark" />
+      <div className="flex gap-2 items-center text-grey-100 border-b border-b-grey-700 pb-1">
+        {/* <span className="block w-1 h-6 rounded-lg bg-movieHouse-dark" /> */}
 
-        <h1 className="font-bold text-xl uppercase">{title}</h1>
+        <h1 className="font-bold text-lg uppercase">{title}</h1>
 
         {link && (
           <SvgIcon
@@ -81,7 +100,7 @@ const Card: React.FC<PropsWithChildren<CardProps>> = ({
         </Link>
       )}
 
-      <div className={clsx('flex flex-col flex-grow mt-4', { 'gap-2': gap })}>
+      <div className={clsx('flex flex-col flex-grow', { 'gap-2': gap })}>
         {children}
       </div>
     </div>

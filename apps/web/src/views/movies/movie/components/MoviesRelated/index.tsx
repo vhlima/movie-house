@@ -19,15 +19,19 @@ const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
     movieRecommendations.movieRecommendations.length > 0;
 
   return (
-    <Card title="Related movies" noPadding>
-      {!hasAnyMovie ? (
-        <Typography component="h2">No related movie was found.</Typography>
-      ) : (
-        <MovieCoverList
-          name="related-movies"
-          movies={movieRecommendations.movieRecommendations.slice(0, 4)}
-        />
-      )}
+    <Card>
+      <Card.Header title="Related movies" marginBottom />
+
+      <Card.Body>
+        {!hasAnyMovie ? (
+          <Typography component="h2">No related movie was found.</Typography>
+        ) : (
+          <MovieCoverList
+            name="related-movies"
+            movies={movieRecommendations.movieRecommendations.slice(0, 4)}
+          />
+        )}
+      </Card.Body>
     </Card>
   );
 };

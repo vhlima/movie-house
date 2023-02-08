@@ -18,22 +18,26 @@ const MovieRecentReviews: React.FC<MovieRecentReviewsProps> = ({ movieId }) => {
     recentReviewsData && recentReviewsData.reviewsRecentFromMovie.length > 0;
 
   return (
-    <Card title="Recent reviews" noPadding>
-      {!hasAnyRecentReview ? (
-        <Typography component="p">
-          No one has reviewed this movie yet.
-        </Typography>
-      ) : (
-        <ul>
-          {recentReviewsData.reviewsRecentFromMovie.map(review => (
-            <ReviewPreview
-              key={`movie-recent-review-${review.id}`}
-              review={review}
-              simple
-            />
-          ))}
-        </ul>
-      )}
+    <Card>
+      <Card.Header title="Recent reviews" marginBottom={!hasAnyRecentReview} />
+
+      <Card.Body>
+        {!hasAnyRecentReview ? (
+          <Typography component="p">
+            No one has reviewed this movie yet.
+          </Typography>
+        ) : (
+          <ul>
+            {recentReviewsData.reviewsRecentFromMovie.map(review => (
+              <ReviewPreview
+                key={`movie-recent-review-${review.id}`}
+                review={review}
+                simple
+              />
+            ))}
+          </ul>
+        )}
+      </Card.Body>
     </Card>
   );
 };

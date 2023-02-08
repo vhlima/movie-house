@@ -34,7 +34,7 @@ const RemoveMovieFromPreMadeListButton: React.FC<
         })
       }
     >
-      <SvgIcon iconType="FiX" size={24} />
+      <SvgIcon className="text-danger-base" iconType="FiX" size={24} />
     </Button>
   );
 };

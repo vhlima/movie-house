@@ -41,68 +41,72 @@ const ProfileSettingsView: React.FC = () => {
   ];
 
   return (
-    <Card title="Personal settings">
-      <Formik
-        initialValues={{
-          username: data.user.username,
-          realName: data.user.realName,
-          email: '',
-          biography: '',
-        }}
-        onSubmit={handleSubmit}
-      >
-        <Form className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <ProfilePicture
-              imageSize="lg"
-              src={uploadedProfilePictureUrl || data.user.profilePictureUrl}
-            />
+    <Card>
+      <Card.Header title="Personal settings" marginBottom />
 
-            <input
-              className="hidden"
-              type="file"
-              accept="image/*"
-              name="profilePictureFile"
-              ref={profilePictureInputRef}
-              onChange={handleProfilePictureAdd}
-            />
+      <Card.Body>
+        <Formik
+          initialValues={{
+            username: data.user.username,
+            realName: data.user.realName,
+            email: '',
+            biography: '',
+          }}
+          onSubmit={handleSubmit}
+        >
+          <Form className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <ProfilePicture
+                imageSize="lg"
+                src={uploadedProfilePictureUrl || data.user.profilePictureUrl}
+              />
 
-            <div className="flex flex-col gap-2 w-full">
-              <Button
-                buttonStyle="secondary"
-                onClick={() => profilePictureInputRef?.current.click()}
-              >
-                Upload profile picture
-              </Button>
+              <input
+                className="hidden"
+                type="file"
+                accept="image/*"
+                name="profilePictureFile"
+                ref={profilePictureInputRef}
+                onChange={handleProfilePictureAdd}
+              />
 
-              {uploadedProfilePictureUrl && (
+              <div className="flex flex-col gap-2 w-full">
                 <Button
-                  buttonStyle="danger"
-                  onClick={clearUploadedProfilePictureUrl}
+                  buttonStyle="secondary"
+                  onClick={() => profilePictureInputRef?.current.click()}
                 >
-                  Remove uploaded picture
+                  Upload profile picture
                 </Button>
-              )}
+
+                {uploadedProfilePictureUrl && (
+                  <Button
+                    buttonStyle="danger"
+                    onClick={clearUploadedProfilePictureUrl}
+                  >
+                    Remove uploaded picture
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
 
-          {fields.map(field => (
-            <Input.Label
-              key={`settings-field-${field.id}`}
-              htmlFor={field.id}
-              text={field.name}
-            >
-              <Input.Container>
-                <Input id={field.id} />
-              </Input.Container>
-            </Input.Label>
-          ))}
+            {fields.map(field => (
+              <Input.Label
+                key={`settings-field-${field.id}`}
+                htmlFor={field.id}
+                text={field.name}
+              >
+                <Input.Container>
+                  <Input id={field.id} />
+                </Input.Container>
+              </Input.Label>
+            ))}
 
-          {/* <Button type="submit" disabled={updateUserResult.loading}>
+            {/* <Button type="submit" disabled={updateUserResult.loading}>
             Save changes
           </Button> */}
-        </Form>
-      </Formik>
+          </Form>
+        </Formik>
+      </Card.Body>
     </Card>
   );
 };

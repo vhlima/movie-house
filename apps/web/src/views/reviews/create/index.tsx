@@ -25,38 +25,42 @@ const CreateReviewView: React.FC<CreateReviewView> = ({ movie }) => {
     useState<CardReviewMovieType>(movie);
 
   return (
-    <Card title="Write your review">
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-2">
-          {!selectedMovie && (
-            <div>
-              <Typography
-                className="whitespace-nowrap font-bold"
-                component="h2"
-                color="primary"
-                size="lg"
-              >
-                No movie selected
-              </Typography>
+    <Card>
+      <Card.Header title="Write your review" marginBottom />
 
-              <Typography component="p">
-                Select the movie you want to review.
-              </Typography>
-            </div>
-          )}
+      <Card.Body>
+        <div className="flex gap-4">
+          <div className="flex flex-col gap-2">
+            {!selectedMovie && (
+              <div>
+                <Typography
+                  className="whitespace-nowrap font-bold"
+                  component="h2"
+                  color="primary"
+                  size="lg"
+                >
+                  No movie selected
+                </Typography>
 
-          <MovieCover sizeType="md" movie={selectedMovie} link={false} />
+                <Typography component="p">
+                  Select the movie you want to review.
+                </Typography>
+              </div>
+            )}
 
-          <MovieSearchButton
-            className="whitespace-nowrap"
-            onSearchResult={movie => setSelectedMovie(movie)}
-          >
-            {!selectedMovie ? 'Select movie' : 'Change movie'}
-          </MovieSearchButton>
+            <MovieCover sizeType="md" movie={selectedMovie} link={false} />
+
+            <MovieSearchButton
+              className="whitespace-nowrap"
+              onSearchResult={movie => setSelectedMovie(movie)}
+            >
+              {!selectedMovie ? 'Select movie' : 'Change movie'}
+            </MovieSearchButton>
+          </div>
+
+          <ReviewCreateForm movieId={selectedMovie ? selectedMovie.id : -1} />
         </div>
-
-        <ReviewCreateForm movieId={selectedMovie ? selectedMovie.id : -1} />
-      </div>
+      </Card.Body>
     </Card>
   );
 };

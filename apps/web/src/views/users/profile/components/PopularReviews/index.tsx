@@ -20,21 +20,25 @@ const PopularReviews: React.FC = () => {
     userPopularReviewsData.reviewsUserPopular.length > 0;
 
   return (
-    <Card title="Popular reviews" noPadding>
-      {!hasAnyReview ? (
-        <Typography component="p">
-          {user.username} hasnt reviewed any movies yet.
-        </Typography>
-      ) : (
-        <ul>
-          {userPopularReviewsData.reviewsUserPopular.map(review => (
-            <ReviewPreview
-              key={`popular-review-${review.id}`}
-              review={review}
-            />
-          ))}
-        </ul>
-      )}
+    <Card>
+      <Card.Header title="Popular reviews" />
+
+      <Card.Body>
+        {!hasAnyReview ? (
+          <Typography component="p">
+            {user.username} hasnt reviewed any movies yet.
+          </Typography>
+        ) : (
+          <ul>
+            {userPopularReviewsData.reviewsUserPopular.map(review => (
+              <ReviewPreview
+                key={`popular-review-${review.id}`}
+                review={review}
+              />
+            ))}
+          </ul>
+        )}
+      </Card.Body>
     </Card>
   );
 };

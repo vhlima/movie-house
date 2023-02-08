@@ -20,22 +20,29 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
     popularReviewsData && popularReviewsData.reviewsPopularFromMovie.length > 0;
 
   return (
-    <Card title="Popular reviews" noPadding>
-      {!hasAnyPopularReview ? (
-        <Typography component="p">
-          No one has reviewed this movie yet.
-        </Typography>
-      ) : (
-        <ul>
-          {popularReviewsData.reviewsPopularFromMovie.map(review => (
-            <ReviewPreview
-              key={`movie-popular-review-${review.id}`}
-              review={review}
-              simple
-            />
-          ))}
-        </ul>
-      )}
+    <Card>
+      <Card.Header
+        title="Popular reviews"
+        marginBottom={!hasAnyPopularReview}
+      />
+
+      <Card.Body>
+        {!hasAnyPopularReview ? (
+          <Typography component="p">
+            No one has reviewed this movie yet.
+          </Typography>
+        ) : (
+          <ul>
+            {popularReviewsData.reviewsPopularFromMovie.map(review => (
+              <ReviewPreview
+                key={`movie-popular-review-${review.id}`}
+                review={review}
+                simple
+              />
+            ))}
+          </ul>
+        )}
+      </Card.Body>
     </Card>
   );
 };

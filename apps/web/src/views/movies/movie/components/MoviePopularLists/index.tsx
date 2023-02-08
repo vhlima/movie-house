@@ -17,21 +17,25 @@ const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
     popularListsData && popularListsData.moviePopularLists.length > 0;
 
   return (
-    <Card title="Popular lists" noPadding>
-      {!hasAnyPopularList ? (
-        <Typography component="p">
-          No lists were found containing this movie.
-        </Typography>
-      ) : (
-        <ul>
-          {popularListsData.moviePopularLists.map(list => (
-            <ListPreview
-              key={`movie-popular-lists-${list.post.id}`}
-              list={list}
-            />
-          ))}
-        </ul>
-      )}
+    <Card>
+      <Card.Header title="Popular lists" marginBottom={!hasAnyPopularList} />
+
+      <Card.Body>
+        {!hasAnyPopularList ? (
+          <Typography component="p">
+            No lists were found containing this movie.
+          </Typography>
+        ) : (
+          <ul>
+            {popularListsData.moviePopularLists.map(list => (
+              <ListPreview
+                key={`movie-popular-lists-${list.post.id}`}
+                list={list}
+              />
+            ))}
+          </ul>
+        )}
+      </Card.Body>
     </Card>
   );
 };

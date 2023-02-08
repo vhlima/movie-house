@@ -2,10 +2,11 @@ import BackdropImage from '../../components/BackdropImage';
 import PageContent from '../../components/PageContent';
 import Typography from '../../components/Typography';
 
+import PopularMoviesWeek from '../../components/movie/PopularMoviesWeek';
+
 import PopularReviewsWeek from '../../components/review/PopularReviewsWeek';
 
 import Features from './components/Features';
-import PopularMovies from './components/PopularMovies';
 
 const HomeView: React.FC = () => (
   <BackdropImage
@@ -34,7 +35,7 @@ const HomeView: React.FC = () => (
         </span>
       </div>
 
-      <PopularMovies />
+      <PopularMoviesWeek />
 
       <Features />
 
