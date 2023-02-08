@@ -28,7 +28,9 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   height = 250,
   children,
 }) => {
-  const movieCoverImageJsx = movie && (
+  const hasMovieAndPoster = movie && movie.posterUrl;
+
+  const movieCoverImageJsx = hasMovieAndPoster && (
     <Image
       className="w-full h-full"
       title={movie.originalTitle}
@@ -40,7 +42,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   );
 
   const movieCoverBodyJsx =
-    !link || !movie ? (
+    !link || !hasMovieAndPoster ? (
       movieCoverImageJsx
     ) : (
       <MovieLink movieId={movie.id}>{movieCoverImageJsx}</MovieLink>
@@ -53,15 +55,15 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
         {
           'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
           'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
-          'w-fit h-fit': movie,
-          'flex items-center justify-center w-full h-full': !movie,
+          'w-fit h-fit': hasMovieAndPoster,
+          'flex items-center justify-center w-full h-full': !hasMovieAndPoster,
           [className]: !!className,
         },
       )}
     >
       {movieCoverBodyJsx}
 
-      {!children && !movie ? (
+      {!children && !hasMovieAndPoster ? (
         <Typography component="span" size="3xl" color="quaternary">
           ?
         </Typography>
