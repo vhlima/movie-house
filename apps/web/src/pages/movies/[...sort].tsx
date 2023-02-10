@@ -2,7 +2,11 @@ import type { GetServerSideProps, NextPage } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindMoviesQuery, FindMoviesQueryVariables } from '../../graphql';
+import type {
+  FindMoviesQuery,
+  FindMoviesQueryVariables,
+  MovieSortInput,
+} from '../../graphql';
 
 import { MovieSortType, FindMoviesDocument } from '../../graphql';
 
@@ -44,20 +48,21 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
           return false;
         }
 
-        const sortTypeExists = findSortType(value[0]);
-
-        if (!sortTypeExists) {
-          return false;
-        }
-
-        return true;
+        return !!findSortType(value[0]);
       }),
   });
 
   try {
-    const { sort } = await requestValidationSchema.validate(query);
+    const {
+      sort: [sortTypeName, sortFilter],
+    } = await requestValidationSchema.validate(query);
 
-    const { sortType } = findSortType(sort[0]);
+    const { sortType } = findSortType(sortTypeName);
+
+    const sortInput: MovieSortInput = {
+      type: sortType,
+      filter: sortFilter,
+    };
 
     const apolloClient = initializeApollo();
 
@@ -68,16 +73,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       query: FindMoviesDocument,
       variables: {
         page: 1,
-        sort: {
-          type: sortType,
-          filter: sort[1],
-        },
+        sort: sortInput,
       },
     });
+
     return addApolloState(apolloClient, {
       props: {
-        sortType,
-        filter: sort[1],
+        sort: sortInput,
         ...moviesData,
       },
     });
@@ -87,8 +89,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 };
 
 interface MoviesSortPageProps extends FindMoviesQuery {
-  sortType: MovieSortType;
-  filter: string;
+  sort?: MovieSortInput;
 }
 
 const MoviesSortPage: NextPage<MoviesSortPageProps> = ({ ...props }) => (
