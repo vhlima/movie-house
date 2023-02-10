@@ -2,14 +2,10 @@ import clsx from 'clsx';
 
 import { useRouter } from 'next/router';
 
+import { useProfile } from '../../../../hooks/useProfile';
+
 import Link from '../../../../../../components/Link';
 import Typography from '../../../../../../components/Typography';
-
-interface ProfileNavigationProps {
-  user: {
-    username: string;
-  };
-}
 
 const navigationOptions = [
   {
@@ -38,7 +34,9 @@ const navigationOptions = [
   },
 ];
 
-const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ user }) => {
+const ProfileNavigation: React.FC = () => {
+  const { user } = useProfile();
+
   const { route } = useRouter();
 
   const rootPath = route.split('/').slice(0, 4).join('/');

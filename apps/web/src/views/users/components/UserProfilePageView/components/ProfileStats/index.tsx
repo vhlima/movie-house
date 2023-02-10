@@ -4,17 +4,12 @@ import { useFindUserProfileStatsQuery } from '../../../../../../graphql';
 
 import { useAuth } from '../../../../../../hooks/useAuth';
 
+import { useProfile } from '../../../../hooks/useProfile';
+
 import Button from '../../../../../../components/Button';
 import FollowButton from '../../../../../../components/FollowButton';
 
 import UserStats from './components/UserStats';
-
-interface ProfileStatsProps {
-  user: {
-    id: string;
-    username: string;
-  };
-}
 
 const profileStats = [
   {
@@ -47,8 +42,10 @@ const followStats = [
   },
 ];
 
-const ProfileStats: React.FC<ProfileStatsProps> = ({ user }) => {
+const ProfileStats: React.FC = () => {
   const { data: session } = useAuth();
+
+  const { user } = useProfile();
 
   const { data: profileStatsData } = useFindUserProfileStatsQuery({
     variables: { userId: user.id },

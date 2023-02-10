@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
-import { useProfile } from '../../hooks/useProfile';
+import { useProfile } from '../../../hooks/useProfile';
 
 import {
   LimitType,

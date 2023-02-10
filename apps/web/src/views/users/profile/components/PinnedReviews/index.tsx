@@ -4,7 +4,7 @@ import { useFindUserPinnedReviewsQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
-import { useProfile } from '../../hooks/useProfile';
+import { useProfile } from '../../../hooks/useProfile';
 
 import Card from '../../../../../components/Card';
 import Typography from '../../../../../components/Typography';

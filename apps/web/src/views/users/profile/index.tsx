@@ -1,10 +1,4 @@
-import { useMemo } from 'react';
-
 import type { FindUserQuery } from '../../../graphql';
-
-import type { ProfileContextData } from './hooks/useProfile';
-
-import { ProfileContext } from './hooks/useProfile';
 
 import Biography from './components/Biography';
 import PinnedReviews from './components/PinnedReviews';
@@ -16,27 +10,18 @@ import UserProfilePageView from '../components/UserProfilePageView';
 
 type UserProfilePageViewProps = FindUserQuery;
 
-const UserProfileView: React.FC<UserProfilePageViewProps> = ({ user }) => {
-  const contextProvider = useMemo(
-    () => ({ user } as ProfileContextData),
-    [user],
-  );
+const UserProfileView: React.FC<UserProfilePageViewProps> = ({ user }) => (
+  <UserProfilePageView user={user}>
+    <Biography />
 
-  return (
-    <UserProfilePageView user={user}>
-      <ProfileContext.Provider value={contextProvider}>
-        <Biography />
+    <FavoriteMovies />
 
-        <FavoriteMovies />
+    <PinnedReviews />
 
-        <PinnedReviews />
+    <RecentReviews />
 
-        <RecentReviews />
-
-        <PopularReviews />
-      </ProfileContext.Provider>
-    </UserProfilePageView>
-  );
-};
+    <PopularReviews />
+  </UserProfilePageView>
+);
 
 export default UserProfileView;
