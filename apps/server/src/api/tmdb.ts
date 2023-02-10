@@ -1,7 +1,7 @@
 import { AugmentedRequest, RESTDataSource } from '@apollo/datasource-rest';
 
 import Movie from '../entities/mongo-entities/movie';
-import Genre from '../entities/mongo-entities/movie/genre.interface';
+import MovieCredits from '../entities/mongo-entities/movie/credits';
 
 import MovieSearch from '../objects/movie-search';
 import MovieTrending from '../objects/movie-trending';
@@ -20,10 +20,16 @@ export default class TmdbAPI extends RESTDataSource {
     request.headers['Content-Type'] = 'application/json;charset=utf-8';
   }
 
-  async getCreditsByMovieId(movieId: string | number) {
-    const response = await this.get(`movie/${movieId}/credits`);
+  async getCreditsByMovieId(
+    movieId: string | number,
+  ): Promise<MovieCredits | undefined> {
+    try {
+      const response = await this.get(`movie/${movieId}/credits`);
 
-    return response;
+      return response;
+    } catch (err) {
+      return undefined;
+    }
   }
 
   async getMovieById(movieId: string | number) {
@@ -39,25 +45,42 @@ export default class TmdbAPI extends RESTDataSource {
     }
   }
 
-  async searchMovie(query: string, page: number): Promise<MovieSearch> {
-    const response = await this.get<MovieSearch>('search/movie', {
-      params: { query, page: `${page}` },
-    });
+  async searchMovie(
+    query: string,
+    page: number,
+  ): Promise<MovieSearch | undefined> {
+    try {
+      const response = await this.get<MovieSearch>('search/movie', {
+        params: { query, page: `${page}` },
+      });
 
-    return response;
+      return response;
+    } catch (err) {
+      return undefined;
+    }
   }
 
-  async getTrendingMoviesWeek(page: number): Promise<MovieTrending> {
-    const response = await this.get('trending/movie/week');
+  async getTrendingMoviesWeek(
+    page: number,
+  ): Promise<MovieTrending | undefined> {
+    try {
+      const response = await this.get('trending/movie/week');
 
-    return response;
+      return response;
+    } catch (err) {
+      return undefined;
+    }
   }
 
   async getMovieRecommendations(
     movieId: number,
-  ): Promise<{ page: number; results: Movie[] }> {
-    const response = await this.get(`movie/${movieId}/recommendations`);
+  ): Promise<{ page: number; results: Movie[] } | undefined> {
+    try {
+      const response = await this.get(`movie/${movieId}/recommendations`);
 
-    return response;
+      return response;
+    } catch (err) {
+      return undefined;
+    }
   }
 }
