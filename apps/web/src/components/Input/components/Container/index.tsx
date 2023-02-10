@@ -28,7 +28,6 @@ const InputContainer: React.FC<PropsWithChildren<InputContainerProps>> = ({
     <div
       className={clsx(
         inputStyles[styleType],
-        'overflow-hidden',
         {
           'flex items-center': childrenCount > 1,
 
