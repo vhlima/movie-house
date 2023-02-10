@@ -30,9 +30,9 @@ const HomeView: React.FC = () => (
           Tell your friends whats good.
         </Typography>
 
-        <span className="text-grey-300">
+        <Typography className="text-center" component="span" color="tertiary">
           The social network for movie lovers.
-        </span>
+        </Typography>
       </div>
 
       <PopularMoviesWeek />
