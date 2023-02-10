@@ -27,32 +27,6 @@ import MovieSortInput from '../inputs/movie-sort.input';
 
 @Resolver()
 export default class PreMadeListMovieResolver {
-  async findMoviesFromList(
-    userId: string,
-    listType: PreMadeListType,
-    page: number,
-    sort?: Record<string, unknown>,
-  ) {
-    const user = await UserRepository.findOneBy({ id: userId });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    const listExists = await PreMadeListRepository.findOneBy({ listType });
-
-    if (!listExists) {
-      return [];
-    }
-
-    const listMovies = await ListMovieRepository.findBy({
-      listId: listExists.id,
-      ...sort,
-    });
-
-    return listMovies.map(listMovie => listMovie.movie);
-  }
-
   @Query(() => Boolean)
   async isMovieOnPreMadeList(
     @Ctx() { user }: ServerContext,
