@@ -18,24 +18,9 @@ const Dropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
 
   const animation: MotionProps = useMemo(
     () => ({
-      initial: 'hidden',
-      animate: 'visible',
-      exit: {
-        y: '-10%',
-        transition: {
-          duration: 0.2,
-        },
-      },
-      variants: {
-        hidden: { opacity: 0, y: '-20%' },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.2,
-          },
-        },
-      },
+      initial: { y: -15, opacity: 0 },
+      animate: { y: 0, opacity: 1 },
+      exit: { y: -15, opacity: 0 },
     }),
     [],
   );
@@ -51,7 +36,9 @@ const Dropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
   return (
     <motion.div
       className="absolute w-full p-3 bg-grey-800 rounded-b-md z-20 right-0 sm:left-0 top-14"
-      {...animation}
+      initial={{ y: -15, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -15, opacity: 0 }}
     >
       {children}
     </motion.div>
