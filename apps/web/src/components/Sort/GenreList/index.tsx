@@ -1,4 +1,4 @@
-import SortDropdown from '../../../SortDropdown';
+import SortDropdown from '../SortDropdown';
 
 interface GenreListProps {
   pathname: string;
@@ -33,8 +33,8 @@ const GenreList: React.FC<GenreListProps> = ({ pathname }) => {
       items={movieGenres}
       queryKey="genre"
       pathname={{
-        clean: `/users/[username]/${pathname}`,
-        sort: `/users/[username]/${pathname}/genre/[genre]`,
+        clean: pathname,
+        sort: `${pathname}/genre/[genre]`,
       }}
     />
   );

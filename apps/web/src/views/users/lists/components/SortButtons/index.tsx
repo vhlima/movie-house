@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import SortButton from '../../../components/SortButton';
-import SortDropdown from '../../../components/SortDropdown';
+import SortButton from '../../../../../components/Sort/SortButton';
+import SortDropdown from '../../../../../components/Sort/SortDropdown';
 
 const SortButtons: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string>('');
@@ -28,6 +28,8 @@ const SortButtons: React.FC = () => {
       name: 'Last updated',
     },
   ];
+
+  // TODO add username variable to sort dropdown
 
   return (
     <SortButton

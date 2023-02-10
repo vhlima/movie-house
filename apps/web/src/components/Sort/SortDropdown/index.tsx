@@ -1,25 +1,22 @@
 import clsx from 'clsx';
 
-import Link from '../../../../components/Link';
-import SvgIcon from '../../../../components/SvgIcon';
-import Typography from '../../../../components/Typography';
+import { useSortLinkBuilder } from '../../../hooks/useSortLinkBuilder';
 
-import type { SortDropdownLogicProps } from './logic';
+import type { SortLinkBuilderProps } from '../../../hooks/useSortLinkBuilder';
 
-import { useLogic } from './logic';
+import Link from '../../Link';
+import SvgIcon from '../../SvgIcon';
+import Typography from '../../Typography';
 
-interface SortDropdownProps extends SortDropdownLogicProps {
+interface SortDropdownProps extends SortLinkBuilderProps {
   items: Array<{
     id: string;
     name: string;
   }>;
 }
 
-const SortDropdown: React.FC<SortDropdownProps> = ({
-  items,
-  ...logicProps
-}) => {
-  const { selectedOptions, buildFilteredHref } = useLogic(logicProps);
+const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
+  const { selectedOptions, buildFilteredHref } = useSortLinkBuilder(props);
 
   return (
     <div className="absolute inset-0 top-8 z-10">
@@ -32,9 +29,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
 
           return (
             <li
-              className={clsx('text-left hover:bg-grey-700', {
-                'border-y border-y-grey-500': index === 0,
-              })}
+              className="text-left hover:bg-grey-700 first-of-type:border-y first-of-type:border-y-grey-500"
               key={`movie-genre-${item.id}`}
             >
               <Link
@@ -50,7 +45,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
                 )}
 
                 <Typography
-                  className={clsx('whitespace-nowrap', {
+                  className={clsx({
                     'font-bold': isOptionSelected,
                   })}
                   component="span"

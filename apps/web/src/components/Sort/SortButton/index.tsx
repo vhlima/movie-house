@@ -2,8 +2,8 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren } from 'react';
 
-import SvgIcon from '../../../../components/SvgIcon';
-import Typography from '../../../../components/Typography';
+import SvgIcon from '../../SvgIcon';
+import Typography from '../../Typography';
 
 interface SortButtonProps {
   text: string;

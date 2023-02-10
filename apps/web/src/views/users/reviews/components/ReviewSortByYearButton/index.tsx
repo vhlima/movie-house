@@ -1,7 +1,7 @@
 import { eachYearOfInterval } from 'date-fns';
 
-import SortButton from '../../../components/SortButton';
-import SortDropdown from '../../../components/SortDropdown';
+import SortButton from '../../../../../components/Sort/SortButton';
+import SortDropdown from '../../../../../components/Sort/SortDropdown';
 
 interface ReviewSortByYearButtonProps {
   sinceDate: Date;
@@ -27,6 +27,8 @@ const ReviewSortByYearButton: React.FC<ReviewSortByYearButtonProps> = ({
         name: `${year.getFullYear()}`,
       })),
   ];
+
+  // TODO add [username] variable to url
 
   return (
     <SortButton text="Diary Year" isOpen={isOpen} onClick={onClick}>

@@ -1,6 +1,6 @@
 import { getDecade, setYear } from 'date-fns';
 
-import SortDropdown from '../../../SortDropdown';
+import SortDropdown from '../SortDropdown';
 
 interface DecadeListProps {
   pathname: string;
@@ -30,8 +30,8 @@ const DecadeList: React.FC<DecadeListProps> = ({ pathname }) => {
       items={decades}
       queryKey="decade"
       pathname={{
-        clean: `/users/[username]/${pathname}`,
-        sort: `/users/[username]/${pathname}/decade/[decade]`,
+        clean: pathname,
+        sort: `${pathname}/decade/[decade]`,
       }}
     />
   );

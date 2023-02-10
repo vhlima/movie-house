@@ -2,17 +2,16 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import GenreList from '../GenreList';
-import DecadeList from '../DecadeList';
-
-import SortButton from '../../../SortButton';
+import GenreList from '../../../../../components/Sort/GenreList';
+import DecadeList from '../../../../../components/Sort/DecadeList';
+import SortButton from '../../../../../components/Sort/SortButton';
 
 const SortButtons: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string>('');
 
   const { asPath } = useRouter();
 
-  const rootPath = asPath.split('/')[3];
+  const rootPath = asPath.split('/').slice(0, 4).join('/');
 
   return (
     <div className="flex flex-col sm:flex-row items-center ml-auto">
