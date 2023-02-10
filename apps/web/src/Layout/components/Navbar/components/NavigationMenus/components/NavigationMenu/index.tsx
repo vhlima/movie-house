@@ -26,7 +26,7 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
         )}
 
         <MenuItem
-          itemProps={{ href: '/movies/trending' }}
+          itemProps={{ href: '/movies' }}
           text="Films"
           icon="BsFillCollectionFill"
         />
