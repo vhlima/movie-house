@@ -59,7 +59,7 @@ const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
           className={clsx(
             'flex flex-col w-full rounded-md rounded-t-none max-h-40 overflow-x-hidden overflow-y-auto bg-grey-800',
             {
-              'absolute top-[100%] left-1/2 transform -translate-x-1/2 z-50':
+              'absolute top-full left-1/2 transform -translate-x-1/2 z-50':
                 dropdown,
             },
           )}
