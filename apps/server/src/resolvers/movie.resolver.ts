@@ -116,7 +116,7 @@ class MovieResolver {
     if (sort) {
       switch (sort.type) {
         case MovieSortType.GENRE: {
-          sortObject = sortMovieListByGenre(sort.filter as number[]);
+          sortObject = sortMovieListByGenre(sort.filter);
           break;
         }
 
@@ -126,7 +126,7 @@ class MovieResolver {
         }
 
         case MovieSortType.YEAR: {
-          sortObject = sortMovieListByYear(sort.filter as number);
+          sortObject = sortMovieListByYear(parseInt(sort.filter as string, 10));
           break;
         }
 

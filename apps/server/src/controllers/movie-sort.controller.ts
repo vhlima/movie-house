@@ -1,13 +1,21 @@
 import { getDecade } from 'date-fns';
 
-export function sortMovieListByGenre(genres: number[]) {
+import { firstLettersUppercase, splitSortFilter } from '../utils/sort-helper';
+
+export function sortMovieListByGenre(genresString: string) {
+  const genres = splitSortFilter(genresString).map(genre =>
+    firstLettersUppercase(genre.replace('-', ' ')),
+  );
+
   if (genres.length === 0) {
     return undefined;
   }
 
   return {
     'movie.genres': {
-      $elemMatch: { id: { $in: genres } },
+      $elemMatch: {
+        name: genres.length > 1 ? { $in: genres } : genres[0],
+      },
     },
   };
 }

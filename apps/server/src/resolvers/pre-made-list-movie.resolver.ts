@@ -77,17 +77,17 @@ export default class PreMadeListMovieResolver {
     if (sort) {
       switch (sort.type) {
         case MovieSortType.GENRE: {
-          sortObject = sortMovieListByGenre(sort.filter as number[]);
+          sortObject = sortMovieListByGenre(sort.filter);
           break;
         }
 
         case MovieSortType.DECADE: {
-          sortObject = sortMovieListByDecade(sort.filter as string);
+          sortObject = sortMovieListByDecade(sort.filter);
           break;
         }
 
         case MovieSortType.YEAR: {
-          sortObject = sortMovieListByYear(sort.filter as number);
+          sortObject = sortMovieListByYear(parseInt(sort.filter, 10));
           break;
         }
 
