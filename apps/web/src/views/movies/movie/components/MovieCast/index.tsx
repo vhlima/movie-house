@@ -29,7 +29,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
         ) : (
           <ul className="flex overflow-x-auto pb-4">
             {cast.slice(0, 10).map(actor => (
-              <MovieActor actor={actor} />
+              <MovieActor key={`movie-actor-${actor.id}`} actor={actor} />
             ))}
           </ul>
         )}

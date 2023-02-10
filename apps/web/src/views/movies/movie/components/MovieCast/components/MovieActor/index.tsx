@@ -16,10 +16,7 @@ const MovieActor: React.FC<MovieActorProps> = ({ actor }) => {
   const { character, originalName, profilePictureUrl } = actor;
 
   return (
-    <div
-      className="flex flex-col gap-1 w-24 flex-shrink-0"
-      key={`movie-cast-${actor.id}`}
-    >
+    <div className="flex flex-col gap-1 w-24 flex-shrink-0">
       <div className="flex flex-col gap-2 items-center group">
         <div className="relative w-20 h-20 border-grey-800 border rounded-full overflow-hidden hover:opacity-60">
           {!profilePictureUrl ? (
