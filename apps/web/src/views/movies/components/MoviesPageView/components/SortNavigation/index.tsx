@@ -22,6 +22,10 @@ const SortNavigation: React.FC = () => {
     setDropDownOpen(prev => (prev === dropdown ? undefined : dropdown));
   }
 
+  function closeDropdown() {
+    setDropDownOpen(undefined);
+  }
+
   return (
     <div className="flex items-center">
       <Typography
@@ -34,41 +38,65 @@ const SortNavigation: React.FC = () => {
       </Typography>
 
       <ul className="grid grid-cols-3 md:flex border border-grey-700 rounded-sm">
-        <SortListItem text="Decade" onClick={() => openDropDown('decade')}>
+        <SortListItem
+          text="Decade"
+          onClick={() => openDropDown('decade')}
+          onClose={() => closeDropdown()}
+        >
           {dropDownOpen && dropDownOpen === 'decade' && (
             <DecadeList pathname="/movies" />
           )}
         </SortListItem>
 
-        {/* <SortListItem text="Rating" onClick={() => openDropDown('rating')}>
+        <SortListItem
+          text="Rating"
+          onClick={() => openDropDown('rating')}
+          onClose={() => closeDropdown()}
+        >
           {dropDownOpen && dropDownOpen === 'rating' && (
             <DecadeList pathname="/movies" />
           )}
         </SortListItem>
 
-        <SortListItem text="Popular" onClick={() => openDropDown('popular')}>
+        <SortListItem
+          text="Popular"
+          onClick={() => openDropDown('popular')}
+          onClose={() => closeDropdown()}
+        >
           {dropDownOpen && dropDownOpen === 'popular' && (
             <DecadeList pathname="/movies" />
           )}
         </SortListItem>
 
-        <SortListItem text="Genre" onClick={() => openDropDown('genre')}>
+        <SortListItem
+          text="Genre"
+          onClick={() => openDropDown('genre')}
+          onClose={() => closeDropdown()}
+        >
           {dropDownOpen && dropDownOpen === 'genre' && (
             <GenreList pathname="/movies" />
           )}
         </SortListItem>
 
-        <SortListItem text="Service" onClick={() => openDropDown('service')}>
+        <SortListItem
+          text="Service"
+          onClick={() => openDropDown('service')}
+          onClose={() => closeDropdown()}
+        >
           {dropDownOpen && dropDownOpen === 'service' && (
             <DecadeList pathname="/movies" />
           )}
         </SortListItem>
 
-        <SortListItem text="Other" onClick={() => openDropDown('other')}>
+        <SortListItem
+          text="Other"
+          onClick={() => openDropDown('other')}
+          onClose={() => closeDropdown()}
+        >
           {dropDownOpen && dropDownOpen === 'other' && (
             <DecadeList pathname="/movies" />
           )}
-        </SortListItem> */}
+        </SortListItem>
       </ul>
     </div>
   );

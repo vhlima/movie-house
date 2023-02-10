@@ -6,12 +6,22 @@ import GenreList from '../../../../../components/Sort/GenreList';
 import DecadeList from '../../../../../components/Sort/DecadeList';
 import SortButton from '../../../../../components/Sort/SortButton';
 
+type DropdownType = 'genre' | 'decade';
+
 const SortButtons: React.FC = () => {
-  const [dropdownOpen, setDropdownOpen] = useState<string>('');
+  const [dropdownOpen, setDropdownOpen] = useState<DropdownType>();
 
   const { asPath } = useRouter();
 
   const rootPath = asPath.split('/').slice(0, 4).join('/');
+
+  function openDropdown(dropdown: DropdownType) {
+    setDropdownOpen(prev => (prev !== dropdown ? dropdown : undefined));
+  }
+
+  function closeDropdown() {
+    setDropdownOpen(undefined);
+  }
 
   return (
     <div className="flex flex-col sm:flex-row items-center ml-auto">
@@ -19,9 +29,8 @@ const SortButtons: React.FC = () => {
         text="Genre"
         sizeType="lg"
         isOpen={dropdownOpen === 'genre'}
-        onClick={() =>
-          setDropdownOpen(prev => (prev !== 'genre' ? 'genre' : ''))
-        }
+        onClick={() => openDropdown('genre')}
+        onClose={() => closeDropdown()}
       >
         <GenreList pathname={rootPath} />
       </SortButton>
@@ -29,9 +38,8 @@ const SortButtons: React.FC = () => {
       <SortButton
         text="Decade"
         isOpen={dropdownOpen === 'decade'}
-        onClick={() =>
-          setDropdownOpen(prev => (prev !== 'decade' ? 'decade' : ''))
-        }
+        onClick={() => openDropdown('decade')}
+        onClose={() => closeDropdown()}
       >
         <DecadeList pathname={rootPath} />
       </SortButton>
