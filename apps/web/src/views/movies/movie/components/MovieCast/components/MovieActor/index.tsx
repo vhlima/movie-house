@@ -23,7 +23,7 @@ const MovieActor: React.FC<MovieActorProps> = ({ actor }) => {
       <div className="flex flex-col gap-2 items-center group">
         <div className="relative w-20 h-20 border-grey-800 border rounded-full overflow-hidden hover:opacity-60">
           {!profilePictureUrl ? (
-            <div className="flex items-center justify-center w-full h-full bg-grey-800">
+            <div className="flex items-center justify-center w-full h-full bg-grey-800 select-none">
               <Typography component="span" color="primary" size="4xl">
                 ?
               </Typography>
