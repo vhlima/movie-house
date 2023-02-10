@@ -1,12 +1,12 @@
-import { useFindRecentReviewsQuery } from '../../../../../graphql';
+import { useFindRecentReviewsQuery } from '../../../graphql';
 
-import Link from '../../../../../components/Link';
+import Link from '../../Link';
 
-import Card from '../../../../../components/Card';
+import Card from '../../Card';
 
-import MovieCover from '../../../../../components/movie/MovieCover';
+import MovieCover from '../../movie/MovieCover';
 
-import QueryState from '../../../../../components/QueryState';
+import QueryState from '../../QueryState';
 
 const RecentReviews: React.FC = () => {
   const { data, loading, error } = useFindRecentReviewsQuery();

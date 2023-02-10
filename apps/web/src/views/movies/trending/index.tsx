@@ -2,8 +2,7 @@ import { useFindTrendingMoviesQuery } from '../../../graphql';
 
 import Card from '../../../components/Card';
 
-import RecentReviews from './components/RecentReviews';
-
+import RecentReviews from '../../../components/review/RecentReviews';
 import PopularReviewsWeek from '../../../components/review/PopularReviewsWeek';
 
 import PopularReviewers from './components/PopularReviewers';
