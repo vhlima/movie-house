@@ -18,9 +18,9 @@ const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
   return (
     <BackdropImage src={movie.backdropUrl} alt="Movie review backdrop">
       <PageContent>
-        <MovieInfos movie={movie} />
+        {/* <MovieInfos movie={movie} /> */}
 
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-2 z-50">
           <UserProfileLink className="group" username={user.username}>
             <ReviewHeader user={user} post={post} />
           </UserProfileLink>

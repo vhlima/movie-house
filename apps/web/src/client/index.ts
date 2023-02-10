@@ -35,8 +35,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 function createApolloClient(headers?: IncomingHttpHeaders) {
-  console.log(`create apollo client? ${headers?.cookie}`);
-
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: from([

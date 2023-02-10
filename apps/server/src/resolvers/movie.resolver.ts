@@ -2,13 +2,25 @@ import { Resolver, Query, Arg, Ctx, Int } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
+import {
+  sortMovieListByDecade,
+  sortMovieListByGenre,
+  sortMovieListByYear,
+} from '../controllers/movie-sort.controller';
+
+import { ListMovieRepository } from '../repositories';
+
 import Movie from '../entities/mongo-entities/movie';
 
 import MovieSearch from '../objects/movie-search';
 import MovieTrending from '../objects/movie-trending';
 
-import NotFoundError from '../errors/NotFound';
+import MovieSortType from '../enums/MovieSortType';
+
+import MovieSortInput from '../inputs/movie-sort.input';
+
 import Error from '../errors/Error';
+import NotFoundError from '../errors/NotFound';
 
 @Resolver(() => Movie)
 class MovieResolver {
@@ -36,6 +48,10 @@ class MovieResolver {
       searchTerm,
       page,
     );
+
+    if (!searchResponse) {
+      throw new Error('asd', 'asd');
+    }
 
     if (searchResponse.total_results === 0) {
       return searchResponse;
@@ -88,6 +104,53 @@ class MovieResolver {
     }
 
     return recommendationsResponse.results.map(movie => movie);
+  }
+
+  @Query(() => [Movie])
+  async movies(
+    @Arg('sort', { nullable: true }) sort?: MovieSortInput,
+    @Arg('page', () => Int, { nullable: true }) page = 1,
+  ) {
+    let sortObject: Record<string, unknown> | undefined;
+
+    if (sort) {
+      switch (sort.type) {
+        case MovieSortType.GENRE: {
+          sortObject = sortMovieListByGenre(sort.filter as number[]);
+          break;
+        }
+
+        case MovieSortType.DECADE: {
+          sortObject = sortMovieListByDecade(sort.filter as string);
+          break;
+        }
+
+        case MovieSortType.YEAR: {
+          sortObject = sortMovieListByYear(sort.filter as number);
+          break;
+        }
+
+        default: {
+          break;
+        }
+      }
+    }
+
+    const response = await ListMovieRepository.find({
+      ...sortObject,
+    });
+
+    const responseWithoutDuplicate: Movie[] = [];
+
+    response.forEach(r => {
+      const exists = responseWithoutDuplicate.find(rp => rp.id === r.movieId);
+
+      if (!exists) {
+        responseWithoutDuplicate.push(r.movie);
+      }
+    });
+
+    return responseWithoutDuplicate;
   }
 }
 
