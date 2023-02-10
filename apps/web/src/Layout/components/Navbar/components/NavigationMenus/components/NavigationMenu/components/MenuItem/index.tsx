@@ -30,7 +30,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ text, icon, itemProps }) => {
   const itemPropsAsLink = itemProps as LinkProps;
 
   return (
-    <li className="border-b border-b-grey-300 group last:border-0 py-2 first:pt-0 last:pb-0">
+    <li className="border-b border-b-grey-700 group last:border-0 py-2 first:pt-0 last:pb-0">
       {!itemPropsAsLink.href ? (
         <button
           className="flex items-center w-full"
