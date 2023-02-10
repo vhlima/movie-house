@@ -49,11 +49,11 @@ const TextInput: React.FC<TextInputInternalProps> = ({
       />
 
       {loading ? (
-        <div className="p-2 mt-auto text-grey-300">
+        <div className="p-2 mt-auto">
           <SvgIcon className="animate-spin" iconType="CgSpinner" size={24} />
         </div>
       ) : (
-        <button className="p-2 mt-auto text-grey-300" type="submit">
+        <button className="p-2 mt-auto" type="submit">
           <SvgIcon iconType="IoIosSend" size={24} />
         </button>
       )}
