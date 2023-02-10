@@ -13,9 +13,9 @@ export const useLogic = () => {
     fetchPolicy: 'no-cache',
   });
 
-  const resetSearchResults = () => {
+  function resetSearchResults() {
     setSearchResults([]);
-  };
+  }
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -31,7 +31,7 @@ export const useLogic = () => {
     };
 
     const delayDebounceFn = setTimeout(async () => {
-      if (searchTerm && searchTerm.length >= 4) {
+      if (searchTerm && searchTerm.length >= 3) {
         await fetchMovie();
       }
     }, 3000);
@@ -41,6 +41,7 @@ export const useLogic = () => {
 
   return {
     searchResults,
+
     error,
     resetSearchResults,
 

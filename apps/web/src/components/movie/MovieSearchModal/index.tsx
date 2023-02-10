@@ -1,15 +1,14 @@
-import { parseISO } from 'date-fns';
+import type { PropsWithChildren } from 'react';
 
 import type { Movie } from '../../../graphql';
 
 import type { ModalHandles } from '../../Modal';
 
-import { useLogic } from './logic';
-
 import Modal from '../../Modal';
 import Input from '../../Input';
-import Button from '../../Button';
 import Typography from '../../Typography';
+import MovieSearchInput from '../MovieSearchInput';
+import ErrorText from '../../ErrorText';
 
 export type MovieSearchResult = {
   id: Movie['id'];
@@ -26,20 +25,16 @@ interface MovieSearchModalProps extends ModalHandles {
   onSelect: (movie: MovieSearchResult) => void;
 }
 
-const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
+const MovieSearchModal: React.FC<PropsWithChildren<MovieSearchModalProps>> = ({
   title,
   errors = [],
   description,
   onSelect,
   onFocus,
   onClose,
+  children,
 }) => {
-  const { searchResults, error, resetSearchResults, setSearchTerm } =
-    useLogic();
-
-  if (error) {
-    errors.push(error.message);
-  }
+  const a = 1;
 
   // TODO bug: when submit request has an error, it starts searching again for the same result even if user didnt typed anything
 
@@ -58,7 +53,13 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
         htmlFor="searchMovie"
         formik={false}
       >
-        <Input.Container styleType="secondary">
+        <MovieSearchInput
+          styleType="secondary"
+          placeholder="Search for a movie"
+          onFocus={onFocus}
+          onSelectMovie={onSelect}
+        />
+        {/* <Input.Container styleType="secondary">
           <Input
             id="searchMovie"
             placeholder="Search for a movie"
@@ -69,34 +70,10 @@ const MovieSearchModal: React.FC<MovieSearchModalProps> = ({
               resetSearchResults();
             }}
           />
-        </Input.Container>
+        </Input.Container> */}
+
+        {errors.length > 0 && <ErrorText text={errors.join('')} />}
       </Input.Label>
-
-      {errors.length > 0 && (
-        <span className="text-danger-base">{errors.join('')}</span>
-      )}
-
-      {searchResults.length > 0 && (
-        <ul className="mt-0.5 flex flex-col rounded-md border border-grey-900 max-h-40 overflow-x-hidden overflow-y-auto">
-          {searchResults.map(movie => (
-            <li key={movie.id}>
-              <Button
-                buttonStyle="secondary"
-                buttonSize="xs"
-                rounded={false}
-                onClick={() => onSelect(movie)}
-              >
-                <Typography component="span" color="primary">
-                  {movie.originalTitle}
-
-                  {movie.releaseDate &&
-                    ` (${parseISO(movie.releaseDate).getFullYear()})`}
-                </Typography>
-              </Button>
-            </li>
-          ))}
-        </ul>
-      )}
     </Modal>
   );
 };
