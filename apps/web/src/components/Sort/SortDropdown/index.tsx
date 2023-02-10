@@ -19,7 +19,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
   const { selectedOptions, buildFilteredHref } = useSortLinkBuilder(props);
 
   return (
-    <div className="absolute inset-0 top-8 z-10">
+    <div className="absolute inset-0 top-full z-10">
       <ul className="shadow-lg bg-grey-800 rounded-b-sm">
         {items.map((item, index) => {
           const isOptionSelected =
