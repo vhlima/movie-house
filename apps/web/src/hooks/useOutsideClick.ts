@@ -1,19 +1,19 @@
 import { useRef } from 'react';
 
 export function useOutsideClick<T extends HTMLElement>() {
-  const listRef = useRef<T>();
+  const elementRef = useRef<T>();
 
   function handleBlur(event: React.FocusEvent, onClose: () => void) {
     if (
-      !listRef.current ||
-      !listRef.current.contains(event.relatedTarget as Node)
+      !elementRef.current ||
+      !elementRef.current.contains(event.relatedTarget as Node)
     ) {
       onClose();
     }
   }
 
   return {
-    listRef,
+    elementRef,
     handleBlur,
   };
 }

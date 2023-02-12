@@ -17,12 +17,12 @@ const SortListItem: React.FC<PropsWithChildren<SortListItemProps>> = ({
   onClose,
   children,
 }) => {
-  const { listRef, handleBlur } = useOutsideClick<HTMLLIElement>();
+  const { elementRef, handleBlur } = useOutsideClick<HTMLLIElement>();
 
   return (
     <li
       className="relative bg-grey-800 border-r border-r-grey-700 last:border-r-0"
-      ref={listRef}
+      ref={elementRef}
       onBlur={e => handleBlur(e, onClose)}
     >
       <button

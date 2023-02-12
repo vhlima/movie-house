@@ -27,7 +27,7 @@ const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
   onClick,
   onClose,
 }) => {
-  const { listRef, handleBlur } = useOutsideClick<HTMLSelectElement>();
+  const { elementRef, handleBlur } = useOutsideClick<HTMLSelectElement>();
 
   return (
     <section
@@ -38,7 +38,7 @@ const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
         'w-36 sm:w-32': sizeType === 'md',
         'w-36 sm:w-36': sizeType === 'lg',
       })}
-      ref={listRef}
+      ref={elementRef}
       onBlur={e => handleBlur(e, onClose)}
     >
       <button
