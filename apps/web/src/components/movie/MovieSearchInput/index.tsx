@@ -6,6 +6,8 @@ import type { Movie } from '../../../graphql';
 
 import { parseISO } from '../../../utils/date-utils';
 
+import { useOutsideClick } from '../../../hooks/useOutsideClick';
+
 import { useLogic } from './logic';
 
 import Input from '../../Input';
@@ -33,10 +35,16 @@ const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
 }) => {
   const { searchResults, resetSearchResults, setSearchTerm } = useLogic();
 
+  const { elementRef, handleBlur } = useOutsideClick<HTMLDivElement>();
+
   const hasAnySearchResult = searchResults.length > 0;
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      ref={elementRef}
+      onBlur={e => handleBlur(e, resetSearchResults)}
+    >
       <Input.Container
         className={clsx('w-full rounded-md lg:w-auto', {
           'rounded-b-none': hasAnySearchResult,
