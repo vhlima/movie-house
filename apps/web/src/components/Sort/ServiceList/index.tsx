@@ -23,12 +23,11 @@ const ServiceList: React.FC<ServiceListProps> = ({ pathname }) => {
 
   return (
     <SortDropdown
-      singleOption
       items={providers}
-      queryKey="service"
+      queryKey="on"
       pathname={{
         clean: pathname,
-        sort: `${pathname}/on/[service]`,
+        sort: `${pathname}/on/[on]`,
       }}
     />
   );
