@@ -50,14 +50,14 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const MoviePage: NextPage<FindFullMovieQuery> = ({ movie }) => {
+const MoviePage: NextPage<FindFullMovieQuery> = ({ ...props }) => {
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <MovieInfosSkeleton />;
   }
 
-  return <MovieView movieId={movie.id} />;
+  return <MovieView {...props} />;
 };
 
 export default MoviePage;

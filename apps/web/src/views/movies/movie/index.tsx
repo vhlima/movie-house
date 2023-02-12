@@ -1,6 +1,6 @@
 import { useAuth } from '../../../hooks/useAuth';
 
-import { useFindFullMovieQuery } from '../../../graphql';
+import type { FindFullMovieQuery } from '../../../graphql';
 
 import Button from '../../../components/Button';
 import PageContent from '../../../components/PageContent';
@@ -16,16 +16,10 @@ import MovieRecentReviews from './components/MovieRecentReviews';
 import MoviePopularReviews from './components/MoviePopularReviews';
 import MoviesRelated from './components/MoviesRelated';
 
-interface MovieViewProps {
-  movieId: number;
-}
+type MovieViewProps = FindFullMovieQuery;
 
-const MovieView: React.FC<MovieViewProps> = ({ movieId }) => {
+const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
   const { data: session } = useAuth();
-
-  const {
-    data: { movie },
-  } = useFindFullMovieQuery({ variables: { movieId } });
 
   return (
     <BackdropImage src={movie.backdropUrl} alt={movie.originalTitle}>
