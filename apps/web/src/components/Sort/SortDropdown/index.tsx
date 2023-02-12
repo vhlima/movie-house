@@ -16,7 +16,8 @@ interface SortDropdownProps extends SortLinkBuilderProps {
 }
 
 const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
-  const { selectedOptions, buildFilteredHref } = useSortLinkBuilder(props);
+  const { selectedOptions, checkIsOptionSelected, buildFilteredHref } =
+    useSortLinkBuilder(props);
 
   return (
     <div className="absolute inset-0 top-full z-10">
@@ -25,7 +26,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
           const isOptionSelected =
             index === 0
               ? selectedOptions.length === 0
-              : selectedOptions.includes(item.id);
+              : checkIsOptionSelected(item.id);
 
           return (
             <li

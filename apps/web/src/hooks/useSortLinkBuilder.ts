@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 
+import type { ParsedUrlQuery } from 'querystring';
+
 import type { LinkProps } from '../components/Link';
 
 type SortLinkProps = {
@@ -27,6 +29,40 @@ export interface SortLinkBuilderProps {
 
 const SORT_FILTER_SEPARATE_COMMA = '+';
 
+function convertStringToMatchParameters(convert: string) {
+  return convert.toLowerCase().replace(/ /g, '-');
+}
+
+function findQueryValue(
+  query: ParsedUrlQuery,
+  queryKey: string,
+): string | undefined {
+  const { sort } = query;
+
+  /* If the query does not contain sort, then we flat search. */
+  if (!sort || !Array.isArray(sort)) {
+    return query[queryKey] as string;
+  }
+
+  /* Check if the parameter is equal to queryKey. */
+  const paramIndex = sort.findIndex(param => param === queryKey);
+
+  /* If we dont have any parameter there is no need to sort. */
+  if (paramIndex === -1 || sort.length - 1 <= paramIndex) {
+    return undefined;
+  }
+
+  /*
+    Return the next object of sort, considering:
+    [..., queryKey, queryValue]
+
+    Example: /users/films/by/decade/2010
+    What we will read: [..., 'decade', '2010']
+  */
+
+  return sort[paramIndex + 1];
+}
+
 export function useSortLinkBuilder({
   pathname,
   queryKey,
@@ -34,42 +70,21 @@ export function useSortLinkBuilder({
 }: SortLinkBuilderProps) {
   const { query } = useRouter();
 
-  function findQueryValue() {
-    const { sort } = query;
-
-    /* If the query does not contain sort, then we flat search. */
-    if (!sort || !Array.isArray(sort)) {
-      return query[queryKey];
-    }
-
-    /* Check if the parameter is equal to queryKey. */
-    const paramIndex = sort.findIndex(param => param === queryKey);
-
-    /* If we dont have any parameter there is no need to sort. */
-    if (paramIndex === -1 || sort.length - 1 <= paramIndex) {
-      return undefined;
-    }
-
-    /*
-      Return the next object of sort, considering:
-      [..., queryKey, queryValue]
-
-      Example: /users/films/by/decade/2010
-      What we will read: [..., 'decade', '2010']
-    */
-
-    return sort[paramIndex + 1];
-  }
-
-  const queryKeyValue = findQueryValue();
+  const queryKeyValue = findQueryValue(query, queryKey);
 
   /* Convert queryValue into array of values. */
   const selectedOptions = queryKeyValue
     ? (queryKeyValue as string).split(SORT_FILTER_SEPARATE_COMMA)
     : [];
 
+  function checkIsOptionSelected(rawOptionId: string): boolean {
+    return selectedOptions.includes(
+      convertStringToMatchParameters(rawOptionId),
+    );
+  }
+
   function buildFilteredHref(rawOptionId: string): LinkProps {
-    const optionId = rawOptionId.toLowerCase().replaceAll(' ', '-');
+    const optionId = convertStringToMatchParameters(rawOptionId);
 
     const isOptionSelected = selectedOptions.includes(optionId);
 
@@ -113,6 +128,7 @@ export function useSortLinkBuilder({
 
   return {
     selectedOptions,
+    checkIsOptionSelected,
     buildFilteredHref,
   };
 }
