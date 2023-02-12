@@ -104,9 +104,14 @@ export const FIND_MOVIE_RECOMMENDATIONS = gql`
 export const FIND_MOVIES = gql`
   query FindMovies($page: Int, $sort: MovieSortInput) {
     movies(page: $page, sort: $sort) {
-      id
-      originalTitle
-      posterUrl
+      page
+      totalPages
+      totalResults
+      results {
+        id
+        originalTitle
+        posterUrl
+      }
     }
   }
 `;

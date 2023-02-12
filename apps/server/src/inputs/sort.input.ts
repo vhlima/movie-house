@@ -4,6 +4,6 @@ import SortScalar from '../scalars/SortScalar';
 
 @InputType()
 export default abstract class SortInput {
-  @Field(() => SortScalar)
-  filter: string;
+  @Field(() => SortScalar, { nullable: true })
+  filter?: string;
 }

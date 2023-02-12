@@ -6,6 +6,7 @@ import DecadeList from '../../../../../../components/Sort/DecadeList';
 import Typography from '../../../../../../components/Typography';
 
 import SortListItem from './components/SortListItem';
+import ServiceList from '../../../../../../components/Sort/ServiceList';
 
 type NavigationFilterType =
   | 'decade'
@@ -14,6 +15,8 @@ type NavigationFilterType =
   | 'genre'
   | 'service'
   | 'other';
+
+const NAVIGATION_PATH = '/movies';
 
 const SortNavigation: React.FC = () => {
   const [dropDownOpen, setDropDownOpen] = useState<string>();
@@ -44,7 +47,7 @@ const SortNavigation: React.FC = () => {
           onClose={() => closeDropdown()}
         >
           {dropDownOpen && dropDownOpen === 'decade' && (
-            <DecadeList pathname="/movies" />
+            <DecadeList pathname={NAVIGATION_PATH} />
           )}
         </SortListItem>
 
@@ -54,7 +57,7 @@ const SortNavigation: React.FC = () => {
           onClose={() => closeDropdown()}
         >
           {dropDownOpen && dropDownOpen === 'rating' && (
-            <DecadeList pathname="/movies" />
+            <DecadeList pathname={NAVIGATION_PATH} />
           )}
         </SortListItem>
 
@@ -64,7 +67,7 @@ const SortNavigation: React.FC = () => {
           onClose={() => closeDropdown()}
         >
           {dropDownOpen && dropDownOpen === 'popular' && (
-            <DecadeList pathname="/movies" />
+            <DecadeList pathname={NAVIGATION_PATH} />
           )}
         </SortListItem>
 
@@ -74,7 +77,7 @@ const SortNavigation: React.FC = () => {
           onClose={() => closeDropdown()}
         >
           {dropDownOpen && dropDownOpen === 'genre' && (
-            <GenreList pathname="/movies" />
+            <GenreList pathname={NAVIGATION_PATH} />
           )}
         </SortListItem>
 
@@ -84,7 +87,7 @@ const SortNavigation: React.FC = () => {
           onClose={() => closeDropdown()}
         >
           {dropDownOpen && dropDownOpen === 'service' && (
-            <DecadeList pathname="/movies" />
+            <ServiceList pathname={NAVIGATION_PATH} />
           )}
         </SortListItem>
 
@@ -94,7 +97,7 @@ const SortNavigation: React.FC = () => {
           onClose={() => closeDropdown()}
         >
           {dropDownOpen && dropDownOpen === 'other' && (
-            <DecadeList pathname="/movies" />
+            <DecadeList pathname={NAVIGATION_PATH} />
           )}
         </SortListItem>
       </ul>

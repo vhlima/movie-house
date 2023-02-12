@@ -32,10 +32,10 @@ const MoviesSortPageView: React.FC<MoviesSortPageViewProps> = ({
         />
       )}
 
-      {movies.length === 0 ? (
+      {movies.results.length === 0 ? (
         <Typography component="h2">No movies were found.</Typography>
       ) : (
-        <MovieCoverList name="movies-page" movies={movies} />
+        <MovieCoverList name="movies-page" movies={movies.results} />
       )}
     </MoviesPageView>
   );

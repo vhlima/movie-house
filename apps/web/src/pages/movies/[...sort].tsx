@@ -31,6 +31,10 @@ const movieSortTypes = [
     route: 'year',
     sortType: MovieSortType.Year,
   },
+  {
+    route: 'on',
+    sortType: MovieSortType.Service,
+  },
 ] as Array<{ route: string; sortType: MovieSortType }>;
 
 function findSortType(sortType: string) {

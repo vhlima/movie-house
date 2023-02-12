@@ -2,20 +2,10 @@ import { Resolver, Query, Arg, Ctx, Int } from 'type-graphql';
 
 import type { ServerContext } from '../types';
 
-import {
-  sortMovieListByDecade,
-  sortMovieListByGenre,
-  sortMovieListByYear,
-} from '../controllers/movie-sort.controller';
-
-import { ListMovieRepository } from '../repositories';
-
 import Movie from '../entities/mongo-entities/movie';
 
 import MovieSearch from '../objects/movie-search';
 import MovieTrending from '../objects/movie-trending';
-
-import MovieSortType from '../enums/MovieSortType';
 
 import MovieSortInput from '../inputs/movie-sort.input';
 
@@ -50,7 +40,7 @@ class MovieResolver {
     );
 
     if (!searchResponse) {
-      throw new Error('asd', 'asd');
+      throw new Error('PageNotFound', 'Page not found');
     }
 
     if (searchResponse.total_results === 0) {
@@ -106,51 +96,15 @@ class MovieResolver {
     return recommendationsResponse.results.map(movie => movie);
   }
 
-  @Query(() => [Movie])
+  @Query(() => MovieSearch)
   async movies(
+    @Ctx() { dataSources }: ServerContext,
     @Arg('sort', { nullable: true }) sort?: MovieSortInput,
     @Arg('page', () => Int, { nullable: true }) page = 1,
   ) {
-    let sortObject: Record<string, unknown> | undefined;
+    const moviesResponse = await dataSources.tmdb.getMovies(page, sort);
 
-    if (sort) {
-      switch (sort.type) {
-        case MovieSortType.GENRE: {
-          sortObject = sortMovieListByGenre(sort.filter);
-          break;
-        }
-
-        case MovieSortType.DECADE: {
-          sortObject = sortMovieListByDecade(sort.filter as string);
-          break;
-        }
-
-        case MovieSortType.YEAR: {
-          sortObject = sortMovieListByYear(parseInt(sort.filter as string, 10));
-          break;
-        }
-
-        default: {
-          break;
-        }
-      }
-    }
-
-    const response = await ListMovieRepository.find({
-      ...sortObject,
-    });
-
-    const responseWithoutDuplicate: Movie[] = [];
-
-    response.forEach(r => {
-      const exists = responseWithoutDuplicate.find(rp => rp.id === r.movieId);
-
-      if (!exists) {
-        responseWithoutDuplicate.push(r.movie);
-      }
-    });
-
-    return responseWithoutDuplicate;
+    return moviesResponse;
   }
 }
 

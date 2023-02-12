@@ -16,6 +16,7 @@ import {
   ListMovieResolver,
   PreMadeListMovieResolver,
   LimitResolver,
+  StreamingProvider,
 } from '../resolvers';
 
 export const buildSchema = async () => {
@@ -34,8 +35,8 @@ export const buildSchema = async () => {
       ListMovieResolver,
       PreMadeListMovieResolver,
       LimitResolver,
+      StreamingProvider,
     ],
-    // resolvers: [path.resolve(__dirname, 'src/resolvers/*.ts')],
     emitSchemaFile: path.resolve(__dirname, '..', 'schema.graphql'),
   });
 
