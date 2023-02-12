@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { parseISO } from 'date-fns';
+import { parseISO } from '../../../../../utils/date-utils';
 
 import SortButton from '../../../../../components/Sort/SortButton';
 

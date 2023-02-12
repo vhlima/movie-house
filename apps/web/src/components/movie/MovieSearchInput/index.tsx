@@ -1,9 +1,10 @@
-import { parseISO } from 'date-fns';
-
 import type { InputHTMLAttributes } from 'react';
 
 import clsx from 'clsx';
+
 import type { Movie } from '../../../graphql';
+
+import { parseISO } from '../../../utils/date-utils';
 
 import { useLogic } from './logic';
 

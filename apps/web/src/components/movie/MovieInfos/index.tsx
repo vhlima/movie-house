@@ -1,8 +1,8 @@
-import { parseISO } from 'date-fns';
-
 import type { PropsWithChildren } from 'react';
 
 import type { Movie, Crew } from '../../../graphql';
+
+import { parseISO } from '../../../utils/date-utils';
 
 import MovieCover from '../MovieCover';
 
