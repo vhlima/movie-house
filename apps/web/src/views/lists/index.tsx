@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { useFindUserListQuery } from '../../graphql';
 
-import { formatDateDistance } from '../../utils';
+import { formatDateDistance } from '../../utils/date-utils';
 
 import Typography from '../../components/Typography';
 import PageContent from '../../components/PageContent';

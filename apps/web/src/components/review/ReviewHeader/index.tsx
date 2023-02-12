@@ -1,4 +1,4 @@
-import { formatDate } from '../../../utils';
+import { formatDate } from '../../../utils/date-utils';
 
 import Typography from '../../Typography';
 import ProfilePicture from '../../ProfilePicture';

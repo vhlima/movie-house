@@ -4,7 +4,7 @@ import type { PropsWithChildren, ReactNode } from 'react';
 
 import type { Commentary } from '../../../../graphql';
 
-import { formatDateDistance } from '../../../../utils';
+import { formatDateDistance } from '../../../../utils/date-utils';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
