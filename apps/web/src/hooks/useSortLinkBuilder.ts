@@ -25,6 +25,8 @@ export interface SortLinkBuilderProps {
   singleOption?: boolean;
 }
 
+const SORT_FILTER_SEPARATE_COMMA = '+';
+
 export function useSortLinkBuilder({
   pathname,
   queryKey,
@@ -63,10 +65,12 @@ export function useSortLinkBuilder({
 
   /* Convert queryValue into array of values. */
   const selectedOptions = queryKeyValue
-    ? (queryKeyValue as string).split(',')
+    ? (queryKeyValue as string).split(SORT_FILTER_SEPARATE_COMMA)
     : [];
 
-  function buildFilteredHref(optionId: string): LinkProps {
+  function buildFilteredHref(rawOptionId: string): LinkProps {
+    const optionId = rawOptionId.toLowerCase().replaceAll(' ', '-');
+
     const isOptionSelected = selectedOptions.includes(optionId);
 
     /* If you want the link to reset the sort, just set item.id to -1 */
@@ -101,7 +105,7 @@ export function useSortLinkBuilder({
         pathname: isSortString ? sort : sort.pathname,
         query: {
           ...(!isSortString ? sort.query : {}),
-          [queryKey]: queryValue.join(','),
+          [queryKey]: queryValue.join(SORT_FILTER_SEPARATE_COMMA),
         },
       },
     };

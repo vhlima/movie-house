@@ -27,7 +27,7 @@ const GenreList: React.FC<GenreListProps> = ({ pathname }) => {
     'War',
     'Western',
   ].map((genre, index) => ({
-    id: index === 0 ? '-1' : genre.split(' ').join('-').toLowerCase(),
+    id: index === 0 ? '-1' : genre,
     name: genre,
   }));
 
