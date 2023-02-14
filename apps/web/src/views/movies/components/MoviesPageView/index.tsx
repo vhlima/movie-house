@@ -13,7 +13,7 @@ const MoviesPageView: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <div className="flex flex-col gap-8 mt-16">
-      <section className="flex flex-col items-center lg:flex-row">
+      <nav className="flex flex-col items-center lg:flex-row">
         <SortNavigation />
 
         <div className="mt-4 lg:mt-0 lg:ml-auto">
@@ -34,7 +34,7 @@ const MoviesPageView: React.FC<PropsWithChildren> = ({ children }) => {
             />
           </Input.Label>
         </div>
-      </section>
+      </nav>
 
       {children}
     </div>
