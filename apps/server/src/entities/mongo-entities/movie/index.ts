@@ -52,7 +52,7 @@ export default class Movie {
   @Column()
   readonly backdrop_path: string;
 
-  @Field(() => String, { name: 'releaseDate', nullable: true })
+  @Field({ name: 'releaseDate', nullable: true })
   @Column({ nullable: true })
   readonly release_date?: string;
 
