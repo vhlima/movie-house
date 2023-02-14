@@ -4,7 +4,7 @@ import type { ServerContext } from '../types';
 
 import Movie from '../entities/mongo-entities/movie';
 
-import MovieSearch from '../objects/movie-search';
+import MoviesPaginated from '../objects/movies-paginated';
 import MovieTrending from '../objects/movie-trending';
 
 import MovieSortInput from '../inputs/movie-sort.input';
@@ -28,7 +28,7 @@ class MovieResolver {
     return movie;
   }
 
-  @Query(() => MovieSearch)
+  @Query(() => MoviesPaginated)
   async searchMovie(
     @Ctx() context: ServerContext,
     @Arg('searchTerm') searchTerm: string,
@@ -53,22 +53,7 @@ class MovieResolver {
 
     // TODO bug: Invalid time value
 
-    const results = searchResponse.results.map(movie => {
-      const releaseDate = movie.release_date && new Date(movie.release_date);
-
-      return {
-        ...movie,
-        release_date:
-          releaseDate && typeof releaseDate.getDate() === 'number'
-            ? releaseDate
-            : undefined,
-      };
-    });
-
-    return {
-      ...searchResponse,
-      results,
-    };
+    return searchResponse;
   }
 
   @Query(() => MovieTrending)
@@ -96,7 +81,7 @@ class MovieResolver {
     return recommendationsResponse.results.map(movie => movie);
   }
 
-  @Query(() => MovieSearch)
+  @Query(() => MoviesPaginated)
   async movies(
     @Ctx() { dataSources }: ServerContext,
     @Arg('sort', { nullable: true }) sort?: MovieSortInput,

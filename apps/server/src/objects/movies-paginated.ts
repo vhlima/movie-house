@@ -4,7 +4,7 @@ import Movie from '../entities/mongo-entities/movie';
 
 /* eslint-disable camelcase */
 @ObjectType()
-export default class MovieSearch {
+export default class MoviesPaginated {
   @Field(() => Int)
   page: number;
 

@@ -12,7 +12,7 @@ import MovieSortType from '../enums/MovieSortType';
 
 import MovieSortInput from '../inputs/movie-sort.input';
 
-import MovieSearch from '../objects/movie-search';
+import MoviesPaginated from '../objects/movies-paginated';
 import MovieTrending from '../objects/movie-trending';
 import StreamingProvider from '../objects/streaming-provider';
 
@@ -79,7 +79,7 @@ export default class TmdbAPI extends RESTDataSource {
   async getMovies(
     page: number,
     sort?: MovieSortInput,
-  ): Promise<MovieSearch | undefined> {
+  ): Promise<MoviesPaginated | undefined> {
     let sortFilter = {};
 
     if (sort) {
@@ -231,10 +231,7 @@ export default class TmdbAPI extends RESTDataSource {
     try {
       const response = await this.get(`movie/${movieId}`);
 
-      return {
-        ...response,
-        release_date: new Date(response.release_date),
-      };
+      return response;
     } catch (err) {
       return undefined;
     }
@@ -243,9 +240,9 @@ export default class TmdbAPI extends RESTDataSource {
   async searchMovie(
     query: string,
     page: number,
-  ): Promise<MovieSearch | undefined> {
+  ): Promise<MoviesPaginated | undefined> {
     try {
-      const response = await this.get<MovieSearch>('search/movie', {
+      const response = await this.get<MoviesPaginated>('search/movie', {
         params: {
           query,
           page: `${page > MAX_PAGINATION_PAGE ? MAX_PAGINATION_PAGE : page}`,
