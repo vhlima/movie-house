@@ -16,6 +16,23 @@ import { ApolloServer } from '@apollo/server';
 
 import { json } from 'body-parser';
 
+import {
+  UserResolver,
+  ReviewResolver,
+  FindReviewsResolver,
+  CommentaryResolver,
+  FindCommentariesResolver,
+  ReplyResolver,
+  FindRepliesResolver,
+  MovieResolver,
+  StreamingProviderResolver,
+  LikeResolver,
+  ListResolver,
+  PreMadeListResolver,
+  FindMoviesReferenceResolver,
+  AuthResolver,
+} from '../graphql/resolvers';
+
 import { formatError } from './apollo-server-error';
 
 import { createContext } from './apollo-server-context';
@@ -26,7 +43,23 @@ export const setupApolloServer = async () => {
   const httpServer = http.createServer(app);
 
   const schema = await buildSchema({
-    resolvers: [path.resolve(__dirname, '..', 'graphql', 'resolvers')],
+    resolvers: [
+      UserResolver,
+      ReviewResolver,
+      FindReviewsResolver,
+      CommentaryResolver,
+      FindCommentariesResolver,
+      ReplyResolver,
+      FindRepliesResolver,
+      MovieResolver,
+      StreamingProviderResolver,
+      LikeResolver,
+      ListResolver,
+      PreMadeListResolver,
+      FindMoviesReferenceResolver,
+      AuthResolver,
+    ],
+    // resolvers: [path.resolve(__dirname, '..', 'graphql', 'resolvers')],
     emitSchemaFile: path.resolve(__dirname, '..', '..', 'schema.graphql'),
   });
 
