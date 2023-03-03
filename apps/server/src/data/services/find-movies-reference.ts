@@ -21,6 +21,7 @@ export class FindMoviesReferenceService implements FindMoviesReference {
   async handle(
     listId: string,
     { page, sort }: PaginationInput<MovieReferenceSortType>,
+    itemsPerPage = MOVIES_PER_PAGE,
   ): Promise<PaginationPreResponse<MovieReference>> {
     if (page < 1) {
       throw new PageNotFoundError();
@@ -30,14 +31,14 @@ export class FindMoviesReferenceService implements FindMoviesReference {
       await this.movieReferenceRepository.getMoviesReferenceById(listId, {
         page,
         sort,
-        itemsPerPage: MOVIES_PER_PAGE,
+        itemsPerPage,
       });
 
     return {
       page,
       items: moviesResponse.items,
       totalCount: moviesResponse.totalCount,
-      itemsPerPage: MOVIES_PER_PAGE,
+      itemsPerPage,
     };
   }
 }
