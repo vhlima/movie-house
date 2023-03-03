@@ -15,9 +15,13 @@ export class Movie {
 
   voteAverage: number;
 
-  posterPath: string;
+  posterPath?: string;
 
-  backdropPath: string;
+  posterUrl: string;
+
+  backdropPath?: string;
+
+  backdropUrl: string;
 
   releaseDate?: string;
 

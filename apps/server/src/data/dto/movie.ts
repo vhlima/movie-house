@@ -7,11 +7,17 @@ export class MovieDTO {
     return {
       id: movie.id,
       backdropPath: movie.backdrop_path,
+      posterPath: movie.poster_path,
+      backdropUrl: movie.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        : '',
       imdbId: movie.imdb_id,
       originalLanguage: movie.original_title,
       originalTitle: movie.original_title,
       overview: movie.overview,
-      posterPath: movie.poster_path,
+      posterUrl: movie.poster_path
+        ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+        : '',
       voteAverage: movie.vote_average,
       releaseDate: movie.release_date,
       runtime: movie.runtime,

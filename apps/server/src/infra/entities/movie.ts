@@ -57,14 +57,8 @@ export class MovieEntity {
   spokenLanguages: LanguageEntity[];
 
   @Field()
-  posterUrl(@Root('posterPath') posterPath: string): string {
-    return posterPath ? `https://image.tmdb.org/t/p/w500${posterPath}` : '';
-  }
+  posterUrl: string;
 
   @Field()
-  backdropUrl(@Root('backdropPath') backdropPath: string): string {
-    return backdropPath
-      ? `https://image.tmdb.org/t/p/original${backdropPath}`
-      : '';
-  }
+  backdropUrl: string;
 }
