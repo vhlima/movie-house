@@ -12,3 +12,4 @@ export * from './list';
 export * from './pre-made-list';
 export * from './find-movies-reference';
 export * from './auth';
+export * from './find-lists';

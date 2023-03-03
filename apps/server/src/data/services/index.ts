@@ -32,3 +32,4 @@ export * from './get-discover-movies';
 export * from './get-tmdb-movie-pagination';
 export * from './get-trending-movies-week';
 export * from './get-movie-recommendations';
+export * from './find-lists';

@@ -31,6 +31,7 @@ import {
   PreMadeListResolver,
   FindMoviesReferenceResolver,
   AuthResolver,
+  FindListsResolver,
 } from '../graphql/resolvers';
 
 import { formatError } from './apollo-server-error';
@@ -58,6 +59,7 @@ export const setupApolloServer = async () => {
       PreMadeListResolver,
       FindMoviesReferenceResolver,
       AuthResolver,
+      FindListsResolver,
     ],
     // resolvers: [path.resolve(__dirname, '..', 'graphql', 'resolvers')],
     emitSchemaFile: path.resolve(__dirname, '..', '..', 'schema.graphql'),

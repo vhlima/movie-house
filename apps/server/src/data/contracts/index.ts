@@ -15,3 +15,4 @@ export * from './like-repository';
 export * from './pre-made-list-repository';
 export * from './find-movies-reference-repository';
 export * from './github-repository';
+export * from './find-lists-repository';

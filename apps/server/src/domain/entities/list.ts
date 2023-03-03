@@ -1,5 +1,12 @@
 import { Post } from './post';
 
+export enum ListSortType {
+  NAME = 'NAME',
+  OLDER = 'OLDER',
+  POPULARITY = 'POPULARITY',
+  UPDATED = 'UPDATED',
+}
+
 export class List {
   id: string;
 

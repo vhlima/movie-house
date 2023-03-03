@@ -11,10 +11,11 @@ import {
 import { List } from '../../domain/entities';
 
 import { PostEntity } from './post';
+import { Timestamps } from './timestamps';
 
 @ObjectType('List')
 @Entity('lists')
-export class ListEntity implements List {
+export class ListEntity extends Timestamps implements List {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;

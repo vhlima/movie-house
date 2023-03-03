@@ -4,3 +4,4 @@ export * from './ReplySortType';
 export * from './LikeType';
 export * from './PreMadeListType';
 export * from './MovieReferenceSortType';
+export * from './ListSortType';
