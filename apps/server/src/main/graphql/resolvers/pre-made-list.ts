@@ -1,4 +1,4 @@
-import { Arg, Ctx, Int, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
 
 import { MovieEntity, PreMadeListEntity } from '../../../infra/entities';
 
@@ -6,6 +6,7 @@ import { ApolloServerContext } from '../../config/apollo-server-context';
 
 import {
   getAddMovieToPreMadeListService,
+  getIsMovieOnPreMadeListService,
   getRemoveMovieFromPreMadeListService,
 } from '../../factories';
 
@@ -13,6 +14,23 @@ import { PreMadeListType } from '../enums';
 
 @Resolver(() => PreMadeListEntity)
 export class PreMadeListResolver {
+  @Query(() => Boolean)
+  async isMovieOnPreMadeList(
+    @Ctx() { user }: ApolloServerContext,
+    @Arg('listType', () => PreMadeListType) listType: PreMadeListType,
+    @Arg('movieId', () => Int) movieId: number,
+  ) {
+    const movieOnPreMadeListService = getIsMovieOnPreMadeListService();
+
+    const isMovieOnPreMadeList = await movieOnPreMadeListService.handle(
+      listType,
+      movieId,
+      user,
+    );
+
+    return isMovieOnPreMadeList;
+  }
+
   @Mutation(() => MovieEntity)
   async addMovieToPreMadeList(
     @Ctx() { user }: ApolloServerContext,

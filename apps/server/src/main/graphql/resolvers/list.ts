@@ -10,7 +10,9 @@ import {
   getRemoveMovieFromListService,
   getFindListService,
   getDeleteListService,
+  getFindUserLists,
 } from '../../factories';
+import { ListSimple } from '../objects';
 
 @Resolver(() => ListEntity)
 export class ListResolver {
@@ -21,6 +23,18 @@ export class ListResolver {
     const listResponse = await findListService.handle(listId);
 
     return listResponse;
+  }
+
+  @Query(() => [ListSimple])
+  async userListNames(@Arg('userId') userId: string) {
+    const findListService = getFindUserLists();
+
+    const listResponse = await findListService.handle(userId);
+
+    return listResponse.map(list => ({
+      postId: list.postId,
+      name: list.name,
+    }));
   }
 
   @Mutation(() => ListEntity)

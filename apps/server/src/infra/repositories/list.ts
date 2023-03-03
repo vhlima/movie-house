@@ -11,6 +11,21 @@ export class ListRepository implements IListRepository {
     return PostgresDataSource.getRepository(ListEntity);
   }
 
+  async getUserLists(userId: string): Promise<List[]> {
+    const listRepository = this.getListRepository();
+
+    const userLists = await listRepository.find({
+      where: {
+        post: {
+          userId,
+        },
+      },
+      relations: ['post'],
+    });
+
+    return userLists;
+  }
+
   async getUserListCount(userId: string): Promise<number> {
     const listRepository = this.getListRepository();
 

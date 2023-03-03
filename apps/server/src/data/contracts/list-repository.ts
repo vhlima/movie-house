@@ -2,6 +2,7 @@ import { ListModel } from '../models';
 
 export interface IListRepository {
   getListById(listId: string): Promise<ListModel | null>;
+  getUserLists(userId: string): Promise<ListModel[]>;
   getUserListById(userId: string, listId: string): Promise<ListModel | null>;
   getUserListByName(userId: string, name: string): Promise<ListModel | null>;
   getUserListCount(userId: string): Promise<number>;
