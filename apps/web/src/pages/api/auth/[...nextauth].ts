@@ -5,16 +5,13 @@ import GithubProvider from 'next-auth/providers/github';
 import { initializeApollo } from '../../../client';
 
 import type {
-  FindUserByProviderQuery,
-  FindUserByProviderQueryVariables,
-  UserRegisterMutation,
-  UserRegisterMutationVariables,
+  FindUserByIdQuery,
+  FindUserByIdQueryVariables,
+  SignUpMutation,
+  SignUpMutationVariables,
 } from '../../../graphql';
 
-import {
-  UserRegisterDocument,
-  FindUserByProviderDocument,
-} from '../../../graphql';
+import { SignUpDocument, FindUserByIdDocument } from '../../../graphql';
 
 export default NextAuth({
   session: {
@@ -33,17 +30,18 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    jwt: async ({ token, account }) => {
-      if (account) {
-        return {
-          user: {
-            providerId: account.providerAccountId,
+    jwt: ({ token, user }) =>
+      user
+        ? {
+            user: {
+              id: user.id,
+            },
+          }
+        : {
+            user: {
+              id: token.user.id,
+            },
           },
-        };
-      }
-
-      return token;
-    },
     session: async ({ token, session }) => {
       if (!token) return session;
 
@@ -51,13 +49,12 @@ export default NextAuth({
 
       try {
         const { data: userData } = await apolloClient.query<
-          FindUserByProviderQuery,
-          FindUserByProviderQueryVariables
+          FindUserByIdQuery,
+          FindUserByIdQueryVariables
         >({
-          query: FindUserByProviderDocument,
+          query: FindUserByIdDocument,
           variables: {
-            provider: 'github',
-            providerId: token.user.providerId,
+            userId: token.user.id,
           },
         });
 
@@ -65,40 +62,34 @@ export default NextAuth({
           return null;
         }
 
-        const { __typename, ...user } = userData.userByProvider;
+        const { __typename, ...user } = userData.userById;
 
         return {
           ...session,
           user,
         };
       } catch (err) {
-        console.log(err);
         return null;
       }
     },
     signIn: async ({ account }) => {
       const apolloClient = initializeApollo();
 
-      console.log(
-        `register user? ${account.providerAccountId} | ${parseInt(
-          account.providerAccountId,
-          10,
-        )} |  ${JSON.stringify(account)}`,
-      );
-
       try {
-        await apolloClient.mutate<
-          UserRegisterMutation,
-          UserRegisterMutationVariables
+        const response = await apolloClient.mutate<
+          SignUpMutation,
+          SignUpMutationVariables
         >({
-          mutation: UserRegisterDocument,
+          mutation: SignUpDocument,
           variables: { githubId: account.providerAccountId },
         });
 
-        return true;
-      } catch (err) {
-        console.log(err);
+        if (!response || !response.data) {
+          return false;
+        }
 
+        return response.data.signUp;
+      } catch (err) {
         return false;
       }
     },
