@@ -13,7 +13,7 @@ import { IFindMoviesReferenceRepository, IListRepository } from '../contracts';
 
 const MOVIES_PER_PAGE = 20;
 
-export class FindListMoviesService {
+export class FindListMoviesService implements FindListMovies {
   constructor(
     private readonly listRepository: IListRepository,
     private readonly movieReferenceRepository: IFindMoviesReferenceRepository,

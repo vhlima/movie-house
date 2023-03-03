@@ -1,9 +1,9 @@
 import { ObjectType } from 'type-graphql';
 
-import { createPagination, ListEntity } from '../../../infra/entities';
+import { createPagination, ListPreviewEntity } from '../../../infra/entities';
 
 @ObjectType()
-export class ListPagination extends createPagination<ListEntity>(
-  'ListPagination',
-  () => ListEntity,
+export class ListPagination extends createPagination<ListPreviewEntity>(
+  'ListPreviewPagination',
+  () => ListPreviewEntity,
 ) {}

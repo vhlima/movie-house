@@ -1,13 +1,13 @@
 import {
-  PaginationPreResponse,
+  Pagination,
   PaginationInput,
-  List,
   ListSortType,
+  ListPreview,
 } from '../entities';
 
 export interface FindLists {
   handle: (
     props: PaginationInput<ListSortType>,
     userId?: string,
-  ) => Promise<PaginationPreResponse<List>>;
+  ) => Promise<Pagination<ListPreview>>;
 }

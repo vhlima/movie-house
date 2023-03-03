@@ -1,9 +1,6 @@
 import { Arg, Int, Query, Resolver } from 'type-graphql';
 
-import {
-  getFindListsPaginatedService,
-  getFindListsService,
-} from '../../factories';
+import { getFindListsService } from '../../factories';
 
 import { ListSortInput } from '../inputs';
 
@@ -28,15 +25,6 @@ export class FindListsResolver {
       userId,
     );
 
-    const findListsPaginationService = getFindListsPaginatedService();
-
-    const response = findListsPaginationService.handle(
-      listsResponse.items,
-      page,
-      listsResponse.itemsPerPage,
-      listsResponse.totalCount,
-    );
-
-    return response;
+    return listsResponse;
   }
 }
