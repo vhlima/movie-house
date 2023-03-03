@@ -2,9 +2,16 @@ import { Arg, Int, Query, Resolver } from 'type-graphql';
 
 import { MovieEntity } from '../../../infra/entities';
 
-import { getFindMovieService } from '../../factories';
+import {
+  getDiscoverMoviesService,
+  getFindMovieService,
+  getMovieRecommendationsService,
+  getSearchMovieService,
+  getTrendingMoviesWeekService,
+} from '../../factories';
 
 import { MovieWithCredits } from '../objects/movie-with-credits';
+import { TmDBMovieListPagination } from '../objects/tmdb-movie-list';
 
 @Resolver(() => MovieEntity)
 export class MovieResolver {
@@ -24,5 +31,51 @@ export class MovieResolver {
     const movie = await findMovieService.handle(movieId, true);
 
     return movie;
+  }
+
+  @Query(() => TmDBMovieListPagination)
+  async discoverMovies(@Arg('page', () => Int) page: number) {
+    const discoverMoviesService = getDiscoverMoviesService();
+
+    const discoverMoviesResponse = await discoverMoviesService.handle(page);
+
+    return discoverMoviesResponse;
+  }
+
+  @Query(() => TmDBMovieListPagination)
+  async searchMovie(
+    @Arg('searchTerm') searchTerm: string,
+    @Arg('page', () => Int) page: number,
+  ) {
+    const searchMovieService = getSearchMovieService();
+
+    const searchMovieResponse = await searchMovieService.handle(
+      searchTerm,
+      page,
+    );
+
+    return searchMovieResponse;
+  }
+
+  @Query(() => TmDBMovieListPagination)
+  async trendingMoviesWeek(@Arg('page', () => Int) page: number) {
+    const trendingMoviesWeekService = getTrendingMoviesWeekService();
+
+    const trendingMoviesResponse = await trendingMoviesWeekService.handle(page);
+
+    return trendingMoviesResponse;
+  }
+
+  @Query(() => TmDBMovieListPagination)
+  async movieRecommendations(
+    @Arg('movieId', () => Int) movieId: number,
+    @Arg('page', () => Int) page: number,
+  ) {
+    const movieRecommendationsService = getMovieRecommendationsService();
+
+    const movieRecommendationsResponse =
+      await movieRecommendationsService.handle(movieId, page);
+
+    return movieRecommendationsResponse;
   }
 }

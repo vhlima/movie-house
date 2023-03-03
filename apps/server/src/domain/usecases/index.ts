@@ -30,3 +30,6 @@ export * from './find-list-movies';
 export * from './find-profile-stats';
 export * from './get-pre-made-list-movie-count';
 export * from './sign-up';
+export * from './get-discover-movies';
+export * from './get-trending-movies-week';
+export * from './get-movie-recommendations';

@@ -1,49 +1,30 @@
 import { IMovieRepository } from '../../data/contracts';
 
-import { MovieModel } from '../../data/models';
+import { MovieModel, TmDBMovieListModel } from '../../data/models';
 
 import { TmdbRepository } from './tmdb';
-
-const MAX_PAGINATION_PAGE = 500;
 
 export class MovieRepository
   extends TmdbRepository
   implements IMovieRepository
 {
-  async getCreditsByMovieId(movieId: number): Promise<MovieModel | null> {
+  async getDiscoverMovies(
+    page: number,
+    sort?: any,
+  ): Promise<TmDBMovieListModel | null> {
     try {
-      const response = await this.get(`movie/${movieId}/credits`);
+      const sortFilter = {};
+
+      const response = await this.get<TmDBMovieListModel>('discover/movie', {
+        params: {
+          page: `${page}`,
+          ...(sort ? sortFilter : {}),
+        },
+      });
 
       return response;
     } catch (err) {
       return null;
-    }
-  }
-
-  async getMovies(page: number, sort?: any): Promise<MovieModel[]> {
-    const sortFilter = {};
-
-    try {
-      const response = await this.get('discover/movie', {
-        params: sort && {
-          page: `${page > MAX_PAGINATION_PAGE ? MAX_PAGINATION_PAGE : page}`,
-          ...sortFilter,
-        },
-      });
-
-      if (response) {
-        const { total_pages: totalPages } = response;
-
-        return {
-          ...response,
-          total_pages:
-            totalPages > MAX_PAGINATION_PAGE ? MAX_PAGINATION_PAGE : totalPages,
-        };
-      }
-
-      return [];
-    } catch (err) {
-      return [];
     }
   }
 
@@ -69,41 +50,54 @@ export class MovieRepository
     }
   }
 
-  async searchMovie(query: string, page: number): Promise<MovieModel[]> {
+  async searchMovie(
+    query: string,
+    page: number,
+  ): Promise<TmDBMovieListModel | null> {
     try {
-      const response = await this.get<any>('search/movie', {
+      const response = await this.get<TmDBMovieListModel>('search/movie', {
         params: {
           query,
-          page: `${page > MAX_PAGINATION_PAGE ? MAX_PAGINATION_PAGE : page}`,
+          page: `${page}`,
         },
       });
 
-      return {
-        ...response,
-        total_pages: MAX_PAGINATION_PAGE,
-      };
+      return response;
     } catch (err) {
-      return [];
+      return null;
     }
   }
 
-  async getTrendingMoviesWeek(page: number): Promise<MovieModel[]> {
+  async getTrendingMoviesWeek(
+    page: number,
+  ): Promise<TmDBMovieListModel | null> {
     try {
-      const response = await this.get('trending/movie/week');
+      const response = await this.get('trending/movie/week', {
+        params: {
+          page: `${page}`,
+        },
+      });
 
       return response;
     } catch (err) {
-      return [];
+      return null;
     }
   }
 
-  async getMovieRecommendations(movieId: number): Promise<MovieModel[]> {
+  async getMovieRecommendations(
+    movieId: number,
+    page: number,
+  ): Promise<TmDBMovieListModel | null> {
     try {
-      const response = await this.get(`movie/${movieId}/recommendations`);
+      const response = await this.get(`movie/${movieId}/recommendations`, {
+        params: {
+          page: `${page}`,
+        },
+      });
 
       return response;
     } catch (err) {
-      return [];
+      return null;
     }
   }
 }

@@ -28,3 +28,7 @@ export * from './remove-movie-from-pre-made-list';
 export * from './find-list-movies';
 export * from './get-pre-made-list-movie-count';
 export * from './sign-up';
+export * from './get-discover-movies';
+export * from './get-tmdb-movie-pagination';
+export * from './get-trending-movies-week';
+export * from './get-movie-recommendations';
