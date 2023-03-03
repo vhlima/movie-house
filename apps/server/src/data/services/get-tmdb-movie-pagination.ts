@@ -24,6 +24,7 @@ export class GetTmDBMoviePaginationService {
       totalCount,
       totalPages: maxPages,
       pageInfo: {
+        currentPage: page,
         hasNextPage: page < maxPages,
         hasPreviousPage: page > 1,
       },

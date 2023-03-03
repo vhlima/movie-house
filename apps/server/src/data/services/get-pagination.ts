@@ -22,6 +22,7 @@ export class GetPaginationService<T> implements GetPagination<T> {
       totalCount,
       edges: items.map(item => ({ node: item })),
       pageInfo: {
+        currentPage: page,
         hasNextPage: page < totalPages,
         hasPreviousPage: page > 1,
       },

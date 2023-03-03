@@ -9,6 +9,8 @@ export type PaginationInput<T> = {
 };
 
 export type PaginationInfo = {
+  currentPage: number;
+
   hasNextPage: boolean;
   hasPreviousPage: boolean;
 };

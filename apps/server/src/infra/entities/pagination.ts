@@ -10,6 +10,9 @@ import {
 
 @ObjectType()
 class PaginationInfo implements IPaginationInfo {
+  @Field(() => Int)
+  currentPage: number;
+
   @Field()
   hasNextPage: boolean;
 
