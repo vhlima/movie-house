@@ -12,6 +12,7 @@ import { List } from '../../domain/entities';
 
 import { PostEntity } from './post';
 import { Timestamps } from './timestamps';
+import { UserEntity } from './user';
 
 @ObjectType('List')
 @Entity('lists')
@@ -32,6 +33,9 @@ export class ListEntity extends Timestamps implements List {
     foreignKeyConstraintName: 'PostId',
   })
   post: PostEntity;
+
+  @Field(() => UserEntity)
+  user: UserEntity;
 
   @Field()
   @Column()

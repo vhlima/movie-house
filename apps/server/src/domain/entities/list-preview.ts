@@ -1,4 +1,4 @@
-import { List, Movie } from './index';
+import { List, Movie, User } from './index';
 
 export enum ListSortType {
   NAME = 'NAME',
@@ -8,5 +8,7 @@ export enum ListSortType {
 }
 
 export class ListPreview extends List {
+  user: User;
+
   movies: Movie[];
 }

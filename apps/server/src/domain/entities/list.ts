@@ -1,4 +1,5 @@
 import { Post } from './post';
+import { User } from './user';
 
 export class List {
   id: string;
@@ -8,6 +9,8 @@ export class List {
   postId: string;
 
   post: Post;
+
+  user: User;
 
   backgroundImageUrl?: string;
 

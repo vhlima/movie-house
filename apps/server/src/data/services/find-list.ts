@@ -16,6 +16,8 @@ export class FindListService implements FindList {
       throw new NotFoundError('ListNotFoundError', 'List not found.');
     }
 
+    listExists.user = listExists.post.user;
+
     return listExists;
   }
 }

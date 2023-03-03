@@ -32,12 +32,12 @@ export class ListResolver {
     const listResponse = await findListService.handle(userId);
 
     return listResponse.map(list => ({
-      postId: list.postId,
+      id: list.id,
       name: list.name,
     }));
   }
 
-  @Mutation(() => ListEntity)
+  @Mutation(() => ListSimple)
   async createList(
     @Ctx() { user }: ApolloServerContext,
     @Arg('listName') listName: string,
@@ -51,7 +51,10 @@ export class ListResolver {
       user,
     );
 
-    return listResponse;
+    return {
+      postId: listResponse.postId,
+      name: listResponse.name,
+    };
   }
 
   @Mutation(() => Boolean)

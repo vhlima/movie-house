@@ -51,6 +51,7 @@ export class FindListsService implements FindLists {
 
     const listsWithMovies = listsResponse.items.map((list, index) => ({
       ...list,
+      user: list.post.user,
       movies: listMoviesResponse[index].items.map(node => node.movie),
     }));
 

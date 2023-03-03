@@ -36,7 +36,18 @@ export class FindMoviesReferenceService implements FindMoviesReference {
 
     return {
       page,
-      items: moviesResponse.items,
+      items: moviesResponse.items.map(response => ({
+        ...response,
+        movie: {
+          ...response.movie,
+          backdropUrl: response.movie.backdropPath
+            ? `https://image.tmdb.org/t/p/w500${response.movie.backdropPath}`
+            : '',
+          posterUrl: response.movie.posterPath
+            ? `https://image.tmdb.org/t/p/original${response.movie.posterPath}`
+            : '',
+        },
+      })),
       totalCount: moviesResponse.totalCount,
       itemsPerPage,
     };
