@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 
-@ObjectType()
+@ObjectType('StreamingProvider')
 export class StreamingProviderEntity {
   @Field(() => Int)
   id: number;

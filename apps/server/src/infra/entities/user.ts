@@ -6,7 +6,7 @@ import { User } from '../../domain/entities';
 
 import { Timestamps } from './timestamps';
 
-@ObjectType()
+@ObjectType('User')
 @Entity('users')
 export class UserEntity extends Timestamps implements User {
   @Field(() => String)

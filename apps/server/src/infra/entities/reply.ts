@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 
 import {
   PrimaryGeneratedColumn,
@@ -12,8 +12,8 @@ import { UserEntity, CommentaryEntity } from './index';
 
 import { Timestamps } from './timestamps';
 
-@ObjectType()
-@Entity('replies')
+@ObjectType('Reply')
+@Entity('replies', { name: 'Reply' })
 export class ReplyEntity extends Timestamps {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')

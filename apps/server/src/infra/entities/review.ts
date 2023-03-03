@@ -10,7 +10,7 @@ import {
 
 import { MovieEntity, PostEntity } from './index';
 
-@ObjectType()
+@ObjectType('Review')
 @Entity('reviews')
 export class ReviewEntity {
   @Field(() => ID)

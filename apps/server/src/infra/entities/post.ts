@@ -14,7 +14,7 @@ import { UserEntity } from './user';
 
 import { Timestamps } from './timestamps';
 
-@ObjectType()
+@ObjectType('Post')
 @Entity('posts')
 export class PostEntity extends Timestamps implements Post {
   @Field()

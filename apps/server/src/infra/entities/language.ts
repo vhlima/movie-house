@@ -4,7 +4,7 @@ import { Column } from 'typeorm';
 
 import { Language } from '../../domain/entities';
 
-@ObjectType()
+@ObjectType('Language')
 export class LanguageEntity implements Language {
   @Field()
   @Column()

@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 import { MoviePersonEntity } from './movie-person';
 
-@ObjectType()
+@ObjectType('MovieCharacter')
 export class MovieCharacterEntity extends MoviePersonEntity {
   @Field(() => Int)
   castId: number;

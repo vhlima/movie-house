@@ -4,7 +4,7 @@ import { Column } from 'typeorm';
 
 import { Company } from '../../domain/entities';
 
-@ObjectType()
+@ObjectType('Company')
 export class CompanyEntity implements Company {
   @Field()
   @Column()

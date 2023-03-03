@@ -12,7 +12,7 @@ import { List } from '../../domain/entities';
 
 import { PostEntity } from './post';
 
-@ObjectType()
+@ObjectType('List')
 @Entity('lists')
 export class ListEntity implements List {
   @Field()

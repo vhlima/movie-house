@@ -4,7 +4,7 @@ import { Column } from 'typeorm';
 
 import { MovieGenreEntity, CompanyEntity, LanguageEntity } from './index';
 
-@ObjectType()
+@ObjectType('Movie')
 export class MovieEntity {
   @Field(() => Int)
   @Column()

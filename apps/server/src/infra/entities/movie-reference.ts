@@ -4,7 +4,7 @@ import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
 import { MovieEntity } from './movie';
 
-@ObjectType()
+@ObjectType('MovieReference')
 @Entity('movies')
 export class MovieReferenceEntity {
   @ObjectIdColumn({ name: '_id' })

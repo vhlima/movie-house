@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 
-@ObjectType({ isAbstract: true })
+@ObjectType('MoviePerson', { isAbstract: true })
 export abstract class MoviePersonEntity {
   @Field(() => Int)
   id: number;
