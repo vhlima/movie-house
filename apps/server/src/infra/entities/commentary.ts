@@ -12,7 +12,7 @@ import { UserEntity, PostEntity } from './index';
 
 import { Timestamps } from './timestamps';
 
-@ObjectType()
+@ObjectType('Commentary')
 @Entity('commentaries')
 export class CommentaryEntity extends Timestamps {
   @Field(() => String)
@@ -46,4 +46,7 @@ export class CommentaryEntity extends Timestamps {
   @Field()
   @Column()
   content: string;
+
+  @Field(() => Int)
+  replyCount: number;
 }

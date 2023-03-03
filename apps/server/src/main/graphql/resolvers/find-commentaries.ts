@@ -34,6 +34,12 @@ export class FindCommentariesResolver {
       commentariesResponse.totalCount,
     );
 
-    return response;
+    return {
+      ...response,
+      edges: response.edges.map(commentary => ({
+        ...commentary,
+        replyCount: 0,
+      })),
+    };
   }
 }
