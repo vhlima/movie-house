@@ -1,51 +1,44 @@
 import { gql } from '@apollo/client';
 
-export const COMMENTARY_FIELDS = gql`
-  fragment CommentaryFields on Commentary {
-    id
-    postId
-    body
-    replyCount
-    createdAt
-    user {
-      id
-      username
-      profilePictureUrl
-    }
-    likes {
-      user {
-        id
-      }
-    }
-  }
-`;
-
 export const FIND_COMMENTARIES = gql`
-  ${COMMENTARY_FIELDS}
-
-  query FindCommentaries($first: Int!, $postId: Int!, $after: String) {
-    commentaries(first: $first, postId: $postId, after: $after)
-      @connection(key: "commentaries") {
+  query FindCommentaries($page: Int!, $postId: String!) {
+    commentaries(page: $page, postId: $postId) {
+      totalCount
+      totalPages
       pageInfo {
-        maxItems
+        currentPage
         hasNextPage
-        endCursor
+        hasPreviousPage
       }
-
       edges {
         node {
-          ...CommentaryFields
+          id
+          content
+          replyCount
+          createdAt
+          updatedAt
+          user {
+            username
+            profilePictureUrl
+          }
         }
       }
     }
   }
 `;
 
-export const ADD_COMMENTARY = gql`
-  ${COMMENTARY_FIELDS}
-  mutation AddCommentary($body: String!, $postId: Int!) {
-    comment(body: $body, postId: $postId) {
-      ...CommentaryFields
+export const CREATE_COMMENTARY = gql`
+  mutation CreateCommentary($content: String!, $postId: String!) {
+    createCommentary(content: $content, postId: $postId) {
+      id
+      content
+      replyCount
+      createdAt
+      updatedAt
+      user {
+        username
+        profilePictureUrl
+      }
     }
   }
 `;

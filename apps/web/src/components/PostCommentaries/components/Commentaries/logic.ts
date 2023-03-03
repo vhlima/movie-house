@@ -10,10 +10,8 @@ import type {
 import { useFindCommentariesQuery } from '../../../../graphql';
 
 interface CommentariesLogicProps {
-  postId: number;
+  postId: string;
 }
-
-const ITEMS_PER_PAGE = 10;
 
 export const useLogic = ({ postId }: CommentariesLogicProps) => {
   const {
@@ -21,25 +19,28 @@ export const useLogic = ({ postId }: CommentariesLogicProps) => {
     networkStatus,
     fetchMore,
   } = useFindCommentariesQuery({
-    variables: { postId, first: ITEMS_PER_PAGE },
+    variables: { postId, page: 1 },
     notifyOnNetworkStatusChange: true,
   });
 
   const handleScroll = useCallback(async () => {
     if (networkStatus !== NetworkStatus.ready) return;
 
+    if (!commentariesResponse.commentaries.pageInfo.hasNextPage) {
+      return;
+    }
+
     await fetchMore<FindCommentariesQuery, FindCommentariesQueryVariables>({
       variables: {
         postId,
-        first: ITEMS_PER_PAGE,
-        after: commentariesResponse.commentaries.pageInfo.endCursor,
+        page: commentariesResponse.commentaries.pageInfo.currentPage + 1,
       },
       updateQuery: (
         { commentaries: previousQueryResult },
         { fetchMoreResult: { commentaries: fetchMoreResult } },
       ) => ({
         commentaries: {
-          pageInfo: fetchMoreResult.pageInfo,
+          ...fetchMoreResult,
           edges: [...previousQueryResult.edges, ...fetchMoreResult.edges],
         },
       }),

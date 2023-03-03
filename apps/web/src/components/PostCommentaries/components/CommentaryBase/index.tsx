@@ -2,8 +2,6 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import type { Commentary } from '../../../../graphql';
-
 import { formatDateDistance } from '../../../../utils/date-utils';
 
 import { useAuth } from '../../../../hooks/useAuth';
@@ -17,14 +15,13 @@ import ProfilePicture from '../../../ProfilePicture';
 
 import UserProfileLink from '../../../user/UserProfileLink';
 
-export interface CommentaryBaseProps {
-  id: Commentary['id'];
-  body: Commentary['body'];
-  createdAt: Commentary['createdAt'];
+interface CommentaryBaseProps {
+  id: string;
+  content: string;
+  createdAt: string;
   user: {
-    id: Commentary['user']['id'];
-    username: Commentary['user']['username'];
-    profilePictureUrl?: Commentary['user']['profilePictureUrl'];
+    username: string;
+    profilePictureUrl?: string;
   };
 }
 
@@ -38,7 +35,7 @@ interface CommentaryBaseInternalProps {
 const CommentaryBase: React.FC<
   PropsWithChildren<CommentaryBaseInternalProps>
 > = ({ isReply, base, buttons, children, onClickDelete }) => {
-  const { user, body, createdAt } = base;
+  const { user, content, createdAt } = base;
 
   const { data: session } = useAuth();
 
@@ -69,14 +66,14 @@ const CommentaryBase: React.FC<
         </Typography>
       </div>
 
-      <TextShorter className="my-2" maxCharacters={250} text={body} />
+      <TextShorter className="my-2" maxCharacters={250} text={content} />
 
       <div className="flex gap-2">
         <LikeButton rootId="" likeCount={0} />
 
         {buttons && buttons}
 
-        {session && session.user.id === base.user.id && (
+        {session && session.user.username === base.user.username && (
           <Button
             className="ml-auto"
             buttonStyle="danger"

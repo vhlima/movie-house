@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { CommentaryBaseProps } from '../CommentaryBase';
+import type { FindCommentariesQuery } from '../../../../graphql';
 
 import Button from '../../../Button';
 import SvgIcon from '../../../SvgIcon';
@@ -14,10 +14,7 @@ import ReplyButton from './components/ReplyButton';
 import { useLogic } from './logic';
 
 interface CommentaryProps {
-  commentary: {
-    id: string;
-    replyCount: number;
-  } & CommentaryBaseProps;
+  commentary: FindCommentariesQuery['commentaries']['edges'][number]['node'];
 }
 
 const Commentary: React.FC<CommentaryProps> = ({ commentary }) => {

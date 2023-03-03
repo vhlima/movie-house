@@ -26,25 +26,28 @@ export const useLogic = ({ commentaryId }: RepliesLogicProps) => {
     networkStatus,
     fetchMore,
   } = useFindRepliesQuery({
-    variables: { first: ITEMS_PER_PAGE, commentaryId },
+    variables: { commentaryId, page: 1 },
     notifyOnNetworkStatusChange: true,
   });
 
   async function fetchReplies() {
     if (!called || networkStatus !== NetworkStatus.ready) return;
 
+    if (!repliesResponse.replies.pageInfo.hasNextPage) {
+      return;
+    }
+
     await fetchMore<FindRepliesQuery, FindRepliesQueryVariables>({
       variables: {
         commentaryId,
-        first: ITEMS_PER_PAGE,
-        after: repliesResponse.replies.pageInfo.endCursor,
+        page: repliesResponse.replies.pageInfo.currentPage + 1,
       },
       updateQuery: (
         { replies: previousQueryResult },
         { fetchMoreResult: { replies: fetchMoreResult } },
       ) => ({
         replies: {
-          pageInfo: fetchMoreResult.pageInfo,
+          ...fetchMoreResult,
           edges: [...previousQueryResult.edges, ...fetchMoreResult.edges],
         },
       }),

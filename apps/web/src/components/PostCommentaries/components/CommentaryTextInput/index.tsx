@@ -3,7 +3,7 @@ import TextInputForm from '../TextInputForm';
 import { useLogic } from './logic';
 
 interface CommentaryTextInputProps {
-  postId: number;
+  postId: string;
 }
 
 const CommentaryTextInput: React.FC<CommentaryTextInputProps> = ({

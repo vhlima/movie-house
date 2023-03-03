@@ -1,22 +1,15 @@
-import type { Reply } from '../../../../graphql';
-
-import type { CommentaryBaseProps } from '../CommentaryBase';
+import type { FindRepliesQuery } from '../../../../graphql';
 
 import CommentaryBase from '../CommentaryBase';
 
 import { useLogic } from './logic';
 
-interface CommentaryReplyProps {
-  reply: {
-    id: string;
-    commentary: {
-      id: Reply['commentary']['id'];
-    };
-  } & CommentaryBaseProps;
+interface ReplyProps {
+  reply: FindRepliesQuery['replies']['edges'][number]['node'];
 }
 
-const CommentaryReply: React.FC<CommentaryReplyProps> = ({ reply }) => {
-  const { handleDelete } = useLogic(reply.commentary.id);
+const Reply: React.FC<ReplyProps> = ({ reply }) => {
+  const { handleDelete } = useLogic(reply.commentaryId);
 
   return (
     <CommentaryBase
@@ -27,4 +20,4 @@ const CommentaryReply: React.FC<CommentaryReplyProps> = ({ reply }) => {
   );
 };
 
-export default CommentaryReply;
+export default Reply;

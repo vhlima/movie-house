@@ -1,4 +1,4 @@
-import { useAddReplyMutation } from '../../../../../../graphql';
+import { useCreateReplyMutation } from '../../../../../../graphql';
 
 import { useRepliesCache } from '../../../../hooks/useRepliesCache';
 import { useCommentariesCache } from '../../../../hooks/useCommentariesCache';
@@ -8,30 +8,18 @@ export function useLogic(commentaryId: string) {
 
   const { updateCache } = useRepliesCache(commentaryId);
 
-  const [addReply, { loading, error }] = useAddReplyMutation({
+  const [createReply, { loading, error }] = useCreateReplyMutation({
     update: (cache, { data }) => {
       if (!data) return;
 
-      /* Update replies cache with the new reply added */
       updateCache(cacheData => ({
         ...cacheData,
         replies: {
           ...cacheData.replies,
-          pageInfo: cacheData
-            ? {
-                ...cacheData.replies.pageInfo,
-                maxItems: cacheData.replies.pageInfo.maxItems + 1,
-              }
-            : {
-                maxItems: 1,
-                endCursor: null,
-                hasNextPage: false,
-              },
           edges: [
-            ...(cacheData ? cacheData.replies.edges : []),
+            ...cacheData.replies.edges,
             {
-              cursor: data.reply.createdAt,
-              node: data.reply,
+              node: data.createReply,
             },
           ],
         },
@@ -42,9 +30,9 @@ export function useLogic(commentaryId: string) {
     },
   });
 
-  async function handleSubmit(body: string) {
-    const { errors } = await addReply({
-      variables: { commentaryId, body },
+  async function handleSubmit(content: string) {
+    const { errors } = await createReply({
+      variables: { commentaryId, content },
     });
 
     return !errors;
