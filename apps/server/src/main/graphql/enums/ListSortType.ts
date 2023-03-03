@@ -5,6 +5,6 @@ import { ListSortType as ListSortTypeEnum } from '../../../domain/entities';
 export { ListSortType } from '../../../domain/entities';
 
 registerEnumType(ListSortTypeEnum, {
-  name: 'ListSort',
+  name: 'ListSortType',
   description: 'List sort type enum',
 });
