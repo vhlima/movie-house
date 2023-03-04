@@ -19,3 +19,4 @@ export * from './pagination-new';
 export * from './tmdb-movie-list';
 export * from './list-preview';
 export * from './profile-stats';
+export * from './follow';

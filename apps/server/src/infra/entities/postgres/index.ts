@@ -6,3 +6,4 @@ export * from '../reply';
 export * from '../list';
 export * from '../like';
 export * from '../pre-made-list';
+export * from '../follow';

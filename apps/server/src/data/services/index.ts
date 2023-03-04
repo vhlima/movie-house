@@ -38,3 +38,7 @@ export * from './find-user-lists';
 export * from './find-movies-reference';
 export * from './find-pre-made-list-movies';
 export * from './find-profile-stats';
+export * from './find-follows';
+export * from './create-follow';
+export * from './delete-follow';
+export * from './is-following';

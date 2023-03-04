@@ -15,3 +15,4 @@ export * from './pre-made-list';
 export * from './find-movies-reference';
 export * from './github';
 export * from './find-lists';
+export * from './follow';

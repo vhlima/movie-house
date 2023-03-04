@@ -33,3 +33,7 @@ export * from './is-movie-on-pre-made-list';
 export * from './find-user-lists';
 export * from './find-pre-made-list-movies';
 export * from './find-profile-stats';
+export * from './create-follow';
+export * from './delete-follow';
+export * from './find-follows';
+export * from './is-following';

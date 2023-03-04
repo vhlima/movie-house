@@ -37,3 +37,7 @@ export * from './find-lists';
 export * from './is-movie-on-pre-made-list';
 export * from './find-user-lists';
 export * from './find-pre-made-list-movies';
+export * from './find-follows';
+export * from './create-follow';
+export * from './delete-follow';
+export * from './is-following';

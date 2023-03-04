@@ -3,3 +3,4 @@ export * from './commentary-pagination';
 export * from './reply-pagination';
 export * from './list-pagination';
 export * from './list-simple';
+export * from './follow-pagination';
