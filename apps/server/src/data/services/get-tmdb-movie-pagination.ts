@@ -21,6 +21,7 @@ export class GetTmDBMoviePaginationService {
       totalPages < MAX_PAGES_LIMIT ? totalPages : MAX_PAGES_LIMIT;
 
     return {
+      itemsPerPage: 20,
       totalCount,
       totalPages: maxPages,
       pageInfo: {
@@ -42,7 +43,13 @@ export class GetTmDBMoviePaginationService {
           voteAverage: movie.vote_average,
           voteCount: movie.vote_count,
           backdropPath: movie.backdrop_path,
+          backdropUrl: movie.backdrop_path
+            ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+            : '',
           posterPath: movie.poster_path,
+          posterUrl: movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : '',
           releaseDate: movie.release_date,
         },
       })),
