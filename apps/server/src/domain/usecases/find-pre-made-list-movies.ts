@@ -3,11 +3,13 @@ import {
   MovieReferenceSortType,
   Pagination,
   PaginationInput,
+  PreMadeListType,
 } from '../entities';
 
-export interface FindListMovies {
-  handle: (
-    listId: string,
+export interface FindPreMadeListMovies {
+  handle(
+    userId: string,
+    listType: PreMadeListType,
     props: PaginationInput<MovieReferenceSortType>,
-  ) => Promise<Pagination<Movie>>;
+  ): Promise<Pagination<Movie>>;
 }

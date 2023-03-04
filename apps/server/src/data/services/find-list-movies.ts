@@ -1,28 +1,26 @@
 import {
   PaginationInput,
-  PaginationPreResponse,
   MovieReferenceSortType,
-  MovieReference,
+  Movie,
+  Pagination,
 } from '../../domain/entities';
 
 import { NotFoundError, PageNotFoundError } from '../../domain/errors';
 
-import { FindListMovies } from '../../domain/usecases';
+import { FindListMovies, FindMoviesReference } from '../../domain/usecases';
 
-import { IFindMoviesReferenceRepository, IListRepository } from '../contracts';
-
-const MOVIES_PER_PAGE = 20;
+import { IListRepository } from '../contracts';
 
 export class FindListMoviesService implements FindListMovies {
   constructor(
     private readonly listRepository: IListRepository,
-    private readonly movieReferenceRepository: IFindMoviesReferenceRepository,
+    private readonly findMoviesReference: FindMoviesReference,
   ) {}
 
   async handle(
     listId: string,
     { page, sort }: PaginationInput<MovieReferenceSortType>,
-  ): Promise<PaginationPreResponse<MovieReference>> {
+  ): Promise<Pagination<Movie>> {
     if (page < 1) {
       throw new PageNotFoundError();
     }
@@ -33,13 +31,11 @@ export class FindListMoviesService implements FindListMovies {
       throw new NotFoundError('ListNotFoundError', 'List not found.');
     }
 
-    const moviesResponse =
-      await this.movieReferenceRepository.getMoviesReferenceById(listId, {
-        page,
-        sort,
-        itemsPerPage: MOVIES_PER_PAGE,
-      });
+    const movies = this.findMoviesReference.handle(listId, {
+      page,
+      sort,
+    });
 
-    return moviesResponse;
+    return movies;
   }
 }

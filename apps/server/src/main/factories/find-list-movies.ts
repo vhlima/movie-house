@@ -5,22 +5,14 @@ import {
 
 import {
   FindListMoviesService,
-  GetPaginationService,
+  FindMoviesReferenceService,
 } from '../../data/services';
-
-import { MovieReference } from '../../domain/entities';
 
 export function getFindListMoviesService(): FindListMoviesService {
   const service = new FindListMoviesService(
     new ListRepository(),
-    new FindMoviesReferenceRepository(),
+    new FindMoviesReferenceService(new FindMoviesReferenceRepository()),
   );
-
-  return service;
-}
-
-export function getFindListMoviesPaginatedService(): GetPaginationService<MovieReference> {
-  const service = new GetPaginationService<MovieReference>();
 
   return service;
 }

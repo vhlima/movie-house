@@ -1,12 +1,9 @@
 import { ObjectType } from 'type-graphql';
 
-import {
-  createPagination,
-  MovieReferenceEntity,
-} from '../../../infra/entities';
+import { createPagination, MovieEntity } from '../../../infra/entities';
 
 @ObjectType()
-export class MovieReferencePagination extends createPagination<MovieReferenceEntity>(
-  'MovieReference',
-  () => MovieReferenceEntity,
+export class MovieReferencePagination extends createPagination<MovieEntity>(
+  'MoviePagination',
+  () => MovieEntity,
 ) {}

@@ -1,8 +1,8 @@
 import {
-  MovieReference,
+  Movie,
   MovieReferenceSortType,
+  Pagination,
   PaginationInput,
-  PaginationPreResponse,
 } from '../entities';
 
 export interface FindMoviesReference {
@@ -10,5 +10,5 @@ export interface FindMoviesReference {
     referenceId: string,
     props: PaginationInput<MovieReferenceSortType>,
     itemsPerPage?: number,
-  ) => Promise<PaginationPreResponse<MovieReference>>;
+  ) => Promise<Pagination<Movie>>;
 }

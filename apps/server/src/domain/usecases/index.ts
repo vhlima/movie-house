@@ -36,3 +36,4 @@ export * from './get-movie-recommendations';
 export * from './find-lists';
 export * from './is-movie-on-pre-made-list';
 export * from './find-user-lists';
+export * from './find-pre-made-list-movies';

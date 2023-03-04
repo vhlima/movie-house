@@ -1,9 +1,11 @@
 import { Arg, Int, Query, Resolver } from 'type-graphql';
 
 import {
-  getFindListMoviesPaginatedService,
   getFindListMoviesService,
+  getFindPreMadeListMoviesService,
 } from '../../factories';
+
+import { PreMadeListType } from '../enums';
 
 import { MovieReferenceSortInput } from '../inputs';
 
@@ -25,16 +27,28 @@ export class FindMoviesReferenceResolver {
       sort,
     });
 
-    const findMoviesReferencePaginationService =
-      getFindListMoviesPaginatedService();
+    return moviesResponse;
+  }
 
-    const response = findMoviesReferencePaginationService.handle(
-      moviesResponse.items,
-      page,
-      moviesResponse.itemsPerPage,
-      moviesResponse.totalCount,
+  @Query(() => MovieReferencePagination)
+  async preMadeListMovies(
+    @Arg('userId') userId: string,
+    @Arg('listType', () => PreMadeListType) listType: PreMadeListType,
+    @Arg('page', () => Int) page: number,
+    @Arg('sort', () => MovieReferenceSortInput, { nullable: true })
+    sort?: MovieReferenceSortInput,
+  ) {
+    const findPreMadeListMoviesService = getFindPreMadeListMoviesService();
+
+    const moviesResponse = await findPreMadeListMoviesService.handle(
+      userId,
+      listType,
+      {
+        page,
+        sort,
+      },
     );
 
-    return response;
+    return moviesResponse;
   }
 }

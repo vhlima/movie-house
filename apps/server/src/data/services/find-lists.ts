@@ -16,6 +16,8 @@ import { GetPaginationService } from './get-pagination';
 
 const LISTS_PER_PAGE = 5;
 
+const MOVIES_PER_LIST = 5;
+
 export class FindListsService implements FindLists {
   constructor(
     private readonly findListsRepository: IFindListsRepository,
@@ -43,7 +45,7 @@ export class FindListsService implements FindLists {
       this.findMoviesReferenceService.handle(
         list.id,
         { page: 1 },
-        LISTS_PER_PAGE,
+        MOVIES_PER_LIST,
       ),
     );
 
@@ -52,7 +54,7 @@ export class FindListsService implements FindLists {
     const listsWithMovies = listsResponse.items.map((list, index) => ({
       ...list,
       user: list.post.user,
-      movies: listMoviesResponse[index].items.map(node => node.movie),
+      movies: listMoviesResponse[index].edges.map(({ node }) => node),
     }));
 
     const paginationService = new GetPaginationService<ListPreview>();
