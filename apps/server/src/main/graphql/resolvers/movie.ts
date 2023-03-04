@@ -58,7 +58,7 @@ export class MovieResolver {
   }
 
   @Query(() => TmDBMovieListPagination)
-  async trendingMoviesWeek(@Arg('page', () => Int) page: number) {
+  async trendingMovies(@Arg('page', () => Int) page: number) {
     const trendingMoviesWeekService = getTrendingMoviesWeekService();
 
     const trendingMoviesResponse = await trendingMoviesWeekService.handle(page);
