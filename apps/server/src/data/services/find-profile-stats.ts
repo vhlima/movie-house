@@ -1,8 +1,6 @@
-import { PreMadeListType } from '../../domain/entities';
+import { PreMadeListType, ProfileStats } from '../../domain/entities';
 import { UserNotFoundError } from '../../domain/errors';
 import { FindProfileStats } from '../../domain/usecases';
-
-import { ProfileStats } from '../../infra/entities';
 
 import { IListRepository, IUserRepository } from '../contracts';
 

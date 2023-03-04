@@ -1,8 +1,12 @@
 import { Arg, Query, Mutation, Resolver } from 'type-graphql';
 
-import { UserEntity } from '../../../infra/entities';
+import { ProfileStatsEntity, UserEntity } from '../../../infra/entities';
 
-import { getFindUserService, getCreateUserService } from '../../factories';
+import {
+  getFindUserService,
+  getCreateUserService,
+  getFindProfileStatsService,
+} from '../../factories';
 
 @Resolver(() => UserEntity)
 export class UserResolver {
@@ -13,6 +17,15 @@ export class UserResolver {
     const userResponse = await findUserService.handle(username, true);
 
     return userResponse;
+  }
+
+  @Query(() => ProfileStatsEntity)
+  async profileStats(@Arg('userId') userId: string) {
+    const findProfileStatsService = getFindProfileStatsService();
+
+    const profileStatsResponse = await findProfileStatsService.handle(userId);
+
+    return profileStatsResponse;
   }
 
   @Query(() => UserEntity)

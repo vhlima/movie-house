@@ -4,7 +4,6 @@ export * from './movie';
 export * from './post';
 export * from './movie-reference';
 export * from './find-reviews';
-export * from './pagination';
 export * from './commentary';
 export * from './find-commentaries';
 export * from './reply';
