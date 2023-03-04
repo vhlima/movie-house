@@ -8,8 +8,8 @@ export class MovieDTO {
       id: movie.id,
       backdropPath: movie.backdrop_path,
       posterPath: movie.poster_path,
-      backdropUrl: movie.poster_path
-        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+      backdropUrl: movie.backdrop_path
+        ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
         : '',
       imdbId: movie.imdb_id,
       originalLanguage: movie.original_title,
@@ -37,6 +37,9 @@ export class MovieDTO {
               originalName: cast.original_name,
               popularity: cast.popularity,
               profilePicturePath: cast.profile_path,
+              profilePictureUrl: cast.profile_path
+                ? `https://image.tmdb.org/t/p/w500/${cast.profile_path}`
+                : '',
             })),
             crew: movie.credits.crew.map(member => ({
               adult: member.adult,
@@ -50,6 +53,9 @@ export class MovieDTO {
               originalName: member.original_name,
               popularity: member.popularity,
               profilePicturePath: member.profile_path,
+              profilePictureUrl: member.profile_path
+                ? `https://image.tmdb.org/t/p/w500/${member.profile_path}`
+                : '',
             })),
           }
         : undefined,
