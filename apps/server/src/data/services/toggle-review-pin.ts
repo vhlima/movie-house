@@ -16,12 +16,12 @@ const MAX_PINNED_REVIEWS = 3;
 export class ToggleReviewPinService implements ToggleReviewPin {
   constructor(private readonly reviewRepository: IReviewRepository) {}
 
-  async handle(postId: string, session?: User | undefined): Promise<boolean> {
+  async handle(reviewId: string, session?: User | undefined): Promise<boolean> {
     if (!session) {
       throw new AuthenticationError();
     }
 
-    const reviewFound = await this.reviewRepository.getReviewByPostId(postId);
+    const reviewFound = await this.reviewRepository.getReviewById(reviewId);
 
     if (!reviewFound) {
       throw new ReviewNotFoundError();
@@ -41,7 +41,7 @@ export class ToggleReviewPinService implements ToggleReviewPin {
       );
     }
 
-    const isPinned = await this.reviewRepository.toggleReviewPin(postId);
+    const isPinned = await this.reviewRepository.toggleReviewPin(reviewId);
 
     return isPinned;
   }
