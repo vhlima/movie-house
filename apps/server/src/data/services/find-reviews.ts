@@ -100,6 +100,12 @@ export class FindReviewsService implements FindReviews {
       userId,
     );
 
-    return reviewsResponse;
+    return {
+      ...reviewsResponse,
+      items: reviewsResponse.items.map(item => ({
+        ...item,
+        user: item.post.user,
+      })),
+    };
   }
 }

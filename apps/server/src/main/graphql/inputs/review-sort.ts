@@ -1,16 +1,15 @@
 import { Field, InputType } from 'type-graphql';
 
 import { PaginationSortInput } from '../../../domain/entities';
-
-import { CommentarySortType } from '../enums/CommentarySortType';
+import { ReviewSortType } from '../enums';
 
 import { SortInput } from './sort';
 
 @InputType()
 export class ReviewSortInput
   extends SortInput
-  implements PaginationSortInput<CommentarySortType>
+  implements PaginationSortInput<ReviewSortType>
 {
-  @Field(() => CommentarySortType)
-  type: CommentarySortType;
+  @Field(() => ReviewSortType)
+  type: ReviewSortType;
 }

@@ -13,9 +13,9 @@ export class ReviewRepository implements IReviewRepository {
     return PostgresDataSource.getRepository(ReviewEntity);
   }
 
-  async getReviewByPostId(postId: string): Promise<Review | null> {
+  async getReviewById(reviewId: string): Promise<Review | null> {
     const reviewExists = await this.getReviewRepository().findOne({
-      where: { postId },
+      where: { id: reviewId },
       relations: ['post', 'post.user'],
     });
 
@@ -64,11 +64,7 @@ export class ReviewRepository implements IReviewRepository {
     return reviewCount;
   }
 
-  async createReview(
-    userId: string,
-    postId: string,
-    movieId: number,
-  ): Promise<Review> {
+  async createReview(postId: string, movieId: number): Promise<Review> {
     const reviewRepository = this.getReviewRepository();
 
     const review = reviewRepository.create({

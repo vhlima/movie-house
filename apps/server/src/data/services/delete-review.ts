@@ -17,12 +17,12 @@ export class DeleteReviewService implements DeleteReview {
     private readonly movieReferenceRepository: IMovieReferenceRepository,
   ) {}
 
-  async handle(postId: string, session?: User): Promise<boolean> {
+  async handle(reviewId: string, session?: User): Promise<boolean> {
     if (!session) {
       throw new UnauthorizedError();
     }
 
-    const reviewFound = await this.reviewRepository.getReviewByPostId(postId);
+    const reviewFound = await this.reviewRepository.getReviewById(reviewId);
 
     if (!reviewFound) {
       throw new ReviewNotFoundError();
@@ -32,7 +32,9 @@ export class DeleteReviewService implements DeleteReview {
       throw new UnauthorizedError();
     }
 
-    const postDeleteResponse = await this.postRepository.deletePost(postId);
+    const postDeleteResponse = await this.postRepository.deletePost(
+      reviewFound.postId,
+    );
 
     if (!postDeleteResponse) {
       return false;

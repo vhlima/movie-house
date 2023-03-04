@@ -33,10 +33,10 @@ export class ReviewResolver {
   }
 
   @Query(() => ReviewEntity)
-  async review(@Arg('postId') postId: string) {
+  async review(@Arg('reviewId') reviewId: string) {
     const findReviewService = getFindReviewService();
 
-    const reviewResponse = await findReviewService.handle(postId);
+    const reviewResponse = await findReviewService.handle(reviewId);
 
     return reviewResponse;
   }
@@ -61,11 +61,11 @@ export class ReviewResolver {
   @Mutation(() => Boolean)
   async deleteReview(
     @Ctx() { user }: ApolloServerContext,
-    @Arg('postId') postId: string,
+    @Arg('reviewId') reviewId: string,
   ) {
     const deleteReviewService = getDeleteReviewService();
 
-    const reviewResponse = await deleteReviewService.handle(postId, user);
+    const reviewResponse = await deleteReviewService.handle(reviewId, user);
 
     return reviewResponse;
   }
@@ -73,12 +73,12 @@ export class ReviewResolver {
   @Mutation(() => Boolean)
   async toggleReviewPin(
     @Ctx() { user }: ApolloServerContext,
-    @Arg('postId') postId: string,
+    @Arg('reviewId') reviewId: string,
   ) {
     const toggleReviewPinService = getToggleReviewPin();
 
     const toggleReviewPinResponse = await toggleReviewPinService.handle(
-      postId,
+      reviewId,
       user,
     );
 

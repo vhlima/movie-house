@@ -1,6 +1,7 @@
 import { Movie } from './movie';
 
 import { Post } from './post';
+import { User } from './user';
 
 export class Review {
   id: string;
@@ -8,6 +9,8 @@ export class Review {
   postId: string;
 
   post: Post;
+
+  user: User;
 
   movieId: number;
 

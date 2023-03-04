@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { MovieEntity, PostEntity } from './index';
+import { MovieEntity, PostEntity, UserEntity } from './index';
 
 @ObjectType('Review')
 @Entity('reviews')
@@ -28,6 +28,9 @@ export class ReviewEntity {
     foreignKeyConstraintName: 'PostId',
   })
   post: PostEntity;
+
+  @Field(() => UserEntity)
+  user: UserEntity;
 
   @Column({ name: 'movie_id' })
   movieId: number;

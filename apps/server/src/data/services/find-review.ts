@@ -9,12 +9,14 @@ import { ReviewNotFoundError } from '../../domain/errors';
 export class FindReviewService implements FindReview {
   constructor(private readonly reviewRepository: IReviewRepository) {}
 
-  async handle(postId: string): Promise<Review | null> {
-    const reviewFound = this.reviewRepository.getReviewByPostId(postId);
+  async handle(reviewId: string): Promise<Review | null> {
+    const reviewFound = await this.reviewRepository.getReviewById(reviewId);
 
     if (!reviewFound) {
       throw new ReviewNotFoundError();
     }
+
+    reviewFound.user = reviewFound.post.user;
 
     return reviewFound;
   }

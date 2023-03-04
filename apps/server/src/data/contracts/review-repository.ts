@@ -9,13 +9,9 @@ export interface IReviewRepository {
     movieId: number,
     sort?: Record<string, string>,
   ): Promise<ReviewModel[]>;
-  getReviewByPostId(postId: string): Promise<ReviewModel | null>;
+  getReviewById(reviewId: string): Promise<ReviewModel | null>;
   getUserPinnedReviewsCount(userId: string): Promise<number>;
-  createReview(
-    userId: string,
-    postId: string,
-    movieId: number,
-  ): Promise<ReviewModel>;
-  deleteReview(postId: string): Promise<boolean>;
-  toggleReviewPin(postId: string): Promise<boolean>;
+  createReview(postId: string, movieId: number): Promise<ReviewModel>;
+  deleteReview(reviewId: string): Promise<boolean>;
+  toggleReviewPin(reviewId: string): Promise<boolean>;
 }

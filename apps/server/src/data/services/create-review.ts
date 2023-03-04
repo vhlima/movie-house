@@ -52,17 +52,11 @@ export class CreateReviewService implements CreateReview {
 
     const post = await this.postRepository.createPost(session.id, content);
 
-    const review = await this.reviewRepository.createReview(
-      session.id,
-      post.id,
-      movieId,
-    );
+    const review = await this.reviewRepository.createReview(post.id, movieId);
 
     await this.movieReferenceRepository.createMovieReference(review.id, movie);
 
-    const updatedReview = await this.reviewRepository.getReviewByPostId(
-      post.id,
-    );
+    const updatedReview = await this.reviewRepository.getReviewById(review.id);
 
     if (!updatedReview) {
       throw new ReviewNotFoundError();
