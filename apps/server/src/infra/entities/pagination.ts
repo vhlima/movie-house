@@ -40,6 +40,9 @@ export function createPagination<T extends TypeValue>(
     @Field(() => Int)
     totalCount: number;
 
+    @Field(() => Int)
+    itemsPerPage: number;
+
     @Field()
     pageInfo: PaginationInfo;
 

@@ -22,6 +22,7 @@ export type PaginationEdge<T> = {
 export type Pagination<T> = {
   totalPages: number;
   totalCount: number;
+  itemsPerPage: number;
   pageInfo: PaginationInfo;
   edges: PaginationEdge<T>[];
 };
