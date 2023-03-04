@@ -5,7 +5,7 @@ import {
   PaginationRepositoryResponse,
 } from '../../domain/entities';
 
-export type PaginationInputModel<T> = {
+export type PaginationInputModel<T = any> = {
   page: number;
   itemsPerPage: number;
   sort?: PaginationSortInput<T>;

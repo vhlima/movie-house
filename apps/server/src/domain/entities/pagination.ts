@@ -3,7 +3,7 @@ export type PaginationSortInput<T> = {
   filter?: string;
 };
 
-export type PaginationInput<T> = {
+export type PaginationInput<T = any> = {
   page: number;
   sort?: PaginationSortInput<T>;
 };
