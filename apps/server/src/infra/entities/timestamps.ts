@@ -4,17 +4,17 @@ import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType({ isAbstract: true })
 export abstract class Timestamps {
-  @Field()
+  @Field(() => Number)
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp with time zone',
   })
-  createdAt: string;
+  createdAt: number;
 
-  @Field()
+  @Field(() => Number)
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp with time zone',
   })
-  updatedAt: string;
+  updatedAt: number;
 }

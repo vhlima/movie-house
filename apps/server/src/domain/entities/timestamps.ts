@@ -1,5 +1,5 @@
 export class Timestamps {
-  createdAt: string;
+  createdAt: number;
 
-  updatedAt: string;
+  updatedAt: number;
 }
