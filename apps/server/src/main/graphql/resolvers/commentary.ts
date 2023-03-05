@@ -25,7 +25,10 @@ export class CommentaryResolver {
       user,
     );
 
-    return commentaryResponse;
+    return {
+      ...commentaryResponse,
+      replyCount: 0,
+    };
   }
 
   @Mutation(() => Boolean)
