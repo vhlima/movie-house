@@ -6,6 +6,7 @@ import {
   getFindUserService,
   getCreateUserService,
   getFindProfileStatsService,
+  getFindUserByGithubIdService,
 } from '../../factories';
 
 @Resolver(() => UserEntity)
@@ -15,6 +16,15 @@ export class UserResolver {
     const findUserService = getFindUserService();
 
     const userResponse = await findUserService.handle(username, true);
+
+    return userResponse;
+  }
+
+  @Query(() => UserEntity)
+  async userByGithubId(@Arg('githubId') githubId: string) {
+    const findUserByGithubIdService = getFindUserByGithubIdService();
+
+    const userResponse = await findUserByGithubIdService.handle(githubId);
 
     return userResponse;
   }

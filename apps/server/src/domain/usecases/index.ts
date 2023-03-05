@@ -41,3 +41,4 @@ export * from './find-follows';
 export * from './create-follow';
 export * from './delete-follow';
 export * from './is-following';
+export * from './find-user-by-github-id';
