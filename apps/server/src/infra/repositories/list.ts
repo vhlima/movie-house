@@ -48,7 +48,7 @@ export class ListRepository implements IListRepository {
       where: {
         id: listId,
       },
-      relations: ['post'],
+      relations: ['post', 'post.user'],
     });
 
     return listResponse;
