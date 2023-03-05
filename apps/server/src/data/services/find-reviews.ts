@@ -18,7 +18,14 @@ import { ReviewSortTypeModel } from '../models';
 
 import { checkStringForValidPositiveNumber } from '../../utils/string-utils';
 
-const REVIEWS_PER_PAGE = 5;
+const REVIEWS_PER_PAGE = {
+  [ReviewSortTypeModel.PINNED]: 3,
+  [ReviewSortTypeModel.OLDER]: 5,
+  [ReviewSortTypeModel.POPULAR]: 3,
+  [ReviewSortTypeModel.POPULAR_WEEK]: 3,
+  [ReviewSortTypeModel.RECENT]: 3,
+  [ReviewSortTypeModel.YEAR]: 5,
+};
 
 type FindReviewsPaginationInput = PaginationInput<ReviewSortTypeModel>;
 
@@ -95,7 +102,8 @@ export class FindReviewsService implements FindReviews {
       {
         page,
         sort,
-        itemsPerPage: REVIEWS_PER_PAGE,
+        itemsPerPage:
+          REVIEWS_PER_PAGE[sort?.type || ReviewSortTypeModel.RECENT],
       },
       userId,
     );

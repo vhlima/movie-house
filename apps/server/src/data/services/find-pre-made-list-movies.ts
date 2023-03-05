@@ -15,6 +15,13 @@ import { IPreMadeListRepository, IUserRepository } from '../contracts';
 
 import { UserNotFoundError } from '../../domain/errors';
 
+const MOVIES_PER_PAGE = {
+  [PreMadeListType.FAVORITE]: 4,
+  [PreMadeListType.WATCHED]: 20,
+  [PreMadeListType.WATCHLIST]: 20,
+  [PreMadeListType.WATCH_LATER]: 20,
+};
+
 export class FindPreMadeListMoviesService implements FindPreMadeListMovies {
   constructor(
     private readonly userRepository: IUserRepository,
@@ -38,8 +45,11 @@ export class FindPreMadeListMoviesService implements FindPreMadeListMovies {
       listType,
     );
 
+    const moviesPerPage = MOVIES_PER_PAGE[listType];
+
     if (!listExists) {
       return {
+        itemsPerPage: moviesPerPage,
         totalCount: 0,
         totalPages: 1,
         pageInfo: {
@@ -54,6 +64,7 @@ export class FindPreMadeListMoviesService implements FindPreMadeListMovies {
     const moviesPaginated = await this.findMoviesReference.handle(
       listExists.id,
       props,
+      moviesPerPage,
     );
 
     return moviesPaginated;
