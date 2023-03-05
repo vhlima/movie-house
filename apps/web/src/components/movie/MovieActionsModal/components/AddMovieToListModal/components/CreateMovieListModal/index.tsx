@@ -16,9 +16,9 @@ type CreateMovieListModalProps = ModalHandles;
 const CreateMovieListModal: React.FC<CreateMovieListModalProps> = ({
   onClose,
 }) => {
-  const { createUserListResult, validationSchema, handleSubmit } = useLogic();
+  const { createListResult, validationSchema, handleSubmit } = useLogic();
 
-  const { error } = createUserListResult;
+  const { error } = createListResult;
 
   return (
     <Modal center backdrop onClose={onClose}>

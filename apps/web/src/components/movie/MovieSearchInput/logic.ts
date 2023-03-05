@@ -22,12 +22,12 @@ export const useLogic = () => {
       if (!searchTerm) return;
 
       const { data, error } = await searchMovie({
-        variables: { searchTerm },
+        variables: { searchTerm, page: 1 },
       });
 
       if (!data || error) return;
 
-      setSearchResults(data.searchMovie.results);
+      setSearchResults(data.searchMovie.edges.map(edge => edge.node));
     };
 
     const delayDebounceFn = setTimeout(async () => {

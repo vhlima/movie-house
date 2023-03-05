@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useFindUserPinnedReviewsQuery } from '../../../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
@@ -20,14 +20,18 @@ const PinnedReviews: React.FC = () => {
 
   const { user } = useProfile();
 
-  const { data: userPinnedReviewsData } = useFindUserPinnedReviewsQuery({
-    variables: { userId: user.id },
+  const { data: userPinnedReviewsData } = useFindReviewsQuery({
+    variables: {
+      userId: user.id,
+      page: 1,
+      sort: { type: ReviewSortType.Pinned },
+    },
   });
 
   const [isEditing, setEditing] = useState<boolean>(false);
 
   const hasAnyReviewPinned =
-    userPinnedReviewsData && userPinnedReviewsData.reviewsUserPinned.length > 0;
+    userPinnedReviewsData && userPinnedReviewsData.reviews.totalCount > 0;
 
   const isSameUserAsSession = session && session.user.id === user.id;
 
@@ -51,10 +55,10 @@ const PinnedReviews: React.FC = () => {
             </Typography>
           ) : (
             <ul>
-              {userPinnedReviewsData.reviewsUserPinned.map(review => (
+              {userPinnedReviewsData.reviews.edges.map(edge => (
                 <ReviewPreview
-                  key={`pinned-review-${review.id}`}
-                  review={review}
+                  key={`pinned-review-${edge.node.id}`}
+                  review={edge.node}
                 />
               ))}
             </ul>

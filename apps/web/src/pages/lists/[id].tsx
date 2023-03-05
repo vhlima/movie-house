@@ -5,16 +5,13 @@ import * as Yup from 'yup';
 import { addApolloState, initializeApollo } from '../../client';
 
 import type {
-  FindUserListQuery,
-  FindUserListQueryVariables,
-  FindUserListMoviesQuery,
-  FindUserListMoviesQueryVariables,
+  FindListQuery,
+  FindListQueryVariables,
+  FindListMoviesQuery,
+  FindListMoviesQueryVariables,
 } from '../../graphql';
 
-import {
-  FindUserListDocument,
-  FindUserListMoviesDocument,
-} from '../../graphql';
+import { FindListDocument, FindListMoviesDocument } from '../../graphql';
 
 import UserListView from '../../views/lists';
 
@@ -23,29 +20,34 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }) => {
   const requestValidationSchema = Yup.object().shape({
-    id: Yup.number().required(),
+    id: Yup.string().required(),
   });
 
   try {
     const { id } = await requestValidationSchema.validate(query);
 
-    const apolloClient = initializeApollo();
+    const apolloClient = initializeApollo(req.headers);
 
     const { data: listData } = await apolloClient.query<
-      FindUserListQuery,
-      FindUserListQueryVariables
+      FindListQuery,
+      FindListQueryVariables
     >({
-      query: FindUserListDocument,
-      variables: { postId: id },
+      query: FindListDocument,
+      variables: { listId: id },
     });
 
+    if (!listData) {
+      throw new Error('List data not found');
+    }
+
     const { data: listMoviesData } = await apolloClient.query<
-      FindUserListMoviesQuery,
-      FindUserListMoviesQueryVariables
+      FindListMoviesQuery,
+      FindListMoviesQueryVariables
     >({
-      query: FindUserListMoviesDocument,
+      query: FindListMoviesDocument,
       variables: {
-        listId: listData?.userList?.id,
+        listId: listData.list.id,
+        page: 1,
       },
     });
 
@@ -56,11 +58,14 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     });
   } catch (err) {
-    req.statusCode = 404;
-    return { props: { notFound: true } };
+    return { notFound: true };
   }
 };
 
-const UserListPage: NextPage = () => <UserListView />;
+type UserListPageProps = FindListQuery;
+
+const UserListPage: NextPage<UserListPageProps> = ({ ...props }) => (
+  <UserListView {...props} />
+);
 
 export default UserListPage;

@@ -12,7 +12,7 @@ import MovieReviewView from '../../views/reviews/root';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
-    id: Yup.number().required().min(0).max(10000),
+    id: Yup.string().required(),
   });
 
   try {
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       FindReviewQueryVariables
     >({
       query: FindReviewDocument,
-      variables: { postId: id },
+      variables: { reviewId: id },
     });
 
     return addApolloState(apolloClient, {

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useFindUserProfileStatsQuery } from '../../../../../../graphql';
+import { useFindProfileStatsQuery } from '../../../../../../graphql';
 
 import { useAuth } from '../../../../../../hooks/useAuth';
 
@@ -47,7 +47,7 @@ const ProfileStats: React.FC = () => {
 
   const { user } = useProfile();
 
-  const { data: profileStatsData } = useFindUserProfileStatsQuery({
+  const { data: profileStatsData } = useFindProfileStatsQuery({
     variables: { userId: user.id },
   });
 
@@ -94,7 +94,7 @@ const ProfileStats: React.FC = () => {
               number={
                 !profileStatsData
                   ? 0
-                  : profileStatsData.userProfileStats[stats.attributeKey]
+                  : profileStatsData.profileStats[stats.attributeKey]
               }
               link={{
                 href: {
@@ -116,7 +116,7 @@ const ProfileStats: React.FC = () => {
               number={
                 !profileStatsData
                   ? 0
-                  : profileStatsData.userProfileStats[stats.attributeKey]
+                  : profileStatsData.profileStats[stats.attributeKey]
               }
               link={{
                 href: {

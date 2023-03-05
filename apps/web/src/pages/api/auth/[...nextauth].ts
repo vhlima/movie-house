@@ -5,13 +5,13 @@ import GithubProvider from 'next-auth/providers/github';
 import { initializeApollo } from '../../../client';
 
 import type {
-  FindUserByIdQuery,
-  FindUserByIdQueryVariables,
+  FindUserByGithubIdQuery,
+  FindUserByGithubIdQueryVariables,
   SignUpMutation,
   SignUpMutationVariables,
 } from '../../../graphql';
 
-import { SignUpDocument, FindUserByIdDocument } from '../../../graphql';
+import { SignUpDocument, FindUserByGithubIdDocument } from '../../../graphql';
 
 export default NextAuth({
   session: {
@@ -21,8 +21,7 @@ export default NextAuth({
     updateAge: 30 * 60,
   },
   secret: process.env.JWT_SECRET,
-  // debug: process.env.NODE_ENV === 'development',
-  debug: true,
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -30,31 +29,28 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    jwt: ({ token, user }) =>
-      user
-        ? {
-            user: {
-              id: user.id,
-            },
-          }
-        : {
-            user: {
-              id: token.user.id,
-            },
-          },
+    jwt: async ({ token, account }) => {
+      if (account) {
+        return {
+          providerId: account.providerAccountId,
+        };
+      }
+
+      return token;
+    },
     session: async ({ token, session }) => {
-      if (!token) return session;
+      if (!token || !token.providerId) return session;
 
       const apolloClient = initializeApollo();
 
       try {
         const { data: userData } = await apolloClient.query<
-          FindUserByIdQuery,
-          FindUserByIdQueryVariables
+          FindUserByGithubIdQuery,
+          FindUserByGithubIdQueryVariables
         >({
-          query: FindUserByIdDocument,
+          query: FindUserByGithubIdDocument,
           variables: {
-            userId: token.user.id,
+            githubId: token.providerId,
           },
         });
 
@@ -62,7 +58,7 @@ export default NextAuth({
           return null;
         }
 
-        const { __typename, ...user } = userData.userById;
+        const { __typename, ...user } = userData.userByGithubId;
 
         return {
           ...session,
@@ -88,7 +84,7 @@ export default NextAuth({
           return false;
         }
 
-        return response.data.signUp;
+        return true;
       } catch (err) {
         return false;
       }

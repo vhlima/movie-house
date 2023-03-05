@@ -1,4 +1,6 @@
-import type { Review } from '../../../graphql';
+import type { FindReviewsQuery } from '../../../graphql';
+
+import { parseISO } from '../../../utils/date-utils';
 
 import ListItem from '../../ListItem';
 import Typography from '../../Typography';
@@ -10,17 +12,8 @@ import TextShorter from '../../TextShorter';
 
 import ReviewHeader from '../ReviewHeader';
 
-export type ReviewPreviewFields = {
-  user: Pick<Review['user'], 'username' | 'profilePictureUrl'>;
-  post: Pick<Review['post'], 'id' | 'body' | 'createdAt'>;
-  movie: Pick<
-    Review['movie'],
-    'id' | 'originalTitle' | 'posterUrl' | 'releaseDate'
-  >;
-};
-
 interface ReviewPreviewProps {
-  review: ReviewPreviewFields;
+  review: FindReviewsQuery['reviews']['edges'][number]['node'];
   simple?: boolean;
 }
 
@@ -44,7 +37,7 @@ const ReviewPreview: React.FC<ReviewPreviewProps> = ({
 
             {review.movie.releaseDate && (
               <Typography className="ml-1" component="span">
-                ({new Date(review.movie.releaseDate).getFullYear()})
+                ({parseISO(review.movie.releaseDate).getFullYear()})
               </Typography>
             )}
           </Typography>
@@ -65,7 +58,7 @@ const ReviewPreview: React.FC<ReviewPreviewProps> = ({
         <TextShorter
           className="my-2"
           maxCharacters={200}
-          text={review.post.body}
+          text={review.post.content}
         />
       </div>
     </div>

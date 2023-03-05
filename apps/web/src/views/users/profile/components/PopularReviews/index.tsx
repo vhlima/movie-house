@@ -1,4 +1,4 @@
-import { useFindUserPopularReviewsQuery } from '../../../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '../../../../../graphql';
 
 import { useProfile } from '../../../hooks/useProfile';
 
@@ -11,13 +11,18 @@ import ReviewPreview from '../../../../../components/review/ReviewPreview';
 const PopularReviews: React.FC = () => {
   const { user } = useProfile();
 
-  const { data: userPopularReviewsData } = useFindUserPopularReviewsQuery({
-    variables: { userId: user?.id },
+  const { data: userPopularReviewsData } = useFindReviewsQuery({
+    variables: {
+      userId: user.id,
+      page: 1,
+      sort: {
+        type: ReviewSortType.Popular,
+      },
+    },
   });
 
   const hasAnyReview =
-    userPopularReviewsData &&
-    userPopularReviewsData.reviewsUserPopular.length > 0;
+    userPopularReviewsData && userPopularReviewsData.reviews.totalCount > 0;
 
   return (
     <Card>
@@ -30,10 +35,10 @@ const PopularReviews: React.FC = () => {
           </Typography>
         ) : (
           <ul>
-            {userPopularReviewsData.reviewsUserPopular.map(review => (
+            {userPopularReviewsData.reviews.edges.map(edge => (
               <ReviewPreview
-                key={`popular-review-${review.id}`}
-                review={review}
+                key={`popular-review-${edge.node.id}`}
+                review={edge.node}
               />
             ))}
           </ul>

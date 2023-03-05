@@ -3,11 +3,11 @@ import type { GetServerSideProps, NextPage } from 'next';
 import * as Yup from 'yup';
 
 import type {
-  FindFullMovieQuery,
-  FindFullMovieQueryVariables,
+  FindMovieWithCreditsQuery,
+  FindMovieWithCreditsQueryVariables,
 } from '../../graphql';
 
-import { FindFullMovieDocument } from '../../graphql';
+import { FindMovieWithCreditsDocument } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 
@@ -17,21 +17,19 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
     const apolloClient = initializeApollo();
 
-    // const { data: movieData } = await apolloClient.query<
-    //   FindFullMovieQuery,
-    //   FindFullMovieQueryVariables
-    // >({
-    //   query: FindFullMovieDocument,
-    //   variables: { movieId: id },
-    // });
+    const { data: movieData } = await apolloClient.query<
+      FindMovieWithCreditsQuery,
+      FindMovieWithCreditsQueryVariables
+    >({
+      query: FindMovieWithCreditsDocument,
+      variables: { movieId: parseInt(query.id as string, 10) },
+    });
 
-    // return addApolloState(apolloClient, {
-    //   props: {
-    //     ...movieData,
-    //   },
-    // });
-
-    return { props: {} };
+    return addApolloState(apolloClient, {
+      props: {
+        ...movieData,
+      },
+    });
   } catch (err) {
     return { notFound: true };
   }

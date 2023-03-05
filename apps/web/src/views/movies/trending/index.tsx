@@ -26,7 +26,9 @@ const MoviesTrendingView: React.FC = () => {
           {trendingMoviesData && (
             <MovieCoverList
               name="trending-movies-list"
-              movies={trendingMoviesData.trendingMovies.results}
+              movies={trendingMoviesData.trendingMovies.edges.map(
+                edge => edge.node,
+              )}
             />
           )}
         </Card.Body>

@@ -1,4 +1,4 @@
-import { useFindPopularReviewsFromMovieQuery } from '../../../../../graphql';
+import { useFindReviewsQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 
@@ -12,12 +12,12 @@ interface MoviePopularReviewsProps {
 const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
   movieId,
 }) => {
-  const { data: popularReviewsData } = useFindPopularReviewsFromMovieQuery({
-    variables: { movieId },
+  const { data: popularReviewsData } = useFindReviewsQuery({
+    variables: { page: 1 },
   });
 
   const hasAnyPopularReview =
-    popularReviewsData && popularReviewsData.reviewsPopularFromMovie.length > 0;
+    popularReviewsData && popularReviewsData.reviews.edges.length > 0;
 
   return (
     <Card>
@@ -33,10 +33,10 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
           </Typography>
         ) : (
           <ul>
-            {popularReviewsData.reviewsPopularFromMovie.map(review => (
+            {popularReviewsData.reviews.edges.map(edge => (
               <ReviewPreview
-                key={`movie-popular-review-${review.id}`}
-                review={review}
+                key={`movie-popular-review-${edge.node.id}`}
+                review={edge.node}
                 simple
               />
             ))}

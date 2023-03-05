@@ -1,6 +1,6 @@
 import { useAuth } from '../../../hooks/useAuth';
 
-import type { FindFullMovieQuery } from '../../../graphql';
+import type { FindMovieWithCreditsQuery } from '../../../graphql';
 
 import Button from '../../../components/Button';
 import PageContent from '../../../components/PageContent';
@@ -16,9 +16,9 @@ import MovieRecentReviews from './components/MovieRecentReviews';
 import MoviePopularReviews from './components/MoviePopularReviews';
 import MoviesRelated from './components/MoviesRelated';
 
-type MovieViewProps = FindFullMovieQuery;
+type MovieViewProps = FindMovieWithCreditsQuery;
 
-const MovieView: React.FC<MovieViewProps> = ({ movie }) => {
+const MovieView: React.FC<MovieViewProps> = ({ movieWithCredits: movie }) => {
   const { data: session } = useAuth();
 
   return (

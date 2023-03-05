@@ -8,8 +8,8 @@ declare module 'next-auth' {
   interface User {
     id: string;
     username: string;
-    realName?: string;
     profilePictureUrl?: string;
+    createdAt: number;
   }
 
   /**
@@ -17,15 +17,12 @@ declare module 'next-auth' {
    */
   interface Session {
     user: User;
-    accessToken: string;
   }
 }
 
 declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT {
-    user: {
-      providerId: string;
-    };
+    providerId: string;
   }
 }

@@ -5,9 +5,8 @@ import { useState } from 'react';
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
 import {
-  LimitType,
-  useFindLimitQuery,
-  useFindUserPinnedReviewsQuery,
+  ReviewSortType,
+  useFindReviewsQuery,
 } from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
@@ -31,12 +30,12 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
 }) => {
   const { data: session } = useAuth();
 
-  const { data: userPinnedReviewsData } = useFindUserPinnedReviewsQuery({
-    variables: { userId: session.user.id },
-  });
-
-  const { data: limitData } = useFindLimitQuery({
-    variables: { limitType: LimitType.MaxPinnedReviews },
+  const { data: userPinnedReviewsData } = useFindReviewsQuery({
+    variables: {
+      userId: session.user.id,
+      page: 1,
+      sort: { type: ReviewSortType.Pinned },
+    },
   });
 
   /* When set to true, add modal will be shown */
@@ -45,6 +44,8 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
   if (isAdding) {
     return <PinnedReviewsAddModal onClose={() => setAdding(false)} />;
   }
+
+  const { reviews } = userPinnedReviewsData || {};
 
   return (
     <Modal center backdrop onClose={onClose}>
@@ -58,21 +59,16 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
         <Modal.CloseButton onClose={onClose} />
       </Modal.Header>
 
-      {userPinnedReviewsData && limitData && (
+      {userPinnedReviewsData && (
         <MovieCoverList
           className="grid-cols-3"
           name="edit-pinned-review"
-          empty={
-            limitData.limit.limit -
-            userPinnedReviewsData.reviewsUserPinned.length
-          }
-          movies={userPinnedReviewsData.reviewsUserPinned.map(
-            review => review.movie,
-          )}
+          empty={reviews.itemsPerPage - reviews.totalCount}
+          movies={reviews.edges.map(edge => edge.node.movie)}
           link={false}
           renderCover={(index, movie) => {
             if (movie) {
-              const review = userPinnedReviewsData.reviewsUserPinned[index];
+              const review = reviews[index];
 
               if (review) {
                 return <UnpinReviewButton postId={review.post.id} />;

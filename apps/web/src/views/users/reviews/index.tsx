@@ -1,4 +1,4 @@
-import type { FindUserQuery, FindUserReviewsQuery } from '../../../graphql';
+import type { FindUserQuery, FindReviewsQuery } from '../../../graphql';
 
 import Typography from '../../../components/Typography';
 
@@ -8,13 +8,10 @@ import UserProfilePageView from '../components/UserProfilePageView';
 
 import ReviewsSortButtons from './components/ReviewsSortButtons';
 
-type UserReviewsViewProps = FindUserQuery & FindUserReviewsQuery;
+type UserReviewsViewProps = FindUserQuery & FindReviewsQuery;
 
-const UserReviewsView: React.FC<UserReviewsViewProps> = ({
-  user,
-  reviewsUser,
-}) => {
-  const reviewCount = reviewsUser.length;
+const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
+  const reviewCount = reviews.totalCount;
 
   const hasAnyReview = reviewCount > 0;
 
@@ -32,8 +29,11 @@ const UserReviewsView: React.FC<UserReviewsViewProps> = ({
         </Typography>
       ) : (
         <ul>
-          {reviewsUser.map(review => (
-            <ReviewPreview key={`user-reviews-${review.id}`} review={review} />
+          {reviews.edges.map(edge => (
+            <ReviewPreview
+              key={`user-reviews-${edge.node.id}`}
+              review={edge.node}
+            />
           ))}
         </ul>
       )}

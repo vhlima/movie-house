@@ -5,11 +5,11 @@ import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 
 import type {
-  FindFullMovieQuery,
-  FindFullMovieQueryVariables,
+  FindMovieWithCreditsQuery,
+  FindMovieWithCreditsQueryVariables,
 } from '../../graphql';
 
-import { FindFullMovieDocument } from '../../graphql';
+import { FindMovieWithCreditsDocument } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 
@@ -28,10 +28,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const apolloClient = initializeApollo();
 
     const { data: movieData } = await apolloClient.query<
-      FindFullMovieQuery,
-      FindFullMovieQueryVariables
+      FindMovieWithCreditsQuery,
+      FindMovieWithCreditsQueryVariables
     >({
-      query: FindFullMovieDocument,
+      query: FindMovieWithCreditsDocument,
       variables: { movieId: id },
     });
 
@@ -50,7 +50,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const MoviePage: NextPage<FindFullMovieQuery> = ({ ...props }) => {
+const MoviePage: NextPage<FindMovieWithCreditsQuery> = ({ ...props }) => {
   const { isFallback } = useRouter();
 
   if (isFallback) {

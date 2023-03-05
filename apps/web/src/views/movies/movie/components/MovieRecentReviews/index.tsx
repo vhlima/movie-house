@@ -1,4 +1,4 @@
-import { useFindMovieRecentReviewsQuery } from '../../../../../graphql';
+import { useFindReviewsQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 
@@ -10,12 +10,12 @@ interface MovieRecentReviewsProps {
 }
 
 const MovieRecentReviews: React.FC<MovieRecentReviewsProps> = ({ movieId }) => {
-  const { data: recentReviewsData } = useFindMovieRecentReviewsQuery({
-    variables: { movieId },
+  const { data: recentReviewsData } = useFindReviewsQuery({
+    variables: { page: 1 },
   });
 
   const hasAnyRecentReview =
-    recentReviewsData && recentReviewsData.reviewsRecentFromMovie.length > 0;
+    recentReviewsData && recentReviewsData.reviews.edges.length > 0;
 
   return (
     <Card>
@@ -28,10 +28,10 @@ const MovieRecentReviews: React.FC<MovieRecentReviewsProps> = ({ movieId }) => {
           </Typography>
         ) : (
           <ul>
-            {recentReviewsData.reviewsRecentFromMovie.map(review => (
+            {recentReviewsData.reviews.edges.map(edge => (
               <ReviewPreview
-                key={`movie-recent-review-${review.id}`}
-                review={review}
+                key={`movie-recent-review-${edge.node.id}`}
+                review={edge.node}
                 simple
               />
             ))}

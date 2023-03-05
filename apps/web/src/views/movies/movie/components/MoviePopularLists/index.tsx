@@ -1,4 +1,4 @@
-import { useFindMoviePopularListsQuery } from '../../../../../graphql';
+import { useFindListsQuery } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 import ListPreview from '../../../../../components/list/ListPreview';
@@ -9,12 +9,14 @@ interface MoviePopularListsProps {
 }
 
 const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
-  const { data: popularListsData } = useFindMoviePopularListsQuery({
-    variables: { movieId },
+  const { data: popularListsData } = useFindListsQuery({
+    variables: {
+      page: 1,
+    },
   });
 
   const hasAnyPopularList =
-    popularListsData && popularListsData.moviePopularLists.length > 0;
+    popularListsData && popularListsData.lists.edges.length > 0;
 
   return (
     <Card>
@@ -27,10 +29,10 @@ const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
           </Typography>
         ) : (
           <ul>
-            {popularListsData.moviePopularLists.map(list => (
+            {popularListsData.lists.edges.map(({ node }) => (
               <ListPreview
-                key={`movie-popular-lists-${list.post.id}`}
-                list={list}
+                key={`movie-popular-lists-${node.post.id}`}
+                list={node}
               />
             ))}
           </ul>

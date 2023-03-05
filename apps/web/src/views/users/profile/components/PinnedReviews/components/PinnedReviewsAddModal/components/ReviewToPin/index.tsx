@@ -47,7 +47,7 @@ const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
       <Button
         className="flex items-center gap-1 mt-2"
         buttonStyle="secondary"
-        onClick={() => onClick(review.post.id)}
+        onClick={() => onClick(review.id)}
       >
         <SvgIcon iconType="BsFillPinFill" />
 

@@ -1,6 +1,8 @@
-import { MovieSortType } from '../../../graphql';
+import { useRouter } from 'next/router';
 
-import type { FindMoviesQuery, MovieSortInput } from '../../../graphql';
+// import { MovieSortType } from '../../../graphql';
+
+import type { DiscoverMoviesQuery } from '../../../graphql';
 
 import Typography from '../../../components/Typography';
 
@@ -9,18 +11,28 @@ import YearNavigation from '../../../components/Sort/YearNavigation';
 import MovieCoverList from '../../../components/movie/MovieCoverList';
 
 import MoviesPageView from '../components/MoviesPageView';
+import Pagination from '../../../components/Pagination';
 
-interface MoviesSortPageViewProps extends FindMoviesQuery {
-  sort?: MovieSortInput;
+interface MoviesSortPageViewProps extends DiscoverMoviesQuery {
+  // sort?: MovieSortInput;
+  sort?: any;
 }
 
 const MoviesSortPageView: React.FC<MoviesSortPageViewProps> = ({
   sort,
-  movies,
+  discoverMovies,
 }) => {
-  const isAnyYearTypeSort = sort
-    ? sort.type === MovieSortType.Decade || sort.type === MovieSortType.Year
-    : false;
+  // const isAnyYearTypeSort = sort
+  //   ? sort.type === MovieSortType.Decade || sort.type === MovieSortType.Year
+  //   : false;
+
+  const isAnyYearTypeSort = false;
+
+  const { asPath } = useRouter();
+
+  const dynamicPathname = asPath.split('/').slice(0, 4).join('/');
+
+  console.log('dynamic pathname? ', dynamicPathname);
 
   return (
     <MoviesPageView>
@@ -28,15 +40,20 @@ const MoviesSortPageView: React.FC<MoviesSortPageViewProps> = ({
         <YearNavigation
           path="/movies"
           year={parseInt(sort.filter, 10)}
-          isDecade={sort.type === MovieSortType.Decade}
+          // isDecade={sort.type === MovieSortType.Decade}
         />
       )}
 
-      {movies.results.length === 0 ? (
+      {discoverMovies.edges.length === 0 ? (
         <Typography component="h2">No movies were found.</Typography>
       ) : (
-        <MovieCoverList name="movies-page" movies={movies.results} />
+        <MovieCoverList
+          name="movies-page"
+          movies={discoverMovies.edges.map(edge => edge.node)}
+        />
       )}
+
+      <Pagination path={dynamicPathname} currentPage={1} totalPages={30} />
     </MoviesPageView>
   );
 };

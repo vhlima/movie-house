@@ -5,10 +5,8 @@ import { useAuth } from '../../../../../hooks/useAuth';
 import { useProfile } from '../../../hooks/useProfile';
 
 import {
-  LimitType,
   PreMadeListType,
-  useFindLimitQuery,
-  useFindUserPreMadeListMoviesQuery,
+  useFindPreMadeListMoviesQuery,
 } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
@@ -25,12 +23,8 @@ const FavoriteMovies: React.FC = () => {
 
   const [isEditing, setEditing] = useState<boolean>(false);
 
-  const { data: listMoviesData } = useFindUserPreMadeListMoviesQuery({
-    variables: { userId: user.id, listType: PreMadeListType.Favorite },
-  });
-
-  const { data: limitData } = useFindLimitQuery({
-    variables: { limitType: LimitType.MaxFavoriteMovies },
+  const { data: listMoviesData } = useFindPreMadeListMoviesQuery({
+    variables: { userId: user.id, listType: PreMadeListType.Favorite, page: 1 },
   });
 
   const isSameUserAsSession = session && session.user.id === user?.id;
@@ -49,15 +43,17 @@ const FavoriteMovies: React.FC = () => {
         </Card.Header>
 
         <Card.Body>
-          {limitData && listMoviesData && (
+          {listMoviesData && listMoviesData && (
             <MovieCoverList
               className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1 sm:gap-2"
               name="favorite-movie-profile"
               empty={
-                limitData.limit.limit -
-                listMoviesData.userPreMadeListMovies.length
+                listMoviesData.preMadeListMovies.itemsPerPage -
+                listMoviesData.preMadeListMovies.totalCount
               }
-              movies={listMoviesData.userPreMadeListMovies}
+              movies={listMoviesData.preMadeListMovies.edges.map(
+                edge => edge.node,
+              )}
             />
           )}
         </Card.Body>

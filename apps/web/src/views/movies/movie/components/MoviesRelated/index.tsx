@@ -11,12 +11,12 @@ interface MoviesRelatedProps {
 
 const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
   const { data: movieRecommendations } = useFindMovieRecommendationsQuery({
-    variables: { movieId },
+    variables: { movieId, page: 1 },
   });
 
   const hasAnyMovie =
     movieRecommendations &&
-    movieRecommendations.movieRecommendations.length > 0;
+    movieRecommendations.movieRecommendations.edges.length > 0;
 
   return (
     <Card>
@@ -28,7 +28,9 @@ const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
         ) : (
           <MovieCoverList
             name="related-movies"
-            movies={movieRecommendations.movieRecommendations.slice(0, 4)}
+            movies={movieRecommendations.movieRecommendations.edges.map(
+              edge => edge.node,
+            )}
           />
         )}
       </Card.Body>

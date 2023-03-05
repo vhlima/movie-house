@@ -1,4 +1,4 @@
-import { useFindStreamProvidersQuery } from '../../../graphql';
+import { useFindStreamingProvidersQuery } from '../../../graphql';
 
 import SortDropdown from '../SortDropdown';
 
@@ -7,7 +7,7 @@ interface ServiceListProps {
 }
 
 const ServiceList: React.FC<ServiceListProps> = ({ pathname }) => {
-  const { data: streamProvidersData } = useFindStreamProvidersQuery();
+  const { data: streamProvidersData } = useFindStreamingProvidersQuery();
 
   if (!streamProvidersData) {
     return null;
@@ -15,7 +15,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ pathname }) => {
 
   const providers = [
     { id: '-1', name: 'Any service' },
-    ...streamProvidersData.streamProviders.map(provider => ({
+    ...streamProvidersData.streamingProviders.map(provider => ({
       id: `${provider.name.toLowerCase()}`,
       name: provider.name,
     })),

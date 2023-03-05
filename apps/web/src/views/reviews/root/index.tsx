@@ -25,7 +25,11 @@ const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
             <ReviewHeader user={user} post={post} />
           </UserProfileLink>
 
-          <TextShorter className="my-2" maxCharacters={400} text={post.body} />
+          <TextShorter
+            className="my-2"
+            maxCharacters={400}
+            text={post.content}
+          />
         </div>
 
         <PostCommentaries postId={post.id} />

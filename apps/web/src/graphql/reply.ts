@@ -1,54 +1,42 @@
 import { gql } from '@apollo/client';
 
-const REPLY_FIELDS = gql`
-  fragment ReplyFields on Reply {
-    id
-    body
-    createdAt
-    user {
-      id
-      username
-      profilePictureUrl
-    }
-    commentary {
-      id
-      postId
-    }
-    likes {
-      user {
-        id
-      }
-    }
-  }
-`;
-
 export const FIND_REPLIES = gql`
-  ${REPLY_FIELDS}
-
-  query FindReplies($first: Int!, $commentaryId: String!, $after: String) {
-    replies(first: $first, commentaryId: $commentaryId, after: $after)
-      @connection(key: "replies", filter: ["commentaryId"]) {
+  query FindReplies($page: Int!, $commentaryId: String!) {
+    replies(page: $page, commentaryId: $commentaryId) {
+      totalCount
+      totalPages
       pageInfo {
-        maxItems
-        endCursor
+        currentPage
         hasNextPage
+        hasPreviousPage
       }
-
       edges {
         node {
-          ...ReplyFields
+          id
+          commentaryId
+          content
+          createdAt
+          user {
+            username
+            profilePictureUrl
+          }
         }
       }
     }
   }
 `;
 
-export const ADD_REPLY = gql`
-  ${REPLY_FIELDS}
-
-  mutation AddReply($body: String!, $commentaryId: String!) {
-    reply(body: $body, commentaryId: $commentaryId) {
-      ...ReplyFields
+export const CREATE_REPLY = gql`
+  mutation CreateReply($content: String!, $commentaryId: String!) {
+    createReply(content: $content, commentaryId: $commentaryId) {
+      id
+      commentaryId
+      content
+      createdAt
+      user {
+        username
+        profilePictureUrl
+      }
     }
   }
 `;

@@ -1,109 +1,113 @@
 import { gql } from '@apollo/client';
 
-export const FIND_USER_LIST_NAMES = gql`
-  query FindUserListNames($userId: String!) {
-    userLists(userId: $userId) {
+export const FIND_USER_LISTS_NAMES = gql`
+  query FindUserListsNames($userId: String!) {
+    userListNames(userId: $userId) {
       id
       name
     }
   }
 `;
 
-export const FIND_USER_LISTS = gql`
-  query FindUserLists($userId: String!, $sort: ListSortInput) {
-    userLists(userId: $userId, sort: $sort) {
-      name
-      isPrivate
-      user {
-        id
-        username
-        profilePictureUrl
+export const FIND_LISTS = gql`
+  query FindLists($page: Int!, $userId: String, $sort: ListSortInput) {
+    lists(page: $page, userId: $userId, sort: $sort) {
+      totalCount
+      totalPages
+      pageInfo {
+        currentPage
+        hasNextPage
+        hasPreviousPage
       }
-      post {
-        id
-        body
-      }
-      movies {
-        id
-        originalTitle
-        posterUrl
+      edges {
+        node {
+          id
+          name
+          isPrivate
+          post {
+            id
+            content
+          }
+          user {
+            username
+            profilePictureUrl
+          }
+          movies {
+            id
+            originalTitle
+            posterUrl
+          }
+        }
       }
     }
   }
 `;
 
-export const FIND_USER_LIST = gql`
-  query FindUserList($postId: Int!) {
-    userList(postId: $postId) {
+export const FIND_LIST = gql`
+  query FindList($listId: String!) {
+    list(listId: $listId) {
       id
       name
       backgroundImageUrl
       user {
-        id
         username
         profilePictureUrl
       }
       post {
         id
-        body
+        content
         createdAt
       }
     }
   }
 `;
 
-export const FIND_MOVIE_POPULAR_LISTS = gql`
-  query FindMoviePopularLists($movieId: Int!) {
-    moviePopularLists(movieId: $movieId) {
-      id
-      name
-      backgroundImageUrl
-      user {
-        id
-        username
-        profilePictureUrl
+export const FIND_LIST_MOVIES = gql`
+  query FindListMovies($page: Int!, $listId: String!) {
+    listMovies(page: $page, listId: $listId) {
+      totalCount
+      totalPages
+      pageInfo {
+        currentPage
+        hasNextPage
+        hasPreviousPage
       }
-      post {
-        id
-        body
-        createdAt
-      }
-      movies {
-        id
-        originalTitle
-        posterUrl
+      edges {
+        node {
+          id
+          originalTitle
+          posterUrl
+        }
       }
     }
   }
 `;
 
-export const CREATE_USER_LIST = gql`
-  mutation CreateUserList($name: String!, $body: String) {
-    userListCreate(name: $name, body: $body) {
+export const CREATE_LIST = gql`
+  mutation CreateList($listName: String!, $content: String) {
+    createList(listName: $listName, content: $content) {
       id
       name
     }
   }
 `;
 
-export const DELETE_USER_LIST = gql`
-  mutation DeleteUserList($listId: String!) {
-    userListDelete(listId: $listId)
+export const DELETE_LIST = gql`
+  mutation DeleteList($listId: String!) {
+    deleteList(listId: $listId)
   }
 `;
 
 export const ADD_MOVIE_TO_LIST = gql`
   mutation AddMovieToList($movieId: Int!, $listId: String!) {
-    userListAddMovie(movieId: $movieId, listId: $listId) {
-      movie {
-        originalTitle
-      }
+    addMovieToList(movieId: $movieId, listId: $listId) {
+      originalTitle
     }
   }
 `;
 
 export const REMOVE_MOVIE_FROM_LIST = gql`
   mutation RemoveMovieFromList($movieId: Int!, $listId: String!) {
-    userListRemoveMovie(movieId: $movieId, listId: $listId)
+    removeMovieFromList(movieId: $movieId, listId: $listId)
   }
 `;

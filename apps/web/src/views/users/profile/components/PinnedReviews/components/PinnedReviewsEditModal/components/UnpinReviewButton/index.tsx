@@ -6,7 +6,7 @@ import { useUnpinReviewMutation } from '../../../../../../../../../graphql';
 import { usePinnedReviewsCache } from '../../../../hooks/usePinnedReviewsCache';
 
 interface UnpinReviewButtonProps {
-  postId: number;
+  postId: string;
 }
 
 const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ postId }) => {

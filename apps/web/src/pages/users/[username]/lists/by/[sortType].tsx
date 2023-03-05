@@ -2,7 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindUserQuery, FindUserListsQuery } from '../../../../../graphql';
+import type { FindUserQuery, FindListsQuery } from '../../../../../graphql';
 
 import { ListSortType } from '../../../../../graphql';
 
@@ -56,11 +56,11 @@ export const getServerSideProps: GetServerSideProps = async context => {
   }
 };
 
-type UserListsSortPageProps = FindUserQuery & FindUserListsQuery;
+type UserListsSortPageProps = FindUserQuery & FindListsQuery;
 
 const UserListsSortPage: NextPage<UserListsSortPageProps> = ({
   user,
-  userLists,
-}) => <UserListsView user={user} userLists={userLists} />;
+  lists,
+}) => <UserListsView user={user} lists={lists} />;
 
 export default UserListsSortPage;

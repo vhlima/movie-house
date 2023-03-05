@@ -2,7 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindUserQuery, FindUserReviewsQuery } from '../../../../graphql';
+import type { FindUserQuery, FindReviewsQuery } from '../../../../graphql';
 
 import { addApolloState, initializeApollo } from '../../../../client';
 
@@ -31,10 +31,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 };
 
-type PageProps = FindUserQuery & FindUserReviewsQuery;
+type PageProps = FindUserQuery & FindReviewsQuery;
 
-const UserReviewsPage: NextPage<PageProps> = ({ user, reviewsUser }) => (
-  <UserReviewsView user={user} reviewsUser={reviewsUser} />
+const UserReviewsPage: NextPage<PageProps> = ({ user, reviews }) => (
+  <UserReviewsView user={user} reviews={reviews} />
 );
 
 export default UserReviewsPage;

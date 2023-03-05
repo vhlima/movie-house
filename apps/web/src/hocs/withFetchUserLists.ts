@@ -4,11 +4,11 @@ import type {
   ListSortInput,
   FindUserQuery,
   FindUserQueryVariables,
-  FindUserListsQuery,
-  FindUserListsQueryVariables,
+  FindListsQuery,
+  FindListsQueryVariables,
 } from '../graphql';
 
-import { FindUserDocument, FindUserListsDocument } from '../graphql';
+import { FindUserDocument, FindListsDocument } from '../graphql';
 
 interface FetchDataProps {
   apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -35,11 +35,11 @@ export async function withFetchUserLists({
     }
 
     const { data: userListsData } = await apolloClient.query<
-      FindUserListsQuery,
-      FindUserListsQueryVariables
+      FindListsQuery,
+      FindListsQueryVariables
     >({
-      query: FindUserListsDocument,
-      variables: { userId: userData.user.id, sort },
+      query: FindListsDocument,
+      variables: { userId: userData.user.id, page: 1, sort },
     });
 
     return {

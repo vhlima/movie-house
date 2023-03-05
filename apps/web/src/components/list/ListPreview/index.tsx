@@ -1,4 +1,4 @@
-import type { List, Movie } from '../../../graphql';
+import type { FindListsQuery } from '../../../graphql';
 
 import Link from '../../Link';
 import SvgIcon from '../../SvgIcon';
@@ -7,22 +7,11 @@ import TextShorter from '../../TextShorter';
 import MovieCoverList from '../../movie/MovieCoverList';
 
 interface ListPreviewProps {
-  list: {
-    name: List['name'];
-    movies: Array<{
-      id: Movie['id'];
-      originalTitle: Movie['originalTitle'];
-      posterUrl: Movie['posterUrl'];
-    }>;
-    post: {
-      id: List['post']['id'];
-      body: List['post']['body'];
-    };
-  };
+  list: FindListsQuery['lists']['edges'][number]['node'];
 }
 
 const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
-  const { name, post, movies } = list;
+  const { id, name, post, movies } = list;
 
   return (
     <div>
@@ -30,7 +19,7 @@ const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
         className="group"
         href={{
           pathname: '/lists/[id]',
-          query: { id: post.id },
+          query: { id },
         }}
       >
         {movies.length > 0 && (
@@ -60,10 +49,10 @@ const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
         </Typography>
       </div>
 
-      {post.body && (
+      {post.content && (
         <TextShorter
           className="text-grey-200 mt-1"
-          text={post.body}
+          text={post.content}
           maxCharacters={120}
         />
       )}

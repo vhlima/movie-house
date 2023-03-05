@@ -1,13 +1,13 @@
 import * as Yup from 'yup';
 
 import type {
-  FindUserListNamesQuery,
-  FindUserListNamesQueryVariables,
+  FindUserListsNamesQuery,
+  FindUserListsNamesQueryVariables,
 } from '../../../../../../../graphql';
 
 import {
-  FindUserListNamesDocument,
-  useCreateUserListMutation,
+  FindUserListsNamesDocument,
+  useCreateListMutation,
 } from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
@@ -22,32 +22,32 @@ type ValidationSchemaType = Yup.SchemaOf<CreateMovieListFormValues>;
 export const useLogic = () => {
   const { data: session } = useAuth();
 
-  const [createUserList, createUserListResult] = useCreateUserListMutation();
+  const [createList, createListResult] = useCreateListMutation();
 
   async function handleSubmit({
     listName,
     description,
   }: CreateMovieListFormValues) {
-    const { errors } = await createUserList({
+    const { errors } = await createList({
       variables: {
-        name: listName,
-        body: description || '',
+        listName,
+        content: description,
       },
       update: (cache, { data }) => {
         if (!data) return;
 
         cache.updateQuery<
-          FindUserListNamesQuery,
-          FindUserListNamesQueryVariables
+          FindUserListsNamesQuery,
+          FindUserListsNamesQueryVariables
         >(
           {
-            query: FindUserListNamesDocument,
+            query: FindUserListsNamesDocument,
             variables: { userId: session.user.id },
           },
           cacheData => ({
-            userLists: !cacheData
-              ? [data.userListCreate]
-              : [...cacheData.userLists, data.userListCreate],
+            userListNames: !cacheData
+              ? [data.createList]
+              : [...cacheData.userListNames, data.createList],
           }),
         );
       },
@@ -64,7 +64,7 @@ export const useLogic = () => {
   });
 
   return {
-    createUserListResult,
+    createListResult,
 
     validationSchema,
 

@@ -19,9 +19,7 @@ const PinnedReviewsAddModal: React.FC<PinnedReviewsAddModalProps> = ({
 
   const { data, loading, error } = reviewsResponse;
 
-  const availableReviews = data
-    ? data.reviewsUser.filter(review => !review.isPinned)
-    : [];
+  const availableReviews = data ? data.reviews.edges : [];
 
   return (
     <Modal center backdrop onClose={onClose}>
@@ -42,10 +40,10 @@ const PinnedReviewsAddModal: React.FC<PinnedReviewsAddModalProps> = ({
           </Typography>
         ) : (
           <ul className="flex flex-col gap-2 max-h-96 overflow-y-auto">
-            {availableReviews.map(review => (
+            {availableReviews.map(edge => (
               <ReviewToPin
-                key={`review-to-pin-${review.id}`}
-                review={review}
+                key={`review-to-pin-${edge.node.id}`}
+                review={edge.node}
                 onClick={reviewId => handlePinReview(reviewId)}
               />
             ))}

@@ -1,4 +1,4 @@
-import { useFindRecentReviewsQuery } from '../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '../../../graphql';
 
 import Link from '../../Link';
 
@@ -9,7 +9,14 @@ import MovieCover from '../../movie/MovieCover';
 import QueryState from '../../QueryState';
 
 const RecentReviews: React.FC = () => {
-  const { data, loading, error } = useFindRecentReviewsQuery();
+  const { data, loading, error } = useFindReviewsQuery({
+    variables: {
+      page: 1,
+      sort: {
+        type: ReviewSortType.Recent,
+      },
+    },
+  });
 
   return (
     <Card>
@@ -19,15 +26,15 @@ const RecentReviews: React.FC = () => {
         <QueryState loading={loading} error={error}>
           {data && (
             <ul className="grid grid-cols-4 sm:grid-cols-8 gap-2">
-              {data.reviewsRecent.map(review => (
-                <li key={`recent-review-${review.id}`}>
+              {data.reviews.edges.map(({ node }) => (
+                <li key={`recent-review-${node.id}`}>
                   <Link
                     href={{
                       pathname: '/reviews/[id]',
-                      query: { id: review.post.id },
+                      query: { id: node.post.id },
                     }}
                   >
-                    <MovieCover movie={review.movie} link={false} />
+                    <MovieCover movie={node.movie} link={false} />
                   </Link>
                 </li>
               ))}

@@ -1,4 +1,4 @@
-import { useFindUserRecentReviewsQuery } from '../../../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '../../../../../graphql';
 
 import { useProfile } from '../../../hooks/useProfile';
 
@@ -10,12 +10,18 @@ import ReviewPreview from '../../../../../components/review/ReviewPreview';
 const RecentReviews: React.FC = () => {
   const { user } = useProfile();
 
-  const { data: userRecentReviewsData } = useFindUserRecentReviewsQuery({
-    variables: { userId: user?.id },
+  const { data: userRecentReviewsData } = useFindReviewsQuery({
+    variables: {
+      userId: user.id,
+      page: 1,
+      sort: {
+        type: ReviewSortType.Recent,
+      },
+    },
   });
 
   const hasAnyRecentReview =
-    userRecentReviewsData && userRecentReviewsData.reviewsUserRecent.length > 0;
+    userRecentReviewsData && userRecentReviewsData.reviews.totalCount > 0;
 
   return (
     <Card>
@@ -28,10 +34,10 @@ const RecentReviews: React.FC = () => {
           </Typography>
         ) : (
           <ul>
-            {userRecentReviewsData.reviewsUserRecent.map(review => (
+            {userRecentReviewsData.reviews.edges.map(edge => (
               <ReviewPreview
-                key={`recent-review-${review.id}`}
-                review={review}
+                key={`recent-review-${edge.node.id}`}
+                review={edge.node}
               />
             ))}
           </ul>

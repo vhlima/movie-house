@@ -15,16 +15,16 @@ const SearchPageView: React.FC<SearchPageViewProps> = ({
   searchMovie,
   searchTerm,
 }) => {
-  const { results, page, totalPages, totalResults } = searchMovie || {};
+  const { edges, pageInfo, totalPages, totalCount } = searchMovie;
 
-  const hasAnyResult = results && results.length > 0;
+  const hasAnyResult = edges && edges.length > 0;
 
   return (
     <PageContent className="mt-4">
       <SubHeading
         title={
-          totalResults && totalResults > 0
-            ? `Found at least ${totalResults} matches for “${searchTerm}”`
+          totalCount && totalCount > 0
+            ? `Found at least ${totalCount} matches for “${searchTerm}”`
             : 'No results'
         }
       />
@@ -36,16 +36,16 @@ const SearchPageView: React.FC<SearchPageViewProps> = ({
       ) : (
         <>
           <ul className="mt-4">
-            {results.map(movie => (
+            {edges.map(edge => (
               <SearchResultMovie
-                key={`search-result-${movie.id}`}
-                movie={movie}
+                key={`search-result-${edge.node.id}`}
+                movie={edge.node}
               />
             ))}
           </ul>
 
           <SearchPageButtons
-            page={page}
+            page={pageInfo.currentPage}
             totalPages={totalPages}
             searchTerm={searchTerm}
           />

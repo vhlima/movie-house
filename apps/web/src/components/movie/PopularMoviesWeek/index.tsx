@@ -12,7 +12,7 @@ const PopularMoviesWeek: React.FC = () => {
     variables: { page: 1 },
   });
 
-  const hasAnyMovie = data ? data.trendingMovies.results.length > 0 : false;
+  const hasAnyMovie = data ? data.trendingMovies.edges.length > 0 : false;
 
   return (
     <Card>
@@ -27,11 +27,11 @@ const PopularMoviesWeek: React.FC = () => {
           <Typography component="h2">No movies were found.</Typography>
         ) : (
           <ul className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-            {data.trendingMovies.results.slice(0, 6).map(movie => (
-              <li key={`movie-cover-${movie.id}`}>
+            {data.trendingMovies.edges.slice(0, 6).map(edge => (
+              <li key={`movie-cover-${edge.node.id}`}>
                 <MovieCover
                   className="group hover:border-movieHouse-light"
-                  movie={movie}
+                  movie={edge.node}
                 />
               </li>
             ))}

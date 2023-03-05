@@ -3,43 +3,43 @@ import type { GetServerSideProps, NextPage } from 'next';
 import * as Yup from 'yup';
 
 import type {
-  FindMoviesQuery,
-  FindMoviesQueryVariables,
-  MovieSortInput,
+  DiscoverMoviesQuery,
+  DiscoverMoviesQueryVariables,
+  // MovieSortInput,
 } from '../../graphql';
 
-import { MovieSortType, FindMoviesDocument } from '../../graphql';
+import { DiscoverMoviesDocument } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 
 import MoviesSortPageView from '../../views/movies/sort';
 
-const movieSortTypes = [
-  {
-    route: 'decade',
-    sortType: MovieSortType.Decade,
-  },
-  {
-    route: 'genre',
-    sortType: MovieSortType.Genre,
-  },
-  {
-    route: 'release',
-    sortType: MovieSortType.ReleaseDateDesc,
-  },
-  {
-    route: 'year',
-    sortType: MovieSortType.Year,
-  },
-  {
-    route: 'on',
-    sortType: MovieSortType.Service,
-  },
-] as Array<{ route: string; sortType: MovieSortType }>;
+// const movieSortTypes = [
+//   {
+//     route: 'decade',
+//     sortType: MovieSortType.Decade,
+//   },
+//   {
+//     route: 'genre',
+//     sortType: MovieSortType.Genre,
+//   },
+//   {
+//     route: 'release',
+//     sortType: MovieSortType.ReleaseDateDesc,
+//   },
+//   {
+//     route: 'year',
+//     sortType: MovieSortType.Year,
+//   },
+//   {
+//     route: 'on',
+//     sortType: MovieSortType.Service,
+//   },
+// ] as Array<{ route: string; sortType: MovieSortType }>;
 
-function findSortType(sortType: string) {
-  return movieSortTypes.find(type => type.route === sortType.toLowerCase());
-}
+// function findSortType(sortType: string) {
+//   return movieSortTypes.find(type => type.route === sortType.toLowerCase());
+// }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
@@ -52,7 +52,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
           return false;
         }
 
-        return !!findSortType(value[0]);
+        return true;
+        // return !!findSortType(value[0]);
       }),
   });
 
@@ -61,29 +62,29 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       sort: [sortTypeName, sortFilter],
     } = await requestValidationSchema.validate(query);
 
-    const { sortType } = findSortType(sortTypeName);
+    // const { sortType } = findSortType(sortTypeName);
 
-    const sortInput: MovieSortInput = {
-      type: sortType,
-      filter: sortFilter,
-    };
+    // const sortInput: MovieSortInput = {
+    //   type: sortType,
+    //   filter: sortFilter,
+    // };
 
     const apolloClient = initializeApollo();
 
     const { data: moviesData } = await apolloClient.query<
-      FindMoviesQuery,
-      FindMoviesQueryVariables
+      DiscoverMoviesQuery,
+      DiscoverMoviesQueryVariables
     >({
-      query: FindMoviesDocument,
+      query: DiscoverMoviesDocument,
       variables: {
         page: 1,
-        sort: sortInput,
+        // sort: sortInput,
       },
     });
 
     return addApolloState(apolloClient, {
       props: {
-        sort: sortInput,
+        // sort: sortInput,
         ...moviesData,
       },
     });
@@ -92,8 +93,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 };
 
-interface MoviesSortPageProps extends FindMoviesQuery {
-  sort?: MovieSortInput;
+interface MoviesSortPageProps extends DiscoverMoviesQuery {
+  // sort?: MovieSortInput;
+  sort?: any;
 }
 
 const MoviesSortPage: NextPage<MoviesSortPageProps> = ({ ...props }) => (

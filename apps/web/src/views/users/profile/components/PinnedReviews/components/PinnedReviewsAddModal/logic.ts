@@ -1,8 +1,8 @@
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
 import {
-  usePinReviewMutation,
-  useFindUserReviewsQuery,
+  useToggleReviewPinMutation,
+  useFindReviewsQuery,
 } from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
@@ -14,25 +14,34 @@ type AddModalLogicProps = ModalHandles;
 export const useLogic = ({ onClose }: AddModalLogicProps) => {
   const { data } = useAuth();
 
-  const reviewsResponse = useFindUserReviewsQuery({
-    variables: { userId: data.user.id },
+  const reviewsResponse = useFindReviewsQuery({
+    variables: { userId: data.user.id, page: 1 },
   });
 
   const { updateCache } = usePinnedReviewsCache();
 
-  const [pinReview] = usePinReviewMutation({
+  const [pinReview] = useToggleReviewPinMutation({
     errorPolicy: 'all',
-    update: (cache, { data }) => {
-      if (!data || !data.reviewPin.isPinned) return;
+    update: (_, { data }, ctx) => {
+      if (!data || !data.toggleReviewPin || !reviewsResponse.data) return;
+
+      const review = reviewsResponse.data.reviews.edges.find(
+        edge => edge.node.id === ctx.variables.reviewId,
+      );
+
+      if (!review) return;
 
       updateCache(cacheData => ({
-        reviewsUserPinned: [...cacheData.reviewsUserPinned, data.reviewPin],
+        reviews: {
+          ...cacheData.reviews,
+          edges: [...cacheData.reviews.edges, review],
+        },
       }));
     },
   });
 
-  const handlePinReview = async (postId: number) => {
-    const { errors } = await pinReview({ variables: { postId } });
+  const handlePinReview = async (reviewId: string) => {
+    const { errors } = await pinReview({ variables: { reviewId } });
 
     if (!errors) {
       onClose();

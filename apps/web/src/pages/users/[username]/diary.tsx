@@ -3,13 +3,13 @@ import type { NextPage, GetServerSideProps } from 'next';
 import * as Yup from 'yup';
 
 import type {
-  FindUserListsQuery,
-  FindUserListsQueryVariables,
+  FindListsQuery,
+  FindListsQueryVariables,
   FindUserQuery,
   FindUserQueryVariables,
 } from '../../../graphql';
 
-import { FindUserDocument, FindUserListsDocument } from '../../../graphql';
+import { FindUserDocument, FindListsDocument } from '../../../graphql';
 
 import { addApolloState, initializeApollo } from '../../../client';
 
@@ -42,11 +42,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
 
     const { data: userListsData } = await apolloClient.query<
-      FindUserListsQuery,
-      FindUserListsQueryVariables
+      FindListsQuery,
+      FindListsQueryVariables
     >({
-      query: FindUserListsDocument,
-      variables: { userId: userData.user.id },
+      query: FindListsDocument,
+      variables: { userId: userData.user.id, page: 1 },
     });
 
     return addApolloState(apolloClient, {
