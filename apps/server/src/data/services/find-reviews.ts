@@ -14,20 +14,20 @@ import {
   UserNotFoundError,
 } from '../../domain/errors';
 
-import { ReviewSortTypeModel } from '../models';
+import { ReviewSortType } from '../enums';
 
 import { checkStringForValidPositiveNumber } from '../../utils/string-utils';
 
 const REVIEWS_PER_PAGE = {
-  [ReviewSortTypeModel.PINNED]: 3,
-  [ReviewSortTypeModel.OLDER]: 5,
-  [ReviewSortTypeModel.POPULAR]: 3,
-  [ReviewSortTypeModel.POPULAR_WEEK]: 3,
-  [ReviewSortTypeModel.RECENT]: 3,
-  [ReviewSortTypeModel.YEAR]: 5,
+  [ReviewSortType.PINNED]: 3,
+  [ReviewSortType.OLDER]: 5,
+  [ReviewSortType.POPULAR]: 3,
+  [ReviewSortType.POPULAR_WEEK]: 3,
+  [ReviewSortType.RECENT]: 3,
+  [ReviewSortType.YEAR]: 5,
 };
 
-type FindReviewsPaginationInput = PaginationInput<ReviewSortTypeModel>;
+type FindReviewsPaginationInput = PaginationInput<ReviewSortType>;
 
 export class FindReviewsService implements FindReviews {
   constructor(
@@ -46,7 +46,7 @@ export class FindReviewsService implements FindReviews {
     const { type, filter } = sort;
 
     switch (type) {
-      case ReviewSortTypeModel.PINNED: {
+      case ReviewSortType.PINNED: {
         if (!userId) {
           throw new UserNotFoundError();
         }
@@ -59,7 +59,7 @@ export class FindReviewsService implements FindReviews {
 
         break;
       }
-      case ReviewSortTypeModel.YEAR: {
+      case ReviewSortType.YEAR: {
         if (!filter) {
           throw new InvalidFieldError(
             `Sorting by ${type.toString()} requires filter.`,
@@ -102,8 +102,7 @@ export class FindReviewsService implements FindReviews {
       {
         page,
         sort,
-        itemsPerPage:
-          REVIEWS_PER_PAGE[sort?.type || ReviewSortTypeModel.RECENT],
+        itemsPerPage: REVIEWS_PER_PAGE[sort?.type || ReviewSortType.RECENT],
       },
       userId,
     );

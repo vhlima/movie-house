@@ -3,18 +3,18 @@ import { FindManyOptions } from 'typeorm';
 import { IFindListsRepository } from '../../data/contracts';
 
 import {
-  ListSortTypeModel,
   PaginationInputModel,
   PaginationPreResponseModel,
 } from '../../data/models';
 
 import { List } from '../../domain/entities';
+import { ListSortType } from '../../data/enums';
 
 import { PostgresDataSource } from '../data-sources';
 
 import { ListEntity } from '../entities';
 
-type FindListsPaginationInput = PaginationInputModel<ListSortTypeModel>;
+type FindListsPaginationInput = PaginationInputModel<ListSortType>;
 
 export class FindListsRepository implements IFindListsRepository {
   private getListRepository() {
@@ -33,14 +33,14 @@ export class FindListsRepository implements IFindListsRepository {
     }
 
     switch (sort.type) {
-      case ListSortTypeModel.OLDER: {
+      case ListSortType.OLDER: {
         return {
           order: {
             createdAt: 'ASC',
           },
         };
       }
-      case ListSortTypeModel.UPDATED: {
+      case ListSortType.UPDATED: {
         return {
           order: {
             updatedAt: 'DESC',
@@ -54,7 +54,7 @@ export class FindListsRepository implements IFindListsRepository {
   }
 
   async getLists(
-    { page, itemsPerPage, sort }: PaginationInputModel<ListSortTypeModel>,
+    { page, itemsPerPage, sort }: PaginationInputModel<ListSortType>,
     userId?: string | undefined,
   ): Promise<PaginationPreResponseModel<List>> {
     const listRepository = this.getListRepository();

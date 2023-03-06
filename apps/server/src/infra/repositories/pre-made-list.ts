@@ -2,9 +2,10 @@ import { IPreMadeListRepository } from '../../data/contracts';
 
 import { PostgresDataSource } from '../data-sources';
 
-import { PreMadeList, PreMadeListType } from '../../domain/entities';
+import { PreMadeList } from '../../domain/entities';
 
 import { PreMadeListEntity } from '../entities';
+import { PreMadeListType } from '../../data/enums';
 
 export class PreMadeListRepository implements IPreMadeListRepository {
   private getPreMadeListRepository() {

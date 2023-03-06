@@ -1,7 +1,7 @@
-import { PreMadeListType } from '../../domain/entities';
 import { GetPreMadeListMovieCount } from '../../domain/usecases';
 import { MovieReferenceRepository } from '../../infra/repositories';
 import { IPreMadeListRepository } from '../contracts';
+import { PreMadeListType } from '../enums';
 
 export class GetPreMadeListMovieCountService
   implements GetPreMadeListMovieCount

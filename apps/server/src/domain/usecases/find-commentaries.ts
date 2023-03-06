@@ -4,10 +4,7 @@ import {
   PaginationInput,
 } from '../entities';
 
-export enum CommentarySortType {
-  POPULAR = 'POPULAR',
-  CREATE_DATE_ASC = 'CREATE_DATE_ASC',
-}
+import { CommentarySortType } from '../enums';
 
 export interface FindCommentaries {
   handle: (

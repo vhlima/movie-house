@@ -1,4 +1,4 @@
-import { PreMadeListType, User } from '../../domain/entities';
+import { User } from '../../domain/entities';
 import { AuthenticationError } from '../../domain/errors';
 import { IsMovieOnPreMadeList } from '../../domain/usecases';
 
@@ -6,6 +6,7 @@ import {
   IMovieReferenceRepository,
   IPreMadeListRepository,
 } from '../contracts';
+import { PreMadeListType } from '../enums';
 
 export class IsMovieOnPreMadeListService implements IsMovieOnPreMadeList {
   constructor(

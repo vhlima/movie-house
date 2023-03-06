@@ -10,11 +10,11 @@ import { FindReplies } from '../../domain/usecases';
 
 import { ICommentaryRepository, IFindRepliesRepository } from '../contracts';
 
-import { ReplySortTypeModel } from '../models';
+import { ReplySortType } from '../enums';
 
 const COMMENTARIES_PER_PAGE = 2;
 
-type FindRepliesPaginationInput = PaginationInput<ReplySortTypeModel>;
+type FindRepliesPaginationInput = PaginationInput<ReplySortType>;
 
 export class FindRepliesService implements FindReplies {
   constructor(

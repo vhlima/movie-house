@@ -1,4 +1,4 @@
-import { LikeType } from '../usecases';
+import { LikeType } from '../enums';
 
 export class Like {
   id: string;

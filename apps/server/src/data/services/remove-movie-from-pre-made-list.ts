@@ -1,4 +1,4 @@
-import { PreMadeListType, User } from '../../domain/entities';
+import { User } from '../../domain/entities';
 
 import { AuthenticationError } from '../../domain/errors';
 
@@ -8,6 +8,7 @@ import {
   IMovieReferenceRepository,
   IPreMadeListRepository,
 } from '../contracts';
+import { PreMadeListType } from '../enums';
 
 export class RemoveMovieFromPreMadeListService
   implements RemoveMovieFromPreMadeList

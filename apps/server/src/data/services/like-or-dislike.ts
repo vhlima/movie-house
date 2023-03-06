@@ -2,7 +2,9 @@ import { User } from '../../domain/entities';
 
 import { AuthenticationError, NotFoundError } from '../../domain/errors';
 
-import { LikeOrDislike, LikeType } from '../../domain/usecases';
+import { LikeOrDislike } from '../../domain/usecases';
+
+import { LikeType } from '../enums';
 
 import {
   ICommentaryRepository,

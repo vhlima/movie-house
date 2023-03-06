@@ -3,12 +3,11 @@ import { FindManyOptions } from 'typeorm';
 import { IFindCommentariesRepository } from '../../data/contracts';
 
 import {
-  CommentarySortTypeModel,
   PaginationInputModel,
   PaginationPreResponseModel,
 } from '../../data/models';
 
-import { LikeType } from '../../main/graphql/enums';
+import { CommentarySortType } from '../../data/enums';
 
 import { Commentary } from '../../domain/entities';
 
@@ -16,8 +15,7 @@ import { PostgresDataSource } from '../data-sources';
 
 import { CommentaryEntity } from '../entities';
 
-type FindCommentariesPaginationInput =
-  PaginationInputModel<CommentarySortTypeModel>;
+type FindCommentariesPaginationInput = PaginationInputModel<CommentarySortType>;
 
 export class FindCommentariesRepository implements IFindCommentariesRepository {
   private getCommentaryRepository() {
@@ -36,14 +34,14 @@ export class FindCommentariesRepository implements IFindCommentariesRepository {
     }
 
     switch (sort.type) {
-      case CommentarySortTypeModel.CREATE_DATE_ASC: {
+      case CommentarySortType.CREATE_DATE_ASC: {
         return {
           order: {
             createdAt: 'ASC',
           },
         };
       }
-      case CommentarySortTypeModel.POPULAR: {
+      case CommentarySortType.POPULAR: {
         return {
           // order: {
           //   likeCount: 'ASC',
@@ -58,7 +56,7 @@ export class FindCommentariesRepository implements IFindCommentariesRepository {
 
   async getCommentaries(
     postId: string,
-    { page, itemsPerPage, sort }: PaginationInputModel<CommentarySortTypeModel>,
+    { page, itemsPerPage, sort }: PaginationInputModel<CommentarySortType>,
   ): Promise<PaginationPreResponseModel<Commentary>> {
     const commentaryRepository = this.getCommentaryRepository();
 

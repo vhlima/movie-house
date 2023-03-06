@@ -1,4 +1,4 @@
-import { PreMadeListType } from '../entities';
+import { PreMadeListType } from '../enums';
 
 export interface GetPreMadeListMovieCount {
   handle(

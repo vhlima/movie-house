@@ -10,11 +10,11 @@ import { FindCommentaries } from '../../domain/usecases';
 
 import { IFindCommentariesRepository, IPostRepository } from '../contracts';
 
-import { CommentarySortTypeModel } from '../models';
+import { CommentarySortType } from '../enums';
 
 const COMMENTARIES_PER_PAGE = 2;
 
-type FindCommentariesPaginationInput = PaginationInput<CommentarySortTypeModel>;
+type FindCommentariesPaginationInput = PaginationInput<CommentarySortType>;
 
 export class FindCommentariesService implements FindCommentaries {
   constructor(

@@ -1,13 +1,14 @@
 import {
   PaginationInputModel,
   ReviewModel,
-  ReviewSortTypeModel,
   PaginationPreResponseModel,
 } from '../models';
 
+import { ReviewSortType } from '../enums';
+
 export interface IFindReviewsRepository {
   getReviews(
-    props: PaginationInputModel<ReviewSortTypeModel>,
+    props: PaginationInputModel<ReviewSortType>,
     userId?: string,
   ): Promise<PaginationPreResponseModel<ReviewModel>>;
 }

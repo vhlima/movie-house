@@ -1,8 +1,9 @@
-import { PreMadeListType, ProfileStats } from '../../domain/entities';
+import { ProfileStats } from '../../domain/entities';
 import { UserNotFoundError } from '../../domain/errors';
 import { FindProfileStats } from '../../domain/usecases';
 
 import { IListRepository, IUserRepository } from '../contracts';
+import { PreMadeListType } from '../enums';
 
 import { GetPreMadeListMovieCountService } from './get-pre-made-list-movie-count';
 

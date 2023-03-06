@@ -1,13 +1,10 @@
 import { List } from '../../domain/entities';
-import {
-  PaginationInputModel,
-  ListSortTypeModel,
-  PaginationPreResponseModel,
-} from '../models';
+import { ListSortType } from '../enums';
+import { PaginationInputModel, PaginationPreResponseModel } from '../models';
 
 export interface IFindListsRepository {
   getLists(
-    props: PaginationInputModel<ListSortTypeModel>,
+    props: PaginationInputModel<ListSortType>,
     userId?: string,
   ): Promise<PaginationPreResponseModel<List>>;
 }

@@ -1,10 +1,4 @@
-import {
-  PreMadeListType,
-  Pagination,
-  Movie,
-  MovieReferenceSortType,
-  PaginationInput,
-} from '../../domain/entities';
+import { Pagination, Movie, PaginationInput } from '../../domain/entities';
 
 import {
   FindMoviesReference,
@@ -14,6 +8,7 @@ import {
 import { IPreMadeListRepository, IUserRepository } from '../contracts';
 
 import { UserNotFoundError } from '../../domain/errors';
+import { MovieReferenceSortType, PreMadeListType } from '../enums';
 
 const MOVIES_PER_PAGE = {
   [PreMadeListType.FAVORITE]: 4,

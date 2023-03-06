@@ -1,4 +1,5 @@
-import { MovieReference, PreMadeListType, User } from '../entities';
+import { MovieReference, User } from '../entities';
+import { PreMadeListType } from '../enums';
 
 export interface AddMovieToPreMadeList {
   handle(

@@ -1,9 +1,6 @@
 import { Reply, PaginationPreResponse, PaginationInput } from '../entities';
 
-export enum ReplySortType {
-  POPULAR = 'POPULAR',
-  CREATE_DATE_ASC = 'CREATE_DATE_ASC',
-}
+import { ReplySortType } from '../enums';
 
 export interface FindReplies {
   handle: (

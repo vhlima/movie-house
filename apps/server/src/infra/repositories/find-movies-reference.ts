@@ -3,10 +3,11 @@ import { FindManyOptions } from 'typeorm';
 import { IFindMoviesReferenceRepository } from '../../data/contracts';
 
 import {
-  MovieReferenceSortTypeModel,
   PaginationInputModel,
   PaginationRepositoryResponseModel,
 } from '../../data/models';
+
+import { MovieReferenceSortType } from '../../data/enums';
 
 import { MovieReference } from '../../domain/entities';
 
@@ -15,7 +16,7 @@ import { MongoDataSource } from '../data-sources';
 import { MovieReferenceEntity } from '../entities';
 
 type FindMoviesReferencePaginationInput =
-  PaginationInputModel<MovieReferenceSortTypeModel>;
+  PaginationInputModel<MovieReferenceSortType>;
 
 export class FindMoviesReferenceRepository
   implements IFindMoviesReferenceRepository
@@ -40,11 +41,7 @@ export class FindMoviesReferenceRepository
 
   async getMoviesReferenceById(
     referenceId: string,
-    {
-      page,
-      sort,
-      itemsPerPage,
-    }: PaginationInputModel<MovieReferenceSortTypeModel>,
+    { page, sort, itemsPerPage }: PaginationInputModel<MovieReferenceSortType>,
   ): Promise<PaginationRepositoryResponseModel<MovieReference>> {
     const movieReferenceRepository = this.getMovieReferenceRepository();
 

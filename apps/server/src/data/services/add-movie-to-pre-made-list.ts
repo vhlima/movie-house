@@ -1,4 +1,4 @@
-import { MovieReference, PreMadeListType, User } from '../../domain/entities';
+import { MovieReference, User } from '../../domain/entities';
 
 import { AuthenticationError, NotFoundError } from '../../domain/errors';
 
@@ -8,6 +8,7 @@ import {
 } from '../../domain/usecases';
 
 import { IPreMadeListRepository } from '../contracts';
+import { PreMadeListType } from '../enums';
 
 export class AddMovieToPreMadeListService implements AddMovieToPreMadeList {
   constructor(

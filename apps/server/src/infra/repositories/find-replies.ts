@@ -3,10 +3,11 @@ import { FindManyOptions } from 'typeorm';
 import { IFindRepliesRepository } from '../../data/contracts';
 
 import {
-  ReplySortTypeModel,
   PaginationInputModel,
   PaginationPreResponseModel,
 } from '../../data/models';
+
+import { ReplySortType } from '../../data/enums';
 
 import { Reply } from '../../domain/entities';
 
@@ -14,7 +15,7 @@ import { PostgresDataSource } from '../data-sources';
 
 import { ReplyEntity } from '../entities';
 
-type FindRepliesPaginationInput = PaginationInputModel<ReplySortTypeModel>;
+type FindRepliesPaginationInput = PaginationInputModel<ReplySortType>;
 
 export class FindRepliesRepository implements IFindRepliesRepository {
   private getRepliesRepository() {
@@ -33,14 +34,14 @@ export class FindRepliesRepository implements IFindRepliesRepository {
     }
 
     switch (sort.type) {
-      case ReplySortTypeModel.CREATE_DATE_ASC: {
+      case ReplySortType.CREATE_DATE_ASC: {
         return {
           order: {
             createdAt: 'ASC',
           },
         };
       }
-      case ReplySortTypeModel.POPULAR: {
+      case ReplySortType.POPULAR: {
         return {
           // order: {
           //   likeCount: 'ASC',
@@ -55,7 +56,7 @@ export class FindRepliesRepository implements IFindRepliesRepository {
 
   async getReplies(
     commentaryId: string,
-    { page, itemsPerPage, sort }: PaginationInputModel<ReplySortTypeModel>,
+    { page, itemsPerPage, sort }: PaginationInputModel<ReplySortType>,
   ): Promise<PaginationPreResponseModel<Reply>> {
     const replyRepository = this.getRepliesRepository();
 

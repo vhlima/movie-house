@@ -1,10 +1,6 @@
 import { User } from '../entities';
 
-export enum LikeType {
-  POST = 'POST',
-  COMMENTARY = 'COMMENTARY',
-  REPLY = 'REPLY',
-}
+import { LikeType } from '../enums';
 
 export interface LikeOrDislike {
   handle: (

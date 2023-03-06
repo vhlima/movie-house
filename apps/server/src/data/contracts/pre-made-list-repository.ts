@@ -1,5 +1,4 @@
-import { PreMadeListType } from '../../domain/entities';
-
+import { PreMadeListType } from '../enums';
 import { PreMadeListModel } from '../models';
 
 export interface IPreMadeListRepository {

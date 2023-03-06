@@ -1,9 +1,5 @@
-import {
-  Pagination,
-  PaginationInput,
-  ListSortType,
-  ListPreview,
-} from '../entities';
+import { Pagination, PaginationInput, ListPreview } from '../entities';
+import { ListSortType } from '../enums';
 
 export interface FindLists {
   handle: (

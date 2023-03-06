@@ -1,13 +1,14 @@
 import {
   PaginationInputModel,
   PaginationPreResponseModel,
-  MovieReferenceSortTypeModel,
   MovieReferenceModel,
 } from '../models';
+
+import { MovieReferenceSortType } from '../enums';
 
 export interface IFindMoviesReferenceRepository {
   getMoviesByReferenceId(
     referenceId: string,
-    props: PaginationInputModel<MovieReferenceSortTypeModel>,
+    props: PaginationInputModel<MovieReferenceSortType>,
   ): Promise<PaginationPreResponseModel<MovieReferenceModel>>;
 }

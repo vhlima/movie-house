@@ -1,6 +1,6 @@
 import { ILikeRepository } from '../../data/contracts';
 
-import { LikeType } from '../../domain/usecases';
+import { LikeType } from '../../data/enums';
 
 import { PostgresDataSource } from '../data-sources';
 

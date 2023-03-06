@@ -1,4 +1,4 @@
-import { LikeType } from '../../domain/entities';
+import { LikeType } from '../enums';
 
 export interface ILikeRepository {
   likeOrDislike(
