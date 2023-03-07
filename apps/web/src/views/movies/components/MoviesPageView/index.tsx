@@ -12,7 +12,7 @@ const MoviesPageView: React.FC<PropsWithChildren> = ({ children }) => {
   const { push } = useRouter();
 
   return (
-    <div className="flex flex-col gap-8 mt-16">
+    <div className="flex flex-col mt-16">
       <nav className="flex flex-col items-center lg:flex-row">
         <SortNavigation />
 
