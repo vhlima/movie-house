@@ -16,3 +16,4 @@ export * from './find-movies-reference-repository';
 export * from './github-repository';
 export * from './find-lists-repository';
 export * from './follow-repository';
+export * from './discover-movies-repository';

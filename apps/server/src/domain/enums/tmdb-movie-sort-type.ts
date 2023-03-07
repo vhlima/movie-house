@@ -1,0 +1,6 @@
+export enum TmDBMovieSortType {
+  DECADE = 'DECADE',
+  YEAR = 'YEAR',
+  RELEASE_RECENT = 'RELEASE_RECENT',
+  RELEASE_OLDER = 'RELEASE_OLDER',
+}

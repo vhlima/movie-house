@@ -24,7 +24,7 @@ export * from './add-movie-to-pre-made-list';
 export * from './remove-movie-from-pre-made-list';
 export * from './find-list-movies';
 export * from './sign-up';
-export * from './get-discover-movies';
+export * from './discover-movies';
 export * from './search-movie';
 export * from './get-trending-movies-week';
 export * from './get-movie-recommendations';

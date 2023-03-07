@@ -9,6 +9,7 @@ import {
   getSearchMovieService,
   getTrendingMoviesWeekService,
 } from '../../factories';
+import { TmDBMovieSortInput } from '../inputs';
 
 import { MovieWithCredits } from '../objects/movie-with-credits';
 import { TmDBMovieListPagination } from '../objects/tmdb-movie-list';
@@ -34,10 +35,17 @@ export class MovieResolver {
   }
 
   @Query(() => TmDBMovieListPagination)
-  async discoverMovies(@Arg('page', () => Int) page: number) {
+  async discoverMovies(
+    @Arg('page', () => Int) page: number,
+    @Arg('sort', () => TmDBMovieSortInput, { nullable: true })
+    sort?: TmDBMovieSortInput,
+  ) {
     const discoverMoviesService = getDiscoverMoviesService();
 
-    const discoverMoviesResponse = await discoverMoviesService.handle(page);
+    const discoverMoviesResponse = await discoverMoviesService.handle({
+      page,
+      sort,
+    });
 
     return discoverMoviesResponse;
   }
