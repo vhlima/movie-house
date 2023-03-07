@@ -18,6 +18,7 @@ import {
   getStartAndEndOfDecade,
   getStartAndEndOfYear,
 } from '../../utils/date-utils';
+import { convertStringToRegularPattern } from '../../utils/string-utils';
 
 type FindMoviesReferencePaginationInput =
   PaginationInputModel<MovieReferenceSortType>;
@@ -72,12 +73,9 @@ export class FindMoviesReferenceRepository
       case MovieReferenceSortType.GENRE: {
         if (!sort.filter) return {};
 
-        const genreNames = sort.filter.split('+').map(name =>
-          name
-            .split('-')
-            .map(word => word[0].toUpperCase() + word.substring(1, word.length))
-            .join(' '),
-        );
+        const genreNames = sort.filter
+          .split('+')
+          .map(name => convertStringToRegularPattern(name));
 
         return {
           where: {
