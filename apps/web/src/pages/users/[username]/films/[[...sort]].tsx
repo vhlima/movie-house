@@ -3,7 +3,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 import * as Yup from 'yup';
 
 import type {
-  // MovieSortInput,
+  MovieReferenceSortInput,
   FindUserQuery,
   FindUserQueryVariables,
   FindPreMadeListMoviesQuery,
@@ -11,7 +11,7 @@ import type {
 } from '../../../../graphql';
 
 import {
-  // MovieSortType,
+  MovieReferenceSortType,
   PreMadeListType,
   FindUserDocument,
   FindPreMadeListMoviesDocument,
@@ -23,28 +23,30 @@ import YearNavigation from '../../../../components/Sort/YearNavigation';
 
 import UserMovieListView from '../../../../views/users/movies';
 
-// const movieSortTypes = [
-//   {
-//     route: 'decade',
-//     sortType: MovieSortType.Decade,
-//   },
-//   {
-//     route: 'genre',
-//     sortType: MovieSortType.Genre,
-//   },
-//   {
-//     route: 'release',
-//     sortType: MovieSortType.ReleaseDateDesc,
-//   },
-//   {
-//     route: 'year',
-//     sortType: MovieSortType.Year,
-//   },
-// ] as Array<{ route: string; sortType: MovieSortType }>;
+const movieReferenceSortTypes = [
+  {
+    route: 'decade',
+    sortType: MovieReferenceSortType.Decade,
+  },
+  {
+    route: 'genre',
+    sortType: MovieReferenceSortType.Genre,
+  },
+  {
+    route: 'release',
+    sortType: MovieReferenceSortType.ReleaseDateDesc,
+  },
+  {
+    route: 'year',
+    sortType: MovieReferenceSortType.Year,
+  },
+] as Array<{ route: string; sortType: MovieReferenceSortType }>;
 
-// function findSortType(route: string) {
-//   return movieSortTypes.find(type => type.route === route.toLowerCase());
-// }
+function findSortType(route: string) {
+  return movieReferenceSortTypes.find(
+    type => type.route === route.toLowerCase(),
+  );
+}
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
@@ -54,11 +56,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       .of(Yup.string())
       .min(2)
       .max(2)
-      .test(
-        'test-sort-params',
-        'Expected [sortType, sortValue]',
-        value => true,
-        // !value || value.length < 2 ? true : !!findSortType(value[0]),
+      .test('test-sort-params', 'Expected [sortType, sortValue]', value =>
+        !value || value.length < 2 ? true : !!findSortType(value[0]),
       ),
   });
 
@@ -79,13 +78,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       throw new Error('User not found');
     }
 
-    // const sortInput: MovieSortInput | null =
-    //   sort && sort.length > 0
-    //     ? {
-    //         type: findSortType(sort[0]).sortType,
-    //         filter: sort[1],
-    //       }
-    //     : null;
+    const sortInput: MovieReferenceSortInput | null =
+      sort && sort.length > 0
+        ? {
+            type: findSortType(sort[0]).sortType,
+            filter: sort[1],
+          }
+        : null;
 
     const { data: moviesData } = await apolloClient.query<
       FindPreMadeListMoviesQuery,
@@ -96,13 +95,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         userId: userData.user.id,
         listType: PreMadeListType.Watched,
         page: 1,
-        // sort: sortInput,
+        sort: sortInput,
       },
     });
 
     return addApolloState(apolloClient, {
       props: {
-        // sort: sortInput,
+        sort: sortInput,
         ...userData,
         ...moviesData,
       },
@@ -115,8 +114,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 interface UserWatchedMoviesPageProps
   extends FindUserQuery,
     FindPreMadeListMoviesQuery {
-  // sort?: MovieSortInput;
-  sort?: any;
+  sort?: MovieReferenceSortInput;
 }
 
 const UserWatchedMoviesPage: NextPage<UserWatchedMoviesPageProps> = ({
@@ -125,18 +123,17 @@ const UserWatchedMoviesPage: NextPage<UserWatchedMoviesPageProps> = ({
   preMadeListMovies,
   ...props
 }) => {
-  // const useYearNavigation = sort
-  //   ? sort.type === MovieSortType.Decade || sort.type === MovieSortType.Year
-  //   : false;
-
-  const useYearNavigation = false;
+  const useYearNavigation = sort
+    ? sort.type === MovieReferenceSortType.Decade ||
+      sort.type === MovieReferenceSortType.Year
+    : false;
 
   return (
     <UserMovieListView user={user} movies={preMadeListMovies} {...props}>
       {useYearNavigation && (
         <YearNavigation
           year={parseInt(sort.filter, 10)}
-          // isDecade={sort.type === MovieSortType.Decade}
+          isDecade={sort.type === MovieReferenceSortType.Decade}
           path={{
             pathname: `/users/[username]/watchlist`,
             query: {
