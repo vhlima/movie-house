@@ -31,7 +31,7 @@ export class MovieReferenceRepository implements IMovieReferenceRepository {
           }
         : {
             referenceId,
-            createdAt: {
+            created_at: {
               $gte: start,
               $lte: end,
             },
