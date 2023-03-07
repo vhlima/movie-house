@@ -31,7 +31,6 @@ export class DiscoverMoviesRepository
         const [start, end] = getStartAndEndOfDecade(decade);
 
         return {
-          sort_by: 'primary_release_date.asc',
           'primary_release_date.gte': start.toISOString(),
           'primary_release_date.lte': end.toISOString(),
         };
