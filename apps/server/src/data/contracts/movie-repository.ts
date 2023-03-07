@@ -1,10 +1,7 @@
+import { MovieGenre } from '../../domain/entities';
 import { MovieModel, TmDBMovieListModel } from '../models';
 
 export interface IMovieRepository {
-  getDiscoverMovies(
-    page: number,
-    sort?: any,
-  ): Promise<TmDBMovieListModel | null>;
   getMovieById(
     movieId: number,
     withCredits?: boolean,
@@ -15,4 +12,5 @@ export interface IMovieRepository {
     movieId: number,
     page: number,
   ): Promise<TmDBMovieListModel | null>;
+  getMovieGenres(): Promise<MovieGenre[]>;
 }

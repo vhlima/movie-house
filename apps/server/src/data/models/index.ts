@@ -21,3 +21,4 @@ export * from './tmdb-movie-list';
 export * from './list-preview';
 export * from './follow';
 export * from './tmdb-movie';
+export * from './sort-options';

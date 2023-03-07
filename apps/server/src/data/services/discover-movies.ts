@@ -1,12 +1,21 @@
 import { PaginationInput, TmDBMovieList } from '../../domain/entities';
 import { InvalidFieldError } from '../../domain/errors';
 import { DiscoverMovies } from '../../domain/usecases';
-import { checkStringForValidPositiveNumber } from '../../utils/string-utils';
-import { IDiscoverMoviesRepository } from '../contracts';
+import {
+  getStartAndEndOfDecade,
+  getStartAndEndOfYear,
+} from '../../utils/date-utils';
+import {
+  checkStringForValidPositiveNumber,
+  convertStringToRegularPattern,
+} from '../../utils/string-utils';
+import {
+  IDiscoverMoviesRepository,
+  IMovieRepository,
+  IStreamingProviderRepository,
+} from '../contracts';
 import { TmDBMovieSortType } from '../enums';
 import { GetTmDBMoviePaginationService } from './get-tmdb-movie-pagination';
-
-const MOVIES_PER_PAGE = 20;
 
 const MIN_MOVIE_AGE = 1870;
 
@@ -15,6 +24,8 @@ type DiscoverMoviesPaginationInput = PaginationInput<TmDBMovieSortType>;
 export class DiscoverMoviesService implements DiscoverMovies {
   constructor(
     private readonly discoverMoviesRepository: IDiscoverMoviesRepository,
+    private readonly movieRepository: IMovieRepository,
+    private readonly streamingProviderRepository: IStreamingProviderRepository,
   ) {}
 
   private validateFilterNumber(type: string, filter?: string): number {
@@ -35,9 +46,11 @@ export class DiscoverMoviesService implements DiscoverMovies {
     return year;
   }
 
-  private validateSort(sort?: DiscoverMoviesPaginationInput['sort']) {
+  private async parseSort(
+    sort?: DiscoverMoviesPaginationInput['sort'],
+  ): Promise<Record<string, unknown>> {
     if (!sort) {
-      return;
+      return {};
     }
 
     const { type, filter } = sort;
@@ -49,7 +62,14 @@ export class DiscoverMoviesService implements DiscoverMovies {
         if (year > new Date().getFullYear() || year < MIN_MOVIE_AGE) {
           throw new InvalidFieldError('Please, provide a valid year.');
         }
-        break;
+
+        const [start, end] = getStartAndEndOfYear(year);
+
+        return {
+          sort_by: 'primary_release_date.asc',
+          'primary_release_date.gte': start.toISOString(),
+          'primary_release_date.lte': end.toISOString(),
+        };
       }
       case TmDBMovieSortType.DECADE: {
         const year = this.validateFilterNumber(type.toString(), filter);
@@ -64,10 +84,89 @@ export class DiscoverMoviesService implements DiscoverMovies {
           throw new InvalidFieldError('Please, provide a valid decade.');
         }
 
-        break;
+        const [start, end] = getStartAndEndOfDecade(year);
+
+        return {
+          'primary_release_date.gte': start.toISOString(),
+          'primary_release_date.lte': end.toISOString(),
+        };
+      }
+      case TmDBMovieSortType.GENRE: {
+        if (!filter) {
+          throw new InvalidFieldError(
+            `Sorting by ${type.toString()} requires filter.`,
+          );
+        }
+
+        const movieGenres = await this.movieRepository.getMovieGenres();
+
+        const genreNames = filter
+          .split('+')
+          .map(name => convertStringToRegularPattern(name));
+
+        const genresIds = genreNames.reduce((agg: number[], value) => {
+          const genreFound = movieGenres.find(
+            genre => genre.name.toLowerCase() === value.toLowerCase(),
+          );
+
+          if (!genreFound) {
+            return agg;
+          }
+
+          return [...agg, genreFound.id];
+        }, []);
+
+        return {
+          with_genres: genresIds,
+        };
+      }
+      case TmDBMovieSortType.SERVICE: {
+        if (!filter) {
+          throw new InvalidFieldError(
+            `Sorting by ${type.toString()} requires filter.`,
+          );
+        }
+
+        const streamingProviders =
+          await this.streamingProviderRepository.getStreamingProviders();
+
+        const streamingProvidersNames = filter
+          .split('+')
+          .map(name => convertStringToRegularPattern(name));
+
+        const streamingProvidersIds = streamingProvidersNames.reduce(
+          (agg: number[], value) => {
+            const streamingProviderFound = streamingProviders.find(
+              provider =>
+                provider.provider_name.toLowerCase() === value.toLowerCase(),
+            );
+
+            if (!streamingProviderFound) {
+              return agg;
+            }
+
+            return [...agg, streamingProviderFound.provider_id];
+          },
+          [],
+        );
+
+        return {
+          watch_region: 'US',
+          with_watch_providers: streamingProvidersIds.join('|'),
+        };
+      }
+      case TmDBMovieSortType.RELEASE_OLDER: {
+        return {
+          sort_by: 'release_date.asc',
+        };
+      }
+      case TmDBMovieSortType.RELEASE_RECENT: {
+        return {
+          sort_by: 'release_date.desc',
+        };
       }
       default: {
-        break;
+        return {};
       }
     }
   }
@@ -76,12 +175,13 @@ export class DiscoverMoviesService implements DiscoverMovies {
     page,
     sort,
   }: DiscoverMoviesPaginationInput): Promise<TmDBMovieList> {
+    const sortOptions = await this.parseSort(sort);
+
     const discoverMovies =
-      await this.discoverMoviesRepository.getMoviesFromDiscover({
+      await this.discoverMoviesRepository.getMoviesFromDiscover(
         page,
-        sort,
-        itemsPerPage: MOVIES_PER_PAGE,
-      });
+        sortOptions,
+      );
 
     const paginationService = new GetTmDBMoviePaginationService();
 

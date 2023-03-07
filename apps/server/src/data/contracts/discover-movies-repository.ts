@@ -1,9 +1,8 @@
-import { TmDBMovieSortType } from '../enums';
-
-import { PaginationInputModel, TmDBMovieListModel } from '../models';
+import { SortOptionsModel, TmDBMovieListModel } from '../models';
 
 export interface IDiscoverMoviesRepository {
   getMoviesFromDiscover(
-    props: PaginationInputModel<TmDBMovieSortType>,
+    page: number,
+    sort: SortOptionsModel,
   ): Promise<TmDBMovieListModel | null>;
 }

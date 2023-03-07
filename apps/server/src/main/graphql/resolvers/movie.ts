@@ -1,9 +1,10 @@
 import { Arg, Int, Query, Resolver } from 'type-graphql';
 
-import { MovieEntity } from '../../../infra/entities';
+import { MovieEntity, MovieGenreEntity } from '../../../infra/entities';
 
 import {
   getDiscoverMoviesService,
+  getFindMovieGenresService,
   getFindMovieService,
   getMovieRecommendationsService,
   getSearchMovieService,
@@ -85,5 +86,14 @@ export class MovieResolver {
       await movieRecommendationsService.handle(movieId, page);
 
     return movieRecommendationsResponse;
+  }
+
+  @Query(() => [MovieGenreEntity])
+  async movieGenres() {
+    const findMovieGenresService = getFindMovieGenresService();
+
+    const movieGenresResponse = await findMovieGenresService.handle();
+
+    return movieGenresResponse;
   }
 }

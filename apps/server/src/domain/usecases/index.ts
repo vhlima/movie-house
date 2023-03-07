@@ -42,3 +42,4 @@ export * from './delete-follow';
 export * from './is-following';
 export * from './find-user-by-github-id';
 export * from './discover-movies';
+export * from './find-movie-genres';

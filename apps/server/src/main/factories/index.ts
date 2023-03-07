@@ -38,3 +38,4 @@ export * from './delete-follow';
 export * from './find-follows';
 export * from './is-following';
 export * from './find-user-by-github-id';
+export * from './find-movie-genres';

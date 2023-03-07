@@ -1,6 +1,7 @@
 import { IMovieRepository } from '../../data/contracts';
 
 import { MovieModel, TmDBMovieListModel } from '../../data/models';
+import { MovieGenre } from '../../domain/entities';
 
 import { TmdbRepository } from './tmdb';
 
@@ -8,23 +9,15 @@ export class MovieRepository
   extends TmdbRepository
   implements IMovieRepository
 {
-  async getDiscoverMovies(
-    page: number,
-    sort?: any,
-  ): Promise<TmDBMovieListModel | null> {
+  async getMovieGenres(): Promise<MovieGenre[]> {
     try {
-      const sortFilter = {};
+      const response = await this.get<{ genres: MovieGenre[] }>(
+        'genre/movie/list',
+      );
 
-      const response = await this.get<TmDBMovieListModel>('discover/movie', {
-        params: {
-          page: `${page}`,
-          ...(sort ? sortFilter : {}),
-        },
-      });
-
-      return response;
+      return response.genres;
     } catch (err) {
-      return null;
+      return [];
     }
   }
 
