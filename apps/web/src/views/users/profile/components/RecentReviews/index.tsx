@@ -25,7 +25,7 @@ const RecentReviews: React.FC = () => {
 
   return (
     <Card>
-      <Card.Header title="Recent reviews" />
+      <Card.Header title="Recent reviews" marginBottom />
 
       <Card.Body>
         {!hasAnyRecentReview ? (

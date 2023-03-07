@@ -26,7 +26,7 @@ const PopularReviews: React.FC = () => {
 
   return (
     <Card>
-      <Card.Header title="Popular reviews" />
+      <Card.Header title="Popular reviews" marginBottom />
 
       <Card.Body>
         {!hasAnyReview ? (
