@@ -8,7 +8,7 @@ import { User } from '../../domain/entities';
 
 import { cookieParser } from '../../utils/cookie-parser';
 
-import { getFindUserService } from '../factories';
+import { getFindUserByGithubIdService } from '../factories';
 
 export interface ApolloServerContext {
   user?: User;
@@ -19,39 +19,35 @@ const AUTH_COOKIE_ID = 'next-auth.session-token';
 async function findUserFromCookies(
   cookiesString?: string,
 ): Promise<User | undefined> {
-  // if (!cookiesString) {
-  //   return undefined;
-  // }
+  if (!cookiesString) {
+    return undefined;
+  }
 
-  // const cookies = cookieParser(cookiesString);
+  const cookies = cookieParser(cookiesString);
 
-  // const authCookie = cookies[AUTH_COOKIE_ID];
+  const authCookie = cookies[AUTH_COOKIE_ID];
 
-  // if (!authCookie) {
-  //   return undefined;
-  // }
+  if (!authCookie) {
+    return undefined;
+  }
 
-  // if (!process.env.JWT_SECRET) {
-  //   throw new Error('Enviroment variable JWT_SECRET not found.');
-  // }
+  if (!process.env.JWT_SECRET) {
+    throw new Error('Enviroment variable JWT_SECRET not found.');
+  }
 
   try {
-    // const decoded = await decode({
-    //   secret: process.env.JWT_SECRET,
-    //   token: authCookie,
-    // });
+    const decoded = await decode({
+      secret: process.env.JWT_SECRET,
+      token: authCookie,
+    });
 
-    // if (!decoded || !decoded.user || !decoded.user.id) {
-    //   return undefined;
-    // }
+    if (!decoded || !decoded.providerId) {
+      return undefined;
+    }
 
-    const findUserService = getFindUserService();
+    const findUserByGithubId = getFindUserByGithubIdService();
 
-    // const userResponse = await findUserService.handle(decoded.user.id);
-
-    const userResponse = await findUserService.handle(
-      '4304cd1c-dc89-4cd5-811e-1612b0b19a65',
-    );
+    const userResponse = await findUserByGithubId.handle(decoded.providerId);
 
     if (!userResponse) {
       return undefined;
