@@ -1,6 +1,4 @@
-import { useRouter } from 'next/router';
-
-// import { MovieSortType } from '../../../graphql';
+import { TmDbMovieSortInput, TmDbMovieSortType } from '../../../graphql';
 
 import type { DiscoverMoviesQuery } from '../../../graphql';
 
@@ -14,25 +12,17 @@ import MoviesPageView from '../components/MoviesPageView';
 import Pagination from '../../../components/Pagination';
 
 interface MoviesSortPageViewProps extends DiscoverMoviesQuery {
-  // sort?: MovieSortInput;
-  sort?: any;
+  sort?: TmDbMovieSortInput;
 }
 
 const MoviesSortPageView: React.FC<MoviesSortPageViewProps> = ({
   sort,
   discoverMovies,
 }) => {
-  // const isAnyYearTypeSort = sort
-  //   ? sort.type === MovieSortType.Decade || sort.type === MovieSortType.Year
-  //   : false;
-
-  const isAnyYearTypeSort = false;
-
-  const { asPath } = useRouter();
-
-  const dynamicPathname = asPath.split('/').slice(0, 4).join('/');
-
-  console.log('dynamic pathname? ', dynamicPathname);
+  const isAnyYearTypeSort = sort
+    ? sort.type === TmDbMovieSortType.Decade ||
+      sort.type === TmDbMovieSortType.Year
+    : false;
 
   return (
     <MoviesPageView>
@@ -40,7 +30,7 @@ const MoviesSortPageView: React.FC<MoviesSortPageViewProps> = ({
         <YearNavigation
           path="/movies"
           year={parseInt(sort.filter, 10)}
-          // isDecade={sort.type === MovieSortType.Decade}
+          isDecade={sort.type === TmDbMovieSortType.Decade}
         />
       )}
 
@@ -53,7 +43,10 @@ const MoviesSortPageView: React.FC<MoviesSortPageViewProps> = ({
         />
       )}
 
-      <Pagination path={dynamicPathname} currentPage={1} totalPages={30} />
+      <Pagination
+        currentPage={discoverMovies.pageInfo.currentPage}
+        totalPages={discoverMovies.totalPages}
+      />
     </MoviesPageView>
   );
 };

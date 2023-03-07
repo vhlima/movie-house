@@ -43,6 +43,7 @@ function findSortType(sortType: string) {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
+    page: Yup.number().min(1),
     sort: Yup.array()
       .of(Yup.string())
       .min(2)
@@ -58,6 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   try {
     const {
+      page,
       sort: [sortTypeName, sortFilter],
     } = await requestValidationSchema.validate(query);
 
@@ -76,7 +78,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     >({
       query: DiscoverMoviesDocument,
       variables: {
-        page: 1,
+        page: page || 1,
         sort: sortInput,
       },
     });
