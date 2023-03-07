@@ -20,9 +20,7 @@ const UserListsView: React.FC<UserListsViewProps> = ({ user, lists }) => {
       sortButtons={<SortButtons />}
     >
       {!hasAnyList ? (
-        <Typography className="text-center" component="h1">
-          No lists have been made yet.
-        </Typography>
+        <Typography component="h1">No lists have been made yet.</Typography>
       ) : (
         <ul>
           {lists.edges.map(({ node }) => (

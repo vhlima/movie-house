@@ -64,13 +64,19 @@ const UserProfilePageView: React.FC<
 
           <ProfileNavigation />
 
-          {(title || sortButtons) && (
-            <SubHeading title={title}>
-              {sortButtons && <div className="flex ml-auto">{sortButtons}</div>}
-            </SubHeading>
-          )}
+          {children && (title || sortButtons) ? (
+            <div>
+              <SubHeading title={title}>
+                {sortButtons && (
+                  <div className="flex ml-auto">{sortButtons}</div>
+                )}
+              </SubHeading>
 
-          {children}
+              {children}
+            </div>
+          ) : (
+            children
+          )}
         </ProfileContext.Provider>
       </PageContent>
     </BackdropImage>

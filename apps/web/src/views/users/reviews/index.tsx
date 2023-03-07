@@ -24,9 +24,7 @@ const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
       sortButtons={<ReviewsSortButtons user={user} />}
     >
       {!hasAnyReview ? (
-        <Typography className="text-center" component="h1">
-          No reviews made yet.
-        </Typography>
+        <Typography component="h1">No reviews made yet.</Typography>
       ) : (
         <ul>
           {reviews.edges.map(edge => (

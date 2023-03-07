@@ -31,9 +31,7 @@ const UserMovieListView: React.FC<
     {children}
 
     {!movies || movies.totalCount === 0 ? (
-      <Typography className="text-center" component="h1">
-        No movies added yet.
-      </Typography>
+      <Typography component="h1">No movies added yet.</Typography>
     ) : (
       <MovieCoverList
         name="user-profile-film-list"
