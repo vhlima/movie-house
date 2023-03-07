@@ -17,7 +17,7 @@ const ReviewCreateForm: React.FC<ReviewCreateFormProps> = ({ movieId }) => {
 
   return (
     <Formik
-      initialValues={{ body: '' }}
+      initialValues={{ content: '' }}
       validationSchema={validationSchema}
       validateOnChange={false}
       validateOnBlur={false}
@@ -26,9 +26,9 @@ const ReviewCreateForm: React.FC<ReviewCreateFormProps> = ({ movieId }) => {
       <Form className="flex flex-col gap-2 w-full mt-auto">
         {error && <ErrorText text={error.message} />}
 
-        <Input.Label text="Your review:" htmlFor="body">
+        <Input.Label text="Your review:" htmlFor="content">
           <Input.Container>
-            <Input.AutoGrow id="body" rows={4} maxHeight={250} />
+            <Input.AutoGrow id="content" rows={4} maxHeight={250} />
           </Input.Container>
         </Input.Label>
 
