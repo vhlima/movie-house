@@ -30,7 +30,7 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
   renderCover,
 }) => (
   <ul
-    className={clsx('grid gap-1 sm:gap-2', {
+    className={clsx('grid gap-1 my-4 sm:gap-2', {
       [className]: !!className,
       'grid-cols-4 sm:grid-cols-5 md:grid-cols-10': !className,
     })}
