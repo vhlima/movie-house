@@ -31,10 +31,13 @@ export class ListResolver {
 
     const listResponse = await findListService.handle(userId);
 
-    return listResponse.map(list => ({
-      id: list.id,
-      name: list.name,
-    }));
+    return listResponse.map(
+      list =>
+        ({
+          id: list.id,
+          name: list.name,
+        } as ListSimple),
+    );
   }
 
   @Mutation(() => ListSimple)
@@ -52,9 +55,9 @@ export class ListResolver {
     );
 
     return {
-      postId: listResponse.postId,
+      id: listResponse.id,
       name: listResponse.name,
-    };
+    } as ListSimple;
   }
 
   @Mutation(() => Boolean)
