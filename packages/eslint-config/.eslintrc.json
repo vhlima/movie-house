@@ -1,75 +1,70 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": [
-        "plugin:react/recommended",
-        "airbnb",
-        "plugin:@next/next/recommended",
-        "prettier",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "@typescript-eslint",
-        "prettier"
-    ],
-    "rules": {
-        "prettier/prettier": [
-            "error",
-            {
-                "endOfLine": "auto"
-            }
-        ],
-        "import/no-unresolved": "error",
-        "no-underscore-dangle": ["error", { "allow": ["__typename"] }],
-        "@next/next/no-document-import-in-page": "off",
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.ts", "**/*.spec.tsx", "**/vite.config.ts"]}],
-        "no-useless-constructor": "off",
-        "react/react-in-jsx-scope": "off",
-        "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
-        "react/jsx-props-no-spreading": "off",
-        "react/require-default-props": "off",
-        "react/prop-types": "off",
-        "no-use-before-define": "warn",
-        "import/prefer-default-export": "off",
-        "class-methods-use-this": "off",
-        "no-shadow": "off",
-        "@typescript-eslint/no-shadow": ["off"],
-        "import/extensions": [
-          "error",
-          "ignorePackages",
-          {
-              "ts": "never",
-              "tsx": "never"
-          }
-        ],
-        "react/function-component-definition": [
-            2,
-            {
-              "namedComponents": "arrow-function",
-              "unnamedComponents": "arrow-function"
-            }
-        ]
-    },
-    "settings": {
-      "import/parsers": {
-        "@typescript-eslint/parser": [".ts", ".tsx"]
+  "env": {
+      "browser": true,
+      "es2021": true
+  },
+  "extends": [
+      "plugin:react/recommended",
+      "airbnb",
+      "plugin:@next/next/recommended",
+      "prettier",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "ecmaFeatures": {
+          "jsx": true
       },
-      "import/resolver": {
-        "typescript": {
-          "alwaysTryTypes": true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+  },
+  "plugins": [
+      "react",
+      "@typescript-eslint",
+      "prettier"
+  ],
+  "rules": {
+      "prettier/prettier": [
+          "error",
+          {
+              "endOfLine": "auto"
+          }
+      ],
+      "max-classes-per-file": "off",
+      "no-underscore-dangle": ["error", { "allow": ["__typename"] }],
+      "@next/next/no-document-import-in-page": "off",
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.ts", "**/*.spec.tsx", "**/vite.config.ts"]}],
+      "no-useless-constructor": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+      "react/jsx-props-no-spreading": "off",
+      "react/require-default-props": "off",
+      "react/prop-types": "off",
+      "no-use-before-define": "warn",
+      "import/prefer-default-export": "off",
+      "class-methods-use-this": "off",
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["off"],
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+            "ts": "never",
+            "tsx": "never"
         }
-    }
+      ],
+      "react/function-component-definition": [
+          2,
+          {
+            "namedComponents": "arrow-function",
+            "unnamedComponents": "arrow-function"
+          }
+      ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
   }
+}
 }
