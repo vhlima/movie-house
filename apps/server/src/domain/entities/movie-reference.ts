@@ -1,6 +1,6 @@
-import { Movie } from './index';
+import { Movie, Timestamps } from './index';
 
-export class MovieReference {
+export class MovieReference extends Timestamps {
   id: string;
 
   referenceId: string;

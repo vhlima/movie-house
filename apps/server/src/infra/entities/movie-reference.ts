@@ -3,10 +3,11 @@ import { Field, Int, ObjectType } from 'type-graphql';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
 import { MovieEntity } from './movie';
+import { Timestamps } from './timestamps';
 
 @ObjectType('MovieReference')
 @Entity('movies')
-export class MovieReferenceEntity {
+export class MovieReferenceEntity extends Timestamps {
   @ObjectIdColumn({ name: '_id' })
   readonly id: string;
 
