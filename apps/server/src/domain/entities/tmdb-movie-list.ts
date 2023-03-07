@@ -12,7 +12,7 @@ type TmDBMovie = {
   popularity: number;
   posterPath?: string;
   posterUrl?: string;
-  releaseDate?: string;
+  releaseDate?: Date;
   title: string;
   video: boolean;
   voteAverage: number;

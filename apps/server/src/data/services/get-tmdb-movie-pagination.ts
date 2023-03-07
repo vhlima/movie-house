@@ -1,3 +1,5 @@
+import { parseISO } from 'date-fns';
+import { TmDBMovieList } from '../../domain/entities';
 import { PageNotFoundError } from '../../domain/errors';
 
 import { TmDBMovieListModel } from '../models';
@@ -5,7 +7,7 @@ import { TmDBMovieListModel } from '../models';
 const MAX_PAGES_LIMIT = 500;
 
 export class GetTmDBMoviePaginationService {
-  async handle(pagination: TmDBMovieListModel | null) {
+  async handle(pagination: TmDBMovieListModel | null): Promise<TmDBMovieList> {
     if (!pagination) {
       throw new PageNotFoundError();
     }
@@ -50,7 +52,9 @@ export class GetTmDBMoviePaginationService {
           posterUrl: movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : '',
-          releaseDate: movie.release_date,
+          releaseDate: movie.release_date
+            ? parseISO(movie.release_date)
+            : undefined,
         },
       })),
     };
