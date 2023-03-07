@@ -16,6 +16,26 @@ export class FollowRepository implements IFollowRepository {
     return PostgresDataSource.getRepository(FollowEntity);
   }
 
+  async getUserFollowerCount(userId: string): Promise<number> {
+    const followRepository = this.getFollowRepository();
+
+    const followerCount = await followRepository.countBy({
+      followedId: userId,
+    });
+
+    return followerCount;
+  }
+
+  async getUserFollowingCount(userId: string): Promise<number> {
+    const followRepository = this.getFollowRepository();
+
+    const followingCount = await followRepository.countBy({
+      followerId: userId,
+    });
+
+    return followingCount;
+  }
+
   async isFollowing(userId: string, followingId: string): Promise<boolean> {
     const followRepository = this.getFollowRepository();
 

@@ -14,6 +14,9 @@ export interface IFollowRepository {
     props: PaginationInputModel,
   ): Promise<PaginationPreResponseModel<FollowModel>>;
 
+  getUserFollowingCount(userId: string): Promise<number>;
+  getUserFollowerCount(userId: string): Promise<number>;
+
   isFollowing(userId: string, followingId: string): Promise<boolean>;
 
   createFollow(userId: string, followingId: string): Promise<boolean>;
