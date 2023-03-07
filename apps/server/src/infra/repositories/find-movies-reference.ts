@@ -64,7 +64,7 @@ export class FindMoviesReferenceRepository
       case MovieReferenceSortType.GENRE: {
         if (!sort.filter) return {};
 
-        const genreNames = sort.filter.split(',').map(name =>
+        const genreNames = sort.filter.split('+').map(name =>
           name
             .split('-')
             .map(word => word[0].toUpperCase() + word.substring(1, word.length))
