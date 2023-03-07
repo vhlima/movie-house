@@ -71,7 +71,7 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
               const review = reviews[index];
 
               if (review) {
-                return <UnpinReviewButton postId={review.post.id} />;
+                return <UnpinReviewButton reviewId={review.id} />;
               }
             }
 
