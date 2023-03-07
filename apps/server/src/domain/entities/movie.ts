@@ -23,7 +23,7 @@ export class Movie {
 
   backdropUrl: string;
 
-  releaseDate?: string;
+  releaseDate?: Date;
 
   genres: MovieGenre[];
 

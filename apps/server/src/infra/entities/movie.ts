@@ -42,7 +42,7 @@ export class MovieEntity {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  releaseDate?: string;
+  releaseDate?: Date;
 
   @Field(() => [MovieGenreEntity])
   @Column()

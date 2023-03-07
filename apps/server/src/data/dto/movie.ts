@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns';
 import { Movie } from '../../domain/entities';
 
 import { MovieModel } from '../models';
@@ -19,7 +20,9 @@ export class MovieDTO {
         ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
         : '',
       voteAverage: movie.vote_average,
-      releaseDate: movie.release_date,
+      releaseDate: movie.release_date
+        ? parseISO(movie.release_date)
+        : undefined,
       runtime: movie.runtime,
       credits: movie.credits
         ? {
