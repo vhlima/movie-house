@@ -103,10 +103,10 @@ export class FindMoviesReferenceService implements FindMoviesReference {
     const moviesFormatted = moviesResponse.items.map(response => ({
       ...response.movie,
       backdropUrl: response.movie.backdropPath
-        ? `https://image.tmdb.org/t/p/w500${response.movie.backdropPath}`
+        ? `https://image.tmdb.org/t/p/original${response.movie.backdropPath}`
         : '',
       posterUrl: response.movie.posterPath
-        ? `https://image.tmdb.org/t/p/original${response.movie.posterPath}`
+        ? `https://image.tmdb.org/t/p/w500${response.movie.posterPath}`
         : '',
     }));
 

@@ -46,7 +46,7 @@ export class GetTmDBMoviePaginationService {
           voteCount: movie.vote_count,
           backdropPath: movie.backdrop_path,
           backdropUrl: movie.backdrop_path
-            ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+            ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
             : '',
           posterPath: movie.poster_path,
           posterUrl: movie.poster_path

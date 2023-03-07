@@ -10,7 +10,7 @@ export class MovieDTO {
       backdropPath: movie.backdrop_path,
       posterPath: movie.poster_path,
       backdropUrl: movie.backdrop_path
-        ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+        ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
         : '',
       imdbId: movie.imdb_id,
       originalLanguage: movie.original_title,
