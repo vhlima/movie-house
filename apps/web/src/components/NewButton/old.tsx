@@ -17,19 +17,19 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   rounded?: boolean;
 }
 
-const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
-  className,
-  full = true,
-  flex = true,
-  rounded = true,
-  border = true,
-  buttonStyle = 'primary',
-  buttonSize = 'sm',
-  disabled,
-  children,
-  ...buttonProps
-}) => {
-  <ButtonOrLink type="submit" />;
-};
+// const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
+//   className,
+//   full = true,
+//   flex = true,
+//   rounded = true,
+//   border = true,
+//   buttonStyle = 'primary',
+//   buttonSize = 'sm',
+//   disabled,
+//   children,
+//   ...buttonProps
+// }) => {
+//   <ButtonOrLink type="submit" />;
+// };
 
-export default Button;
+// export default Button;
