@@ -10,7 +10,7 @@ interface SubHeadingProps {
 
 const SubHeading: React.FC<PropsWithChildren<SubHeadingProps>> = ({
   title,
-  marginBottom = true,
+  marginBottom,
   children,
 }) => (
   <div
