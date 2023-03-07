@@ -17,6 +17,7 @@ const UserListsView: React.FC<UserListsViewProps> = ({ user, lists }) => {
     <UserProfilePageView
       title="Lists"
       user={user}
+      marginBottom={false}
       sortButtons={<SortButtons />}
     >
       {!hasAnyList ? (
