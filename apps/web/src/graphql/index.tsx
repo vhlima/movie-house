@@ -20,6 +20,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
 export type Commentary = {
@@ -54,7 +56,7 @@ export type CommentarySortInput = {
 
 /** Review sort type enum */
 export enum CommentarySortType {
-  CreateDateAsc = 'CREATE_DATE_ASC',
+  Older = 'OLDER',
   Popular = 'POPULAR',
 }
 
@@ -174,7 +176,7 @@ export type Movie = {
   overview: Scalars['String'];
   posterUrl: Scalars['String'];
   productionCompanies: Array<Company>;
-  releaseDate?: Maybe<Scalars['String']>;
+  releaseDate?: Maybe<Scalars['DateTime']>;
   runtime: Scalars['Int'];
   spokenLanguages: Array<Language>;
   voteAverage: Scalars['Float'];
@@ -248,8 +250,8 @@ export type MovieReferenceSortInput = {
 export enum MovieReferenceSortType {
   Decade = 'DECADE',
   Genre = 'GENRE',
-  ReleaseDateAsc = 'RELEASE_DATE_ASC',
-  ReleaseDateDesc = 'RELEASE_DATE_DESC',
+  ReleaseOlder = 'RELEASE_OLDER',
+  ReleaseRecent = 'RELEASE_RECENT',
   Year = 'YEAR',
 }
 
@@ -265,7 +267,7 @@ export type MovieWithCredits = {
   overview: Scalars['String'];
   posterUrl: Scalars['String'];
   productionCompanies: Array<Company>;
-  releaseDate?: Maybe<Scalars['String']>;
+  releaseDate?: Maybe<Scalars['DateTime']>;
   runtime: Scalars['Int'];
   spokenLanguages: Array<Language>;
   voteAverage: Scalars['Float'];
@@ -445,6 +447,7 @@ export type QueryCommentariesArgs = {
 
 export type QueryDiscoverMoviesArgs = {
   page: Scalars['Int'];
+  sort?: InputMaybe<TmDbMovieSortInput>;
 };
 
 export type QueryFollowersArgs = {
@@ -578,7 +581,7 @@ export type ReplySortInput = {
 
 /** Reply sort type enum */
 export enum ReplySortType {
-  CreateDateAsc = 'CREATE_DATE_ASC',
+  Older = 'OLDER',
   Popular = 'POPULAR',
 }
 
@@ -641,6 +644,21 @@ export type TmDbMovieListPagination = {
   totalCount: Scalars['Int'];
   totalPages: Scalars['Int'];
 };
+
+export type TmDbMovieSortInput = {
+  filter?: InputMaybe<Scalars['String']>;
+  type: TmDbMovieSortType;
+};
+
+/** Tmdb sort type enum */
+export enum TmDbMovieSortType {
+  Decade = 'DECADE',
+  Genre = 'GENRE',
+  ReleaseOlder = 'RELEASE_OLDER',
+  ReleaseRecent = 'RELEASE_RECENT',
+  Service = 'SERVICE',
+  Year = 'YEAR',
+}
 
 export type User = {
   __typename?: 'User';
@@ -969,7 +987,7 @@ export type FindMovieQuery = {
     overview: string;
     runtime: number;
     voteAverage: number;
-    releaseDate?: string | null;
+    releaseDate?: any | null;
     posterUrl: string;
     backdropUrl: string;
     genres: Array<{ __typename?: 'MovieGenre'; id: number; name: string }>;
@@ -998,7 +1016,7 @@ export type FindMovieWithCreditsQuery = {
     overview: string;
     runtime: number;
     voteAverage: number;
-    releaseDate?: string | null;
+    releaseDate?: any | null;
     posterUrl: string;
     backdropUrl: string;
     genres: Array<{ __typename?: 'MovieGenre'; id: number; name: string }>;
@@ -1052,7 +1070,7 @@ export type SearchMovieQuery = {
         __typename?: 'Movie';
         id: number;
         originalTitle: string;
-        releaseDate?: string | null;
+        releaseDate?: any | null;
         posterUrl: string;
       };
     }>;
@@ -1109,6 +1127,7 @@ export type FindMovieRecommendationsQuery = {
 
 export type DiscoverMoviesQueryVariables = Exact<{
   page: Scalars['Int'];
+  sort?: InputMaybe<TmDbMovieSortInput>;
 }>;
 
 export type DiscoverMoviesQuery = {
@@ -1295,7 +1314,7 @@ export type FindReviewQuery = {
       runtime: number;
       posterUrl: string;
       backdropUrl: string;
-      releaseDate?: string | null;
+      releaseDate?: any | null;
     };
   };
 };
@@ -1340,7 +1359,7 @@ export type FindReviewsQuery = {
           id: number;
           originalTitle: string;
           posterUrl: string;
-          releaseDate?: string | null;
+          releaseDate?: any | null;
         };
       };
     }>;
@@ -2833,8 +2852,8 @@ export type FindMovieRecommendationsQueryResult = Apollo.QueryResult<
   FindMovieRecommendationsQueryVariables
 >;
 export const DiscoverMoviesDocument = gql`
-  query DiscoverMovies($page: Int!) {
-    discoverMovies(page: $page) {
+  query DiscoverMovies($page: Int!, $sort: TmDBMovieSortInput) {
+    discoverMovies(page: $page, sort: $sort) {
       totalCount
       totalPages
       pageInfo {
@@ -2866,6 +2885,7 @@ export const DiscoverMoviesDocument = gql`
  * const { data, loading, error } = useDiscoverMoviesQuery({
  *   variables: {
  *      page: // value for 'page'
+ *      sort: // value for 'sort'
  *   },
  * });
  */

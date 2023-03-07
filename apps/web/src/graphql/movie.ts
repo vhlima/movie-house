@@ -129,8 +129,8 @@ export const FIND_MOVIE_RECOMMENDATIONS = gql`
 `;
 
 export const DISCOVER_MOVIES = gql`
-  query DiscoverMovies($page: Int!) {
-    discoverMovies(page: $page) {
+  query DiscoverMovies($page: Int!, $sort: TmDBMovieSortInput) {
+    discoverMovies(page: $page, sort: $sort) {
       totalCount
       totalPages
       pageInfo {

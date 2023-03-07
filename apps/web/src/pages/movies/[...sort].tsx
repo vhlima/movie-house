@@ -5,41 +5,41 @@ import * as Yup from 'yup';
 import type {
   DiscoverMoviesQuery,
   DiscoverMoviesQueryVariables,
-  // MovieSortInput,
+  TmDbMovieSortInput,
 } from '../../graphql';
 
-import { DiscoverMoviesDocument } from '../../graphql';
+import { TmDbMovieSortType, DiscoverMoviesDocument } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 
 import MoviesSortPageView from '../../views/movies/sort';
 
-// const movieSortTypes = [
-//   {
-//     route: 'decade',
-//     sortType: MovieSortType.Decade,
-//   },
-//   {
-//     route: 'genre',
-//     sortType: MovieSortType.Genre,
-//   },
-//   {
-//     route: 'release',
-//     sortType: MovieSortType.ReleaseDateDesc,
-//   },
-//   {
-//     route: 'year',
-//     sortType: MovieSortType.Year,
-//   },
-//   {
-//     route: 'on',
-//     sortType: MovieSortType.Service,
-//   },
-// ] as Array<{ route: string; sortType: MovieSortType }>;
+const tmDbMovieSortTypes = [
+  {
+    route: 'decade',
+    sortType: TmDbMovieSortType.Decade,
+  },
+  {
+    route: 'genre',
+    sortType: TmDbMovieSortType.Genre,
+  },
+  {
+    route: 'release',
+    sortType: TmDbMovieSortType.ReleaseOlder,
+  },
+  {
+    route: 'year',
+    sortType: TmDbMovieSortType.Year,
+  },
+  {
+    route: 'on',
+    sortType: TmDbMovieSortType.Service,
+  },
+] as Array<{ route: string; sortType: TmDbMovieSortType }>;
 
-// function findSortType(sortType: string) {
-//   return movieSortTypes.find(type => type.route === sortType.toLowerCase());
-// }
+function findSortType(sortType: string) {
+  return tmDbMovieSortTypes.find(type => type.route === sortType.toLowerCase());
+}
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
@@ -52,8 +52,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
           return false;
         }
 
-        return true;
-        // return !!findSortType(value[0]);
+        return !!findSortType(value[0]);
       }),
   });
 
@@ -62,12 +61,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       sort: [sortTypeName, sortFilter],
     } = await requestValidationSchema.validate(query);
 
-    // const { sortType } = findSortType(sortTypeName);
+    const { sortType } = findSortType(sortTypeName);
 
-    // const sortInput: MovieSortInput = {
-    //   type: sortType,
-    //   filter: sortFilter,
-    // };
+    const sortInput: TmDbMovieSortInput = {
+      type: sortType,
+      filter: sortFilter,
+    };
 
     const apolloClient = initializeApollo();
 
@@ -78,13 +77,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       query: DiscoverMoviesDocument,
       variables: {
         page: 1,
-        // sort: sortInput,
+        sort: sortInput,
       },
     });
 
     return addApolloState(apolloClient, {
       props: {
-        // sort: sortInput,
+        sort: sortInput,
         ...moviesData,
       },
     });
@@ -94,8 +93,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 };
 
 interface MoviesSortPageProps extends DiscoverMoviesQuery {
-  // sort?: MovieSortInput;
-  sort?: any;
+  sort?: TmDbMovieSortInput;
 }
 
 const MoviesSortPage: NextPage<MoviesSortPageProps> = ({ ...props }) => (
