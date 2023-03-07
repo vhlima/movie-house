@@ -55,7 +55,7 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
         {
           'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
           'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
-          'w-fit h-fit': hasMovieAndPoster,
+          'w-fit h-full': hasMovieAndPoster,
           'flex items-center justify-center w-full h-full': !hasMovieAndPoster,
           [className]: !!className,
         },
