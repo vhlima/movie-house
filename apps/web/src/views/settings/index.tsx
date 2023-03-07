@@ -35,7 +35,6 @@ const ProfileSettingsView: React.FC = () => {
 
   const fields = [
     { id: 'username', name: 'Username' },
-    { id: 'realName', name: 'Real name' },
     { id: 'email', name: 'Email' },
     { id: 'biography', name: 'Biography' },
   ];
@@ -48,7 +47,6 @@ const ProfileSettingsView: React.FC = () => {
         <Formik
           initialValues={{
             username: data.user.username,
-            realName: data.user.realName,
             email: '',
             biography: '',
           }}

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import { formatDateDistance } from '../../../../utils/date-utils';
+import { formatDateDistanceFromMillis } from '../../../../utils/date-utils';
 
 import { useAuth } from '../../../../hooks/useAuth';
 
@@ -18,7 +18,7 @@ import UserProfileLink from '../../../user/UserProfileLink';
 interface CommentaryBaseProps {
   id: string;
   content: string;
-  createdAt: string;
+  createdAt: number;
   user: {
     username: string;
     profilePictureUrl?: string;
@@ -62,7 +62,7 @@ const CommentaryBase: React.FC<
         </UserProfileLink>
 
         <Typography className="ml-auto" component="span" size="sm">
-          {formatDateDistance(createdAt)}
+          {formatDateDistanceFromMillis(createdAt)}
         </Typography>
       </div>
 

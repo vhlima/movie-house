@@ -34,7 +34,7 @@ const movieReferenceSortTypes = [
   },
   {
     route: 'release',
-    sortType: MovieReferenceSortType.ReleaseDateDesc,
+    sortType: MovieReferenceSortType.ReleaseRecent,
   },
   {
     route: 'year',

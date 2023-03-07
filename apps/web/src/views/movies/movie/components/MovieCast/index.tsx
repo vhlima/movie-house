@@ -1,4 +1,4 @@
-import type { Cast } from '../../../../../graphql';
+import type { MovieCharacter } from '../../../../../graphql';
 
 import Card from '../../../../../components/Card';
 import Typography from '../../../../../components/Typography';
@@ -7,10 +7,10 @@ import MovieActor from './components/MovieActor';
 
 interface MovieCastProps {
   cast: Array<{
-    id: Cast['id'];
-    character: Cast['character'];
-    originalName: Cast['originalName'];
-    profilePictureUrl: Cast['profilePictureUrl'];
+    id: MovieCharacter['id'];
+    character: MovieCharacter['character'];
+    originalName: MovieCharacter['originalName'];
+    profilePictureUrl: MovieCharacter['profilePictureUrl'];
   }>;
 }
 

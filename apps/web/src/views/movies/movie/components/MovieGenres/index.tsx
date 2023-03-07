@@ -1,9 +1,9 @@
-import type { Genre } from '../../../../../graphql';
+import type { MovieGenre } from '../../../../../graphql';
 
 import Link from '../../../../../components/Link';
 
 interface MovieGenresProps {
-  genres: Genre[];
+  genres: MovieGenre[];
 }
 
 const MovieGenres: React.FC<MovieGenresProps> = ({ genres }) => (
