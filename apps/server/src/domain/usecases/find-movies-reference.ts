@@ -1,9 +1,6 @@
-import {
-  Movie,
-  MovieReferenceSortType,
-  Pagination,
-  PaginationInput,
-} from '../entities';
+import { Movie, Pagination, PaginationInput } from '../entities';
+
+import { MovieReferenceSortType } from '../enums';
 
 export interface FindMoviesReference {
   handle: (

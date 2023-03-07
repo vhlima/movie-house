@@ -47,6 +47,13 @@ export class FindListsRepository implements IFindListsRepository {
           },
         };
       }
+      case ListSortType.NAME: {
+        return {
+          order: {
+            name: 'asc',
+          },
+        };
+      }
       default: {
         return {};
       }

@@ -34,7 +34,7 @@ export class FindRepliesRepository implements IFindRepliesRepository {
     }
 
     switch (sort.type) {
-      case ReplySortType.CREATE_DATE_ASC: {
+      case ReplySortType.OLDER: {
         return {
           order: {
             createdAt: 'ASC',

@@ -26,7 +26,13 @@ export class FindReviewsRepository implements IFindReviewsRepository {
     sort?: FindReviewsPaginationInput['sort'],
   ): FindManyOptions<ReviewEntity> {
     if (!sort) {
-      return {};
+      return {
+        order: {
+          post: {
+            createdAt: 'DESC',
+          },
+        },
+      };
     }
 
     const { type, filter } = sort;
@@ -35,7 +41,7 @@ export class FindReviewsRepository implements IFindReviewsRepository {
       case ReviewSortType.PINNED: {
         return {
           where: {
-            isPinned: true,
+            isPinned: !filter,
           },
         };
       }
@@ -68,11 +74,6 @@ export class FindReviewsRepository implements IFindReviewsRepository {
     const sortOptions = this.mapSortToFindOptions(sort);
 
     const [reviews, totalCount] = await reviewRepository.findAndCount({
-      order: {
-        post: {
-          createdAt: 'DESC',
-        },
-      },
       where: {
         ...(sortOptions.where || {}),
         post: {

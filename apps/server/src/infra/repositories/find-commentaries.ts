@@ -34,7 +34,7 @@ export class FindCommentariesRepository implements IFindCommentariesRepository {
     }
 
     switch (sort.type) {
-      case CommentarySortType.CREATE_DATE_ASC: {
+      case CommentarySortType.OLDER: {
         return {
           order: {
             createdAt: 'ASC',

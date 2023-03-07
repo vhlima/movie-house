@@ -42,22 +42,8 @@ export class FindPreMadeListMoviesService implements FindPreMadeListMovies {
 
     const moviesPerPage = MOVIES_PER_PAGE[listType];
 
-    if (!listExists) {
-      return {
-        itemsPerPage: moviesPerPage,
-        totalCount: 0,
-        totalPages: 1,
-        pageInfo: {
-          currentPage: 1,
-          hasNextPage: false,
-          hasPreviousPage: false,
-        },
-        edges: [],
-      };
-    }
-
     const moviesPaginated = await this.findMoviesReference.handle(
-      listExists.id,
+      listExists?.id || '',
       props,
       moviesPerPage,
     );
