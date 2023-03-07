@@ -26,6 +26,7 @@ export const useLogic = () => {
       ...cacheData,
       preMadeListMovies: {
         ...cacheData.preMadeListMovies,
+        totalCount: cacheData ? cacheData.preMadeListMovies.totalCount - 1 : 0,
         edges: cacheData.preMadeListMovies.edges.filter(
           edge => edge.node.id !== movieId,
         ),

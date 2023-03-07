@@ -34,6 +34,7 @@ export const useLogic = ({ onClose }: AddModalLogicProps) => {
       updateCache(cacheData => ({
         reviews: {
           ...cacheData.reviews,
+          totalCount: cacheData.reviews.totalCount + 1,
           edges: [...cacheData.reviews.edges, review],
         },
       }));

@@ -22,6 +22,9 @@ export const useLogic = ({ onClose }: AddFavoriteMovieModalLogicProps) => {
           ...cacheData,
           preMadeListMovies: {
             ...cacheData.preMadeListMovies,
+            totalCount: cacheData
+              ? cacheData.preMadeListMovies.totalCount + 1
+              : 1,
             edges: [
               ...cacheData.preMadeListMovies.edges,
               { node: data.addMovieToPreMadeList },
