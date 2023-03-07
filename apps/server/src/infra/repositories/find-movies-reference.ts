@@ -14,6 +14,10 @@ import { MovieReference } from '../../domain/entities';
 import { MongoDataSource } from '../data-sources';
 
 import { MovieReferenceEntity } from '../entities';
+import {
+  getStartAndEndOfDecade,
+  getStartAndEndOfYear,
+} from '../../utils/date-utils';
 
 type FindMoviesReferencePaginationInput =
   PaginationInputModel<MovieReferenceSortType>;
@@ -38,11 +42,13 @@ export class FindMoviesReferenceRepository
 
         const decade = parseInt(sort.filter, 10);
 
+        const [start, end] = getStartAndEndOfDecade(decade);
+
         return {
           where: {
             'movie.releaseDate': {
-              $gte: new Date(`${decade}-01-01T00:00:00.000Z`),
-              $lte: new Date(`${decade + 9}-12-31T23:59:59.999Z`),
+              $gte: start,
+              $lte: end,
             },
           } as any,
         };
@@ -52,11 +58,13 @@ export class FindMoviesReferenceRepository
 
         const year = parseInt(sort.filter, 10);
 
+        const [start, end] = getStartAndEndOfYear(year);
+
         return {
           where: {
             'movie.releaseDate': {
-              $gte: new Date(`${year}-01-01T00:00:00.000Z`),
-              $lte: new Date(`${year}-12-31T23:59:59.999Z`),
+              $gte: start,
+              $lte: end,
             },
           } as any,
         };
