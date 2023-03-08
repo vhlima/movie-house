@@ -12,6 +12,7 @@ import MovieCoverList from '../../../components/movie/MovieCoverList';
 import UserProfilePageView from '../components/UserProfilePageView';
 
 import SortButtons from './components/SortButtons';
+import Pagination from '../../../components/Pagination';
 
 interface UserMovieListViewProps {
   user: FindUserQuery['user'];
@@ -33,10 +34,17 @@ const UserMovieListView: React.FC<
     {!movies || movies.totalCount === 0 ? (
       <Typography component="h1">No movies added yet.</Typography>
     ) : (
-      <MovieCoverList
-        name="user-profile-film-list"
-        movies={movies.edges.map(({ node }) => node)}
-      />
+      <>
+        <MovieCoverList
+          name="user-profile-film-list"
+          movies={movies.edges.map(({ node }) => node)}
+        />
+
+        <Pagination
+          currentPage={movies.pageInfo.currentPage}
+          totalPages={movies.totalPages}
+        />
+      </>
     )}
   </UserProfilePageView>
 );
