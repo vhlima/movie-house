@@ -48,7 +48,7 @@ const YearNavigation: React.FC<YearNavigationProps> = ({
   });
 
   return (
-    <ul className="flex justify-between border border-grey-800 rounded-sm mb-4">
+    <ul className="flex justify-between border border-grey-800 rounded-sm my-4">
       {years.map((currentYear, index) => (
         <YearListItem
           key={
