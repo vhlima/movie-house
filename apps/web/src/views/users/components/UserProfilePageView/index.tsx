@@ -17,6 +17,7 @@ import ProfileNavigation from './components/ProfileNavigation';
 
 interface UserProfilePageViewProps {
   title?: string;
+  marginBottom?: boolean;
   sortButtons?: ReactNode;
 
   user: {
@@ -28,7 +29,7 @@ interface UserProfilePageViewProps {
 
 const UserProfilePageView: React.FC<
   PropsWithChildren<UserProfilePageViewProps>
-> = ({ title, user, sortButtons, children }) => {
+> = ({ title, user, sortButtons, marginBottom = true, children }) => {
   const contextProvider = useMemo(
     () => ({ user } as ProfileContextData),
     [user],
@@ -66,7 +67,7 @@ const UserProfilePageView: React.FC<
 
           {children && (title || sortButtons) ? (
             <div>
-              <SubHeading title={title}>
+              <SubHeading title={title} marginBottom={marginBottom}>
                 {sortButtons && (
                   <div className="flex ml-auto">{sortButtons}</div>
                 )}

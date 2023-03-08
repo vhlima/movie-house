@@ -35,10 +35,12 @@ const UserMovieListView: React.FC<
       <Typography component="h1">No movies added yet.</Typography>
     ) : (
       <>
-        <MovieCoverList
-          name="user-profile-film-list"
-          movies={movies.edges.map(({ node }) => node)}
-        />
+        <div className="my-4">
+          <MovieCoverList
+            name="user-profile-film-list"
+            movies={movies.edges.map(({ node }) => node)}
+          />
+        </div>
 
         <Pagination
           currentPage={movies.pageInfo.currentPage}
