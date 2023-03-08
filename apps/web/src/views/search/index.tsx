@@ -4,8 +4,8 @@ import PageContent from '../../components/PageContent';
 import SubHeading from '../../components/SubHeading';
 import Typography from '../../components/Typography';
 
-import SearchPageButtons from './components/SearchPageButtons';
 import SearchResultMovie from './components/SearchResultMovie';
+import Pagination from '../../components/Pagination';
 
 interface SearchPageViewProps extends SearchMovieQuery {
   searchTerm: string;
@@ -35,7 +35,7 @@ const SearchPageView: React.FC<SearchPageViewProps> = ({
         </Typography>
       ) : (
         <>
-          <ul className="mt-4">
+          <ul className="mb-4">
             {edges.map(edge => (
               <SearchResultMovie
                 key={`search-result-${edge.node.id}`}
@@ -44,10 +44,9 @@ const SearchPageView: React.FC<SearchPageViewProps> = ({
             ))}
           </ul>
 
-          <SearchPageButtons
-            page={pageInfo.currentPage}
+          <Pagination
+            currentPage={pageInfo.currentPage}
             totalPages={totalPages}
-            searchTerm={searchTerm}
           />
         </>
       )}

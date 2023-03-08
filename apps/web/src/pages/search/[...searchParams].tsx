@@ -44,7 +44,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       SearchMovieQueryVariables
     >({
       query: SearchMovieDocument,
-      variables: { searchTerm, page: parseInt(pageNumber, 10) },
+      variables: {
+        searchTerm,
+        page: pageNumber ? parseInt(pageNumber, 10) : 1,
+      },
     });
 
     return addApolloState(apolloClient, {
