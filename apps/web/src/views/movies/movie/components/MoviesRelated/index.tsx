@@ -27,10 +27,11 @@ const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
           <Typography component="h2">No related movie was found.</Typography>
         ) : (
           <MovieCoverList
+            className="grid-cols-4 sm:grid-cols-8 gap-1 sm:gap-2"
             name="related-movies"
-            movies={movieRecommendations.movieRecommendations.edges.map(
-              edge => edge.node,
-            )}
+            movies={movieRecommendations.movieRecommendations.edges
+              .slice(0, 8)
+              .map(edge => edge.node)}
           />
         )}
       </Card.Body>
