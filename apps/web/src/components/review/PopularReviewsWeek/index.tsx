@@ -17,7 +17,7 @@ const PopularReviewsWeek: React.FC = () => {
 
   return (
     <Card>
-      <Card.Header title="Popular reviews this week" />
+      <Card.Header title="Popular reviews this week" marginBottom />
 
       <QueryState loading={loading} error={error}>
         {data && (
