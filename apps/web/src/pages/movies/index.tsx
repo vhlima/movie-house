@@ -1,28 +1,26 @@
 import type { GetServerSideProps, NextPage } from 'next';
 
-import * as Yup from 'yup';
-
 import type {
-  FindMovieWithCreditsQuery,
-  FindMovieWithCreditsQueryVariables,
+  DiscoverMoviesQuery,
+  DiscoverMoviesQueryVariables,
 } from '../../graphql';
 
-import { FindMovieWithCreditsDocument } from '../../graphql';
+import { DiscoverMoviesDocument } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 
 import MoviesRootPageView from '../../views/movies/root';
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const apolloClient = initializeApollo();
 
     const { data: movieData } = await apolloClient.query<
-      FindMovieWithCreditsQuery,
-      FindMovieWithCreditsQueryVariables
+      DiscoverMoviesQuery,
+      DiscoverMoviesQueryVariables
     >({
-      query: FindMovieWithCreditsDocument,
-      variables: { movieId: parseInt(query.id as string, 10) },
+      query: DiscoverMoviesDocument,
+      variables: { page: 1 },
     });
 
     return addApolloState(apolloClient, {
