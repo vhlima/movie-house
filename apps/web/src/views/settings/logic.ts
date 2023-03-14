@@ -10,7 +10,6 @@ import { useAuth } from '../../hooks/useAuth';
 
 interface ProfileSettingsProps {
   username: string;
-  realName: string;
   biography: string;
 }
 

@@ -1,32 +1,39 @@
 import { useState } from 'react';
 
-import { useFindUserPinnedReviewsQuery } from '../../../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '../../../../../graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 
-import { useProfile } from '../../hooks/useProfile';
+import { useProfile } from '../../../hooks/useProfile';
 
 import Card from '../../../../../components/Card';
-
 import Typography from '../../../../../components/Typography';
 
 import ReviewPreview from '../../../../../components/review/ReviewPreview';
 
 import PinnedReviewsEditModal from './components/PinnedReviewsEditModal';
 
+import PencilButton from '../PencilButton';
+
 const PinnedReviews: React.FC = () => {
   const { data: session } = useAuth();
 
   const { user } = useProfile();
 
-  const { data: userPinnedReviewsData } = useFindUserPinnedReviewsQuery({
-    variables: { userId: user?.id },
+  const { data: userPinnedReviewsData } = useFindReviewsQuery({
+    variables: {
+      userId: user.id,
+      page: 1,
+      sort: { type: ReviewSortType.Pinned },
+    },
   });
 
   const [isEditing, setEditing] = useState<boolean>(false);
 
   const hasAnyReviewPinned =
-    userPinnedReviewsData && userPinnedReviewsData.reviewsUserPinned.length > 0;
+    userPinnedReviewsData && userPinnedReviewsData.reviews.totalCount > 0;
+
+  const isSameUserAsSession = session && session.user.id === user.id;
 
   return (
     <>
@@ -34,31 +41,29 @@ const PinnedReviews: React.FC = () => {
         <PinnedReviewsEditModal onClose={() => setEditing(false)} />
       )}
 
-      <Card
-        title="Pinned reviews"
-        rightIcon={
-          session &&
-          session.user.id === user?.id && {
-            iconType: 'FaPencilAlt',
-            onClick: () => setEditing(true),
-          }
-        }
-        noPadding
-      >
-        {!hasAnyReviewPinned ? (
-          <Typography component="p">
-            {user.username} dont have any review pinned.
-          </Typography>
-        ) : (
-          <ul>
-            {userPinnedReviewsData.reviewsUserPinned.map(review => (
-              <ReviewPreview
-                key={`pinned-review-${review.id}`}
-                review={review}
-              />
-            ))}
-          </ul>
-        )}
+      <Card>
+        <Card.Header title="Pinned reviews" marginBottom={!hasAnyReviewPinned}>
+          {isSameUserAsSession && (
+            <PencilButton onClick={() => setEditing(true)} />
+          )}
+        </Card.Header>
+
+        <Card.Body>
+          {!hasAnyReviewPinned ? (
+            <Typography component="p">
+              {user.username} dont have any review pinned.
+            </Typography>
+          ) : (
+            <ul>
+              {userPinnedReviewsData.reviews.edges.map(edge => (
+                <ReviewPreview
+                  key={`pinned-review-${edge.node.id}`}
+                  review={edge.node}
+                />
+              ))}
+            </ul>
+          )}
+        </Card.Body>
       </Card>
     </>
   );

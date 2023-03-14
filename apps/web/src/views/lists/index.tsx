@@ -1,8 +1,6 @@
-import { useRouter } from 'next/router';
+import { FindListQuery } from '../../graphql';
 
-import { useFindUserListQuery } from '../../graphql';
-
-import { formatDateDistance } from '../../utils';
+import { formatDateDistanceFromMillis } from '../../utils/date-utils';
 
 import Typography from '../../components/Typography';
 import PageContent from '../../components/PageContent';
@@ -14,23 +12,13 @@ import UserProfileLink from '../../components/user/UserProfileLink';
 
 import ListMovies from './components/ListMovies';
 
-const UserListView: React.FC = () => {
-  const { query } = useRouter();
+type UserListViewProps = FindListQuery;
 
-  const { data: userListData } = useFindUserListQuery({
-    variables: {
-      postId: parseInt(query.id as string, 10),
-    },
-  });
-
-  if (!userListData) {
-    return null;
-  }
-
+const UserListView: React.FC<UserListViewProps> = ({ list }) => {
   const bgUrl =
     'https://a.ltrbxd.com/resized/sm/upload/es/4u/du/em/spooky-1200-1200-675-675-crop-000000.jpg?v=4f77fabd8c';
 
-  const { id: listId, user, name, post } = userListData.userList;
+  const { id: listId, user, name, post } = list;
 
   return (
     <BackdropImage src={bgUrl} alt="Backdrop image for user list">
@@ -57,7 +45,7 @@ const UserListView: React.FC = () => {
           <Typography size="sm" component="span">
             Published
             <Typography className="ml-1" component="time">
-              {formatDateDistance(post.createdAt)}
+              {formatDateDistanceFromMillis(post.createdAt)}
             </Typography>
           </Typography>
 
@@ -82,7 +70,9 @@ const UserListView: React.FC = () => {
             {name}
           </Typography>
 
-          {post.body && <Typography component="p">{post.body}</Typography>}
+          {post.content && (
+            <Typography component="p">{post.content}</Typography>
+          )}
 
           <ListMovies listId={listId} />
         </section>

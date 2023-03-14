@@ -5,16 +5,13 @@ import GithubProvider from 'next-auth/providers/github';
 import { initializeApollo } from '../../../client';
 
 import type {
-  FindUserByProviderQuery,
-  FindUserByProviderQueryVariables,
-  UserRegisterMutation,
-  UserRegisterMutationVariables,
+  FindUserByGithubIdQuery,
+  FindUserByGithubIdQueryVariables,
+  SignUpMutation,
+  SignUpMutationVariables,
 } from '../../../graphql';
 
-import {
-  UserRegisterDocument,
-  FindUserByProviderDocument,
-} from '../../../graphql';
+import { SignUpDocument, FindUserByGithubIdDocument } from '../../../graphql';
 
 export default NextAuth({
   session: {
@@ -24,8 +21,7 @@ export default NextAuth({
     updateAge: 30 * 60,
   },
   secret: process.env.JWT_SECRET,
-  // debug: process.env.NODE_ENV === 'development',
-  debug: true,
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -36,28 +32,25 @@ export default NextAuth({
     jwt: async ({ token, account }) => {
       if (account) {
         return {
-          user: {
-            providerId: account.providerAccountId,
-          },
+          providerId: account.providerAccountId,
         };
       }
 
       return token;
     },
     session: async ({ token, session }) => {
-      if (!token) return session;
+      if (!token || !token.providerId) return session;
 
       const apolloClient = initializeApollo();
 
       try {
         const { data: userData } = await apolloClient.query<
-          FindUserByProviderQuery,
-          FindUserByProviderQueryVariables
+          FindUserByGithubIdQuery,
+          FindUserByGithubIdQueryVariables
         >({
-          query: FindUserByProviderDocument,
+          query: FindUserByGithubIdDocument,
           variables: {
-            provider: 'github',
-            providerId: token.user.providerId,
+            githubId: token.providerId,
           },
         });
 
@@ -65,40 +58,34 @@ export default NextAuth({
           return null;
         }
 
-        const { __typename, ...user } = userData.userByProvider;
+        const { __typename, ...user } = userData.userByGithubId;
 
         return {
           ...session,
           user,
         };
       } catch (err) {
-        console.log(err);
         return null;
       }
     },
     signIn: async ({ account }) => {
       const apolloClient = initializeApollo();
 
-      console.log(
-        `register user? ${account.providerAccountId} | ${parseInt(
-          account.providerAccountId,
-          10,
-        )} |  ${JSON.stringify(account)}`,
-      );
-
       try {
-        await apolloClient.mutate<
-          UserRegisterMutation,
-          UserRegisterMutationVariables
+        const response = await apolloClient.mutate<
+          SignUpMutation,
+          SignUpMutationVariables
         >({
-          mutation: UserRegisterDocument,
+          mutation: SignUpDocument,
           variables: { githubId: account.providerAccountId },
         });
 
+        if (!response || !response.data) {
+          return false;
+        }
+
         return true;
       } catch (err) {
-        console.log(err);
-
         return false;
       }
     },

@@ -1,26 +1,37 @@
 import { useState } from 'react';
 
-import { parseISO } from 'date-fns';
+import SortButton from '../../../../../components/Sort/SortButton';
 
-import ReviewSortByYearButton from '../ReviewSortByYearButton';
+import ReviewYearList from '../ReviewYearList';
 
 interface ReviewsSortButtonsProps {
   user: {
-    createdAt: string;
+    createdAt: number;
   };
 }
 
+type DropdownType = 'year';
+
 const ReviewsSortButtons: React.FC<ReviewsSortButtonsProps> = ({ user }) => {
-  const [dropdownOpen, setDropdownOpen] = useState<string>('');
+  const [dropdownOpen, setDropdownOpen] = useState<DropdownType>();
+
+  function openDropdown(dropdown: DropdownType) {
+    setDropdownOpen(prev => (prev !== dropdown ? dropdown : undefined));
+  }
+
+  function closeDropdown() {
+    setDropdownOpen(undefined);
+  }
 
   return (
-    <ReviewSortByYearButton
-      sinceDate={parseISO(user.createdAt)}
-      isOpen={dropdownOpen === 'by-year'}
-      onClick={() =>
-        setDropdownOpen(prev => (prev === 'by-year' ? '' : 'by-year'))
-      }
-    />
+    <SortButton
+      text="Diary Year"
+      isOpen={dropdownOpen === 'year'}
+      onClick={() => openDropdown('year')}
+      onClose={() => closeDropdown()}
+    >
+      <ReviewYearList sinceDate={new Date(user.createdAt)} />
+    </SortButton>
   );
 };
 

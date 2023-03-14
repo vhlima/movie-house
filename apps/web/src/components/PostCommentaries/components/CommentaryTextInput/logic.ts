@@ -1,11 +1,11 @@
-import { useAddCommentaryMutation } from '../../../../graphql';
+import { useCreateCommentaryMutation } from '../../../../graphql';
 
 import { useCommentariesCache } from '../../hooks/useCommentariesCache';
 
-export function useLogic(postId: number) {
+export function useLogic(postId: string) {
   const { updateCache } = useCommentariesCache();
 
-  const [addComment, { loading, error }] = useAddCommentaryMutation({
+  const [addComment, { loading, error }] = useCreateCommentaryMutation({
     update: (cache, { data }) => {
       if (!data) return;
 
@@ -17,8 +17,7 @@ export function useLogic(postId: number) {
           edges: [
             ...cacheData.commentaries.edges,
             {
-              cursor: data.comment.createdAt,
-              node: data.comment,
+              node: data.createCommentary,
             },
           ],
         },
@@ -26,9 +25,9 @@ export function useLogic(postId: number) {
     },
   });
 
-  async function handleSubmit(body: string) {
+  async function handleSubmit(content: string) {
     const { errors } = await addComment({
-      variables: { postId, body },
+      variables: { postId, content },
     });
 
     return !errors;

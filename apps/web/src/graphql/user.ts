@@ -1,39 +1,56 @@
 import { gql } from '@apollo/client';
 
-export const USER_FIELDS = gql`
-  fragment UserFields on User {
-    id
-    username
-    realName
-    biography
-    profilePictureUrl
-    createdAt
-  }
-`;
-
 export const FIND_USER = gql`
-  ${USER_FIELDS}
-
   query FindUser($username: String!) {
     user(username: $username) {
-      ...UserFields
+      id
+      username
+      realName
+      biography
+      profilePictureUrl
+      createdAt
     }
   }
 `;
 
-export const FIND_USER_BY_PROVIDER = gql`
-  query FindUserByProvider($providerId: String!, $provider: String!) {
-    userByProvider(providerId: $providerId, provider: $provider) {
+export const FIND_USER_BY_ID = gql`
+  query FindUserById($userId: String!) {
+    userById(userId: $userId) {
       id
       username
       realName
       profilePictureUrl
+      createdAt
     }
   }
 `;
 
-export const USER_REGISTER = gql`
-  mutation UserRegister($githubId: String!) {
-    register(githubId: $githubId)
+export const FIND_USER_BY_GITHUB_ID = gql`
+  query FindUserByGithubId($githubId: String!) {
+    userByGithubId(githubId: $githubId) {
+      id
+      username
+      realName
+      profilePictureUrl
+      createdAt
+    }
+  }
+`;
+
+export const SIGN_UP = gql`
+  mutation SignUp($githubId: String!) {
+    signUp(githubId: $githubId)
+  }
+`;
+
+export const FIND_PROFILE_STATS = gql`
+  query FindProfileStats($userId: String!) {
+    profileStats(userId: $userId) {
+      followerCount
+      followingCount
+      listCount
+      moviesWatchedCount
+      moviesWatchedThisYearCount
+    }
   }
 `;

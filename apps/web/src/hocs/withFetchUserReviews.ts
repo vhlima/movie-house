@@ -4,11 +4,11 @@ import type {
   ReviewSortInput,
   FindUserQuery,
   FindUserQueryVariables,
-  FindUserReviewsQuery,
-  FindUserReviewsQueryVariables,
+  FindReviewsQuery,
+  FindReviewsQueryVariables,
 } from '../graphql';
 
-import { FindUserDocument, FindUserReviewsDocument } from '../graphql';
+import { FindUserDocument, FindReviewsDocument } from '../graphql';
 
 interface FetchDataProps {
   apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -35,12 +35,13 @@ export async function withFetchUserReviews({
     }
 
     const { data: userReviewsData } = await apolloClient.query<
-      FindUserReviewsQuery,
-      FindUserReviewsQueryVariables
+      FindReviewsQuery,
+      FindReviewsQueryVariables
     >({
-      query: FindUserReviewsDocument,
+      query: FindReviewsDocument,
       variables: {
         userId: userData.user.id,
+        page: 1,
         sort,
       },
     });

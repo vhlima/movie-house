@@ -9,7 +9,7 @@ import Commentary from '../Commentary';
 import { useLogic } from './logic';
 
 interface CommentariesProps {
-  postId: number;
+  postId: string;
 }
 
 const Commentaries: React.FC<CommentariesProps> = ({ postId }) => {

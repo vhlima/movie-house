@@ -1,9 +1,8 @@
-import { useFindUserRecentReviewsQuery } from '../../../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '../../../../../graphql';
 
-import { useProfile } from '../../hooks/useProfile';
+import { useProfile } from '../../../hooks/useProfile';
 
 import Card from '../../../../../components/Card';
-
 import Typography from '../../../../../components/Typography';
 
 import ReviewPreview from '../../../../../components/review/ReviewPreview';
@@ -11,24 +10,39 @@ import ReviewPreview from '../../../../../components/review/ReviewPreview';
 const RecentReviews: React.FC = () => {
   const { user } = useProfile();
 
-  const { data: userRecentReviewsData } = useFindUserRecentReviewsQuery({
-    variables: { userId: user?.id },
+  const { data: userRecentReviewsData } = useFindReviewsQuery({
+    variables: {
+      userId: user.id,
+      page: 1,
+      sort: {
+        type: ReviewSortType.Recent,
+      },
+    },
   });
 
+  const hasAnyRecentReview =
+    userRecentReviewsData && userRecentReviewsData.reviews.totalCount > 0;
+
   return (
-    <Card title="Recent reviews" noPadding>
-      {!userRecentReviewsData ||
-      userRecentReviewsData.reviewsUserRecent.length === 0 ? (
-        <Typography component="p">
-          {user.username} hasnt reviewed any movies yet.
-        </Typography>
-      ) : (
-        <ul>
-          {userRecentReviewsData.reviewsUserRecent.map(review => (
-            <ReviewPreview key={`recent-review-${review.id}`} review={review} />
-          ))}
-        </ul>
-      )}
+    <Card>
+      <Card.Header title="Recent reviews" marginBottom />
+
+      <Card.Body>
+        {!hasAnyRecentReview ? (
+          <Typography component="p">
+            {user.username} hasnt reviewed any movies yet.
+          </Typography>
+        ) : (
+          <ul>
+            {userRecentReviewsData.reviews.edges.map(edge => (
+              <ReviewPreview
+                key={`recent-review-${edge.node.id}`}
+                review={edge.node}
+              />
+            ))}
+          </ul>
+        )}
+      </Card.Body>
     </Card>
   );
 };

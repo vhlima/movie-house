@@ -1,21 +1,21 @@
 import { useApolloClient } from '@apollo/client';
 
 import type {
-  FindUserPreMadeListMoviesQuery,
-  FindUserPreMadeListMoviesQueryVariables,
+  FindPreMadeListMoviesQuery,
+  FindPreMadeListMoviesQueryVariables,
 } from '../../../../../../../../graphql';
 
 import {
   PreMadeListType,
-  FindUserPreMadeListMoviesDocument,
+  FindPreMadeListMoviesDocument,
 } from '../../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../../hooks/useAuth';
 
 type UpdateCacheHandles = (
   updateFn: (
-    cacheData?: FindUserPreMadeListMoviesQuery,
-  ) => FindUserPreMadeListMoviesQuery,
+    cacheData?: FindPreMadeListMoviesQuery,
+  ) => FindPreMadeListMoviesQuery,
 ) => void;
 
 interface FavoriteMoviesCacheHandles {
@@ -29,14 +29,15 @@ export const useFavoriteMoviesCache = (): FavoriteMoviesCacheHandles => {
 
   const updateCache: UpdateCacheHandles = updateFn => {
     cache.updateQuery<
-      FindUserPreMadeListMoviesQuery,
-      FindUserPreMadeListMoviesQueryVariables
+      FindPreMadeListMoviesQuery,
+      FindPreMadeListMoviesQueryVariables
     >(
       {
-        query: FindUserPreMadeListMoviesDocument,
+        query: FindPreMadeListMoviesDocument,
         variables: {
           userId: data.user.id,
           listType: PreMadeListType.Favorite,
+          page: 1,
         },
       },
       cacheData => (!cacheData ? cacheData : updateFn(cacheData)),

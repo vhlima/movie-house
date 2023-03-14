@@ -17,7 +17,7 @@ interface CreateReviewLogicProps {
 }
 
 const validationSchema: ValidationSchemaType = Yup.object().shape({
-  body: Yup.string().required('Write your review before submitting.'),
+  content: Yup.string().required('Write your review before submitting.'),
 });
 
 export const useLogic = ({ movieId }: CreateReviewLogicProps) => {
@@ -33,14 +33,14 @@ export const useLogic = ({ movieId }: CreateReviewLogicProps) => {
     const { data, errors } = await createReviewMutation({
       variables: {
         movieId,
-        body: values.body,
+        content: values.content,
       },
     });
 
     if (!errors && data) {
       await push({
         pathname: '/reviews/[id]',
-        query: { id: data.reviewCreate.post.id },
+        query: { id: data.createReview.id },
       });
     }
   };

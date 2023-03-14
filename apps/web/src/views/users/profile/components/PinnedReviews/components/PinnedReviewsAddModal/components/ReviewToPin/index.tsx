@@ -1,4 +1,4 @@
-import { formatDate } from '../../../../../../../../../utils';
+import { formatDateFromMillis } from '../../../../../../../../../utils/date-utils';
 
 import type { Review } from '../../../../../../../../../graphql';
 
@@ -41,15 +41,15 @@ const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
 
       <Typography component="span">
         Reviewed in&nbsp;
-        {formatDate(review.post.createdAt)}
+        {formatDateFromMillis(review.post.createdAt)}
       </Typography>
 
       <Button
         className="flex items-center gap-1 mt-2"
         buttonStyle="secondary"
-        onClick={() => onClick(review.post.id)}
+        onClick={() => onClick(review.id)}
       >
-        <SvgIcon className="text-grey-300" iconType="BsFillPinFill" />
+        <SvgIcon iconType="BsFillPinFill" />
 
         <Typography component="span">Pin this review</Typography>
       </Button>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
-import { useLikeContentMutation } from '../../graphql';
+import { LikeType, useLikeOrDislikeMutation } from '../../graphql';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -10,16 +10,14 @@ import SvgIcon from '../SvgIcon';
 
 export interface LikeButtonProps {
   likeCount: number;
-  // Root id means wich content the user is going to like ex: any post id or commentary
   rootId: string;
-  // Reference id means where the content id to be liked ex: commentary.id or reply.id
-  referenceId?: string;
+  likeType?: LikeType;
   hasLiked?: boolean;
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({
   rootId,
-  referenceId,
+  likeType = LikeType.Post,
   likeCount,
   hasLiked,
 }) => {
@@ -27,19 +25,19 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   const [liked, setLiked] = useState<boolean>(hasLiked);
 
-  const [likeOrDislikeMutation, { loading }] = useLikeContentMutation();
+  const [likeOrDislikeMutation, { loading }] = useLikeOrDislikeMutation();
 
   const handleLike = async () => {
     if (!session) return;
 
     const { data } = await likeOrDislikeMutation({
       variables: {
-        rootId,
-        referenceId,
+        contentId: rootId,
+        likeType,
       },
     });
 
-    setLiked(data.like);
+    setLiked(data.likeOrDislike);
   };
 
   return (

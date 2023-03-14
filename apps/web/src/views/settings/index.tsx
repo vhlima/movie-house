@@ -7,11 +7,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { useLogic } from './logic';
 
 import Card from '../../components/Card';
-
 import Input from '../../components/Input';
-
 import Button from '../../components/Button';
-
 import ProfilePicture from '../../components/ProfilePicture';
 
 const ProfileSettingsView: React.FC = () => {
@@ -36,83 +33,78 @@ const ProfileSettingsView: React.FC = () => {
     return <h1 className="text-danger-base">Must be logged</h1>;
   }
 
+  const fields = [
+    { id: 'username', name: 'Username' },
+    { id: 'email', name: 'Email' },
+    { id: 'biography', name: 'Biography' },
+  ];
+
   return (
-    <Card title="Personal settings">
-      <Formik
-        initialValues={{
-          username: data.user.username,
-          realName: '',
-          biography: '',
-        }}
-        onSubmit={handleSubmit}
-      >
-        <Form className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <ProfilePicture
-              imageSize="lg"
-              src={uploadedProfilePictureUrl || data.user.profilePictureUrl}
-            />
+    <Card>
+      <Card.Header title="Personal settings" marginBottom />
 
-            <input
-              className="hidden"
-              type="file"
-              accept="image/*"
-              name="profilePictureFile"
-              ref={profilePictureInputRef}
-              onChange={handleProfilePictureAdd}
-            />
+      <Card.Body>
+        <Formik
+          initialValues={{
+            username: data.user.username,
+            email: '',
+            biography: '',
+          }}
+          onSubmit={handleSubmit}
+        >
+          <Form className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <ProfilePicture
+                imageSize="lg"
+                src={uploadedProfilePictureUrl || data.user.profilePictureUrl}
+              />
 
-            <div className="flex flex-col gap-2 w-full">
-              <Button
-                buttonStyle="secondary"
-                onClick={() => profilePictureInputRef?.current.click()}
-              >
-                Upload profile picture
-              </Button>
+              <input
+                className="hidden"
+                type="file"
+                accept="image/*"
+                name="profilePictureFile"
+                ref={profilePictureInputRef}
+                onChange={handleProfilePictureAdd}
+              />
 
-              {uploadedProfilePictureUrl && (
+              <div className="flex flex-col gap-2 w-full">
                 <Button
-                  buttonStyle="danger"
-                  onClick={clearUploadedProfilePictureUrl}
+                  buttonStyle="secondary"
+                  onClick={() => profilePictureInputRef?.current.click()}
                 >
-                  Remove uploaded picture
+                  Upload profile picture
                 </Button>
-              )}
+
+                {uploadedProfilePictureUrl && (
+                  <Button
+                    buttonStyle="danger"
+                    onClick={clearUploadedProfilePictureUrl}
+                  >
+                    Remove uploaded picture
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
 
-          <Input
-            formik
-            name="username"
-            label={{ text: 'Username', htmlFor: true }}
-          />
+            {fields.map(field => (
+              <Input.Label
+                key={`settings-field-${field.id}`}
+                htmlFor={field.id}
+                text={field.name}
+              >
+                <Input.Container>
+                  <Input id={field.id} />
+                </Input.Container>
+              </Input.Label>
+            ))}
 
-          <Input
-            formik
-            name="realName"
-            label={{ text: 'Real name', htmlFor: true }}
-          />
-
-          <Input
-            formik
-            type="email"
-            name="email"
-            label={{ text: 'Email', htmlFor: true }}
-          />
-
-          <Input
-            className="h-36"
-            formik
-            textarea
-            name="biography"
-            label={{ text: 'Bio', htmlFor: true }}
-          />
-
-          {/* <Button type="submit" disabled={updateUserResult.loading}>
+            {/* <Button type="submit" disabled={updateUserResult.loading}>
             Save changes
           </Button> */}
-        </Form>
-      </Formik>
+          </Form>
+        </Formik>
+      </Card.Body>
     </Card>
   );
 };

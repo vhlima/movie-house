@@ -1,13 +1,14 @@
-import { useFindUserListMoviesQuery } from '../../../../graphql';
+import { useFindListMoviesQuery } from '../../../../graphql';
 
 interface ListMoviesLogicProps {
   listId: string;
 }
 
 export const useLogic = ({ listId }: ListMoviesLogicProps) => {
-  const listMoviesResult = useFindUserListMoviesQuery({
+  const listMoviesResult = useFindListMoviesQuery({
     variables: {
       listId,
+      page: 1,
     },
   });
 

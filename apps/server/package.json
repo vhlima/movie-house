@@ -4,13 +4,13 @@
   "main": "server.ts",
   "scripts": {
     "build": "tsc --outDir build -p . --esModuleInterop --experimentalDecorators --resolveJsonModule --lib es6 --module commonjs",
-    "dev": "ts-node-dev -r dotenv/config --transpile-only --ignore-watch node_modules src/server.ts",
-    "start": "cross-env NODE_ENV=production node -r dotenv/config build/src/server.js",
+    "dev": "ts-node-dev -r dotenv/config --transpile-only --ignore-watch node_modules src/main/server.ts",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config build/src/main/server.js",
     "typeorm": "typeorm-ts-node-esm",
     "test": "vitest",
-    "production:migrate": "dotenv -- typeorm-ts-node-esm migration:run -d build/src/database/postgres.js",
-    "migration:run": "dotenv -- typeorm-ts-node-esm migration:run -d src/database/postgres.ts",
-    "migration:revert": "dotenv -- typeorm-ts-node-esm migration:revert -d src/database/postgres.ts"
+    "production:migrate": "dotenv -- typeorm-ts-node-esm migration:run -d build/src/infra/data-sources/postgres.js",
+    "migration:run": "dotenv -- typeorm-ts-node-esm migration:run -d src/infra/data-sources/postgres.ts",
+    "migration:revert": "dotenv -- typeorm-ts-node-esm migration:revert -d src/infra/data-sources/postgres.ts"
   },
   "dependencies": {
     "@apollo/datasource-rest": "^5.0.1",
@@ -28,9 +28,9 @@
     "next-auth": "^4.18.8",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.8.1",
     "type-graphql": "^2.0.0-beta.1",
     "typeorm": "^0.3.11",
-    "ts-node": "^10.8.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

@@ -2,7 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindUserQuery, FindUserListsQuery } from '../../../../graphql';
+import type { FindUserQuery, FindListsQuery } from '../../../../graphql';
 
 import { addApolloState, initializeApollo } from '../../../../client';
 
@@ -33,10 +33,10 @@ export const getServerSideProps: GetServerSideProps = async context => {
   }
 };
 
-type UserListsPageProps = FindUserQuery & FindUserListsQuery;
+type UserListsPageProps = FindUserQuery & FindListsQuery;
 
-const UserListsPage: NextPage<UserListsPageProps> = ({ user, userLists }) => (
-  <UserListsView user={user} userLists={userLists} />
+const UserListsPage: NextPage<UserListsPageProps> = ({ user, lists }) => (
+  <UserListsView user={user} lists={lists} />
 );
 
 export default UserListsPage;

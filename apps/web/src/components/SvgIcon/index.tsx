@@ -1,6 +1,8 @@
 import type { IconType, IconBaseProps } from 'react-icons';
 
 import {
+  FaTimes,
+  FaBars,
   FaRegUserCircle,
   FaChevronRight,
   FaChevronLeft,
@@ -42,7 +44,7 @@ import { MdMovie, MdOutlineSort } from 'react-icons/md';
 
 import { FiX, FiCheck } from 'react-icons/fi';
 
-import { HiMenu, HiMail, HiLockClosed } from 'react-icons/hi';
+import { HiMail, HiLockClosed } from 'react-icons/hi';
 
 import { IoIosJournal, IoIosSend } from 'react-icons/io';
 
@@ -53,8 +55,11 @@ import { CgSpinner } from 'react-icons/cg';
 import { TbMovie } from 'react-icons/tb';
 
 import { VscPreview } from 'react-icons/vsc';
+import clsx from 'clsx';
 
 export type SvgIconType =
+  | 'FaTimes'
+  | 'FaBars'
   | 'FaRegUserCircle'
   | 'FaChevronRight'
   | 'FaChevronLeft'
@@ -88,7 +93,6 @@ export type SvgIconType =
   | 'BsHouse'
   | 'MdMovie'
   | 'MdOutlineSort'
-  | 'HiMenu'
   | 'HiMail'
   | 'HiLockClosed'
   | 'IoIosJournal'
@@ -108,6 +112,7 @@ type SvgIconsType = {
 };
 
 const icons: SvgIconsType = {
+  FaTimes,
   FaRegUserCircle,
   FaChevronRight,
   FaChevronLeft,
@@ -119,6 +124,7 @@ const icons: SvgIconsType = {
   FaGithub,
   FaListUl,
   FaUsers,
+  FaBars,
   FaPlay,
 
   FiX,
@@ -146,7 +152,6 @@ const icons: SvgIconsType = {
   MdMovie,
   MdOutlineSort,
 
-  HiMenu,
   HiMail,
   HiLockClosed,
 
@@ -163,13 +168,24 @@ const icons: SvgIconsType = {
   VscPreview,
 };
 
-const SvgIcon: React.FC<SvgIconProps> = ({ iconType, size, ...rest }) => {
+const SvgIcon: React.FC<SvgIconProps> = ({
+  className,
+  iconType,
+  size,
+  ...rest
+}) => {
   const Icon = icons[iconType];
   if (!Icon) {
     return null;
   }
 
-  return <Icon size={size} {...rest} />;
+  return (
+    <Icon
+      className={clsx('text-grey-300', className && className)}
+      size={size}
+      {...rest}
+    />
+  );
 };
 
 export default SvgIcon;

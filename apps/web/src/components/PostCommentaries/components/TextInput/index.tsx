@@ -4,6 +4,7 @@ import { useAuth } from '../../../../hooks/useAuth';
 
 import Input from '../../../Input';
 
+import SvgIcon from '../../../SvgIcon';
 import ProfilePicture from '../../../ProfilePicture';
 
 export type TextInputReference = RefObject<HTMLTextAreaElement>;
@@ -33,37 +34,30 @@ const TextInput: React.FC<TextInputInternalProps> = ({
   }
 
   return (
-    <Input
-      name="body"
-      formik={formik}
-      autoFocus={formik}
-      rows={1}
-      autoGrow={formik && { maxHeight: 250 }}
-      placeholder={!isReply ? 'Add a commentary...' : 'Add a reply...'}
-      rightIcon={
-        formik && {
-          className: 'p-3 mt-auto text-grey-300',
-          type: 'submit',
-          icon: {
-            className: loading && 'animate-spin',
-            iconType: !loading ? 'IoIosSend' : 'CgSpinner',
-            size: 24,
-          },
-        }
-      }
-      styleProps={{
-        showError: false,
-        border: false,
-        borderFocus: false,
-        rounded: !formik,
-        roundedTop: formik,
-      }}
-      onFocus={onFocus}
-    >
-      <div className="p-3 mt-auto">
+    <Input.Container borderFocus="none">
+      <div className="p-2 flex-shrink-0 mt-auto">
         <ProfilePicture imageSize="sm" src={data.user.profilePictureUrl} />
       </div>
-    </Input>
+
+      <Input.AutoGrow
+        id="body"
+        rows={1}
+        formik={formik}
+        onFocus={onFocus}
+        autoFocus={formik}
+        placeholder={!isReply ? 'Add a commentary...' : 'Add a reply...'}
+      />
+
+      {loading ? (
+        <div className="p-2 mt-auto">
+          <SvgIcon className="animate-spin" iconType="CgSpinner" size={24} />
+        </div>
+      ) : (
+        <button className="p-2 mt-auto" type="submit">
+          <SvgIcon iconType="IoIosSend" size={24} />
+        </button>
+      )}
+    </Input.Container>
   );
 };
 export default TextInput;

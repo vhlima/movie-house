@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const FIND_REVIEW = gql`
-  query FindReview($postId: Int!) {
-    review(postId: $postId) {
+  query FindReview($reviewId: String!) {
+    review(reviewId: $reviewId) {
       id
       isPinned
       user {
@@ -11,7 +11,7 @@ export const FIND_REVIEW = gql`
       }
       post {
         id
-        body
+        content
         createdAt
       }
       movie {
@@ -21,10 +21,39 @@ export const FIND_REVIEW = gql`
         posterUrl
         backdropUrl
         releaseDate
-        credits {
-          crew {
-            department
-            originalName
+      }
+    }
+  }
+`;
+
+export const FIND_REVIEWS = gql`
+  query FindReviews($sort: ReviewSortInput, $userId: String, $page: Int!) {
+    reviews(sort: $sort, userId: $userId, page: $page) {
+      totalCount
+      totalPages
+      itemsPerPage
+      pageInfo {
+        currentPage
+        hasPreviousPage
+        hasNextPage
+      }
+      edges {
+        node {
+          id
+          user {
+            username
+            profilePictureUrl
+          }
+          post {
+            id
+            content
+            createdAt
+          }
+          movie {
+            id
+            originalTitle
+            posterUrl
+            releaseDate
           }
         }
       }
@@ -32,140 +61,22 @@ export const FIND_REVIEW = gql`
   }
 `;
 
-const BASIC_REVIEW_FIELDS = gql`
-  fragment BasicReviewFields on Review {
-    id
-    user {
-      username
-      profilePictureUrl
-    }
-    post {
-      id
-      body
-      createdAt
-    }
-    movie {
-      id
-      originalTitle
-      posterUrl
-      releaseDate
-    }
-  }
-`;
-
-export const FIND_USER_RECENT_REVIEWS = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindUserRecentReviews($userId: String!) {
-    reviewsUserRecent(userId: $userId) {
-      ...BasicReviewFields
-    }
-  }
-`;
-
-export const FIND_USER_POPULAR_REVIEWS = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindUserPopularReviews($userId: String!) {
-    reviewsUserPopular(userId: $userId) {
-      ...BasicReviewFields
-    }
-  }
-`;
-
-export const FIND_USER_PINNED_REVIEWS = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindUserPinnedReviews($userId: String!) {
-    reviewsUserPinned(userId: $userId) {
-      ...BasicReviewFields
-      isPinned
-    }
-  }
-`;
-
-export const FIND_USER_REVIEWS = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindUserReviews($userId: String!, $sort: ReviewSortInput) {
-    reviewsUser(userId: $userId, sort: $sort) {
-      ...BasicReviewFields
-      isPinned
-      movie {
-        releaseDate
-      }
-    }
-  }
-`;
-
-export const FIND_RECENT_REVIEWS = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindRecentReviews {
-    reviewsRecent {
-      ...BasicReviewFields
-    }
-  }
-`;
-
-export const FIND_MOVIE_POPULAR_REVIEWS = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindPopularReviewsFromMovie($movieId: Int!) {
-    reviewsPopularFromMovie(movieId: $movieId) {
-      ...BasicReviewFields
-    }
-  }
-`;
-
-export const FIND_MOVIE_RECENT_REVIEWS = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindMovieRecentReviews($movieId: Int!) {
-    reviewsRecentFromMovie(movieId: $movieId) {
-      ...BasicReviewFields
-    }
-  }
-`;
-
-export const FIND_POPULAR_REVIEWS_WEEK = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  query FindPopularReviewsWeek {
-    reviewsPopularWeek {
-      ...BasicReviewFields
-    }
-  }
-`;
-
 export const CREATE_REVIEW = gql`
-  mutation CreateReview($body: String!, $movieId: Int!) {
-    reviewCreate(body: $body, movieId: $movieId) {
-      post {
-        id
-      }
+  mutation CreateReview($content: String!, $movieId: Int!) {
+    createReview(content: $content, movieId: $movieId) {
+      id
     }
   }
 `;
 
-export const PIN_REVIEW = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  mutation PinReview($postId: Int!) {
-    reviewPin(postId: $postId) {
-      ...BasicReviewFields
-      isPinned
-    }
+export const DELETE_REVIEW = gql`
+  mutation DeleteReview($reviewId: String!) {
+    deleteReview(reviewId: $reviewId)
   }
 `;
 
-export const UNPIN_REVIEW = gql`
-  ${BASIC_REVIEW_FIELDS}
-
-  mutation UnpinReview($postId: Int!) {
-    reviewUnpin(postId: $postId) {
-      ...BasicReviewFields
-      isPinned
-    }
+export const TOGGLE_REVIEW_PIN = gql`
+  mutation ToggleReviewPin($reviewId: String!) {
+    toggleReviewPin(reviewId: $reviewId)
   }
 `;

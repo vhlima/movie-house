@@ -2,10 +2,11 @@ import BackdropImage from '../../components/BackdropImage';
 import PageContent from '../../components/PageContent';
 import Typography from '../../components/Typography';
 
+import PopularMoviesWeek from '../../components/movie/PopularMoviesWeek';
+
 import PopularReviewsWeek from '../../components/review/PopularReviewsWeek';
 
 import Features from './components/Features';
-import PopularMovies from './components/PopularMovies';
 
 const HomeView: React.FC = () => (
   <BackdropImage
@@ -29,12 +30,12 @@ const HomeView: React.FC = () => (
           Tell your friends whats good.
         </Typography>
 
-        <span className="text-grey-300">
+        <Typography className="text-center" component="span" color="tertiary">
           The social network for movie lovers.
-        </span>
+        </Typography>
       </div>
 
-      <PopularMovies />
+      <PopularMoviesWeek />
 
       <Features />
 

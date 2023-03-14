@@ -1,26 +1,30 @@
 import Button from '../../../../../../../../../components/Button';
 import SvgIcon from '../../../../../../../../../components/SvgIcon';
 
-import { useUnpinReviewMutation } from '../../../../../../../../../graphql';
+import { useToggleReviewPinMutation } from '../../../../../../../../../graphql';
 
 import { usePinnedReviewsCache } from '../../../../hooks/usePinnedReviewsCache';
 
 interface UnpinReviewButtonProps {
-  postId: number;
+  reviewId: string;
 }
 
-const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ postId }) => {
+const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ reviewId }) => {
   const { updateCache } = usePinnedReviewsCache();
 
-  const [unpinReview] = useUnpinReviewMutation({
+  const [unpinReview] = useToggleReviewPinMutation({
     errorPolicy: 'all',
-    update: (cache, { data }) => {
-      if (!data || data.reviewUnpin.isPinned) return;
+    update: (_, { data }, ctx) => {
+      if (!data || data.toggleReviewPin) return;
 
       updateCache(cacheData => ({
-        reviewsUserPinned: cacheData.reviewsUserPinned.filter(
-          review => review.id !== data.reviewUnpin.id,
-        ),
+        ...cacheData,
+        reviews: {
+          ...cacheData.reviews,
+          edges: cacheData.reviews.edges.filter(
+            edge => edge.node.id !== ctx.variables.reviewId,
+          ),
+        },
       }));
     },
   });
@@ -28,7 +32,7 @@ const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ postId }) => {
   return (
     <Button
       buttonStyle="danger"
-      onClick={() => unpinReview({ variables: { postId } })}
+      onClick={() => unpinReview({ variables: { reviewId } })}
     >
       <SvgIcon iconType="FiX" size={24} />
     </Button>

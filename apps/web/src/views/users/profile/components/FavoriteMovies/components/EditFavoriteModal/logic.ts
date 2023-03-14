@@ -1,8 +1,6 @@
 import {
-  LimitType,
   PreMadeListType,
-  useFindLimitQuery,
-  useFindUserPreMadeListMoviesQuery,
+  useFindPreMadeListMoviesQuery,
 } from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
@@ -12,13 +10,12 @@ import { useFavoriteMoviesCache } from './hooks/useFavoriteMoviesCache';
 export const useLogic = () => {
   const { data } = useAuth();
 
-  const favoriteMoviesResult = useFindUserPreMadeListMoviesQuery({
-    variables: { userId: data.user.id, listType: PreMadeListType.Favorite },
-  });
-
-  /* Value needed to adjust the UI based on the limit */
-  const { data: limitResult } = useFindLimitQuery({
-    variables: { limitType: LimitType.MaxFavoriteMovies },
+  const favoriteMoviesResult = useFindPreMadeListMoviesQuery({
+    variables: {
+      userId: data.user.id,
+      listType: PreMadeListType.Favorite,
+      page: 1,
+    },
   });
 
   const { updateCache } = useFavoriteMoviesCache();
@@ -27,16 +24,18 @@ export const useLogic = () => {
   function handleUpdateCache(movieId: number) {
     updateCache(cacheData => ({
       ...cacheData,
-      userPreMadeListMovies: cacheData.userPreMadeListMovies.filter(
-        movie => movie.id !== movieId,
-      ),
+      preMadeListMovies: {
+        ...cacheData.preMadeListMovies,
+        totalCount: cacheData ? cacheData.preMadeListMovies.totalCount - 1 : 0,
+        edges: cacheData.preMadeListMovies.edges.filter(
+          edge => edge.node.id !== movieId,
+        ),
+      },
     }));
   }
 
   return {
-    limitResult,
     favoriteMoviesResult,
-
     handleUpdateCache,
   };
 };

@@ -5,15 +5,15 @@ import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 
 import type {
-  FindFullMovieQuery,
-  FindFullMovieQueryVariables,
+  FindMovieWithCreditsQuery,
+  FindMovieWithCreditsQueryVariables,
 } from '../../graphql';
 
-import { FindFullMovieDocument } from '../../graphql';
+import { FindMovieWithCreditsDocument } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 
-import MovieView from '../../views/movies/root';
+import MovieView from '../../views/movies/movie';
 
 import MovieInfosSkeleton from '../../components/movie/MovieInfos/Skeleton';
 
@@ -28,10 +28,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const apolloClient = initializeApollo();
 
     const { data: movieData } = await apolloClient.query<
-      FindFullMovieQuery,
-      FindFullMovieQueryVariables
+      FindMovieWithCreditsQuery,
+      FindMovieWithCreditsQueryVariables
     >({
-      query: FindFullMovieDocument,
+      query: FindMovieWithCreditsDocument,
       variables: { movieId: id },
     });
 
@@ -50,14 +50,14 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-const MoviePage: NextPage<FindFullMovieQuery> = ({ movie }) => {
+const MoviePage: NextPage<FindMovieWithCreditsQuery> = ({ ...props }) => {
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <MovieInfosSkeleton />;
   }
 
-  return <MovieView movieId={movie.id} />;
+  return <MovieView {...props} />;
 };
 
 export default MoviePage;

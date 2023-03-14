@@ -2,7 +2,7 @@ import Link from '../../../../../../../../components/Link';
 
 import type { LinkProps } from '../../../../../../../../components/Link';
 
-import { formatNumberToLargeScale } from '../../../../../../../../utils';
+import { formatNumberToLargeScale } from '../../../../../../../../utils/math-utils';
 
 interface UserStatsProps {
   text: string;

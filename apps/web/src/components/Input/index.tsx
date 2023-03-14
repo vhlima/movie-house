@@ -1,54 +1,82 @@
-import type { PropsWithChildren } from 'react';
+import clsx from 'clsx';
 
-import type { BaseInputProps } from './components/BaseInput';
+import { forwardRef } from 'react';
 
-import type { FormikInputProps } from './components/FormikInput';
+import type {
+  ForwardRefExoticComponent,
+  InputHTMLAttributes,
+  RefAttributes,
+  RefObject,
+} from 'react';
 
-import BaseInput from './components/BaseInput';
+import { Field } from 'formik';
 
-import FormikInput from './components/FormikInput';
+import InputIcon from './components/Icon';
+import InputLabel from './components/Label';
+import AutoGrow from './components/AutoGrow';
+import InputContainer from './components/Container';
 
-interface InputInternalProps {
-  formik?: boolean;
-  label?: {
-    text: string;
-    htmlFor?: boolean;
-  };
+type InputElementProps = InputHTMLAttributes<HTMLInputElement>;
+type TextAreaElementProps = InputHTMLAttributes<HTMLTextAreaElement>;
+
+type InputAttributes =
+  | InputElementProps
+  | (TextAreaElementProps & { rows?: number });
+
+interface InputSubComponents {
+  Container: typeof InputContainer;
+  Label: typeof InputLabel;
+  Icon: typeof InputIcon;
+  AutoGrow: typeof AutoGrow;
 }
 
-type InputProps = BaseInputProps;
-
-type AnyInputProps = InputInternalProps & (InputProps | FormikInputProps);
-
-const Input: React.FC<PropsWithChildren<AnyInputProps>> = ({
-  formik,
-  label,
-  name,
-  ...rest
-}) => {
-  const { autoGrow, ...inputProps } = rest as FormikInputProps;
-
-  const rawInput = !formik ? (
-    <BaseInput name={name} {...inputProps} />
-  ) : (
-    <FormikInput name={name} autoGrow={autoGrow} {...inputProps} />
-  );
-
-  return !label ? (
-    rawInput
-  ) : (
-    <div className="flex flex-col gap-1">
-      {!label.htmlFor ? (
-        <span className="text-grey-200 font-semibold">{label.text}</span>
-      ) : (
-        <label className="text-grey-200 font-semibold" htmlFor={name}>
-          {label.text}
-        </label>
-      )}
-
-      {rawInput}
-    </div>
-  );
+type InputProps = InputAttributes & {
+  textarea?: boolean;
+  formik?: boolean;
+  autoGrow?: boolean;
 };
+
+const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
+  ({ id, textarea, formik = true, ...props }, ref) => {
+    const inputStyles =
+      'w-full h-10 p-2 bg-transparent outline-none text-white placeholder-grey-400';
+
+    function buildInput(inputProps?: InputElementProps | TextAreaElementProps) {
+      return !textarea ? (
+        <input
+          className={inputStyles}
+          ref={ref as RefObject<HTMLInputElement>}
+          type="input"
+          id={id}
+          {...(props as InputElementProps)}
+          {...(inputProps as InputElementProps)}
+        />
+      ) : (
+        <textarea
+          className={clsx(inputStyles, 'resize-none')}
+          ref={ref as RefObject<HTMLTextAreaElement>}
+          id={id}
+          rows={1}
+          {...(props as TextAreaElementProps)}
+          {...(inputProps as TextAreaElementProps)}
+        />
+      );
+    }
+
+    if (formik) {
+      return <Field name={id}>{({ field }) => buildInput(field)}</Field>;
+    }
+
+    return buildInput();
+  },
+) as ForwardRefExoticComponent<
+  InputProps & RefAttributes<HTMLInputElement | HTMLTextAreaElement>
+> &
+  InputSubComponents;
+
+Input.Container = InputContainer;
+Input.Label = InputLabel;
+Input.Icon = InputIcon;
+Input.AutoGrow = AutoGrow;
 
 export default Input;

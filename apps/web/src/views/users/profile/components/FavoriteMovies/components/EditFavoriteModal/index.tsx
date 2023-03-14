@@ -22,7 +22,7 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
   onClose,
 }) => {
   /* Internal logic from component */
-  const { limitResult, favoriteMoviesResult, handleUpdateCache } = useLogic();
+  const { favoriteMoviesResult, handleUpdateCache } = useLogic();
 
   /* Controls whether add favorite modal is shown or not */
   const [isAdding, setAdding] = useState<boolean>(false);
@@ -45,16 +45,18 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
         <Modal.CloseButton onClose={onClose} />
       </Modal.Header>
 
-      {favoriteMoviesData && limitResult && (
+      {favoriteMoviesData && (
         <MovieCoverList
           className="grid-cols-4"
           name="edit-favorite-movies-modal"
           link={false}
           empty={
-            limitResult.limit.limit -
-            favoriteMoviesData.userPreMadeListMovies.length
+            favoriteMoviesData.preMadeListMovies.itemsPerPage -
+            favoriteMoviesData.preMadeListMovies.totalCount
           }
-          movies={favoriteMoviesData.userPreMadeListMovies}
+          movies={favoriteMoviesData.preMadeListMovies.edges.map(
+            edge => edge.node,
+          )}
           renderCover={(index, movie) =>
             !movie ? (
               {

@@ -7,10 +7,7 @@ import type {
 
 import { FindRepliesDocument } from '../../../graphql';
 
-type FindRepliesQueryVariables = Omit<
-  GraphQLFindRepliesQueryVariables,
-  'first' | 'after'
->;
+type FindRepliesQueryVariables = Omit<GraphQLFindRepliesQueryVariables, 'page'>;
 
 export const useRepliesCache = (commentaryId: string) => {
   const { cache } = useApolloClient();

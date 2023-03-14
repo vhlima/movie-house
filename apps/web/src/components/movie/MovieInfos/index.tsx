@@ -1,8 +1,8 @@
-import { parseISO } from 'date-fns';
-
 import type { PropsWithChildren } from 'react';
 
-import type { Movie, Crew } from '../../../graphql';
+import type { Movie, MovieCrewMember } from '../../../graphql';
+
+import { parseISO } from '../../../utils/date-utils';
 
 import MovieCover from '../MovieCover';
 
@@ -15,8 +15,8 @@ interface MovieInfosProps {
     releaseDate?: Movie['releaseDate'];
     credits: {
       crew: Array<{
-        originalName: Crew['originalName'];
-        department: Crew['department'];
+        originalName: MovieCrewMember['originalName'];
+        department: MovieCrewMember['department'];
       }>;
     };
   };

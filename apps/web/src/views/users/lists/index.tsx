@@ -1,4 +1,4 @@
-import type { FindUserQuery, FindUserListsQuery } from '../../../graphql';
+import type { FindUserQuery, FindListsQuery } from '../../../graphql';
 
 import ListItem from '../../../components/ListItem';
 import Typography from '../../../components/Typography';
@@ -8,10 +8,10 @@ import UserProfilePageView from '../components/UserProfilePageView';
 
 import SortButtons from './components/SortButtons';
 
-type UserListsViewProps = FindUserQuery & FindUserListsQuery;
+type UserListsViewProps = FindUserQuery & FindListsQuery;
 
-const UserListsView: React.FC<UserListsViewProps> = ({ user, userLists }) => {
-  const hasAnyList = userLists.length > 0;
+const UserListsView: React.FC<UserListsViewProps> = ({ user, lists }) => {
+  const hasAnyList = lists.edges.length > 0;
 
   return (
     <UserProfilePageView
@@ -20,14 +20,12 @@ const UserListsView: React.FC<UserListsViewProps> = ({ user, userLists }) => {
       sortButtons={<SortButtons />}
     >
       {!hasAnyList ? (
-        <Typography className="text-center" component="h1">
-          No lists have been made yet.
-        </Typography>
+        <Typography component="h1">No lists have been made yet.</Typography>
       ) : (
         <ul>
-          {userLists.map(list => (
-            <ListItem key={`user-list-${list.name}`}>
-              <ListPreview list={list} />
+          {lists.edges.map(({ node }) => (
+            <ListItem key={`user-list-${node.name}`}>
+              <ListPreview list={node} />
             </ListItem>
           ))}
         </ul>

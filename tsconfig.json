@@ -21,11 +21,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": [
-    "./apps/web/next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
   "exclude": [
     "node_modules",
     "./apps/web/node_modules",

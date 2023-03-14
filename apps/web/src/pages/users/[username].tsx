@@ -2,33 +2,21 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type {
+import {
   FindUserQuery,
   FindUserQueryVariables,
-  FindUserPreMadeListMoviesQuery,
-  FindUserPreMadeListMoviesQueryVariables,
-  FindUserProfileStatsQuery,
-  FindUserProfileStatsQueryVariables,
-  FindUserPinnedReviewsQuery,
-  FindUserPinnedReviewsQueryVariables,
-  FindUserPopularReviewsQuery,
-  FindUserPopularReviewsQueryVariables,
-  FindUserRecentReviewsQuery,
-  FindUserRecentReviewsQueryVariables,
-  FindLimitQuery,
-  FindLimitQueryVariables,
-} from '../../graphql';
-
-import {
-  LimitType,
+  FindPreMadeListMoviesQuery,
+  FindPreMadeListMoviesQueryVariables,
+  FindProfileStatsQuery,
+  FindProfileStatsQueryVariables,
+  FindReviewsQuery,
+  FindReviewsQueryVariables,
+  ReviewSortType,
   PreMadeListType,
   FindUserDocument,
-  FindLimitDocument,
-  FindUserProfileStatsDocument,
-  FindUserPreMadeListMoviesDocument,
-  FindUserPinnedReviewsDocument,
-  FindUserPopularReviewsDocument,
-  FindUserRecentReviewsDocument,
+  FindProfileStatsDocument,
+  FindPreMadeListMoviesDocument,
+  FindReviewsDocument,
 } from '../../graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
@@ -59,63 +47,72 @@ export const getServerSideProps: GetServerSideProps = async ({
     });
 
     if (!userData) {
-      return notFoundProps;
+      throw new Error('User not found');
     }
 
     const userId = userData.user.id;
 
     const { data: userPinnedReviewsData } = await apolloClient.query<
-      FindUserPinnedReviewsQuery,
-      FindUserPinnedReviewsQueryVariables
+      FindReviewsQuery,
+      FindReviewsQueryVariables
     >({
-      query: FindUserPinnedReviewsDocument,
-      variables: { userId },
+      query: FindReviewsDocument,
+      variables: {
+        userId,
+        page: 1,
+        sort: {
+          type: ReviewSortType.Pinned,
+        },
+      },
     });
 
     const { data: userPopularReviewsData } = await apolloClient.query<
-      FindUserPopularReviewsQuery,
-      FindUserPopularReviewsQueryVariables
+      FindReviewsQuery,
+      FindReviewsQueryVariables
     >({
-      query: FindUserPopularReviewsDocument,
-      variables: { userId },
+      query: FindReviewsDocument,
+      variables: {
+        userId,
+        page: 1,
+        sort: {
+          type: ReviewSortType.Popular,
+        },
+      },
     });
 
     const { data: userRecentReviewsData } = await apolloClient.query<
-      FindUserRecentReviewsQuery,
-      FindUserRecentReviewsQueryVariables
+      FindReviewsQuery,
+      FindReviewsQueryVariables
     >({
-      query: FindUserRecentReviewsDocument,
-      variables: { userId },
+      query: FindReviewsDocument,
+      variables: {
+        userId,
+        page: 1,
+        sort: {
+          type: ReviewSortType.Recent,
+        },
+      },
     });
 
     const { data: profileStatsData } = await apolloClient.query<
-      FindUserProfileStatsQuery,
-      FindUserProfileStatsQueryVariables
+      FindProfileStatsQuery,
+      FindProfileStatsQueryVariables
     >({
-      query: FindUserProfileStatsDocument,
+      query: FindProfileStatsDocument,
       variables: { userId },
     });
 
     const { data: favoriteMoviesData } = await apolloClient.query<
-      FindUserPreMadeListMoviesQuery,
-      FindUserPreMadeListMoviesQueryVariables
+      FindPreMadeListMoviesQuery,
+      FindPreMadeListMoviesQueryVariables
     >({
-      query: FindUserPreMadeListMoviesDocument,
-      variables: { userId, listType: PreMadeListType.Favorite },
-    });
-
-    const { data: limitData } = await apolloClient.query<
-      FindLimitQuery,
-      FindLimitQueryVariables
-    >({
-      query: FindLimitDocument,
-      variables: { limitType: LimitType.MaxFavoriteMovies },
+      query: FindPreMadeListMoviesDocument,
+      variables: { userId, listType: PreMadeListType.Favorite, page: 1 },
     });
 
     return addApolloState(apolloClient, {
       props: {
         ...userData,
-        ...limitData,
         ...favoriteMoviesData,
         ...userPopularReviewsData,
         ...userPinnedReviewsData,
@@ -124,6 +121,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     });
   } catch (err) {
+    console.log(err);
     return notFoundProps;
   }
 };

@@ -1,11 +1,11 @@
 import { useApolloClient } from '@apollo/client';
 
-import type {
-  FindUserPinnedReviewsQuery,
-  FindUserPinnedReviewsQueryVariables,
+import {
+  FindReviewsQuery,
+  FindReviewsQueryVariables,
+  ReviewSortType,
+  FindReviewsDocument,
 } from '../../../../../../graphql';
-
-import { FindUserPinnedReviewsDocument } from '../../../../../../graphql';
 
 import { useAuth } from '../../../../../../hooks/useAuth';
 
@@ -15,18 +15,17 @@ export const usePinnedReviewsCache = () => {
   const { data } = useAuth();
 
   const updateCache = (
-    updateFn: (
-      cacheData: FindUserPinnedReviewsQuery,
-    ) => FindUserPinnedReviewsQuery,
+    updateFn: (cacheData: FindReviewsQuery) => FindReviewsQuery,
   ) => {
-    cache.updateQuery<
-      FindUserPinnedReviewsQuery,
-      FindUserPinnedReviewsQueryVariables
-    >(
+    cache.updateQuery<FindReviewsQuery, FindReviewsQueryVariables>(
       {
-        query: FindUserPinnedReviewsDocument,
+        query: FindReviewsDocument,
         variables: {
           userId: data.user.id,
+          page: 1,
+          sort: {
+            type: ReviewSortType.Pinned,
+          },
         },
       },
       cacheData => (!cacheData ? cacheData : updateFn(cacheData)),

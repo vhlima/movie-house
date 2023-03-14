@@ -5,17 +5,12 @@ import type { ModalHandles } from '../../../../Modal';
 import { useLogic } from './logic';
 
 import Modal from '../../../../Modal';
-
+import Input from '../../../../Input';
+import Button from '../../../../Button';
+import SvgIcon from '../../../../SvgIcon';
 import Typography from '../../../../Typography';
 
-import SvgIcon from '../../../../SvgIcon';
-
-import Button from '../../../../Button';
-
-import Input from '../../../../Input';
-
 import UserLists from './components/UserLists';
-
 import CreateMovieListModal from './components/CreateMovieListModal';
 
 interface AddMovieToListModalProps extends ModalHandles {
@@ -44,59 +39,49 @@ const AddMovieToListModal: React.FC<AddMovieToListModalProps> = ({
       autoStyle={false}
       onClose={onClose}
     >
-      <div className="border-b border-b-grey-700">
-        <Button
-          className="p-2"
-          buttonStyle="tertiary"
-          buttonSize="none"
-          border={false}
-          rounded={false}
-          onClick={onClose}
-        >
-          <div className="flex items-center gap-2 mr-auto">
-            <SvgIcon className="text-grey-400" iconType="FaChevronLeft" />
+      <Button
+        className="p-2 border-b border-b-grey-700"
+        buttonStyle="tertiary"
+        buttonSize="none"
+        border={false}
+        rounded={false}
+        onClick={onClose}
+      >
+        <div className="flex items-center gap-2 mr-auto">
+          <SvgIcon className="text-grey-400" iconType="FaChevronLeft" />
 
-            <Typography className="font-bold" component="span" color="primary">
-              Back
-            </Typography>
-          </div>
-        </Button>
-      </div>
+          <Typography className="font-bold" component="span" color="primary">
+            Back
+          </Typography>
+        </div>
+      </Button>
 
-      <div className="p-2">
+      <Input.Container className="m-2" styleType="secondary" borderFocus="none">
         <Input
-          name="searchParams"
+          id="searchParams"
           placeholder="Search"
-          inputStyle="secondary"
-          inputSize="md"
-          leftIcon={{
-            className: 'px-2 py-1',
-            icon: {
-              iconType: 'FaSearch',
-              size: 18,
-            },
-          }}
+          formik={false}
           onChange={e => setSearchParams(e.target.value)}
         />
-      </div>
 
-      <div className="border-b border-b-grey-700">
-        <Button
-          className="flex gap-2 p-2 items-center"
-          buttonStyle="tertiary"
-          buttonSize="none"
-          flex={false}
-          border={false}
-          rounded={false}
-          onClick={() => setCreatingNewList(true)}
-        >
-          <SvgIcon iconType="BsPlusLg" />
+        <Input.Icon iconType="FaSearch" size={18} direction="left" />
+      </Input.Container>
 
-          <Typography component="span" color="secondary">
-            New list
-          </Typography>
-        </Button>
-      </div>
+      <Button
+        className="flex gap-2 p-2 items-center border-b border-b-grey-700"
+        buttonStyle="tertiary"
+        buttonSize="none"
+        flex={false}
+        border={false}
+        rounded={false}
+        onClick={() => setCreatingNewList(true)}
+      >
+        <SvgIcon iconType="BsPlusLg" />
+
+        <Typography component="span" color="secondary">
+          New list
+        </Typography>
+      </Button>
 
       <UserLists
         filter={searchParams}

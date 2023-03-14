@@ -1,49 +1,59 @@
 import { gql } from '@apollo/client';
 
-export const MOVIE_FIELDS = gql`
-  fragment MovieFields on Movie {
-    id
-    imdbId
-    originalLanguage
-    originalTitle
-    overview
-    runtime
-    voteAverage
-    releaseDate
-    posterUrl
-    backdropUrl
-    genres {
-      id
-      name
-    }
-    productionCompanies {
-      id
-      name
-      logoPath
-    }
-    spokenLanguages {
-      englishName
-      iso6391
-    }
-  }
-`;
-
 export const FIND_MOVIE = gql`
-  ${MOVIE_FIELDS}
-
   query FindMovie($movieId: Int!) {
     movie(movieId: $movieId) {
-      ...MovieFields
+      id
+      imdbId
+      originalLanguage
+      originalTitle
+      overview
+      runtime
+      voteAverage
+      releaseDate
+      posterUrl
+      backdropUrl
+      genres {
+        id
+        name
+      }
+      productionCompanies {
+        id
+        name
+        logoPath
+      }
+      spokenLanguages {
+        englishName
+      }
     }
   }
 `;
 
-export const FIND_FULL_MOVIE = gql`
-  ${MOVIE_FIELDS}
-
-  query FindFullMovie($movieId: Int!) {
-    movie(movieId: $movieId) {
-      ...MovieFields
+export const FIND_MOVIE_WITH_CREDITS = gql`
+  query FindMovieWithCredits($movieId: Int!) {
+    movieWithCredits(movieId: $movieId) {
+      id
+      imdbId
+      originalLanguage
+      originalTitle
+      overview
+      runtime
+      voteAverage
+      releaseDate
+      posterUrl
+      backdropUrl
+      genres {
+        id
+        name
+      }
+      productionCompanies {
+        id
+        name
+        logoPath
+      }
+      spokenLanguages {
+        englishName
+      }
       credits {
         cast {
           id
@@ -63,14 +73,22 @@ export const FIND_FULL_MOVIE = gql`
 `;
 
 export const SEARCH_MOVIE = gql`
-  query SearchMovie($searchTerm: String!) {
-    searchMovie(searchTerm: $searchTerm) {
-      page
-      results {
-        id
-        posterUrl
-        originalTitle
-        releaseDate
+  query SearchMovie($page: Int!, $searchTerm: String!) {
+    searchMovie(page: $page, searchTerm: $searchTerm) {
+      totalCount
+      totalPages
+      pageInfo {
+        currentPage
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        node {
+          id
+          originalTitle
+          releaseDate
+          posterUrl
+        }
       }
     }
   }
@@ -78,23 +96,55 @@ export const SEARCH_MOVIE = gql`
 
 export const FIND_TRENDING_MOVIES = gql`
   query FindTrendingMovies($page: Int!) {
-    trendingMovies(page: $page) @connection(key: "trendingMovies") {
-      page
-      results {
-        id
-        originalTitle
-        posterUrl
+    trendingMovies(page: $page) {
+      totalPages
+      pageInfo {
+        currentPage
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        node {
+          id
+          originalTitle
+          posterUrl
+        }
       }
     }
   }
 `;
 
 export const FIND_MOVIE_RECOMMENDATIONS = gql`
-  query FindMovieRecommendations($movieId: Int!) {
-    movieRecommendations(movieId: $movieId) {
-      id
-      originalTitle
-      posterUrl
+  query FindMovieRecommendations($page: Int!, $movieId: Int!) {
+    movieRecommendations(page: $page, movieId: $movieId) {
+      edges {
+        node {
+          id
+          originalTitle
+          posterUrl
+        }
+      }
+    }
+  }
+`;
+
+export const DISCOVER_MOVIES = gql`
+  query DiscoverMovies($page: Int!, $sort: TmDBMovieSortInput) {
+    discoverMovies(page: $page, sort: $sort) {
+      totalCount
+      totalPages
+      pageInfo {
+        currentPage
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        node {
+          id
+          originalTitle
+          posterUrl
+        }
+      }
     }
   }
 `;

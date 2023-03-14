@@ -1,6 +1,13 @@
+import { useMemo } from 'react';
+
 import type { PropsWithChildren, ReactNode } from 'react';
 
+import type { ProfileContextData } from '../../hooks/useProfile';
+
+import { ProfileContext } from '../../hooks/useProfile';
+
 import Typography from '../../../../components/Typography';
+import SubHeading from '../../../../components/SubHeading';
 import PageContent from '../../../../components/PageContent';
 import BackdropImage from '../../../../components/BackdropImage';
 import ProfilePicture from '../../../../components/ProfilePicture';
@@ -10,6 +17,7 @@ import ProfileNavigation from './components/ProfileNavigation';
 
 interface UserProfilePageViewProps {
   title?: string;
+  marginBottom?: boolean;
   sortButtons?: ReactNode;
 
   user: {
@@ -21,8 +29,11 @@ interface UserProfilePageViewProps {
 
 const UserProfilePageView: React.FC<
   PropsWithChildren<UserProfilePageViewProps>
-> = ({ title, user, sortButtons, children }) => {
-  const a = 1;
+> = ({ title, user, sortButtons, marginBottom = true, children }) => {
+  const contextProvider = useMemo(
+    () => ({ user } as ProfileContextData),
+    [user],
+  );
 
   return (
     <BackdropImage
@@ -49,23 +60,25 @@ const UserProfilePageView: React.FC<
           </div>
         </div>
 
-        <ProfileStats user={user} />
+        <ProfileContext.Provider value={contextProvider}>
+          <ProfileStats />
 
-        <ProfileNavigation user={user} />
+          <ProfileNavigation />
 
-        {(title || sortButtons) && (
-          <div className="flex items-center gap-2 border-b border-b-grey-800">
-            {title && (
-              <Typography className="uppercase" component="h1" size="sm">
-                {title}
-              </Typography>
-            )}
+          {children && (title || sortButtons) ? (
+            <div>
+              <SubHeading title={title} marginBottom={marginBottom}>
+                {sortButtons && (
+                  <div className="flex ml-auto">{sortButtons}</div>
+                )}
+              </SubHeading>
 
-            {sortButtons && <div className="flex ml-auto">{sortButtons}</div>}
-          </div>
-        )}
-
-        {children}
+              {children}
+            </div>
+          ) : (
+            children
+          )}
+        </ProfileContext.Provider>
       </PageContent>
     </BackdropImage>
   );

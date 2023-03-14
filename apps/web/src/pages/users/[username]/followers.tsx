@@ -48,8 +48,12 @@ const UserFollowers: NextPage<FindUserQuery> = ({ user }) => {
   }
 
   return (
-    <Card title="Followers">
-      <UserFollows followType="followers" userId={user.id} />
+    <Card>
+      <Card.Header title="Followers" marginBottom />
+
+      <Card.Body>
+        <UserFollows followType="followers" userId={user.id} />
+      </Card.Body>
     </Card>
   );
 };

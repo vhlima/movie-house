@@ -1,4 +1,4 @@
-import { formatDate } from '../../../utils';
+import { formatDateFromMillis } from '../../../utils/date-utils';
 
 import Typography from '../../Typography';
 import ProfilePicture from '../../ProfilePicture';
@@ -10,7 +10,7 @@ interface ReviewHeaderProps {
   };
 
   post: {
-    createdAt: string;
+    createdAt: number;
   };
 }
 
@@ -30,7 +30,7 @@ const ReviewHeader: React.FC<ReviewHeaderProps> = ({ user, post }) => (
       >
         {user.username}
       </Typography>
-      &nbsp;in {formatDate(post.createdAt)}
+      &nbsp;in {formatDateFromMillis(post.createdAt)}
     </Typography>
   </div>
 );

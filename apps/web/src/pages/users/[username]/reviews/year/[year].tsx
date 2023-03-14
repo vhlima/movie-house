@@ -2,10 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type {
-  FindUserQuery,
-  FindUserReviewsQuery,
-} from '../../../../../graphql';
+import type { FindUserQuery, FindReviewsQuery } from '../../../../../graphql';
 
 import { ReviewSortType } from '../../../../../graphql';
 
@@ -31,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       username,
       sort: {
         type: ReviewSortType.Year,
-        filter: year,
+        filter: `${year}`,
       },
     });
 
@@ -41,10 +38,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 };
 
-type PageProps = FindUserQuery & FindUserReviewsQuery;
+type PageProps = FindUserQuery & FindReviewsQuery;
 
-const UserReviewsYearPage: NextPage<PageProps> = ({ user, reviewsUser }) => (
-  <UserReviewsView user={user} reviewsUser={reviewsUser} />
+const UserReviewsYearPage: NextPage<PageProps> = ({ user, reviews }) => (
+  <UserReviewsView user={user} reviews={reviews} />
 );
 
 export default UserReviewsYearPage;

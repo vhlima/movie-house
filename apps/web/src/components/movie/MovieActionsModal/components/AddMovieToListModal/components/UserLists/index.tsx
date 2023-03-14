@@ -2,7 +2,7 @@ import Button from '../../../../../../Button';
 
 import QueryState from '../../../../../../QueryState';
 
-import { useFindUserListNamesQuery } from '../../../../../../../graphql';
+import { useFindUserListsNamesQuery } from '../../../../../../../graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 
@@ -14,7 +14,7 @@ interface UserListsProps {
 const UserLists: React.FC<UserListsProps> = ({ filter, onClick }) => {
   const { data: session } = useAuth();
 
-  const { data, loading, error } = useFindUserListNamesQuery({
+  const { data, loading, error } = useFindUserListsNamesQuery({
     variables: { userId: session.user.id },
   });
 
@@ -23,8 +23,8 @@ const UserLists: React.FC<UserListsProps> = ({ filter, onClick }) => {
   }
 
   const listsToDisplay = !filter
-    ? data.userLists
-    : data.userLists.filter(ul => ul.name.includes(filter));
+    ? data.userListNames
+    : data.userListNames.filter(ul => ul.name.includes(filter));
 
   return (
     <ul className="overflow-y-auto max-h-96">

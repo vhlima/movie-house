@@ -3,12 +3,72 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Cast {
+type CommentaryEdge {
+  node: CommentaryEntity!
+}
+
+type CommentaryEntity {
+  content: String!
+  createdAt: String!
+  id: String!
+  postId: String!
+  updatedAt: String!
+  user: UserEntity!
+}
+
+type CommentaryPagination {
+  edges: [CommentaryEdge!]!
+  pageInfo: PaginationInfo!
+  totalCount: Int!
+  totalPages: Int!
+}
+
+input CommentarySortInput {
+  filter: String
+  type: CommentarySortType!
+}
+
+"""Review sort type enum"""
+enum CommentarySortType {
+  CREATE_DATE_ASC
+  POPULAR
+}
+
+type CompanyEntity {
+  id: String!
+  logoPath: String
+  name: String!
+  originCountry: String!
+}
+
+type LanguageEntity {
+  englishName: String!
+  iso639: String!
+  name: String!
+}
+
+"""Like type enum"""
+enum LikeType {
+  COMMENTARY
+  POST
+  REPLY
+}
+
+type ListEntity {
+  backgroundImageUrl: String
+  id: String!
+  isPrivate: Boolean
+  name: String!
+  post: PostEntity!
+  postId: String!
+}
+
+type MovieCharacterEntity {
   adult: Boolean!
   castId: Int!
   character: String!
   creditId: String!
-  gender: Int!
+  gender: Float!
   id: Int!
   knownForDepartment: String!
   name: String!
@@ -19,46 +79,16 @@ type Cast {
   profilePictureUrl: String!
 }
 
-type Commentaries {
-  edges: [CommentariesPaginationEdge!]!
-  pageInfo: CommentariesPaginationInfo!
+type MovieCreditsEntity {
+  cast: [MovieCharacterEntity!]!
+  crew: [MovieCrewMemberEntity!]!
 }
 
-type CommentariesPaginationEdge {
-  cursor: String!
-  node: Commentary!
-}
-
-type CommentariesPaginationInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  maxItems: Int!
-}
-
-type Commentary {
-  body: String!
-  createdAt: DateTime!
-  id: ID!
-  likes: [Like!]!
-  post: Post!
-  postId: Int!
-  replyCount: Int!
-  updatedAt: DateTime!
-  user: User!
-}
-
-type Company {
-  id: String!
-  logoPath: String
-  name: String!
-  originCountry: String!
-}
-
-type Crew {
+type MovieCrewMemberEntity {
   adult: Boolean!
   creditId: String!
   department: String!
-  gender: Int!
+  gender: Float!
   id: Int!
   job: Int!
   knownForDepartment: String!
@@ -69,128 +99,51 @@ type Crew {
   profilePictureUrl: String!
 }
 
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
-scalar DateTime
-
-type Follow {
-  createdAt: DateTime!
-  id: ID!
-  targetUser: User!
-  updatedAt: DateTime!
-  user: User!
-}
-
-type Followers {
-  edges: [FollowersPaginationEdge!]!
-  pageInfo: FollowersPaginationInfo!
-}
-
-type FollowersPaginationEdge {
-  cursor: String!
-  node: Follow!
-}
-
-type FollowersPaginationInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  maxItems: Int!
-}
-
-type Genre {
-  id: Int!
-  name: String!
-}
-
-type Language {
-  englishName: String!
-  iso6391: String!
-  name: String!
-}
-
-type Like {
-  id: ID!
-  referenceId: ID
-  rootId: ID!
-  user: User!
-}
-
-type Limit {
-  limit: Int!
-  limitType: LimitType!
-}
-
-"""User list type defines wich category is that list in"""
-enum LimitType {
-  MAX_FAVORITE_MOVIES
-  MAX_FEATURED_REVIEWS
-  MAX_PINNED_REVIEWS
-}
-
-type List {
-  backgroundImageUrl: String
-  id: ID!
-  isPrivate: Boolean!
-  movies: [Movie!]!
-  name: String!
-  post: Post!
-  user: User!
-}
-
-type ListMovie {
-  createdAt: DateTime!
-  movie: Movie!
-  updatedAt: DateTime!
-}
-
-input ListSortInput {
-  type: ListSortType!
-}
-
-"""Sort options for lists"""
-enum ListSortType {
-  NAME
-  OLDER
-  POPULARITY
-  UPDATED
-}
-
-type Movie {
+type MovieEntity {
   backdropUrl: String!
-  credits: MovieCredits!
-  genres: [Genre!]!
+  genres: [MovieGenreEntity!]!
   id: Int!
   imdbId: String!
   originalLanguage: String!
   originalTitle: String!
   overview: String!
   posterUrl: String!
-  productionCompanies: [Company!]!
-  releaseDate: DateTime
+  productionCompanies: [CompanyEntity!]!
+  releaseDate: String
   runtime: Int!
-  spokenLanguages: [Language!]!
+  spokenLanguages: [LanguageEntity!]!
   voteAverage: Float!
 }
 
-type MovieCredits {
-  cast: [Cast!]!
-  crew: [Crew!]!
-  id: String!
+type MovieGenreEntity {
+  id: Int!
+  name: String!
 }
 
-type MovieSearch {
-  page: Int!
-  results: [Movie!]!
+type MovieReferenceEdge {
+  node: MovieReferenceEntity!
 }
 
-input MovieSortInput {
-  filter: Sort!
-  type: MovieSortType!
+type MovieReferenceEntity {
+  movie: MovieEntity!
+  movieId: Int!
+  referenceId: String!
 }
 
-"""Sort options for movie list"""
-enum MovieSortType {
+type MovieReferencePagination {
+  edges: [MovieReferenceEdge!]!
+  pageInfo: PaginationInfo!
+  totalCount: Int!
+  totalPages: Int!
+}
+
+input MovieReferenceSortInput {
+  filter: String
+  type: MovieReferenceSortType!
+}
+
+"""MovieReferenceSortType type enum"""
+enum MovieReferenceSortType {
   DECADE
   GENRE
   RELEASE_DATE_ASC
@@ -198,40 +151,58 @@ enum MovieSortType {
   YEAR
 }
 
-type MovieTrending {
-  page: Int!
-  results: [Movie!]!
+type MovieWithCredits {
+  backdropUrl: String!
+  credits: MovieCreditsEntity!
+  genres: [MovieGenreEntity!]!
+  id: Int!
+  imdbId: String!
+  originalLanguage: String!
+  originalTitle: String!
+  overview: String!
+  posterUrl: String!
+  productionCompanies: [CompanyEntity!]!
+  releaseDate: String
+  runtime: Int!
+  spokenLanguages: [LanguageEntity!]!
+  voteAverage: Float!
 }
 
 type Mutation {
-  comment(body: String!, postId: Int!): Commentary!
-  deleteCommentary(commentaryId: String!): String!
-  deleteReply(replyId: String!): String!
-  follow(userId: String!): Boolean!
-  like(referenceId: String, rootId: String!): Boolean!
-  register(githubId: String!): Boolean!
-  reply(body: String!, commentaryId: String!): Reply!
-  reviewCreate(body: String!, movieId: Int!): Review!
-  reviewDelete(postId: Int!): Boolean!
-  reviewPin(postId: Int!): Review!
-  reviewUnpin(postId: Int!): Review!
-  updateUser(data: UserFieldsInput!): User!
-  userListAddMovie(listId: String!, movieId: Int!): ListMovie!
-  userListCreate(body: String, name: String!): List!
-  userListDelete(listId: String!): Boolean!
-  userListRemoveMovie(listId: String!, movieId: Int!): Boolean!
-  userPreMadeListAddMovie(listType: PreMadeListType!, movieId: Int!): ListMovie!
-  userPreMadeListRemoveMovie(listType: PreMadeListType!, movieId: Int!): Boolean!
+  addMovieToList(listId: String!, movieId: Int!): MovieEntity!
+  addMovieToPreMadeList(listType: PreMadeListType!, movieId: Int!): MovieEntity!
+  createCommentary(content: String!, postId: String!): CommentaryEntity!
+  createList(content: String, listName: String!): ListEntity!
+  createReply(commentaryId: String!, content: String!): ReplyEntity!
+  createReview(content: String!, movieId: Int!): ReviewEntity!
+  createUser(githubId: String!): UserEntity!
+  deleteCommentary(commentaryId: String!): Boolean!
+  deleteList(listId: String!): Boolean!
+  deleteReply(replyId: String!): Boolean!
+  deleteReview(postId: String!): Boolean!
+  likeOrDislike(contentId: String!, likeType: LikeType!): Boolean!
+  removeMovieFromList(listId: String!, movieId: Int!): Boolean!
+  removeMovieFromPreMadeList(listType: PreMadeListType!, movieId: Int!): Boolean!
+  signUp(githubId: String!): Boolean!
+  toggleReviewPin(postId: String!): Boolean!
 }
 
-type Post {
-  body: String!
-  createdAt: DateTime!
-  id: Int!
-  updatedAt: DateTime!
+type PaginationInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
 }
 
-"""Used to distinguish lists"""
+type PostEntity {
+  commentaryCount: Int!
+  content: String
+  createdAt: String!
+  id: String!
+  likeCount: Int!
+  updatedAt: String!
+  user: UserEntity!
+}
+
+"""PreMadeList type enum"""
 enum PreMadeListType {
   FAVORITE
   WATCHED
@@ -239,110 +210,87 @@ enum PreMadeListType {
   WATCH_LATER
 }
 
-type ProfileStats {
-  followerCount: Int!
-  followingCount: Int!
-  listCount: Int!
-  moviesWatchedCount: Int!
-  moviesWatchedThisYearCount: Int!
-}
-
 type Query {
-  commentaries(after: String, first: Int!, postId: Int!): Commentaries!
-  followers(after: String, first: Int!, userId: String!): Followers!
-  following(after: String, first: Int!, userId: String!): Followers!
-  hasUserLike(referenceId: String, rootId: String!, userId: String!): Boolean!
-  isFollowing(userId: String!): Boolean!
-  isMovieOnList(postId: Int!): Boolean!
-  isMovieOnPreMadeList(listType: PreMadeListType!, movieId: Int!): Boolean!
-  limit(limitType: LimitType!): Limit!
-  movie(movieId: Int!): Movie!
-  moviePopularLists(movieId: Int!): [List!]!
-  movieRecommendations(movieId: Int!): [Movie!]!
-  replies(after: String, commentaryId: String!, first: Int!): Replies!
-  review(postId: Int!): Review!
-  reviewsPopularFromMovie(movieId: Int!): [Review!]!
-  reviewsPopularWeek: [Review!]!
-  reviewsRecent: [Review!]!
-  reviewsRecentFromMovie(movieId: Int!): [Review!]!
-  reviewsUser(sort: ReviewSortInput, userId: String!): [Review!]!
-  reviewsUserPinned(userId: String!): [Review!]!
-  reviewsUserPopular(userId: String!): [Review!]!
-  reviewsUserRecent(userId: String!): [Review!]!
-  searchMovie(searchTerm: String!): MovieSearch!
-  trendingMovies(page: Int!): MovieTrending!
-  user(username: String!): User!
-  userByProvider(provider: String!, providerId: String!): User!
-  userList(postId: Int!): List!
-  userListMovies(listId: String!, page: Int): [Movie!]!
-  userLists(sort: ListSortInput, userId: String!): [List!]!
-  userPreMadeListMovies(listType: PreMadeListType!, page: Int, sort: MovieSortInput, userId: String!): [Movie!]!
-  userProfileStats(userId: String!): ProfileStats!
+  commentaries(page: Int!, postId: String!, sort: CommentarySortInput): CommentaryPagination!
+  list(listId: String!): ListEntity!
+  listMovies(listId: String!, page: Int!, sort: MovieReferenceSortInput): MovieReferencePagination!
+  movie(movieId: Int!): MovieEntity!
+  movieWithCredits(movieId: Int!): MovieWithCredits!
+  replies(commentaryId: String!, page: Int!, sort: ReplySortInput): ReplyPagination!
+  review(postId: String!): ReviewEntity!
+  reviews(page: Int! = 1, sort: ReviewSortInput, userId: String): ReviewPagination!
+  streamingProviders: [StreamingProviderEntity!]!
+  user(username: String!): UserEntity!
+  userById(userId: String!): UserEntity!
 }
 
-type Replies {
-  edges: [RepliesPaginationEdge!]!
-  pageInfo: RepliesPaginationInfo!
+type ReplyEdge {
+  node: ReplyEntity!
 }
 
-type RepliesPaginationEdge {
-  cursor: String!
-  node: Reply!
+type ReplyEntity {
+  commentaryId: String!
+  content: String!
+  createdAt: String!
+  id: String!
+  updatedAt: String!
+  user: UserEntity!
 }
 
-type RepliesPaginationInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  maxItems: Int!
+type ReplyPagination {
+  edges: [ReplyEdge!]!
+  pageInfo: PaginationInfo!
+  totalCount: Int!
+  totalPages: Int!
 }
 
-type Reply {
-  body: String!
-  commentary: Commentary!
-  commentaryId: ID!
-  createdAt: DateTime!
-  id: ID!
-  likes: [Like!]!
-  updatedAt: DateTime!
-  user: User!
+input ReplySortInput {
+  filter: String
+  type: ReplySortType!
 }
 
-type Review {
+"""Reply sort type enum"""
+enum ReplySortType {
+  CREATE_DATE_ASC
+  POPULAR
+}
+
+type ReviewEdge {
+  node: ReviewEntity!
+}
+
+type ReviewEntity {
   id: ID!
   isPinned: Boolean!
-  movie: Movie!
-  post: Post!
-  user: User!
+  movie: MovieEntity!
+  post: PostEntity!
+}
+
+type ReviewPagination {
+  edges: [ReviewEdge!]!
+  pageInfo: PaginationInfo!
+  totalCount: Int!
+  totalPages: Int!
 }
 
 input ReviewSortInput {
-  filter: Sort!
-  type: ReviewSortType!
+  filter: String
+  type: CommentarySortType!
 }
 
-"""Sort options for review"""
-enum ReviewSortType {
-  CREATE_DATE_ASC
-  CREATE_DATE_DESC
-  YEAR
+type StreamingProviderEntity {
+  displayPriority: Int!
+  id: Int!
+  logoPath: String!
+  name: String!
 }
 
-"""Sort scalar type"""
-scalar Sort
-
-type User {
+type UserEntity {
   biography: String
-  createdAt: DateTime!
-  id: ID!
+  createdAt: String!
+  id: String!
   profilePictureUrl: String
   realName: String
-  updatedAt: DateTime!
+  updatedAt: String!
   username: String!
-}
-
-input UserFieldsInput {
-  biography: String
-  profilePicture: String
-  realName: String
-  username: String
 }

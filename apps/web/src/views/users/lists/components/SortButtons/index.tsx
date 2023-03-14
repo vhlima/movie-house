@@ -1,47 +1,72 @@
 import { useState } from 'react';
 
-import SortButton from '../../../components/SortButton';
-import SortDropdown from '../../../components/SortDropdown';
+import { useProfile } from '../../../hooks/useProfile';
+
+import SortButton from '../../../../../components/Sort/SortButton';
+import SortDropdown from '../../../../../components/Sort/SortDropdown';
+
+type DropdownType = 'newest' | 'popularity' | 'name' | 'older' | 'updated';
+
+const dropdownItems = [
+  {
+    id: '-1',
+    name: 'Newest',
+  },
+  {
+    id: 'popularity',
+    name: 'Popularity',
+  },
+  {
+    id: 'name',
+    name: 'Name',
+  },
+  {
+    id: 'older',
+    name: 'Older',
+  },
+  {
+    id: 'updated',
+    name: 'Last updated',
+  },
+];
 
 const SortButtons: React.FC = () => {
-  const [dropdownOpen, setDropdownOpen] = useState<string>('');
+  const { user } = useProfile();
 
-  const dropdownItems = [
-    {
-      id: '-1',
-      name: 'Newest',
-    },
-    {
-      id: 'popularity',
-      name: 'Popularity',
-    },
-    {
-      id: 'name',
-      name: 'Name',
-    },
-    {
-      id: 'older',
-      name: 'Older',
-    },
-    {
-      id: 'updated',
-      name: 'Last updated',
-    },
-  ];
+  const [dropdownOpen, setDropdownOpen] = useState<DropdownType>();
+
+  function openDropdown(dropdown: DropdownType) {
+    setDropdownOpen(prev => (prev !== dropdown ? dropdown : undefined));
+  }
+
+  function closeDropdown() {
+    setDropdownOpen(undefined);
+  }
 
   return (
     <SortButton
       text="Sort by"
-      isOpen={dropdownOpen === 'year'}
-      onClick={() => setDropdownOpen(prev => (prev !== 'year' ? 'year' : ''))}
+      isOpen={dropdownOpen === 'newest'}
+      onClick={() => openDropdown('newest')}
+      onClose={() => closeDropdown()}
     >
       <SortDropdown
         singleOption
         items={dropdownItems}
         queryKey="sortType"
         pathname={{
-          clean: `/users/[username]/lists`,
-          sort: `/users/[username]/lists/by/[sortType]`,
+          clean: {
+            pathname: '/users/[username]/lists',
+            query: {
+              username: user.username,
+            },
+          },
+          sort: {
+            pathname: '/users/[username]/lists/by/[sortType]',
+            query: {
+              username: user.username,
+            },
+          },
         }}
       />
     </SortButton>
