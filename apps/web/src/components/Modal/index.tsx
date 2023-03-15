@@ -39,7 +39,7 @@ interface ModalSubComponents {
 
 const PORTAL_ID = 'modalPortal';
 
-const Modal: React.FC<PropsWithChildren<ModalInternalProps>> &
+export const Modal: React.FC<PropsWithChildren<ModalInternalProps>> &
   ModalSubComponents = ({
   className,
   animation,
@@ -89,5 +89,3 @@ Modal.Header = ModalHeader;
 Modal.Title = ModalTitle;
 
 Modal.CloseButton = ModalCloseButton;
-
-export default Modal;

@@ -4,12 +4,10 @@ import { AnimatePresence } from 'framer-motion';
 
 import type { Movie } from '@/graphql';
 
-import { Button } from '@/components';
+import { Button, Modal } from '@/components';
 import type { ModalHandles } from '../../Modal';
 
 import { modalBottom } from '../../../animations';
-
-import Modal from '../../Modal';
 
 import MovieRateModal from '../MovieRateModal';
 

@@ -4,10 +4,9 @@ import { useState } from 'react';
 
 import { PreMadeListType } from '@/graphql';
 
-import { Typography } from '@/components';
+import { Typography, Modal } from '@/components';
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
-import Modal from '../../../../../../../components/Modal';
 import SvgIcon from '../../../../../../../components/SvgIcon';
 import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
 

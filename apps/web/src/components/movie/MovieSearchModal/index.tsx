@@ -2,10 +2,9 @@ import type { PropsWithChildren } from 'react';
 
 import type { Movie } from '@/graphql';
 
-import { Typography, Input } from '@/components';
+import { Typography, Input, Modal } from '@/components';
 import type { ModalHandles } from '../../Modal';
 
-import Modal from '../../Modal';
 import MovieSearchInput from '../MovieSearchInput';
 import ErrorText from '../../ErrorText';
 

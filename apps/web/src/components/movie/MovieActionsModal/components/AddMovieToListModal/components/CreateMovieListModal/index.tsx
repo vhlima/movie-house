@@ -1,11 +1,9 @@
 import { Form, Formik } from 'formik';
 
-import { Typography, Button, Input } from '@/components';
+import { Typography, Button, Input, Modal } from '@/components';
 import type { ModalHandles } from '../../../../../../Modal';
 
 import { useLogic } from './logic';
-
-import Modal from '../../../../../../Modal';
 
 import ErrorText from '../../../../../../ErrorText';
 
