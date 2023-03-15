@@ -1,9 +1,8 @@
 import { Form, Formik } from 'formik';
 
-import { Button } from '@/components';
+import { Button, Input } from '@/components';
 import { useLogic } from './logic';
 
-import Input from '../../../../../components/Input';
 import ErrorText from '../../../../../components/ErrorText';
 
 interface ReviewCreateFormProps {

@@ -5,12 +5,10 @@ import clsx from 'clsx';
 import type { Movie } from '@/graphql';
 
 import { useOutsideClick } from '@/hooks/useOutsideClick';
-import { Typography, Button } from '@/components';
+import { Typography, Button, Input } from '@/components';
 import { parseISO } from '../../../utils/date-utils';
 
 import { useLogic } from './logic';
-
-import Input from '../../Input';
 
 export type MovieSearchResult = {
   id: Movie['id'];

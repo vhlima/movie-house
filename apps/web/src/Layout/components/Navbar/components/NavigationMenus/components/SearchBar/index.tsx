@@ -2,9 +2,8 @@ import { useRouter } from 'next/router';
 
 import { Form, Formik } from 'formik';
 
+import { Input } from '@/components';
 import Dropdown from '../../../Dropdown';
-
-import Input from '../../../../../../../components/Input';
 
 interface SearchBarProps {
   onClose: () => void;

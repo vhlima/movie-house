@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import type { PropsWithChildren } from 'react';
 
-import Input from '../../../../components/Input';
+import { Input } from '@/components';
 
 import MovieSearchInput from '../../../../components/movie/MovieSearchInput';
 
