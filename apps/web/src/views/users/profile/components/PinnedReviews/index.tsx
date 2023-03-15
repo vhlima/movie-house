@@ -41,7 +41,7 @@ const PinnedReviews: React.FC = () => {
       )}
 
       <Card>
-        <Card.Header title="Pinned reviews" marginBottom={!hasAnyReviewPinned}>
+        <Card.Header title="Pinned reviews" marginBottom>
           {isSameUserAsSession && (
             <PencilButton onClick={() => setEditing(true)} />
           )}
