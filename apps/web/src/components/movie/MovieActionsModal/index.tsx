@@ -6,7 +6,7 @@ import type { Movie } from '@/graphql';
 
 import { Button, Modal } from '@/components';
 import { MovieRateModal } from '@/components/movie';
-import type { ModalHandles } from '../../Modal';
+import type { ModalHandles } from '@/components';
 
 import { modalBottom } from '../../../animations';
 

@@ -4,9 +4,9 @@ import { useState } from 'react';
 
 import { PreMadeListType } from '@/graphql';
 
-import { Typography, Modal, SvgIcon } from '@/components';
+import { Typography, Modal, SvgIcon, NewButton } from '@/components';
 import { MovieCoverList } from '@/components/movie';
-import type { ModalHandles } from '../../../../../../../components/Modal';
+import type { ModalHandles } from '@/components';
 
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
 import RemoveMovieFromPreMadeListButton from './components/RemoveMovieFromPreMadeListButton';

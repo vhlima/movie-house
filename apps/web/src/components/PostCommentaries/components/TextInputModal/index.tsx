@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { ApolloError } from '@apollo/client';
 
 import { Modal } from '@/components';
-import type { ModalHandles } from '../../../Modal';
+import type { ModalHandles } from '@/components';
 
 import ErrorText from '../../../ErrorText';
 

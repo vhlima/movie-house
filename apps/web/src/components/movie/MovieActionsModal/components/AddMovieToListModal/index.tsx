@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Typography, Button, Input, Modal, SvgIcon } from '@/components';
-import type { ModalHandles } from '../../../../Modal';
+import type { ModalHandles } from '@/components';
 
 import { useLogic } from './logic';
 

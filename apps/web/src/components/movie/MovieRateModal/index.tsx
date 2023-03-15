@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { Movie } from '@/graphql';
 
 import { Button, Modal, SvgIcon } from '@/components';
-import type { ModalHandles } from '../../Modal';
+import type { ModalHandles } from '@/components';
 
 import { modalBottom } from '../../../animations';
 

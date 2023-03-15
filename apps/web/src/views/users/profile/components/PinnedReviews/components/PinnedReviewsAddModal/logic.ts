@@ -2,7 +2,7 @@ import { useToggleReviewPinMutation, useFindReviewsQuery } from '@/graphql';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import type { ModalHandles } from '../../../../../../../components/Modal';
+import type { ModalHandles } from '@/components';
 
 import { usePinnedReviewsCache } from '../../hooks/usePinnedReviewsCache';
 

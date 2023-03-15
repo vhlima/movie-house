@@ -4,7 +4,7 @@ import { Typography, Input, Modal } from '@/components';
 import { MovieSearchInput } from '@/components/movie';
 
 import type { MovieSearchResult } from '@/components/movie';
-import type { ModalHandles } from '../../Modal';
+import type { ModalHandles } from '@/components';
 
 import ErrorText from '../../ErrorText';
 

@@ -1,5 +1,5 @@
 import { MovieSearchModal } from '@/components/movie';
-import type { ModalHandles } from '../../../../../../../../../components/Modal';
+import type { ModalHandles } from '@/components';
 
 import { useLogic } from './logic';
 
