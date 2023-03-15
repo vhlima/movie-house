@@ -10,7 +10,7 @@ interface ListItemProps {
   This component will be used whenever we need a list with border and spacing
 */
 
-const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
+export const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
   className,
   children,
 }) => (
@@ -23,5 +23,3 @@ const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
     {children}
   </li>
 );
-
-export default ListItem;

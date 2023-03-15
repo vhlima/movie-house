@@ -1,10 +1,9 @@
 import type { FindReviewsQuery } from '@/graphql';
 
-import { Link, Typography } from '@/components';
+import { Link, Typography, ListItem } from '@/components';
 
 import { parseISO } from '../../../utils/date-utils';
 
-import ListItem from '../../ListItem';
 import MovieLink from '../../movie/MovieLink';
 import MovieCover from '../../movie/MovieCover';
 
