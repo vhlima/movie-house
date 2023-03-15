@@ -1,7 +1,6 @@
 import type { Movie } from '@/graphql';
 
-import { Typography, ListItem } from '@/components';
-import { Link } from '../../../../components/Link';
+import { Typography, ListItem, Link } from '@/components';
 import MovieLink from '../../../../components/movie/MovieLink';
 import MovieCover from '../../../../components/movie/MovieCover';
 

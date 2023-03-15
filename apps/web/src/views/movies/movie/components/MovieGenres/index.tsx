@@ -1,6 +1,6 @@
 import type { MovieGenre } from '@/graphql';
 
-import { Link } from '../../../../../components/Link';
+import { Link } from '@/components';
 
 interface MovieGenresProps {
   genres: MovieGenre[];
