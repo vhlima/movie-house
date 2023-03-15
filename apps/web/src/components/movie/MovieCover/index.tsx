@@ -18,7 +18,7 @@ interface MovieCover2Props {
   height?: number;
 }
 
-const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
+export const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   className,
   sizeType,
   movie,
@@ -72,5 +72,3 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
     </div>
   );
 };
-
-export default MovieCover;

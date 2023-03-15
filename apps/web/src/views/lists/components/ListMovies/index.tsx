@@ -1,8 +1,7 @@
+import { MovieCover } from '@/components/movie';
 import { useLogic } from './logic';
 
 import QueryState from '../../../../components/QueryState';
-
-import MovieCover from '../../../../components/movie/MovieCover';
 
 interface MoviesSectionProps {
   listId: string;

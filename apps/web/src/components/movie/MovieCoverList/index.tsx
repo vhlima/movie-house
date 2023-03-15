@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 
 import type { Movie } from '@/graphql';
 
-import MovieCover from '../MovieCover';
+import { MovieCover } from '@/components/movie';
 
 type MovieType = Pick<Movie, 'id' | 'originalTitle' | 'posterUrl'>;
 

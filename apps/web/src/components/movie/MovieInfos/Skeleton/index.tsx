@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import MovieCover from '../../MovieCover';
+import { MovieCover } from '@/components/movie';
 
 import Skeleton from '../../../Skeleton';
 

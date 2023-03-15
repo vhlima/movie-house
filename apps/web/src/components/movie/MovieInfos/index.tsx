@@ -2,9 +2,8 @@ import type { PropsWithChildren } from 'react';
 
 import type { Movie, MovieCrewMember } from '@/graphql';
 
+import { MovieCover } from '@/components/movie';
 import { parseISO } from '../../../utils/date-utils';
-
-import MovieCover from '../MovieCover';
 
 interface MovieInfosProps {
   movie: {

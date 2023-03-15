@@ -2,7 +2,7 @@ import { useFindTrendingMoviesQuery } from '@/graphql';
 
 import { Link, Typography, Card, SvgIcon } from '@/components';
 
-import MovieCover from '../MovieCover';
+import { MovieCover } from '@/components/movie';
 
 const PopularMoviesWeek: React.FC = () => {
   const { data } = useFindTrendingMoviesQuery({

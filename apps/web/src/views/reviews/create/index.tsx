@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { Movie } from '@/graphql';
 
 import { Typography, Card } from '@/components';
-import MovieCover from '../../../components/movie/MovieCover';
+import { MovieCover } from '@/components/movie';
 
 import ReviewCreateForm from './components/ReviewCreateForm';
 import MovieSearchButton from './components/MovieSearchButton';

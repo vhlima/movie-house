@@ -2,7 +2,7 @@ import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
 import { Link, Card } from '@/components';
 
-import MovieCover from '../../movie/MovieCover';
+import { MovieCover } from '@/components/movie';
 
 import QueryState from '../../QueryState';
 
