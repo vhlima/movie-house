@@ -1,7 +1,6 @@
 import { Typography, SvgIcon } from '@/components';
-import { MovieCover } from '@/components/movie';
+import { MovieCover, MovieLink } from '@/components/movie';
 import Table from '../../../../../components/Table';
-import MovieLink from '../../../../../components/movie/MovieLink';
 
 const DiaryTable: React.FC = () => {
   const a = 1;

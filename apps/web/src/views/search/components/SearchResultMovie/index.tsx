@@ -1,8 +1,7 @@
 import type { Movie } from '@/graphql';
 
 import { Typography, ListItem, Link } from '@/components';
-import { MovieCover } from '@/components/movie';
-import MovieLink from '../../../../components/movie/MovieLink';
+import { MovieCover, MovieLink } from '@/components/movie';
 
 interface SearchResultMovieProps {
   movie: Pick<Movie, 'id' | 'originalTitle' | 'posterUrl' | 'releaseDate'>;

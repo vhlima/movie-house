@@ -6,7 +6,7 @@ import type { Movie } from '@/graphql';
 
 import { Typography, Image } from '@/components';
 
-import MovieLink from '../MovieLink';
+import { MovieLink } from '@/components/movie';
 
 interface MovieCover2Props {
   className?: string;

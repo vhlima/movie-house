@@ -9,7 +9,7 @@ interface MovieLinkProps {
   movieId: number;
 }
 
-const MovieLink: React.FC<PropsWithChildren<MovieLinkProps>> = ({
+export const MovieLink: React.FC<PropsWithChildren<MovieLinkProps>> = ({
   className,
   movieId,
   children,
@@ -24,5 +24,3 @@ const MovieLink: React.FC<PropsWithChildren<MovieLinkProps>> = ({
     {children}
   </Link>
 );
-
-export default MovieLink;
