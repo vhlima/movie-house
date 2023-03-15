@@ -6,3 +6,4 @@ export * from './Input';
 export * from './Image';
 export * from './ListItem';
 export * from './Modal';
+export * from './Observer';

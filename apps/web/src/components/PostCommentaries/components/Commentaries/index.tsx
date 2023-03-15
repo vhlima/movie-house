@@ -1,6 +1,6 @@
 import { NetworkStatus } from '@apollo/client';
 
-import Observer from '../../../Observer';
+import { Observer } from '@/components';
 import ErrorText from '../../../ErrorText';
 import LoadingSpinner from '../../../LoadingSpinner';
 

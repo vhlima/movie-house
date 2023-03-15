@@ -2,6 +2,7 @@ import { NetworkStatus } from '@apollo/client';
 
 import type { FindFollowersQuery, FindFollowingsQuery } from '@/graphql';
 
+import { Observer } from '@/components';
 import type { FollowsLogicProps } from './logic';
 
 import { useLogic } from './logic';
@@ -9,8 +10,6 @@ import { useLogic } from './logic';
 import ProfilePicture from '../../../components/ProfilePicture';
 
 import ErrorText from '../../../components/ErrorText';
-
-import Observer from '../../../components/Observer';
 
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
