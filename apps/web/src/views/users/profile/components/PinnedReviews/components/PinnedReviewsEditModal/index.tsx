@@ -58,7 +58,7 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
           link={false}
           renderCover={(index, movie) => {
             if (movie) {
-              const review = reviews[index];
+              const review = reviews.edges[index].node;
 
               if (review) {
                 return <UnpinReviewButton reviewId={review.id} />;
