@@ -3,13 +3,12 @@ import clsx from 'clsx';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
-import { Typography, Button } from '@/components';
+import { Typography, Button, ProfilePicture } from '@/components';
 import { formatDateDistanceFromMillis } from '../../../../utils/date-utils';
 
 import SvgIcon from '../../../SvgIcon';
 import LikeButton from '../../../LikeButton';
 import TextShorter from '../../../TextShorter';
-import ProfilePicture from '../../../ProfilePicture';
 
 import UserProfileLink from '../../../user/UserProfileLink';
 

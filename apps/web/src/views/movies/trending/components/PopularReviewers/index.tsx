@@ -1,8 +1,7 @@
 import { useFindUserQuery } from '@/graphql';
 
-import { Typography, Card, ListItem, Link } from '@/components';
+import { Typography, Card, ListItem, Link, ProfilePicture } from '@/components';
 import QueryState from '../../../../../components/QueryState';
-import ProfilePicture from '../../../../../components/ProfilePicture';
 
 import UserProfileLink from '../../../../../components/user/UserProfileLink';
 

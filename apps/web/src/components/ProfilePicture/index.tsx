@@ -32,7 +32,7 @@ const sizes: {
   This component is used in any case we need to show any profile picture. 
 */
 
-const ProfilePicture: React.FC<ProfilePictureProps> = ({
+export const ProfilePicture: React.FC<ProfilePictureProps> = ({
   imageSize,
   ...imageProps
 }) => (
@@ -46,5 +46,3 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
     />
   </div>
 );
-
-export default ProfilePicture;

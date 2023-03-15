@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import { Link } from '@/components';
-import ProfilePicture from '../../../../../../../../../components/ProfilePicture';
+import { Link, ProfilePicture } from '@/components';
 
 interface NotificationProps {
   imageUrl?: string;

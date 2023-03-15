@@ -6,10 +6,9 @@ import type { ProfileContextData } from '@/views/users/hooks/useProfile';
 
 import { ProfileContext } from '@/views/users/hooks/useProfile';
 
-import { Typography, PageContent } from '@/components';
+import { Typography, PageContent, ProfilePicture } from '@/components';
 import SubHeading from '../../../../components/SubHeading';
 import BackdropImage from '../../../../components/BackdropImage';
-import ProfilePicture from '../../../../components/ProfilePicture';
 
 import ProfileStats from './components/ProfileStats';
 import ProfileNavigation from './components/ProfileNavigation';

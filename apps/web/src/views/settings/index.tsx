@@ -4,10 +4,8 @@ import { Form, Formik } from 'formik';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import { Card, Button, Input } from '@/components';
+import { Card, Button, Input, ProfilePicture } from '@/components';
 import { useLogic } from './logic';
-
-import ProfilePicture from '../../components/ProfilePicture';
 
 const ProfileSettingsView: React.FC = () => {
   const { data } = useAuth();

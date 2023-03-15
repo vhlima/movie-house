@@ -10,3 +10,4 @@ export * from './Observer';
 export * from './PageContent';
 export * from './Pagination';
 export * from './PostCommentaries';
+export * from './ProfilePicture';
