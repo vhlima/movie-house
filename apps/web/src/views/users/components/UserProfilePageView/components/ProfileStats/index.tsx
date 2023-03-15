@@ -40,7 +40,7 @@ const followStats = [
   },
 ];
 
-const ProfileStats: React.FC = () => {
+export const ProfileStats: React.FC = () => {
   const { data: session } = useAuth();
 
   const { user } = useProfile();
@@ -120,5 +120,3 @@ const ProfileStats: React.FC = () => {
     </>
   );
 };
-
-export default ProfileStats;

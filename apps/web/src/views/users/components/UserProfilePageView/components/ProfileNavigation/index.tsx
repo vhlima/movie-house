@@ -33,7 +33,7 @@ const navigationOptions = [
   },
 ];
 
-const ProfileNavigation: React.FC = () => {
+export const ProfileNavigation: React.FC = () => {
   const { user } = useProfile();
 
   const { route } = useRouter();
@@ -73,5 +73,3 @@ const ProfileNavigation: React.FC = () => {
     </nav>
   );
 };
-
-export default ProfileNavigation;

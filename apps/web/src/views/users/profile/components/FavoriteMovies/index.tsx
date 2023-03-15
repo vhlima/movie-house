@@ -12,7 +12,7 @@ import { MovieCoverList } from '@/components/movie';
 import EditFavoriteMoviesModal from './components/EditFavoriteModal';
 import PencilButton from '../PencilButton';
 
-const FavoriteMovies: React.FC = () => {
+export const FavoriteMovies: React.FC = () => {
   const { data: session } = useAuth();
 
   const { user } = useProfile();
@@ -57,5 +57,3 @@ const FavoriteMovies: React.FC = () => {
     </>
   );
 };
-
-export default FavoriteMovies;

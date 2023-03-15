@@ -14,7 +14,7 @@ import PinnedReviewsEditModal from './components/PinnedReviewsEditModal';
 
 import PencilButton from '../PencilButton';
 
-const PinnedReviews: React.FC = () => {
+export const PinnedReviews: React.FC = () => {
   const { data: session } = useAuth();
 
   const { user } = useProfile();
@@ -67,5 +67,3 @@ const PinnedReviews: React.FC = () => {
     </>
   );
 };
-
-export default PinnedReviews;

@@ -6,7 +6,7 @@ import { Typography, Card } from '@/components';
 
 import ReviewPreview from '../../../../../components/review/ReviewPreview';
 
-const PopularReviews: React.FC = () => {
+export const PopularReviews: React.FC = () => {
   const { user } = useProfile();
 
   const { data: userPopularReviewsData } = useFindReviewsQuery({
@@ -45,5 +45,3 @@ const PopularReviews: React.FC = () => {
     </Card>
   );
 };
-
-export default PopularReviews;

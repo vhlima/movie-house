@@ -1,10 +1,12 @@
 import type { FindUserQuery } from '@/graphql';
 
-import Biography from './components/Biography';
-import PinnedReviews from './components/PinnedReviews';
-import RecentReviews from './components/RecentReviews';
-import FavoriteMovies from './components/FavoriteMovies';
-import PopularReviews from './components/PopularReviews';
+import {
+  Biography,
+  PinnedReviews,
+  RecentReviews,
+  FavoriteMovies,
+  PopularReviews,
+} from './components';
 
 import UserProfilePageView from '../components/UserProfilePageView';
 

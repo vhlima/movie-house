@@ -3,7 +3,7 @@ import { Typography, Card } from '@/components';
 
 import PencilButton from '../PencilButton';
 
-const Biography: React.FC = () => {
+export const Biography: React.FC = () => {
   const { user } = useProfile();
 
   const { username, biography } = user;
@@ -22,5 +22,3 @@ const Biography: React.FC = () => {
     </Card>
   );
 };
-
-export default Biography;
