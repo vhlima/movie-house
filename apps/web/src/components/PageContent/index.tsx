@@ -9,5 +9,5 @@ export const PageContent: React.FC<PropsWithChildren<PageContentProps>> = ({
   className,
   children,
 }) => (
-  <div className={clsx('px-3 md:px-9', className && className)}>{children}</div>
+  <div className={clsx('px-2 md:px-4', className && className)}>{children}</div>
 );
