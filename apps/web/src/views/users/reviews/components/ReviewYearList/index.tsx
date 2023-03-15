@@ -1,6 +1,6 @@
 import { eachYearOfInterval } from 'date-fns';
 
-import { useProfile } from '../../../hooks/useProfile';
+import { useProfile } from '@/hooks/useProfile';
 
 import SortDropdown from '../../../../../components/Sort/SortDropdown';
 

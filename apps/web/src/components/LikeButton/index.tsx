@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { LikeType, useLikeOrDislikeMutation } from '@/graphql';
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import SvgIcon from '../SvgIcon';
 

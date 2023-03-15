@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import { useOutsideClick } from '../../../../../../../../hooks/useOutsideClick';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 import SvgIcon from '../../../../../../../../components/SvgIcon';
 import Typography from '../../../../../../../../components/Typography';

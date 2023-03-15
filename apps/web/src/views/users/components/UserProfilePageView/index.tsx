@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import type { ProfileContextData } from '../../hooks/useProfile';
+import type { ProfileContextData } from '@/hooks/useProfile';
 
-import { ProfileContext } from '../../hooks/useProfile';
+import { ProfileContext } from '@/hooks/useProfile';
 
 import Typography from '../../../../components/Typography';
 import SubHeading from '../../../../components/SubHeading';

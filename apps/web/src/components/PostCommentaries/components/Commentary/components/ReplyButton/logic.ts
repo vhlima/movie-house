@@ -1,7 +1,7 @@
 import { useCreateReplyMutation } from '@/graphql';
 
-import { useRepliesCache } from '../../../../hooks/useRepliesCache';
-import { useCommentariesCache } from '../../../../hooks/useCommentariesCache';
+import { useRepliesCache } from '@/hooks/useRepliesCache';
+import { useCommentariesCache } from '@/hooks/useCommentariesCache';
 
 export function useLogic(commentaryId: string) {
   const { changeReplyCount } = useCommentariesCache();

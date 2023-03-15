@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import Input from '../../../Input';
 

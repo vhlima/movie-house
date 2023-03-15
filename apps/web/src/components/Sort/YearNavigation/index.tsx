@@ -1,8 +1,8 @@
 import { getDecade } from 'date-fns';
 
-import type { SortLinkPath } from '../../../hooks/useSortLinkBuilder';
+import type { SortLinkPath } from '@/hooks/useSortLinkBuilder';
 
-import { useSortLinkBuilder } from '../../../hooks/useSortLinkBuilder';
+import { useSortLinkBuilder } from '@/hooks/useSortLinkBuilder';
 
 import YearListItem from './components/YearListItem';
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useProfile } from '../../../hooks/useProfile';
+import { useProfile } from '@/hooks/useProfile';
 
 import SortButton from '../../../../../components/Sort/SortButton';
 import SortDropdown from '../../../../../components/Sort/SortDropdown';

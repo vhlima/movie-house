@@ -1,13 +1,9 @@
+import { useToggleReviewPinMutation, useFindReviewsQuery } from '@/graphql';
+
+import { useAuth } from '@/hooks/useAuth';
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
-import {
-  useToggleReviewPinMutation,
-  useFindReviewsQuery,
-} from '@/graphql';
-
-import { useAuth } from '../../../../../../../hooks/useAuth';
-
-import { usePinnedReviewsCache } from '../../hooks/usePinnedReviewsCache';
+import { usePinnedReviewsCache } from '@/hooks/usePinnedReviewsCache';
 
 type AddModalLogicProps = ModalHandles;
 

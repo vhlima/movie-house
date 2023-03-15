@@ -1,11 +1,7 @@
+import { PreMadeListType, useAddMovieToPreMadeListMutation } from '@/graphql';
 import type { ModalHandles } from '../../../../../../../../../components/Modal';
 
-import {
-  PreMadeListType,
-  useAddMovieToPreMadeListMutation,
-} from '@/graphql';
-
-import { useFavoriteMoviesCache } from '../../hooks/useFavoriteMoviesCache';
+import { useFavoriteMoviesCache } from '@/hooks/useFavoriteMoviesCache';
 
 type AddFavoriteMovieModalLogicProps = ModalHandles;
 

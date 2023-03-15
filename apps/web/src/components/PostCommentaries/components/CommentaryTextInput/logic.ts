@@ -1,6 +1,6 @@
 import { useCreateCommentaryMutation } from '@/graphql';
 
-import { useCommentariesCache } from '../../hooks/useCommentariesCache';
+import { useCommentariesCache } from '@/hooks/useCommentariesCache';
 
 export function useLogic(postId: string) {
   const { updateCache } = useCommentariesCache();

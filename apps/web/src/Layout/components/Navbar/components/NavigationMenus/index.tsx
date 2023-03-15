@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { useAuth } from '../../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import SvgIcon from '../../../../../components/SvgIcon';
 

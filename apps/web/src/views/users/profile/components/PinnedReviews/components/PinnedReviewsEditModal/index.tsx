@@ -2,14 +2,10 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
+import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
+
+import { useAuth } from '@/hooks/useAuth';
 import type { ModalHandles } from '../../../../../../../components/Modal';
-
-import {
-  ReviewSortType,
-  useFindReviewsQuery,
-} from '@/graphql';
-
-import { useAuth } from '../../../../../../../hooks/useAuth';
 
 import Modal from '../../../../../../../components/Modal';
 

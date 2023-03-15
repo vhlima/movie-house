@@ -6,7 +6,7 @@ import type { Movie } from '@/graphql';
 
 import { parseISO } from '../../../utils/date-utils';
 
-import { useOutsideClick } from '../../../hooks/useOutsideClick';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 import { useLogic } from './logic';
 

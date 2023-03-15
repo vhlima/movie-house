@@ -6,7 +6,7 @@ import type { MutationResult } from '@apollo/client';
 
 import type { ChangeEvent } from 'react';
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 interface ProfileSettingsProps {
   username: string;

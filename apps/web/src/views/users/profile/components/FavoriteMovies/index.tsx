@@ -1,13 +1,9 @@
 import { useState } from 'react';
 
-import { useAuth } from '../../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
-import { useProfile } from '../../../hooks/useProfile';
-
-import {
-  PreMadeListType,
-  useFindPreMadeListMoviesQuery,
-} from '@/graphql';
+import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/graphql';
+import { useProfile } from '@/hooks/useProfile';
 
 import Card from '../../../../../components/Card';
 

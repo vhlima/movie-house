@@ -4,7 +4,7 @@ import type { PropsWithChildren, ReactNode } from 'react';
 
 import { formatDateDistanceFromMillis } from '../../../../utils/date-utils';
 
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import Button from '../../../Button';
 import SvgIcon from '../../../SvgIcon';

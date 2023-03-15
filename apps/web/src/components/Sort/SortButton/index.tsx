@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren } from 'react';
 
-import { useOutsideClick } from '../../../hooks/useOutsideClick';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 import SvgIcon from '../../SvgIcon';
 import Typography from '../../Typography';

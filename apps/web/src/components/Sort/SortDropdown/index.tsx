@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
-import { useSortLinkBuilder } from '../../../hooks/useSortLinkBuilder';
+import { useSortLinkBuilder } from '@/hooks/useSortLinkBuilder';
 
-import type { SortLinkBuilderProps } from '../../../hooks/useSortLinkBuilder';
+import type { SortLinkBuilderProps } from '@/hooks/useSortLinkBuilder';
 
 import Link from '../../Link';
 import SvgIcon from '../../SvgIcon';

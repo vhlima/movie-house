@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import { Form, Formik } from 'formik';
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import { useLogic } from './logic';
 

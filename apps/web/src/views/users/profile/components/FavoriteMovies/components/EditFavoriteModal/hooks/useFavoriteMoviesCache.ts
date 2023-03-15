@@ -5,12 +5,9 @@ import type {
   FindPreMadeListMoviesQueryVariables,
 } from '@/graphql';
 
-import {
-  PreMadeListType,
-  FindPreMadeListMoviesDocument,
-} from '@/graphql';
+import { PreMadeListType, FindPreMadeListMoviesDocument } from '@/graphql';
 
-import { useAuth } from '../../../../../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 type UpdateCacheHandles = (
   updateFn: (

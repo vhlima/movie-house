@@ -10,9 +10,8 @@ import { ApolloProvider } from '@apollo/client';
 
 import type { AppProps } from 'next/app';
 
+import Hooks from '@/hooks';
 import { useApollo } from '../client';
-
-import Hooks from '../hooks';
 
 import Layout from '../Layout';
 

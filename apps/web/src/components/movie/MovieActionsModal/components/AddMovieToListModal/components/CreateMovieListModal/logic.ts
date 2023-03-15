@@ -5,12 +5,9 @@ import type {
   FindUserListsNamesQueryVariables,
 } from '@/graphql';
 
-import {
-  FindUserListsNamesDocument,
-  useCreateListMutation,
-} from '@/graphql';
+import { FindUserListsNamesDocument, useCreateListMutation } from '@/graphql';
 
-import { useAuth } from '../../../../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 interface CreateMovieListFormValues {
   listName: string;
@@ -28,7 +25,7 @@ export const useLogic = () => {
     listName,
     description,
   }: CreateMovieListFormValues) {
-    const { errors } = await createList({
+    const result = await createList({
       variables: {
         listName,
         content: description,
@@ -53,7 +50,7 @@ export const useLogic = () => {
       },
     });
 
-    return !errors;
+    return !result?.data;
   }
 
   const validationSchema: ValidationSchemaType = Yup.object().shape({

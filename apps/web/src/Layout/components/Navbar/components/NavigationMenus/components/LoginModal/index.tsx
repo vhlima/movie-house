@@ -1,4 +1,4 @@
-import { useAuth, signIn, signOut } from '../../../../../../../hooks/useAuth';
+import { useAuth, signIn, signOut } from '@/hooks/useAuth';
 
 import type { ModalHandles } from '../../../../../../../components/Modal';
 

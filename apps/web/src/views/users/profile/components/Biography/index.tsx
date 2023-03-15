@@ -1,7 +1,7 @@
 import Card from '../../../../../components/Card';
 import Typography from '../../../../../components/Typography';
 
-import { useProfile } from '../../../hooks/useProfile';
+import { useProfile } from '@/hooks/useProfile';
 
 import PencilButton from '../PencilButton';
 
