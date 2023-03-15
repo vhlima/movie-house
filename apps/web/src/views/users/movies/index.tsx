@@ -4,7 +4,7 @@ import type { FindUserQuery, FindPreMadeListMoviesQuery } from '@/graphql';
 
 import { Typography, Pagination } from '@/components';
 
-import MovieCoverList from '../../../components/movie/MovieCoverList';
+import { MovieCoverList } from '@/components/movie';
 
 import UserProfilePageView from '../components/UserProfilePageView';
 

@@ -21,7 +21,7 @@ interface MovieCoverListProps {
   ) => ReactNode | { children: ReactNode; className?: string };
 }
 
-const MovieCoverList: React.FC<MovieCoverListProps> = ({
+export const MovieCoverList: React.FC<MovieCoverListProps> = ({
   className,
   name,
   movies,
@@ -90,5 +90,3 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
       })}
   </ul>
 );
-
-export default MovieCoverList;

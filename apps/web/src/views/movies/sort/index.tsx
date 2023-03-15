@@ -4,9 +4,8 @@ import type { DiscoverMoviesQuery } from '@/graphql';
 
 import { Typography, Pagination } from '@/components';
 
+import { MovieCoverList } from '@/components/movie';
 import YearNavigation from '../../../components/Sort/YearNavigation';
-
-import MovieCoverList from '../../../components/movie/MovieCoverList';
 
 import MoviesPageView from '../components/MoviesPageView';
 

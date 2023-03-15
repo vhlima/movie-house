@@ -6,9 +6,8 @@ import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
 import { useAuth } from '@/hooks/useAuth';
 import { Typography, Modal, SvgIcon } from '@/components';
+import { MovieCoverList } from '@/components/movie';
 import type { ModalHandles } from '../../../../../../../components/Modal';
-
-import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
 
 import PinnedReviewsAddModal from '../PinnedReviewsAddModal';
 

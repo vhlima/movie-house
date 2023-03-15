@@ -1,7 +1,7 @@
 import type { FindListsQuery } from '@/graphql';
 
 import { Link, Typography, SvgIcon, TextShorter } from '@/components';
-import MovieCoverList from '../../movie/MovieCoverList';
+import { MovieCoverList } from '@/components/movie';
 
 interface ListPreviewProps {
   list: FindListsQuery['lists']['edges'][number]['node'];
