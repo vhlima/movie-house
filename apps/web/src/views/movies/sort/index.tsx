@@ -2,14 +2,13 @@ import { TmDbMovieSortInput, TmDbMovieSortType } from '@/graphql';
 
 import type { DiscoverMoviesQuery } from '@/graphql';
 
-import { Typography } from '@/components';
+import { Typography, Pagination } from '@/components';
 
 import YearNavigation from '../../../components/Sort/YearNavigation';
 
 import MovieCoverList from '../../../components/movie/MovieCoverList';
 
 import MoviesPageView from '../components/MoviesPageView';
-import Pagination from '../../../components/Pagination';
 
 interface MoviesSortPageViewProps extends DiscoverMoviesQuery {
   sort?: TmDbMovieSortInput;

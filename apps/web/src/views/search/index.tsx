@@ -1,10 +1,9 @@
 import type { SearchMovieQuery } from '@/graphql';
 
-import { Typography, PageContent } from '@/components';
+import { Typography, PageContent, Pagination } from '@/components';
 import SubHeading from '../../components/SubHeading';
 
 import SearchResultMovie from './components/SearchResultMovie';
-import Pagination from '../../components/Pagination';
 
 interface SearchPageViewProps extends SearchMovieQuery {
   searchTerm: string;

@@ -8,3 +8,4 @@ export * from './ListItem';
 export * from './Modal';
 export * from './Observer';
 export * from './PageContent';
+export * from './Pagination';

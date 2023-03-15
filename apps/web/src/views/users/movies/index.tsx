@@ -2,14 +2,13 @@ import type { PropsWithChildren } from 'react';
 
 import type { FindUserQuery, FindPreMadeListMoviesQuery } from '@/graphql';
 
-import { Typography } from '@/components';
+import { Typography, Pagination } from '@/components';
 
 import MovieCoverList from '../../../components/movie/MovieCoverList';
 
 import UserProfilePageView from '../components/UserProfilePageView';
 
 import SortButtons from './components/SortButtons';
-import Pagination from '../../../components/Pagination';
 
 interface UserMovieListViewProps {
   user: FindUserQuery['user'];

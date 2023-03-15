@@ -6,7 +6,10 @@ interface Pagination {
   totalPages: number;
 }
 
-const Pagination: React.FC<Pagination> = ({ currentPage, totalPages }) => {
+export const Pagination: React.FC<Pagination> = ({
+  currentPage,
+  totalPages,
+}) => {
   const { push, pathname, query } = useRouter();
 
   function handlePageChange(page: number) {
@@ -46,5 +49,3 @@ const Pagination: React.FC<Pagination> = ({ currentPage, totalPages }) => {
     </nav>
   );
 };
-
-export default Pagination;
