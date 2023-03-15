@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import StarIcon from '../../../../StarIcon';
+import { StarIcon } from '@/components';
 
 interface StarsProps {
   userRating: number;

@@ -11,3 +11,4 @@ export * from './PageContent';
 export * from './Pagination';
 export * from './PostCommentaries';
 export * from './ProfilePicture';
+export * from './StarIcon';

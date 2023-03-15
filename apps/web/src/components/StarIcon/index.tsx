@@ -8,7 +8,11 @@ interface StarIconProps extends Omit<SvgIconProps, 'iconType' | 'fill'> {
   fill?: boolean;
 }
 
-const StarIcon: React.FC<StarIconProps> = ({ className, fill, ...rest }) => (
+export const StarIcon: React.FC<StarIconProps> = ({
+  className,
+  fill,
+  ...rest
+}) => (
   <SvgIcon
     className={clsx(className, {
       'text-grey-300': !fill,
@@ -18,5 +22,3 @@ const StarIcon: React.FC<StarIconProps> = ({ className, fill, ...rest }) => (
     {...rest}
   />
 );
-
-export default StarIcon;
