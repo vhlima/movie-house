@@ -4,7 +4,7 @@ import { Link, Typography, Card, SvgIcon } from '@/components';
 
 import { MovieCover } from '@/components/movie';
 
-const PopularMoviesWeek: React.FC = () => {
+export const PopularMoviesWeek: React.FC = () => {
   const { data } = useFindTrendingMoviesQuery({
     variables: { page: 1 },
   });
@@ -38,5 +38,3 @@ const PopularMoviesWeek: React.FC = () => {
     </Card>
   );
 };
-
-export default PopularMoviesWeek;

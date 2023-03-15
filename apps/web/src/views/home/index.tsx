@@ -1,7 +1,6 @@
 import { Typography, PageContent } from '@/components';
+import { PopularMoviesWeek } from '@/components/movie';
 import BackdropImage from '../../components/BackdropImage';
-
-import PopularMoviesWeek from '../../components/movie/PopularMoviesWeek';
 
 import PopularReviewsWeek from '../../components/review/PopularReviewsWeek';
 
