@@ -1,8 +1,6 @@
-import { Link } from '@/components';
+import { Link, SvgIcon } from '@/components';
 
 import type { LinkProps } from '../../../../../../../../../components/Link';
-
-import SvgIcon from '../../../../../../../../../components/SvgIcon';
 
 import type { SvgIconType } from '../../../../../../../../../components/SvgIcon';
 

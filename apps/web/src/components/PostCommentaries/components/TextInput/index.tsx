@@ -2,9 +2,7 @@ import type { RefObject } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import { Input, ProfilePicture } from '@/components';
-
-import SvgIcon from '../../../SvgIcon';
+import { Input, ProfilePicture, SvgIcon } from '@/components';
 
 export type TextInputReference = RefObject<HTMLTextAreaElement>;
 

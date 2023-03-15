@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 
-import SvgIcon from '../../../../../components/SvgIcon';
+import { SvgIcon } from '@/components';
 
 type PencilButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 

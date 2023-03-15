@@ -1,5 +1,4 @@
-import { Typography, Link, PageContent } from '@/components';
-import SvgIcon from '../../../components/SvgIcon';
+import { Typography, Link, PageContent, SvgIcon } from '@/components';
 
 import NavigationMenus from './components/NavigationMenus';
 

@@ -13,3 +13,4 @@ export * from './PostCommentaries';
 export * from './ProfilePicture';
 export * from './StarIcon';
 export * from './SubHeading';
+export * from './SvgIcon';

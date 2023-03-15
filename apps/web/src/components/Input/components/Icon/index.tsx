@@ -1,8 +1,7 @@
 import clsx from 'clsx';
 
+import { SvgIcon } from '@/components';
 import type { SvgIconProps } from '../../../SvgIcon';
-
-import SvgIcon from '../../../SvgIcon';
 
 interface InputIconProps extends SvgIconProps {
   direction?: 'left' | 'right';

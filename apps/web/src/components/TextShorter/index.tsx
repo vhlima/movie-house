@@ -2,9 +2,7 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import { Typography, Button } from '@/components';
-
-import SvgIcon from '../SvgIcon';
+import { Typography, Button, SvgIcon } from '@/components';
 
 interface TextShorterProps {
   className?: string;

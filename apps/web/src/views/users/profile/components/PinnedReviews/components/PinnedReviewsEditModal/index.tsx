@@ -5,10 +5,8 @@ import { useState } from 'react';
 import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
 import { useAuth } from '@/hooks/useAuth';
-import { Typography, Modal } from '@/components';
+import { Typography, Modal, SvgIcon } from '@/components';
 import type { ModalHandles } from '../../../../../../../components/Modal';
-
-import SvgIcon from '../../../../../../../components/SvgIcon';
 
 import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
 

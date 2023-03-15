@@ -4,10 +4,9 @@ import clsx from 'clsx';
 
 import type { LinkProps } from '@/components';
 
-import { Link } from '@/components';
+import { Link, SvgIcon } from '@/components';
 import type { SvgIconType } from '../SvgIcon';
 
-import SvgIcon from '../SvgIcon';
 import CardBody from './components/CardBody';
 import CardHeader from './components/CardHeader';
 

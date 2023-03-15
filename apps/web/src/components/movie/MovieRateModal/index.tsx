@@ -2,12 +2,10 @@ import { useState } from 'react';
 
 import type { Movie } from '@/graphql';
 
-import { Button, Modal } from '@/components';
+import { Button, Modal, SvgIcon } from '@/components';
 import type { ModalHandles } from '../../Modal';
 
 import { modalBottom } from '../../../animations';
-
-import SvgIcon from '../../SvgIcon';
 
 import RatingStars from './components/RatingStars';
 

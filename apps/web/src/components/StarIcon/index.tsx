@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import SvgIcon from '../SvgIcon';
+import { SvgIcon } from '@/components';
 
 import type { SvgIconProps } from '../SvgIcon';
 

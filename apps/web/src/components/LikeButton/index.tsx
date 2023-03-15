@@ -6,7 +6,7 @@ import { LikeType, useLikeOrDislikeMutation } from '@/graphql';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import SvgIcon from '../SvgIcon';
+import { SvgIcon } from '@/components';
 
 export interface LikeButtonProps {
   likeCount: number;

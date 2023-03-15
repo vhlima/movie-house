@@ -168,7 +168,7 @@ const icons: SvgIconsType = {
   VscPreview,
 };
 
-const SvgIcon: React.FC<SvgIconProps> = ({
+export const SvgIcon: React.FC<SvgIconProps> = ({
   className,
   iconType,
   size,
@@ -187,5 +187,3 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     />
   );
 };
-
-export default SvgIcon;

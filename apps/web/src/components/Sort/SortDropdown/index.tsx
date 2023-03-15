@@ -4,8 +4,7 @@ import { useSortLinkBuilder } from '@/hooks/useSortLinkBuilder';
 
 import type { SortLinkBuilderProps } from '@/hooks/useSortLinkBuilder';
 
-import { Link, Typography } from '@/components';
-import SvgIcon from '../../SvgIcon';
+import { Link, Typography, SvgIcon } from '@/components';
 
 interface SortDropdownProps extends SortLinkBuilderProps {
   items: Array<{

@@ -1,4 +1,4 @@
-import SvgIcon from '../../../SvgIcon';
+import { SvgIcon } from '@/components';
 
 interface ModalCloseButtonProps {
   onClose: () => void;

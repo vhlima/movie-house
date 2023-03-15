@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes } from 'react';
 
 import clsx from 'clsx';
 
-import SvgIcon from '../../../../SvgIcon';
+import { SvgIcon } from '@/components';
 
 import type { SvgIconType } from '../../../../SvgIcon';
 

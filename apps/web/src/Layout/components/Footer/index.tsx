@@ -1,5 +1,4 @@
-import { Typography, Link } from '@/components';
-import SvgIcon from '../../../components/SvgIcon';
+import { Typography, Link, SvgIcon } from '@/components';
 
 const Footer: React.FC = () => (
   <footer className="w-full flex flex-col items-center gap-4 p-4 pb-96 mt-auto bg-grey-800">

@@ -1,6 +1,5 @@
-import { Typography } from '@/components';
+import { Typography, SvgIcon } from '@/components';
 import Table from '../../../../../components/Table';
-import SvgIcon from '../../../../../components/SvgIcon';
 import MovieLink from '../../../../../components/movie/MovieLink';
 import MovieCover from '../../../../../components/movie/MovieCover';
 

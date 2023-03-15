@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
-import { Typography, Button, Input, Modal } from '@/components';
+import { Typography, Button, Input, Modal, SvgIcon } from '@/components';
 import type { ModalHandles } from '../../../../Modal';
 
 import { useLogic } from './logic';
-
-import SvgIcon from '../../../../SvgIcon';
 
 import UserLists from './components/UserLists';
 import CreateMovieListModal from './components/CreateMovieListModal';
