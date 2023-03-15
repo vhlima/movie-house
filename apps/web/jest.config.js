@@ -12,11 +12,11 @@ const customJestConfig = {
     '<rootDir>/jest.setup.js',
     '<rootDir>/src/test/setup.ts',
   ],
+  transform: {
+    '.+\\.(ts|tsx)$': 'ts-jest',
+  },
   moduleNameMapper: {
-    // Handle module aliases (this will be automatically configured for you soon)
-    '^@/components/(.*)$': '<rootDir>/components/$1',
-
-    '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '@/(.*)': '<rootDir>/src/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
 };
