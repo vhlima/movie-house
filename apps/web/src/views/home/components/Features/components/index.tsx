@@ -1,10 +1,8 @@
 import clsx from 'clsx';
 
-import { Link } from '@/components';
+import { Link, SvgIcon } from '@/components';
 
-import type { LinkProps } from '@/components';
-
-import SvgIcon, { SvgIconType } from '../../../../../components/SvgIcon';
+import type { LinkProps, SvgIconType } from '@/components';
 
 interface FeatureLinkProps extends LinkProps {
   iconType: SvgIconType;
