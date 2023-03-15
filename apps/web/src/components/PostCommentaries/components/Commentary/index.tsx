@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import type { FindCommentariesQuery } from '@/graphql';
 
+import { Typography } from '@/components';
 import Button from '../../../Button';
 import SvgIcon from '../../../SvgIcon';
-import Typography from '../../../Typography';
 
 import Replies from '../Replies';
 import CommentaryBase from '../CommentaryBase';

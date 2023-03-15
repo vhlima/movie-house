@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { PropsWithChildren } from 'react';
 
-import Typography from '../Typography';
+import { Typography } from '@/components';
 
 interface SubHeadingProps {
   title?: string;

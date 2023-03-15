@@ -4,8 +4,8 @@ import type { PropsWithChildren } from 'react';
 
 import type { Movie } from '@/graphql';
 
+import { Typography } from '@/components';
 import Image from '../../Image';
-import Typography from '../../Typography';
 
 import MovieLink from '../MovieLink';
 

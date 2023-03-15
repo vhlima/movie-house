@@ -9,7 +9,7 @@ interface TypographyProps extends HtmlHTMLAttributes<HTMLParagraphElement> {
   size?: '4xl' | '3xl' | '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 }
 
-const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
+export const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
   className,
   color = 'secondary',
   size = 'md',

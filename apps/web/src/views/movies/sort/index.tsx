@@ -2,7 +2,7 @@ import { TmDbMovieSortInput, TmDbMovieSortType } from '@/graphql';
 
 import type { DiscoverMoviesQuery } from '@/graphql';
 
-import Typography from '../../../components/Typography';
+import { Typography } from '@/components';
 
 import YearNavigation from '../../../components/Sort/YearNavigation';
 

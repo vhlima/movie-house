@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 
 import { useProfile } from '@/views/users/hooks/useProfile';
 
+import { Typography } from '@/components';
 import Link from '../../../../../../components/Link';
-import Typography from '../../../../../../components/Typography';
 
 const navigationOptions = [
   {

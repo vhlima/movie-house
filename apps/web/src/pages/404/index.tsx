@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 
 import { FaSadTear } from 'react-icons/fa';
 
-import Typography from '../../components/Typography';
+import { Typography } from '@/components';
 
 const NotFoundPage: NextPage = () => (
   <div className="flex flex-col items-center p-12">

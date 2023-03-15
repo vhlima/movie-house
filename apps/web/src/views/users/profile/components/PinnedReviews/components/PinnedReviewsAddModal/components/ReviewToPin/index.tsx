@@ -1,11 +1,10 @@
 import type { Review } from '@/graphql';
+import { Typography } from '@/components';
 import { formatDateFromMillis } from '../../../../../../../../../utils/date-utils';
 
 import Button from '../../../../../../../../../components/Button';
 
 import SvgIcon from '../../../../../../../../../components/SvgIcon';
-
-import Typography from '../../../../../../../../../components/Typography';
 
 import MovieCover from '../../../../../../../../../components/movie/MovieCover';
 

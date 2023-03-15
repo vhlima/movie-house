@@ -1,3 +1,4 @@
+import { Typography } from '@/components';
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
 import { useLogic } from './logic';
@@ -5,8 +6,6 @@ import { useLogic } from './logic';
 import Modal from '../../../../../../../components/Modal';
 
 import QueryState from '../../../../../../../components/QueryState';
-
-import Typography from '../../../../../../../components/Typography';
 
 import ReviewToPin from './components/ReviewToPin';
 

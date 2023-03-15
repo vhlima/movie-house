@@ -1,7 +1,7 @@
 import type { MovieCharacter } from '@/graphql';
 
+import { Typography } from '@/components';
 import Image from '../../../../../../../components/Image';
-import Typography from '../../../../../../../components/Typography';
 
 interface MovieActorProps {
   actor: {

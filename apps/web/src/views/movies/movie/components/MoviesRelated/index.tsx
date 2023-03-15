@@ -1,8 +1,8 @@
 import { useFindMovieRecommendationsQuery } from '@/graphql';
+import { Typography } from '@/components';
 import Card from '../../../../../components/Card';
 
 import MovieCoverList from '../../../../../components/movie/MovieCoverList';
-import Typography from '../../../../../components/Typography';
 
 interface MoviesRelatedProps {
   movieId: number;

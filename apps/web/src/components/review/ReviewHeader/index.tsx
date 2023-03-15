@@ -1,6 +1,6 @@
+import { Typography } from '@/components';
 import { formatDateFromMillis } from '../../../utils/date-utils';
 
-import Typography from '../../Typography';
 import ProfilePicture from '../../ProfilePicture';
 
 interface ReviewHeaderProps {

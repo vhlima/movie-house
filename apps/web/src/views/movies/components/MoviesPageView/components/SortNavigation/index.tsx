@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
+import { Typography } from '@/components';
 import GenreList from '../../../../../../components/Sort/GenreList';
 import DecadeList from '../../../../../../components/Sort/DecadeList';
-
-import Typography from '../../../../../../components/Typography';
 
 import SortListItem from './components/SortListItem';
 import ServiceList from '../../../../../../components/Sort/ServiceList';

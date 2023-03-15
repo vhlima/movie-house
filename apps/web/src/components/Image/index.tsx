@@ -2,7 +2,7 @@ import NextImage from 'next/image';
 
 import type { ImageProps } from 'next/image';
 
-import Typography from '../Typography';
+import { Typography } from '@/components';
 
 const Image: React.FC<ImageProps> = ({ src, ...props }) =>
   !src ? (

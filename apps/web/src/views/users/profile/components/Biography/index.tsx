@@ -1,6 +1,6 @@
 import { useProfile } from '@/views/users/hooks/useProfile';
+import { Typography } from '@/components';
 import Card from '../../../../../components/Card';
-import Typography from '../../../../../components/Typography';
 
 import PencilButton from '../PencilButton';
 

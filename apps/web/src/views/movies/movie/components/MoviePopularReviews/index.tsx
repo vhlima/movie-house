@@ -1,9 +1,9 @@
 import { useFindReviewsQuery } from '@/graphql';
 
+import { Typography } from '@/components';
 import Card from '../../../../../components/Card';
 
 import ReviewPreview from '../../../../../components/review/ReviewPreview';
-import Typography from '../../../../../components/Typography';
 
 interface MoviePopularReviewsProps {
   movieId: number;

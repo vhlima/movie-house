@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
 
-import Typography from '../../../Typography';
+import { Typography } from '@/components';
 
 interface CardHeaderProps {
   className?: string;

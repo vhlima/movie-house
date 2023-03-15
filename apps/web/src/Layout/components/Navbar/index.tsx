@@ -1,6 +1,6 @@
+import { Typography } from '@/components';
 import Link from '../../../components/Link';
 import SvgIcon from '../../../components/SvgIcon';
-import Typography from '../../../components/Typography';
 import PageContent from '../../../components/PageContent';
 
 import NavigationMenus from './components/NavigationMenus';

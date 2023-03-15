@@ -2,8 +2,8 @@ import type { PropsWithChildren } from 'react';
 
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 
+import { Typography } from '@/components';
 import SvgIcon from '../../../../../../../../components/SvgIcon';
-import Typography from '../../../../../../../../components/Typography';
 
 interface SortListItemProps {
   text: string;

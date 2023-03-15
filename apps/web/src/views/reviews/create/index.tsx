@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import type { Movie } from '@/graphql';
 
+import { Typography } from '@/components';
 import Card from '../../../components/Card';
-import Typography from '../../../components/Typography';
 import MovieCover from '../../../components/movie/MovieCover';
 
 import ReviewCreateForm from './components/ReviewCreateForm';

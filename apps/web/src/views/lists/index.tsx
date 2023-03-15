@@ -1,8 +1,8 @@
 import { FindListQuery } from '@/graphql';
 
+import { Typography } from '@/components';
 import { formatDateDistanceFromMillis } from '../../utils/date-utils';
 
-import Typography from '../../components/Typography';
 import PageContent from '../../components/PageContent';
 import BackdropImage from '../../components/BackdropImage';
 import ProfilePicture from '../../components/ProfilePicture';

@@ -1,5 +1,6 @@
 import { Form, Formik } from 'formik';
 
+import { Typography } from '@/components';
 import type { ModalHandles } from '../../../../../../Modal';
 
 import { useLogic } from './logic';
@@ -7,7 +8,6 @@ import { useLogic } from './logic';
 import Modal from '../../../../../../Modal';
 import Input from '../../../../../../Input';
 import Button from '../../../../../../Button';
-import Typography from '../../../../../../Typography';
 
 import ErrorText from '../../../../../../ErrorText';
 
