@@ -14,7 +14,7 @@ interface MovieRateModalProps extends Required<ModalHandles> {
   onRate?: (userRating: number) => void;
 }
 
-const MovieRateModal: React.FC<MovieRateModalProps> = ({
+export const MovieRateModal: React.FC<MovieRateModalProps> = ({
   movie,
   onRate,
   onClose,
@@ -75,5 +75,3 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
     </Modal>
   );
 };
-
-export default MovieRateModal;

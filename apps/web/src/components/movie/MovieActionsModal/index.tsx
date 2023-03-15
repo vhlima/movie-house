@@ -5,11 +5,10 @@ import { AnimatePresence } from 'framer-motion';
 import type { Movie } from '@/graphql';
 
 import { Button, Modal } from '@/components';
+import { MovieRateModal } from '@/components/movie';
 import type { ModalHandles } from '../../Modal';
 
 import { modalBottom } from '../../../animations';
-
-import MovieRateModal from '../MovieRateModal';
 
 import RateButton from './components/RateButton';
 import WatchListButton from './components/WatchListButton';
