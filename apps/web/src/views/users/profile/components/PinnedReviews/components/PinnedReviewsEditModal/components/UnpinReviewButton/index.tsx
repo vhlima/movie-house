@@ -19,6 +19,7 @@ const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ reviewId }) => {
         ...cacheData,
         reviews: {
           ...cacheData.reviews,
+          totalCount: cacheData.reviews.totalCount - 1,
           edges: cacheData.reviews.edges.filter(
             edge => edge.node.id !== ctx.variables.reviewId,
           ),
