@@ -1,6 +1,5 @@
-import { Typography } from '@/components';
+import { Typography, PageContent } from '@/components';
 import BackdropImage from '../../components/BackdropImage';
-import PageContent from '../../components/PageContent';
 
 import PopularMoviesWeek from '../../components/movie/PopularMoviesWeek';
 

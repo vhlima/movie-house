@@ -5,11 +5,9 @@ interface PageContentProps {
   className?: string;
 }
 
-const PageContent: React.FC<PropsWithChildren<PageContentProps>> = ({
+export const PageContent: React.FC<PropsWithChildren<PageContentProps>> = ({
   className,
   children,
 }) => (
   <div className={clsx('px-3 md:px-9', className && className)}>{children}</div>
 );
-
-export default PageContent;

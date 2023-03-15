@@ -2,8 +2,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 import type { FindMovieWithCreditsQuery } from '@/graphql';
 
-import { Button } from '@/components';
-import PageContent from '../../../components/PageContent';
+import { Button, PageContent } from '@/components';
 import TextShorter from '../../../components/TextShorter';
 import BackdropImage from '../../../components/BackdropImage';
 import MovieInfos from '../../../components/movie/MovieInfos';
