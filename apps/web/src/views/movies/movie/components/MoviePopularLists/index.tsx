@@ -1,7 +1,6 @@
 import { useFindListsQuery } from '@/graphql';
 
-import { Typography } from '@/components';
-import Card from '../../../../../components/Card';
+import { Typography, Card } from '@/components';
 import ListPreview from '../../../../../components/list/ListPreview';
 
 interface MoviePopularListsProps {

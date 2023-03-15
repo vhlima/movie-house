@@ -1,7 +1,6 @@
 import type { MovieCharacter } from '@/graphql';
 
-import { Typography } from '@/components';
-import Card from '../../../../../components/Card';
+import { Typography, Card } from '@/components';
 
 import MovieActor from './components/MovieActor';
 

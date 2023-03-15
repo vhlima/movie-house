@@ -1,7 +1,7 @@
 import { useFindTrendingMoviesQuery } from '@/graphql';
 
-import { Link, Typography } from '@/components';
-import Card from '../../Card';
+import { Link, Typography, Card } from '@/components';
+
 import SvgIcon from '../../SvgIcon';
 
 import MovieCover from '../MovieCover';

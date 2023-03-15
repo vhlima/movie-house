@@ -1,6 +1,5 @@
+import { Card } from '@/components';
 import FeatureLink from './components';
-
-import Card from '../../../../components/Card';
 
 const Features: React.FC = () => (
   <Card>

@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/graphql';
 import { useProfile } from '@/views/users/hooks/useProfile';
 
-import Card from '../../../../../components/Card';
+import { Card } from '@/components';
 
 import MovieCoverList from '../../../../../components/movie/MovieCoverList';
 

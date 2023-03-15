@@ -1,6 +1,5 @@
 import { useFindMovieRecommendationsQuery } from '@/graphql';
-import { Typography } from '@/components';
-import Card from '../../../../../components/Card';
+import { Typography, Card } from '@/components';
 
 import MovieCoverList from '../../../../../components/movie/MovieCoverList';
 

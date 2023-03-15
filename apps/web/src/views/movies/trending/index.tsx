@@ -1,6 +1,6 @@
 import { useFindTrendingMoviesQuery } from '@/graphql';
 
-import Card from '../../../components/Card';
+import { Card } from '@/components';
 
 import RecentReviews from '../../../components/review/RecentReviews';
 import PopularReviewsWeek from '../../../components/review/PopularReviewsWeek';

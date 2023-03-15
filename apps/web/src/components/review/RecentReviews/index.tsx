@@ -1,8 +1,6 @@
 import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
-import { Link } from '@/components';
-
-import Card from '../../Card';
+import { Link, Card } from '@/components';
 
 import MovieCover from '../../movie/MovieCover';
 

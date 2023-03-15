@@ -1,7 +1,6 @@
 import { useFindReviewsQuery } from '@/graphql';
 
-import { Typography } from '@/components';
-import Card from '../../../../../components/Card';
+import { Typography, Card } from '@/components';
 
 import ReviewPreview from '../../../../../components/review/ReviewPreview';
 
