@@ -12,10 +12,10 @@ import {
   ProfilePicture,
   SubHeading,
 } from '@/components';
+
 import BackdropImage from '../../../../components/BackdropImage';
 
-import ProfileStats from './components/ProfileStats';
-import ProfileNavigation from './components/ProfileNavigation';
+import { ProfileNavigation, ProfileStats } from './components';
 
 interface UserProfilePageViewProps {
   title?: string;
