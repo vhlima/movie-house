@@ -4,7 +4,7 @@ import type { Movie } from '@/graphql';
 
 import { Button } from '@/components';
 
-import MovieActionsModal from '../../../../../components/movie/MovieActionsModal';
+import { MovieActionsModal } from '@/components/movie';
 
 interface MovieOptionsButtonProps {
   movie: {

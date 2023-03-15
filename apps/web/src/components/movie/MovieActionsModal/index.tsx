@@ -25,7 +25,7 @@ interface MovieActionsModalProps extends ModalHandles {
   };
 }
 
-const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
+export const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
   movie,
   onClose,
 }) => {
@@ -85,5 +85,3 @@ const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
     </Modal>
   );
 };
-
-export default MovieActionsModal;
