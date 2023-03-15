@@ -1,4 +1,4 @@
-import type { Movie } from '../../../../graphql';
+import type { Movie } from '@/graphql';
 
 import Link from '../../../../components/Link';
 import ListItem from '../../../../components/ListItem';

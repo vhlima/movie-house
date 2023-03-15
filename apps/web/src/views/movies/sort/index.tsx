@@ -1,6 +1,6 @@
-import { TmDbMovieSortInput, TmDbMovieSortType } from '../../../graphql';
+import { TmDbMovieSortInput, TmDbMovieSortType } from '@/graphql';
 
-import type { DiscoverMoviesQuery } from '../../../graphql';
+import type { DiscoverMoviesQuery } from '@/graphql';
 
 import Typography from '../../../components/Typography';
 

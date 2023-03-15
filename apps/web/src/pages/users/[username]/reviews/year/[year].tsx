@@ -2,9 +2,9 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindUserQuery, FindReviewsQuery } from '../../../../../graphql';
+import type { FindUserQuery, FindReviewsQuery } from '@/graphql';
 
-import { ReviewSortType } from '../../../../../graphql';
+import { ReviewSortType } from '@/graphql';
 
 import { addApolloState, initializeApollo } from '../../../../../client';
 

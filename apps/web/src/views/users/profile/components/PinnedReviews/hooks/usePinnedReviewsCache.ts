@@ -5,7 +5,7 @@ import {
   FindReviewsQueryVariables,
   ReviewSortType,
   FindReviewsDocument,
-} from '../../../../../../graphql';
+} from '@/graphql';
 
 import { useAuth } from '../../../../../../hooks/useAuth';
 

@@ -1,4 +1,4 @@
-import type { FindUserQuery, FindReviewsQuery } from '../../../graphql';
+import type { FindUserQuery, FindReviewsQuery } from '@/graphql';
 
 import Typography from '../../../components/Typography';
 

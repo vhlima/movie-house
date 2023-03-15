@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react';
 import type {
   FindUserQuery,
   FindPreMadeListMoviesQuery,
-} from '../../../graphql';
+} from '@/graphql';
 
 import Typography from '../../../components/Typography';
 

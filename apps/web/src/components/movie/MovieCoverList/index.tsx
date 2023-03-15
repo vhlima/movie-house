@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import type { ReactNode } from 'react';
 
-import type { Movie } from '../../../graphql';
+import type { Movie } from '@/graphql';
 
 import MovieCover from '../MovieCover';
 

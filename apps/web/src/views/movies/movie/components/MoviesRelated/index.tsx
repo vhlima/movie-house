@@ -3,7 +3,7 @@ import Card from '../../../../../components/Card';
 import MovieCoverList from '../../../../../components/movie/MovieCoverList';
 import Typography from '../../../../../components/Typography';
 
-import { useFindMovieRecommendationsQuery } from '../../../../../graphql';
+import { useFindMovieRecommendationsQuery } from '@/graphql';
 
 interface MoviesRelatedProps {
   movieId: number;

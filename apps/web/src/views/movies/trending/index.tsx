@@ -1,4 +1,4 @@
-import { useFindTrendingMoviesQuery } from '../../../graphql';
+import { useFindTrendingMoviesQuery } from '@/graphql';
 
 import Card from '../../../components/Card';
 

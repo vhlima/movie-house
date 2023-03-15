@@ -1,6 +1,6 @@
 import { NetworkStatus } from '@apollo/client';
 
-import type { FindFollowersQuery, FindFollowingsQuery } from '../../../graphql';
+import type { FindFollowersQuery, FindFollowingsQuery } from '@/graphql';
 
 import type { FollowsLogicProps } from './logic';
 

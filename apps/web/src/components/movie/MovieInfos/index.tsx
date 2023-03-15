@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import type { Movie, MovieCrewMember } from '../../../graphql';
+import type { Movie, MovieCrewMember } from '@/graphql';
 
 import { parseISO } from '../../../utils/date-utils';
 

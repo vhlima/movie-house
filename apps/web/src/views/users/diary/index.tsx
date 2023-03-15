@@ -1,4 +1,4 @@
-import type { FindUserQuery } from '../../../graphql';
+import type { FindUserQuery } from '@/graphql';
 
 import UserProfilePageView from '../components/UserProfilePageView';
 

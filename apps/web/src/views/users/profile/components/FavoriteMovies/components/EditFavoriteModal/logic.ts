@@ -1,7 +1,7 @@
 import {
   PreMadeListType,
   useFindPreMadeListMoviesQuery,
-} from '../../../../../../../graphql';
+} from '@/graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 

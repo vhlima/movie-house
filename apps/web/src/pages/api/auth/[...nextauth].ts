@@ -9,9 +9,9 @@ import type {
   FindUserByGithubIdQueryVariables,
   SignUpMutation,
   SignUpMutationVariables,
-} from '../../../graphql';
+} from '@/graphql';
 
-import { SignUpDocument, FindUserByGithubIdDocument } from '../../../graphql';
+import { SignUpDocument, FindUserByGithubIdDocument } from '@/graphql';
 
 export default NextAuth({
   session: {

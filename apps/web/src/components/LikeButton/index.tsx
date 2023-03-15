@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
-import { LikeType, useLikeOrDislikeMutation } from '../../graphql';
+import { LikeType, useLikeOrDislikeMutation } from '@/graphql';
 
 import { useAuth } from '../../hooks/useAuth';
 

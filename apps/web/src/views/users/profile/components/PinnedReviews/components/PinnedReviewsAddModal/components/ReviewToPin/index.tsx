@@ -1,6 +1,6 @@
 import { formatDateFromMillis } from '../../../../../../../../../utils/date-utils';
 
-import type { Review } from '../../../../../../../../../graphql';
+import type { Review } from '@/graphql';
 
 import Button from '../../../../../../../../../components/Button';
 

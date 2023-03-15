@@ -3,12 +3,12 @@ import { useApolloClient } from '@apollo/client';
 import type {
   FindPreMadeListMoviesQuery,
   FindPreMadeListMoviesQueryVariables,
-} from '../../../../../../../../graphql';
+} from '@/graphql';
 
 import {
   PreMadeListType,
   FindPreMadeListMoviesDocument,
-} from '../../../../../../../../graphql';
+} from '@/graphql';
 
 import { useAuth } from '../../../../../../../../hooks/useAuth';
 

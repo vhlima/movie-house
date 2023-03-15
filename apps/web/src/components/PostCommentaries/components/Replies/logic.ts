@@ -3,12 +3,12 @@ import { NetworkStatus } from '@apollo/client';
 import type {
   FindRepliesQuery,
   FindRepliesQueryVariables,
-} from '../../../../graphql';
+} from '@/graphql';
 
 import {
   useFindRepliesQuery,
   useDeleteReplyMutation,
-} from '../../../../graphql';
+} from '@/graphql';
 
 import { useRepliesCache } from '../../hooks/useRepliesCache';
 import { useCommentariesCache } from '../../hooks/useCommentariesCache';

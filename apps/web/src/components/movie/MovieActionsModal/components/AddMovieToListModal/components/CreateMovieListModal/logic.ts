@@ -3,12 +3,12 @@ import * as Yup from 'yup';
 import type {
   FindUserListsNamesQuery,
   FindUserListsNamesQueryVariables,
-} from '../../../../../../../graphql';
+} from '@/graphql';
 
 import {
   FindUserListsNamesDocument,
   useCreateListMutation,
-} from '../../../../../../../graphql';
+} from '@/graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 

@@ -1,4 +1,4 @@
-import type { FindReviewQuery } from '../../../graphql';
+import type { FindReviewQuery } from '@/graphql';
 
 import TextShorter from '../../../components/TextShorter';
 import PageContent from '../../../components/PageContent';

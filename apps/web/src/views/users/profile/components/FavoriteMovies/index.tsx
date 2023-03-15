@@ -7,7 +7,7 @@ import { useProfile } from '../../../hooks/useProfile';
 import {
   PreMadeListType,
   useFindPreMadeListMoviesQuery,
-} from '../../../../../graphql';
+} from '@/graphql';
 
 import Card from '../../../../../components/Card';
 

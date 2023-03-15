@@ -1,4 +1,4 @@
-import type { SearchMovieQuery } from '../../graphql';
+import type { SearchMovieQuery } from '@/graphql';
 
 import PageContent from '../../components/PageContent';
 import SubHeading from '../../components/SubHeading';

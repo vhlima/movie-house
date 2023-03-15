@@ -3,7 +3,7 @@ import type { ModalHandles } from '../../../../../../../../../components/Modal';
 import {
   PreMadeListType,
   useAddMovieToPreMadeListMutation,
-} from '../../../../../../../../../graphql';
+} from '@/graphql';
 
 import { useFavoriteMoviesCache } from '../../hooks/useFavoriteMoviesCache';
 

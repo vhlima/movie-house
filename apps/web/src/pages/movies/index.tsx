@@ -3,9 +3,9 @@ import type { GetServerSideProps, NextPage } from 'next';
 import type {
   DiscoverMoviesQuery,
   DiscoverMoviesQueryVariables,
-} from '../../graphql';
+} from '@/graphql';
 
-import { DiscoverMoviesDocument } from '../../graphql';
+import { DiscoverMoviesDocument } from '@/graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 

@@ -3,7 +3,7 @@ import { ApolloCache } from '@apollo/client';
 import type {
   IsMovieOnPreMadeListQuery,
   IsMovieOnPreMadeListQueryVariables,
-} from '../../../../graphql';
+} from '@/graphql';
 
 import {
   PreMadeListType,
@@ -11,7 +11,7 @@ import {
   useAddMovieToPreMadeListMutation,
   useIsMovieOnPreMadeListQuery,
   useRemoveMovieFromPreMadeListMutation,
-} from '../../../../graphql';
+} from '@/graphql';
 
 interface PreMadeListMoviesCacheProps {
   listType: PreMadeListType;

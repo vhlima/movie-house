@@ -1,4 +1,4 @@
-import { useFindListMoviesQuery } from '../../../../graphql';
+import { useFindListMoviesQuery } from '@/graphql';
 
 interface ListMoviesLogicProps {
   listId: string;

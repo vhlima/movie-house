@@ -9,9 +9,9 @@ import type {
   FindListQueryVariables,
   FindListMoviesQuery,
   FindListMoviesQueryVariables,
-} from '../../graphql';
+} from '@/graphql';
 
-import { FindListDocument, FindListMoviesDocument } from '../../graphql';
+import { FindListDocument, FindListMoviesDocument } from '@/graphql';
 
 import UserListView from '../../views/lists';
 

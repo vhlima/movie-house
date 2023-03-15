@@ -3,7 +3,7 @@ import type { ModalHandles } from '../../../../../../../components/Modal';
 import {
   useToggleReviewPinMutation,
   useFindReviewsQuery,
-} from '../../../../../../../graphql';
+} from '@/graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 

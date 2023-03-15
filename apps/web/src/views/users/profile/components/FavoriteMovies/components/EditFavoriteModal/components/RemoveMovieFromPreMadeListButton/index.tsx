@@ -5,7 +5,7 @@ import SvgIcon from '../../../../../../../../../components/SvgIcon';
 import {
   PreMadeListType,
   useRemoveMovieFromPreMadeListMutation,
-} from '../../../../../../../../../graphql';
+} from '@/graphql';
 
 interface RemoveMovieFromPreMadeListButtonProps {
   movieId: number;

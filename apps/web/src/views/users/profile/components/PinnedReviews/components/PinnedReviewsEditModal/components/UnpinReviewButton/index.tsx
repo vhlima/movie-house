@@ -1,7 +1,7 @@
 import Button from '../../../../../../../../../components/Button';
 import SvgIcon from '../../../../../../../../../components/SvgIcon';
 
-import { useToggleReviewPinMutation } from '../../../../../../../../../graphql';
+import { useToggleReviewPinMutation } from '@/graphql';
 
 import { usePinnedReviewsCache } from '../../../../hooks/usePinnedReviewsCache';
 

@@ -1,4 +1,4 @@
-import { useFindReviewsQuery } from '../../../../../graphql';
+import { useFindReviewsQuery } from '@/graphql';
 
 import Card from '../../../../../components/Card';
 

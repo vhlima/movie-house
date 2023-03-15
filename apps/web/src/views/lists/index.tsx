@@ -1,4 +1,4 @@
-import { FindListQuery } from '../../graphql';
+import { FindListQuery } from '@/graphql';
 
 import { formatDateDistanceFromMillis } from '../../utils/date-utils';
 

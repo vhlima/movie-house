@@ -1,4 +1,4 @@
-import type { MovieCharacter } from '../../../../../../../graphql';
+import type { MovieCharacter } from '@/graphql';
 
 import Image from '../../../../../../../components/Image';
 import Typography from '../../../../../../../components/Typography';

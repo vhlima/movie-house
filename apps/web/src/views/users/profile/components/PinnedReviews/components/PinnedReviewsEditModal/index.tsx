@@ -7,7 +7,7 @@ import type { ModalHandles } from '../../../../../../../components/Modal';
 import {
   ReviewSortType,
   useFindReviewsQuery,
-} from '../../../../../../../graphql';
+} from '@/graphql';
 
 import { useAuth } from '../../../../../../../hooks/useAuth';
 

@@ -5,9 +5,9 @@ import { addApolloState, initializeApollo } from '../../../client';
 import type {
   FindTrendingMoviesQuery,
   FindTrendingMoviesQueryVariables,
-} from '../../../graphql';
+} from '@/graphql';
 
-import { FindTrendingMoviesDocument } from '../../../graphql';
+import { FindTrendingMoviesDocument } from '@/graphql';
 
 import MoviesTrendingView from '../../../views/movies/trending';
 

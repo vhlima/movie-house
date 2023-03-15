@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 
 import type { SchemaOf } from 'yup';
 
-import type { CreateReviewMutationVariables } from '../../../../../graphql';
+import type { CreateReviewMutationVariables } from '@/graphql';
 
-import { useCreateReviewMutation } from '../../../../../graphql';
+import { useCreateReviewMutation } from '@/graphql';
 
 type ReviewFormikInput = Omit<CreateReviewMutationVariables, 'movieId'>;
 

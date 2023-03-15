@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useFindProfileStatsQuery } from '../../../../../../graphql';
+import { useFindProfileStatsQuery } from '@/graphql';
 
 import { useAuth } from '../../../../../../hooks/useAuth';
 

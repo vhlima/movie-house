@@ -1,4 +1,4 @@
-import { useFindUserQuery } from '../../../../../graphql';
+import { useFindUserQuery } from '@/graphql';
 
 import Card from '../../../../../components/Card';
 import Link from '../../../../../components/Link';

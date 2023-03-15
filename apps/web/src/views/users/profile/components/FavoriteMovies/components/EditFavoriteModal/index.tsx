@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import { PreMadeListType } from '../../../../../../../graphql';
+import { PreMadeListType } from '@/graphql';
 
 import type { ModalHandles } from '../../../../../../../components/Modal';
 

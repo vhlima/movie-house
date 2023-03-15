@@ -1,4 +1,4 @@
-import { useAddMovieToListMutation } from '../../../../../graphql';
+import { useAddMovieToListMutation } from '@/graphql';
 
 export const useLogic = () => {
   const [addMovieToCustomList, addMovieToCustomListResult] =

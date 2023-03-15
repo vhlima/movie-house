@@ -1,4 +1,4 @@
-import { ReviewSortType, useFindReviewsQuery } from '../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
 import Card from '../../Card';
 import QueryState from '../../QueryState';

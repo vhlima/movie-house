@@ -7,9 +7,9 @@ import * as Yup from 'yup';
 import type {
   FindMovieWithCreditsQuery,
   FindMovieWithCreditsQueryVariables,
-} from '../../graphql';
+} from '@/graphql';
 
-import { FindMovieWithCreditsDocument } from '../../graphql';
+import { FindMovieWithCreditsDocument } from '@/graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 

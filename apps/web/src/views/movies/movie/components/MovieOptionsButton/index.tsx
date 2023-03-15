@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { Movie } from '../../../../../graphql';
+import type { Movie } from '@/graphql';
 
 import Button from '../../../../../components/Button';
 

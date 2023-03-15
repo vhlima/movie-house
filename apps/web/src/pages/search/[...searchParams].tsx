@@ -5,9 +5,9 @@ import * as Yup from 'yup';
 import type {
   SearchMovieQuery,
   SearchMovieQueryVariables,
-} from '../../graphql';
+} from '@/graphql';
 
-import { SearchMovieDocument } from '../../graphql';
+import { SearchMovieDocument } from '@/graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 

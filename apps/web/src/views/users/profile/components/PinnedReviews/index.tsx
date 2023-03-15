@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ReviewSortType, useFindReviewsQuery } from '../../../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
 import { useAuth } from '../../../../../hooks/useAuth';
 

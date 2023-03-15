@@ -1,4 +1,4 @@
-import { useCreateCommentaryMutation } from '../../../../graphql';
+import { useCreateCommentaryMutation } from '@/graphql';
 
 import { useCommentariesCache } from '../../hooks/useCommentariesCache';
 

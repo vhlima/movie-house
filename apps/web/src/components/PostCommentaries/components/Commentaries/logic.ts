@@ -5,9 +5,9 @@ import { NetworkStatus } from '@apollo/client';
 import type {
   FindCommentariesQuery,
   FindCommentariesQueryVariables,
-} from '../../../../graphql';
+} from '@/graphql';
 
-import { useFindCommentariesQuery } from '../../../../graphql';
+import { useFindCommentariesQuery } from '@/graphql';
 
 interface CommentariesLogicProps {
   postId: string;

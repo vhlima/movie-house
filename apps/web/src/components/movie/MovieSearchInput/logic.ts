@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import type { MovieSearchResult } from './index';
 
-import { useSearchMovieLazyQuery } from '../../../graphql';
+import { useSearchMovieLazyQuery } from '@/graphql';
 
 export const useLogic = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import type { Movie } from '../../../graphql';
+import type { Movie } from '@/graphql';
 
 import type { ModalHandles } from '../../Modal';
 

@@ -1,4 +1,4 @@
-import type { FindReviewsQuery } from '../../../graphql';
+import type { FindReviewsQuery } from '@/graphql';
 
 import { parseISO } from '../../../utils/date-utils';
 

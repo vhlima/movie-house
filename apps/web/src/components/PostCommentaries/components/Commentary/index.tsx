@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { FindCommentariesQuery } from '../../../../graphql';
+import type { FindCommentariesQuery } from '@/graphql';
 
 import Button from '../../../Button';
 import SvgIcon from '../../../SvgIcon';
