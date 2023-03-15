@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren } from 'react';
 
-import Link from '../../Link';
+import { Link } from '@/components';
 
 interface UserProfileLinkProps {
   className?: string;

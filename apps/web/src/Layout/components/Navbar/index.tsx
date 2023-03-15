@@ -1,5 +1,5 @@
 import { Typography } from '@/components';
-import Link from '../../../components/Link';
+import { Link } from '../../../components/Link';
 import SvgIcon from '../../../components/SvgIcon';
 import PageContent from '../../../components/PageContent';
 

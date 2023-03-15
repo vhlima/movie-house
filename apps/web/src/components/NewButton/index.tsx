@@ -6,9 +6,9 @@ import type {
   MouseEventHandler,
 } from 'react';
 
-import type { LinkProps } from '../Link';
+import type { LinkProps } from '@/components';
 
-import Link from '../Link';
+import { Link } from '@/components';
 
 const buttonStyles: {
   [key in ButtonOrLinkStyleType]: {

@@ -1,7 +1,6 @@
 import type { FindListsQuery } from '@/graphql';
 
-import { Typography } from '@/components';
-import Link from '../../Link';
+import { Link, Typography } from '@/components';
 import SvgIcon from '../../SvgIcon';
 import TextShorter from '../../TextShorter';
 import MovieCoverList from '../../movie/MovieCoverList';

@@ -15,9 +15,7 @@ interface LinkInternalProps extends LinkProps {
   our app totally independent from 3rd party libs.
 */
 
-const Link: React.FC<PropsWithChildren<LinkInternalProps>> = ({
+export const Link: React.FC<PropsWithChildren<LinkInternalProps>> = ({
   children,
   ...rest
 }) => <NextLink {...rest}>{children}</NextLink>;
-
-export default Link;

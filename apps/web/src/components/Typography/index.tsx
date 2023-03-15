@@ -47,5 +47,3 @@ export const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
     </ElementComponent>
   );
 };
-
-export default Typography;

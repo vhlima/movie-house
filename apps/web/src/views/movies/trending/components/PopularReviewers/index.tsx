@@ -2,7 +2,7 @@ import { useFindUserQuery } from '@/graphql';
 
 import { Typography } from '@/components';
 import Card from '../../../../../components/Card';
-import Link from '../../../../../components/Link';
+import { Link } from '../../../../../components/Link';
 import ListItem from '../../../../../components/ListItem';
 import QueryState from '../../../../../components/QueryState';
 import ProfilePicture from '../../../../../components/ProfilePicture';

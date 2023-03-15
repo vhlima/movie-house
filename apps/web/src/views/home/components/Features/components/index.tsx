@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 
-import Link, { LinkProps } from '../../../../../components/Link';
+import { Link } from '@/components';
+
+import type { LinkProps } from '@/components';
 
 import SvgIcon, { SvgIconType } from '../../../../../components/SvgIcon';
 

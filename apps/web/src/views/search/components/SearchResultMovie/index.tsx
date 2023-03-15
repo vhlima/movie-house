@@ -1,7 +1,7 @@
 import type { Movie } from '@/graphql';
 
 import { Typography } from '@/components';
-import Link from '../../../../components/Link';
+import { Link } from '../../../../components/Link';
 import ListItem from '../../../../components/ListItem';
 import MovieLink from '../../../../components/movie/MovieLink';
 import MovieCover from '../../../../components/movie/MovieCover';
