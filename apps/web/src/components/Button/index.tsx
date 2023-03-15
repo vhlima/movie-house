@@ -97,7 +97,6 @@ export const Button: React.FC<PropsWithChildren<Props>> = props => {
     {
       'rounded-md': rounded,
       'justify-center': center,
-      'w-fit': !full,
       'w-full': full,
     },
   );
