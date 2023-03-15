@@ -1,7 +1,6 @@
 import type { FindListsQuery } from '@/graphql';
 
-import { Link, Typography, SvgIcon } from '@/components';
-import TextShorter from '../../TextShorter';
+import { Link, Typography, SvgIcon, TextShorter } from '@/components';
 import MovieCoverList from '../../movie/MovieCoverList';
 
 interface ListPreviewProps {
