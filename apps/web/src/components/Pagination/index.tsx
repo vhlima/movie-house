@@ -22,8 +22,9 @@ export const Pagination: React.FC<Pagination> = ({
   }
 
   return (
-    <nav className="flex items-center justify-between">
+    <nav className="flex flex-col gap-4 items-center justify-between sm:flex-row sm:gap-0">
       <Button
+        className="w-full sm:w-40"
         intent="secondary"
         full={false}
         disabled={currentPage === 1}
@@ -37,6 +38,7 @@ export const Pagination: React.FC<Pagination> = ({
       </Typography>
 
       <Button
+        className="w-full sm:w-40"
         intent="secondary"
         full={false}
         disabled={currentPage === totalPages}
