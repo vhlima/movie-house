@@ -35,20 +35,17 @@ const AddMovieToListModal: React.FC<AddMovieToListModalProps> = ({
       onClose={onClose}
     >
       <Button
-        className="p-2 border-b border-b-grey-700"
-        buttonStyle="tertiary"
-        buttonSize="none"
-        border={false}
+        className="gap-2 px-0 border-b border-b-grey-700"
+        intent="tertiary"
+        center={false}
         rounded={false}
         onClick={onClose}
       >
-        <div className="flex items-center gap-2 mr-auto">
-          <SvgIcon className="text-grey-400" iconType="FaChevronLeft" />
+        <SvgIcon className="ml-2" iconType="FaChevronLeft" />
 
-          <Typography className="font-bold" component="span" color="primary">
-            Back
-          </Typography>
-        </div>
+        <Typography className="font-bold" component="span" color="primary">
+          Back
+        </Typography>
       </Button>
 
       <Input.Container className="m-2" styleType="secondary" borderFocus="none">
@@ -63,15 +60,13 @@ const AddMovieToListModal: React.FC<AddMovieToListModalProps> = ({
       </Input.Container>
 
       <Button
-        className="flex gap-2 p-2 items-center border-b border-b-grey-700"
-        buttonStyle="tertiary"
-        buttonSize="none"
-        flex={false}
-        border={false}
+        className="gap-2 px-0 border-b border-b-grey-700"
+        intent="tertiary"
         rounded={false}
+        center={false}
         onClick={() => setCreatingNewList(true)}
       >
-        <SvgIcon iconType="BsPlusLg" />
+        <SvgIcon className="ml-2" iconType="BsPlusLg" />
 
         <Typography component="span" color="secondary">
           New list

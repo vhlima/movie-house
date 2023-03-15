@@ -57,8 +57,6 @@ const UserFollows: React.FC<UserFollowsProps> = ({ followType, userId }) => {
 
           <FollowButton
             className="ml-auto"
-            buttonSize="xs"
-            full={false}
             targetUserId={follow.node.targetUser.id}
           />
         </div>

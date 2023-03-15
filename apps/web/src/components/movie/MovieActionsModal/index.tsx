@@ -72,14 +72,11 @@ export const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
       <div className="flex flex-col gap-2 w-full">
         <MovieReviewButton movieId={movie.id} />
 
-        <Button
-          buttonStyle="secondary"
-          onClick={() => setSubModalOpen('addToList')}
-        >
+        <Button intent="secondary" onClick={() => setSubModalOpen('addToList')}>
           Add to list
         </Button>
 
-        <Button buttonStyle="secondary">Share</Button>
+        <Button intent="secondary">Share</Button>
       </div>
     </Modal>
   );

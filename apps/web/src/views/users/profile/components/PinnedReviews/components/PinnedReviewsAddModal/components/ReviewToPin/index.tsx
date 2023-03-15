@@ -1,5 +1,5 @@
 import type { Review } from '@/graphql';
-import { Typography, Button, SvgIcon } from '@/components';
+import { Typography, Button, SvgIcon, ListItem } from '@/components';
 import { MovieCover } from '@/components/movie';
 import { formatDateFromMillis } from '../../../../../../../../../utils/date-utils';
 
@@ -21,7 +21,7 @@ interface ReviewToPinProps {
 }
 
 const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
-  <li className="flex gap-2">
+  <ListItem className="flex gap-2" borderColor="light">
     <MovieCover sizeType="sm" movie={review.movie} link={false} />
 
     <section className="flex flex-col w-full mr-2">
@@ -38,8 +38,9 @@ const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
       </Typography>
 
       <Button
-        className="flex items-center gap-1 mt-2"
-        buttonStyle="secondary"
+        className="gap-2 mt-2"
+        intent="secondary"
+        title="Click to pin this review"
         onClick={() => onClick(review.id)}
       >
         <SvgIcon iconType="BsFillPinFill" />
@@ -47,7 +48,7 @@ const ReviewToPin: React.FC<ReviewToPinProps> = ({ review, onClick }) => (
         <Typography component="span">Pin this review</Typography>
       </Button>
     </section>
-  </li>
+  </ListItem>
 );
 
 export default ReviewToPin;

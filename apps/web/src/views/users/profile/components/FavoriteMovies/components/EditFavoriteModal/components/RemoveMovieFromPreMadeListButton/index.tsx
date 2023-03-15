@@ -2,6 +2,7 @@ import {
   PreMadeListType,
   useRemoveMovieFromPreMadeListMutation,
 } from '@/graphql';
+
 import { Button, SvgIcon } from '@/components';
 
 interface RemoveMovieFromPreMadeListButtonProps {
@@ -24,14 +25,15 @@ const RemoveMovieFromPreMadeListButton: React.FC<
 
   return (
     <Button
-      buttonStyle="danger"
+      intent="danger"
+      title="Click to remove"
       onClick={() =>
         removeMovieFromPreMadeList({
           variables: { movieId, listType },
         })
       }
     >
-      <SvgIcon className="text-danger-base" iconType="FiX" size={24} />
+      <SvgIcon className="text-inherit" iconType="FiX" size={24} />
     </Button>
   );
 };

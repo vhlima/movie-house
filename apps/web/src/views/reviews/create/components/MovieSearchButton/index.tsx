@@ -35,7 +35,7 @@ const MovieSearchButton: React.FC<
 
       <Button
         className={clsx('mt-auto', className && className)}
-        buttonStyle="secondary"
+        intent="secondary"
         onClick={() => setSearch(true)}
       >
         {children}

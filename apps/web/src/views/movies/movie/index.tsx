@@ -2,7 +2,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 import type { FindMovieWithCreditsQuery } from '@/graphql';
 
-import { Button, PageContent, TextShorter } from '@/components';
+import { Button, PageContent, TextShorter, Typography } from '@/components';
 import { MovieInfos } from '@/components/movie';
 import BackdropImage from '../../../components/BackdropImage';
 
@@ -23,18 +23,13 @@ const MovieView: React.FC<MovieViewProps> = ({ movieWithCredits: movie }) => {
     <BackdropImage src={movie.backdropUrl} alt={movie.originalTitle}>
       <PageContent>
         <MovieInfos movie={movie}>
-          <div className="flex items-center gap-1 text-grey-200 mt-2">
-            <Button
-              className="text-sm"
-              buttonStyle="secondary"
-              buttonSize="xs"
-              full={false}
-            >
+          <div className="flex items-center gap-2 mt-2">
+            <Button intent="secondary" size="sm" full={false}>
               Watch trailer
             </Button>
 
-            <div className="rounded-md border border-grey-700 px-1 bg-opacity-60">
-              <span>18</span>
+            <div className="rounded-md border border-grey-700 px-2 py-1">
+              <Typography component="span">18</Typography>
             </div>
           </div>
         </MovieInfos>

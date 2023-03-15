@@ -24,8 +24,7 @@ export const Pagination: React.FC<Pagination> = ({
   return (
     <nav className="flex items-center justify-between">
       <Button
-        className="px-4"
-        buttonStyle="secondary"
+        intent="secondary"
         full={false}
         disabled={currentPage === 1}
         onClick={() => handlePageChange(currentPage - 1)}
@@ -38,8 +37,7 @@ export const Pagination: React.FC<Pagination> = ({
       </Typography>
 
       <Button
-        className="px-4"
-        buttonStyle="secondary"
+        intent="secondary"
         full={false}
         disabled={currentPage === totalPages}
         onClick={() => handlePageChange(currentPage + 1)}

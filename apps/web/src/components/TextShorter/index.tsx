@@ -29,24 +29,23 @@ export const TextShorter: React.FC<TextShorterProps> = ({
 
       {collapse && (
         <Button
-          buttonStyle="tertiary"
-          buttonSize="none"
+          className="gap-2"
+          intent="secondary"
+          size="sm"
           full={false}
           onClick={() => setCollapsed(prev => !prev)}
         >
-          <div className="flex gap-1 items-center">
-            {!isCollapsed ? (
-              <>
-                <span>See more</span>
-                <SvgIcon iconType="FaChevronDown" />
-              </>
-            ) : (
-              <>
-                <span>See less</span>
-                <SvgIcon iconType="FaChevronUp" />
-              </>
-            )}
-          </div>
+          {!isCollapsed ? (
+            <>
+              <span>See more</span>
+              <SvgIcon iconType="FaChevronDown" />
+            </>
+          ) : (
+            <>
+              <span>See less</span>
+              <SvgIcon iconType="FaChevronUp" />
+            </>
+          )}
         </Button>
       )}
     </Typography>

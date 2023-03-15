@@ -29,10 +29,10 @@ const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ reviewId }) => {
 
   return (
     <Button
-      buttonStyle="danger"
+      intent="danger"
       onClick={() => unpinReview({ variables: { reviewId } })}
     >
-      <SvgIcon iconType="FiX" size={24} />
+      <SvgIcon className="text-inherit" iconType="FiX" size={24} />
     </Button>
   );
 };

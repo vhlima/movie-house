@@ -7,18 +7,17 @@ import {
 } from '@/graphql';
 
 import { Button } from '@/components';
-import type { ButtonProps } from '../Button';
 
-interface FollowButtonProps
-  extends Omit<ButtonProps, 'buttonStyle' | 'onClick'> {
+interface FollowButtonProps {
+  className?: string;
   targetUserId: string;
   onFollow?: () => Promise<void>;
 }
 
 const FollowButton: React.FC<FollowButtonProps> = ({
+  className,
   targetUserId,
   onFollow,
-  ...buttonProps
 }) => {
   const { data } = useIsFollowingQuery({ variables: { userId: targetUserId } });
 
@@ -49,9 +48,9 @@ const FollowButton: React.FC<FollowButtonProps> = ({
 
   return (
     <Button
-      buttonStyle={data?.isFollowing ? 'danger' : 'secondary'}
+      intent={data?.isFollowing ? 'danger' : 'secondary'}
       onClick={handleFollow}
-      {...buttonProps}
+      className={className}
     >
       {!data?.isFollowing ? 'Follow' : 'Unfollow'}
     </Button>

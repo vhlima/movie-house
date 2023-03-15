@@ -35,8 +35,8 @@ const Commentary: React.FC<CommentaryProps> = ({ commentary }) => {
     >
       {replyCount > 0 && (
         <Button
-          buttonStyle="tertiary"
-          buttonSize="none"
+          intent="tertiary"
+          size="sm"
           full={false}
           onClick={() => setViewingReplies(prev => !prev)}
         >

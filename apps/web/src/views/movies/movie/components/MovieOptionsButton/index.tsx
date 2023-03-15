@@ -28,7 +28,7 @@ const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({ movie }) => {
         />
       )}
 
-      <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
+      <Button intent="secondary" onClick={() => setOpen(true)}>
         Rate this movie
       </Button>
     </>

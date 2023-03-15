@@ -1,6 +1,7 @@
-import { useAuth, signIn, signOut } from '@/hooks/useAuth';
+import { useAuth, signIn } from '@/hooks/useAuth';
 
 import { Typography, Button, Modal, SvgIcon } from '@/components';
+
 import type { ModalHandles } from '@/components';
 
 type LoginModalProps = ModalHandles;
@@ -11,19 +12,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   return (
     <Modal backdrop center onClose={onClose}>
       <div className="flex flex-col gap-2">
-        {session ? (
-          <>
-            <Typography component="h1">You are already signed in</Typography>
-
-            <Button
-              type="button"
-              buttonStyle="danger"
-              onClick={() => signOut()}
-            >
-              Sign out
-            </Button>
-          </>
-        ) : (
+        {!session && (
           <>
             <Modal.Header>
               <Modal.Title text="Sign in" />
@@ -37,8 +26,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
             <div className="flex gap-2">
               <Button
-                className="flex gap-2"
-                buttonStyle="secondary"
+                className="gap-2"
+                intent="secondary"
                 onClick={() => signIn()}
               >
                 <SvgIcon className="flex-shrink-0" iconType="FaUserAlt" />
@@ -46,8 +35,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
               </Button>
 
               <Button
-                className="flex gap-2"
-                buttonStyle="secondary"
+                className="gap-2"
+                intent="secondary"
                 onClick={() => signIn()}
               >
                 <SvgIcon className="flex-shrink-0" iconType="FaUserAlt" />

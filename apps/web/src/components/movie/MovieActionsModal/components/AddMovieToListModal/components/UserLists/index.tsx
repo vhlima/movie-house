@@ -29,12 +29,10 @@ const UserLists: React.FC<UserListsProps> = ({ filter, onClick }) => {
       {listsToDisplay.map(({ id, name }) => (
         <li key={`user-list-${id}`}>
           <Button
-            className="p-2 text-left"
-            buttonStyle="tertiary"
-            buttonSize="none"
+            className="pl-2 px-0 font-normal"
+            intent="tertiary"
             rounded={false}
-            flex={false}
-            border={false}
+            center={false}
             onClick={() => onClick(id)}
           >
             {name}

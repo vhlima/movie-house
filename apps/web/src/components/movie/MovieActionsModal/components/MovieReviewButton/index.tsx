@@ -16,7 +16,7 @@ const MovieReviewButton: React.FC<MovieReviewButtonProps> = ({ movieId }) => {
   };
 
   return (
-    <Button buttonStyle="secondary" onClick={redirectToCreateReviewPage}>
+    <Button intent="secondary" onClick={redirectToCreateReviewPage}>
       Review
     </Button>
   );

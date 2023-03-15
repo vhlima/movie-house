@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import type { Movie } from '@/graphql';
 
 import { useOutsideClick } from '@/hooks/useOutsideClick';
-import { Typography, Button, Input } from '@/components';
+import { Button, Input } from '@/components';
 import { parseISO } from '../../../utils/date-utils';
 
 import { useLogic } from './logic';
@@ -72,17 +72,15 @@ export const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
           {searchResults.map(movie => (
             <li key={movie.id}>
               <Button
-                buttonStyle="secondary"
-                buttonSize="xs"
+                className="h-max py-2"
+                intent="secondary"
                 rounded={false}
                 onClick={() => onSelectMovie(movie)}
               >
-                <Typography component="span" color="primary">
-                  {movie.originalTitle}
+                {movie.originalTitle}
 
-                  {movie.releaseDate &&
-                    ` (${parseISO(movie.releaseDate).getFullYear()})`}
-                </Typography>
+                {movie.releaseDate &&
+                  ` (${parseISO(movie.releaseDate).getFullYear()})`}
               </Button>
             </li>
           ))}

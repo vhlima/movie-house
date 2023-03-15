@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-
 import { useFindProfileStatsQuery } from '@/graphql';
 
 import { useAuth } from '@/hooks/useAuth';
@@ -51,8 +49,6 @@ const ProfileStats: React.FC = () => {
     variables: { userId: user.id },
   });
 
-  const { push } = useRouter();
-
   const { id, username } = user;
 
   const isOwnProfile = session && session.user.id === id;
@@ -63,24 +59,17 @@ const ProfileStats: React.FC = () => {
         {!isOwnProfile ? (
           <>
             <FollowButton
-              buttonSize="xs"
               targetUserId={id}
               onFollow={async () => {
                 // await refetch();
               }}
             />
 
-            <Button buttonStyle="secondary" buttonSize="xs">
-              Message
-            </Button>
+            <Button intent="secondary">Message</Button>
           </>
         ) : (
-          <Button
-            buttonStyle="secondary"
-            buttonSize="xs"
-            onClick={() => push('/settings')}
-          >
-            Profile settings
+          <Button intent="secondary" href="/settings">
+            Profile Settings
           </Button>
         )}
       </div>

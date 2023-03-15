@@ -66,7 +66,7 @@ const ProfileSettingsView: React.FC = () => {
 
               <div className="flex flex-col gap-2 w-full">
                 <Button
-                  buttonStyle="secondary"
+                  intent="secondary"
                   onClick={() => profilePictureInputRef?.current.click()}
                 >
                   Upload profile picture
@@ -74,7 +74,7 @@ const ProfileSettingsView: React.FC = () => {
 
                 {uploadedProfilePictureUrl && (
                   <Button
-                    buttonStyle="danger"
+                    intent="danger"
                     onClick={clearUploadedProfilePictureUrl}
                   >
                     Remove uploaded picture
@@ -95,9 +95,7 @@ const ProfileSettingsView: React.FC = () => {
               </Input.Label>
             ))}
 
-            {/* <Button type="submit" disabled={updateUserResult.loading}>
-            Save changes
-          </Button> */}
+            <Button>Save changes</Button>
           </Form>
         </Formik>
       </Card.Body>

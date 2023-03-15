@@ -77,12 +77,12 @@ const CommentaryBase: React.FC<
         {session && session.user.username === base.user.username && (
           <Button
             className="ml-auto"
-            buttonStyle="danger"
-            buttonSize="xs"
+            intent="danger"
+            size="sm"
             full={false}
             onClick={onClickDelete}
           >
-            <SvgIcon iconType="FiX" />
+            <SvgIcon className="text-inherit" iconType="FiX" />
           </Button>
         )}
       </div>
