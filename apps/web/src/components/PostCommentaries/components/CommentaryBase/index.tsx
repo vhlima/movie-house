@@ -3,10 +3,9 @@ import clsx from 'clsx';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
-import { Typography } from '@/components';
+import { Typography, Button } from '@/components';
 import { formatDateDistanceFromMillis } from '../../../../utils/date-utils';
 
-import Button from '../../../Button';
 import SvgIcon from '../../../SvgIcon';
 import LikeButton from '../../../LikeButton';
 import TextShorter from '../../../TextShorter';

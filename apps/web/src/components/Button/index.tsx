@@ -16,7 +16,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   rounded?: boolean;
 }
 
-const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
+export const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   className,
   full = true,
   flex = true,
@@ -104,5 +104,3 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
     </button>
   );
 };
-
-export default Button;

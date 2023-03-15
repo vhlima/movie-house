@@ -1,6 +1,6 @@
 import { useFindUserListsNamesQuery } from '@/graphql';
 import { useAuth } from '@/hooks/useAuth';
-import Button from '../../../../../../Button';
+import { Button } from '@/components';
 
 import QueryState from '../../../../../../QueryState';
 

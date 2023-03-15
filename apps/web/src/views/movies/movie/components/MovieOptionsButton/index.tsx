@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { Movie } from '@/graphql';
 
-import Button from '../../../../../components/Button';
+import { Button } from '@/components';
 
 import MovieActionsModal from '../../../../../components/movie/MovieActionsModal';
 

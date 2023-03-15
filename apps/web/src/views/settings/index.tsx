@@ -4,11 +4,10 @@ import { Form, Formik } from 'formik';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import { Card } from '@/components';
+import { Card, Button } from '@/components';
 import { useLogic } from './logic';
 
 import Input from '../../components/Input';
-import Button from '../../components/Button';
 import ProfilePicture from '../../components/ProfilePicture';
 
 const ProfileSettingsView: React.FC = () => {

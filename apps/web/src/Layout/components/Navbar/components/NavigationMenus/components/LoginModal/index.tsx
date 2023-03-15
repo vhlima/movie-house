@@ -1,10 +1,9 @@
 import { useAuth, signIn, signOut } from '@/hooks/useAuth';
 
-import { Typography } from '@/components';
+import { Typography, Button } from '@/components';
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
 import Modal from '../../../../../../../components/Modal';
-import Button from '../../../../../../../components/Button';
 import SvgIcon from '../../../../../../../components/SvgIcon';
 
 type LoginModalProps = ModalHandles;

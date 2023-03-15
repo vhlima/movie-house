@@ -1,5 +1,5 @@
 import { useToggleReviewPinMutation } from '@/graphql';
-import Button from '../../../../../../../../../components/Button';
+import { Button } from '@/components';
 import SvgIcon from '../../../../../../../../../components/SvgIcon';
 
 import { usePinnedReviewsCache } from '../../../../hooks/usePinnedReviewsCache';

@@ -2,7 +2,7 @@ import {
   PreMadeListType,
   useRemoveMovieFromPreMadeListMutation,
 } from '@/graphql';
-import Button from '../../../../../../../../../components/Button';
+import { Button } from '@/components';
 
 import SvgIcon from '../../../../../../../../../components/SvgIcon';
 

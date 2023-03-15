@@ -2,8 +2,7 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import { Typography } from '@/components';
-import Button from '../Button';
+import { Typography, Button } from '@/components';
 
 import SvgIcon from '../SvgIcon';
 

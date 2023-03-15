@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
 
-import Button from '../../../../../components/Button';
+import { Button } from '@/components';
 
 import MovieSearchModal from '../../../../../components/movie/MovieSearchModal';
 

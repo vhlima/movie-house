@@ -6,9 +6,8 @@ import {
   useFollowMutation,
 } from '@/graphql';
 
+import { Button } from '@/components';
 import type { ButtonProps } from '../Button';
-
-import Button from '../Button';
 
 interface FollowButtonProps
   extends Omit<ButtonProps, 'buttonStyle' | 'onClick'> {

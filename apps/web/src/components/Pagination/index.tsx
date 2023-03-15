@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
-import { Typography } from '@/components';
-import Button from '../Button';
+import { Typography, Button } from '@/components';
 
 interface Pagination {
   currentPage: number;

@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
-import { Typography } from '@/components';
+import { Typography, Button } from '@/components';
 import type { ModalHandles } from '../../../../Modal';
 
 import { useLogic } from './logic';
 
 import Modal from '../../../../Modal';
 import Input from '../../../../Input';
-import Button from '../../../../Button';
 import SvgIcon from '../../../../SvgIcon';
 
 import UserLists from './components/UserLists';

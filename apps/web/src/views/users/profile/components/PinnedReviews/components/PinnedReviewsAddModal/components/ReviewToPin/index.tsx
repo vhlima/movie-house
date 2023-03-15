@@ -1,8 +1,6 @@
 import type { Review } from '@/graphql';
-import { Typography } from '@/components';
+import { Typography, Button } from '@/components';
 import { formatDateFromMillis } from '../../../../../../../../../utils/date-utils';
-
-import Button from '../../../../../../../../../components/Button';
 
 import SvgIcon from '../../../../../../../../../components/SvgIcon';
 

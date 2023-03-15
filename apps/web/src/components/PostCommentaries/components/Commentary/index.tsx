@@ -2,8 +2,7 @@ import { useState } from 'react';
 
 import type { FindCommentariesQuery } from '@/graphql';
 
-import { Typography } from '@/components';
-import Button from '../../../Button';
+import { Typography, Button } from '@/components';
 import SvgIcon from '../../../SvgIcon';
 
 import Replies from '../Replies';
