@@ -2,10 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next';
 
 import * as Yup from 'yup';
 
-import type {
-  SearchMovieQuery,
-  SearchMovieQueryVariables,
-} from '@/graphql';
+import type { SearchMovieQuery, SearchMovieQueryVariables } from '@/graphql';
 
 import { SearchMovieDocument } from '@/graphql';
 

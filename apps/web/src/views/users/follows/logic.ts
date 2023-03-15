@@ -9,10 +9,7 @@ import type {
   FindFollowingsQueryVariables,
 } from '@/graphql';
 
-import {
-  FindFollowersDocument,
-  FindFollowingsDocument,
-} from '@/graphql';
+import { FindFollowersDocument, FindFollowingsDocument } from '@/graphql';
 
 export interface FollowsLogicProps {
   followType: 'following' | 'followers';

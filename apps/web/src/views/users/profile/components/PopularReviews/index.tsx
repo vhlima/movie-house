@@ -1,6 +1,6 @@
 import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
-import { useProfile } from '@/hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
 import Card from '../../../../../components/Card';
 

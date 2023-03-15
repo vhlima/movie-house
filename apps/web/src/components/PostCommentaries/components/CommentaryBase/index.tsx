@@ -2,9 +2,8 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import { formatDateDistanceFromMillis } from '../../../../utils/date-utils';
-
 import { useAuth } from '@/hooks/useAuth';
+import { formatDateDistanceFromMillis } from '../../../../utils/date-utils';
 
 import Button from '../../../Button';
 import SvgIcon from '../../../SvgIcon';

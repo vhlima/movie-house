@@ -423,6 +423,7 @@ export type Query = {
   listMovies: MovieReferencePagination;
   lists: ListPagination;
   movie: Movie;
+  movieGenres: Array<MovieGenre>;
   movieRecommendations: TmDbMovieListPagination;
   movieWithCredits: MovieWithCredits;
   preMadeListMovies: MovieReferencePagination;

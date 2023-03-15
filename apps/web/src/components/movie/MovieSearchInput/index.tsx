@@ -4,9 +4,8 @@ import clsx from 'clsx';
 
 import type { Movie } from '@/graphql';
 
-import { parseISO } from '../../../utils/date-utils';
-
 import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { parseISO } from '../../../utils/date-utils';
 
 import { useLogic } from './logic';
 

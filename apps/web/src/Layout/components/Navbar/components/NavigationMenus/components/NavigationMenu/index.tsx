@@ -1,6 +1,5 @@
-import type { DropdownProps } from '../../../Dropdown';
-
 import { useAuth, signOut } from '@/hooks/useAuth';
+import type { DropdownProps } from '../../../Dropdown';
 
 import MenuItem from './components/MenuItem';
 

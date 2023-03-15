@@ -1,10 +1,8 @@
+import { useFindUserListsNamesQuery } from '@/graphql';
+import { useAuth } from '@/hooks/useAuth';
 import Button from '../../../../../../Button';
 
 import QueryState from '../../../../../../QueryState';
-
-import { useFindUserListsNamesQuery } from '@/graphql';
-
-import { useAuth } from '@/hooks/useAuth';
 
 interface UserListsProps {
   filter?: string;

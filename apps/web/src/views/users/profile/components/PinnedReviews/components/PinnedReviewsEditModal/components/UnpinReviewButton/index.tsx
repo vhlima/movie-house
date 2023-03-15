@@ -2,7 +2,7 @@ import { useToggleReviewPinMutation } from '@/graphql';
 import Button from '../../../../../../../../../components/Button';
 import SvgIcon from '../../../../../../../../../components/SvgIcon';
 
-import { usePinnedReviewsCache } from '@/hooks/usePinnedReviewsCache';
+import { usePinnedReviewsCache } from '../../../../hooks/usePinnedReviewsCache';
 
 interface UnpinReviewButtonProps {
   reviewId: string;

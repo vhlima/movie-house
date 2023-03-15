@@ -4,7 +4,7 @@ import { useFindProfileStatsQuery } from '@/graphql';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import { useProfile } from '@/hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
 import Button from '../../../../../../components/Button';
 import FollowButton from '../../../../../../components/FollowButton';

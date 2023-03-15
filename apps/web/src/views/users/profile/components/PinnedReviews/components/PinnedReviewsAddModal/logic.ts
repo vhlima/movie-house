@@ -1,9 +1,10 @@
 import { useToggleReviewPinMutation, useFindReviewsQuery } from '@/graphql';
 
 import { useAuth } from '@/hooks/useAuth';
+
 import type { ModalHandles } from '../../../../../../../components/Modal';
 
-import { usePinnedReviewsCache } from '@/hooks/usePinnedReviewsCache';
+import { usePinnedReviewsCache } from '../../hooks/usePinnedReviewsCache';
 
 type AddModalLogicProps = ModalHandles;
 
@@ -16,7 +17,7 @@ export const useLogic = ({ onClose }: AddModalLogicProps) => {
 
   const { updateCache } = usePinnedReviewsCache();
 
-  const [pinReview] = useToggleReviewPinMutation({
+  const [pinReview, { error }] = useToggleReviewPinMutation({
     errorPolicy: 'all',
     update: (_, { data }, ctx) => {
       if (!data || !data.toggleReviewPin || !reviewsResponse.data) return;
@@ -38,9 +39,9 @@ export const useLogic = ({ onClose }: AddModalLogicProps) => {
   });
 
   const handlePinReview = async (reviewId: string) => {
-    const { errors } = await pinReview({ variables: { reviewId } });
+    await pinReview({ variables: { reviewId } });
 
-    if (!errors) {
+    if (!error) {
       onClose();
     }
   };

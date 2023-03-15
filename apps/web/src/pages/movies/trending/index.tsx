@@ -1,13 +1,12 @@
 import type { GetStaticProps, NextPage } from 'next';
 
-import { addApolloState, initializeApollo } from '../../../client';
-
 import type {
   FindTrendingMoviesQuery,
   FindTrendingMoviesQueryVariables,
 } from '@/graphql';
 
 import { FindTrendingMoviesDocument } from '@/graphql';
+import { addApolloState, initializeApollo } from '../../../client';
 
 import MoviesTrendingView from '../../../views/movies/trending';
 

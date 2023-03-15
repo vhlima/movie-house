@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { useRouter } from 'next/router';
 
-import { useProfile } from '@/hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
 import Link from '../../../../../../components/Link';
 import Typography from '../../../../../../components/Typography';

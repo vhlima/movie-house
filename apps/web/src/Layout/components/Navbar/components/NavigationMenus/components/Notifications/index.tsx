@@ -1,6 +1,5 @@
-import type { DropdownProps } from '../../../Dropdown';
-
 import { useAuth } from '@/hooks/useAuth';
+import type { DropdownProps } from '../../../Dropdown';
 
 import Notification from './components/Notification';
 

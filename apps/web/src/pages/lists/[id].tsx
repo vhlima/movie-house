@@ -2,8 +2,6 @@ import type { GetServerSideProps, NextPage } from 'next';
 
 import * as Yup from 'yup';
 
-import { addApolloState, initializeApollo } from '../../client';
-
 import type {
   FindListQuery,
   FindListQueryVariables,
@@ -12,6 +10,7 @@ import type {
 } from '@/graphql';
 
 import { FindListDocument, FindListMoviesDocument } from '@/graphql';
+import { addApolloState, initializeApollo } from '../../client';
 
 import UserListView from '../../views/lists';
 

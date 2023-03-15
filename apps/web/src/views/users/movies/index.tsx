@@ -1,9 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import type {
-  FindUserQuery,
-  FindPreMadeListMoviesQuery,
-} from '@/graphql';
+import type { FindUserQuery, FindPreMadeListMoviesQuery } from '@/graphql';
 
 import Typography from '../../../components/Typography';
 

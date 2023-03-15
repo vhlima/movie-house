@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 
 import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/graphql';
-import { useProfile } from '@/hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
 import Card from '../../../../../components/Card';
 

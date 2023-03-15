@@ -1,6 +1,6 @@
 import { PreMadeListType } from '@/graphql';
 
-import { usePreMadeListMoviesCache } from '@/hooks/usePreMadeListMoviesCache';
+import { usePreMadeListMoviesCache } from '../../hooks/usePreMadeListMoviesCache';
 
 import ActionButton from '../ActionButton';
 
