@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react';
 
 import { Input } from '@/components';
 
-import MovieSearchInput from '../../../../components/movie/MovieSearchInput';
+import { MovieSearchInput } from '@/components/movie';
 
 import SortNavigation from './components/SortNavigation';
 

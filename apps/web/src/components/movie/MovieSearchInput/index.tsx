@@ -23,7 +23,7 @@ interface MovieSearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   onSelectMovie: (movie: MovieSearchResult) => void;
 }
 
-const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
+export const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
   styleType = 'primary',
   dropdown,
   onSelectMovie,
@@ -91,5 +91,3 @@ const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
     </div>
   );
 };
-
-export default MovieSearchInput;
