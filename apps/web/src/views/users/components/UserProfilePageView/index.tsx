@@ -42,7 +42,7 @@ const UserProfilePageView: React.FC<
       src="https://a.ltrbxd.com/resized/sm/upload/dr/yl/7v/w5/its-a-wonderful-life-1200-1200-675-675-crop-000000.jpg"
       alt="User profile backdrop"
     >
-      <PageContent className="relative flex flex-col justify-center gap-8 w-full">
+      <PageContent className="relative flex flex-col justify-center gap-4 w-full">
         <div className="flex items-center gap-2">
           <ProfilePicture imageSize="lg" src={user.profilePictureUrl} />
 
