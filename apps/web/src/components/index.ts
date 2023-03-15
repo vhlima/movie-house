@@ -9,3 +9,4 @@ export * from './Modal';
 export * from './Observer';
 export * from './PageContent';
 export * from './Pagination';
+export * from './PostCommentaries';
