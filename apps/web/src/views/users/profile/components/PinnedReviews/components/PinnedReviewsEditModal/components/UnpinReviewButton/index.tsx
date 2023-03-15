@@ -30,6 +30,7 @@ const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ reviewId }) => {
   return (
     <Button
       intent="danger"
+      title="Click to unpin review"
       onClick={() => unpinReview({ variables: { reviewId } })}
     >
       <SvgIcon className="text-inherit" iconType="FiX" size={24} />
