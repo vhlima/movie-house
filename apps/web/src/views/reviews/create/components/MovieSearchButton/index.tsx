@@ -6,9 +6,9 @@ import clsx from 'clsx';
 
 import { Button } from '@/components';
 
-import MovieSearchModal from '../../../../../components/movie/MovieSearchModal';
+import { MovieSearchModal } from '@/components/movie';
 
-import type { MovieSearchResult } from '../../../../../components/movie/MovieSearchModal';
+import type { MovieSearchResult } from '@/components/movie';
 
 interface MovieSearchButtonProps {
   className?: string;
