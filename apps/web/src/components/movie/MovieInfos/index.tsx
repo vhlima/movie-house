@@ -21,7 +21,7 @@ interface MovieInfosProps {
   };
 }
 
-const MovieInfos: React.FC<PropsWithChildren<MovieInfosProps>> = ({
+export const MovieInfos: React.FC<PropsWithChildren<MovieInfosProps>> = ({
   movie,
   children,
 }) => {
@@ -77,5 +77,3 @@ const MovieInfos: React.FC<PropsWithChildren<MovieInfosProps>> = ({
     </div>
   );
 };
-
-export default MovieInfos;

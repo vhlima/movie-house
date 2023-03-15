@@ -1,8 +1,8 @@
 import type { FindReviewQuery } from '@/graphql';
 
 import { PageContent, PostCommentaries, TextShorter } from '@/components';
+import { MovieInfos } from '@/components/movie';
 import BackdropImage from '../../../components/BackdropImage';
-import MovieInfos from '../../../components/movie/MovieInfos';
 import ReviewHeader from '../../../components/review/ReviewHeader';
 import UserProfileLink from '../../../components/user/UserProfileLink';
 

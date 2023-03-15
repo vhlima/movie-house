@@ -3,8 +3,8 @@ import { useAuth } from '@/hooks/useAuth';
 import type { FindMovieWithCreditsQuery } from '@/graphql';
 
 import { Button, PageContent, TextShorter } from '@/components';
+import { MovieInfos } from '@/components/movie';
 import BackdropImage from '../../../components/BackdropImage';
-import MovieInfos from '../../../components/movie/MovieInfos';
 
 import MovieCast from './components/MovieCast';
 import MovieGenres from './components/MovieGenres';
