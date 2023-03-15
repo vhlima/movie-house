@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react';
 
 import type { ImageProps } from 'next/image';
 
-import Image from '../Image';
+import { Image } from '@/components';
 
 const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
   className,

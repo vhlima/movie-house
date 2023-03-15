@@ -1,6 +1,6 @@
 import type { ImageProps } from 'next/image';
 
-import Image from '../Image';
+import { Image } from '@/components';
 
 type ImageSizeType = 'lg' | 'md' | 'sm';
 
