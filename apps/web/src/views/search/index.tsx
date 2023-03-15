@@ -1,6 +1,6 @@
 import type { SearchMovieQuery } from '@/graphql';
 
-import { Typography, PageContent, Pagination, SubHeading } from '@/components';
+import { Typography, Pagination, SubHeading } from '@/components';
 
 import SearchResultMovie from './components/SearchResultMovie';
 
@@ -17,13 +17,14 @@ const SearchPageView: React.FC<SearchPageViewProps> = ({
   const hasAnyResult = edges && edges.length > 0;
 
   return (
-    <PageContent className="mt-4">
+    <div className="mt-2 md:mt-4">
       <SubHeading
         title={
           totalCount && totalCount > 0
             ? `Found at least ${totalCount} matches for “${searchTerm}”`
             : 'No results'
         }
+        marginBottom
       />
 
       {!hasAnyResult ? (
@@ -47,7 +48,7 @@ const SearchPageView: React.FC<SearchPageViewProps> = ({
           />
         </>
       )}
-    </PageContent>
+    </div>
   );
 };
 
