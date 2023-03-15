@@ -1,7 +1,7 @@
+import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 import { Typography, Modal } from '@/components';
 import type { ModalHandles } from '@/components';
-
-import { useLogic } from './logic';
+import { useAuth } from '@/hooks/useAuth';
 
 import QueryState from '../../../../../../../components/QueryState';
 
@@ -12,9 +12,19 @@ type PinnedReviewsAddModalProps = ModalHandles;
 const PinnedReviewsAddModal: React.FC<PinnedReviewsAddModalProps> = ({
   onClose,
 }) => {
-  const { reviewsResponse, handlePinReview } = useLogic({ onClose });
+  const { data: session } = useAuth();
 
-  const { data, loading, error } = reviewsResponse;
+  const { data, loading, error } = useFindReviewsQuery({
+    fetchPolicy: 'no-cache',
+    variables: {
+      page: 1,
+      sort: {
+        type: ReviewSortType.Pinned,
+        filter: 'false',
+      },
+      userId: session.user.id,
+    },
+  });
 
   const availableReviews = data ? data.reviews.edges : [];
 
@@ -41,7 +51,7 @@ const PinnedReviewsAddModal: React.FC<PinnedReviewsAddModalProps> = ({
               <ReviewToPin
                 key={`review-to-pin-${edge.node.id}`}
                 review={edge.node}
-                onClick={reviewId => handlePinReview(reviewId)}
+                onClose={onClose}
               />
             ))}
           </ul>
