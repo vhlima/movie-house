@@ -8,7 +8,7 @@ interface SubHeadingProps {
   marginBottom?: boolean;
 }
 
-const SubHeading: React.FC<PropsWithChildren<SubHeadingProps>> = ({
+export const SubHeading: React.FC<PropsWithChildren<SubHeadingProps>> = ({
   title,
   marginBottom,
   children,
@@ -27,5 +27,3 @@ const SubHeading: React.FC<PropsWithChildren<SubHeadingProps>> = ({
     {children}
   </div>
 );
-
-export default SubHeading;

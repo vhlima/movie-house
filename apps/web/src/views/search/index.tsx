@@ -1,7 +1,6 @@
 import type { SearchMovieQuery } from '@/graphql';
 
-import { Typography, PageContent, Pagination } from '@/components';
-import SubHeading from '../../components/SubHeading';
+import { Typography, PageContent, Pagination, SubHeading } from '@/components';
 
 import SearchResultMovie from './components/SearchResultMovie';
 
