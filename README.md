@@ -2,7 +2,7 @@
 
 Movie House is a real but primarily educational project based on some of the largest movie sites for film lovers such as [IMDb](https://www.imdb.com/), [Rotten Tomatoes](https://www.rottentomatoes.com/), and [Letterboxd](https://letterboxd.com/), as well as the social media platforms [Facebook](https://www.facebook.com/) and [Instagram](https://www.instagram.com/). This project shares many features with the aforementioned reference sites, such as creating posts reviewing films, liking and commenting, user profiles with the option to follow others, add movies, ratings, and bio. The user can also choose to browse the various movie genres found on the categories page, find new films on the popular movies page, or even be recommended based on their choices.
 
-### Features
+## Features
 
 The following are some of the features that can be found in Movie House, many of which are also present in the popular movie site, Letterboxd:
 
