@@ -18,7 +18,7 @@ export const MovieReview: React.FC<Props> = ({ review }) => {
   const { post, user } = review;
 
   return (
-    <ListItem className="flex gap-2" key={`${post.id}`}>
+    <ListItem className="flex gap-2">
       <ProfilePicture imageSize="md" src={user.profilePictureUrl} />
 
       <div>
