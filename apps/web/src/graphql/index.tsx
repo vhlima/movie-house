@@ -1296,7 +1296,6 @@ export type FindReviewQuery = {
   review: {
     __typename?: 'Review';
     id: string;
-    isPinned: boolean;
     user: {
       __typename?: 'User';
       username: string;
@@ -1312,7 +1311,6 @@ export type FindReviewQuery = {
       __typename?: 'Movie';
       id: number;
       originalTitle: string;
-      runtime: number;
       posterUrl: string;
       backdropUrl: string;
       releaseDate?: any | null;
@@ -3357,7 +3355,6 @@ export const FindReviewDocument = gql`
   query FindReview($reviewId: String!) {
     review(reviewId: $reviewId) {
       id
-      isPinned
       user {
         username
         profilePictureUrl
@@ -3370,7 +3367,6 @@ export const FindReviewDocument = gql`
       movie {
         id
         originalTitle
-        runtime
         posterUrl
         backdropUrl
         releaseDate
