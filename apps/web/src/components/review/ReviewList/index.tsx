@@ -17,8 +17,8 @@ export const ReviewList: React.FC<Props> = ({ reviews, emptyMessage }) => {
   ) : (
     <ul>
       {reviews.map(review => (
-        <ListItem>
-          <Review key={`recent-review-${review.id}`} review={review} />
+        <ListItem key={`review-list-${review.id}`}>
+          <Review review={review} />
         </ListItem>
       ))}
     </ul>
