@@ -2,7 +2,7 @@ import { useFindReviewsQuery } from '@/graphql';
 
 import { Typography, Card } from '@/components';
 
-import Review from '@/components/review/Review';
+import MovieReview from '../MovieReview';
 
 interface MoviePopularReviewsProps {
   movieId: number;
@@ -20,10 +20,7 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
 
   return (
     <Card>
-      <Card.Header
-        title="Popular reviews"
-        marginBottom={!hasAnyPopularReview}
-      />
+      <Card.Header title="Popular reviews" marginBottom />
 
       <Card.Body>
         {!hasAnyPopularReview ? (
@@ -33,10 +30,9 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
         ) : (
           <ul>
             {popularReviewsData.reviews.edges.map(edge => (
-              <Review
-                key={`movie-popular-review-${edge.node.id}`}
+              <MovieReview
+                key={`popular-movie-reviews-${edge.node.id}`}
                 review={edge.node}
-                preview={false}
               />
             ))}
           </ul>
