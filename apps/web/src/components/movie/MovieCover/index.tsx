@@ -13,6 +13,7 @@ interface MovieCover2Props {
   sizeType?: 'sm' | 'md';
   movie?: Pick<Movie, 'id' | 'originalTitle' | 'posterUrl'>;
   link?: boolean;
+  borderHover?: boolean;
 
   width?: number;
   height?: number;
@@ -23,6 +24,7 @@ export const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   sizeType,
   movie,
   link = true,
+  borderHover = true,
   width = 250,
   height = 250,
   children,
@@ -50,8 +52,10 @@ export const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   return (
     <div
       className={clsx(
-        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
+        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-600',
         {
+          'transition-colors hover:border-movieHouse-mid focus-within:border-movieHouse-mid':
+            borderHover,
           'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
           'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
           'w-fit h-full': hasMovieAndPoster,
