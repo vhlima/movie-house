@@ -43,27 +43,32 @@ const buttonStyles: {
     bg: string;
     text: string;
     hover: string;
+    focus: string;
   };
 } = {
   primary: {
     bg: 'bg-movieHouse-mid',
     text: 'text-white font-bold',
     hover: 'hover:bg-movieHouse-light',
+    focus: 'focus:border-white',
   },
   secondary: {
     bg: 'bg-grey-700',
     text: 'text-grey-100 font-bold',
     hover: 'hover:bg-grey-600',
+    focus: 'focus:border-grey-400',
   },
   tertiary: {
     bg: 'bg-transparent',
     text: 'text-grey-200 font-bold',
     hover: 'hover:bg-grey-600',
+    focus: 'focus:border-grey-400',
   },
   danger: {
     bg: 'bg-grey-700',
     text: 'text-danger-base font-bold',
     hover: 'hover:bg-grey-600',
+    focus: 'focus:border-grey-400',
   },
 };
 
@@ -90,9 +95,10 @@ export const Button: React.FC<PropsWithChildren<ButtonProps>> = props => {
   const buttonStyleProps = buttonStyles[intent];
 
   const buttonStyleBaseClasses = clsx(
-    'flex items-center outline-none transition-colors duration-300',
+    'flex items-center outline-none transition-colors duration-300 border border-transparent',
     buttonStyleProps.bg,
     buttonStyleProps.text,
+    buttonStyleProps.focus,
     buttonSizes[size],
     {
       'rounded-md': rounded,
