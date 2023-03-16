@@ -52,7 +52,7 @@ export const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   return (
     <div
       className={clsx(
-        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-600',
+        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-600 flex-shrink-0',
         {
           'transition-colors hover:border-movieHouse-mid focus-within:border-movieHouse-mid':
             borderHover,
