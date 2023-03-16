@@ -20,10 +20,11 @@ export const MovieGenres: React.FC<MovieGenresProps> = ({ genres }) => {
   return (
     <ul className="flex gap-2 flex-wrap">
       {genres.map(genre => (
-        <li className="border border-grey-700 rounded-md">
+        <li className="border border-grey-700 rounded-md overflow-hidden">
           <Button
             intent="tertiary"
             size="sm"
+            rounded={false}
             href={buildFilteredHref(genre.name).href}
           >
             {genre.name}
