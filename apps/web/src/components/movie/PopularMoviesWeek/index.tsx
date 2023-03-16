@@ -26,10 +26,7 @@ export const PopularMoviesWeek: React.FC = () => {
           <ul className="grid grid-cols-3 sm:grid-cols-6 gap-2">
             {data.trendingMovies.edges.slice(0, 6).map(edge => (
               <li key={`movie-cover-${edge.node.id}`}>
-                <MovieCover
-                  className="group hover:border-movieHouse-light"
-                  movie={edge.node}
-                />
+                <MovieCover movie={edge.node} />
               </li>
             ))}
           </ul>
