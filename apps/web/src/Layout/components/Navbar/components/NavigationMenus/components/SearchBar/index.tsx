@@ -25,7 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onClose }) => {
         initialValues={{ searchTerm: '' }}
         onSubmit={values => searchRedirect(values.searchTerm)}
       >
-        <Form>
+        <Form className="p-4">
           <Input.Container styleType="secondary">
             <Input
               id="searchTerm"
