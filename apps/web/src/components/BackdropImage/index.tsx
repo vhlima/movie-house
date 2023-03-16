@@ -13,9 +13,9 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
 }) => (
   <>
     {imageProps.src && (
-      <div className="relative w-full h-72 md:h-80 lg:h-[22rem]">
+      <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px]">
         <Image
-          sizes="100vw, 100vh"
+          sizes="(min-width: 1024px) 1200px, (min-width: 640px) 500px, 100vw"
           style={{ objectFit: 'cover' }}
           fill
           priority
@@ -50,9 +50,10 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
 
     <div
       className={clsx(
+        'px-2 md:px-8',
         {
-          '-mt-16': !!imageProps.src,
-          'mt-8': !imageProps.src,
+          '-mt-16 lg:-mt-24': !!imageProps.src,
+          'mt-4': !imageProps.src,
         },
         className && className,
       )}
