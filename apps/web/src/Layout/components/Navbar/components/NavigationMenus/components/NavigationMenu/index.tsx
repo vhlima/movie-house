@@ -1,4 +1,5 @@
 import { useAuth, signOut } from '@/hooks/useAuth';
+
 import type { DropdownProps } from '../../../Dropdown';
 
 import MenuItem from './components/MenuItem';
@@ -9,51 +10,33 @@ const NavigationMenu: React.FC<DropdownProps> = ({ onClose }) => {
   const { data: session } = useAuth();
 
   return (
-    <Dropdown onClose={onClose}>
-      <ul className="">
+    <Dropdown tabIndex={-1} onClose={onClose}>
+      <ul>
         {session && (
           <MenuItem
-            itemProps={{
-              href: {
-                pathname: '/users/[username]',
-                query: { username: session.user.username },
-              },
+            href={{
+              pathname: '/users/[username]',
+              query: { username: session.user.username },
             }}
             text="My Profile"
             icon="FaRegUserCircle"
           />
         )}
 
-        <MenuItem
-          itemProps={{ href: '/movies' }}
-          text="Films"
-          icon="BsFillCollectionFill"
-        />
+        <MenuItem text="Films" icon="BsFillCollectionFill" href="/movies" />
 
         {session && (
           <MenuItem
-            itemProps={{
-              href: {
-                pathname: '/users/[username]/lists',
-                query: { username: session.user.username },
-              },
-            }}
             text="Lists"
             icon="FaListUl"
+            href={{
+              pathname: '/users/[username]/lists',
+              query: { username: session.user.username },
+            }}
           />
         )}
 
-        {/* <MenuItem itemProps={{ href: '/' }} text="Members" icon="FaUsers" /> */}
-
-        {/* <MenuItem
-          itemProps={{ href: '/' }}
-          text="Journal"
-          icon="IoIosJournal"
-        /> */}
-
-        {session && (
-          <MenuItem itemProps={{ onClick: signOut }} text="Logout" icon="FiX" />
-        )}
+        {session && <MenuItem text="Logout" icon="FiX" onClick={signOut} />}
       </ul>
     </Dropdown>
   );
