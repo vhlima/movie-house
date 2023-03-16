@@ -17,8 +17,8 @@ const Review: React.FC<MovieReviewViewProps> = ({ review, preview = true }) => {
   const { movie, post } = review;
 
   return (
-    <div className="flex gap-2">
-      {preview && <MovieCover movie={movie} sizeType="sm" />}
+    <div className="flex w-full z-10 gap-4">
+      <MovieCover movie={movie} sizeType={preview ? 'sm' : 'md'} />
 
       <div className="flex flex-col">
         <Typography
@@ -78,7 +78,11 @@ const Review: React.FC<MovieReviewViewProps> = ({ review, preview = true }) => {
           </Typography>
         </div>
 
-        <TextShorter className="mb-4" maxCharacters={400} text={post.content} />
+        <TextShorter
+          className="mb-4"
+          maxCharacters={preview ? 200 : post.content.length}
+          text={post.content}
+        />
 
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-1 w-fit" type="button">
