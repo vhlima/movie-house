@@ -1,8 +1,6 @@
 import type { FindUserQuery, FindReviewsQuery } from '@/graphql';
 
-import { Typography } from '@/components';
-
-import Review from '@/components/review/Review';
+import { ReviewList } from '@/components/review/ReviewList';
 
 import UserProfilePageView from '../components/UserProfilePageView';
 
@@ -13,8 +11,6 @@ type UserReviewsViewProps = FindUserQuery & FindReviewsQuery;
 const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
   const reviewCount = reviews.totalCount;
 
-  const hasAnyReview = reviewCount > 0;
-
   return (
     <UserProfilePageView
       user={user}
@@ -23,15 +19,10 @@ const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
       }`}
       sortButtons={<ReviewsSortButtons user={user} />}
     >
-      {!hasAnyReview ? (
-        <Typography component="h1">No reviews made yet.</Typography>
-      ) : (
-        <ul>
-          {reviews.edges.map(edge => (
-            <Review key={`user-reviews-${edge.node.id}`} review={edge.node} />
-          ))}
-        </ul>
-      )}
+      <ReviewList
+        reviews={reviews.edges.map(edge => edge.node)}
+        emptyMessage="No reviews made yet."
+      />
     </UserProfilePageView>
   );
 };
