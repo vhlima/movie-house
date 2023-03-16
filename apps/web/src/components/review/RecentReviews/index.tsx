@@ -23,15 +23,15 @@ const RecentReviews: React.FC = () => {
           <Typography component="p">No reviews have been created.</Typography>
         ) : (
           <ul className="grid grid-cols-4 sm:grid-cols-8 gap-2">
-            {data.reviews.edges.map(({ node }) => (
-              <li key={`recent-review-${node.id}`}>
+            {data.reviews.edges.map(edge => (
+              <li key={`recent-review-${edge.node.id}`}>
                 <Link
                   href={{
                     pathname: '/reviews/[id]',
-                    query: { id: node.post.id },
+                    query: { id: edge.node.id },
                   }}
                 >
-                  <MovieCover movie={node.movie} link={false} />
+                  <MovieCover movie={edge.node.movie} link={false} />
                 </Link>
               </li>
             ))}
