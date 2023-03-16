@@ -6,9 +6,9 @@ import { useAuth } from '@/hooks/useAuth';
 
 import { useProfile } from '@/views/users/hooks/useProfile';
 
-import { Typography, Card } from '@/components';
+import { Card } from '@/components';
 
-import ReviewPreview from '../../../../../components/review/ReviewPreview';
+import { ReviewList } from '@/components/review/ReviewList';
 
 import PinnedReviewsEditModal from './components/PinnedReviewsEditModal';
 
@@ -29,9 +29,6 @@ export const PinnedReviews: React.FC = () => {
 
   const [isEditing, setEditing] = useState<boolean>(false);
 
-  const hasAnyReviewPinned =
-    userPinnedReviewsData && userPinnedReviewsData.reviews.totalCount > 0;
-
   const isSameUserAsSession = session && session.user.id === user.id;
 
   return (
@@ -48,20 +45,14 @@ export const PinnedReviews: React.FC = () => {
         </Card.Header>
 
         <Card.Body>
-          {!hasAnyReviewPinned ? (
-            <Typography component="p">
-              {user.username} dont have any review pinned.
-            </Typography>
-          ) : (
-            <ul>
-              {userPinnedReviewsData.reviews.edges.map(edge => (
-                <ReviewPreview
-                  key={`pinned-review-${edge.node.id}`}
-                  review={edge.node}
-                />
-              ))}
-            </ul>
-          )}
+          <ReviewList
+            reviews={
+              userPinnedReviewsData
+                ? userPinnedReviewsData.reviews.edges.map(edge => edge.node)
+                : []
+            }
+            emptyMessage={`${user.username} dont have any review pinned.`}
+          />
         </Card.Body>
       </Card>
     </>

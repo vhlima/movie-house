@@ -2,7 +2,7 @@ import type { FindUserQuery, FindReviewsQuery } from '@/graphql';
 
 import { Typography } from '@/components';
 
-import ReviewPreview from '../../../components/review/ReviewPreview';
+import Review from '@/components/review/Review';
 
 import UserProfilePageView from '../components/UserProfilePageView';
 
@@ -28,10 +28,7 @@ const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
       ) : (
         <ul>
           {reviews.edges.map(edge => (
-            <ReviewPreview
-              key={`user-reviews-${edge.node.id}`}
-              review={edge.node}
-            />
+            <Review key={`user-reviews-${edge.node.id}`} review={edge.node} />
           ))}
         </ul>
       )}

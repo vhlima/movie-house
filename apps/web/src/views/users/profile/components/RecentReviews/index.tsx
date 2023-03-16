@@ -2,9 +2,9 @@ import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
 import { useProfile } from '@/views/users/hooks/useProfile';
 
-import { Typography, Card } from '@/components';
+import { Card } from '@/components';
 
-import ReviewPreview from '../../../../../components/review/ReviewPreview';
+import { ReviewList } from '@/components/review/ReviewList';
 
 export const RecentReviews: React.FC = () => {
   const { user } = useProfile();
@@ -19,28 +19,19 @@ export const RecentReviews: React.FC = () => {
     },
   });
 
-  const hasAnyRecentReview =
-    userRecentReviewsData && userRecentReviewsData.reviews.totalCount > 0;
-
   return (
     <Card>
       <Card.Header title="Recent reviews" marginBottom />
 
       <Card.Body>
-        {!hasAnyRecentReview ? (
-          <Typography component="p">
-            {user.username} hasnt reviewed any movies yet.
-          </Typography>
-        ) : (
-          <ul>
-            {userRecentReviewsData.reviews.edges.map(edge => (
-              <ReviewPreview
-                key={`recent-review-${edge.node.id}`}
-                review={edge.node}
-              />
-            ))}
-          </ul>
-        )}
+        <ReviewList
+          reviews={
+            userRecentReviewsData
+              ? userRecentReviewsData.reviews.edges.map(edge => edge.node)
+              : []
+          }
+          emptyMessage={`${user.username} hasnt reviewed any movies yet.`}
+        />
       </Card.Body>
     </Card>
   );
