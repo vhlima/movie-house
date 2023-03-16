@@ -16,7 +16,7 @@ const FeatureLink: React.FC<FeatureLinkProps> = ({
   color,
   ...linkProps
 }) => (
-  <li className="rounded-md border-2 border-grey-600 group hover:border-transparent hover:bg-grey-600">
+  <li className="rounded-md border border-grey-600 group hover:border-transparent hover:bg-grey-600">
     <Link
       className={clsx(
         'flex gap-2 p-4',
