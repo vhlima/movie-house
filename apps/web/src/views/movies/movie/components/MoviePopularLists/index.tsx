@@ -7,7 +7,9 @@ interface MoviePopularListsProps {
   movieId: number;
 }
 
-const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
+export const MoviePopularLists: React.FC<MoviePopularListsProps> = ({
+  movieId,
+}) => {
   const { data: popularListsData } = useFindListsQuery({
     variables: {
       page: 1,
@@ -40,5 +42,3 @@ const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
     </Card>
   );
 };
-
-export default MoviePopularLists;

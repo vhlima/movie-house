@@ -13,7 +13,7 @@ interface MovieCastProps {
   }>;
 }
 
-const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
+export const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
   const hasCast = cast && cast.length > 0;
 
   return (
@@ -36,5 +36,3 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
     </Card>
   );
 };
-
-export default MovieCast;

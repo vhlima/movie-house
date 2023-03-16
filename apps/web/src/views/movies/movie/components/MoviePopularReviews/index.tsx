@@ -2,13 +2,13 @@ import { useFindReviewsQuery } from '@/graphql';
 
 import { Typography, Card } from '@/components';
 
-import MovieReview from '../MovieReview';
+import { MovieReview } from '../index';
 
 interface MoviePopularReviewsProps {
   movieId: number;
 }
 
-const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
+export const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
   movieId,
 }) => {
   const { data: popularReviewsData } = useFindReviewsQuery({
@@ -41,5 +41,3 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
     </Card>
   );
 };
-
-export default MoviePopularReviews;

@@ -7,7 +7,7 @@ interface MoviesRelatedProps {
   movieId: number;
 }
 
-const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
+export const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
   const { data: movieRecommendations } = useFindMovieRecommendationsQuery({
     variables: { movieId, page: 1 },
   });
@@ -36,5 +36,3 @@ const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
     </Card>
   );
 };
-
-export default MoviesRelated;

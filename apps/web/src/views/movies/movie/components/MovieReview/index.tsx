@@ -14,7 +14,7 @@ interface Props {
   review: FindReviewsQuery['reviews']['edges'][number]['node'];
 }
 
-const MovieReview: React.FC<Props> = ({ review }) => {
+export const MovieReview: React.FC<Props> = ({ review }) => {
   const { post, user } = review;
 
   return (
@@ -66,5 +66,3 @@ const MovieReview: React.FC<Props> = ({ review }) => {
     </ListItem>
   );
 };
-
-export default MovieReview;

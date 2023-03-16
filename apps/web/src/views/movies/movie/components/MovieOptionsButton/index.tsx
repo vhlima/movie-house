@@ -13,7 +13,9 @@ interface MovieOptionsButtonProps {
   };
 }
 
-const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({ movie }) => {
+export const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({
+  movie,
+}) => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
   return (
@@ -34,5 +36,3 @@ const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({ movie }) => {
     </>
   );
 };
-
-export default MovieOptionsButton;

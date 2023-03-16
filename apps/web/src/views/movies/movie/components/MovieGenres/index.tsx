@@ -6,7 +6,7 @@ interface MovieGenresProps {
   genres: MovieGenre[];
 }
 
-const MovieGenres: React.FC<MovieGenresProps> = ({ genres }) => (
+export const MovieGenres: React.FC<MovieGenresProps> = ({ genres }) => (
   <ul className="flex gap-2 flex-wrap">
     {genres.map(genre => (
       <li
@@ -23,5 +23,3 @@ const MovieGenres: React.FC<MovieGenresProps> = ({ genres }) => (
     ))}
   </ul>
 );
-
-export default MovieGenres;
