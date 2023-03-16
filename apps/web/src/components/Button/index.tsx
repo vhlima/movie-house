@@ -14,7 +14,7 @@ type ButtonStyleType = 'primary' | 'secondary' | 'tertiary' | 'danger';
 
 type ButtonSizeType = 'lg' | 'md' | 'sm';
 
-type ButtonProps = {
+type ButtonStyleProps = {
   className?: string;
   intent?: ButtonStyleType;
   size?: ButtonSizeType;
@@ -25,18 +25,18 @@ type ButtonProps = {
 
 type ButtonOnlyProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
-  keyof ButtonProps
+  keyof ButtonStyleProps
 > &
-  ButtonProps & {
+  ButtonStyleProps & {
     onClick?: MouseEventHandler<HTMLButtonElement>;
   };
 
-type LinkOnlyProps = Omit<LinkProps, keyof ButtonProps> &
-  ButtonProps & {
+type LinkOnlyProps = Omit<LinkProps, keyof ButtonStyleProps> &
+  ButtonStyleProps & {
     onClick?: MouseEventHandler<HTMLAnchorElement>;
   };
 
-type Props = ButtonOnlyProps | LinkOnlyProps;
+export type ButtonProps = ButtonOnlyProps | LinkOnlyProps;
 
 const buttonStyles: {
   [key in ButtonStyleType]: {
@@ -75,7 +75,7 @@ const buttonSizes: {
   sm: 'px-4 h-8 text-sm',
 };
 
-export const Button: React.FC<PropsWithChildren<Props>> = props => {
+export const Button: React.FC<PropsWithChildren<ButtonProps>> = props => {
   const {
     className,
     intent = 'primary',
