@@ -33,28 +33,29 @@ export const MovieHeader: React.FC<MovieInfosProps> = ({ movie }) => {
   return (
     <div className="flex justify-between gap-2">
       <div className="flex flex-col w-full z-10">
-        <h1 className="text-grey-100 text-2xl font-semibold">
+        <Typography
+          className="font-bold"
+          component="h1"
+          color="primary"
+          size="2xl"
+        >
           {movie.originalTitle}
-        </h1>
+        </Typography>
 
-        <div className="text-grey-200">
-          <div className="flex items-center gap-1">
-            <span className="text-sm">
-              {movieDate.getMonth()}/{movieDate.getDay()}/
-              {movieDate.getFullYear()}
-            </span>
+        <Typography component="span" size="sm">
+          {movieDate.getMonth()}/{movieDate.getDay()}/{movieDate.getFullYear()}
+          &nbsp; • &nbsp;
+          {toHoursAndMinutes(movie.runtime)}
+        </Typography>
 
-            <span>•</span>
-
-            <span className="text-sm">{toHoursAndMinutes(movie.runtime)}</span>
-          </div>
-
-          {directors.length > 0 && (
-            <span className="text-sm mr-1">
-              Directed by <strong>{directors[0].originalName}</strong>
-            </span>
-          )}
-        </div>
+        {directors.length > 0 && (
+          <Typography component="span">
+            Directed by&nbsp;
+            <Typography component="strong" color="primary">
+              {directors[0].originalName}
+            </Typography>
+          </Typography>
+        )}
 
         <div className="flex items-center gap-2 mt-2">
           <Button intent="secondary" size="sm" full={false}>
@@ -67,7 +68,12 @@ export const MovieHeader: React.FC<MovieInfosProps> = ({ movie }) => {
         </div>
       </div>
 
-      <MovieCover movie={movie} sizeType="md" link={false} />
+      <MovieCover
+        movie={movie}
+        sizeType="md"
+        link={false}
+        borderHover={false}
+      />
     </div>
   );
 };
