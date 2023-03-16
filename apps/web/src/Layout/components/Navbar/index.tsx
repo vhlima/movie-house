@@ -1,10 +1,10 @@
-import { Typography, Link, PageContent, SvgIcon } from '@/components';
+import { Typography, Link, SvgIcon } from '@/components';
 
 import NavigationMenus from './components/NavigationMenus';
 
 const Navbar: React.FC = () => (
   <nav className="bg-grey-800">
-    <PageContent className="flex items-center gap-2 py-4 relative mx-auto max-w-5xl z-50">
+    <div className="flex items-center gap-2 px-2 sm:px-0 py-4 relative mx-auto max-w-5xl z-50">
       <Link className="flex items-center gap-2 select-none" href="/">
         <SvgIcon
           className="text-movieHouse-dark"
@@ -24,7 +24,7 @@ const Navbar: React.FC = () => (
       </Link>
 
       <NavigationMenus />
-    </PageContent>
+    </div>
   </nav>
 );
 
