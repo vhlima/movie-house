@@ -1,11 +1,6 @@
 import type { FindReviewQuery } from '@/graphql';
 
-import {
-  PageContent,
-  PostCommentaries,
-  ProfilePicture,
-  Typography,
-} from '@/components';
+import { PostCommentaries, ProfilePicture, Typography } from '@/components';
 
 import Review from '@/components/review/Review';
 
@@ -21,33 +16,31 @@ const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
 
   return (
     <BackdropImage src={movie.backdropUrl} alt="Movie review backdrop">
-      <PageContent>
-        <div className="flex flex-col gap-2 mt-2">
-          <div className="flex gap-2 align-top sm:items-center relative border-b border-b-grey-700 mb-2 pb-2">
-            <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
+      <div className="flex flex-col gap-2 mb-4">
+        <div className="flex gap-2 align-top sm:items-center relative border-b border-b-grey-700 mb-2 pb-2">
+          <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
 
-            <Typography
-              className="group-hover:text-grey-300"
-              component="span"
-              color="primary"
-            >
-              Review by&nbsp;
-              <UserProfileLink className="group" username={user.username}>
-                <Typography
-                  className="font-semibold group-hover:text-grey-300"
-                  component="strong"
-                >
-                  {user.username}
-                </Typography>
-              </UserProfileLink>
-            </Typography>
-          </div>
-
-          <Review review={review} preview={false} />
+          <Typography
+            className="group-hover:text-grey-300"
+            component="span"
+            color="primary"
+          >
+            Review by&nbsp;
+            <UserProfileLink className="group" username={user.username}>
+              <Typography
+                className="font-semibold group-hover:text-grey-300"
+                component="strong"
+              >
+                {user.username}
+              </Typography>
+            </UserProfileLink>
+          </Typography>
         </div>
 
-        <PostCommentaries postId={post.id} />
-      </PageContent>
+        <Review review={review} preview />
+      </div>
+
+      <PostCommentaries postId={post.id} />
     </BackdropImage>
   );
 };
