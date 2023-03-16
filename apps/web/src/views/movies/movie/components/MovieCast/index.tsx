@@ -26,7 +26,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
             The cast for this film was not found.
           </Typography>
         ) : (
-          <ul className="flex overflow-x-auto pb-4">
+          <ul className="flex overflow-x-auto">
             {cast.slice(0, 10).map(actor => (
               <MovieActor key={`movie-actor-${actor.id}`} actor={actor} />
             ))}
