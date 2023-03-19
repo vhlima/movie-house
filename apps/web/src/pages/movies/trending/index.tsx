@@ -32,6 +32,10 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 };
 
-const MoviesTrendingPage: NextPage = () => <MoviesTrendingView />;
+type Props = FindTrendingMoviesQuery;
+
+const MoviesTrendingPage: NextPage<Props> = ({ trendingMovies }) => (
+  <MoviesTrendingView movies={trendingMovies} />
+);
 
 export default MoviesTrendingPage;

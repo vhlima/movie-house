@@ -1,6 +1,6 @@
-import { useFindTrendingMoviesQuery } from '@/graphql';
+import { FindTrendingMoviesQuery } from '@/graphql';
 
-import { Card } from '@/components';
+import { Card, PageContent } from '@/components';
 
 import { MovieCoverList } from '@/components/movie';
 import RecentReviews from '../../../components/review/RecentReviews';
@@ -8,39 +8,31 @@ import PopularReviewsWeek from '../../../components/review/PopularReviewsWeek';
 
 import PopularReviewers from './components/PopularReviewers';
 
-const MoviesTrendingView: React.FC = () => {
-  const { data: trendingMoviesData } = useFindTrendingMoviesQuery({
-    variables: { page: 1 },
-  });
+interface Props {
+  movies: FindTrendingMoviesQuery['trendingMovies'];
+}
 
-  if (!trendingMoviesData) {
-    return null;
-  }
+const MoviesTrendingView: React.FC<Props> = ({ movies }) => (
+  <PageContent className="flex flex-col gap-4 my-4">
+    <Card>
+      <Card.Header title="Popular movies this week" marginBottom />
 
-  return (
-    <div className="flex flex-col gap-4 my-4">
-      <Card>
-        <Card.Header title="Popular movies this week" marginBottom />
+      <Card.Body>
+        {movies && (
+          <MovieCoverList
+            name="trending-movies-list"
+            movies={movies.edges.map(edge => edge.node)}
+          />
+        )}
+      </Card.Body>
+    </Card>
 
-        <Card.Body>
-          {trendingMoviesData && (
-            <MovieCoverList
-              name="trending-movies-list"
-              movies={trendingMoviesData.trendingMovies.edges.map(
-                edge => edge.node,
-              )}
-            />
-          )}
-        </Card.Body>
-      </Card>
+    <RecentReviews />
 
-      <RecentReviews />
+    <PopularReviewsWeek />
 
-      <PopularReviewsWeek />
-
-      <PopularReviewers />
-    </div>
-  );
-};
+    <PopularReviewers />
+  </PageContent>
+);
 
 export default MoviesTrendingView;
