@@ -1,48 +1,21 @@
-import { useState } from 'react';
-
 import { useRouter } from 'next/router';
 
-import GenreList from '../../../../../components/Sort/GenreList';
-import DecadeList from '../../../../../components/Sort/DecadeList';
-import SortButton from '../../../../../components/Sort/SortButton';
+import { SortByDecadeButton, SortByGenreButton } from '@/components/Sort';
 
-type DropdownType = 'genre' | 'decade';
+import { SingleDropdown } from '@/hooks/useSingleDropdown';
 
 const SortButtons: React.FC = () => {
-  const [dropdownOpen, setDropdownOpen] = useState<DropdownType>();
-
   const { asPath } = useRouter();
 
   const rootPath = asPath.split('/').slice(0, 4).join('/');
 
-  function openDropdown(dropdown: DropdownType) {
-    setDropdownOpen(prev => (prev !== dropdown ? dropdown : undefined));
-  }
-
-  function closeDropdown() {
-    setDropdownOpen(undefined);
-  }
-
   return (
     <div className="flex flex-col sm:flex-row items-center ml-auto">
-      <SortButton
-        text="Genre"
-        sizeType="lg"
-        isOpen={dropdownOpen === 'genre'}
-        onClick={() => openDropdown('genre')}
-        onClose={() => closeDropdown()}
-      >
-        <GenreList pathname={rootPath} />
-      </SortButton>
+      <SingleDropdown>
+        <SortByGenreButton pathname={rootPath} intent="secondary" />
 
-      <SortButton
-        text="Decade"
-        isOpen={dropdownOpen === 'decade'}
-        onClick={() => openDropdown('decade')}
-        onClose={() => closeDropdown()}
-      >
-        <DecadeList pathname={rootPath} />
-      </SortButton>
+        <SortByDecadeButton pathname={rootPath} intent="secondary" />
+      </SingleDropdown>
     </div>
   );
 };
