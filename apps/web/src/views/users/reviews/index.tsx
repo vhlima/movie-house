@@ -20,6 +20,7 @@ const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
       sortButtons={<ReviewsSortButtons user={user} />}
     >
       <ReviewList
+        intent="profile"
         reviews={reviews.edges.map(edge => edge.node)}
         emptyMessage="No reviews made yet."
       />
