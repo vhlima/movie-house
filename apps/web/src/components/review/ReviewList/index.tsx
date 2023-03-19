@@ -2,16 +2,16 @@ import { FindReviewsQuery } from '@/graphql';
 
 import { Typography, ListItem } from '@/components';
 
-import Review, { ReviewIntent } from '@/components/review/Review';
+import Review from '@/components/review/Review';
 
 interface Props {
-  intent?: ReviewIntent;
+  showUser?: boolean;
   reviews: FindReviewsQuery['reviews']['edges'][number]['node'][];
   emptyMessage: string;
 }
 
 export const ReviewList: React.FC<Props> = ({
-  intent,
+  showUser,
   reviews,
   emptyMessage,
 }) => {
@@ -23,7 +23,7 @@ export const ReviewList: React.FC<Props> = ({
     <ul>
       {reviews.map(review => (
         <ListItem key={`review-list-${review.id}`}>
-          <Review review={review} intent={intent} />
+          <Review review={review} showUser={showUser} />
         </ListItem>
       ))}
     </ul>

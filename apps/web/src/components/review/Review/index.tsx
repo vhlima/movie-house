@@ -16,26 +16,22 @@ import { formatDateFromMillis } from '@/utils/date-utils';
 import { MovieCover, MovieLink } from '@/components/movie';
 import UserProfileLink from '@/components/user/UserProfileLink';
 
-export type ReviewIntent = 'profile' | 'preview' | 'full';
-
 export interface MovieReviewViewProps {
   review: FindReviewsQuery['reviews']['edges'][number]['node'];
   preview?: boolean;
-  intent?: ReviewIntent;
+  showUser?: boolean;
 }
 
 const Review: React.FC<MovieReviewViewProps> = ({
   review,
-  intent = 'preview',
   preview = true,
+  showUser = true,
 }) => {
   const { user, movie, post } = review;
 
-  const isAnyPreviewType = intent === 'preview' || intent === 'profile';
-
   return (
     <div className="flex w-full z-10 gap-4">
-      <MovieCover movie={movie} sizeType={isAnyPreviewType ? 'sm' : 'md'} />
+      <MovieCover movie={movie} sizeType={preview ? 'sm' : 'md'} />
 
       <div className="flex flex-col">
         <Typography
@@ -45,7 +41,7 @@ const Review: React.FC<MovieReviewViewProps> = ({
           size="xl"
           hover
         >
-          {!isAnyPreviewType ? (
+          {!preview ? (
             <MovieLink movieId={review.movie.id}>
               {movie.originalTitle}
             </MovieLink>
@@ -68,7 +64,7 @@ const Review: React.FC<MovieReviewViewProps> = ({
         </Typography>
 
         <div>
-          {(intent === 'preview' || intent === 'full') && (
+          {showUser && (
             <UserProfileLink
               className="flex items-center gap-2 my-2 group"
               username={user.username}
@@ -102,7 +98,7 @@ const Review: React.FC<MovieReviewViewProps> = ({
 
         <TextShorter
           className="mb-4"
-          maxCharacters={isAnyPreviewType ? 200 : post.content.length}
+          maxCharacters={preview ? 200 : post.content.length}
           text={post.content}
         />
 
