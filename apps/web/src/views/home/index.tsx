@@ -23,13 +23,14 @@ const HomeView: React.FC = () => (
       </Typography>
 
       <Typography className="text-center" component="p" size="xl">
-        Track films youve watched. <br />
-        Save those you want to see. <br />
-        Tell your friends whats good.
+        Stay on top of watched movies. <br />
+        Keep a list of the ones you want to see. <br />
+        Share your top recommendations with your friends.
       </Typography>
 
       <Typography className="text-center" component="span" color="tertiary">
-        The social network for movie lovers.
+        Ready to take your movie obsession to the next level? Join the premier
+        social network for film enthusiasts now!
       </Typography>
     </div>
 
