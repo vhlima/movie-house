@@ -46,13 +46,13 @@ import { FiX, FiCheck } from 'react-icons/fi';
 
 import { HiMail, HiLockClosed } from 'react-icons/hi';
 
+import { HiChatBubbleBottomCenter } from 'react-icons/hi2';
+
 import { IoIosJournal, IoIosSend } from 'react-icons/io';
 
 import { IoList, IoFilter } from 'react-icons/io5';
 
 import { CgSpinner } from 'react-icons/cg';
-
-import { TbMovie } from 'react-icons/tb';
 
 import { VscPreview } from 'react-icons/vsc';
 import clsx from 'clsx';
@@ -100,7 +100,7 @@ export type SvgIconType =
   | 'IoList'
   | 'IoFilter'
   | 'CgSpinner'
-  | 'TbMovie'
+  | 'HiChatBubbleBottomCenter'
   | 'VscPreview';
 
 export interface SvgIconProps extends IconBaseProps {
@@ -163,9 +163,9 @@ const icons: SvgIconsType = {
 
   CgSpinner,
 
-  TbMovie,
-
   VscPreview,
+
+  HiChatBubbleBottomCenter,
 };
 
 export const SvgIcon: React.FC<SvgIconProps> = ({
