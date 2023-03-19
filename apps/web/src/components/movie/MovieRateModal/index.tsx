@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { Movie } from '@/graphql';
 
-import { Button, Modal, SvgIcon } from '@/components';
+import { Button, Modal, SvgIcon, Typography } from '@/components';
 import type { ModalHandles } from '@/components';
 
 import { modalBottom } from '../../../animations';
@@ -59,11 +59,18 @@ export const MovieRateModal: React.FC<MovieRateModalProps> = ({
       </div>
 
       <div className="flex flex-col items-center gap-4 mt-8 mb-14 text-grey-200">
-        <span className="text-yellow-500 text-sm font-semibold font-mono uppercase">
+        <span className="text-yellow-500 text-sm font-semibold font-mono uppercase mt-2">
           Rate this
         </span>
 
-        <h1 className="text-2xl">{movie.originalTitle}</h1>
+        <Typography
+          className="font-bold"
+          component="h1"
+          color="primary"
+          size="2xl"
+        >
+          {movie.originalTitle}
+        </Typography>
 
         <RatingStars
           userRating={userRating}
