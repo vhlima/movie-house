@@ -5,6 +5,8 @@ interface TypographyProps extends HtmlHTMLAttributes<HTMLParagraphElement> {
   component: ElementType;
 
   /* Style Props */
+  hover?: boolean;
+  groupHover?: boolean;
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'error';
   size?: '4xl' | '3xl' | '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 }
@@ -13,6 +15,8 @@ export const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
   className,
   color = 'secondary',
   size = 'md',
+  hover,
+  groupHover,
   component,
   children,
   ...rest
@@ -28,6 +32,20 @@ export const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
           'text-grey-300': color === 'tertiary',
           'text-grey-500': color === 'quaternary',
           'text-error-mid': color === 'error',
+        },
+        hover && {
+          'hover:text-grey-200': color === 'primary',
+          'hover:text-grey-300': color === 'secondary',
+          'hover:text-grey-400': color === 'tertiary',
+          'hover:text-grey-500': color === 'quaternary',
+          'hover:text-error-light': color === 'error',
+        },
+        groupHover && {
+          'group-hover:text-grey-200': color === 'primary',
+          'group-hover:text-grey-300': color === 'secondary',
+          'group-hover:text-grey-400': color === 'tertiary',
+          'group-hover:text-grey-500': color === 'quaternary',
+          'group-hover:text-error-light': color === 'error',
         },
         size && {
           'text-4xl': size === '4xl',
