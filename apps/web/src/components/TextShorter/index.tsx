@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import { Typography, Button, SvgIcon } from '@/components';
+import { Typography } from '@/components';
 
 interface TextShorterProps {
   className?: string;
@@ -21,32 +21,33 @@ export const TextShorter: React.FC<TextShorterProps> = ({
     text.length > maxCharacters && text.length - maxCharacters >= maxCharacters;
 
   return (
-    <Typography
-      className={clsx('break-words', className && className)}
-      component="p"
-    >
+    <Typography className={clsx(className && className)} component="p">
       {isCollapsed || !collapse ? text : `${text.slice(0, maxCharacters)}...`}
 
       {collapse && (
-        <Button
-          className="gap-2"
-          intent="secondary"
-          size="sm"
-          full={false}
+        <button
+          className="inline-flex items-center gap-2 group ml-1"
+          type="button"
           onClick={() => setCollapsed(prev => !prev)}
         >
           {!isCollapsed ? (
-            <>
-              <span>See more</span>
-              <SvgIcon iconType="FaChevronDown" />
-            </>
+            <Typography
+              className="hover:underline"
+              component="span"
+              color="primary"
+            >
+              See more
+            </Typography>
           ) : (
-            <>
-              <span>See less</span>
-              <SvgIcon iconType="FaChevronUp" />
-            </>
+            <Typography
+              className="hover:underline"
+              component="span"
+              color="primary"
+            >
+              See less
+            </Typography>
           )}
-        </Button>
+        </button>
       )}
     </Typography>
   );
