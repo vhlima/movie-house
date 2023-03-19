@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import type { PropsWithChildren } from 'react';
 
-import { Input } from '@/components';
+import { Input, PageContent } from '@/components';
 
 import { MovieSearchInput } from '@/components/movie';
 
@@ -12,7 +12,7 @@ const MoviesPageView: React.FC<PropsWithChildren> = ({ children }) => {
   const { push } = useRouter();
 
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <PageContent className="flex flex-col gap-4 mt-4">
       <nav className="flex flex-col items-center lg:flex-row">
         <SortNavigation />
 
@@ -37,7 +37,7 @@ const MoviesPageView: React.FC<PropsWithChildren> = ({ children }) => {
       </nav>
 
       {children}
-    </div>
+    </PageContent>
   );
 };
 
