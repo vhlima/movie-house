@@ -25,6 +25,7 @@ export const RecentReviews: React.FC = () => {
 
       <Card.Body>
         <ReviewList
+          intent="profile"
           reviews={
             userRecentReviewsData
               ? userRecentReviewsData.reviews.edges.map(edge => edge.node)

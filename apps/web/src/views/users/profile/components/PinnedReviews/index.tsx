@@ -46,6 +46,7 @@ export const PinnedReviews: React.FC = () => {
 
         <Card.Body>
           <ReviewList
+            intent="profile"
             reviews={
               userPinnedReviewsData
                 ? userPinnedReviewsData.reviews.edges.map(edge => edge.node)
