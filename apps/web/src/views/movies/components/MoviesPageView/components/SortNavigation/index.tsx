@@ -10,8 +10,6 @@ import {
   SortByServiceButton,
 } from '@/components/Sort';
 
-import SortListItem from './components/SortListItem';
-
 const NAVIGATION_PATH = '/movies';
 
 const SortNavigation: React.FC = () => (
@@ -25,29 +23,19 @@ const SortNavigation: React.FC = () => (
       Browse by
     </Typography>
 
-    <ul className="grid grid-cols-3 md:flex border border-grey-700 rounded-sm">
+    <div className="grid grid-cols-3 md:flex border border-grey-700 rounded-sm">
       <SingleDropdown>
-        <SortListItem>
-          <SortByDecadeButton pathname={NAVIGATION_PATH} />
-        </SortListItem>
+        <SortByDecadeButton pathname={NAVIGATION_PATH} />
 
-        <SortListItem>
-          <SortByRatingButton pathname={NAVIGATION_PATH} />
-        </SortListItem>
+        <SortByRatingButton pathname={NAVIGATION_PATH} />
 
-        <SortListItem>
-          <SortByPopularButton pathname={NAVIGATION_PATH} />
-        </SortListItem>
+        <SortByPopularButton pathname={NAVIGATION_PATH} />
 
-        <SortListItem>
-          <SortByGenreButton pathname={NAVIGATION_PATH} />
-        </SortListItem>
+        <SortByGenreButton pathname={NAVIGATION_PATH} />
 
-        <SortListItem>
-          <SortByServiceButton pathname={NAVIGATION_PATH} />
-        </SortListItem>
+        <SortByServiceButton pathname={NAVIGATION_PATH} />
       </SingleDropdown>
-    </ul>
+    </div>
   </div>
 );
 
