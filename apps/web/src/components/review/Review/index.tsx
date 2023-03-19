@@ -2,23 +2,40 @@ import clsx from 'clsx';
 
 import type { FindReviewsQuery } from '@/graphql';
 
-import { Link, StarIcon, SvgIcon, TextShorter, Typography } from '@/components';
+import {
+  Link,
+  ProfilePicture,
+  StarIcon,
+  SvgIcon,
+  TextShorter,
+  Typography,
+} from '@/components';
 
 import { formatDateFromMillis } from '@/utils/date-utils';
 
 import { MovieCover, MovieLink } from '@/components/movie';
+import UserProfileLink from '@/components/user/UserProfileLink';
+
+export type ReviewIntent = 'profile' | 'preview' | 'full';
 
 export interface MovieReviewViewProps {
   review: FindReviewsQuery['reviews']['edges'][number]['node'];
   preview?: boolean;
+  intent?: ReviewIntent;
 }
 
-const Review: React.FC<MovieReviewViewProps> = ({ review, preview = true }) => {
-  const { movie, post } = review;
+const Review: React.FC<MovieReviewViewProps> = ({
+  review,
+  intent = 'preview',
+  preview = true,
+}) => {
+  const { user, movie, post } = review;
+
+  const isAnyPreviewType = intent === 'preview' || intent === 'profile';
 
   return (
     <div className="flex w-full z-10 gap-4">
-      <MovieCover movie={movie} sizeType={preview ? 'sm' : 'md'} />
+      <MovieCover movie={movie} sizeType={isAnyPreviewType ? 'sm' : 'md'} />
 
       <div className="flex flex-col">
         <Typography
@@ -26,17 +43,14 @@ const Review: React.FC<MovieReviewViewProps> = ({ review, preview = true }) => {
           component="h2"
           color="primary"
           size="xl"
+          hover
         >
-          {!preview ? (
-            <MovieLink
-              className="hover:text-grey-200"
-              movieId={review.movie.id}
-            >
+          {!isAnyPreviewType ? (
+            <MovieLink movieId={review.movie.id}>
               {movie.originalTitle}
             </MovieLink>
           ) : (
             <Link
-              className="hover:text-grey-200"
               href={{ pathname: '/reviews/[id]', query: { id: review.id } }}
             >
               {movie.originalTitle}
@@ -53,34 +67,42 @@ const Review: React.FC<MovieReviewViewProps> = ({ review, preview = true }) => {
           </Typography>
         </Typography>
 
-        <div
-          className={clsx('mt-1', {
-            'flex flex-col sm:flex-row sm:items-center gap-2 mb-4': preview,
-          })}
-        >
-          <div className="flex">
-            <StarIcon intent="full" />
-            <StarIcon intent="half" />
-            <StarIcon />
-            <StarIcon />
-            <StarIcon />
-          </div>
+        <div>
+          {(intent === 'preview' || intent === 'full') && (
+            <UserProfileLink
+              className="flex items-center gap-2 my-2 group"
+              username={user.username}
+            >
+              <ProfilePicture src={user.profilePictureUrl} imageSize="sm" />
 
-          <Typography
-            className={clsx({
-              'my-4': !preview,
+              <Typography className="font-bold" component="span" groupHover>
+                {user.username}
+              </Typography>
+            </UserProfileLink>
+          )}
+
+          <div
+            className={clsx('mt-1', {
+              'flex flex-col sm:flex-row sm:items-center gap-2 mb-4': preview,
             })}
-            component="p"
-            color="tertiary"
-            size="sm"
           >
-            Watched {formatDateFromMillis(post.createdAt)}
-          </Typography>
+            <div className="flex">
+              <StarIcon intent="full" />
+              <StarIcon intent="half" />
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+            </div>
+
+            <Typography component="p" color="tertiary" size="sm">
+              Watched {formatDateFromMillis(post.createdAt)}
+            </Typography>
+          </div>
         </div>
 
         <TextShorter
           className="mb-4"
-          maxCharacters={preview ? 200 : post.content.length}
+          maxCharacters={isAnyPreviewType ? 200 : post.content.length}
           text={post.content}
         />
 
