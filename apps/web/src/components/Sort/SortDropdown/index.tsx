@@ -18,8 +18,8 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
     useSortLinkBuilder(props);
 
   return (
-    <div className="absolute inset-0 top-full z-10">
-      <ul className="shadow-lg bg-grey-800 rounded-b-sm">
+    <div className="absolute inset-0 w-fit top-full z-10">
+      <ul className="bg-grey-800 rounded-b-sm">
         {items.map((item, index) => {
           const isOptionSelected =
             index === 0
@@ -28,7 +28,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
 
           return (
             <li
-              className="text-left hover:bg-grey-700 first-of-type:border-y first-of-type:border-y-grey-500"
+              className="text-left pr-2 hover:bg-grey-700 first-of-type:border-y first-of-type:border-y-grey-500"
               key={`movie-genre-${item.id}`}
             >
               <Link
