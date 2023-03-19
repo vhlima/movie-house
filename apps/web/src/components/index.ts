@@ -15,3 +15,4 @@ export * from './StarIcon';
 export * from './SubHeading';
 export * from './SvgIcon';
 export * from './TextShorter';
+export * from './LikeButton';
