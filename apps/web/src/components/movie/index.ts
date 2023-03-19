@@ -6,3 +6,4 @@ export * from './MovieRateModal';
 export * from './MovieSearchInput';
 export * from './MovieSearchModal';
 export * from './PopularMoviesWeek';
+export * from './MovieCover2';
