@@ -20,7 +20,10 @@ export const MovieGenres: React.FC<MovieGenresProps> = ({ genres }) => {
   return (
     <ul className="flex gap-2 flex-wrap">
       {genres.map(genre => (
-        <li className="border border-grey-700 rounded-md overflow-hidden">
+        <li
+          className="border border-grey-700 rounded-md overflow-hidden"
+          key={`movie-genre-${genre.id}`}
+        >
           <Button
             intent="tertiary"
             size="sm"
