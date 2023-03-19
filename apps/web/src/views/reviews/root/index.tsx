@@ -20,24 +20,17 @@ const MovieReviewView: React.FC<MovieReviewViewProps> = ({ review }) => {
         <div className="flex gap-2 align-top sm:items-center relative border-b border-b-grey-700 mb-2 pb-2">
           <ProfilePicture imageSize="sm" src={user.profilePictureUrl} />
 
-          <Typography
-            className="group-hover:text-grey-300"
-            component="span"
-            color="primary"
-          >
-            Review by&nbsp;
-            <UserProfileLink className="group" username={user.username}>
-              <Typography
-                className="font-semibold group-hover:text-grey-300"
-                component="strong"
-              >
+          <UserProfileLink className="block group" username={user.username}>
+            <Typography component="span" color="primary" groupHover>
+              Review by&nbsp;
+              <Typography component="strong" groupHover>
                 {user.username}
               </Typography>
-            </UserProfileLink>
-          </Typography>
+            </Typography>
+          </UserProfileLink>
         </div>
 
-        <Review review={review} preview />
+        <Review review={review} showUser={false} preview={false} />
       </div>
 
       <PostCommentaries postId={post.id} />
