@@ -1,19 +1,20 @@
 import clsx from 'clsx';
 
-import type { FindReviewsQuery } from '@/graphql';
+import { FindReviewsQuery, LikeType } from '@/graphql';
 
 import {
+  LikeButton,
   Link,
   ProfilePicture,
   StarIcon,
-  SvgIcon,
   TextShorter,
   Typography,
 } from '@/components';
 
 import { formatDateFromMillis } from '@/utils/date-utils';
 
-import { MovieCover, MovieLink } from '@/components/movie';
+import { NewMovieCover as MovieCover, MovieLink } from '@/components/movie';
+
 import UserProfileLink from '@/components/user/UserProfileLink';
 
 export interface MovieReviewViewProps {
@@ -30,89 +31,97 @@ const Review: React.FC<MovieReviewViewProps> = ({
   const { user, movie, post } = review;
 
   return (
-    <div className="flex w-full z-10 gap-4">
-      <MovieCover movie={movie} sizeType={preview ? 'sm' : 'md'} />
+    <div className="w-full z-10">
+      <div
+        className={clsx('flex gap-4', {
+          'flex-row-reverse': !preview,
+        })}
+      >
+        <MovieCover movie={movie} size="md" />
 
-      <div className="flex flex-col">
-        <Typography
-          className="font-bold"
-          component="h2"
-          color="primary"
-          size="xl"
-          hover
-        >
-          {!preview ? (
-            <MovieLink movieId={review.movie.id}>
-              {movie.originalTitle}
-            </MovieLink>
-          ) : (
-            <Link
-              href={{ pathname: '/reviews/[id]', query: { id: review.id } }}
-            >
-              {movie.originalTitle}
-            </Link>
-          )}
-
+        <div className="flex flex-col w-full">
           <Typography
-            className="font-normal ml-2"
-            size="lg"
-            component="span"
-            color="secondary"
+            className="font-bold"
+            component="h2"
+            color="primary"
+            size="xl"
+            hover
           >
-            ({new Date(movie.releaseDate).getFullYear()})
-          </Typography>
-        </Typography>
+            {!preview ? (
+              <MovieLink movieId={review.movie.id}>
+                {movie.originalTitle}
+              </MovieLink>
+            ) : (
+              <Link
+                href={{ pathname: '/reviews/[id]', query: { id: review.id } }}
+              >
+                {movie.originalTitle}
+              </Link>
+            )}
 
-        <div>
-          {showUser && (
-            <UserProfileLink
-              className="flex items-center gap-2 my-2 group"
-              username={user.username}
+            <Typography
+              className="font-normal ml-2"
+              size="lg"
+              component="span"
+              color="secondary"
             >
-              <ProfilePicture src={user.profilePictureUrl} imageSize="sm" />
+              ({new Date(movie.releaseDate).getFullYear()})
+            </Typography>
+          </Typography>
 
-              <Typography className="font-bold" component="span" groupHover>
-                {user.username}
+          <div>
+            {showUser && (
+              <UserProfileLink
+                className="flex items-center gap-2 my-2 group"
+                username={user.username}
+              >
+                <ProfilePicture src={user.profilePictureUrl} imageSize="sm" />
+
+                <Typography className="font-bold" component="span" groupHover>
+                  {user.username}
+                </Typography>
+              </UserProfileLink>
+            )}
+
+            <div
+              className={clsx('mt-1', {
+                'flex flex-col sm:flex-row sm:items-center gap-2': preview,
+              })}
+            >
+              <div className="flex">
+                <StarIcon intent="full" />
+                <StarIcon intent="half" />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </div>
+
+              <Typography
+                className="mt-1"
+                component="p"
+                color="tertiary"
+                size="sm"
+              >
+                Watched {formatDateFromMillis(post.createdAt)}
               </Typography>
-            </UserProfileLink>
+            </div>
+          </div>
+
+          {post.content && (
+            <TextShorter
+              className="my-2"
+              maxCharacters={preview ? 200 : post.content.length}
+              text={post.content}
+            />
           )}
 
-          <div
-            className={clsx('mt-1', {
-              'flex flex-col sm:flex-row sm:items-center gap-2 mb-4': preview,
-            })}
-          >
-            <div className="flex">
-              <StarIcon intent="full" />
-              <StarIcon intent="half" />
-              <StarIcon />
-              <StarIcon />
-              <StarIcon />
-            </div>
+          <div className="flex items-center gap-2">
+            <LikeButton contentId={post.id} likeType={LikeType.Post} />
 
-            <Typography component="p" color="tertiary" size="sm">
-              Watched {formatDateFromMillis(post.createdAt)}
+            <Typography component="span" size="sm">
+              1,412 likes
             </Typography>
           </div>
-        </div>
-
-        <TextShorter
-          className="mb-4"
-          maxCharacters={preview ? 200 : post.content.length}
-          text={post.content}
-        />
-
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1 w-fit" type="button">
-            <SvgIcon size={24} iconType="AiFillHeart" />
-            <Typography className="font-bold" component="span" size="sm">
-              Like review
-            </Typography>
-          </button>
-
-          <Typography component="span" size="sm">
-            1,412 likes
-          </Typography>
         </div>
       </div>
     </div>
