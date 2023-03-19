@@ -2,14 +2,19 @@ import { FindReviewsQuery } from '@/graphql';
 
 import { Typography, ListItem } from '@/components';
 
-import Review from '@/components/review/Review';
+import Review, { ReviewIntent } from '@/components/review/Review';
 
 interface Props {
+  intent?: ReviewIntent;
   reviews: FindReviewsQuery['reviews']['edges'][number]['node'][];
   emptyMessage: string;
 }
 
-export const ReviewList: React.FC<Props> = ({ reviews, emptyMessage }) => {
+export const ReviewList: React.FC<Props> = ({
+  intent,
+  reviews,
+  emptyMessage,
+}) => {
   const hasAnyReview = reviews.length > 0;
 
   return !hasAnyReview ? (
@@ -18,7 +23,7 @@ export const ReviewList: React.FC<Props> = ({ reviews, emptyMessage }) => {
     <ul>
       {reviews.map(review => (
         <ListItem key={`review-list-${review.id}`}>
-          <Review review={review} />
+          <Review review={review} intent={intent} />
         </ListItem>
       ))}
     </ul>
