@@ -37,7 +37,7 @@ const Review: React.FC<MovieReviewViewProps> = ({
           'flex-row-reverse': !preview,
         })}
       >
-        <MovieCover movie={movie} size="md" />
+        <MovieCover movie={movie} size={preview ? 'sm' : 'md'} />
 
         <div className="flex flex-col w-full">
           <Typography
