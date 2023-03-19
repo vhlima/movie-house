@@ -6,9 +6,13 @@ import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 import { Typography, SvgIcon } from '@/components';
 
+export type SortButtonIntent = 'primary' | 'secondary';
+
 interface SortButtonProps {
+  className?: string;
   text: string;
-  sizeType?: 'sm' | 'md' | 'lg';
+  intent?: SortButtonIntent;
+  sizeType?: 'sm' | 'md' | 'lg' | 'none';
   isOpen?: boolean;
   onClick: () => void;
   onClose: () => void;
@@ -19,24 +23,33 @@ interface SortButtonProps {
 // because the component isn't being rendered.
 
 const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
-  sizeType = 'sm',
+  className,
+  intent = 'primary',
+  sizeType,
   text,
   isOpen,
   children,
   onClick,
   onClose,
 }) => {
-  const { elementRef, handleBlur } = useOutsideClick<HTMLSelectElement>();
+  const { elementRef, handleBlur } = useOutsideClick<HTMLDivElement>();
 
   return (
-    <section
-      className={clsx('relative py-1', {
-        'bg-grey-800 rounded-t-sm': isOpen,
-
-        'w-36 sm:w-28': sizeType === 'sm',
-        'w-36 sm:w-32': sizeType === 'md',
-        'w-36 sm:w-36': sizeType === 'lg',
-      })}
+    <div
+      className={clsx(
+        'relative py-1',
+        {
+          'w-36 sm:w-28': sizeType && sizeType === 'sm',
+          'w-36 sm:w-32': sizeType && sizeType === 'md',
+          'w-36 sm:w-36': sizeType && sizeType === 'lg',
+          'flex items-center gap-1 w-full px-4 lg:px-3 py-0.5':
+            intent === 'primary',
+          'bg-grey-800':
+            intent === 'primary' || (isOpen && intent === 'secondary'),
+          'rounded-t-sm': isOpen,
+        },
+        className && className,
+      )}
       ref={elementRef}
       onBlur={e => handleBlur(e, onClose)}
     >
@@ -53,7 +66,7 @@ const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
       </button>
 
       {isOpen && children}
-    </section>
+    </div>
   );
 };
 
