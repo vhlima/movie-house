@@ -3,18 +3,20 @@ import clsx from 'clsx';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
+
 import {
   Typography,
   Button,
   ProfilePicture,
   SvgIcon,
   TextShorter,
+  LikeButton,
 } from '@/components';
-import { formatDateDistanceFromMillis } from '../../../../utils/date-utils';
 
-import LikeButton from '../../../LikeButton';
+import { formatDateDistanceFromMillis } from '@/utils/date-utils';
 
-import UserProfileLink from '../../../user/UserProfileLink';
+import UserProfileLink from '@/components/user/UserProfileLink';
+import { LikeType } from '@/graphql';
 
 interface CommentaryBaseProps {
   id: string;
@@ -70,7 +72,10 @@ const CommentaryBase: React.FC<
       <TextShorter className="my-2" maxCharacters={250} text={content} />
 
       <div className="flex gap-2">
-        <LikeButton rootId="" likeCount={0} />
+        <LikeButton
+          contentId={base.id}
+          likeType={!isReply ? LikeType.Commentary : LikeType.Reply}
+        />
 
         {buttons && buttons}
 
