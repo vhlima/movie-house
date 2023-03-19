@@ -37,13 +37,11 @@ const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
   return (
     <div
       className={clsx(
-        'relative py-1',
+        'relative flex items-center gap-1 w-full px-4 lg:px-3 py-0.5',
         {
           'w-36 sm:w-28': sizeType && sizeType === 'sm',
           'w-36 sm:w-32': sizeType && sizeType === 'md',
           'w-36 sm:w-36': sizeType && sizeType === 'lg',
-          'flex items-center gap-1 w-full px-4 lg:px-3 py-0.5':
-            intent === 'primary',
           'bg-grey-800':
             intent === 'primary' || (isOpen && intent === 'secondary'),
           'rounded-t-sm': isOpen,
