@@ -23,7 +23,11 @@ const UserListsView: React.FC<UserListsViewProps> = ({ user, lists }) => {
       ) : (
         <ul>
           {lists.edges.map(({ node }) => (
-            <ListPreview key={`user-list-${node.name}`} list={node} />
+            <ListPreview
+              key={`user-list-${node.name}`}
+              list={node}
+              showUser={false}
+            />
           ))}
         </ul>
       )}
