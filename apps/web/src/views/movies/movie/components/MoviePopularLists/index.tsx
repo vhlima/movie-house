@@ -21,7 +21,7 @@ export const MoviePopularLists: React.FC<MoviePopularListsProps> = ({
 
   return (
     <Card>
-      <Card.Header title="Popular lists" marginBottom={!hasAnyPopularList} />
+      <Card.Header title="Popular lists" marginBottom />
 
       <Card.Body>
         {!hasAnyPopularList ? (
