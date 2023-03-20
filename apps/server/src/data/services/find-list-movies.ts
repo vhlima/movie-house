@@ -1,15 +1,11 @@
-import {
-  PaginationInput,
-  MovieReferenceSortType,
-  Movie,
-  Pagination,
-} from '../../domain/entities';
+import { PaginationInput, Movie, Pagination } from '../../domain/entities';
 
 import { NotFoundError, PageNotFoundError } from '../../domain/errors';
 
 import { FindListMovies, FindMoviesReference } from '../../domain/usecases';
 
 import { IListRepository } from '../contracts';
+import { MovieReferenceSortType } from '../enums';
 
 export class FindListMoviesService implements FindListMovies {
   constructor(
