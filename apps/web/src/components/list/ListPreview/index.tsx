@@ -22,7 +22,7 @@ interface Props {
 }
 
 const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
-  const { id, name, user, post, movies } = list;
+  const { id, name, user, post, movies, movieCount } = list;
 
   return (
     <ListItem className="md:flex md:gap-4">
@@ -61,7 +61,7 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
         </Typography>
 
         <Typography component="span" color="tertiary" size="sm">
-          {movies.length} {movies.length === 1 ? 'movie' : 'movies'}
+          {movieCount} {movieCount === 1 ? 'movie' : 'movies'}
         </Typography>
 
         {showUser && (
