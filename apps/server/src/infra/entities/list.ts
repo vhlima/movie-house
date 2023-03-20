@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 
 import {
   Column,
@@ -40,6 +40,9 @@ export class ListEntity extends Timestamps implements List {
   @Field()
   @Column()
   name: string;
+
+  @Field(() => Int)
+  movieCount: number;
 
   @Field({ nullable: true })
   @Column({ name: 'background_image_url', nullable: true })
