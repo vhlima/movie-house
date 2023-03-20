@@ -46,6 +46,7 @@ const SortButtons: React.FC = () => {
   return (
     <SortButton
       text="Sort by"
+      intent="secondary"
       isOpen={dropdownOpen === 'newest'}
       onClick={() => openDropdown('newest')}
       onClose={() => closeDropdown()}
