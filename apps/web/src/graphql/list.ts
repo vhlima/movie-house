@@ -23,6 +23,7 @@ export const FIND_LISTS = gql`
         node {
           id
           name
+          movieCount
           isPrivate
           post {
             id
@@ -48,6 +49,7 @@ export const FIND_LIST = gql`
     list(listId: $listId) {
       id
       name
+      movieCount
       backgroundImageUrl
       user {
         username

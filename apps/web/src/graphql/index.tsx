@@ -111,6 +111,7 @@ export type List = {
   createdAt: Scalars['Float'];
   id: Scalars['String'];
   isPrivate?: Maybe<Scalars['Boolean']>;
+  movieCount: Scalars['Int'];
   name: Scalars['String'];
   post: Post;
   postId: Scalars['String'];
@@ -133,6 +134,7 @@ export type ListPreview = {
   createdAt: Scalars['Float'];
   id: Scalars['String'];
   isPrivate?: Maybe<Scalars['Boolean']>;
+  movieCount: Scalars['Int'];
   movies: Array<Movie>;
   name: Scalars['String'];
   post: Post;
@@ -862,6 +864,7 @@ export type FindListsQuery = {
         __typename?: 'ListPreview';
         id: string;
         name: string;
+        movieCount: number;
         isPrivate?: boolean | null;
         post: { __typename?: 'Post'; id: string; content?: string | null };
         user: {
@@ -890,6 +893,7 @@ export type FindListQuery = {
     __typename?: 'List';
     id: string;
     name: string;
+    movieCount: number;
     backgroundImageUrl?: string | null;
     user: {
       __typename?: 'User';
@@ -2074,6 +2078,7 @@ export const FindListsDocument = gql`
         node {
           id
           name
+          movieCount
           isPrivate
           post {
             id
@@ -2146,6 +2151,7 @@ export const FindListDocument = gql`
     list(listId: $listId) {
       id
       name
+      movieCount
       backgroundImageUrl
       user {
         username
