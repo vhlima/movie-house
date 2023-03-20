@@ -1,5 +1,6 @@
 import { MovieCover } from '@/components/movie';
-import { useLogic } from './logic';
+import { Pagination } from '@/components';
+import { useFindListMoviesQuery } from '@/graphql';
 
 import QueryState from '../../../../components/QueryState';
 
@@ -8,22 +9,29 @@ interface MoviesSectionProps {
 }
 
 const MoviesSection: React.FC<MoviesSectionProps> = ({ listId }) => {
-  const { listMoviesResult } = useLogic({ listId });
-
-  const { data, loading, error } = listMoviesResult;
+  const { data, loading, error } = useFindListMoviesQuery({
+    variables: {
+      listId,
+      page: 1,
+    },
+  });
 
   if (!data) {
     return <QueryState loading={loading} error={error} />;
   }
 
   return (
-    <ul className="grid gap-2 my-4 grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
-      {data.listMovies.edges.map(({ node }) => (
-        <li key={`list-movie-${node.id}`}>
-          <MovieCover movie={node} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className="grid gap-2 my-4 grid-cols-4 sm:grid-cols-6 md:grid-cols-8">
+        {data.listMovies.edges.map(({ node }) => (
+          <li key={`list-movie-${node.id}`}>
+            <MovieCover movie={node} />
+          </li>
+        ))}
+      </ul>
+
+      <Pagination currentPage={1} totalPages={1} />
+    </div>
   );
 };
 
