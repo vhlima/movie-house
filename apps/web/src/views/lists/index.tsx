@@ -33,7 +33,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list, listMovies }) => {
   return (
     <BackdropImage src={bgUrl} alt="Backdrop image for user list">
       <PageContent className="flex flex-col relative">
-        <ListHeading user={user} />
+        <ListHeading listId={list.id} user={user} />
 
         <section className="mt-2">
           <Typography

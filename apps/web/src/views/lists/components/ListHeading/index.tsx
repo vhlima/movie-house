@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-
 import { Typography, ProfilePicture, SubHeading } from '@/components';
 
 import { DecadeDropdown, GenreDropdown, SortButton } from '@/components/Sort';
@@ -9,16 +7,15 @@ import { SingleDropdown } from '@/hooks/useSingleDropdown';
 import UserProfileLink from '@/components/user/UserProfileLink';
 
 interface Props {
+  listId: string;
   user: {
     username: string;
     profilePictureUrl?: string;
   };
 }
 
-const ListHeading: React.FC<Props> = ({ user }) => {
-  const { asPath } = useRouter();
-
-  const rootPath = asPath.split('/').slice(0, 4).join('/');
+const ListHeading: React.FC<Props> = ({ listId, user }) => {
+  const rootPath = `/lists/${listId}`;
 
   return (
     <SubHeading className="flex-col sm:flex-row">
