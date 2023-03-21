@@ -1,15 +1,12 @@
-import clsx from 'clsx';
-
-import { FindListsQuery, LikeType } from '@/graphql';
+import { FindListsQuery } from '@/graphql';
 
 import {
   Link,
   Typography,
-  SvgIcon,
   TextShorter,
   ListItem,
-  LikeButton,
   ProfilePicture,
+  PostReactions,
 } from '@/components';
 
 import { MovieCoverAccordion } from '@/components/movie';
@@ -85,24 +82,7 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
           />
         )}
 
-        <div
-          className={clsx('flex gap-2 items-center ml-auto mt-2', {
-            'mt-4': !post.content && showUser,
-          })}
-        >
-          <LikeButton
-            className="w-16"
-            contentId={post.id}
-            likeType={LikeType.Post}
-          />
-
-          <button className="flex items-center gap-1 w-fit" type="button">
-            <SvgIcon iconType="HiChatBubbleBottomCenter" size={22} />
-            <Typography className="font-medium" component="span" size="sm">
-              3.6k
-            </Typography>
-          </button>
-        </div>
+        <PostReactions postId={post.id} />
       </div>
     </ListItem>
   );

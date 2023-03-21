@@ -1,14 +1,11 @@
 import type { FindListQuery, FindListMoviesQuery } from '@/graphql';
 
-import { LikeType } from '@/graphql';
-
 import {
   Typography,
   PageContent,
   PostCommentaries,
   TextShorter,
-  LikeButton,
-  SvgIcon,
+  PostReactions,
 } from '@/components';
 
 import { formatDateDistanceFromMillis } from '@/utils/date-utils';
@@ -59,16 +56,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list, listMovies }) => {
 
           <ListMovies movies={listMovies} />
 
-          <div className="flex gap-2 my-4">
-            <LikeButton contentId={post.id} likeType={LikeType.Post} />
-
-            <div className="flex items-center gap-1 w-fit">
-              <SvgIcon iconType="HiChatBubbleBottomCenter" size={22} />
-              <Typography className="font-medium" component="span" size="sm">
-                3.6k
-              </Typography>
-            </div>
-          </div>
+          <PostReactions postId={post.id} />
         </section>
 
         <PostCommentaries postId={post.id} />
