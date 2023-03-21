@@ -17,7 +17,7 @@ export const SubHeading: React.FC<PropsWithChildren<SubHeadingProps>> = ({
 }) => (
   <div
     className={clsx(
-      'flex gap-2 pb-2 border-b border-b-grey-800',
+      'flex gap-2 border-b border-b-grey-800',
       {
         'mb-4': marginBottom,
       },
