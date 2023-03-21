@@ -65,8 +65,12 @@ export const FIND_LIST = gql`
 `;
 
 export const FIND_LIST_MOVIES = gql`
-  query FindListMovies($page: Int!, $listId: String!) {
-    listMovies(page: $page, listId: $listId) {
+  query FindListMovies(
+    $page: Int!
+    $listId: String!
+    $sort: MovieReferenceSortInput
+  ) {
+    listMovies(page: $page, listId: $listId, sort: $sort) {
       totalCount
       totalPages
       pageInfo {

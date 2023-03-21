@@ -912,6 +912,7 @@ export type FindListQuery = {
 export type FindListMoviesQueryVariables = Exact<{
   page: Scalars['Int'];
   listId: Scalars['String'];
+  sort?: InputMaybe<MovieReferenceSortInput>;
 }>;
 
 export type FindListMoviesQuery = {
@@ -2212,8 +2213,12 @@ export type FindListQueryResult = Apollo.QueryResult<
   FindListQueryVariables
 >;
 export const FindListMoviesDocument = gql`
-  query FindListMovies($page: Int!, $listId: String!) {
-    listMovies(page: $page, listId: $listId) {
+  query FindListMovies(
+    $page: Int!
+    $listId: String!
+    $sort: MovieReferenceSortInput
+  ) {
+    listMovies(page: $page, listId: $listId, sort: $sort) {
       totalCount
       totalPages
       pageInfo {
@@ -2246,6 +2251,7 @@ export const FindListMoviesDocument = gql`
  *   variables: {
  *      page: // value for 'page'
  *      listId: // value for 'listId'
+ *      sort: // value for 'sort'
  *   },
  * });
  */
