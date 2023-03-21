@@ -7,6 +7,8 @@ import { FindListMovies, FindMoviesReference } from '../../domain/usecases';
 import { IListRepository } from '../contracts';
 import { MovieReferenceSortType } from '../enums';
 
+const MOVIES_PER_PAGE = 16;
+
 export class FindListMoviesService implements FindListMovies {
   constructor(
     private readonly listRepository: IListRepository,
@@ -27,10 +29,14 @@ export class FindListMoviesService implements FindListMovies {
       throw new NotFoundError('ListNotFoundError', 'List not found.');
     }
 
-    const movies = this.findMoviesReference.handle(listId, {
-      page,
-      sort,
-    });
+    const movies = this.findMoviesReference.handle(
+      listId,
+      {
+        page,
+        sort,
+      },
+      MOVIES_PER_PAGE,
+    );
 
     return movies;
   }
