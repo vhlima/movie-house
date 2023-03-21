@@ -70,11 +70,11 @@ export class FindReviewsRepository implements IFindReviewsRepository {
           where: {
             post: {
               createdAt: Between(
-                new Date(year, 0, 1).getTime(),
-                new Date(year + 1, 0, 1).getTime(),
+                new Date(year, 0, 1),
+                new Date(year + 1, 0, 1),
               ),
             },
-          },
+          } as any,
         };
       }
       default: {
