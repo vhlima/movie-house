@@ -75,6 +75,11 @@ export class FindReviewsRepository implements IFindReviewsRepository {
               ),
             },
           } as any,
+          order: {
+            post: {
+              createdAt: 'DESC',
+            },
+          },
         };
       }
       default: {
