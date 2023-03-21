@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-
 import type { FindListQuery, FindListMoviesQuery } from '@/graphql';
 
 import { LikeType } from '@/graphql';
@@ -8,32 +6,21 @@ import {
   Typography,
   PageContent,
   PostCommentaries,
-  ProfilePicture,
-  SubHeading,
   TextShorter,
   LikeButton,
   SvgIcon,
 } from '@/components';
 
-import { DecadeDropdown, GenreDropdown, SortButton } from '@/components/Sort';
-
-import { SingleDropdown } from '@/hooks/useSingleDropdown';
-
 import { formatDateDistanceFromMillis } from '@/utils/date-utils';
 
 import BackdropImage from '../../components/BackdropImage';
 
-import UserProfileLink from '../../components/user/UserProfileLink';
-
 import ListMovies from './components/ListMovies';
+import ListHeading from './components/ListHeading';
 
 type UserListViewProps = FindListQuery & FindListMoviesQuery;
 
 const UserListView: React.FC<UserListViewProps> = ({ list, listMovies }) => {
-  const { asPath } = useRouter();
-
-  const rootPath = asPath.split('/').slice(0, 4).join('/');
-
   const bgUrl =
     'https://a.ltrbxd.com/resized/sm/upload/0y/9x/ts/cw/speed-racer-1200-1200-675-675-crop-000000.jpg';
 
@@ -46,33 +33,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list, listMovies }) => {
   return (
     <BackdropImage src={bgUrl} alt="Backdrop image for user list">
       <PageContent className="flex flex-col relative">
-        <SubHeading className="flex-col sm:flex-row">
-          <UserProfileLink
-            className="flex items-center group"
-            username={user.username}
-          >
-            <ProfilePicture src={user.profilePictureUrl} imageSize="sm" />
-
-            <Typography className="ml-2" component="span" groupHover>
-              List by&nbsp;
-              <Typography component="strong" color="primary" groupHover>
-                {user.username}
-              </Typography>
-            </Typography>
-          </UserProfileLink>
-
-          <div className="flex flex-col items-center gap-2 flex-wrap sm:gap-0 sm:flex-nowrap sm:flex-row sm:w-fit sm:ml-auto">
-            <SingleDropdown>
-              <SortButton type="decade" intent="secondary">
-                <DecadeDropdown pathname={rootPath} />
-              </SortButton>
-
-              <SortButton type="genre" intent="secondary">
-                <GenreDropdown pathname={rootPath} />
-              </SortButton>
-            </SingleDropdown>
-          </div>
-        </SubHeading>
+        <ListHeading user={user} />
 
         <section className="mt-2">
           <Typography
