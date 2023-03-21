@@ -1,11 +1,8 @@
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 
-import { useProfile } from '@/views/users/hooks/useProfile';
+import { SortButton, SortDropdown } from '@/components/Sort';
 
-import SortButton from '../../../../../components/Sort/SortButton';
-import SortDropdown from '../../../../../components/Sort/SortDropdown';
-
-type DropdownType = 'newest' | 'popularity' | 'name' | 'older' | 'updated';
+import { SingleDropdown } from '@/hooks/useSingleDropdown';
 
 const dropdownItems = [
   {
@@ -31,46 +28,24 @@ const dropdownItems = [
 ];
 
 const SortButtons: React.FC = () => {
-  const { user } = useProfile();
+  const { asPath } = useRouter();
 
-  const [dropdownOpen, setDropdownOpen] = useState<DropdownType>();
-
-  function openDropdown(dropdown: DropdownType) {
-    setDropdownOpen(prev => (prev !== dropdown ? dropdown : undefined));
-  }
-
-  function closeDropdown() {
-    setDropdownOpen(undefined);
-  }
+  const rootPath = asPath.split('/').slice(0, 4).join('/');
 
   return (
-    <SortButton
-      text="Sort by"
-      intent="secondary"
-      isOpen={dropdownOpen === 'newest'}
-      onClick={() => openDropdown('newest')}
-      onClose={() => closeDropdown()}
-    >
-      <SortDropdown
-        singleOption
-        items={dropdownItems}
-        queryKey="sortType"
-        pathname={{
-          clean: {
-            pathname: '/users/[username]/lists',
-            query: {
-              username: user.username,
-            },
-          },
-          sort: {
-            pathname: '/users/[username]/lists/by/[sortType]',
-            query: {
-              username: user.username,
-            },
-          },
-        }}
-      />
-    </SortButton>
+    <SingleDropdown>
+      <SortButton type="list" text="Sort by" intent="secondary">
+        <SortDropdown
+          singleOption
+          items={dropdownItems}
+          queryKey="sortType"
+          pathname={{
+            clean: rootPath,
+            sort: `${rootPath}/by/[sortType]`,
+          }}
+        />
+      </SortButton>
+    </SingleDropdown>
   );
 };
 

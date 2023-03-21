@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { SortByDecadeButton, SortByGenreButton } from '@/components/Sort';
+import { DecadeDropdown, GenreDropdown, SortButton } from '@/components/Sort';
 
 import { SingleDropdown } from '@/hooks/useSingleDropdown';
 
@@ -12,9 +12,13 @@ const SortButtons: React.FC = () => {
   return (
     <div className="flex flex-col sm:flex-row items-center ml-auto">
       <SingleDropdown>
-        <SortByGenreButton pathname={rootPath} intent="secondary" />
+        <SortButton type="decade" intent="secondary">
+          <DecadeDropdown pathname={rootPath} />
+        </SortButton>
 
-        <SortByDecadeButton pathname={rootPath} intent="secondary" />
+        <SortButton type="genre" intent="secondary">
+          <GenreDropdown pathname={rootPath} />
+        </SortButton>
       </SingleDropdown>
     </div>
   );
