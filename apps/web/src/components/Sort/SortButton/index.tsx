@@ -3,59 +3,67 @@ import clsx from 'clsx';
 import type { PropsWithChildren } from 'react';
 
 import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { useSingleDropdown } from '@/hooks/useSingleDropdown';
 
 import { Typography, SvgIcon } from '@/components';
 
 export type SortButtonIntent = 'primary' | 'secondary';
 
+type SortButtonType = 'decade' | 'genre' | 'service' | string;
+
+type SortButtonSize = 'lg' | 'md' | 'sm';
+
 interface SortButtonProps {
-  className?: string;
-  text: string;
+  type?: SortButtonType;
+  text?: string;
   intent?: SortButtonIntent;
-  sizeType?: 'sm' | 'md' | 'lg' | 'none';
-  isOpen?: boolean;
-  onClick: () => void;
-  onClose: () => void;
 }
 
 // TODO(BUG): When you fast click on the button the request
 // to fetch the list is send but the response is not received
 // because the component isn't being rendered.
 
-const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
-  className,
+const buttonSizes: { [key in SortButtonSize]: string } = {
+  lg: 'px-9',
+  md: 'px-6',
+  sm: 'px-2',
+};
+
+const buttonTexts: { [key in SortButtonType]: string } = {
+  decade: 'Decade',
+  genre: 'Genre',
+  service: 'Service',
+};
+
+export const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
+  type,
   intent = 'primary',
-  sizeType,
-  text,
-  isOpen,
+  text = buttonTexts[type],
   children,
-  onClick,
-  onClose,
 }) => {
   const { elementRef, handleBlur } = useOutsideClick<HTMLDivElement>();
 
+  const { dropdownOpen, openDropdown, closeDropdown } = useSingleDropdown();
+
+  const isOpen = type === dropdownOpen;
+
   return (
     <div
-      className={clsx(
-        'relative flex items-center gap-1 w-full px-4 lg:px-3 py-0.5 ',
-        {
-          'w-36 sm:w-28': sizeType && sizeType === 'sm',
-          'w-36 sm:w-32': sizeType && sizeType === 'md',
-          'w-36 sm:w-36': sizeType && sizeType === 'lg',
-          'border-r border-r-grey-700 last:border-r-0': intent === 'primary',
-          'bg-grey-800':
-            intent === 'primary' || (isOpen && intent === 'secondary'),
-          'rounded-t-sm': isOpen,
-        },
-        className && className,
-      )}
+      className={clsx('relative flex items-center gap-1 w-full py-1 ', {
+        'border-r border-r-grey-700 last:border-r-0': intent === 'primary',
+        'bg-grey-800':
+          intent === 'primary' || (isOpen && intent === 'secondary'),
+        'rounded-t-sm': isOpen,
+        [buttonSizes.sm]: type && type === 'decade',
+        [buttonSizes.md]: !type || type !== 'decade',
+      })}
       ref={elementRef}
-      onBlur={e => handleBlur(e, onClose)}
+      onBlur={e => handleBlur(e, closeDropdown)}
     >
       <button
         className="w-full flex items-center justify-center"
         type="button"
-        onClick={onClick}
+        onClick={() => openDropdown(type)}
       >
         <Typography className="uppercase" component="span" size="sm">
           {text}
@@ -68,5 +76,3 @@ const SortButton: React.FC<PropsWithChildren<SortButtonProps>> = ({
     </div>
   );
 };
-
-export default SortButton;

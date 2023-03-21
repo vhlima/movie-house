@@ -13,7 +13,10 @@ interface SortDropdownProps extends SortLinkBuilderProps {
   }>;
 }
 
-const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
+export const SortDropdown: React.FC<SortDropdownProps> = ({
+  items,
+  ...props
+}) => {
   const { selectedOptions, checkIsOptionSelected, buildFilteredHref } =
     useSortLinkBuilder(props);
 
@@ -60,5 +63,3 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ items, ...props }) => {
     </div>
   );
 };
-
-export default SortDropdown;
