@@ -119,11 +119,11 @@ export class FindMoviesReferenceRepository
     const sortOptions = this.mapSortToFindOptions(sort);
 
     const [movies, totalCount] = await movieReferenceRepository.findAndCount({
+      ...sortOptions,
       where: {
         ...(sortOptions.where || {}),
         referenceId,
       },
-      ...sortOptions,
       relations: ['user'],
       take: itemsPerPage,
       skip: (page - 1) * itemsPerPage,
