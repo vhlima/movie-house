@@ -20,10 +20,11 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const requestValidationSchema = Yup.object().shape({
     id: Yup.string().required(),
+    page: Yup.number().min(1).max(100),
   });
 
   try {
-    const { id } = await requestValidationSchema.validate(query);
+    const { id, page } = await requestValidationSchema.validate(query);
 
     const apolloClient = initializeApollo(req.headers);
 
@@ -46,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       query: FindListMoviesDocument,
       variables: {
         listId: listData.list.id,
-        page: 1,
+        page: page || 1,
       },
     });
 
@@ -61,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 };
 
-type UserListPageProps = FindListQuery;
+type UserListPageProps = FindListQuery & FindListMoviesQuery;
 
 const UserListPage: NextPage<UserListPageProps> = ({ ...props }) => (
   <UserListView {...props} />

@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 
-import { FindListQuery, LikeType } from '@/graphql';
+import type { FindListQuery, FindListMoviesQuery } from '@/graphql';
+
+import { LikeType } from '@/graphql';
 
 import {
   Typography,
@@ -25,9 +27,9 @@ import UserProfileLink from '../../components/user/UserProfileLink';
 
 import ListMovies from './components/ListMovies';
 
-type UserListViewProps = FindListQuery;
+type UserListViewProps = FindListQuery & FindListMoviesQuery;
 
-const UserListView: React.FC<UserListViewProps> = ({ list }) => {
+const UserListView: React.FC<UserListViewProps> = ({ list, listMovies }) => {
   const { asPath } = useRouter();
 
   const rootPath = asPath.split('/').slice(0, 4).join('/');
@@ -35,7 +37,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list }) => {
   const bgUrl =
     'https://a.ltrbxd.com/resized/sm/upload/0y/9x/ts/cw/speed-racer-1200-1200-675-675-crop-000000.jpg';
 
-  const { id: listId, user, name, post } = list;
+  const { user, name, post } = list;
 
   const postCreationDateFormatted = formatDateDistanceFromMillis(
     post.createdAt,
@@ -94,7 +96,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list }) => {
             />
           )}
 
-          <ListMovies listId={listId} />
+          <ListMovies movies={listMovies} />
 
           <div className="flex gap-2 my-4">
             <LikeButton contentId={list.post.id} likeType={LikeType.Post} />
