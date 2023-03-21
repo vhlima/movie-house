@@ -2,6 +2,8 @@ import type { FindUserQuery, FindReviewsQuery } from '@/graphql';
 
 import { ReviewList } from '@/components/review/ReviewList';
 
+import { Pagination } from '@/components';
+
 import UserProfilePageView from '../components/UserProfilePageView';
 
 import ReviewsSortButtons from './components/ReviewsSortButtons';
@@ -23,6 +25,12 @@ const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
         showUser={false}
         reviews={reviews.edges.map(edge => edge.node)}
         emptyMessage="No reviews made yet."
+      />
+
+      <Pagination
+        className="mt-4"
+        currentPage={reviews.pageInfo.currentPage}
+        totalPages={reviews.totalPages}
       />
     </UserProfilePageView>
   );
