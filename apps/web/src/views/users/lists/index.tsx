@@ -1,6 +1,7 @@
 import type { FindUserQuery, FindListsQuery } from '@/graphql';
 
-import { Typography, ListItem } from '@/components';
+import { Typography } from '@/components';
+
 import ListPreview from '../../../components/list/ListPreview';
 
 import UserProfilePageView from '../components/UserProfilePageView';
