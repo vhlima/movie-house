@@ -1,12 +1,15 @@
 import { useRouter } from 'next/router';
 import { Typography, Button } from '@/components';
+import clsx from 'clsx';
 
 interface Pagination {
+  className?: string;
   currentPage: number;
   totalPages: number;
 }
 
 export const Pagination: React.FC<Pagination> = ({
+  className,
   currentPage,
   totalPages,
 }) => {
@@ -22,7 +25,12 @@ export const Pagination: React.FC<Pagination> = ({
   }
 
   return (
-    <nav className="flex flex-col gap-4 items-center justify-between sm:flex-row sm:gap-0">
+    <nav
+      className={clsx(
+        'flex flex-col gap-4 items-center justify-between sm:flex-row sm:gap-0',
+        className && className,
+      )}
+    >
       <Button
         className="w-full sm:w-40"
         intent="secondary"
