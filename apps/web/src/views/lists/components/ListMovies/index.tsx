@@ -1,6 +1,7 @@
 import type { FindListMoviesQuery } from '@/graphql';
 
-import { MovieCover } from '@/components/movie';
+import { MovieCoverList } from '@/components/movie';
+
 import { Pagination } from '@/components';
 
 interface MoviesSectionProps {
@@ -12,13 +13,12 @@ const MoviesSection: React.FC<MoviesSectionProps> = ({ movies }) => {
 
   return (
     <div>
-      <ul className="grid gap-2 my-4 grid-cols-4 sm:grid-cols-8">
-        {edges.map(({ node }) => (
-          <li key={`list-movie-${node.id}`}>
-            <MovieCover movie={node} />
-          </li>
-        ))}
-      </ul>
+      <MovieCoverList
+        className="my-4 grid-cols-4 sm:grid-cols-8"
+        movies={edges.map(edge => edge.node)}
+        name="list-movies"
+        link
+      />
 
       <Pagination currentPage={pageInfo.currentPage} totalPages={totalPages} />
     </div>
