@@ -18,7 +18,7 @@ import { ReviewSortType } from '../enums';
 
 import { checkStringForValidPositiveNumber } from '../../utils/string-utils';
 
-const REVIEWS_PER_PAGE = 3;
+const REVIEWS_PER_PAGE = 2;
 
 type FindReviewsPaginationInput = PaginationInput<ReviewSortType>;
 
