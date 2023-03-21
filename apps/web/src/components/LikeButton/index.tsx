@@ -9,14 +9,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { SvgIcon, Typography } from '@/components';
 
 export interface LikeButtonProps {
-  className?: string;
   contentId: string;
   likeType: LikeType;
   hasLiked?: boolean;
 }
 
 export const LikeButton: React.FC<LikeButtonProps> = ({
-  className,
   contentId,
   likeType,
   hasLiked,
@@ -42,7 +40,7 @@ export const LikeButton: React.FC<LikeButtonProps> = ({
 
   return (
     <button
-      className={clsx('flex items-center gap-1 w-fit', className && className)}
+      className="flex items-center gap-1 w-16"
       type="button"
       onClick={handleLike}
     >
