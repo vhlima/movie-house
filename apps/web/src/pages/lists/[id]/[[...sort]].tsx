@@ -7,12 +7,43 @@ import type {
   FindListQueryVariables,
   FindListMoviesQuery,
   FindListMoviesQueryVariables,
+  MovieReferenceSortInput,
 } from '@/graphql';
 
-import { FindListDocument, FindListMoviesDocument } from '@/graphql';
-import { addApolloState, initializeApollo } from '../../client';
+import {
+  MovieReferenceSortType,
+  FindListDocument,
+  FindListMoviesDocument,
+} from '@/graphql';
 
-import UserListView from '../../views/lists';
+import UserListView from '@/views/lists';
+
+import { addApolloState, initializeApollo } from '@/client';
+
+const movieReferenceSortTypes = [
+  {
+    route: 'decade',
+    sortType: MovieReferenceSortType.Decade,
+  },
+  {
+    route: 'genre',
+    sortType: MovieReferenceSortType.Genre,
+  },
+  {
+    route: 'release',
+    sortType: MovieReferenceSortType.ReleaseRecent,
+  },
+  {
+    route: 'year',
+    sortType: MovieReferenceSortType.Year,
+  },
+] as Array<{ route: string; sortType: MovieReferenceSortType }>;
+
+function findSortType(route: string) {
+  return movieReferenceSortTypes.find(
+    type => type.route === route.toLowerCase(),
+  );
+}
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -21,10 +52,18 @@ export const getServerSideProps: GetServerSideProps = async ({
   const requestValidationSchema = Yup.object().shape({
     id: Yup.string().required(),
     page: Yup.number().min(1).max(100),
+    sort: Yup.array()
+      .notRequired()
+      .of(Yup.string())
+      .min(2)
+      .max(2)
+      .test('test-sort-params', 'Expected [sortType, sortValue]', value =>
+        !value || value.length < 2 ? true : !!findSortType(value[0]),
+      ),
   });
 
   try {
-    const { id, page } = await requestValidationSchema.validate(query);
+    const { id, page, sort } = await requestValidationSchema.validate(query);
 
     const apolloClient = initializeApollo(req.headers);
 
@@ -40,6 +79,14 @@ export const getServerSideProps: GetServerSideProps = async ({
       throw new Error('List data not found');
     }
 
+    const sortInput: MovieReferenceSortInput | null =
+      sort && sort.length > 0
+        ? {
+            type: findSortType(sort[0]).sortType,
+            filter: sort[1],
+          }
+        : null;
+
     const { data: listMoviesData } = await apolloClient.query<
       FindListMoviesQuery,
       FindListMoviesQueryVariables
@@ -48,6 +95,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       variables: {
         listId: listData.list.id,
         page: page || 1,
+        sort: sortInput,
       },
     });
 
