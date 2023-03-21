@@ -76,7 +76,7 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
 
         {post.content && (
           <TextShorter
-            className="mt-2"
+            className="my-4"
             text={post.content}
             maxCharacters={120}
           />

@@ -48,7 +48,7 @@ const UserListView: React.FC<UserListViewProps> = ({ list, listMovies }) => {
 
           {post.content && (
             <TextShorter
-              className="my-2"
+              className="my-4"
               text={post.content}
               maxCharacters={300}
             />

@@ -109,7 +109,7 @@ const Review: React.FC<MovieReviewViewProps> = ({
 
           {post.content && (
             <TextShorter
-              className="my-2"
+              className="my-4"
               maxCharacters={preview ? 200 : post.content.length}
               text={post.content}
             />
