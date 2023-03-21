@@ -6,9 +6,9 @@ import type { FindReviewQuery, FindReviewQueryVariables } from '@/graphql';
 
 import { FindReviewDocument } from '@/graphql';
 
-import { addApolloState, initializeApollo } from '../../client';
+import { addApolloState, initializeApollo } from '@/client';
 
-import MovieReviewView from '../../views/reviews/root';
+import MovieReviewView from '@/views/reviews/root';
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const requestValidationSchema = Yup.object().shape({
