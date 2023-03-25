@@ -32,6 +32,8 @@ export class CreateCommentaryService implements CreateCommentary {
       content,
     );
 
+    commentary.user = session;
+
     return commentary;
   }
 }
