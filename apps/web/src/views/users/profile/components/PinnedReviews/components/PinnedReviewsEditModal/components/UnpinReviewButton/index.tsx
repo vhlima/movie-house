@@ -1,7 +1,5 @@
-import Button from '../../../../../../../../../components/Button';
-import SvgIcon from '../../../../../../../../../components/SvgIcon';
-
-import { useToggleReviewPinMutation } from '../../../../../../../../../graphql';
+import { useToggleReviewPinMutation } from '@/graphql';
+import { Button, SvgIcon } from '@/components';
 
 import { usePinnedReviewsCache } from '../../../../hooks/usePinnedReviewsCache';
 
@@ -21,6 +19,7 @@ const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ reviewId }) => {
         ...cacheData,
         reviews: {
           ...cacheData.reviews,
+          totalCount: cacheData.reviews.totalCount - 1,
           edges: cacheData.reviews.edges.filter(
             edge => edge.node.id !== ctx.variables.reviewId,
           ),
@@ -31,10 +30,11 @@ const UnpinReviewButton: React.FC<UnpinReviewButtonProps> = ({ reviewId }) => {
 
   return (
     <Button
-      buttonStyle="danger"
+      intent="danger"
+      title="Click to unpin review"
       onClick={() => unpinReview({ variables: { reviewId } })}
     >
-      <SvgIcon iconType="FiX" size={24} />
+      <SvgIcon className="text-inherit" iconType="FiX" size={24} />
     </Button>
   );
 };

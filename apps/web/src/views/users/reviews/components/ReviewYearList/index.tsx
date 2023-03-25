@@ -1,8 +1,8 @@
 import { eachYearOfInterval } from 'date-fns';
 
-import { useProfile } from '../../../hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
-import SortDropdown from '../../../../../components/Sort/SortDropdown';
+import { SortDropdown } from '@/components/Sort';
 
 interface ReviewYearListProps {
   sinceDate: Date;

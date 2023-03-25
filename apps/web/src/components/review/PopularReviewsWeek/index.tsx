@@ -1,12 +1,11 @@
-import { ReviewSortType, useFindReviewsQuery } from '../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
-import Card from '../../Card';
-import QueryState from '../../QueryState';
+import { Card } from '@/components';
 
-import ReviewPreview from '../ReviewPreview';
+import { ReviewList } from '../ReviewList';
 
 const PopularReviewsWeek: React.FC = () => {
-  const { data, loading, error } = useFindReviewsQuery({
+  const { data } = useFindReviewsQuery({
     variables: {
       page: 1,
       sort: {
@@ -19,18 +18,12 @@ const PopularReviewsWeek: React.FC = () => {
     <Card>
       <Card.Header title="Popular reviews this week" marginBottom />
 
-      <QueryState loading={loading} error={error}>
-        {data && (
-          <ul className="flex flex-wrap">
-            {data.reviews.edges.map(edge => (
-              <ReviewPreview
-                key={`popular-review-${edge.node.id}`}
-                review={edge.node}
-              />
-            ))}
-          </ul>
-        )}
-      </QueryState>
+      <Card.Body>
+        <ReviewList
+          reviews={data ? data.reviews.edges.map(edge => edge.node) : []}
+          emptyMessage="No reviews were found."
+        />
+      </Card.Body>
     </Card>
   );
 };

@@ -1,8 +1,8 @@
-import type { FindUserQuery, FindReviewsQuery } from '../../../graphql';
+import type { FindUserQuery, FindReviewsQuery } from '@/graphql';
 
-import Typography from '../../../components/Typography';
+import { ReviewList } from '@/components/review/ReviewList';
 
-import ReviewPreview from '../../../components/review/ReviewPreview';
+import { Pagination } from '@/components';
 
 import UserProfilePageView from '../components/UserProfilePageView';
 
@@ -13,8 +13,6 @@ type UserReviewsViewProps = FindUserQuery & FindReviewsQuery;
 const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
   const reviewCount = reviews.totalCount;
 
-  const hasAnyReview = reviewCount > 0;
-
   return (
     <UserProfilePageView
       user={user}
@@ -23,18 +21,17 @@ const UserReviewsView: React.FC<UserReviewsViewProps> = ({ user, reviews }) => {
       }`}
       sortButtons={<ReviewsSortButtons user={user} />}
     >
-      {!hasAnyReview ? (
-        <Typography component="h1">No reviews made yet.</Typography>
-      ) : (
-        <ul>
-          {reviews.edges.map(edge => (
-            <ReviewPreview
-              key={`user-reviews-${edge.node.id}`}
-              review={edge.node}
-            />
-          ))}
-        </ul>
-      )}
+      <ReviewList
+        showUser={false}
+        reviews={reviews.edges.map(edge => edge.node)}
+        emptyMessage="No reviews made yet."
+      />
+
+      <Pagination
+        className="mt-4"
+        currentPage={reviews.pageInfo.currentPage}
+        totalPages={reviews.totalPages}
+      />
     </UserProfilePageView>
   );
 };

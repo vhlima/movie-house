@@ -111,6 +111,7 @@ export type List = {
   createdAt: Scalars['Float'];
   id: Scalars['String'];
   isPrivate?: Maybe<Scalars['Boolean']>;
+  movieCount: Scalars['Int'];
   name: Scalars['String'];
   post: Post;
   postId: Scalars['String'];
@@ -133,6 +134,7 @@ export type ListPreview = {
   createdAt: Scalars['Float'];
   id: Scalars['String'];
   isPrivate?: Maybe<Scalars['Boolean']>;
+  movieCount: Scalars['Int'];
   movies: Array<Movie>;
   name: Scalars['String'];
   post: Post;
@@ -423,6 +425,7 @@ export type Query = {
   listMovies: MovieReferencePagination;
   lists: ListPagination;
   movie: Movie;
+  movieGenres: Array<MovieGenre>;
   movieRecommendations: TmDbMovieListPagination;
   movieWithCredits: MovieWithCredits;
   preMadeListMovies: MovieReferencePagination;
@@ -861,6 +864,7 @@ export type FindListsQuery = {
         __typename?: 'ListPreview';
         id: string;
         name: string;
+        movieCount: number;
         isPrivate?: boolean | null;
         post: { __typename?: 'Post'; id: string; content?: string | null };
         user: {
@@ -889,6 +893,7 @@ export type FindListQuery = {
     __typename?: 'List';
     id: string;
     name: string;
+    movieCount: number;
     backgroundImageUrl?: string | null;
     user: {
       __typename?: 'User';
@@ -907,6 +912,7 @@ export type FindListQuery = {
 export type FindListMoviesQueryVariables = Exact<{
   page: Scalars['Int'];
   listId: Scalars['String'];
+  sort?: InputMaybe<MovieReferenceSortInput>;
 }>;
 
 export type FindListMoviesQuery = {
@@ -1295,7 +1301,6 @@ export type FindReviewQuery = {
   review: {
     __typename?: 'Review';
     id: string;
-    isPinned: boolean;
     user: {
       __typename?: 'User';
       username: string;
@@ -1311,7 +1316,6 @@ export type FindReviewQuery = {
       __typename?: 'Movie';
       id: number;
       originalTitle: string;
-      runtime: number;
       posterUrl: string;
       backdropUrl: string;
       releaseDate?: any | null;
@@ -2075,6 +2079,7 @@ export const FindListsDocument = gql`
         node {
           id
           name
+          movieCount
           isPrivate
           post {
             id
@@ -2147,6 +2152,7 @@ export const FindListDocument = gql`
     list(listId: $listId) {
       id
       name
+      movieCount
       backgroundImageUrl
       user {
         username
@@ -2207,8 +2213,12 @@ export type FindListQueryResult = Apollo.QueryResult<
   FindListQueryVariables
 >;
 export const FindListMoviesDocument = gql`
-  query FindListMovies($page: Int!, $listId: String!) {
-    listMovies(page: $page, listId: $listId) {
+  query FindListMovies(
+    $page: Int!
+    $listId: String!
+    $sort: MovieReferenceSortInput
+  ) {
+    listMovies(page: $page, listId: $listId, sort: $sort) {
       totalCount
       totalPages
       pageInfo {
@@ -2241,6 +2251,7 @@ export const FindListMoviesDocument = gql`
  *   variables: {
  *      page: // value for 'page'
  *      listId: // value for 'listId'
+ *      sort: // value for 'sort'
  *   },
  * });
  */
@@ -3356,7 +3367,6 @@ export const FindReviewDocument = gql`
   query FindReview($reviewId: String!) {
     review(reviewId: $reviewId) {
       id
-      isPinned
       user {
         username
         profilePictureUrl
@@ -3369,7 +3379,6 @@ export const FindReviewDocument = gql`
       movie {
         id
         originalTitle
-        runtime
         posterUrl
         backdropUrl
         releaseDate

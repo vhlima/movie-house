@@ -6,12 +6,12 @@ interface PostCommentariesProps {
   postId: string;
 }
 
-const PostCommentaries: React.FC<PostCommentariesProps> = ({ postId }) => (
+export const PostCommentaries: React.FC<PostCommentariesProps> = ({
+  postId,
+}) => (
   <>
     <CommentaryTextInput postId={postId} />
 
     <Commentaries postId={postId} />
   </>
 );
-
-export default PostCommentaries;

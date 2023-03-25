@@ -4,11 +4,11 @@ import type { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
 
-import Button from '../../../../../components/Button';
+import { Button } from '@/components';
 
-import MovieSearchModal from '../../../../../components/movie/MovieSearchModal';
+import { MovieSearchModal } from '@/components/movie';
 
-import type { MovieSearchResult } from '../../../../../components/movie/MovieSearchModal';
+import type { MovieSearchResult } from '@/components/movie';
 
 interface MovieSearchButtonProps {
   className?: string;
@@ -35,7 +35,7 @@ const MovieSearchButton: React.FC<
 
       <Button
         className={clsx('mt-auto', className && className)}
-        buttonStyle="secondary"
+        intent="secondary"
         onClick={() => setSearch(true)}
       >
         {children}

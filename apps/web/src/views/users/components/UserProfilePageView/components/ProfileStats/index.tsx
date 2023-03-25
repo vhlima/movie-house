@@ -1,12 +1,10 @@
-import { useRouter } from 'next/router';
+import { useFindProfileStatsQuery } from '@/graphql';
 
-import { useFindProfileStatsQuery } from '../../../../../../graphql';
+import { useAuth } from '@/hooks/useAuth';
 
-import { useAuth } from '../../../../../../hooks/useAuth';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
-import { useProfile } from '../../../../hooks/useProfile';
-
-import Button from '../../../../../../components/Button';
+import { Button } from '@/components';
 import FollowButton from '../../../../../../components/FollowButton';
 
 import UserStats from './components/UserStats';
@@ -42,7 +40,7 @@ const followStats = [
   },
 ];
 
-const ProfileStats: React.FC = () => {
+export const ProfileStats: React.FC = () => {
   const { data: session } = useAuth();
 
   const { user } = useProfile();
@@ -50,8 +48,6 @@ const ProfileStats: React.FC = () => {
   const { data: profileStatsData } = useFindProfileStatsQuery({
     variables: { userId: user.id },
   });
-
-  const { push } = useRouter();
 
   const { id, username } = user;
 
@@ -63,24 +59,17 @@ const ProfileStats: React.FC = () => {
         {!isOwnProfile ? (
           <>
             <FollowButton
-              buttonSize="xs"
               targetUserId={id}
               onFollow={async () => {
                 // await refetch();
               }}
             />
 
-            <Button buttonStyle="secondary" buttonSize="xs">
-              Message
-            </Button>
+            <Button intent="secondary">Message</Button>
           </>
         ) : (
-          <Button
-            buttonStyle="secondary"
-            buttonSize="xs"
-            onClick={() => push('/settings')}
-          >
-            Profile settings
+          <Button intent="secondary" href="/settings">
+            Profile Settings
           </Button>
         )}
       </div>
@@ -131,5 +120,3 @@ const ProfileStats: React.FC = () => {
     </>
   );
 };
-
-export default ProfileStats;

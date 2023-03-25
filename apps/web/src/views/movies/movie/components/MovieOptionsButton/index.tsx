@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import type { Movie } from '../../../../../graphql';
+import type { Movie } from '@/graphql';
 
-import Button from '../../../../../components/Button';
+import { Button } from '@/components';
 
-import MovieActionsModal from '../../../../../components/movie/MovieActionsModal';
+import { MovieActionsModal } from '@/components/movie';
 
 interface MovieOptionsButtonProps {
   movie: {
@@ -13,7 +13,9 @@ interface MovieOptionsButtonProps {
   };
 }
 
-const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({ movie }) => {
+export const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({
+  movie,
+}) => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
   return (
@@ -28,11 +30,9 @@ const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({ movie }) => {
         />
       )}
 
-      <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
+      <Button intent="secondary" onClick={() => setOpen(true)}>
         Rate this movie
       </Button>
     </>
   );
 };
-
-export default MovieOptionsButton;

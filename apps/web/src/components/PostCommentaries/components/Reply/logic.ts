@@ -1,4 +1,4 @@
-import { useDeleteReplyMutation } from '../../../../graphql';
+import { useDeleteReplyMutation } from '@/graphql';
 
 import { useRepliesCache } from '../../hooks/useRepliesCache';
 import { useCommentariesCache } from '../../hooks/useCommentariesCache';

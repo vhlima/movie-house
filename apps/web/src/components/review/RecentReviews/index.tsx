@@ -1,15 +1,11 @@
-import { ReviewSortType, useFindReviewsQuery } from '../../../graphql';
+import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
-import Link from '../../Link';
+import { Link, Card, Typography } from '@/components';
 
-import Card from '../../Card';
-
-import MovieCover from '../../movie/MovieCover';
-
-import QueryState from '../../QueryState';
+import { MovieCover } from '@/components/movie';
 
 const RecentReviews: React.FC = () => {
-  const { data, loading, error } = useFindReviewsQuery({
+  const { data } = useFindReviewsQuery({
     variables: {
       page: 1,
       sort: {
@@ -23,24 +19,24 @@ const RecentReviews: React.FC = () => {
       <Card.Header title="Just reviewed..." marginBottom />
 
       <Card.Body>
-        <QueryState loading={loading} error={error}>
-          {data && (
-            <ul className="grid grid-cols-4 sm:grid-cols-8 gap-2">
-              {data.reviews.edges.map(({ node }) => (
-                <li key={`recent-review-${node.id}`}>
-                  <Link
-                    href={{
-                      pathname: '/reviews/[id]',
-                      query: { id: node.post.id },
-                    }}
-                  >
-                    <MovieCover movie={node.movie} link={false} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </QueryState>
+        {!data ? (
+          <Typography component="p">No reviews have been created.</Typography>
+        ) : (
+          <ul className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+            {data.reviews.edges.map(edge => (
+              <li key={`recent-review-${edge.node.id}`}>
+                <Link
+                  href={{
+                    pathname: '/reviews/[id]',
+                    query: { id: edge.node.id },
+                  }}
+                >
+                  <MovieCover movie={edge.node.movie} link={false} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </Card.Body>
     </Card>
   );

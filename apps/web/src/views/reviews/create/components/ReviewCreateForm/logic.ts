@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 
 import type { SchemaOf } from 'yup';
 
-import type { CreateReviewMutationVariables } from '../../../../../graphql';
+import type { CreateReviewMutationVariables } from '@/graphql';
 
-import { useCreateReviewMutation } from '../../../../../graphql';
+import { useCreateReviewMutation } from '@/graphql';
 
 type ReviewFormikInput = Omit<CreateReviewMutationVariables, 'movieId'>;
 
@@ -30,14 +30,14 @@ export const useLogic = ({ movieId }: CreateReviewLogicProps) => {
   const handleSubmit = async (values: ReviewFormikInput) => {
     if (movieId === -1) return;
 
-    const { data, errors } = await createReviewMutation({
+    const { data } = await createReviewMutation({
       variables: {
         movieId,
         content: values.content,
       },
     });
 
-    if (!errors && data) {
+    if (data) {
       await push({
         pathname: '/reviews/[id]',
         query: { id: data.createReview.id },

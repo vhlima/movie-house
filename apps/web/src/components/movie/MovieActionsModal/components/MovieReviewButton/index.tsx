@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import Button from '../../../../Button';
+import { Button } from '@/components';
 
 interface MovieReviewButtonProps {
   movieId: number;
@@ -16,7 +16,7 @@ const MovieReviewButton: React.FC<MovieReviewButtonProps> = ({ movieId }) => {
   };
 
   return (
-    <Button buttonStyle="secondary" onClick={redirectToCreateReviewPage}>
+    <Button intent="secondary" onClick={redirectToCreateReviewPage}>
       Review
     </Button>
   );

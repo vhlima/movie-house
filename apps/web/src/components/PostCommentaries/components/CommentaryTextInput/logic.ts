@@ -1,4 +1,4 @@
-import { useCreateCommentaryMutation } from '../../../../graphql';
+import { useCreateCommentaryMutation } from '@/graphql';
 
 import { useCommentariesCache } from '../../hooks/useCommentariesCache';
 
@@ -26,11 +26,11 @@ export function useLogic(postId: string) {
   });
 
   async function handleSubmit(content: string) {
-    const { errors } = await addComment({
+    const { data } = await addComment({
       variables: { postId, content },
     });
 
-    return !errors;
+    return !data;
   }
 
   return {

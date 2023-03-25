@@ -1,79 +1,90 @@
-import type { FindListsQuery } from '../../../graphql';
+import { FindListsQuery } from '@/graphql';
 
-import Link from '../../Link';
-import SvgIcon from '../../SvgIcon';
-import Typography from '../../Typography';
-import TextShorter from '../../TextShorter';
-import MovieCoverList from '../../movie/MovieCoverList';
+import {
+  Link,
+  Typography,
+  TextShorter,
+  ListItem,
+  ProfilePicture,
+  PostReactions,
+} from '@/components';
 
-interface ListPreviewProps {
+import { MovieCoverAccordion } from '@/components/movie';
+
+import UserProfileLink from '@/components/user/UserProfileLink';
+
+interface Props {
   list: FindListsQuery['lists']['edges'][number]['node'];
+  showUser?: boolean;
 }
 
-const ListPreview: React.FC<ListPreviewProps> = ({ list }) => {
-  const { id, name, post, movies } = list;
+const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
+  const { id, name, user, post, movies, movieCount } = list;
 
   return (
-    <div>
+    <ListItem className="md:flex md:gap-4">
       <Link
-        className="group"
+        className="block md:flex-shrink-0"
         href={{
           pathname: '/lists/[id]',
           query: { id },
         }}
       >
-        {movies.length > 0 && (
-          <MovieCoverList
-            name="list-preview-movies"
-            movies={movies}
-            empty={4 - movies.length}
-            link={false}
+        <MovieCoverAccordion
+          className="w-full"
+          size="sm"
+          movies={movies}
+          maxAmount={5}
+        />
+      </Link>
+
+      <div className="w-full">
+        <Typography
+          className="font-bold"
+          component="h2"
+          color="primary"
+          size="lg"
+          hover
+        >
+          <Link
+            className="block"
+            href={{
+              pathname: '/lists/[id]',
+              query: { id },
+            }}
+          >
+            {name}
+          </Link>
+        </Typography>
+
+        <Typography component="span" color="tertiary" size="sm">
+          {movieCount} {movieCount === 1 ? 'movie' : 'movies'}
+        </Typography>
+
+        {showUser && (
+          <UserProfileLink
+            className="flex items-center gap-2 group mt-2"
+            username={user.username}
+          >
+            <ProfilePicture src={user.profilePictureUrl} imageSize="sm" />
+
+            <Typography className="font-bold" component="span" groupHover>
+              {user.username}
+            </Typography>
+          </UserProfileLink>
+        )}
+
+        {post.content && (
+          <TextShorter
+            className="my-4"
+            text={post.content}
+            maxCharacters={120}
           />
         )}
 
-        <Typography
-          className="font-semibold group-hover:text-grey-200"
-          component="h1"
-          color="primary"
-          size="lg"
-        >
-          {name}
-        </Typography>
-      </Link>
-
-      <div className="flex items-center gap-1">
-        <SvgIcon iconType="TbMovie" size={24} />
-
-        <Typography component="span" color="primary">
-          {movies.length} {movies.length === 1 ? 'movie' : 'movies'}
-        </Typography>
+        <PostReactions postId={post.id} />
       </div>
-
-      {post.content && (
-        <TextShorter
-          className="text-grey-200 mt-1"
-          text={post.content}
-          maxCharacters={120}
-        />
-      )}
-
-      {/* <div className="flex gap-2 items-center mt-1 ml-auto">
-        <div className="flex items-center gap-1">
-          <SvgIcon className="text-grey-300" iconType="AiFillHeart" size={24} />
-
-          <Typography component="span">3.6k</Typography>
-        </div>
-
-        <div className="flex items-center gap-1">
-          <SvgIcon
-            className="text-grey-300"
-            iconType="BsFillChatLeftFill"
-            size={18}
-          />
-          <Typography component="span">3.6k</Typography>
-        </div>
-      </div> */}
-    </div>
+    </ListItem>
   );
 };
 

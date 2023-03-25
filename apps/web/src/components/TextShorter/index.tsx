@@ -2,10 +2,7 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import Button from '../Button';
-
-import SvgIcon from '../SvgIcon';
-import Typography from '../Typography';
+import { Typography } from '@/components';
 
 interface TextShorterProps {
   className?: string;
@@ -13,7 +10,7 @@ interface TextShorterProps {
   maxCharacters: number;
 }
 
-const TextShorter: React.FC<TextShorterProps> = ({
+export const TextShorter: React.FC<TextShorterProps> = ({
   className,
   text,
   maxCharacters,
@@ -24,36 +21,34 @@ const TextShorter: React.FC<TextShorterProps> = ({
     text.length > maxCharacters && text.length - maxCharacters >= maxCharacters;
 
   return (
-    <Typography
-      className={clsx('break-words', className && className)}
-      component="p"
-    >
+    <Typography className={clsx(className && className)} component="p">
       {isCollapsed || !collapse ? text : `${text.slice(0, maxCharacters)}...`}
 
       {collapse && (
-        <Button
-          buttonStyle="tertiary"
-          buttonSize="none"
-          full={false}
+        <button
+          className="inline-flex items-center gap-2 group ml-1"
+          type="button"
           onClick={() => setCollapsed(prev => !prev)}
         >
-          <div className="flex gap-1 items-center">
-            {!isCollapsed ? (
-              <>
-                <span>See more</span>
-                <SvgIcon iconType="FaChevronDown" />
-              </>
-            ) : (
-              <>
-                <span>See less</span>
-                <SvgIcon iconType="FaChevronUp" />
-              </>
-            )}
-          </div>
-        </Button>
+          {!isCollapsed ? (
+            <Typography
+              className="hover:underline"
+              component="span"
+              color="primary"
+            >
+              See more
+            </Typography>
+          ) : (
+            <Typography
+              className="hover:underline"
+              component="span"
+              color="primary"
+            >
+              See less
+            </Typography>
+          )}
+        </button>
       )}
     </Typography>
   );
 };
-
-export default TextShorter;

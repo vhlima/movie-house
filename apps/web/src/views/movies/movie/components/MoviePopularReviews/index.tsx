@@ -1,15 +1,14 @@
-import { useFindReviewsQuery } from '../../../../../graphql';
+import { useFindReviewsQuery } from '@/graphql';
 
-import Card from '../../../../../components/Card';
+import { Typography, Card } from '@/components';
 
-import ReviewPreview from '../../../../../components/review/ReviewPreview';
-import Typography from '../../../../../components/Typography';
+import { MovieReview } from '../index';
 
 interface MoviePopularReviewsProps {
   movieId: number;
 }
 
-const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
+export const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
   movieId,
 }) => {
   const { data: popularReviewsData } = useFindReviewsQuery({
@@ -21,10 +20,7 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
 
   return (
     <Card>
-      <Card.Header
-        title="Popular reviews"
-        marginBottom={!hasAnyPopularReview}
-      />
+      <Card.Header title="Popular reviews" marginBottom />
 
       <Card.Body>
         {!hasAnyPopularReview ? (
@@ -34,10 +30,9 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
         ) : (
           <ul>
             {popularReviewsData.reviews.edges.map(edge => (
-              <ReviewPreview
-                key={`movie-popular-review-${edge.node.id}`}
+              <MovieReview
+                key={`popular-movie-reviews-${edge.node.id}`}
                 review={edge.node}
-                simple
               />
             ))}
           </ul>
@@ -46,5 +41,3 @@ const MoviePopularReviews: React.FC<MoviePopularReviewsProps> = ({
     </Card>
   );
 };
-
-export default MoviePopularReviews;

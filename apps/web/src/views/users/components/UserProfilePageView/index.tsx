@@ -2,18 +2,20 @@ import { useMemo } from 'react';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import type { ProfileContextData } from '../../hooks/useProfile';
+import type { ProfileContextData } from '@/views/users/hooks/useProfile';
 
-import { ProfileContext } from '../../hooks/useProfile';
+import { ProfileContext } from '@/views/users/hooks/useProfile';
 
-import Typography from '../../../../components/Typography';
-import SubHeading from '../../../../components/SubHeading';
-import PageContent from '../../../../components/PageContent';
+import {
+  Typography,
+  PageContent,
+  ProfilePicture,
+  SubHeading,
+} from '@/components';
+
 import BackdropImage from '../../../../components/BackdropImage';
-import ProfilePicture from '../../../../components/ProfilePicture';
 
-import ProfileStats from './components/ProfileStats';
-import ProfileNavigation from './components/ProfileNavigation';
+import { ProfileNavigation, ProfileStats } from './components';
 
 interface UserProfilePageViewProps {
   title?: string;
@@ -40,7 +42,7 @@ const UserProfilePageView: React.FC<
       src="https://a.ltrbxd.com/resized/sm/upload/dr/yl/7v/w5/its-a-wonderful-life-1200-1200-675-675-crop-000000.jpg"
       alt="User profile backdrop"
     >
-      <PageContent className="relative flex flex-col justify-center gap-8 w-full">
+      <PageContent className="relative flex flex-col justify-center gap-4 w-full">
         <div className="flex items-center gap-2">
           <ProfilePicture imageSize="lg" src={user.profilePictureUrl} />
 

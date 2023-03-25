@@ -2,13 +2,11 @@ import type { PropsWithChildren } from 'react';
 
 import clsx from 'clsx';
 
-import type { LinkProps } from '../Link';
+import type { LinkProps } from '@/components';
 
+import { Link, SvgIcon } from '@/components';
 import type { SvgIconType } from '../SvgIcon';
 
-import Link from '../Link';
-
-import SvgIcon from '../SvgIcon';
 import CardBody from './components/CardBody';
 import CardHeader from './components/CardHeader';
 
@@ -36,10 +34,8 @@ interface CardSubComponents {
   Header: typeof CardHeader;
 }
 
-const Card: React.FC<PropsWithChildren<CardProps>> & CardSubComponents = ({
-  className,
-  children,
-}) => {
+export const Card: React.FC<PropsWithChildren<CardProps>> &
+  CardSubComponents = ({ className, children }) => {
   const a = 1;
 
   return <div className={clsx('w-full', className)}>{children}</div>;
@@ -106,5 +102,3 @@ const OldCard: React.FC<PropsWithChildren<CardProps>> = ({
     </div>
   );
 };
-
-export default Card;

@@ -1,9 +1,5 @@
-import type { ModalHandles } from '../../../../../../../../../components/Modal';
-
-import {
-  PreMadeListType,
-  useAddMovieToPreMadeListMutation,
-} from '../../../../../../../../../graphql';
+import { PreMadeListType, useAddMovieToPreMadeListMutation } from '@/graphql';
+import type { ModalHandles } from '@/components';
 
 import { useFavoriteMoviesCache } from '../../hooks/useFavoriteMoviesCache';
 
@@ -37,11 +33,11 @@ export const useLogic = ({ onClose }: AddFavoriteMovieModalLogicProps) => {
   const handleAddMovie = async (movieId: number) => {
     if (loading) return;
 
-    const { data, errors } = await addFavoriteMovie({
+    const { data } = await addFavoriteMovie({
       variables: { movieId, listType: PreMadeListType.Favorite },
     });
 
-    if (!errors && data) {
+    if (data) {
       onClose();
     }
   };

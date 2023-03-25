@@ -1,15 +1,13 @@
-import Card from '../../../../../components/Card';
+import { useFindMovieRecommendationsQuery } from '@/graphql';
+import { Typography, Card } from '@/components';
 
-import MovieCoverList from '../../../../../components/movie/MovieCoverList';
-import Typography from '../../../../../components/Typography';
-
-import { useFindMovieRecommendationsQuery } from '../../../../../graphql';
+import { MovieCoverList } from '@/components/movie';
 
 interface MoviesRelatedProps {
   movieId: number;
 }
 
-const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
+export const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
   const { data: movieRecommendations } = useFindMovieRecommendationsQuery({
     variables: { movieId, page: 1 },
   });
@@ -38,5 +36,3 @@ const MoviesRelated: React.FC<MoviesRelatedProps> = ({ movieId }) => {
     </Card>
   );
 };
-
-export default MoviesRelated;

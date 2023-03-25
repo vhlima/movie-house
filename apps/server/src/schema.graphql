@@ -86,6 +86,7 @@ type List {
   createdAt: Float!
   id: String!
   isPrivate: Boolean
+  movieCount: Int!
   name: String!
   post: Post!
   postId: String!
@@ -106,6 +107,7 @@ type ListPreview {
   createdAt: Float!
   id: String!
   isPrivate: Boolean
+  movieCount: Int!
   movies: [Movie!]!
   name: String!
   post: Post!

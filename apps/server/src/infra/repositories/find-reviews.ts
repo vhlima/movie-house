@@ -45,6 +45,24 @@ export class FindReviewsRepository implements IFindReviewsRepository {
           },
         };
       }
+      case ReviewSortType.RECENT: {
+        return {
+          order: {
+            post: {
+              createdAt: 'DESC',
+            },
+          },
+        };
+      }
+      case ReviewSortType.OLDER: {
+        return {
+          order: {
+            post: {
+              createdAt: 'ASC',
+            },
+          },
+        };
+      }
       case ReviewSortType.YEAR: {
         const year = parseInt(filter as string, 10);
 
@@ -52,9 +70,14 @@ export class FindReviewsRepository implements IFindReviewsRepository {
           where: {
             post: {
               createdAt: Between(
-                new Date(year, 0, 1).getTime(),
-                new Date(year + 1, 0, 1).getTime(),
+                new Date(year, 0, 1),
+                new Date(year + 1, 0, 1),
               ),
+            },
+          } as any,
+          order: {
+            post: {
+              createdAt: 'DESC',
             },
           },
         };

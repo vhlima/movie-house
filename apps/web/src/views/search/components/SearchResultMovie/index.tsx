@@ -1,10 +1,8 @@
-import type { Movie } from '../../../../graphql';
+import type { Movie } from '@/graphql';
 
-import Link from '../../../../components/Link';
-import ListItem from '../../../../components/ListItem';
-import Typography from '../../../../components/Typography';
-import MovieLink from '../../../../components/movie/MovieLink';
-import MovieCover from '../../../../components/movie/MovieCover';
+import { Typography, ListItem, Button } from '@/components';
+
+import { MovieCover, MovieLink } from '@/components/movie';
 
 interface SearchResultMovieProps {
   movie: Pick<Movie, 'id' | 'originalTitle' | 'posterUrl' | 'releaseDate'>;
@@ -37,12 +35,12 @@ const SearchResultMovie: React.FC<SearchResultMovieProps> = ({ movie }) => {
           Alternative titles: Betmen, Netopierí muž, Tim Burtons Batman
         </Typography>
 
-        <Typography component="p">
-          Directed by:&nbsp;
-          <Link className="rounded-md p-1 bg-grey-800" href="/">
+        <div className="flex items-center">
+          <Typography component="span">Directed by:&nbsp;</Typography>
+          <Button intent="secondary" size="sm" full={false} href="/">
             Tim Burton
-          </Link>
-        </Typography>
+          </Button>
+        </div>
       </div>
     </ListItem>
   );

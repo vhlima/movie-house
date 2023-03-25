@@ -2,14 +2,14 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren } from 'react';
 
-import Link from '../../Link';
+import { Link } from '@/components';
 
 interface MovieLinkProps {
   className?: string;
   movieId: number;
 }
 
-const MovieLink: React.FC<PropsWithChildren<MovieLinkProps>> = ({
+export const MovieLink: React.FC<PropsWithChildren<MovieLinkProps>> = ({
   className,
   movieId,
   children,
@@ -24,5 +24,3 @@ const MovieLink: React.FC<PropsWithChildren<MovieLinkProps>> = ({
     {children}
   </Link>
 );
-
-export default MovieLink;

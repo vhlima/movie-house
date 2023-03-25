@@ -2,16 +2,13 @@ import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import type { Movie } from '../../../graphql';
+import type { Movie } from '@/graphql';
 
-import type { ModalHandles } from '../../Modal';
+import { Button, Modal } from '@/components';
+import { MovieRateModal } from '@/components/movie';
+import type { ModalHandles } from '@/components';
 
 import { modalBottom } from '../../../animations';
-
-import Modal from '../../Modal';
-import Button from '../../Button';
-
-import MovieRateModal from '../MovieRateModal';
 
 import RateButton from './components/RateButton';
 import WatchListButton from './components/WatchListButton';
@@ -27,7 +24,7 @@ interface MovieActionsModalProps extends ModalHandles {
   };
 }
 
-const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
+export const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
   movie,
   onClose,
 }) => {
@@ -75,17 +72,12 @@ const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
       <div className="flex flex-col gap-2 w-full">
         <MovieReviewButton movieId={movie.id} />
 
-        <Button
-          buttonStyle="secondary"
-          onClick={() => setSubModalOpen('addToList')}
-        >
+        <Button intent="secondary" onClick={() => setSubModalOpen('addToList')}>
           Add to list
         </Button>
 
-        <Button buttonStyle="secondary">Share</Button>
+        <Button intent="secondary">Share</Button>
       </div>
     </Modal>
   );
 };
-
-export default MovieActionsModal;

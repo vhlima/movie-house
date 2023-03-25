@@ -2,7 +2,7 @@ import { Field } from 'formik';
 
 import type { PropsWithChildren } from 'react';
 
-import Typography from '../../../Typography';
+import { Typography } from '@/components';
 
 interface InputLabelProps {
   className?: string;

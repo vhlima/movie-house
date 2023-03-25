@@ -1,23 +1,11 @@
-import clsx from 'clsx';
-
 import { useState } from 'react';
 
-import type { ModalHandles } from '../../../../../../../components/Modal';
+import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
-import {
-  ReviewSortType,
-  useFindReviewsQuery,
-} from '../../../../../../../graphql';
-
-import { useAuth } from '../../../../../../../hooks/useAuth';
-
-import Modal from '../../../../../../../components/Modal';
-
-import SvgIcon from '../../../../../../../components/SvgIcon';
-
-import Typography from '../../../../../../../components/Typography';
-
-import MovieCoverList from '../../../../../../../components/movie/MovieCoverList';
+import { useAuth } from '@/hooks/useAuth';
+import { Typography, Modal, SvgIcon } from '@/components';
+import { MovieCoverList2 as MovieCoverList } from '@/components/movie';
+import type { ModalHandles } from '@/components';
 
 import PinnedReviewsAddModal from '../PinnedReviewsAddModal';
 
@@ -66,20 +54,9 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
           empty={reviews.itemsPerPage - reviews.totalCount}
           movies={reviews.edges.map(edge => edge.node.movie)}
           link={false}
-          renderCover={(index, movie) => {
-            if (movie) {
-              const review = reviews[index];
-
-              if (review) {
-                return <UnpinReviewButton reviewId={review.id} />;
-              }
-            }
-
-            return {
-              className: clsx({
-                'hover:border-movieHouse-mid': index === 0,
-              }),
-              children: index === 0 && (
+          renderListItem={(index, movie) =>
+            !movie ? (
+              index === 0 && (
                 <button
                   className="flex items-center justify-center w-full h-full"
                   type="button"
@@ -87,9 +64,11 @@ const PinnedReviewsEditModal: React.FC<PinnedReviewsEditModalProps> = ({
                 >
                   <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
                 </button>
-              ),
-            };
-          }}
+              )
+            ) : (
+              <UnpinReviewButton reviewId={reviews.edges[index].node.id} />
+            )
+          }
         />
       )}
     </Modal>

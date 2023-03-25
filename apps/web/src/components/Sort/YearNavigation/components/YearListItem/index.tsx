@@ -1,9 +1,7 @@
 import clsx from 'clsx';
 
-import type { LinkProps } from '../../../../Link';
-
-import Link from '../../../../Link';
-import Typography from '../../../../Typography';
+import { Link, Typography } from '@/components';
+import type { LinkProps } from '@/components';
 
 interface YearListItemProps {
   link: LinkProps;

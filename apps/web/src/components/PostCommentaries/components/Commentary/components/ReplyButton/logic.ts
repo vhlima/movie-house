@@ -1,4 +1,4 @@
-import { useCreateReplyMutation } from '../../../../../../graphql';
+import { useCreateReplyMutation } from '@/graphql';
 
 import { useRepliesCache } from '../../../../hooks/useRepliesCache';
 import { useCommentariesCache } from '../../../../hooks/useCommentariesCache';
@@ -31,11 +31,11 @@ export function useLogic(commentaryId: string) {
   });
 
   async function handleSubmit(content: string) {
-    const { errors } = await createReply({
+    const { data } = await createReply({
       variables: { commentaryId, content },
     });
 
-    return !errors;
+    return !data;
   }
 
   return {

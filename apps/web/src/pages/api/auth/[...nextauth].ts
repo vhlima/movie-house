@@ -2,16 +2,15 @@ import NextAuth from 'next-auth/next';
 
 import GithubProvider from 'next-auth/providers/github';
 
-import { initializeApollo } from '../../../client';
-
 import type {
   FindUserByGithubIdQuery,
   FindUserByGithubIdQueryVariables,
   SignUpMutation,
   SignUpMutationVariables,
-} from '../../../graphql';
+} from '@/graphql';
 
-import { SignUpDocument, FindUserByGithubIdDocument } from '../../../graphql';
+import { SignUpDocument, FindUserByGithubIdDocument } from '@/graphql';
+import { initializeApollo } from '../../../client';
 
 export default NextAuth({
   session: {

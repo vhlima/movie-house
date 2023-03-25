@@ -1,24 +1,17 @@
 import { useState } from 'react';
 
-import { useAuth } from '../../../../../hooks/useAuth';
+import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/graphql';
 
-import { useProfile } from '../../../hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
-import {
-  PreMadeListType,
-  useFindPreMadeListMoviesQuery,
-} from '../../../../../graphql';
+import { Card } from '@/components';
 
-import Card from '../../../../../components/Card';
-
-import MovieCoverList from '../../../../../components/movie/MovieCoverList';
+import { MovieCoverList2 as MovieCoverList } from '@/components/movie';
 
 import EditFavoriteMoviesModal from './components/EditFavoriteModal';
 import PencilButton from '../PencilButton';
 
-const FavoriteMovies: React.FC = () => {
-  const { data: session } = useAuth();
-
+export const FavoriteMovies: React.FC = () => {
   const { user } = useProfile();
 
   const [isEditing, setEditing] = useState<boolean>(false);
@@ -27,7 +20,8 @@ const FavoriteMovies: React.FC = () => {
     variables: { userId: user.id, listType: PreMadeListType.Favorite, page: 1 },
   });
 
-  const isSameUserAsSession = session && session.user.id === user?.id;
+  const { edges, itemsPerPage, totalCount } =
+    listMoviesData?.preMadeListMovies || {};
 
   return (
     <>
@@ -37,23 +31,16 @@ const FavoriteMovies: React.FC = () => {
 
       <Card>
         <Card.Header title="Favorite movies" marginBottom>
-          {isSameUserAsSession && (
-            <PencilButton onClick={() => setEditing(true)} />
-          )}
+          <PencilButton onClick={() => setEditing(true)} />
         </Card.Header>
 
         <Card.Body>
           {listMoviesData && listMoviesData && (
             <MovieCoverList
-              className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1 sm:gap-2"
+              className="grid-cols-4"
               name="favorite-movie-profile"
-              empty={
-                listMoviesData.preMadeListMovies.itemsPerPage -
-                listMoviesData.preMadeListMovies.totalCount
-              }
-              movies={listMoviesData.preMadeListMovies.edges.map(
-                edge => edge.node,
-              )}
+              empty={itemsPerPage - totalCount}
+              movies={edges.map(edge => edge.node)}
             />
           )}
         </Card.Body>
@@ -61,5 +48,3 @@ const FavoriteMovies: React.FC = () => {
     </>
   );
 };
-
-export default FavoriteMovies;

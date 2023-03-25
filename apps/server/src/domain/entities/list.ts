@@ -12,6 +12,8 @@ export class List {
 
   user: User;
 
+  movieCount: number;
+
   backgroundImageUrl?: string;
 
   isPrivate?: boolean;

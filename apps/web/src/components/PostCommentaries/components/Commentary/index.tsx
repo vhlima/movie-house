@@ -1,10 +1,8 @@
 import { useState } from 'react';
 
-import type { FindCommentariesQuery } from '../../../../graphql';
+import type { FindCommentariesQuery } from '@/graphql';
 
-import Button from '../../../Button';
-import SvgIcon from '../../../SvgIcon';
-import Typography from '../../../Typography';
+import { Typography, Button, SvgIcon } from '@/components';
 
 import Replies from '../Replies';
 import CommentaryBase from '../CommentaryBase';
@@ -37,8 +35,8 @@ const Commentary: React.FC<CommentaryProps> = ({ commentary }) => {
     >
       {replyCount > 0 && (
         <Button
-          buttonStyle="tertiary"
-          buttonSize="none"
+          intent="tertiary"
+          size="sm"
           full={false}
           onClick={() => setViewingReplies(prev => !prev)}
         >

@@ -4,7 +4,6 @@ export const FIND_REVIEW = gql`
   query FindReview($reviewId: String!) {
     review(reviewId: $reviewId) {
       id
-      isPinned
       user {
         username
         profilePictureUrl
@@ -17,7 +16,6 @@ export const FIND_REVIEW = gql`
       movie {
         id
         originalTitle
-        runtime
         posterUrl
         backdropUrl
         releaseDate

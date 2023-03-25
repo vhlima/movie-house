@@ -2,9 +2,9 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindUserQuery, FindListsQuery } from '../../../../../graphql';
+import type { FindUserQuery, FindListsQuery } from '@/graphql';
 
-import { ListSortType } from '../../../../../graphql';
+import { ListSortType } from '@/graphql';
 
 import { addApolloState, initializeApollo } from '../../../../../client';
 

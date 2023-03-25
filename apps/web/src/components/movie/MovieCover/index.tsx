@@ -2,28 +2,29 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren } from 'react';
 
-import type { Movie } from '../../../graphql';
+import type { Movie } from '@/graphql';
 
-import Image from '../../Image';
-import Typography from '../../Typography';
+import { Typography, Image } from '@/components';
 
-import MovieLink from '../MovieLink';
+import { MovieLink } from '@/components/movie';
 
 interface MovieCover2Props {
   className?: string;
   sizeType?: 'sm' | 'md';
   movie?: Pick<Movie, 'id' | 'originalTitle' | 'posterUrl'>;
   link?: boolean;
+  borderHover?: boolean;
 
   width?: number;
   height?: number;
 }
 
-const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
+export const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   className,
   sizeType,
   movie,
   link = true,
+  borderHover = true,
   width = 250,
   height = 250,
   children,
@@ -51,8 +52,10 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
   return (
     <div
       className={clsx(
-        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-700 transition-colors',
+        'relative select-none text-grey-500 rounded-md overflow-hidden border border-grey-600 flex-shrink-0',
         {
+          'transition-colors hover:border-movieHouse-mid focus-within:border-movieHouse-mid':
+            borderHover,
           'max-w-[6rem] min-w-[5rem] max-h-[8.75rem]': sizeType === 'sm',
           'max-w-[7rem] min-w-[7rem] max-h-[11rem]': sizeType === 'md',
           'w-fit h-full': hasMovieAndPoster,
@@ -73,5 +76,3 @@ const MovieCover: React.FC<PropsWithChildren<MovieCover2Props>> = ({
     </div>
   );
 };
-
-export default MovieCover;

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { SortButton } from '@/components/Sort';
 
-import SortButton from '../../../../../components/Sort/SortButton';
+import { SingleDropdown } from '@/hooks/useSingleDropdown';
 
 import ReviewYearList from '../ReviewYearList';
 
@@ -10,29 +10,12 @@ interface ReviewsSortButtonsProps {
   };
 }
 
-type DropdownType = 'year';
-
-const ReviewsSortButtons: React.FC<ReviewsSortButtonsProps> = ({ user }) => {
-  const [dropdownOpen, setDropdownOpen] = useState<DropdownType>();
-
-  function openDropdown(dropdown: DropdownType) {
-    setDropdownOpen(prev => (prev !== dropdown ? dropdown : undefined));
-  }
-
-  function closeDropdown() {
-    setDropdownOpen(undefined);
-  }
-
-  return (
-    <SortButton
-      text="Diary Year"
-      isOpen={dropdownOpen === 'year'}
-      onClick={() => openDropdown('year')}
-      onClose={() => closeDropdown()}
-    >
+const ReviewsSortButtons: React.FC<ReviewsSortButtonsProps> = ({ user }) => (
+  <SingleDropdown>
+    <SortButton type="year" text="Diary Year" intent="secondary">
       <ReviewYearList sinceDate={new Date(user.createdAt)} />
     </SortButton>
-  );
-};
+  </SingleDropdown>
+);
 
 export default ReviewsSortButtons;

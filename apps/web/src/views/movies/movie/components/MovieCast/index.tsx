@@ -1,7 +1,6 @@
-import type { MovieCharacter } from '../../../../../graphql';
+import type { MovieCharacter } from '@/graphql';
 
-import Card from '../../../../../components/Card';
-import Typography from '../../../../../components/Typography';
+import { Typography, Card } from '@/components';
 
 import MovieActor from './components/MovieActor';
 
@@ -14,7 +13,7 @@ interface MovieCastProps {
   }>;
 }
 
-const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
+export const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
   const hasCast = cast && cast.length > 0;
 
   return (
@@ -27,7 +26,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
             The cast for this film was not found.
           </Typography>
         ) : (
-          <ul className="flex overflow-x-auto pb-4">
+          <ul className="flex overflow-x-auto">
             {cast.slice(0, 10).map(actor => (
               <MovieActor key={`movie-actor-${actor.id}`} actor={actor} />
             ))}
@@ -37,5 +36,3 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
     </Card>
   );
 };
-
-export default MovieCast;

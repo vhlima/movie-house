@@ -1,30 +1,27 @@
-import { useLogic } from './logic';
+import type { FindListMoviesQuery } from '@/graphql';
 
-import QueryState from '../../../../components/QueryState';
+import { MovieCoverList } from '@/components/movie';
 
-import MovieCover from '../../../../components/movie/MovieCover';
+import { Pagination } from '@/components';
 
 interface MoviesSectionProps {
-  listId: string;
+  movies: FindListMoviesQuery['listMovies'];
 }
 
-const MoviesSection: React.FC<MoviesSectionProps> = ({ listId }) => {
-  const { listMoviesResult } = useLogic({ listId });
-
-  const { data, loading, error } = listMoviesResult;
-
-  if (!data) {
-    return <QueryState loading={loading} error={error} />;
-  }
+const MoviesSection: React.FC<MoviesSectionProps> = ({ movies }) => {
+  const { edges, pageInfo, totalPages } = movies;
 
   return (
-    <ul className="grid gap-2 my-4 grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
-      {data.listMovies.edges.map(({ node }) => (
-        <li key={`list-movie-${node.id}`}>
-          <MovieCover movie={node} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <MovieCoverList
+        className="my-4 grid-cols-4 sm:grid-cols-8"
+        movies={edges.map(edge => edge.node)}
+        name="list-movies"
+        link
+      />
+
+      <Pagination currentPage={pageInfo.currentPage} totalPages={totalPages} />
+    </div>
   );
 };
 

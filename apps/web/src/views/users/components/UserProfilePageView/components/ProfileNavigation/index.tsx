@@ -2,10 +2,9 @@ import clsx from 'clsx';
 
 import { useRouter } from 'next/router';
 
-import { useProfile } from '../../../../hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
 
-import Link from '../../../../../../components/Link';
-import Typography from '../../../../../../components/Typography';
+import { Typography, Link } from '@/components';
 
 const navigationOptions = [
   {
@@ -34,7 +33,7 @@ const navigationOptions = [
   },
 ];
 
-const ProfileNavigation: React.FC = () => {
+export const ProfileNavigation: React.FC = () => {
   const { user } = useProfile();
 
   const { route } = useRouter();
@@ -74,5 +73,3 @@ const ProfileNavigation: React.FC = () => {
     </nav>
   );
 };
-
-export default ProfileNavigation;

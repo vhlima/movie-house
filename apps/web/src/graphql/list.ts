@@ -23,6 +23,7 @@ export const FIND_LISTS = gql`
         node {
           id
           name
+          movieCount
           isPrivate
           post {
             id
@@ -48,6 +49,7 @@ export const FIND_LIST = gql`
     list(listId: $listId) {
       id
       name
+      movieCount
       backgroundImageUrl
       user {
         username
@@ -63,8 +65,12 @@ export const FIND_LIST = gql`
 `;
 
 export const FIND_LIST_MOVIES = gql`
-  query FindListMovies($page: Int!, $listId: String!) {
-    listMovies(page: $page, listId: $listId) {
+  query FindListMovies(
+    $page: Int!
+    $listId: String!
+    $sort: MovieReferenceSortInput
+  ) {
+    listMovies(page: $page, listId: $listId, sort: $sort) {
       totalCount
       totalPages
       pageInfo {

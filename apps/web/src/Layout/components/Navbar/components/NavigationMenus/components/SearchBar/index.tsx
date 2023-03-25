@@ -2,9 +2,8 @@ import { useRouter } from 'next/router';
 
 import { Form, Formik } from 'formik';
 
+import { Input } from '@/components';
 import Dropdown from '../../../Dropdown';
-
-import Input from '../../../../../../../components/Input';
 
 interface SearchBarProps {
   onClose: () => void;
@@ -26,7 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onClose }) => {
         initialValues={{ searchTerm: '' }}
         onSubmit={values => searchRedirect(values.searchTerm)}
       >
-        <Form>
+        <Form className="p-4">
           <Input.Container styleType="secondary">
             <Input
               id="searchTerm"

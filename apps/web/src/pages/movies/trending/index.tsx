@@ -1,13 +1,12 @@
 import type { GetStaticProps, NextPage } from 'next';
 
-import { addApolloState, initializeApollo } from '../../../client';
-
 import type {
   FindTrendingMoviesQuery,
   FindTrendingMoviesQueryVariables,
-} from '../../../graphql';
+} from '@/graphql';
 
-import { FindTrendingMoviesDocument } from '../../../graphql';
+import { FindTrendingMoviesDocument } from '@/graphql';
+import { addApolloState, initializeApollo } from '../../../client';
 
 import MoviesTrendingView from '../../../views/movies/trending';
 
@@ -33,6 +32,10 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 };
 
-const MoviesTrendingPage: NextPage = () => <MoviesTrendingView />;
+type Props = FindTrendingMoviesQuery;
+
+const MoviesTrendingPage: NextPage<Props> = ({ trendingMovies }) => (
+  <MoviesTrendingView movies={trendingMovies} />
+);
 
 export default MoviesTrendingPage;

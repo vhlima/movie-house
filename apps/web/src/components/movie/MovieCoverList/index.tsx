@@ -2,9 +2,9 @@ import clsx from 'clsx';
 
 import type { ReactNode } from 'react';
 
-import type { Movie } from '../../../graphql';
+import type { Movie } from '@/graphql';
 
-import MovieCover from '../MovieCover';
+import { MovieCover } from '@/components/movie';
 
 type MovieType = Pick<Movie, 'id' | 'originalTitle' | 'posterUrl'>;
 
@@ -21,7 +21,7 @@ interface MovieCoverListProps {
   ) => ReactNode | { children: ReactNode; className?: string };
 }
 
-const MovieCoverList: React.FC<MovieCoverListProps> = ({
+export const MovieCoverList: React.FC<MovieCoverListProps> = ({
   className,
   name,
   movies,
@@ -32,7 +32,7 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
   <ul
     className={clsx('grid gap-1 sm:gap-2', {
       [className]: !!className,
-      'grid-cols-4 sm:grid-cols-5 md:grid-cols-10': !className,
+      'grid-cols-4 sm:grid-cols-8': !className,
     })}
   >
     {movies.map((movie, index) => {
@@ -90,5 +90,3 @@ const MovieCoverList: React.FC<MovieCoverListProps> = ({
       })}
   </ul>
 );
-
-export default MovieCoverList;

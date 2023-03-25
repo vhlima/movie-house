@@ -1,16 +1,13 @@
 import { NetworkStatus } from '@apollo/client';
 
-import type { FindFollowersQuery, FindFollowingsQuery } from '../../../graphql';
+import type { FindFollowersQuery, FindFollowingsQuery } from '@/graphql';
 
+import { Observer, ProfilePicture } from '@/components';
 import type { FollowsLogicProps } from './logic';
 
 import { useLogic } from './logic';
 
-import ProfilePicture from '../../../components/ProfilePicture';
-
 import ErrorText from '../../../components/ErrorText';
-
-import Observer from '../../../components/Observer';
 
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
@@ -60,8 +57,6 @@ const UserFollows: React.FC<UserFollowsProps> = ({ followType, userId }) => {
 
           <FollowButton
             className="ml-auto"
-            buttonSize="xs"
-            full={false}
             targetUserId={follow.node.targetUser.id}
           />
         </div>

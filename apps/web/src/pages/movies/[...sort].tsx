@@ -6,9 +6,9 @@ import type {
   DiscoverMoviesQuery,
   DiscoverMoviesQueryVariables,
   TmDbMovieSortInput,
-} from '../../graphql';
+} from '@/graphql';
 
-import { TmDbMovieSortType, DiscoverMoviesDocument } from '../../graphql';
+import { TmDbMovieSortType, DiscoverMoviesDocument } from '@/graphql';
 
 import { addApolloState, initializeApollo } from '../../client';
 

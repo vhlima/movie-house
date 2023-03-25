@@ -1,6 +1,6 @@
 import type { ImageProps } from 'next/image';
 
-import Image from '../Image';
+import { Image } from '@/components';
 
 type ImageSizeType = 'lg' | 'md' | 'sm';
 
@@ -23,16 +23,12 @@ const sizes: {
     height: 40,
   },
   lg: {
-    width: 64,
-    height: 64,
+    width: 80,
+    height: 80,
   },
 };
 
-/* 
-  This component is used in any case we need to show any profile picture. 
-*/
-
-const ProfilePicture: React.FC<ProfilePictureProps> = ({
+export const ProfilePicture: React.FC<ProfilePictureProps> = ({
   imageSize,
   ...imageProps
 }) => (
@@ -46,5 +42,3 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
     />
   </div>
 );
-
-export default ProfilePicture;

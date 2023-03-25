@@ -2,17 +2,13 @@ import type { InputHTMLAttributes } from 'react';
 
 import clsx from 'clsx';
 
-import type { Movie } from '../../../graphql';
+import type { Movie } from '@/graphql';
 
+import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { Button, Input } from '@/components';
 import { parseISO } from '../../../utils/date-utils';
 
-import { useOutsideClick } from '../../../hooks/useOutsideClick';
-
 import { useLogic } from './logic';
-
-import Input from '../../Input';
-import Button from '../../Button';
-import Typography from '../../Typography';
 
 export type MovieSearchResult = {
   id: Movie['id'];
@@ -27,7 +23,7 @@ interface MovieSearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   onSelectMovie: (movie: MovieSearchResult) => void;
 }
 
-const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
+export const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
   styleType = 'primary',
   dropdown,
   onSelectMovie,
@@ -76,17 +72,15 @@ const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
           {searchResults.map(movie => (
             <li key={movie.id}>
               <Button
-                buttonStyle="secondary"
-                buttonSize="xs"
+                className="h-max py-2"
+                intent="secondary"
                 rounded={false}
                 onClick={() => onSelectMovie(movie)}
               >
-                <Typography component="span" color="primary">
-                  {movie.originalTitle}
+                {movie.originalTitle}
 
-                  {movie.releaseDate &&
-                    ` (${parseISO(movie.releaseDate).getFullYear()})`}
-                </Typography>
+                {movie.releaseDate &&
+                  ` (${parseISO(movie.releaseDate).getFullYear()})`}
               </Button>
             </li>
           ))}
@@ -95,5 +89,3 @@ const MovieSearchInput: React.FC<MovieSearchInputProps> = ({
     </div>
   );
 };
-
-export default MovieSearchInput;

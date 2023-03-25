@@ -1,14 +1,15 @@
-import { useFindListsQuery } from '../../../../../graphql';
+import { useFindListsQuery } from '@/graphql';
 
-import Card from '../../../../../components/Card';
+import { Typography, Card } from '@/components';
 import ListPreview from '../../../../../components/list/ListPreview';
-import Typography from '../../../../../components/Typography';
 
 interface MoviePopularListsProps {
   movieId: number;
 }
 
-const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
+export const MoviePopularLists: React.FC<MoviePopularListsProps> = ({
+  movieId,
+}) => {
   const { data: popularListsData } = useFindListsQuery({
     variables: {
       page: 1,
@@ -20,7 +21,7 @@ const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
 
   return (
     <Card>
-      <Card.Header title="Popular lists" marginBottom={!hasAnyPopularList} />
+      <Card.Header title="Popular lists" marginBottom />
 
       <Card.Body>
         {!hasAnyPopularList ? (
@@ -41,5 +42,3 @@ const MoviePopularLists: React.FC<MoviePopularListsProps> = ({ movieId }) => {
     </Card>
   );
 };
-
-export default MoviePopularLists;

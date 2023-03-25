@@ -18,7 +18,7 @@ export class GetPaginationService<T> implements GetPagination<T> {
     }
 
     return {
-      totalPages,
+      totalPages: totalPages === 0 ? 1 : totalPages,
       totalCount,
       itemsPerPage,
       edges: items.map(item => ({ node: item })),

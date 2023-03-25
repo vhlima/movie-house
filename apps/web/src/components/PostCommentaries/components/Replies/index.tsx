@@ -2,7 +2,7 @@ import { NetworkStatus } from '@apollo/client';
 
 import type { PropsWithChildren } from 'react';
 
-import Observer from '../../../Observer';
+import { Observer } from '@/components';
 import ErrorText from '../../../ErrorText';
 import LoadingSpinner from '../../../LoadingSpinner';
 

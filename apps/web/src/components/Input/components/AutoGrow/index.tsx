@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 
-import Input from '../..';
+import { Input } from '@/components';
 
 interface AutoGrowProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   maxHeight?: number;

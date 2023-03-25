@@ -1,21 +1,12 @@
 import type { PropsWithChildren } from 'react';
 
-import type { Movie } from '../../../graphql';
+import { Typography, Input, Modal } from '@/components';
+import { MovieSearchInput } from '@/components/movie';
 
-import type { ModalHandles } from '../../Modal';
+import type { MovieSearchResult } from '@/components/movie';
+import type { ModalHandles } from '@/components';
 
-import Modal from '../../Modal';
-import Input from '../../Input';
-import Typography from '../../Typography';
-import MovieSearchInput from '../MovieSearchInput';
 import ErrorText from '../../ErrorText';
-
-export type MovieSearchResult = {
-  id: Movie['id'];
-  posterUrl: Movie['posterUrl'];
-  originalTitle: Movie['originalTitle'];
-  releaseDate?: Movie['releaseDate'];
-};
 
 interface MovieSearchModalProps extends ModalHandles {
   title: string;
@@ -25,7 +16,9 @@ interface MovieSearchModalProps extends ModalHandles {
   onSelect: (movie: MovieSearchResult) => void;
 }
 
-const MovieSearchModal: React.FC<PropsWithChildren<MovieSearchModalProps>> = ({
+export const MovieSearchModal: React.FC<
+  PropsWithChildren<MovieSearchModalProps>
+> = ({
   title,
   errors = [],
   description,
@@ -77,5 +70,3 @@ const MovieSearchModal: React.FC<PropsWithChildren<MovieSearchModalProps>> = ({
     </Modal>
   );
 };
-
-export default MovieSearchModal;

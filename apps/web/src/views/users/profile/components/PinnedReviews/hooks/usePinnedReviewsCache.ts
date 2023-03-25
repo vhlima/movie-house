@@ -5,9 +5,9 @@ import {
   FindReviewsQueryVariables,
   ReviewSortType,
   FindReviewsDocument,
-} from '../../../../../../graphql';
+} from '@/graphql';
 
-import { useAuth } from '../../../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 export const usePinnedReviewsCache = () => {
   const { cache } = useApolloClient();

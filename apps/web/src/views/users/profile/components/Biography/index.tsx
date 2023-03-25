@@ -1,11 +1,9 @@
-import Card from '../../../../../components/Card';
-import Typography from '../../../../../components/Typography';
-
-import { useProfile } from '../../../hooks/useProfile';
+import { useProfile } from '@/views/users/hooks/useProfile';
+import { Typography, Card } from '@/components';
 
 import PencilButton from '../PencilButton';
 
-const Biography: React.FC = () => {
+export const Biography: React.FC = () => {
   const { user } = useProfile();
 
   const { username, biography } = user;
@@ -24,5 +22,3 @@ const Biography: React.FC = () => {
     </Card>
   );
 };
-
-export default Biography;

@@ -1,14 +1,18 @@
 import { useRouter } from 'next/router';
-import Button from '../Button';
-
-import Typography from '../Typography';
+import { Typography, Button } from '@/components';
+import clsx from 'clsx';
 
 interface Pagination {
+  className?: string;
   currentPage: number;
   totalPages: number;
 }
 
-const Pagination: React.FC<Pagination> = ({ currentPage, totalPages }) => {
+export const Pagination: React.FC<Pagination> = ({
+  className,
+  currentPage,
+  totalPages,
+}) => {
   const { push, pathname, query } = useRouter();
 
   function handlePageChange(page: number) {
@@ -21,10 +25,15 @@ const Pagination: React.FC<Pagination> = ({ currentPage, totalPages }) => {
   }
 
   return (
-    <nav className="flex items-center justify-between">
+    <nav
+      className={clsx(
+        'flex flex-col gap-4 items-center justify-between sm:flex-row sm:gap-0',
+        className && className,
+      )}
+    >
       <Button
-        className="px-4"
-        buttonStyle="secondary"
+        className="w-full sm:w-40"
+        intent="secondary"
         full={false}
         disabled={currentPage === 1}
         onClick={() => handlePageChange(currentPage - 1)}
@@ -37,8 +46,8 @@ const Pagination: React.FC<Pagination> = ({ currentPage, totalPages }) => {
       </Typography>
 
       <Button
-        className="px-4"
-        buttonStyle="secondary"
+        className="w-full sm:w-40"
+        intent="secondary"
         full={false}
         disabled={currentPage === totalPages}
         onClick={() => handlePageChange(currentPage + 1)}
@@ -48,5 +57,3 @@ const Pagination: React.FC<Pagination> = ({ currentPage, totalPages }) => {
     </nav>
   );
 };
-
-export default Pagination;

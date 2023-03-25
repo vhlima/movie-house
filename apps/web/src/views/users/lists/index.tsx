@@ -1,7 +1,7 @@
-import type { FindUserQuery, FindListsQuery } from '../../../graphql';
+import type { FindUserQuery, FindListsQuery } from '@/graphql';
 
-import ListItem from '../../../components/ListItem';
-import Typography from '../../../components/Typography';
+import { Typography } from '@/components';
+
 import ListPreview from '../../../components/list/ListPreview';
 
 import UserProfilePageView from '../components/UserProfilePageView';
@@ -24,9 +24,11 @@ const UserListsView: React.FC<UserListsViewProps> = ({ user, lists }) => {
       ) : (
         <ul>
           {lists.edges.map(({ node }) => (
-            <ListItem key={`user-list-${node.name}`}>
-              <ListPreview list={node} />
-            </ListItem>
+            <ListPreview
+              key={`user-list-${node.name}`}
+              list={node}
+              showUser={false}
+            />
           ))}
         </ul>
       )}

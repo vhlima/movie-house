@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { useAuth } from '../../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
-import SvgIcon from '../../../../../components/SvgIcon';
+import { SvgIcon } from '@/components';
 
 import SearchBar from './components/SearchBar';
 import LoginModal from './components/LoginModal';

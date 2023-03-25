@@ -3,9 +3,9 @@ import { useApolloClient } from '@apollo/client';
 import type {
   FindRepliesQuery,
   FindRepliesQueryVariables as GraphQLFindRepliesQueryVariables,
-} from '../../../graphql';
+} from '@/graphql';
 
-import { FindRepliesDocument } from '../../../graphql';
+import { FindRepliesDocument } from '@/graphql';
 
 type FindRepliesQueryVariables = Omit<GraphQLFindRepliesQueryVariables, 'page'>;
 

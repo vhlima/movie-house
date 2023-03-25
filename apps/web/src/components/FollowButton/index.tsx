@@ -1,28 +1,23 @@
-import type {
-  IsFollowingQuery,
-  IsFollowingQueryVariables,
-} from '../../graphql';
+import type { IsFollowingQuery, IsFollowingQueryVariables } from '@/graphql';
 
 import {
   IsFollowingDocument,
   useIsFollowingQuery,
   useFollowMutation,
-} from '../../graphql';
+} from '@/graphql';
 
-import type { ButtonProps } from '../Button';
+import { Button } from '@/components';
 
-import Button from '../Button';
-
-interface FollowButtonProps
-  extends Omit<ButtonProps, 'buttonStyle' | 'onClick'> {
+interface FollowButtonProps {
+  className?: string;
   targetUserId: string;
   onFollow?: () => Promise<void>;
 }
 
 const FollowButton: React.FC<FollowButtonProps> = ({
+  className,
   targetUserId,
   onFollow,
-  ...buttonProps
 }) => {
   const { data } = useIsFollowingQuery({ variables: { userId: targetUserId } });
 
@@ -53,9 +48,9 @@ const FollowButton: React.FC<FollowButtonProps> = ({
 
   return (
     <Button
-      buttonStyle={data?.isFollowing ? 'danger' : 'secondary'}
+      intent={data?.isFollowing ? 'danger' : 'secondary'}
       onClick={handleFollow}
-      {...buttonProps}
+      className={className}
     >
       {!data?.isFollowing ? 'Follow' : 'Unfollow'}
     </Button>

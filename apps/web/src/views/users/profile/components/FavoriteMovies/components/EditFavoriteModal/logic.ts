@@ -1,9 +1,6 @@
-import {
-  PreMadeListType,
-  useFindPreMadeListMoviesQuery,
-} from '../../../../../../../graphql';
+import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/graphql';
 
-import { useAuth } from '../../../../../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 import { useFavoriteMoviesCache } from './hooks/useFavoriteMoviesCache';
 

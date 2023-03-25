@@ -1,4 +1,4 @@
-import { useAddMovieToListMutation } from '../../../../../graphql';
+import { useAddMovieToListMutation } from '@/graphql';
 
 export const useLogic = () => {
   const [addMovieToCustomList, addMovieToCustomListResult] =
@@ -7,14 +7,14 @@ export const useLogic = () => {
     });
 
   async function handleAddMovieToList(listId: string, movieId: number) {
-    const { errors } = await addMovieToCustomList({
+    const { data } = await addMovieToCustomList({
       variables: {
         listId,
         movieId,
       },
     });
 
-    return !errors;
+    return !data;
   }
 
   return {

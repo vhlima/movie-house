@@ -18,14 +18,7 @@ import { ReviewSortType } from '../enums';
 
 import { checkStringForValidPositiveNumber } from '../../utils/string-utils';
 
-const REVIEWS_PER_PAGE = {
-  [ReviewSortType.PINNED]: 3,
-  [ReviewSortType.OLDER]: 5,
-  [ReviewSortType.POPULAR]: 3,
-  [ReviewSortType.POPULAR_WEEK]: 3,
-  [ReviewSortType.RECENT]: 3,
-  [ReviewSortType.YEAR]: 5,
-};
+const REVIEWS_PER_PAGE = 2;
 
 type FindReviewsPaginationInput = PaginationInput<ReviewSortType>;
 
@@ -102,7 +95,7 @@ export class FindReviewsService implements FindReviews {
       {
         page,
         sort,
-        itemsPerPage: REVIEWS_PER_PAGE[sort?.type || ReviewSortType.RECENT],
+        itemsPerPage: REVIEWS_PER_PAGE,
       },
       userId,
     );

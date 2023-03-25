@@ -77,22 +77,22 @@ export class ReviewRepository implements IReviewRepository {
     return review;
   }
 
-  async deleteReview(postId: string): Promise<boolean> {
+  async deleteReview(reviewId: string): Promise<boolean> {
     const reviewRepository = this.getReviewRepository();
 
-    await reviewRepository.delete({ postId });
+    await reviewRepository.delete({ id: reviewId });
 
     return true;
   }
 
-  async toggleReviewPin(postId: string): Promise<boolean> {
+  async toggleReviewPin(reviewId: string): Promise<boolean> {
     const reviewRepository = this.getReviewRepository();
 
     const reviewUpdated = await reviewRepository
       .createQueryBuilder()
       .update(ReviewEntity)
       .set({ isPinned: () => 'NOT is_pinned' })
-      .where('postId = :postId', { postId })
+      .where('id = :reviewId', { reviewId })
       .returning('is_pinned')
       .execute();
 

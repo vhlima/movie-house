@@ -74,7 +74,10 @@ export class FindCommentariesRepository implements IFindCommentariesRepository {
     });
 
     return {
-      items: commentaries,
+      items: commentaries.map(commentary => ({
+        ...commentary,
+        replyCount: 0,
+      })),
       page,
       itemsPerPage,
       totalCount,

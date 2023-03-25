@@ -7,7 +7,7 @@ interface ObserverProps {
   onIntersect: () => Promise<void>;
 }
 
-const Observer: React.FC<PropsWithChildren<ObserverProps>> = ({
+export const Observer: React.FC<PropsWithChildren<ObserverProps>> = ({
   className,
   children,
   onIntersect,
@@ -47,5 +47,3 @@ const Observer: React.FC<PropsWithChildren<ObserverProps>> = ({
     </div>
   );
 };
-
-export default Observer;

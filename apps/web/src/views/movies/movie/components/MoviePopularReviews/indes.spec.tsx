@@ -5,9 +5,9 @@ import { screen, render } from '@testing-library/react';
 import type {
   FindPopularReviewsFromMovieQuery,
   FindPopularReviewsFromMovieQueryVariables,
-} from '../../../../../graphql';
+} from '@/graphql';
 
-import { FindPopularReviewsFromMovieDocument } from '../../../../../graphql';
+import { FindPopularReviewsFromMovieDocument } from '@/graphql';
 
 import PopularReviews from '.';
 

@@ -1,8 +1,6 @@
-import clsx from 'clsx';
-
 import { useState } from 'react';
 
-import StarIcon from '../../../../StarIcon';
+import { StarIcon } from '@/components';
 
 interface StarsProps {
   userRating: number;
@@ -42,14 +40,7 @@ const Stars: React.FC<StarsProps> = ({ userRating, onChange }) => {
               onMouseEnter={() => handleMouseEnter(st)}
               onMouseLeave={handleMouseLeave}
             >
-              <StarIcon
-                className={clsx({
-                  'text-grey-300': !isChecked,
-                  'text-blue-500': isChecked,
-                })}
-                fill={isChecked}
-                size={24}
-              />
+              <StarIcon intent={isChecked ? 'full' : 'outline'} />
             </button>
           );
         })}

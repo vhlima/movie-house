@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Button from '../../../../../Button';
+import { Button } from '@/components';
 
 import TextInputModal from '../../../TextInputModal';
 
@@ -30,8 +30,8 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ commentaryId, onClick }) => {
 
       <Button
         className="uppercase"
-        buttonStyle="tertiary"
-        buttonSize="xs"
+        intent="tertiary"
+        size="sm"
         full={false}
         onClick={() => {
           onClick();

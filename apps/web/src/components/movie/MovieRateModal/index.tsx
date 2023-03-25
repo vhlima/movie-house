@@ -1,16 +1,11 @@
 import { useState } from 'react';
 
-import type { Movie } from '../../../graphql';
+import type { Movie } from '@/graphql';
 
-import type { ModalHandles } from '../../Modal';
+import { Button, Modal, SvgIcon, Typography } from '@/components';
+import type { ModalHandles } from '@/components';
 
 import { modalBottom } from '../../../animations';
-
-import Modal from '../../Modal';
-
-import Button from '../../Button';
-
-import SvgIcon from '../../SvgIcon';
 
 import RatingStars from './components/RatingStars';
 
@@ -19,7 +14,7 @@ interface MovieRateModalProps extends Required<ModalHandles> {
   onRate?: (userRating: number) => void;
 }
 
-const MovieRateModal: React.FC<MovieRateModalProps> = ({
+export const MovieRateModal: React.FC<MovieRateModalProps> = ({
   movie,
   onRate,
   onClose,
@@ -64,11 +59,18 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
       </div>
 
       <div className="flex flex-col items-center gap-4 mt-8 mb-14 text-grey-200">
-        <span className="text-yellow-500 text-sm font-semibold font-mono uppercase">
+        <span className="text-yellow-500 text-sm font-semibold font-mono uppercase mt-2">
           Rate this
         </span>
 
-        <h1 className="text-2xl">{movie.originalTitle}</h1>
+        <Typography
+          className="font-bold"
+          component="h1"
+          color="primary"
+          size="2xl"
+        >
+          {movie.originalTitle}
+        </Typography>
 
         <RatingStars
           userRating={userRating}
@@ -80,5 +82,3 @@ const MovieRateModal: React.FC<MovieRateModalProps> = ({
     </Modal>
   );
 };
-
-export default MovieRateModal;

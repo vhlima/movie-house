@@ -8,9 +8,9 @@ import { PageNotFoundError } from '../../domain/errors';
 
 import { FindLists } from '../../domain/usecases';
 
-import { IFindListsRepository } from '../contracts';
+import { IFindListsRepository, IMovieReferenceRepository } from '../contracts';
 
-import { ListSortTypeModel } from '../models';
+import { ListSortType } from '../enums';
 import { FindMoviesReferenceService } from './find-movies-reference';
 import { GetPaginationService } from './get-pagination';
 
@@ -21,11 +21,12 @@ const MOVIES_PER_LIST = 5;
 export class FindListsService implements FindLists {
   constructor(
     private readonly findListsRepository: IFindListsRepository,
+    private readonly moviesReferenceRepository: IMovieReferenceRepository,
     private readonly findMoviesReferenceService: FindMoviesReferenceService,
   ) {}
 
   async handle(
-    { page, sort }: PaginationInput<ListSortTypeModel>,
+    { page, sort }: PaginationInput<ListSortType>,
     userId?: string | undefined,
   ): Promise<Pagination<ListPreview>> {
     if (page < 1) {
@@ -51,8 +52,15 @@ export class FindListsService implements FindLists {
 
     const listMoviesResponse = await Promise.all(listsMoviesPromise);
 
+    const listMoviesCountPromise = listsResponse.items.map(list =>
+      this.moviesReferenceRepository.getMovieReferenceCount(list.id),
+    );
+
+    const listMoviesCount = await Promise.all(listMoviesCountPromise);
+
     const listsWithMovies = listsResponse.items.map((list, index) => ({
       ...list,
+      movieCount: listMoviesCount[index],
       user: list.post.user,
       movies: listMoviesResponse[index].edges.map(({ node }) => node),
     }));
