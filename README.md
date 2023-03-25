@@ -65,9 +65,12 @@ Overall, the back-end architecture of this project is designed to be modular, sc
 For a demonstration of all the features mentioned above, <a href="" _blank>click here</a>
 
 ## Images
-![alt Home](https://i.imgur.com/3EKqTdP.png)
-![alt Movie](https://i.imgur.com/KqQ7iX7.png)
-![alt Profile](https://i.imgur.com/oWliIL8.png)
+![alt Home](https://i.imgur.com/ojf5U3G.png)
+![alt Movies Discover](https://i.imgur.com/H6K8LM1.png)
+![alt Profile 1](https://i.imgur.com/8OfAvUN.png)
+![alt Profile 2](https://i.imgur.com/fnRCNtk.png)
+![alt Movie List](https://i.imgur.com/t0bv3gu.png)
+![alt Movie](https://i.imgur.com/Mw4wyS0.png)
 
 ## Installation instructions
 
