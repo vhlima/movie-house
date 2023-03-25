@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
 
-import { useAuth } from '@/hooks/useAuth';
-
 import { useProfile } from '@/views/users/hooks/useProfile';
 
 import { Card } from '@/components';
@@ -15,8 +13,6 @@ import PinnedReviewsEditModal from './components/PinnedReviewsEditModal';
 import PencilButton from '../PencilButton';
 
 export const PinnedReviews: React.FC = () => {
-  const { data: session } = useAuth();
-
   const { user } = useProfile();
 
   const { data: userPinnedReviewsData } = useFindReviewsQuery({
@@ -29,8 +25,6 @@ export const PinnedReviews: React.FC = () => {
 
   const [isEditing, setEditing] = useState<boolean>(false);
 
-  const isSameUserAsSession = session && session.user.id === user.id;
-
   return (
     <>
       {isEditing && (
@@ -39,9 +33,7 @@ export const PinnedReviews: React.FC = () => {
 
       <Card>
         <Card.Header title="Pinned reviews" marginBottom>
-          {isSameUserAsSession && (
-            <PencilButton onClick={() => setEditing(true)} />
-          )}
+          <PencilButton onClick={() => setEditing(true)} />
         </Card.Header>
 
         <Card.Body>

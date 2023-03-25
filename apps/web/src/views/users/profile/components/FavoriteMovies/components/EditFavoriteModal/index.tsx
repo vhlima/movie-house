@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { PreMadeListType } from '@/graphql';
 
 import { Typography, Modal, SvgIcon } from '@/components';
-import { MovieCoverList } from '@/components/movie';
+import { MovieCoverList2 as MovieCoverList } from '@/components/movie';
 import type { ModalHandles } from '@/components';
 
 import AddFavoriteMovieModal from './components/AddFavoriteModal';
@@ -18,17 +18,19 @@ type EditFavoriteMoviesModalProps = ModalHandles;
 const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
   onClose,
 }) => {
-  /* Internal logic from component */
-  const { favoriteMoviesResult, handleUpdateCache } = useLogic();
+  const {
+    favoriteMoviesResult: { data: favoriteMoviesData },
+    handleUpdateCache,
+  } = useLogic();
 
-  /* Controls whether add favorite modal is shown or not */
   const [isAdding, setAdding] = useState<boolean>(false);
 
   if (isAdding) {
     return <AddFavoriteMovieModal onClose={() => setAdding(false)} />;
   }
 
-  const { data: favoriteMoviesData } = favoriteMoviesResult;
+  const { edges, itemsPerPage, totalCount } =
+    favoriteMoviesData.preMadeListMovies || {};
 
   return (
     <Modal center backdrop onClose={onClose}>
@@ -47,29 +49,19 @@ const EditFavoriteMoviesModal: React.FC<EditFavoriteMoviesModalProps> = ({
           className="grid-cols-4"
           name="edit-favorite-movies-modal"
           link={false}
-          empty={
-            favoriteMoviesData.preMadeListMovies.itemsPerPage -
-            favoriteMoviesData.preMadeListMovies.totalCount
-          }
-          movies={favoriteMoviesData.preMadeListMovies.edges.map(
-            edge => edge.node,
-          )}
-          renderCover={(index, movie) =>
+          empty={itemsPerPage - totalCount}
+          movies={edges.map(edge => edge.node)}
+          renderListItem={(index, movie) =>
             !movie ? (
-              {
-                className: clsx({
-                  'hover:border-movieHouse-mid': index === 0,
-                }),
-                children: index === 0 && (
-                  <button
-                    className="flex items-center justify-center w-full h-full"
-                    type="button"
-                    onClick={() => setAdding(true)}
-                  >
-                    <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
-                  </button>
-                ),
-              }
+              index === 0 && (
+                <button
+                  className="absolute top-1/4 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex items-center justify-center"
+                  type="button"
+                  onClick={() => setAdding(true)}
+                >
+                  <SvgIcon iconType="AiOutlinePlusCircle" size={30} />
+                </button>
+              )
             ) : (
               <RemoveMovieFromPreMadeListButton
                 movieId={movie.id}
