@@ -2,7 +2,8 @@ import { gql } from '@apollo/client';
 
 export const FIND_COMMENTARIES = gql`
   query FindCommentaries($page: Int!, $postId: String!) {
-    commentaries(page: $page, postId: $postId) {
+    commentaries(page: $page, postId: $postId)
+      @connection(key: "commentaries") {
       totalCount
       totalPages
       pageInfo {
