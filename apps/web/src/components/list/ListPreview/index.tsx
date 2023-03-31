@@ -23,52 +23,59 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
 
   return (
     <ListItem className="md:flex md:gap-4">
-      <Link
-        className="block md:flex-shrink-0"
-        href={{
-          pathname: '/lists/[id]',
-          query: { id },
-        }}
-      >
+      <div className="md:flex-shrink-0">
         <MovieCoverAccordion
           className="w-full"
           size="sm"
           movies={movies}
           maxAmount={5}
         />
-      </Link>
+      </div>
 
       <div className="w-full">
-        <Typography
-          className="font-bold"
-          component="h2"
-          color="primary"
-          size="lg"
-          hover
+        <Link
+          className="block"
+          href={{
+            pathname: '/lists/[id]',
+            query: { id },
+          }}
+          data-testid="list-link"
         >
-          <Link
-            className="block"
-            href={{
-              pathname: '/lists/[id]',
-              query: { id },
-            }}
+          <Typography
+            className="font-bold"
+            component="h2"
+            color="primary"
+            size="lg"
+            hover
+            data-testid="list-name"
           >
             {name}
-          </Link>
-        </Typography>
+          </Typography>
+        </Link>
 
         <Typography component="span" color="tertiary" size="sm">
-          {movieCount} {movieCount === 1 ? 'movie' : 'movies'}
+          <span data-testid="movie-count">{movieCount}</span>
+          <span>&nbsp;{movieCount === 1 ? 'movie' : 'movies'}</span>
         </Typography>
 
         {showUser && (
           <UserProfileLink
             className="flex items-center gap-2 group mt-2"
             username={user.username}
+            data-testid="list-user-info"
           >
-            <ProfilePicture src={user.profilePictureUrl} imageSize="sm" />
+            <ProfilePicture
+              src={user.profilePictureUrl}
+              imageSize="sm"
+              data-testid="list-user-profile-picture"
+            />
 
-            <Typography className="font-bold" component="span" groupHover>
+            <Typography
+              className="font-bold"
+              component="span"
+              groupHover
+              data-testid="list-user-username"
+            >
               {user.username}
             </Typography>
           </UserProfileLink>
@@ -79,6 +86,7 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
             className="my-4"
             text={post.content}
             maxCharacters={120}
+            data-testid="post-content"
           />
         )}
 
