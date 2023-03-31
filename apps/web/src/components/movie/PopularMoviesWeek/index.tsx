@@ -23,7 +23,10 @@ export const PopularMoviesWeek: React.FC = () => {
         {!hasAnyMovie ? (
           <Typography component="h2">No movies were found.</Typography>
         ) : (
-          <ul className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          <ul
+            className="grid grid-cols-3 sm:grid-cols-6 gap-2"
+            data-testid="popularMoviesWeek"
+          >
             {data.trendingMovies.edges.slice(0, 6).map(edge => (
               <li key={`movie-cover-${edge.node.id}`}>
                 <MovieCover movie={edge.node} />
