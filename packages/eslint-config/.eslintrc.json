@@ -30,16 +30,7 @@
     "max-classes-per-file": "off",
     "no-underscore-dangle": ["error", { "allow": ["__typename"] }],
     "@next/next/no-document-import-in-page": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": [
-          "**/*.spec.ts",
-          "**/*.spec.tsx",
-          "**/vite.config.ts"
-        ]
-      }
-    ],
+    "import/no-extraneous-dependencies": "off",
     "no-useless-constructor": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
