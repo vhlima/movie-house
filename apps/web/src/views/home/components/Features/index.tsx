@@ -1,7 +1,7 @@
 import { Card } from '@/components';
 import FeatureLink from './components';
 
-const Features: React.FC = () => (
+export const Features: React.FC = () => (
   <Card>
     <Card.Header title="Features you will love" marginBottom />
 
@@ -52,5 +52,3 @@ const Features: React.FC = () => (
     </Card.Body>
   </Card>
 );
-
-export default Features;

@@ -4,7 +4,7 @@ import BackdropImage from '../../components/BackdropImage';
 
 import PopularReviewsWeek from '../../components/review/PopularReviewsWeek';
 
-import Features from './components/Features';
+import { Features } from './components';
 
 const HomeView: React.FC = () => (
   <BackdropImage
