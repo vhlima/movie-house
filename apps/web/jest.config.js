@@ -10,11 +10,12 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: [
     '<rootDir>/jest.setup.js',
-    '<rootDir>/src/test/setup.ts',
+    '<rootDir>/src/tests/setup.ts',
   ],
   transform: {
     '.+\\.(ts|tsx)$': 'ts-jest',
   },
+  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
   },
