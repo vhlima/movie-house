@@ -4,7 +4,9 @@ import { TextShorter, ListItem, PostReactions } from '@/components';
 
 import { MovieCoverAccordion } from '@/components/movie';
 
-import { ListDetails, ListUserDetails } from './components';
+import { UserIdentity } from '@/components/user';
+
+import { ListDetails } from './components';
 
 interface Props {
   list: FindListsQuery['lists']['edges'][number]['node'];
@@ -27,7 +29,7 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
 
       <ListDetails id={id} name={name} movieCount={movieCount}>
         {showUser && (
-          <ListUserDetails
+          <UserIdentity
             username={user.username}
             profilePictureUrl={user.profilePictureUrl}
           />

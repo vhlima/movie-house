@@ -7,14 +7,14 @@ interface Props {
   profilePictureUrl?: string;
 }
 
-export const ListUserDetails: React.FC<Props> = props => {
+export const UserIdentity: React.FC<Props> = props => {
   const { username, profilePictureUrl } = props;
 
   return (
     <UserProfileLink
       className="flex items-center gap-2 group mt-2"
       username={username}
-      data-testid="list-user-details"
+      data-testid="user-identity"
     >
       <ProfilePicture src={profilePictureUrl} imageSize="sm" />
 
@@ -22,7 +22,7 @@ export const ListUserDetails: React.FC<Props> = props => {
         className="font-bold"
         component="span"
         groupHover
-        data-testid="list-user-details-username"
+        data-testid="user-identity-username"
       >
         {username}
       </Typography>

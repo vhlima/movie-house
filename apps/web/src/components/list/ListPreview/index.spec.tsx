@@ -85,16 +85,16 @@ describe('ListPreview', () => {
     expect(postReactionsElement).toBeInTheDocument();
   });
 
-  test('Should display ListUserDetails if showUser is true', () => {
+  test('Should display UserIdentity if showUser is true', () => {
     const { sut } = createSut();
 
-    const userDetailsElement = sut.getByTestId('list-user-details');
+    const userDetailsElement = sut.getByTestId('user-identity');
     expect(userDetailsElement).toBeInTheDocument();
   });
   test('Should not display ListUserDetails if showUser is false', () => {
     const { sut } = createSut({ showUser: false });
 
-    const userDetailsElement = sut.queryByTestId('list-user-details');
+    const userDetailsElement = sut.queryByTestId('user-identity');
     expect(userDetailsElement).not.toBeInTheDocument();
   });
   test('Should navigate to the correct URL when clicking list name', () => {

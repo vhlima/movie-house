@@ -2,7 +2,7 @@ import { cleanup, render, RenderResult } from '@testing-library/react';
 
 import { mockUser, MockedRouterProvider } from '@/tests/data/mocks';
 
-import { ListUserDetails } from '.';
+import { UserIdentity } from '.';
 
 type SutType = {
   sut: RenderResult;
@@ -17,7 +17,7 @@ function createSut(): SutType {
 
   const sut = render(
     <MockedRouterProvider>
-      <ListUserDetails
+      <UserIdentity
         username={mockedUser.username}
         profilePictureUrl={mockedUser.profilePictureUrl}
       />
@@ -30,7 +30,7 @@ function createSut(): SutType {
   };
 }
 
-describe('ListUserDetails', () => {
+describe('UserIdentity', () => {
   afterEach(cleanup);
   test('Should render without errors', () => {
     const { sut } = createSut();
@@ -39,7 +39,7 @@ describe('ListUserDetails', () => {
   test('Should display username correctly', () => {
     const { sut, mockedUser } = createSut();
 
-    const usernameElement = sut.getByTestId('list-user-details-username');
+    const usernameElement = sut.getByTestId('user-identity-username');
     expect(usernameElement).toBeInTheDocument();
     expect(usernameElement.textContent).toEqual(mockedUser.username);
   });
