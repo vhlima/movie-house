@@ -43,12 +43,10 @@ describe('ListUserDetails', () => {
     expect(usernameElement).toBeInTheDocument();
     expect(usernameElement.textContent).toEqual(mockedUser.username);
   });
-  test('Should display profile picture correctly', () => {
+  test('Should display ProfilePicture', () => {
     const { sut } = createSut();
 
-    const profilePictureElement = sut.getByTestId(
-      'list-user-details-profile-picture',
-    );
-    expect(profilePictureElement.closest('img')).toBeInTheDocument();
+    const profilePictureElement = sut.getByTestId('user-profile-picture');
+    expect(profilePictureElement).toBeInTheDocument();
   });
 });
