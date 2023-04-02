@@ -25,6 +25,7 @@ export const StarIcon: React.FC<StarIconProps> = ({ intent = 'outline' }) => (
     height="1.3em"
     width="1.3em"
     xmlns="http://www.w3.org/2000/svg"
+    data-testid={`star-icon-${intent}`}
   >
     {intent === 'half' && (
       <defs>
