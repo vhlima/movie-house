@@ -58,6 +58,12 @@ describe('ListPreview', () => {
     expect(postContentElement).toBeInTheDocument();
     expect(postContentElement.textContent).toEqual(mockedList.post.content);
   });
+  test('Should display PostReactions', () => {
+    const { sut } = createSut();
+
+    const postReactionsElement = sut.getByTestId('post-reactions');
+    expect(postReactionsElement).toBeInTheDocument();
+  });
   test('Should display ListUserDetails if showUser is true', () => {
     const { sut } = createSut();
 
