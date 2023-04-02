@@ -17,3 +17,4 @@ export * from './SvgIcon';
 export * from './TextShorter';
 export * from './LikeButton';
 export * from './PostReactions';
+export * from './RatingStars';
