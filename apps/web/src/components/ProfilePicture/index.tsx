@@ -38,6 +38,7 @@ export const ProfilePicture: React.FC<ProfilePictureProps> = ({
       height={sizes[imageSize].height}
       alt="User profile picture"
       unoptimized
+      data-testid="user-profile-picture"
       {...imageProps}
     />
   </div>
