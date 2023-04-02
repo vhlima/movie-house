@@ -4,43 +4,51 @@ import { mockUser, MockedRouterProvider } from '@/tests/data/mocks';
 
 import { ListUserDetails } from '.';
 
-type SutProps = {
-  username: string;
-  profilePictureUrl?: string;
+type SutType = {
+  sut: RenderResult;
+  mockedUser: {
+    username: string;
+    profilePictureUrl?: string;
+  };
 };
 
-function createSut(props: SutProps): RenderResult {
+function createSut(): SutType {
+  const mockedUser = mockUser();
+
   const sut = render(
     <MockedRouterProvider>
       <ListUserDetails
-        username={props.username}
-        profilePictureUrl={props.profilePictureUrl}
+        username={mockedUser.username}
+        profilePictureUrl={mockedUser.profilePictureUrl}
       />
     </MockedRouterProvider>,
   );
 
-  return sut;
+  return {
+    sut,
+    mockedUser,
+  };
 }
 
 describe('ListUserDetails', () => {
   afterEach(cleanup);
   test('Should render without errors', () => {
-    const sut = createSut(mockUser());
+    const { sut } = createSut();
     expect(sut.container.firstChild).toBeInTheDocument();
   });
   test('Should display username correctly', () => {
-    const mockedUser = mockUser();
+    const { sut, mockedUser } = createSut();
 
-    const sut = createSut(mockedUser);
-
-    const usernameElement = sut.getByTestId('list-user-username');
+    const usernameElement = sut.getByTestId('list-user-details-username');
     expect(usernameElement).toBeInTheDocument();
     expect(usernameElement.textContent).toEqual(mockedUser.username);
   });
   test('Should display profile picture correctly', () => {
-    const sut = createSut(mockUser());
+    const { sut } = createSut();
 
-    const profilePictureElement = sut.getByTestId('list-user-profile-picture');
+    const profilePictureElement = sut.getByTestId(
+      'list-user-details-profile-picture',
+    );
     expect(profilePictureElement.closest('img')).toBeInTheDocument();
   });
 });
