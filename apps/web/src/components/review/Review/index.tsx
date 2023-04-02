@@ -38,7 +38,7 @@ const Review: React.FC<Props> = props => {
 
         {showUser && (
           <UserIdentity
-            className="my-2"
+            className="mb-2"
             username={user.username}
             profilePictureUrl={user.profilePictureUrl}
           />
