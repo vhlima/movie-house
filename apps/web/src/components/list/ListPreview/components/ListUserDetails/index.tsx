@@ -16,11 +16,7 @@ export const ListUserDetails: React.FC<Props> = props => {
       username={username}
       data-testid="list-user-details"
     >
-      <ProfilePicture
-        src={profilePictureUrl}
-        imageSize="sm"
-        data-testid="list-user-details-profile-picture"
-      />
+      <ProfilePicture src={profilePictureUrl} imageSize="sm" />
 
       <Typography
         className="font-bold"
