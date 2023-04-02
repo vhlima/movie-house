@@ -14,7 +14,7 @@ export const ListUserDetails: React.FC<Props> = props => {
     <UserProfileLink
       className="flex items-center gap-2 group mt-2"
       username={username}
-      data-testid="list-user-info"
+      data-testid="list-user-details"
     >
       <ProfilePicture
         src={profilePictureUrl}
