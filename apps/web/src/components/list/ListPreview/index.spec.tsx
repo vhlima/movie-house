@@ -7,11 +7,14 @@ import {
   RenderResult,
 } from '@testing-library/react';
 
-import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-
 import type { FindListsQuery } from '@/graphql';
 
-import { mockList, mockSessionValue, mockedRouter } from '@/tests/data/mocks';
+import {
+  mockList,
+  mockSessionValue,
+  mockedRouter,
+  MockedRouterProvider,
+} from '@/tests/data/mocks';
 
 import ListPreview from '.';
 
@@ -30,9 +33,9 @@ function createSut(showUser = true): SutType {
 
   const sut = render(
     <MockedProvider>
-      <MemoryRouterProvider>
+      <MockedRouterProvider>
         <ListPreview list={mockedList} showUser={showUser} />
-      </MemoryRouterProvider>
+      </MockedRouterProvider>
     </MockedProvider>,
   );
 
@@ -61,35 +64,33 @@ describe('ListPreview', () => {
       String(mockedList.movieCount),
     );
   });
-  test('Should display post content correctly if present', () => {
+  test('Should display post content correctly', () => {
     const { sut, mockedList } = createSut();
 
     const postContentElement = sut.getByTestId('post-content');
     expect(postContentElement).toBeInTheDocument();
     expect(postContentElement.textContent).toEqual(mockedList.post.content);
   });
-  test('Should display user name and profile picture if showUser is true', () => {
+  test('Should display ListUserDetails if showUser is true', () => {
     const { sut, mockedList } = createSut();
 
-    const userInfoElement = sut.getByTestId('list-user-info');
-    expect(userInfoElement).toBeInTheDocument();
+    const userDetailsElement = sut.getByTestId('list-user-details');
+    expect(userDetailsElement).toBeInTheDocument();
 
-    const profilePictureElement = sut.getByTestId(
-      'list-user-profile-picture',
-    ) as HTMLAnchorElement;
-    expect(profilePictureElement.closest('a')).toBeInTheDocument();
+    const profilePictureElement = sut.getByTestId('list-user-profile-picture');
+    expect(profilePictureElement.closest('img')).toBeInTheDocument();
 
     const usernameElement = sut.getByTestId('list-user-username');
     expect(usernameElement).toBeInTheDocument();
     expect(usernameElement.textContent).toEqual(mockedList.user.username);
   });
-  test('Should not display user infos if showUser is false', () => {
+  test('Should not display ListUserDetails if showUser is false', () => {
     const { sut } = createSut(false);
 
-    const userInfoElement = sut.queryByTestId('list-user-info');
-    expect(userInfoElement).not.toBeInTheDocument();
+    const userDetailsElement = sut.queryByTestId('list-user-details');
+    expect(userDetailsElement).not.toBeInTheDocument();
   });
-  test('Should navigate to the correct URL when clicking on list', () => {
+  test('Should navigate to the correct URL when clicking list name', () => {
     const { sut, mockedList } = createSut();
 
     const listLinkElement = sut.getByTestId('list-link');
