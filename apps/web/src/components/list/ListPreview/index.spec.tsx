@@ -18,12 +18,17 @@ import {
 
 import ListPreview from '.';
 
+type SutProps = {
+  hasContent?: boolean;
+  showUser?: boolean;
+};
+
 type SutType = {
   sut: RenderResult;
   mockedList: FindListsQuery['lists']['edges'][number]['node'];
 };
 
-function createSut(showUser = true): SutType {
+function createSut(props?: SutProps): SutType {
   mockSessionValue({
     data: null,
     status: 'unauthenticated',
@@ -31,10 +36,19 @@ function createSut(showUser = true): SutType {
 
   const mockedList = mockList();
 
+  const { hasContent = true, showUser = true } = props || {};
+
   const sut = render(
     <MockedProvider>
       <MockedRouterProvider>
-        <ListPreview list={mockedList} showUser={showUser} />
+        <ListPreview
+          list={
+            hasContent
+              ? mockedList
+              : { ...mockedList, post: { id: mockedList.post.id } }
+          }
+          showUser={showUser}
+        />
       </MockedRouterProvider>
     </MockedProvider>,
   );
@@ -58,12 +72,19 @@ describe('ListPreview', () => {
     expect(postContentElement).toBeInTheDocument();
     expect(postContentElement.textContent).toEqual(mockedList.post.content);
   });
+  test('Should not display post content if it is not provided', () => {
+    const { sut } = createSut({ hasContent: false });
+
+    const postReactionsElement = sut.queryByTestId('post-content');
+    expect(postReactionsElement).not.toBeInTheDocument();
+  });
   test('Should display PostReactions', () => {
     const { sut } = createSut();
 
     const postReactionsElement = sut.getByTestId('post-reactions');
     expect(postReactionsElement).toBeInTheDocument();
   });
+
   test('Should display ListUserDetails if showUser is true', () => {
     const { sut } = createSut();
 
@@ -71,7 +92,7 @@ describe('ListPreview', () => {
     expect(userDetailsElement).toBeInTheDocument();
   });
   test('Should not display ListUserDetails if showUser is false', () => {
-    const { sut } = createSut(false);
+    const { sut } = createSut({ showUser: false });
 
     const userDetailsElement = sut.queryByTestId('list-user-details');
     expect(userDetailsElement).not.toBeInTheDocument();
