@@ -19,14 +19,14 @@ export const ListUserDetails: React.FC<Props> = props => {
       <ProfilePicture
         src={profilePictureUrl}
         imageSize="sm"
-        data-testid="list-user-profile-picture"
+        data-testid="list-user-details-profile-picture"
       />
 
       <Typography
         className="font-bold"
         component="span"
         groupHover
-        data-testid="list-user-username"
+        data-testid="list-user-details-username"
       >
         {username}
       </Typography>
