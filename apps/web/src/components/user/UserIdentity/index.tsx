@@ -1,18 +1,20 @@
 import { Typography, ProfilePicture } from '@/components';
 
 import UserProfileLink from '@/components/user/UserProfileLink';
+import clsx from 'clsx';
 
 interface Props {
+  className?: string;
   username: string;
   profilePictureUrl?: string;
 }
 
 export const UserIdentity: React.FC<Props> = props => {
-  const { username, profilePictureUrl } = props;
+  const { className, username, profilePictureUrl } = props;
 
   return (
     <UserProfileLink
-      className="flex items-center gap-2 group mt-2"
+      className={clsx('flex items-center gap-2 group', className && className)}
       username={username}
       data-testid="user-identity"
     >
