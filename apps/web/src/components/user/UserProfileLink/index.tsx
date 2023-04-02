@@ -21,6 +21,7 @@ const UserProfileLink: React.FC<PropsWithChildren<UserProfileLinkProps>> = ({
       pathname: '/users/[username]',
       query: { username },
     }}
+    data-testid="user-profile-link"
     {...props}
   >
     {children}
