@@ -1,17 +1,10 @@
 import { FindListsQuery } from '@/graphql';
 
-import {
-  Link,
-  Typography,
-  TextShorter,
-  ListItem,
-  ProfilePicture,
-  PostReactions,
-} from '@/components';
+import { TextShorter, ListItem, PostReactions } from '@/components';
 
 import { MovieCoverAccordion } from '@/components/movie';
 
-import UserProfileLink from '@/components/user/UserProfileLink';
+import { ListDetails, ListUserDetails } from './components';
 
 interface Props {
   list: FindListsQuery['lists']['edges'][number]['node'];
@@ -19,7 +12,7 @@ interface Props {
 }
 
 const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
-  const { id, name, user, post, movies, movieCount } = list;
+  const { id, name, movieCount, user, post, movies } = list;
 
   return (
     <ListItem className="md:flex md:gap-4">
@@ -32,53 +25,12 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
         />
       </div>
 
-      <div className="w-full">
-        <Link
-          className="block"
-          href={{
-            pathname: '/lists/[id]',
-            query: { id },
-          }}
-          data-testid="list-link"
-        >
-          <Typography
-            className="font-bold"
-            component="h2"
-            color="primary"
-            size="lg"
-            hover
-            data-testid="list-name"
-          >
-            {name}
-          </Typography>
-        </Link>
-
-        <Typography component="span" color="tertiary" size="sm">
-          <span data-testid="movie-count">{movieCount}</span>
-          <span>&nbsp;{movieCount === 1 ? 'movie' : 'movies'}</span>
-        </Typography>
-
+      <ListDetails id={id} name={name} movieCount={movieCount}>
         {showUser && (
-          <UserProfileLink
-            className="flex items-center gap-2 group mt-2"
+          <ListUserDetails
             username={user.username}
-            data-testid="list-user-info"
-          >
-            <ProfilePicture
-              src={user.profilePictureUrl}
-              imageSize="sm"
-              data-testid="list-user-profile-picture"
-            />
-
-            <Typography
-              className="font-bold"
-              component="span"
-              groupHover
-              data-testid="list-user-username"
-            >
-              {user.username}
-            </Typography>
-          </UserProfileLink>
+            profilePictureUrl={user.profilePictureUrl}
+          />
         )}
 
         {post.content && (
@@ -91,7 +43,7 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
         )}
 
         <PostReactions postId={post.id} />
-      </div>
+      </ListDetails>
     </ListItem>
   );
 };
