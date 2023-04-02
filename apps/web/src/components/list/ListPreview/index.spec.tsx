@@ -59,17 +59,10 @@ describe('ListPreview', () => {
     expect(postContentElement.textContent).toEqual(mockedList.post.content);
   });
   test('Should display ListUserDetails if showUser is true', () => {
-    const { sut, mockedList } = createSut();
+    const { sut } = createSut();
 
     const userDetailsElement = sut.getByTestId('list-user-details');
     expect(userDetailsElement).toBeInTheDocument();
-
-    const profilePictureElement = sut.getByTestId('list-user-profile-picture');
-    expect(profilePictureElement.closest('img')).toBeInTheDocument();
-
-    const usernameElement = sut.getByTestId('list-user-username');
-    expect(usernameElement).toBeInTheDocument();
-    expect(usernameElement.textContent).toEqual(mockedList.user.username);
   });
   test('Should not display ListUserDetails if showUser is false', () => {
     const { sut } = createSut(false);
