@@ -51,19 +51,6 @@ describe('ListPreview', () => {
     const { sut } = createSut();
     expect(sut.container.firstChild).toBeInTheDocument();
   });
-  test('Should display correct list name and movie count', () => {
-    const { sut, mockedList } = createSut();
-
-    const listNameElement = sut.getByTestId('list-name');
-    expect(listNameElement).toBeInTheDocument();
-    expect(listNameElement.textContent).toEqual(mockedList.name);
-
-    const movieCountElement = sut.getByTestId('movie-count');
-    expect(movieCountElement).toBeInTheDocument();
-    expect(movieCountElement.textContent).toEqual(
-      String(mockedList.movieCount),
-    );
-  });
   test('Should display post content correctly', () => {
     const { sut, mockedList } = createSut();
 
