@@ -13,7 +13,7 @@ export const ReviewMovieDetails: React.FC<Props> = props => {
 
   return (
     <Typography
-      className="font-bold"
+      className="font-bold mb-2"
       component="h2"
       color="primary"
       size="xl"
