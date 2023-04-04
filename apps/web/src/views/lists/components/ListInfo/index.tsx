@@ -19,12 +19,20 @@ export const ListInfo: React.FC<Props> = props => {
         component="h1"
         color="primary"
         size="xl"
+        data-testid="list-name"
       >
         {name}
       </Typography>
 
       <Typography component="span" size="sm" color="tertiary">
-        Published&nbsp;{postCreationDateFormatted}
+        Published&nbsp;
+        <Typography
+          component="span"
+          color="primary"
+          data-testid="list-creation-date"
+        >
+          {postCreationDateFormatted}
+        </Typography>
       </Typography>
     </>
   );
