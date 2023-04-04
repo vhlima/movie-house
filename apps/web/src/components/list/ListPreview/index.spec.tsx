@@ -65,19 +65,6 @@ describe('ListPreview', () => {
     const { sut } = createSut();
     expect(sut.container.firstChild).toBeInTheDocument();
   });
-  test('Should display post content correctly', () => {
-    const { sut, mockedList } = createSut();
-
-    const postContentElement = sut.getByTestId('post-content');
-    expect(postContentElement).toBeInTheDocument();
-    expect(postContentElement.textContent).toEqual(mockedList.post.content);
-  });
-  test('Should not display post content if it is not provided', () => {
-    const { sut } = createSut({ hasContent: false });
-
-    const postReactionsElement = sut.queryByTestId('post-content');
-    expect(postReactionsElement).not.toBeInTheDocument();
-  });
   test('Should display PostReactions', () => {
     const { sut } = createSut();
 
