@@ -12,7 +12,7 @@ interface Props {
   }>;
 }
 
-const ListMovies: React.FC<Props> = props => {
+export const ListMovies: React.FC<Props> = props => {
   const { movies, currentPage, totalPages } = props;
 
   return (
@@ -28,5 +28,3 @@ const ListMovies: React.FC<Props> = props => {
     </div>
   );
 };
-
-export default ListMovies;
