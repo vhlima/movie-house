@@ -6,8 +6,6 @@ import { PostMeta } from '@/components';
 
 import { NewMovieCover as MovieCover } from '@/components/movie';
 
-import { UserIdentity } from '@/components/user';
-
 import { ReviewDetails, ReviewMovieDetails } from './components';
 
 interface Props {
@@ -36,17 +34,14 @@ const Review: React.FC<Props> = props => {
           releaseDate={movie.releaseDate}
         />
 
-        {showUser && (
-          <UserIdentity
-            className="mb-2"
-            username={user.username}
-            profilePictureUrl={user.profilePictureUrl}
-          />
-        )}
-
         <ReviewDetails rating={2.5} createdAt={post.createdAt} />
 
-        <PostMeta id={post.id} content={post.content} commentaryCount={0} />
+        <PostMeta
+          id={post.id}
+          user={showUser ? user : undefined}
+          content={post.content}
+          commentaryCount={0}
+        />
       </div>
     </div>
   );

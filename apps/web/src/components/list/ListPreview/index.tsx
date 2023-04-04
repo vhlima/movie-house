@@ -1,10 +1,8 @@
 import { FindListsQuery } from '@/graphql';
 
-import { TextShorter, ListItem, PostReactions, PostMeta } from '@/components';
+import { ListItem, PostMeta } from '@/components';
 
 import { MovieCoverAccordion } from '@/components/movie';
-
-import { UserIdentity } from '@/components/user';
 
 import { ListDetails } from './components';
 
@@ -28,15 +26,12 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
       </div>
 
       <ListDetails id={id} name={name} movieCount={movieCount}>
-        {showUser && (
-          <UserIdentity
-            className="mt-2"
-            username={user.username}
-            profilePictureUrl={user.profilePictureUrl}
-          />
-        )}
-
-        <PostMeta id={post.id} content={post.content} commentaryCount={0} />
+        <PostMeta
+          id={post.id}
+          user={showUser ? user : undefined}
+          content={post.content}
+          commentaryCount={0}
+        />
       </ListDetails>
     </ListItem>
   );
