@@ -6,7 +6,7 @@ import BackdropImage from '../../components/BackdropImage';
 
 import PopularReviewsWeek from '../../components/review/PopularReviewsWeek';
 
-import { Features, PopularListsWeek } from './components';
+import { FeaturesCard, PopularListsWeek } from './components';
 
 const HomeView: React.FC = () => (
   <BackdropImage
@@ -38,7 +38,7 @@ const HomeView: React.FC = () => (
 
     <PopularMoviesWeek />
 
-    <Features />
+    <FeaturesCard />
 
     <PopularReviewsWeek />
 

@@ -1,2 +1,2 @@
-export * from './Features';
+export * from './FeaturesCard';
 export * from './PopularListsWeek';
