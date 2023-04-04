@@ -13,7 +13,7 @@ export const ListInfo: React.FC<Props> = props => {
   const postCreationDateFormatted = formatDateDistanceFromMillis(createdAt);
 
   return (
-    <>
+    <div>
       <Typography
         className="font-semibold"
         component="h1"
@@ -34,6 +34,6 @@ export const ListInfo: React.FC<Props> = props => {
           {postCreationDateFormatted}
         </Typography>
       </Typography>
-    </>
+    </div>
   );
 };
