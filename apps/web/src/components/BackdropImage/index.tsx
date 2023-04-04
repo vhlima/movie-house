@@ -50,7 +50,6 @@ const BackdropImage: React.FC<PropsWithChildren<ImageProps>> = ({
 
     <div
       className={clsx(
-        'px-2 md:px-8',
         {
           '-mt-16 lg:-mt-24': !!imageProps.src,
           'mt-4': !imageProps.src,
