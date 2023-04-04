@@ -28,7 +28,7 @@ export const ListInfo: React.FC<Props> = props => {
         Published&nbsp;
         <Typography
           component="span"
-          color="primary"
+          color="tertiary"
           data-testid="list-creation-date"
         >
           {postCreationDateFormatted}
