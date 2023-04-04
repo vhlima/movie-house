@@ -16,9 +16,9 @@ export const ListMovies: React.FC<Props> = props => {
   const { movies, currentPage, totalPages } = props;
 
   return (
-    <div>
+    <div className="mt-4">
       <MovieCoverList
-        className="my-4 grid-cols-4 sm:grid-cols-8"
+        className="mb-4 grid-cols-4 sm:grid-cols-8"
         movies={movies}
         name="list-movies"
         link
