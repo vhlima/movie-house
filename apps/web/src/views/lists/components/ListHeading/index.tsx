@@ -14,7 +14,7 @@ interface Props {
   };
 }
 
-const ListHeading: React.FC<Props> = ({ listId, user }) => {
+export const ListHeading: React.FC<Props> = ({ listId, user }) => {
   const rootPath = `/lists/${listId}`;
 
   return (
@@ -47,5 +47,3 @@ const ListHeading: React.FC<Props> = ({ listId, user }) => {
     </SubHeading>
   );
 };
-
-export default ListHeading;
