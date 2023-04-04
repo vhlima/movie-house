@@ -46,7 +46,7 @@ const Review: React.FC<Props> = props => {
 
         <ReviewDetails rating={2.5} createdAt={post.createdAt} />
 
-        <PostMeta id={post.id} content={post.content} />
+        <PostMeta id={post.id} content={post.content} commentaryCount={0} />
       </div>
     </div>
   );

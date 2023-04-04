@@ -36,7 +36,7 @@ const ListPreview: React.FC<Props> = ({ list, showUser = true }) => {
           />
         )}
 
-        <PostMeta id={post.id} content={post.content} />
+        <PostMeta id={post.id} content={post.content} commentaryCount={0} />
       </ListDetails>
     </ListItem>
   );
