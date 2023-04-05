@@ -6,7 +6,7 @@ import { Input, PageContent } from '@/components';
 
 import { MovieSearchInput } from '@/components/movie';
 
-import SortNavigation from './components/SortNavigation';
+import { SortNavigation } from './components';
 
 const MoviesPageView: React.FC<PropsWithChildren> = ({ children }) => {
   const { push } = useRouter();
