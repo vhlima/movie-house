@@ -15,7 +15,7 @@ export const ReviewList: React.FC<Props> = ({
   reviews,
   emptyMessage,
 }) => {
-  if (reviews.length > 0) {
+  if (reviews.length === 0) {
     return (
       <Typography component="p" data-testid="empty-message">
         {emptyMessage}
