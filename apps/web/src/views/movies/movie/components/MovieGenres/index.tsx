@@ -1,38 +1,18 @@
 import type { MovieGenre } from '@/graphql';
 
-import { Button } from '@/components';
-import { useSortLinkBuilder } from '@/hooks/useSortLinkBuilder';
+import { MovieGenre as Genre } from './components';
 
-interface MovieGenresProps {
+interface Props {
   genres: MovieGenre[];
 }
 
-export const MovieGenres: React.FC<MovieGenresProps> = ({ genres }) => {
-  const { buildFilteredHref } = useSortLinkBuilder({
-    pathname: {
-      clean: '/movies',
-      sort: '/movies/genre/[genre]',
-    },
-    queryKey: 'genre',
-    singleOption: true,
-  });
+export const MovieGenres: React.FC<Props> = props => {
+  const { genres } = props;
 
   return (
-    <ul className="flex gap-2 flex-wrap">
+    <ul className="flex gap-2 flex-wrap" data-testid="movie-genre-list">
       {genres.map(genre => (
-        <li
-          className="border border-grey-700 rounded-md overflow-hidden"
-          key={`movie-genre-${genre.id}`}
-        >
-          <Button
-            intent="tertiary"
-            size="sm"
-            rounded={false}
-            href={buildFilteredHref(genre.name).href}
-          >
-            {genre.name}
-          </Button>
-        </li>
+        <Genre key={`move-genre-${genre.id}`} name={genre.name} />
       ))}
     </ul>
   );
