@@ -4,11 +4,7 @@ import { faker } from '@faker-js/faker';
 
 import { ActorProfilePicture } from '.';
 
-type SutType = {
-  sut: RenderResult;
-};
-
-function createSut(profilePictureUrl?: string): SutType {
+function createSut(profilePictureUrl?: string): RenderResult {
   const sut = render(
     <ActorProfilePicture
       profilePictureUrl={profilePictureUrl}
@@ -16,14 +12,12 @@ function createSut(profilePictureUrl?: string): SutType {
     />,
   );
 
-  return {
-    sut,
-  };
+  return sut;
 }
 
 describe('ActorProfilePicture', () => {
   test('Should render only empty profile picture', () => {
-    const { sut } = createSut();
+    const sut = createSut();
 
     const emptyProfilePictureElement = sut.getByTestId(
       'actor-profile-picture-empty',
@@ -34,7 +28,7 @@ describe('ActorProfilePicture', () => {
     expect(profilePictureElement).not.toBeInTheDocument();
   });
   test('Should render only profile picture', () => {
-    const { sut } = createSut(faker.internet.avatar());
+    const sut = createSut(faker.internet.avatar());
 
     const profilePictureElement = sut.getByTestId('actor-profile-picture');
     expect(profilePictureElement).toBeInTheDocument();
