@@ -28,7 +28,13 @@ export const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
         ) : (
           <ul className="flex overflow-x-auto">
             {cast.slice(0, 10).map(actor => (
-              <MovieActor key={`movie-actor-${actor.id}`} actor={actor} />
+              <MovieActor
+                key={`movie-actor-${actor.id}`}
+                id={actor.id}
+                character={actor.character}
+                originalName={actor.originalName}
+                profilePictureUrl={actor.profilePictureUrl}
+              />
             ))}
           </ul>
         )}

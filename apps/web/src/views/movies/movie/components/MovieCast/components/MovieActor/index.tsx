@@ -1,20 +1,16 @@
-import type { MovieCharacter } from '@/graphql';
-
 import { Typography } from '@/components';
 
 import { ActorProfilePicture } from './components';
 
-interface MovieActorProps {
-  actor: {
-    id: MovieCharacter['id'];
-    character: MovieCharacter['character'];
-    originalName: MovieCharacter['originalName'];
-    profilePictureUrl: MovieCharacter['profilePictureUrl'];
-  };
+interface Props {
+  id: number;
+  character: string;
+  originalName: string;
+  profilePictureUrl?: string;
 }
 
-const MovieActor: React.FC<MovieActorProps> = ({ actor }) => {
-  const { character, originalName, profilePictureUrl } = actor;
+const MovieActor: React.FC<Props> = props => {
+  const { character, originalName, profilePictureUrl } = props;
 
   return (
     <div className="flex flex-col items-center text-center w-24 flex-shrink-0">
