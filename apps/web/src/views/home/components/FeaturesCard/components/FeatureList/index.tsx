@@ -1,14 +1,12 @@
-import type { SvgIconType, LinkProps } from '@/components';
+import { Feature as FeatureProps } from '../../types';
 
 import { Feature } from '../index';
 
-type Feature = {
-  iconType: SvgIconType;
-  link: LinkProps;
-  text: string;
-};
+interface Props {
+  features: FeatureProps[];
+}
 
-const features: Feature[] = [
+const features: FeatureProps[] = [
   {
     iconType: 'AiFillEye',
     link: { href: '/' },
@@ -41,8 +39,8 @@ const features: Feature[] = [
   },
 ];
 
-export const FeatureList: React.FC = () => (
-  <ul className="grid gap-2 lg:grid-cols-2">
+export const FeatureList: React.FC<Props> = ({ features }) => (
+  <ul className="grid gap-2 lg:grid-cols-2" data-testid="feature-list">
     {features.map(({ iconType, link, text }) => (
       <Feature
         key={`feature-${text}`}
