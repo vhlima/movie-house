@@ -9,7 +9,7 @@ interface Props {
   profilePictureUrl?: string;
 }
 
-const MovieActor: React.FC<Props> = props => {
+export const MovieActor: React.FC<Props> = props => {
   const { character, originalName, profilePictureUrl } = props;
 
   return (
@@ -33,5 +33,3 @@ const MovieActor: React.FC<Props> = props => {
     </div>
   );
 };
-
-export default MovieActor;
