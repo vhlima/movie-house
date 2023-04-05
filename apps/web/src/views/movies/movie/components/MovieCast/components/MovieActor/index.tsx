@@ -23,11 +23,17 @@ export const MovieActor: React.FC<Props> = props => {
         className="font-semibold mt-2 group-hover:underline"
         component="h2"
         color="primary"
+        data-testid="actor-original-name"
       >
         {originalName}
       </Typography>
 
-      <Typography className="mt-1" component="span" size="xs">
+      <Typography
+        className="mt-1"
+        component="span"
+        size="xs"
+        data-testid="actor-character-name"
+      >
         {character}
       </Typography>
     </div>
