@@ -2,29 +2,15 @@ import type { FindMovieWithCreditsQuery } from '@/graphql';
 
 import { MovieCover } from '@/components/movie';
 
-import { parseISO } from '@/utils/date-utils';
-
 import { Button, Typography } from '@/components';
+
+import { MovieDetails } from './components';
 
 interface MovieInfosProps {
   movie: FindMovieWithCreditsQuery['movieWithCredits'];
 }
 
 export const MovieHeader: React.FC<MovieInfosProps> = ({ movie }) => {
-  function toHoursAndMinutes(totalMinutes: number) {
-    const minutes = totalMinutes % 60;
-
-    const hours = Math.floor(totalMinutes / 60);
-
-    if (minutes === 0) {
-      return `${hours}h`;
-    }
-
-    return `${hours}h ${minutes}m`;
-  }
-
-  const movieDate = parseISO(movie.releaseDate);
-
   // TODO change that, not showing #1 director
   const directors = movie.credits.crew.filter(
     crew => crew.department === 'Directing',
@@ -33,20 +19,11 @@ export const MovieHeader: React.FC<MovieInfosProps> = ({ movie }) => {
   return (
     <div className="flex justify-between gap-2">
       <div className="flex flex-col w-full z-10">
-        <Typography
-          className="font-bold"
-          component="h1"
-          color="primary"
-          size="2xl"
-        >
-          {movie.originalTitle}
-        </Typography>
-
-        <Typography component="span" size="sm">
-          {movieDate.getMonth()}/{movieDate.getDay()}/{movieDate.getFullYear()}
-          &nbsp; • &nbsp;
-          {toHoursAndMinutes(movie.runtime)}
-        </Typography>
+        <MovieDetails
+          originalTitle={movie.originalTitle}
+          releaseDate={movie.releaseDate}
+          runtime={movie.runtime}
+        />
 
         {directors.length > 0 && (
           <Typography component="span">
