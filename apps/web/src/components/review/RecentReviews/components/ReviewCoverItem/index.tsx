@@ -21,6 +21,7 @@ export const ReviewCoverItem: React.FC<Props> = props => {
           pathname: '/reviews/[id]',
           query: { id },
         }}
+        data-testid="review-link"
       >
         <MovieCover movie={movie} link={false} />
       </Link>
