@@ -21,7 +21,7 @@ export const MovieActorList: React.FC<Props> = props => {
   }
 
   return (
-    <ul className="flex overflow-x-auto">
+    <ul className="flex overflow-x-auto" data-testid="actor-list">
       {actors.map(actor => (
         <MovieActor
           key={`movie-actor-${actor.id}`}
