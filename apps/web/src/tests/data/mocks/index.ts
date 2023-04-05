@@ -5,3 +5,4 @@ export * from './mock-apollo';
 export * from './mock-next';
 export * from './mock-user';
 export * from './mock-review';
+export * from './mock-actor';
