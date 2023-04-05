@@ -11,7 +11,10 @@ export const ActorProfilePicture: React.FC<Props> = props => {
   return (
     <div className="relative w-20 h-20 border-grey-800 border rounded-full overflow-hidden">
       {!profilePictureUrl ? (
-        <div className="flex items-center justify-center w-full h-full bg-grey-800 select-none">
+        <div
+          className="flex items-center justify-center w-full h-full bg-grey-800 select-none"
+          data-testid="actor-profile-picture-empty"
+        >
           <Typography component="span" color="primary" size="4xl">
             ?
           </Typography>
@@ -23,6 +26,7 @@ export const ActorProfilePicture: React.FC<Props> = props => {
           sizes="5rem, 5rem"
           alt={alt}
           src={profilePictureUrl}
+          data-testid="actor-profile-picture"
         />
       )}
     </div>
