@@ -30,11 +30,22 @@ function createSut(): SutType {
 }
 
 describe('MovieActor', () => {
+  test('Should render correctly', () => {
+    const { sut } = createSut();
+
+    const originalNameElement = sut.getByTestId('actor-original-name');
+    expect(originalNameElement).toBeInTheDocument();
+
+    const originalCharacterElement = sut.getByTestId('actor-character-name');
+    expect(originalCharacterElement).toBeInTheDocument();
+
+    const profilePictureElement = sut.getByTestId('actor-profile-picture');
+    expect(profilePictureElement).toBeInTheDocument();
+  });
   test('Should render originalName correctly', () => {
     const { sut, originalName } = createSut();
 
     const originalNameElement = sut.getByTestId('actor-original-name');
-    expect(originalNameElement).toBeInTheDocument();
     expect(originalNameElement.textContent).toEqual(originalName);
   });
 
@@ -42,7 +53,6 @@ describe('MovieActor', () => {
     const { sut, character } = createSut();
 
     const originalCharacterElement = sut.getByTestId('actor-character-name');
-    expect(originalCharacterElement).toBeInTheDocument();
     expect(originalCharacterElement.textContent).toEqual(character);
   });
 });
