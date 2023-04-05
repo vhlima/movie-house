@@ -13,7 +13,7 @@ export const MovieActor: React.FC<Props> = props => {
   const { character, originalName, profilePictureUrl } = props;
 
   return (
-    <div className="flex flex-col items-center text-center w-24 flex-shrink-0">
+    <div className="flex flex-col items-center text-center w-24 flex-shrink-0 mb-2">
       <ActorProfilePicture
         profilePictureUrl={profilePictureUrl}
         alt={originalName}
