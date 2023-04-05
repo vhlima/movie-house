@@ -15,9 +15,11 @@ export const MovieActorList: React.FC<Props> = props => {
   const { actors } = props;
 
   if (actors.length === 0) {
-    <Typography component="h2" data-testid="empty-list-message">
-      The cast for this film was not found.
-    </Typography>;
+    return (
+      <Typography component="h2" data-testid="empty-list-message">
+        The cast for this film was not found.
+      </Typography>
+    );
   }
 
   return (
