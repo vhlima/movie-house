@@ -33,4 +33,15 @@ describe('ActorProfilePicture', () => {
     const profilePictureElement = sut.queryByTestId('actor-profile-picture');
     expect(profilePictureElement).not.toBeInTheDocument();
   });
+  test('Should render only profile picture', () => {
+    const { sut } = createSut(faker.internet.avatar());
+
+    const profilePictureElement = sut.getByTestId('actor-profile-picture');
+    expect(profilePictureElement).toBeInTheDocument();
+
+    const emptyProfilePictureElement = sut.queryByTestId(
+      'actor-profile-picture-empty',
+    );
+    expect(emptyProfilePictureElement).not.toBeInTheDocument();
+  });
 });
