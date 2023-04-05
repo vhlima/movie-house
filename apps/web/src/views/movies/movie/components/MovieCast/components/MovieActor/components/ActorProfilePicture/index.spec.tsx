@@ -25,13 +25,17 @@ describe('ActorProfilePicture', () => {
     );
     expect(emptyProfilePictureElement).toBeInTheDocument();
 
-    const profilePictureElement = sut.queryByTestId('actor-profile-picture');
+    const profilePictureElement = sut.queryByTestId(
+      'actor-profile-picture-image',
+    );
     expect(profilePictureElement).not.toBeInTheDocument();
   });
   test('Should render only profile picture', () => {
     const sut = createSut(faker.internet.avatar());
 
-    const profilePictureElement = sut.getByTestId('actor-profile-picture');
+    const profilePictureElement = sut.getByTestId(
+      'actor-profile-picture-image',
+    );
     expect(profilePictureElement).toBeInTheDocument();
 
     const emptyProfilePictureElement = sut.queryByTestId(

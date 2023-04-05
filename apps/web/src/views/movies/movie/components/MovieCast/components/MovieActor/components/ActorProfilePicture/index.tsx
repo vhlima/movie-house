@@ -29,7 +29,7 @@ export const ActorProfilePicture: React.FC<Props> = props => {
           sizes="5rem, 5rem"
           alt={alt}
           src={profilePictureUrl}
-          data-testid="actor-profile-picture"
+          data-testid="actor-profile-picture-image"
         />
       )}
     </div>
