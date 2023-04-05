@@ -1,15 +1,13 @@
-import type { MovieCharacter } from '@/graphql';
-
 import { Card } from '@/components';
 
 import { MovieActorList } from './components';
 
 interface MovieCastProps {
   cast: Array<{
-    id: MovieCharacter['id'];
-    character: MovieCharacter['character'];
-    originalName: MovieCharacter['originalName'];
-    profilePictureUrl: MovieCharacter['profilePictureUrl'];
+    id: number;
+    character: string;
+    originalName: string;
+    profilePictureUrl?: string;
   }>;
 }
 
