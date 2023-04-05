@@ -10,8 +10,8 @@ export function formatDateDistanceFromMillis(millis: number): string {
   return formatDateDistance(new Date(millis).toISOString());
 }
 
-export const formatDate = (dateISO: string): string =>
-  format(new Date(dateISO), 'MMM dd, yyyy');
+export const formatDate = (dateISO: string, stringFormat?: string): string =>
+  format(new Date(dateISO), !stringFormat ? 'MMM dd, yyyy' : stringFormat);
 
 export function formatDateFromMillis(millis: number): string {
   return formatDate(new Date(millis).toISOString());
