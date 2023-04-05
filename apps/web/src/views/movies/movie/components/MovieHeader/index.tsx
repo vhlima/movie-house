@@ -6,14 +6,16 @@ import { Button, Typography } from '@/components';
 
 import { MovieDetails } from './components';
 
-interface MovieInfosProps {
+interface Props {
   movie: FindMovieWithCreditsQuery['movieWithCredits'];
 }
 
-export const MovieHeader: React.FC<MovieInfosProps> = ({ movie }) => {
+export const MovieHeader: React.FC<Props> = props => {
+  const { movie } = props;
+
   // TODO change that, not showing #1 director
   const directors = movie.credits.crew.filter(
-    crew => crew.department === 'Directing',
+    crew => crew.department.toLowerCase() === 'directing',
   );
 
   return (
