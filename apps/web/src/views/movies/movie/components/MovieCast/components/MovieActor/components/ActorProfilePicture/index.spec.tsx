@@ -1,4 +1,4 @@
-import { RenderResult, render } from '@testing-library/react';
+import { RenderResult, cleanup, render } from '@testing-library/react';
 
 import { faker } from '@faker-js/faker';
 
@@ -16,6 +16,7 @@ function createSut(profilePictureUrl?: string): RenderResult {
 }
 
 describe('ActorProfilePicture', () => {
+  afterEach(cleanup);
   test('Should render only empty profile picture', () => {
     const sut = createSut();
 
