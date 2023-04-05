@@ -9,7 +9,10 @@ export const ActorProfilePicture: React.FC<Props> = props => {
   const { profilePictureUrl, alt } = props;
 
   return (
-    <div className="relative w-20 h-20 border-grey-800 border rounded-full overflow-hidden">
+    <div
+      className="relative w-20 h-20 border-grey-800 border rounded-full overflow-hidden"
+      data-testid="actor-profile-picture"
+    >
       {!profilePictureUrl ? (
         <div
           className="flex items-center justify-center w-full h-full bg-grey-800 select-none"
