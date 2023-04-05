@@ -18,7 +18,7 @@ export const PostMeta: React.FC<Props> = props => {
   const { id, user, content, commentaryCount } = props;
 
   return (
-    <div className="mt-4">
+    <div className="flex flex-col gap-4 mt-4">
       {user && (
         <UserIdentity
           username={user.username}
@@ -28,7 +28,6 @@ export const PostMeta: React.FC<Props> = props => {
 
       {content && (
         <TextShorter
-          className="my-4"
           maxCharacters={200}
           text={content}
           data-testid="post-meta-content"
