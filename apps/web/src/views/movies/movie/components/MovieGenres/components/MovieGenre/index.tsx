@@ -3,12 +3,11 @@ import { Button } from '@/components';
 import { useSortLinkBuilder } from '@/hooks/useSortLinkBuilder';
 
 interface Props {
-  id: string;
   name: string;
 }
 
 export const MovieGenre: React.FC<Props> = props => {
-  const { id, name } = props;
+  const { name } = props;
 
   const { buildFilteredHref } = useSortLinkBuilder({
     pathname: {
@@ -20,10 +19,7 @@ export const MovieGenre: React.FC<Props> = props => {
   });
 
   return (
-    <li
-      className="border border-grey-700 rounded-md overflow-hidden"
-      key={`movie-genre-${id}`}
-    >
+    <li className="border border-grey-700 rounded-md overflow-hidden">
       <Button
         intent="tertiary"
         size="sm"
