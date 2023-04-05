@@ -30,12 +30,6 @@ export const MovieDetails: React.FC<Props> = props => {
       </Typography>
 
       <Typography component="span" size="sm">
-        {movieReleaseDateFormatted}
-        &nbsp; • &nbsp;
-        {formatMintutesToHoursAndMinutes(runtime)}
-      </Typography>
-
-      <Typography component="span" size="sm">
         <Typography component="span" size="sm" data-testid="movie-release-date">
           {movieReleaseDateFormatted}
         </Typography>
