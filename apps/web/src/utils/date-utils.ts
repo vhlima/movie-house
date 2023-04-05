@@ -20,3 +20,15 @@ export function formatDateFromMillis(millis: number): string {
 export function parseISO(dateString: string): Date {
   return parseIsoDateFns(dateString);
 }
+
+export function formatMintutesToHoursAndMinutes(totalMinutes: number) {
+  const minutes = totalMinutes % 60;
+
+  const hours = Math.floor(totalMinutes / 60);
+
+  if (minutes === 0) {
+    return `${hours}h`;
+  }
+
+  return `${hours}h ${minutes}m`;
+}
