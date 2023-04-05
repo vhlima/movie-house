@@ -37,4 +37,12 @@ describe('MovieActor', () => {
     expect(originalNameElement).toBeInTheDocument();
     expect(originalNameElement.textContent).toEqual(originalName);
   });
+
+  test('Should render character name correctly', () => {
+    const { sut, character } = createSut();
+
+    const originalCharacterElement = sut.getByTestId('actor-character-name');
+    expect(originalCharacterElement).toBeInTheDocument();
+    expect(originalCharacterElement.textContent).toEqual(character);
+  });
 });
