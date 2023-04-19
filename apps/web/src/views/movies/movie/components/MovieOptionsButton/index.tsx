@@ -1,21 +1,19 @@
 import { useState } from 'react';
 
-import type { Movie } from '@/graphql';
-
 import { Button } from '@/components';
 
 import { MovieActionsModal } from '@/components/movie';
 
 interface MovieOptionsButtonProps {
   movie: {
-    id: Movie['id'];
-    originalTitle: Movie['originalTitle'];
+    id: number;
+    originalTitle: string;
   };
 }
 
-export const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = ({
-  movie,
-}) => {
+export const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = props => {
+  const { movie } = props;
+
   const [isOpen, setOpen] = useState<boolean>(false);
 
   return (
