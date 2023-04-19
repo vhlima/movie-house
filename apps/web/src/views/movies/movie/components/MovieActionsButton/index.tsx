@@ -4,15 +4,13 @@ import { Button } from '@/components';
 
 import { MovieActionsModal } from '@/components/movie';
 
-interface MovieActionsProps {
-  movie: {
-    id: number;
-    originalTitle: string;
-  };
+interface Props {
+  id: number;
+  originalTitle: string;
 }
 
-export const MovieActionsButton: React.FC<MovieActionsProps> = props => {
-  const { movie } = props;
+export const MovieActionsButton: React.FC<Props> = props => {
+  const { id, originalTitle } = props;
 
   const [isOpen, setOpen] = useState<boolean>(false);
 
@@ -21,8 +19,8 @@ export const MovieActionsButton: React.FC<MovieActionsProps> = props => {
       {isOpen && (
         <MovieActionsModal
           movie={{
-            id: movie.id,
-            originalTitle: movie.originalTitle,
+            id,
+            originalTitle,
           }}
           onClose={() => setOpen(false)}
         />

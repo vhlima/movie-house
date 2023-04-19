@@ -44,7 +44,12 @@ const MovieView: React.FC<MovieViewProps> = ({ movieWithCredits: movie }) => {
 
         <MovieGenres genres={movie.genres} />
 
-        {session && <MovieActionsButton movie={movie} />}
+        {session && (
+          <MovieActionsButton
+            id={movie.id}
+            originalTitle={movie.originalTitle}
+          />
+        )}
 
         <MovieCast cast={movie.credits.cast} />
 
