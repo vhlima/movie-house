@@ -50,7 +50,13 @@ export const MovieActionsModal: React.FC<Props> = props => {
   }
 
   return (
-    <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
+    <Modal
+      bottom
+      backdrop
+      animation={modalBottom}
+      onClose={onClose}
+      data-testid="movie-actions-modal"
+    >
       <div className="flex items-center justify-center gap-4 mb-2">
         <RateButton movieId={id} onClick={() => setSubModalOpen('rate')} />
 
