@@ -29,7 +29,7 @@ export interface SortLinkBuilderProps {
 
 const SORT_FILTER_SEPARATE_COMMA = '+';
 
-function convertStringToMatchParameters(convert: string) {
+export function convertStringToMatchParameters(convert: string) {
   return convert.toLowerCase().replace(/ /g, '-');
 }
 
