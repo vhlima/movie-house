@@ -24,7 +24,11 @@ export const MovieActionsButton: React.FC<Props> = props => {
         />
       )}
 
-      <Button intent="secondary" onClick={() => setOpen(true)}>
+      <Button
+        intent="secondary"
+        onClick={() => setOpen(true)}
+        data-testid="movie-actions-button"
+      >
         Rate this movie
       </Button>
     </>
