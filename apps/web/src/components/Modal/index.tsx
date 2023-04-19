@@ -49,6 +49,7 @@ export const Modal: React.FC<PropsWithChildren<ModalInternalProps>> &
   autoStyle = true,
   onClose,
   children,
+  ...rest
 }) => {
   const body = (
     <motion.div
@@ -73,6 +74,7 @@ export const Modal: React.FC<PropsWithChildren<ModalInternalProps>> &
       className="absolute w-screen h-screen overflow-hidden bg-black bg-opacity-50 z-40"
       role="presentation"
       onClick={onClose}
+      {...rest}
     >
       {body}
     </div>
