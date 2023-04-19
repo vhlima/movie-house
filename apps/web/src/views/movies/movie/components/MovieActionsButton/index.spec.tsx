@@ -17,7 +17,7 @@ function createSut(): RenderResult {
 }
 
 describe('MovieOptionsButton', () => {
-  test('Should open MovieActionsModal when clicking button', async () => {
+  test('Should open MovieActionsModal when clicking MovieActionsButton', async () => {
     const sut = createSut();
 
     const actionsButtonElement = sut.getByTestId('movie-actions-button');
