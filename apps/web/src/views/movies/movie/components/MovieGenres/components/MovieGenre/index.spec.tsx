@@ -9,6 +9,8 @@ import { faker } from '@faker-js/faker';
 
 import { MockedRouterProvider, mockedRouter } from '@/tests/data/mocks';
 
+import { convertStringToMatchParameters } from '@/hooks/useSortLinkBuilder';
+
 import { MovieGenre } from '.';
 
 type SutType = {
@@ -62,6 +64,8 @@ describe('MovieGenre', () => {
     const genreLink = sut.getByTestId('movie-genre-link');
     fireEvent.click(genreLink);
 
-    expect(mockedRouter.asPath).toEqual(`/movies/genre/${genre.toLowerCase()}`);
+    expect(mockedRouter.asPath).toEqual(
+      `/movies/genre/${convertStringToMatchParameters(genre)}`,
+    );
   });
 });
