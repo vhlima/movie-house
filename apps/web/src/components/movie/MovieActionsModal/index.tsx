@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { AnimatePresence } from 'framer-motion';
 
-import type { Movie } from '@/graphql';
-
 import { Button, Modal } from '@/components';
 import { MovieRateModal } from '@/components/movie';
 import type { ModalHandles } from '@/components';
@@ -17,17 +15,14 @@ import WatchButton from './components/WatchButton';
 import AddMovieToListModal from './components/AddMovieToListModal';
 import MovieReviewButton from './components/MovieReviewButton';
 
-interface MovieActionsModalProps extends ModalHandles {
-  movie: {
-    id: Movie['id'];
-    originalTitle: Movie['originalTitle'];
-  };
+interface Props extends ModalHandles {
+  id: number;
+  originalTitle: string;
 }
 
-export const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
-  movie,
-  onClose,
-}) => {
+export const MovieActionsModal: React.FC<Props> = props => {
+  const { id, originalTitle, onClose } = props;
+
   const [subModalOpen, setSubModalOpen] = useState<'rate' | 'addToList'>();
 
   if (subModalOpen) {
@@ -36,7 +31,7 @@ export const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
         <AnimatePresence>
           <MovieRateModal
             movie={{
-              originalTitle: movie.originalTitle,
+              originalTitle,
             }}
             onClose={() => setSubModalOpen(undefined)}
           />
@@ -47,7 +42,7 @@ export const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
     if (subModalOpen === 'addToList') {
       return (
         <AddMovieToListModal
-          movieId={movie.id}
+          movieId={id}
           onClose={() => setSubModalOpen(undefined)}
         />
       );
@@ -57,20 +52,17 @@ export const MovieActionsModal: React.FC<MovieActionsModalProps> = ({
   return (
     <Modal bottom backdrop animation={modalBottom} onClose={onClose}>
       <div className="flex items-center justify-center gap-4 mb-2">
-        <RateButton
-          movieId={movie.id}
-          onClick={() => setSubModalOpen('rate')}
-        />
+        <RateButton movieId={id} onClick={() => setSubModalOpen('rate')} />
 
-        <WatchButton movieId={movie.id} />
+        <WatchButton movieId={id} />
 
-        <MovieLikeButton movieId={movie.id} />
+        <MovieLikeButton movieId={id} />
 
-        <WatchListButton movieId={movie.id} />
+        <WatchListButton movieId={id} />
       </div>
 
       <div className="flex flex-col gap-2 w-full">
-        <MovieReviewButton movieId={movie.id} />
+        <MovieReviewButton movieId={id} />
 
         <Button intent="secondary" onClick={() => setSubModalOpen('addToList')}>
           Add to list

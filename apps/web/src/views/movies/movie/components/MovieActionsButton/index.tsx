@@ -18,10 +18,8 @@ export const MovieActionsButton: React.FC<Props> = props => {
     <>
       {isOpen && (
         <MovieActionsModal
-          movie={{
-            id,
-            originalTitle,
-          }}
+          id={id}
+          originalTitle={originalTitle}
           onClose={() => setOpen(false)}
         />
       )}
