@@ -1,10 +1,23 @@
 import { faker } from '@faker-js/faker';
 
-import { Movie } from '@/graphql';
+import { Movie, MovieGenre } from '@/graphql';
+
+function mockMovieGenre(): MovieGenre {
+  return {
+    id: faker.datatype.number(),
+    name: faker.music.genre(),
+  };
+}
+
+export function mockMovieGenres(amount: number): MovieGenre[] {
+  return Array.from({
+    length: amount,
+  }).map(() => mockMovieGenre());
+}
 
 export const mockMovie = (): Movie => ({
   id: faker.datatype.number(),
-  genres: [],
+  genres: mockMovieGenres(faker.datatype.number({ min: 1, max: 10 })),
   productionCompanies: [],
   spokenLanguages: [],
   runtime: faker.datatype.number({ min: 30, max: 240 }),
