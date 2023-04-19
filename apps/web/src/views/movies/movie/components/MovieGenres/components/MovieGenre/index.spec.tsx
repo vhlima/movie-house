@@ -1,4 +1,9 @@
-import { RenderResult, fireEvent, render } from '@testing-library/react';
+import {
+  RenderResult,
+  cleanup,
+  fireEvent,
+  render,
+} from '@testing-library/react';
 
 import { faker } from '@faker-js/faker';
 
@@ -27,6 +32,15 @@ function createSut(): SutType {
 }
 
 describe('MovieGenre', () => {
+  afterEach(() => {
+    cleanup();
+  });
+  test('Should display genre name correctly', () => {
+    const { sut, genre } = createSut();
+
+    const genreNameElement = sut.getByTestId('movie-genre-link');
+    expect(genreNameElement.textContent).toEqual(genre);
+  });
   test('Should navigate to the correct URL when clicking movie genre', () => {
     const { sut, genre } = createSut();
 
