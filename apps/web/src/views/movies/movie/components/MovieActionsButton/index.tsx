@@ -4,14 +4,14 @@ import { Button } from '@/components';
 
 import { MovieActionsModal } from '@/components/movie';
 
-interface MovieOptionsButtonProps {
+interface MovieActionsProps {
   movie: {
     id: number;
     originalTitle: string;
   };
 }
 
-export const MovieOptionsButton: React.FC<MovieOptionsButtonProps> = props => {
+export const MovieActionsButton: React.FC<MovieActionsProps> = props => {
   const { movie } = props;
 
   const [isOpen, setOpen] = useState<boolean>(false);

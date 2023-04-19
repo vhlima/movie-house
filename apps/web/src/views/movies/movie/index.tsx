@@ -10,7 +10,7 @@ import {
   MovieCast,
   MovieGenres,
   MoviePopularLists,
-  MovieOptionsButton,
+  MovieActionsButton,
   MovieRecentReviews,
   MoviePopularReviews,
   MoviesRelated,
@@ -44,7 +44,7 @@ const MovieView: React.FC<MovieViewProps> = ({ movieWithCredits: movie }) => {
 
         <MovieGenres genres={movie.genres} />
 
-        {session && <MovieOptionsButton movie={movie} />}
+        {session && <MovieActionsButton movie={movie} />}
 
         <MovieCast cast={movie.credits.cast} />
 
