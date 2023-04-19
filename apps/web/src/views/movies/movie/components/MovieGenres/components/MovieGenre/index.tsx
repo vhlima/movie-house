@@ -25,6 +25,7 @@ export const MovieGenre: React.FC<Props> = props => {
         size="sm"
         rounded={false}
         href={buildFilteredHref(name).href}
+        data-testid="movie-genre-link"
       >
         {name}
       </Button>
