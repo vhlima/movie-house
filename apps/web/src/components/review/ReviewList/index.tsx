@@ -15,12 +15,16 @@ export const ReviewList: React.FC<Props> = ({
   reviews,
   emptyMessage,
 }) => {
-  const hasAnyReview = reviews.length > 0;
+  if (reviews.length === 0) {
+    return (
+      <Typography component="p" data-testid="empty-message">
+        {emptyMessage}
+      </Typography>
+    );
+  }
 
-  return !hasAnyReview ? (
-    <Typography component="p">{emptyMessage}</Typography>
-  ) : (
-    <ul>
+  return (
+    <ul data-testid="review-list">
       {reviews.map(review => (
         <ListItem key={`review-list-${review.id}`}>
           <Review review={review} showUser={showUser} />

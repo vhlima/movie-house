@@ -11,7 +11,7 @@ import {
 
 const NAVIGATION_PATH = '/movies';
 
-const SortNavigation: React.FC = () => (
+export const SortNavigation: React.FC = () => (
   <div className="flex items-center">
     <Typography
       className="uppercase mr-2 hidden md:block"
@@ -39,5 +39,3 @@ const SortNavigation: React.FC = () => (
     </div>
   </div>
 );
-
-export default SortNavigation;

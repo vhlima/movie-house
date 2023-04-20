@@ -1,3 +1,3 @@
-import { ProfileStats } from '../../infra/entities';
+import { ProfileStatsEntity } from '../../infra/entities';
 
-export type ProfileStatsModel = ProfileStats;
+export type ProfileStatsModel = ProfileStatsEntity;

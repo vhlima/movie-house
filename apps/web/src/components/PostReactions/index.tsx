@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const PostReactions: React.FC<Props> = ({ postId }) => (
-  <div className="flex gap-2 my-4">
+  <div className="flex gap-2" data-testid="post-reactions">
     <LikeButton contentId={postId} likeType={LikeType.Post} />
 
     <div className="flex items-center gap-1 w-fit">

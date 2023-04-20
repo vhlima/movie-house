@@ -13,6 +13,7 @@ const UserProfileLink: React.FC<PropsWithChildren<UserProfileLinkProps>> = ({
   className,
   username,
   children,
+  ...props
 }) => (
   <Link
     className={clsx(className && className)}
@@ -20,6 +21,8 @@ const UserProfileLink: React.FC<PropsWithChildren<UserProfileLinkProps>> = ({
       pathname: '/users/[username]',
       query: { username },
     }}
+    data-testid="user-profile-link"
+    {...props}
   >
     {children}
   </Link>

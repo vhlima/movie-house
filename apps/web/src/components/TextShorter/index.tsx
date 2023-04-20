@@ -14,6 +14,7 @@ export const TextShorter: React.FC<TextShorterProps> = ({
   className,
   text,
   maxCharacters,
+  ...props
 }) => {
   const [isCollapsed, setCollapsed] = useState<boolean>(false);
 
@@ -21,7 +22,11 @@ export const TextShorter: React.FC<TextShorterProps> = ({
     text.length > maxCharacters && text.length - maxCharacters >= maxCharacters;
 
   return (
-    <Typography className={clsx(className && className)} component="p">
+    <Typography
+      className={clsx(className && className)}
+      component="p"
+      {...props}
+    >
       {isCollapsed || !collapse ? text : `${text.slice(0, maxCharacters)}...`}
 
       {collapse && (

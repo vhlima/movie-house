@@ -1,10 +1,12 @@
 import { Typography } from '@/components';
+
 import { PopularMoviesWeek } from '@/components/movie';
+
 import BackdropImage from '../../components/BackdropImage';
 
 import PopularReviewsWeek from '../../components/review/PopularReviewsWeek';
 
-import Features from './components/Features';
+import { FeaturesCard, PopularListsWeekCard } from './components';
 
 const HomeView: React.FC = () => (
   <BackdropImage
@@ -36,16 +38,11 @@ const HomeView: React.FC = () => (
 
     <PopularMoviesWeek />
 
-    <Features />
+    <FeaturesCard />
 
     <PopularReviewsWeek />
 
-    {/* <Card
-          title="Popular lists"
-          link={{ href: '/' }}
-          gap={false}
-          noPadding
-        /> */}
+    <PopularListsWeekCard />
   </BackdropImage>
 );
 

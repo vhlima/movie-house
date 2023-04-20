@@ -1,63 +1,38 @@
 import type { FindListQuery, FindListMoviesQuery } from '@/graphql';
 
-import {
-  Typography,
-  PageContent,
-  PostCommentaries,
-  TextShorter,
-  PostReactions,
-} from '@/components';
-
-import { formatDateDistanceFromMillis } from '@/utils/date-utils';
+import { PageContent, PostCommentaries, PostMeta } from '@/components';
 
 import BackdropImage from '../../components/BackdropImage';
 
-import ListMovies from './components/ListMovies';
-import ListHeading from './components/ListHeading';
+import { ListMovies, ListHeading } from './components';
 
-type UserListViewProps = FindListQuery & FindListMoviesQuery;
+const bgUrl =
+  'https://a.ltrbxd.com/resized/sm/upload/0y/9x/ts/cw/speed-racer-1200-1200-675-675-crop-000000.jpg';
 
-const UserListView: React.FC<UserListViewProps> = ({ list, listMovies }) => {
-  const bgUrl =
-    'https://a.ltrbxd.com/resized/sm/upload/0y/9x/ts/cw/speed-racer-1200-1200-675-675-crop-000000.jpg';
+type Props = FindListQuery & FindListMoviesQuery;
 
-  const { user, name, post } = list;
+const UserListView: React.FC<Props> = props => {
+  const { list, listMovies } = props;
 
-  const postCreationDateFormatted = formatDateDistanceFromMillis(
-    post.createdAt,
-  );
+  const { user, post } = list;
 
   return (
     <BackdropImage src={bgUrl} alt="Backdrop image for user list">
       <PageContent className="flex flex-col relative">
-        <ListHeading listId={list.id} user={user} />
+        <ListHeading id={list.id} name={list.name} createdAt={post.createdAt} />
 
-        <section className="mt-2">
-          <Typography
-            className="font-semibold"
-            component="h1"
-            color="primary"
-            size="xl"
-          >
-            {name}
-          </Typography>
+        <PostMeta
+          id={post.id}
+          user={user}
+          content={post.content}
+          commentaryCount={0}
+        />
 
-          <Typography component="span" size="sm" color="tertiary">
-            Published&nbsp;{postCreationDateFormatted}
-          </Typography>
-
-          {post.content && (
-            <TextShorter
-              className="my-4"
-              text={post.content}
-              maxCharacters={300}
-            />
-          )}
-
-          <ListMovies movies={listMovies} />
-
-          <PostReactions postId={post.id} />
-        </section>
+        <ListMovies
+          currentPage={listMovies.pageInfo.currentPage}
+          totalPages={listMovies.totalPages}
+          movies={listMovies.edges.map(edge => edge.node)}
+        />
 
         <PostCommentaries postId={post.id} />
       </PageContent>

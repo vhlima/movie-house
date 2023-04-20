@@ -1,28 +1,30 @@
-import type { FindListMoviesQuery } from '@/graphql';
-
 import { MovieCoverList } from '@/components/movie';
 
 import { Pagination } from '@/components';
 
-interface MoviesSectionProps {
-  movies: FindListMoviesQuery['listMovies'];
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  movies: Array<{
+    id: number;
+    originalTitle: string;
+    posterUrl: string;
+  }>;
 }
 
-const MoviesSection: React.FC<MoviesSectionProps> = ({ movies }) => {
-  const { edges, pageInfo, totalPages } = movies;
+export const ListMovies: React.FC<Props> = props => {
+  const { movies, currentPage, totalPages } = props;
 
   return (
-    <div>
+    <div className="mt-4">
       <MovieCoverList
-        className="my-4 grid-cols-4 sm:grid-cols-8"
-        movies={edges.map(edge => edge.node)}
+        className="mb-4 grid-cols-4 sm:grid-cols-8"
+        movies={movies}
         name="list-movies"
         link
       />
 
-      <Pagination currentPage={pageInfo.currentPage} totalPages={totalPages} />
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </div>
   );
 };
-
-export default MoviesSection;

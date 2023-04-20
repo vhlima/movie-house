@@ -1,36 +1,26 @@
 import { useFindTrendingMoviesQuery } from '@/graphql';
 
-import { Link, Typography, Card, SvgIcon } from '@/components';
+import { Link, Card, SvgIcon } from '@/components';
 
-import { MovieCover } from '@/components/movie';
+import { PopularMoviesList } from './components';
 
 export const PopularMoviesWeek: React.FC = () => {
   const { data } = useFindTrendingMoviesQuery({
     variables: { page: 1 },
   });
 
-  const hasAnyMovie = data ? data.trendingMovies.edges.length > 0 : false;
+  const movies = data ? data.trendingMovies.edges.map(edge => edge.node) : [];
 
   return (
     <Card>
-      <Link href="/movies/trending">
+      <Link href="/movies/trending" data-testid="trending-movies-link">
         <Card.Header title="Popular movies this week" marginBottom>
           <SvgIcon iconType="FaChevronRight" size={20} />
         </Card.Header>
       </Link>
 
       <Card.Body>
-        {!hasAnyMovie ? (
-          <Typography component="h2">No movies were found.</Typography>
-        ) : (
-          <ul className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-            {data.trendingMovies.edges.slice(0, 6).map(edge => (
-              <li key={`movie-cover-${edge.node.id}`}>
-                <MovieCover movie={edge.node} />
-              </li>
-            ))}
-          </ul>
-        )}
+        <PopularMoviesList movies={movies} />
       </Card.Body>
     </Card>
   );

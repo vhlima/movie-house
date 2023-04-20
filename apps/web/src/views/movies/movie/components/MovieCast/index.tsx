@@ -1,37 +1,25 @@
-import type { MovieCharacter } from '@/graphql';
+import { Card } from '@/components';
 
-import { Typography, Card } from '@/components';
-
-import MovieActor from './components/MovieActor';
+import { MovieActorList } from './components';
 
 interface MovieCastProps {
   cast: Array<{
-    id: MovieCharacter['id'];
-    character: MovieCharacter['character'];
-    originalName: MovieCharacter['originalName'];
-    profilePictureUrl: MovieCharacter['profilePictureUrl'];
+    id: number;
+    character: string;
+    originalName: string;
+    profilePictureUrl?: string;
   }>;
 }
 
-export const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
-  const hasCast = cast && cast.length > 0;
+export const MovieCast: React.FC<MovieCastProps> = props => {
+  const { cast } = props;
 
   return (
     <Card>
       <Card.Header title="Main cast" marginBottom />
 
       <Card.Body>
-        {!hasCast ? (
-          <Typography component="h2">
-            The cast for this film was not found.
-          </Typography>
-        ) : (
-          <ul className="flex overflow-x-auto">
-            {cast.slice(0, 10).map(actor => (
-              <MovieActor key={`movie-actor-${actor.id}`} actor={actor} />
-            ))}
-          </ul>
-        )}
+        <MovieActorList actors={cast || []} />
       </Card.Body>
     </Card>
   );
