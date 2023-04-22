@@ -15,7 +15,7 @@ import { PreMadeListType } from '../../main/graphql/enums';
 import { UserEntity } from './user';
 
 @ObjectType('PreMadeList')
-@Entity('pre_made_lists')
+@Entity({ database: 'pre_made_lists' })
 export class PreMadeListEntity extends Timestamps {
   @Field()
   @PrimaryGeneratedColumn('uuid')

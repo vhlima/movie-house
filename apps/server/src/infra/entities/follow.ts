@@ -11,7 +11,7 @@ import { Timestamps } from './timestamps';
 import { UserEntity } from './user';
 
 @ObjectType('Follow')
-@Entity('followings')
+@Entity({ database: 'followings' })
 export class FollowEntity extends Timestamps {
   @Field()
   @PrimaryGeneratedColumn('uuid')

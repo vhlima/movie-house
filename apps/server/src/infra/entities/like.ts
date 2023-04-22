@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { LikeType } from '../../main/graphql/enums';
 
 @ObjectType('Like')
-@Entity('user_likes')
+@Entity({ database: 'user_likes' })
 export class LikeEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')

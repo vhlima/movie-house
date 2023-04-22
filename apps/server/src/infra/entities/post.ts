@@ -15,7 +15,7 @@ import { UserEntity } from './user';
 import { Timestamps } from './timestamps';
 
 @ObjectType('Post')
-@Entity('posts')
+@Entity({ database: 'posts' })
 export class PostEntity extends Timestamps implements Post {
   @Field()
   @PrimaryGeneratedColumn('uuid')

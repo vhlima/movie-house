@@ -11,7 +11,7 @@ import {
 import { MovieEntity, PostEntity, UserEntity } from './index';
 
 @ObjectType('Review')
-@Entity('reviews')
+@Entity({ database: 'reviews' })
 export class ReviewEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')

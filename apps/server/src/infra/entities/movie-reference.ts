@@ -6,7 +6,7 @@ import { MovieEntity } from './movie';
 import { Timestamps } from './timestamps';
 
 @ObjectType('MovieReference')
-@Entity('movies')
+@Entity({ database: 'movies' })
 export class MovieReferenceEntity extends Timestamps {
   @ObjectIdColumn({ name: '_id' })
   readonly id: string;

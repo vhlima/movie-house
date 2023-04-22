@@ -15,7 +15,7 @@ import { Timestamps } from './timestamps';
 import { UserEntity } from './user';
 
 @ObjectType('List')
-@Entity('lists')
+@Entity({ database: 'lists' })
 export class ListEntity extends Timestamps implements List {
   @Field()
   @PrimaryGeneratedColumn('uuid')

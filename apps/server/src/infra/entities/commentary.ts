@@ -13,7 +13,7 @@ import { UserEntity, PostEntity } from './index';
 import { Timestamps } from './timestamps';
 
 @ObjectType('Commentary')
-@Entity('commentaries')
+@Entity({ database: 'commentaries' })
 export class CommentaryEntity extends Timestamps {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')
