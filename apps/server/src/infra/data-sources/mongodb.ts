@@ -17,7 +17,7 @@ export const MongoDataSource = new DataSource({
   entities:
     process.env.NODE_ENV === 'development'
       ? ['./src/infra/entities/mongo/**/*.ts']
-      : ['./build/src/entities/mongo-entities/**/*.js'],
+      : ['./build/src/infra/entities/mongo/**/*.js'],
 });
 
 export const connectMongo = async () => {
