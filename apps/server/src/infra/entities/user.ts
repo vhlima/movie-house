@@ -7,7 +7,7 @@ import { User } from '../../domain/entities';
 import { Timestamps } from './timestamps';
 
 @ObjectType('User')
-@Entity({ database: 'users' })
+@Entity({ name: 'users' })
 export class UserEntity extends Timestamps implements User {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')

@@ -13,7 +13,7 @@ import { UserEntity, CommentaryEntity } from './index';
 import { Timestamps } from './timestamps';
 
 @ObjectType('Reply')
-@Entity({ database: 'replies' })
+@Entity({ name: 'replies' })
 export class ReplyEntity extends Timestamps {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')
