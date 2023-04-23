@@ -19,6 +19,34 @@ export default NextAuth({
     maxAge: 60 * 60 * 24 * 30,
     updateAge: 30 * 60,
   },
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'none',
+        path: '/',
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      name: `__Secure-next-auth.callback-url`,
+      options: {
+        sameSite: 'none',
+        path: '/',
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: `__Host-next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'none',
+        path: '/',
+        secure: true,
+      },
+    },
+  },
   secret: process.env.JWT_SECRET,
   debug: process.env.NODE_ENV === 'development',
   providers: [
