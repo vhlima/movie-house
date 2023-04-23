@@ -43,10 +43,10 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
         uri: process.env.NEXT_PUBLIC_API_URL,
         credentials: 'include',
         headers: {
-          SameSite: 'None',
-          'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
+          // SameSite: 'None',
+          // 'Access-Control-Allow-Credentials': 'true',
+          // 'Access-Control-Allow-Origin': '*',
+          // 'Content-Type': 'application/json',
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
         },
         fetchOptions: {
