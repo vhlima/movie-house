@@ -49,9 +49,9 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
           // 'Content-Type': 'application/json',
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
         },
-        fetchOptions: {
-          credentials: 'include',
-        },
+        // fetchOptions: {
+        // credentials: 'include',
+        // },
       }),
     ]),
     connectToDevTools: process.env.NODE_ENV === 'development',
