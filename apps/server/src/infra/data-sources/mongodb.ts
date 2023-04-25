@@ -2,7 +2,6 @@ import { DataSource } from 'typeorm';
 
 export const MongoDataSource = new DataSource({
   type: 'mongodb',
-  url: process.env.MONGO_URL,
   host: process.env.MONGOHOST,
   useNewUrlParser: true,
   ssl: process.env.MONGO_SSL ? process.env.MONGO_SSL === 'true' : false,
