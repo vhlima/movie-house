@@ -2,14 +2,6 @@ import { DataSource } from 'typeorm';
 
 export const MongoDataSource = new DataSource({
   type: 'mongodb',
-  host: process.env.MONGOHOST,
-  useNewUrlParser: true,
-  ssl: process.env.MONGO_SSL ? process.env.MONGO_SSL === 'true' : false,
-  useUnifiedTopology: true,
-  port: parseInt(process.env.MONGOPORT as string, 10),
-  database: process.env.MONGODATABASE,
-  username: process.env.MONGOUSER,
-  password: process.env.MONGOPASSWORD,
   synchronize: process.env.NODE_ENV === 'development',
   logging: true,
   authSource: 'admin',
@@ -17,6 +9,20 @@ export const MongoDataSource = new DataSource({
     process.env.NODE_ENV === 'development'
       ? ['./src/infra/entities/mongo/**/*.ts']
       : ['./build/src/infra/entities/mongo/**/*.js'],
+  ...(process.env.MONGOURL
+    ? {
+        url: process.env.MONGOURL,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        ssl: true,
+      }
+    : {
+        host: process.env.MONGOHOST,
+        database: process.env.MONGODATABASE,
+        username: process.env.MONGOUSER,
+        password: process.env.MONGOPASSWORD,
+        port: parseInt(process.env.MONGOPORT as string, 10),
+      }),
 });
 
 export const connectMongo = async () => {
