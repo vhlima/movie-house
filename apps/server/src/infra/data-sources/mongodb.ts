@@ -8,7 +8,7 @@ export const MongoDataSource = new DataSource({
   entities:
     process.env.NODE_ENV === 'development'
       ? ['./src/infra/entities/mongo/**/*.ts']
-      : ['./build/src/infra/entities/mongo/**/*.js'],
+      : ['./build/infra/entities/mongo/**/*.js'],
   ...(process.env.MONGOURL
     ? {
         url: process.env.MONGOURL,
