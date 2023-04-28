@@ -1,4 +1,4 @@
-import { useFindListsQuery } from '@/graphql';
+import { useFindListsQuery } from '@/gql';
 
 import { Typography, Card } from '@/components';
 import ListPreview from '../../../../../components/list/ListPreview';

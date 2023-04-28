@@ -1,8 +1,8 @@
 import { useApolloClient } from '@apollo/client';
 
-import type { FindCommentariesQuery } from '@/graphql';
+import type { FindCommentariesQuery } from '@/gql';
 
-import { FindCommentariesDocument } from '@/graphql';
+import { FindCommentariesDocument } from '@/gql';
 
 export const useCommentariesCache = () => {
   const { cache } = useApolloClient();

@@ -7,9 +7,9 @@ import * as Yup from 'yup';
 import type {
   FindMovieWithCreditsQuery,
   FindMovieWithCreditsQueryVariables,
-} from '@/graphql';
+} from '@/gql';
 
-import { FindMovieWithCreditsDocument } from '@/graphql';
+import { FindMovieWithCreditsDocument } from '@/gql';
 
 import Skeleton from '@/components/Skeleton';
 import { MovieCover } from '@/components/movie';

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import type { PropsWithChildren } from 'react';
 
-import type { Movie } from '@/graphql';
+import type { Movie } from '@/gql';
 
 import { Typography, Image } from '@/components';
 

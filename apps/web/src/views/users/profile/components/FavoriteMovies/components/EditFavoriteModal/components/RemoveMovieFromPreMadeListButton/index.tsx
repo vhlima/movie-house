@@ -1,7 +1,4 @@
-import {
-  PreMadeListType,
-  useRemoveMovieFromPreMadeListMutation,
-} from '@/graphql';
+import { PreMadeListType, useRemoveMovieFromPreMadeListMutation } from '@/gql';
 
 import { Button, SvgIcon } from '@/components';
 

@@ -1,8 +1,8 @@
 import { NetworkStatus } from '@apollo/client';
 
-import type { FindRepliesQuery, FindRepliesQueryVariables } from '@/graphql';
+import type { FindRepliesQuery, FindRepliesQueryVariables } from '@/gql';
 
-import { useFindRepliesQuery, useDeleteReplyMutation } from '@/graphql';
+import { useFindRepliesQuery, useDeleteReplyMutation } from '@/gql';
 
 import { useRepliesCache } from '../../hooks/useRepliesCache';
 import { useCommentariesCache } from '../../hooks/useCommentariesCache';

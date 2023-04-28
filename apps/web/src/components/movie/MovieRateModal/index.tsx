@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { Movie } from '@/graphql';
+import type { Movie } from '@/gql';
 
 import { Button, Modal, SvgIcon, Typography } from '@/components';
 import type { ModalHandles } from '@/components';

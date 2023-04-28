@@ -7,9 +7,9 @@ import type {
   FindUserByGithubIdQueryVariables,
   SignUpMutation,
   SignUpMutationVariables,
-} from '@/graphql';
+} from '@/gql';
 
-import { SignUpDocument, FindUserByGithubIdDocument } from '@/graphql';
+import { SignUpDocument, FindUserByGithubIdDocument } from '@/gql';
 import { initializeApollo } from '../../../client';
 
 export default NextAuth({

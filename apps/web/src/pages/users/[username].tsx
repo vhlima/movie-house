@@ -17,7 +17,7 @@ import {
   FindProfileStatsDocument,
   FindPreMadeListMoviesDocument,
   FindReviewsDocument,
-} from '@/graphql';
+} from '@/gql';
 
 import { addApolloState, initializeApollo } from '../../client';
 

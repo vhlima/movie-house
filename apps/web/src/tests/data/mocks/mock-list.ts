@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { FindListsQuery } from '@/graphql';
+import { FindListsQuery } from '@/gql';
 
 import { mockMovie } from './index';
 

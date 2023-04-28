@@ -1,4 +1,4 @@
-import type { FindRepliesQuery } from '@/graphql';
+import type { FindRepliesQuery } from '@/gql';
 
 import CommentaryBase from '../CommentaryBase';
 

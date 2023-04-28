@@ -1,4 +1,4 @@
-import type { MovieGenre } from '@/graphql';
+import type { MovieGenre } from '@/gql';
 
 import { MovieGenre as Genre } from './components';
 

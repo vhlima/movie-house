@@ -1,4 +1,4 @@
-import { useToggleReviewPinMutation } from '@/graphql';
+import { useToggleReviewPinMutation } from '@/gql';
 import { Button, SvgIcon } from '@/components';
 
 import { usePinnedReviewsCache } from '../../../../hooks/usePinnedReviewsCache';

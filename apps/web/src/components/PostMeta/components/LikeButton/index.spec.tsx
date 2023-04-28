@@ -4,7 +4,7 @@ import { mockSessionValue } from '@/tests/data/mocks';
 
 import { MockedProvider } from '@apollo/client/testing';
 
-import { LikeType } from '@/graphql';
+import { LikeType } from '@/gql';
 
 import { LikeButton } from '.';
 

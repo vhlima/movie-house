@@ -8,14 +8,14 @@ import type {
   FindUserQueryVariables,
   FindPreMadeListMoviesQuery,
   FindPreMadeListMoviesQueryVariables,
-} from '@/graphql';
+} from '@/gql';
 
 import {
   MovieReferenceSortType,
   PreMadeListType,
   FindUserDocument,
   FindPreMadeListMoviesDocument,
-} from '@/graphql';
+} from '@/gql';
 
 import { addApolloState, initializeApollo } from '../../../../client';
 

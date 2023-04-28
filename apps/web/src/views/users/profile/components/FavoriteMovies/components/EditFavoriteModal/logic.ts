@@ -1,4 +1,4 @@
-import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/graphql';
+import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/gql';
 
 import { useAuth } from '@/hooks/useAuth';
 

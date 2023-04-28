@@ -1,4 +1,4 @@
-import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
+import { ReviewSortType, useFindReviewsQuery } from '@/gql';
 
 import { useProfile } from '@/views/users/hooks/useProfile';
 

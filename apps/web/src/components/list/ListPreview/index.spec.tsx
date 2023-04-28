@@ -7,7 +7,7 @@ import {
   RenderResult,
 } from '@testing-library/react';
 
-import type { FindListsQuery } from '@/graphql';
+import type { FindListsQuery } from '@/gql';
 
 import {
   mockList,

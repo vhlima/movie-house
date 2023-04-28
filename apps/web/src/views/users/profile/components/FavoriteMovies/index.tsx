@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/graphql';
+import { PreMadeListType, useFindPreMadeListMoviesQuery } from '@/gql';
 
 import { useProfile } from '@/views/users/hooks/useProfile';
 

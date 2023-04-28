@@ -1,4 +1,4 @@
-import { useCreateReplyMutation } from '@/graphql';
+import { useCreateReplyMutation } from '@/gql';
 
 import { useRepliesCache } from '../../../../hooks/useRepliesCache';
 import { useCommentariesCache } from '../../../../hooks/useCommentariesCache';

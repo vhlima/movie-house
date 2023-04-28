@@ -1,4 +1,4 @@
-import { useFindMovieRecommendationsQuery } from '@/graphql';
+import { useFindMovieRecommendationsQuery } from '@/gql';
 import { Typography, Card } from '@/components';
 
 import { MovieCoverList } from '@/components/movie';

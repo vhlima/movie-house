@@ -7,9 +7,9 @@ import type {
   FindListsQueryVariables,
   FindUserQuery,
   FindUserQueryVariables,
-} from '@/graphql';
+} from '@/gql';
 
-import { FindUserDocument, FindListsDocument } from '@/graphql';
+import { FindUserDocument, FindListsDocument } from '@/gql';
 
 import { addApolloState, initializeApollo } from '../../../client';
 

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { Movie, MovieGenre } from '@/graphql';
+import { Movie, MovieGenre } from '@/gql';
 
 function mockMovieGenre(): MovieGenre {
   return {

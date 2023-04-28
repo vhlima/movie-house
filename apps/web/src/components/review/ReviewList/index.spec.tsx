@@ -4,7 +4,7 @@ import { MockedProvider } from '@apollo/client/testing';
 
 import { faker } from '@faker-js/faker';
 
-import type { FindReviewsQuery } from '@/graphql';
+import type { FindReviewsQuery } from '@/gql';
 
 import { mockReview, mockSessionValue } from '@/tests/data/mocks';
 

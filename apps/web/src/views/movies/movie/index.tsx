@@ -1,6 +1,6 @@
 import { useAuth } from '@/hooks/useAuth';
 
-import type { FindMovieWithCreditsQuery } from '@/graphql';
+import type { FindMovieWithCreditsQuery } from '@/gql';
 
 import { TextShorter } from '@/components';
 

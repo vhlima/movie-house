@@ -1,8 +1,8 @@
 import type { NextPage, GetServerSideProps } from 'next';
 
-import type { FindUserQuery, FindUserQueryVariables } from '@/graphql';
+import type { FindUserQuery, FindUserQueryVariables } from '@/gql';
 
-import { FindUserDocument } from '@/graphql';
+import { FindUserDocument } from '@/gql';
 
 import { Card } from '@/components';
 import { initializeApollo } from '../../../client';

@@ -1,4 +1,4 @@
-import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
+import { ReviewSortType, useFindReviewsQuery } from '@/gql';
 import { Typography, Modal } from '@/components';
 import type { ModalHandles } from '@/components';
 import { useAuth } from '@/hooks/useAuth';

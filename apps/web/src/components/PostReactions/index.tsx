@@ -1,6 +1,6 @@
 import { LikeButton, SvgIcon, Typography } from '@/components';
 
-import { LikeType } from '@/graphql';
+import { LikeType } from '@/gql';
 
 interface Props {
   postId: string;

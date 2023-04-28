@@ -1,4 +1,4 @@
-import type { Movie } from '@/graphql';
+import type { Movie } from '@/gql';
 
 import { Typography, ListItem, Button } from '@/components';
 

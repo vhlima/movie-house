@@ -16,7 +16,7 @@ import {
 import { formatDateDistanceFromMillis } from '@/utils/date-utils';
 
 import UserProfileLink from '@/components/user/UserProfileLink';
-import { LikeType } from '@/graphql';
+import { LikeType } from '@/gql';
 
 interface CommentaryBaseProps {
   id: string;

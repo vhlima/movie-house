@@ -2,7 +2,7 @@ import type { InputHTMLAttributes } from 'react';
 
 import clsx from 'clsx';
 
-import type { Movie } from '@/graphql';
+import type { Movie } from '@/gql';
 
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { Button, Input } from '@/components';

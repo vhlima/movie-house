@@ -1,10 +1,10 @@
-import type { IsFollowingQuery, IsFollowingQueryVariables } from '@/graphql';
+import type { IsFollowingQuery, IsFollowingQueryVariables } from '@/gql';
 
 import {
   IsFollowingDocument,
   useIsFollowingQuery,
   useFollowMutation,
-} from '@/graphql';
+} from '@/gql';
 
 import { Button } from '@/components';
 

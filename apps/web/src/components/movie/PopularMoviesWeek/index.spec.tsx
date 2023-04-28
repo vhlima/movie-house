@@ -12,9 +12,9 @@ import { faker } from '@faker-js/faker';
 import type {
   FindTrendingMoviesQuery,
   FindTrendingMoviesQueryVariables,
-} from '@/graphql';
+} from '@/gql';
 
-import { FindTrendingMoviesDocument } from '@/graphql';
+import { FindTrendingMoviesDocument } from '@/gql';
 
 import {
   mockApolloRequest,

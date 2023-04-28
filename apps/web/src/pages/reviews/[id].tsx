@@ -2,9 +2,9 @@ import type { GetServerSideProps, NextPage } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindReviewQuery, FindReviewQueryVariables } from '@/graphql';
+import type { FindReviewQuery, FindReviewQueryVariables } from '@/gql';
 
-import { FindReviewDocument } from '@/graphql';
+import { FindReviewDocument } from '@/gql';
 
 import { addApolloState, initializeApollo } from '@/client';
 

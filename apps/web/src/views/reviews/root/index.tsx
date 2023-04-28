@@ -1,4 +1,4 @@
-import type { FindReviewQuery } from '@/graphql';
+import type { FindReviewQuery } from '@/gql';
 
 import { PostCommentaries, ProfilePicture, Typography } from '@/components';
 

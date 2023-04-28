@@ -1,4 +1,4 @@
-import { PreMadeListType, useAddMovieToPreMadeListMutation } from '@/graphql';
+import { PreMadeListType, useAddMovieToPreMadeListMutation } from '@/gql';
 import type { ModalHandles } from '@/components';
 
 import { useFavoriteMoviesCache } from '../../hooks/useFavoriteMoviesCache';

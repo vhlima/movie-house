@@ -1,4 +1,4 @@
-import { FindListsQuery } from '@/graphql';
+import { FindListsQuery } from '@/gql';
 
 import { ListItem, PostMeta } from '@/components';
 

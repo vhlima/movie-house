@@ -1,4 +1,4 @@
-import type { FindListQuery, FindListMoviesQuery } from '@/graphql';
+import type { FindListQuery, FindListMoviesQuery } from '@/gql';
 
 import { PageContent, PostCommentaries, PostMeta } from '@/components';
 

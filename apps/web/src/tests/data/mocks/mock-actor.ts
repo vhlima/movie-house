@@ -1,4 +1,4 @@
-import type { FindMovieWithCreditsQuery } from '@/graphql';
+import type { FindMovieWithCreditsQuery } from '@/gql';
 
 import { faker } from '@faker-js/faker';
 

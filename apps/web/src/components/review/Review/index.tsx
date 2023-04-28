@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import type { FindReviewsQuery } from '@/graphql';
+import type { FindReviewsQuery } from '@/gql';
 
 import { PostMeta } from '@/components';
 

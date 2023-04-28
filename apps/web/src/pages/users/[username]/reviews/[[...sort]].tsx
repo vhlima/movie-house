@@ -8,13 +8,9 @@ import type {
   FindReviewsQuery,
   FindReviewsQueryVariables,
   ReviewSortInput,
-} from '@/graphql';
+} from '@/gql';
 
-import {
-  ReviewSortType,
-  FindUserDocument,
-  FindReviewsDocument,
-} from '@/graphql';
+import { ReviewSortType, FindUserDocument, FindReviewsDocument } from '@/gql';
 
 import { addApolloState, initializeApollo } from '../../../../client';
 

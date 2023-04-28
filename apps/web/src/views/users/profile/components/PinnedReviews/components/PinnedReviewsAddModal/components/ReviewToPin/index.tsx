@@ -1,4 +1,4 @@
-import type { FindReviewsQuery } from '@/graphql';
+import type { FindReviewsQuery } from '@/gql';
 import { Typography, Button, SvgIcon, ListItem } from '@/components';
 import { MovieCover } from '@/components/movie';
 import { formatDateFromMillis } from '../../../../../../../../../utils/date-utils';

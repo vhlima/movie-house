@@ -4,7 +4,7 @@ import { MockedProvider } from '@apollo/client/testing';
 
 import { faker } from '@faker-js/faker';
 
-import type { FindMovieWithCreditsQuery } from '@/graphql';
+import type { FindMovieWithCreditsQuery } from '@/gql';
 
 import { mockActors } from '@/tests/data/mocks';
 

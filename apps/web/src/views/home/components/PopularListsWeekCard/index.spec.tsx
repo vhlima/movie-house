@@ -4,9 +4,9 @@ import { MockedProvider } from '@apollo/client/testing';
 
 import { faker } from '@faker-js/faker';
 
-import type { FindListsQuery, FindListsQueryVariables } from '@/graphql';
+import type { FindListsQuery, FindListsQueryVariables } from '@/gql';
 
-import { FindListsDocument, ListSortType } from '@/graphql';
+import { FindListsDocument, ListSortType } from '@/gql';
 
 import {
   MockedRouterProvider,

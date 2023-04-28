@@ -3,9 +3,9 @@ import * as Yup from 'yup';
 import type {
   FindUserListsNamesQuery,
   FindUserListsNamesQueryVariables,
-} from '@/graphql';
+} from '@/gql';
 
-import { FindUserListsNamesDocument, useCreateListMutation } from '@/graphql';
+import { FindUserListsNamesDocument, useCreateListMutation } from '@/gql';
 
 import { useAuth } from '@/hooks/useAuth';
 

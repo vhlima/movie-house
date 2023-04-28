@@ -1,4 +1,4 @@
-import { useFindTrendingMoviesQuery } from '@/graphql';
+import { useFindTrendingMoviesQuery } from '@/gql';
 
 import { Link, Card, SvgIcon } from '@/components';
 

@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import type { FindUserQuery, FindPreMadeListMoviesQuery } from '@/graphql';
+import type { FindUserQuery, FindPreMadeListMoviesQuery } from '@/gql';
 
 import { Typography, Pagination } from '@/components';
 

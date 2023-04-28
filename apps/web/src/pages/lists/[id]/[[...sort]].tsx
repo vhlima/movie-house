@@ -8,13 +8,13 @@ import type {
   FindListMoviesQuery,
   FindListMoviesQueryVariables,
   MovieReferenceSortInput,
-} from '@/graphql';
+} from '@/gql';
 
 import {
   MovieReferenceSortType,
   FindListDocument,
   FindListMoviesDocument,
-} from '@/graphql';
+} from '@/gql';
 
 import UserListView from '@/views/lists';
 

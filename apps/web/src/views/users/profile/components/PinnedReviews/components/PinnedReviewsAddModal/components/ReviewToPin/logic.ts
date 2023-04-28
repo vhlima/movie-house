@@ -1,4 +1,4 @@
-import { FindReviewsQuery, useToggleReviewPinMutation } from '@/graphql';
+import { FindReviewsQuery, useToggleReviewPinMutation } from '@/gql';
 
 import type { ModalHandles } from '@/components';
 

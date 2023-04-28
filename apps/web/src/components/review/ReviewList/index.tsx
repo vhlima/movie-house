@@ -1,4 +1,4 @@
-import { FindReviewsQuery } from '@/graphql';
+import { FindReviewsQuery } from '@/gql';
 
 import { Typography, ListItem } from '@/components';
 

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import type { User } from '@/graphql';
+import type { User } from '@/gql';
 
 export interface ProfileContextData {
   user?: User;

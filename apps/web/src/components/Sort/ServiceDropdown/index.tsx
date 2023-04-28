@@ -1,4 +1,4 @@
-import { useFindStreamingProvidersQuery } from '@/graphql';
+import { useFindStreamingProvidersQuery } from '@/gql';
 
 import { SortDropdown } from '../SortDropdown';
 

@@ -1,4 +1,4 @@
-import { PreMadeListType } from '@/graphql';
+import { PreMadeListType } from '@/gql';
 
 import { usePreMadeListMoviesCache } from '../../hooks/usePreMadeListMoviesCache';
 

@@ -6,9 +6,9 @@ import type {
   FindUserQueryVariables,
   FindListsQuery,
   FindListsQueryVariables,
-} from '@/graphql';
+} from '@/gql';
 
-import { FindUserDocument, FindListsDocument } from '@/graphql';
+import { FindUserDocument, FindListsDocument } from '@/gql';
 
 interface FetchDataProps {
   apolloClient: ApolloClient<NormalizedCacheObject>;

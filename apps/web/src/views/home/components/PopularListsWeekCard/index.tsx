@@ -1,4 +1,4 @@
-import { ListSortType, useFindListsQuery } from '@/graphql';
+import { ListSortType, useFindListsQuery } from '@/gql';
 
 import { Link, Card } from '@/components';
 

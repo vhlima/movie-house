@@ -1484,7 +1484,8 @@ export type FindProfileStatsQuery = {
 
 export const FindCommentariesDocument = gql`
   query FindCommentaries($page: Int!, $postId: String!) {
-    commentaries(page: $page, postId: $postId) {
+    commentaries(page: $page, postId: $postId)
+      @connection(key: "commentaries") {
       totalCount
       totalPages
       pageInfo {

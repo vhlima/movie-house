@@ -1,4 +1,4 @@
-import type { FindReviewsQuery } from '@/graphql';
+import type { FindReviewsQuery } from '@/gql';
 
 import { faker } from '@faker-js/faker';
 

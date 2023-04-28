@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import { PreMadeListType } from '@/graphql';
+import { PreMadeListType } from '@/gql';
 
 import { Typography, Modal, SvgIcon } from '@/components';
 import { MovieCoverList2 as MovieCoverList } from '@/components/movie';

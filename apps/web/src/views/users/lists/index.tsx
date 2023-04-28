@@ -1,4 +1,4 @@
-import type { FindUserQuery, FindListsQuery } from '@/graphql';
+import type { FindUserQuery, FindListsQuery } from '@/gql';
 
 import { Typography } from '@/components';
 

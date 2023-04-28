@@ -1,4 +1,4 @@
-import { User } from '@/graphql';
+import { User } from '@/gql';
 import { faker } from '@faker-js/faker';
 
 export function mockUser(): User {

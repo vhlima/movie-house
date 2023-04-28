@@ -1,4 +1,4 @@
-import { LikeType } from '@/graphql';
+import { LikeType } from '@/gql';
 
 import { CommentaryCount } from '../CommentaryCount';
 

@@ -2,7 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next';
 
 import * as Yup from 'yup';
 
-import type { FindUserQuery, FindListsQuery } from '@/graphql';
+import type { FindUserQuery, FindListsQuery } from '@/gql';
 
 import { addApolloState, initializeApollo } from '../../../../client';
 

@@ -2,9 +2,9 @@ import type { GetServerSideProps, NextPage } from 'next';
 
 import * as Yup from 'yup';
 
-import type { SearchMovieQuery, SearchMovieQueryVariables } from '@/graphql';
+import type { SearchMovieQuery, SearchMovieQueryVariables } from '@/gql';
 
-import { SearchMovieDocument } from '@/graphql';
+import { SearchMovieDocument } from '@/gql';
 
 import { addApolloState, initializeApollo } from '../../client';
 

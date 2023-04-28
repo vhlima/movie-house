@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ReviewSortType, useFindReviewsQuery } from '@/graphql';
+import { ReviewSortType, useFindReviewsQuery } from '@/gql';
 
 import { useAuth } from '@/hooks/useAuth';
 import { Typography, Modal, SvgIcon } from '@/components';

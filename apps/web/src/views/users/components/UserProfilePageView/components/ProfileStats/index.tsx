@@ -1,4 +1,4 @@
-import { useFindProfileStatsQuery } from '@/graphql';
+import { useFindProfileStatsQuery } from '@/gql';
 
 import { useAuth } from '@/hooks/useAuth';
 
