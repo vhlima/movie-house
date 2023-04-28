@@ -11,11 +11,11 @@ export const PostgresDataSource = new DataSource({
   entities:
     process.env.NODE_ENV === 'development'
       ? ['./src/infra/entities/postgres/**/*.ts']
-      : ['./build/src/infra/entities/postgres/**/*.js'],
+      : ['./build/infra/entities/postgres/**/*.js'],
   migrations:
     process.env.NODE_ENV === 'development'
       ? ['./src/infra/migrations/*.ts']
-      : ['./build/src/infra/migrations/*.js'],
+      : ['./build/infra/migrations/*.js'],
 });
 
 export const connectPostgres = async () => {
