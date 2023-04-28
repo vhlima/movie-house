@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+  pg:
+    image: postgres
+    restart: always
+    tty: true
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: moviehouse
+    networks:
+      server-network:
+        aliases:
+          - pg
+    ports:
+      - "5432:5432"
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: test
+      MONGO_INITDB_ROOT_USERNAME: vtr
+      MONGO_INITDB_ROOT_PASSWORD: master123
+    networks:
+      server-network:
+        aliases:
+          - mongo
+    ports:
+      - "27017:27017"
+
+  server:
+    build:
+      context: ./apps/server
+      dockerfile: Dockerfile
+    networks:
+      server-network:
+        aliases:
+          - server
+    ports:
+      - "4000:4000"
+    env_file: ./apps/server/.env
+    environment:
+      - MONGOPORT=27017
+      - MONGOUSER=vtr
+      - MONGOHOST=mongo
+      - MONGOPASSWORD=master123
+      - MONGODATABASE=test
+      - PGDATABASE=moviehouse
+      - PGHOST=pg
+      - PGPASSWORD=123
+      - PGPORT=5432
+      - PGUSER=postgres
+    depends_on:
+      - pg
+      - mongo
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file: ./apps/web/.env
+    depends_on:
+      - server
+
+networks:
+  server-network:
