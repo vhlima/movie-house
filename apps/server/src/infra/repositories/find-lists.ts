@@ -27,7 +27,9 @@ export class FindListsRepository implements IFindListsRepository {
     if (!sort) {
       return {
         order: {
-          createdAt: 'DESC',
+          post: {
+            createdAt: 'DESC',
+          },
         },
       };
     }
@@ -36,14 +38,18 @@ export class FindListsRepository implements IFindListsRepository {
       case ListSortType.OLDER: {
         return {
           order: {
-            createdAt: 'ASC',
+            post: {
+              createdAt: 'ASC',
+            },
           },
         };
       }
       case ListSortType.UPDATED: {
         return {
           order: {
-            updatedAt: 'DESC',
+            post: {
+              updatedAt: 'DESC',
+            },
           },
         };
       }
