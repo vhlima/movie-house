@@ -45,9 +45,11 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
         credentials: 'include',
         fetchOptions: {
           credentials: 'include',
+          mode: 'cors',
         },
         headers: {
           SameSite: 'None',
+          'Access-Control-Allow-Origin': '*',
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
         },
       }),
