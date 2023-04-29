@@ -29,15 +29,15 @@ export class FollowEntity extends Timestamps {
   })
   follower: UserEntity;
 
-  @Column({ name: 'followed_id' })
-  followedId: string;
+  @Column({ name: 'following_id' })
+  followingId: string;
 
   @Field(() => UserEntity)
   @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn({
-    name: 'followed_id',
+    name: 'following_id',
     referencedColumnName: 'id',
-    foreignKeyConstraintName: 'FollowedId',
+    foreignKeyConstraintName: 'FollowingId',
   })
-  followed: UserEntity;
+  following: UserEntity;
 }
