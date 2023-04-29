@@ -49,7 +49,7 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
         },
         headers: {
           SameSite: 'None',
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_API_URL,
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
         },
       }),
