@@ -34,6 +34,6 @@ export class PreMadeListEntity extends Timestamps {
   user: UserEntity;
 
   @Field(() => PreMadeListType)
-  @Column({ type: 'enum', enum: PreMadeListType })
+  @Column({ name: 'list_type', type: 'enum', enum: PreMadeListType })
   listType: PreMadeListType;
 }
