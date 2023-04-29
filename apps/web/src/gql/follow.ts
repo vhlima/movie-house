@@ -30,7 +30,7 @@ export const FIND_FOLLOWINGS = gql`
       }
       edges {
         node {
-          followed {
+          following {
             username
             profilePictureUrl
           }

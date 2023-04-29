@@ -71,8 +71,8 @@ export type Company = {
 export type Follow = {
   __typename?: 'Follow';
   createdAt: Scalars['Float'];
-  followed: User;
   follower: User;
+  following: User;
   id: Scalars['String'];
   updatedAt: Scalars['Float'];
 };
@@ -108,14 +108,12 @@ export enum LikeType {
 export type List = {
   __typename?: 'List';
   backgroundImageUrl?: Maybe<Scalars['String']>;
-  createdAt: Scalars['Float'];
   id: Scalars['String'];
   isPrivate?: Maybe<Scalars['Boolean']>;
   movieCount: Scalars['Int'];
   name: Scalars['String'];
   post: Post;
   postId: Scalars['String'];
-  updatedAt: Scalars['Float'];
   user: User;
 };
 
@@ -131,7 +129,6 @@ export type ListPagination = {
 export type ListPreview = {
   __typename?: 'ListPreview';
   backgroundImageUrl?: Maybe<Scalars['String']>;
-  createdAt: Scalars['Float'];
   id: Scalars['String'];
   isPrivate?: Maybe<Scalars['Boolean']>;
   movieCount: Scalars['Int'];
@@ -139,7 +136,6 @@ export type ListPreview = {
   name: Scalars['String'];
   post: Post;
   postId: Scalars['String'];
-  updatedAt: Scalars['Float'];
   user: User;
 };
 
@@ -780,7 +776,7 @@ export type FindFollowingsQuery = {
       __typename?: 'FollowPaginationEdge';
       node: {
         __typename?: 'Follow';
-        followed: {
+        following: {
           __typename?: 'User';
           username: string;
           profilePictureUrl?: string | null;
@@ -1824,7 +1820,7 @@ export const FindFollowingsDocument = gql`
       }
       edges {
         node {
-          followed {
+          following {
             username
             profilePictureUrl
           }

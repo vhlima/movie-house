@@ -50,8 +50,8 @@ scalar DateTime
 
 type Follow {
   createdAt: Float!
-  followed: User!
   follower: User!
+  following: User!
   id: String!
   updatedAt: Float!
 }
@@ -83,14 +83,12 @@ enum LikeType {
 
 type List {
   backgroundImageUrl: String
-  createdAt: Float!
   id: String!
   isPrivate: Boolean
   movieCount: Int!
   name: String!
   post: Post!
   postId: String!
-  updatedAt: Float!
   user: User!
 }
 
@@ -104,7 +102,6 @@ type ListPagination {
 
 type ListPreview {
   backgroundImageUrl: String
-  createdAt: Float!
   id: String!
   isPrivate: Boolean
   movieCount: Int!
@@ -112,7 +109,6 @@ type ListPreview {
   name: String!
   post: Post!
   postId: String!
-  updatedAt: Float!
   user: User!
 }
 
