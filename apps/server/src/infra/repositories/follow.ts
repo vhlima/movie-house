@@ -20,7 +20,7 @@ export class FollowRepository implements IFollowRepository {
     const followRepository = this.getFollowRepository();
 
     const followerCount = await followRepository.countBy({
-      followedId: userId,
+      followingId: userId,
     });
 
     return followerCount;
@@ -41,7 +41,7 @@ export class FollowRepository implements IFollowRepository {
 
     const follow = followRepository.findOneBy({
       followerId: userId,
-      followedId: followingId,
+      followingId,
     });
 
     return !!follow;
@@ -52,7 +52,7 @@ export class FollowRepository implements IFollowRepository {
 
     const follow = followRepository.create({
       followerId: userId,
-      followedId: followingId,
+      followingId,
     });
 
     await followRepository.save(follow);
@@ -65,7 +65,7 @@ export class FollowRepository implements IFollowRepository {
 
     await followRepository.delete({
       followerId: userId,
-      followedId: followingId,
+      followingId,
     });
 
     return true;
@@ -82,7 +82,7 @@ export class FollowRepository implements IFollowRepository {
         createdAt: 'DESC',
       },
       where: {
-        followedId: userId,
+        followingId: userId,
       },
       relations: ['follower'],
       take: itemsPerPage,

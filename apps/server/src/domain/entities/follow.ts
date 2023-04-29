@@ -9,7 +9,7 @@ export class Follow extends Timestamps {
 
   follower: User;
 
-  followedId: string;
+  followingId: string;
 
-  followed: User;
+  following: User;
 }
