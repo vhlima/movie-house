@@ -44,16 +44,13 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
         credentials: 'include',
         headers: {
           SameSite: 'None',
-          // 'Access-Control-Allow-Credentials': 'true',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Content-Type': 'application/json',
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
         },
       }),
     ]),
-    connectToDevTools: process.env.NODE_ENV === 'development',
+    connectToDevTools: true,
+    // connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache(),
-    credentials: 'include',
   });
 }
 
