@@ -37,11 +37,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 function createApolloClient(headers?: IncomingHttpHeaders) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
+    credentials: 'include',
     link: from([
       errorLink,
       createHttpLink({
         uri: process.env.NEXT_PUBLIC_API_URL,
         credentials: 'include',
+        fetchOptions: {
+          credentials: 'include',
+        },
         headers: {
           SameSite: 'None',
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
