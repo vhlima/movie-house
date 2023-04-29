@@ -25,7 +25,7 @@ export class CreatePreMadeLists1682730409303 implements MigrationInterface {
           },
           {
             name: 'list_type',
-            type: 'enum',
+            type: 'varchar',
           },
           {
             name: 'created_at',
