@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@apollo/datasource-rest": "^5.0.1",
-    "@apollo/server": "^4.3.1",
+    "@apollo/server": "^4.7.0",
     "body-parser": "^1.20.1",
     "class-validator": "^0.13.2",
     "cors": "^2.8.5",
