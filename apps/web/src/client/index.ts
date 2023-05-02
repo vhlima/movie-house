@@ -49,6 +49,8 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
         },
         headers: {
           SameSite: 'None',
+          'Access-Control-Request-Headers':
+            'access-control-allow-credentials,access-control-allow-origin,content-type,samesite,cookie',
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_API_URL,
           ...(headers && headers.cookie ? { Cookie: headers.cookie } : {}),
