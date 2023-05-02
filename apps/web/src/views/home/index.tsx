@@ -7,6 +7,7 @@ import BackdropImage from '../../components/BackdropImage';
 import PopularReviewsWeek from '../../components/review/PopularReviewsWeek';
 
 import { FeaturesCard, PopularListsWeekCard } from './components';
+import { MovieActionsButton } from '../movies/movie/components';
 
 const HomeView: React.FC = () => (
   <BackdropImage
@@ -35,6 +36,8 @@ const HomeView: React.FC = () => (
         social network for film enthusiasts now!
       </Typography>
     </div>
+
+    <MovieActionsButton id={1359} originalTitle="American Psycho" />
 
     <PopularMoviesWeek />
 
