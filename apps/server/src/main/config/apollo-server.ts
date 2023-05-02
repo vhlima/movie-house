@@ -77,20 +77,13 @@ export const setupApolloServer = async () => {
 
   app.use(
     cors<cors.CorsRequest>({
-      allowedHeaders: [
-        'access-control-allow-credentials',
-        'access-control-allow-origin',
-        'content-type',
-        'samesite',
-        'cookie',
-      ],
       origin: !process.env.WEB_URL
         ? [
             'http://localhost:3000',
             'http://127.0.0.1:3000',
             'https://studio.apollographql.com',
           ]
-        : [process.env.WEB_URL],
+        : process.env.WEB_URL,
       credentials: true,
     }),
     json(),

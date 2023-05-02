@@ -45,7 +45,6 @@ function createApolloClient(headers?: IncomingHttpHeaders) {
         credentials: 'include',
         fetchOptions: {
           credentials: 'include',
-          mode: 'cors',
         },
         headers: {
           SameSite: 'None',
