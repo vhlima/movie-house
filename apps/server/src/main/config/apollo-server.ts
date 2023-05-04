@@ -86,8 +86,9 @@ export const setupApolloServer = async () => {
           ]
         : process.env.WEB_URL,
       credentials: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       allowedHeaders:
-        'Content-Type,Origin,Access-Control-Allow-Credentials,Access-Control-Request-Headers,Access-Control-Request-Method,Accept,X-Apollo-Operation-Name,Apollo-Require-Preflight,Cookie',
+        'Content-Type,Origin,Access-Control-Allow-Credentials,Access-Control-Request-Headers,Access-Control-Request-Method,Access-Control-Allow-Origin,Accept,X-Apollo-Operation-Name,Apollo-Require-Preflight,Cookie',
     }),
     json(),
 
