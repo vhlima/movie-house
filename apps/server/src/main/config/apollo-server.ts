@@ -86,6 +86,7 @@ export const setupApolloServer = async () => {
           ]
         : process.env.WEB_URL,
       credentials: true,
+      allowedHeaders: 'Content-Type,Cookie',
     }),
     json(),
 
